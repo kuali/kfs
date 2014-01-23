@@ -319,7 +319,7 @@
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.followupDate}" />
 																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.completed}" />
+																	attributeEntry="${eventAttributes.completedInd}" />
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.completedDate}" />
 																<kul:htmlAttributeHeaderCell

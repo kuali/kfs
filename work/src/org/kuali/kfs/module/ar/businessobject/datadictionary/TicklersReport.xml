@@ -119,8 +119,8 @@
 		id="TicklersReport-activityDate-parentBean"
 		abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="activityDate" />
-		<property name="label" value="Activity Date" />
-		<property name="shortLabel" value="Activity Date" />
+		<property name="label" value="Collection Activity Date" />
+		<property name="shortLabel" value="Collection Activity Date" />
 	</bean>
 	
 	<bean id="TicklersReport-proposalNumber"
@@ -173,8 +173,8 @@
 
   <bean id="TicklersReport-activityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityCode"/>
-    <property name="label" value="Activity Type"/>
-    <property name="shortLabel" value="Activity Type"/>
+    <property name="label" value="Collection Activity Type Code"/>
+    <property name="shortLabel" value="Collection Activity Type Code"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
@@ -226,8 +226,8 @@
 
   <bean id="TicklersReport-activityDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityDescription"/>
-    <property name="label" value="Activity Type"/>
-    <property name="shortLabel" value="Activity Type"/>
+    <property name="label" value="Collection Activity Type Description"/>
+    <property name="shortLabel" value="Collection Activity Type Description"/>
     <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
@@ -242,8 +242,8 @@
 
   <bean id="TicklersReport-activityText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityText"/>
-    <property name="label" value="Activity Comment"/>
-    <property name="shortLabel" value="Activity Comment"/>
+    <property name="label" value="Collection Activity Comment"/>
+    <property name="shortLabel" value="Collection Activity Comment"/>
     <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />

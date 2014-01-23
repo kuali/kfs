@@ -100,8 +100,8 @@
   <bean id="Event-activityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Activity Code"/>
-    <property name="shortLabel" value="Activity Code"/>
+    <property name="label" value="Collection Activity Type Code"/>
+    <property name="shortLabel" value="Collection Activity Type Code"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
@@ -117,9 +117,9 @@
   <bean id="Event-activityDate" parent="Event-activityDate-parentBean"/>
 
   <bean id="Event-activityDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="shortLabel" value="Activity Date"/>
+    <property name="shortLabel" value="Collection Activity Date"/>
     <property name="name" value="activityDate"/>
-    <property name="label" value="Activity Date"/>
+    <property name="label" value="Collection Activity Date"/>
     <property name="required" value="true"/>
     <property name="description" value="A free-form text field that identifies the activity date."/>
   </bean>
@@ -128,8 +128,8 @@
 
   <bean id="Event-activityText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityText"/>
-    <property name="label" value="Activity Comment"/>
-    <property name="shortLabel" value="Activity Comment"/>
+    <property name="label" value="Collection Activity Comment"/>
+    <property name="shortLabel" value="Collection Activity Comment"/>
     <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />

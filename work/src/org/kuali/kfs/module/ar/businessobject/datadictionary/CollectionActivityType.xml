@@ -45,8 +45,8 @@
   <bean id="CollectionActivityType-activityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Activity Code"/>
-    <property name="shortLabel" value="Code"/>
+    <property name="label" value="Collection Activity Type Code"/>
+    <property name="shortLabel" value="Collection Activity Type Code"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
@@ -61,8 +61,8 @@
 
   <bean id="CollectionActivityType-activityDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activityDescription"/>
-    <property name="label" value="Activity Description"/>
-    <property name="shortLabel" value="Type Desc"/>
+    <property name="label" value="Collection Activity Type Description"/>
+    <property name="shortLabel" value="Collection Activity Type Description"/>
     <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />

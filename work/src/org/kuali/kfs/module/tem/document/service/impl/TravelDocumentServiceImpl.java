@@ -2271,19 +2271,19 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         boolean valid = true;
 
         if (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), actualExpense.getExpenseDate())) {
-            if (perDiemExpense.getBreakfast() && actualExpense.isBreakfast()) {
+            if (perDiemExpense.getBreakfast() && actualExpense.isBreakfast() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_BREAKFAST;
                 perDiemExpense.setBreakfast(false);
                 perDiemExpense.setBreakfastValue(KualiDecimal.ZERO);
                 valid = false;
             }
-            else if (perDiemExpense.getLunch() && actualExpense.isLunch()) {
+            else if (perDiemExpense.getLunch() && actualExpense.isLunch() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_LUNCH;
                 perDiemExpense.setLunch(false);
                 perDiemExpense.setLunchValue(KualiDecimal.ZERO);
                 valid = false;
             }
-            else if (perDiemExpense.getDinner() && actualExpense.isDinner()) {
+            else if (perDiemExpense.getDinner() && actualExpense.isDinner() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_DINNER;
                 perDiemExpense.setDinner(false);
                 perDiemExpense.setDinnerValue(KualiDecimal.ZERO);

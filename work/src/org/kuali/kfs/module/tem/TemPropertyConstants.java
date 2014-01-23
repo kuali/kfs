@@ -130,6 +130,7 @@ public class TemPropertyConstants {
     public static final String CREDIT_CARD_AGENCY_ID = "creditCardAgencyId";
 
     public static final String RATE = "rate";
+    public static final String ACTIVE_FROM_DATE = "activeFromDate";
     public static final String TEM_PROFILE_ID = "temProfileId";
     public static final String TRIP_BEGIN_DT = "tripBegin";
     public static final String TRIP_END_DT = "tripEnd";

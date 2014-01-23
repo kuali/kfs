@@ -22,6 +22,9 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
+import org.kuali.kfs.module.tem.document.service.MileageRateService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -41,6 +44,7 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
 
         final MileageRate mileageRate = (MileageRate)document.getNewMaintainableObject().getBusinessObject();
         checkRate(mileageRate);
+        checkDuplicateMileageRate(mileageRate);
         checkExpenseType(mileageRate);
 
         return true;
@@ -93,5 +97,26 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
+
+    /**
+        * Checks that the mileage rates with effective dates overlap with existing mileage rate record for the same mileage code type
+        *
+         * @param mileageRate
+         * @return true if the overlap rule were passed , false otherwise.
+         */
+        protected boolean checkDuplicateMileageRate(MileageRate mileageRate) {
+            mileageRate.getActiveFromDate();
+            mileageRate.getActiveToDate();
+            MileageRate matchedRecord = SpringContext.getBean(MileageRateService.class).getMileageRateByExpenseTypeCode(mileageRate);
+            if(ObjectUtils.isNotNull(matchedRecord)) {
+                String fromDate = SpringContext.getBean(DateTimeService.class).toDateString(matchedRecord.getActiveFromDate());
+                String toDate = SpringContext.getBean(DateTimeService.class).toDateString(matchedRecord.getActiveToDate());
+
+                putFieldError(TemPropertyConstants.ACTIVE_FROM_DATE, TemKeyConstants.ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EFFECTIVE_DATE, new String[] { mileageRate.getExpenseTypeCode(),fromDate, toDate });
+                return false;
+            }
+
+            return true;
+       }
 
 }

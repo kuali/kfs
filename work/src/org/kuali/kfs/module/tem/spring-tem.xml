@@ -1512,7 +1512,13 @@
 		<property name="organizationService" ref="organizationService"/>
 	</bean>
 	
+	<bean id="mileageRateService" parent="mileageRateService-parentBean"/>
+	<bean id="mileageRateService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.MileageRateServiceImpl" abstract="true">
+		<property name="mileageRateDao" ref="mileageRateDao"/>
+	</bean>
+	
 	<bean id="travelAuthorizationDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelAuthorizationDaoOjb"/>
+	<bean id="mileageRateDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.MileageRateDaoOjb"/>
 
     <import resource="spring-tem-bus-exports.xml"/>
     <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 

@@ -162,7 +162,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         KualiDecimal maxAmount = getMaximumAmount(actualExpense, document);
-        if (maxAmount.isNonZero() && maxAmount.subtract(getTotalExpenseAmount(actualExpense, document)).isNegative()) {
+        if (maxAmount.isNonZero() && maxAmount.isLessThan(actualExpense.getConvertedAmount())) {
             if (expenseTypeCode.isPerDaily()) {
                 success = false;
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());

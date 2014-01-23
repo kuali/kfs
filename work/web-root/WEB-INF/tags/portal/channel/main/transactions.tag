@@ -46,9 +46,6 @@
 					title="Customer Invoice Writeoff Lookup"
 					url="arCustomerInvoiceWriteoffLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Payment Application"
-					url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>
-			<li><portal:portalLink displayTitle="true"
 					title="Dunning Letter Distribution On Demand"
 					url="arDunningLetterDistributionOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
 			<li><portal:portalLink displayTitle="true"

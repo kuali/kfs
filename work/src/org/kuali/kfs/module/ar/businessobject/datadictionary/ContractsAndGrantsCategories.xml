@@ -193,6 +193,8 @@
 	            <bean parent="FieldDefinition" p:attributeName="categoryName"/>
 	            <bean parent="FieldDefinition" p:attributeName="categoryDescription"/>
 	            <bean parent="FieldDefinition" p:attributeName="categoryObjectCodes"/>
+	            <bean parent="FieldDefinition" p:attributeName="categoryConsolidations"/>
+	            <bean parent="FieldDefinition" p:attributeName="categoryLevels"/>
 	            <bean parent="FieldDefinition" p:attributeName="indirectCostIndicator"/>
 	            <bean parent="FieldDefinition" p:attributeName="active"/>
 	          </list>

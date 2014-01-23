@@ -18,20 +18,17 @@
 <channel:portalChannelTop channelTitle="Accounts Receivable" />
 <div class="body">
 	<ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Cost Category"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
 		<li><portal:portalLink displayTitle="true" title="Collection Activity Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Collection Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		<li><portal:portalLink displayTitle="true" title="Cost Category"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 		<li><portal:portalLink displayTitle="true" title="Customer"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li><portal:portalLink displayTitle="true" title="Customer Type"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true"
 				title="Customer Address Type"
@@ -40,6 +37,9 @@
 		<li><portal:portalLink displayTitle="true"
 				title="Customer Invoice Item Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li><portal:portalLink displayTitle="true" title="Customer Type"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Dunning Campaign"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningCampaign&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -63,12 +63,12 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.MilestoneSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true"
-				title="Organization Options"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.OrganizationOptions&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li><portal:portalLink displayTitle="true"
 				title="Organization Accounting Default"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li><portal:portalLink displayTitle="true"
+				title="Organization Options"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.OrganizationOptions&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Payment Medium"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.PaymentMedium&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

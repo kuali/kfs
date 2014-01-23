@@ -22,7 +22,6 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -1428,7 +1427,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     protected boolean shouldRouteByProfileAccount() {
-        return getBlanketTravel() || !getTripType().isGenerateEncumbrance();
+        return getBlanketTravel() || !getTripType().isGenerateEncumbrance() || hasOnlyPrepaidExpenses();
     }
 
     /**

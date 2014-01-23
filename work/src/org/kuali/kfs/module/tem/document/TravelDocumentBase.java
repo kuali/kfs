@@ -2069,7 +2069,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     public boolean isTripGenerateEncumbrance(){
-        return getTripType() != null && getTripType().isGenerateEncumbrance();
+        return getTripType() != null && getTripType().isGenerateEncumbrance() && !hasOnlyPrepaidExpenses();
     }
 
     /**
@@ -2236,4 +2236,21 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Determines if this document should attempt to route by profile account or not
      */
     protected abstract boolean shouldRouteByProfileAccount();
+
+    /**
+     * Determines if this document's actual expenses are all pre-paid expenses
+     * @return true if all expenses on this document are prepaid, false otherwise
+     */
+    @Override
+    public boolean hasOnlyPrepaidExpenses() {
+        if (getActualExpenses() == null || getActualExpenses().isEmpty()) {
+            return false; // we don't have any expenses at all
+        }
+        for (ActualExpense expense : getActualExpenses()) {
+            if (!expense.getExpenseType().isPrepaidExpense()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

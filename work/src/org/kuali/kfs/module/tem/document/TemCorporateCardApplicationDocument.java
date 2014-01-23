@@ -63,7 +63,6 @@ public class TemCorporateCardApplicationDocument extends CardApplicationDocument
 
     @Override
     public void applyToBank() {
-        // TODO Auto-generated method stub
         boolean generateNumber = getParameterService().getParameterValueAsBoolean(TemCorporateCardApplicationDocument.class, TemConstants.GENERATE_CREDIT_CARD_NUMBER_IND);
         if (generateNumber){
             Long number = getSequenceAccessorService().getNextAvailableSequenceNumber(TemConstants.TEM_CORP_CARD_PSEUDO_NUM_SEQ_NAME);

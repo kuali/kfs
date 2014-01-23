@@ -34,30 +34,6 @@
 				<ref bean="TravelerDetail-versionNumber" />
 			</list>
 		</property>
-		<property name="collections">
-			<list>
-				<bean parent="CollectionDefinition" p:name="emergencyContacts"
-					p:label="emergencyContacts" p:shortLabel="emergencyContacts"
-					p:elementLabel="emergencyContacts" />				
-			</list>
-		</property>		
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="travelerType" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="travelerTypeCode"
-								p:targetName="code" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="TravelerDetail-id" parent="TravelerDetail-id-parentBean" />
 	<bean id="TravelerDetail-id-parentBean" abstract="true" parent="AttributeDefinition">

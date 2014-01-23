@@ -20,22 +20,6 @@
             <ref bean="EmergencyContact-versionNumber" />
         </list>
         </property>
-        <property name="relationships">
-        <list>
-            <bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="contactRelationType" />
-                <property name="primitiveAttributes">
-                <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="contactRelationTypeCode" p:targetName="code" />
-                </list>
-                </property>
-                <property name="supportAttributes">
-                <list>
-                </list>
-                </property>
-            </bean>
-        </list>
-        </property>
     </bean>
     <bean id="EmergencyContact-id" parent="EmergencyContact-id-parentBean" />
     <bean id="EmergencyContact-id-parentBean" abstract="true" parent="AttributeDefinition">

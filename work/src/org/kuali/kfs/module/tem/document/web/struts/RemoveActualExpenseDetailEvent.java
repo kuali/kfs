@@ -70,7 +70,11 @@ public class RemoveActualExpenseDetailEvent implements Observer {
         }
 
         ExpenseUtils.calculateMileage(document.getActualExpenses());
+        for (String disabledProperty : document.getDisabledProperties().keySet()) {
+            getTravelDocumentService().restorePerDiemProperty(document, disabledProperty);
+        }
         wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
+        document.getDisabledProperties().clear();
 
     }
 

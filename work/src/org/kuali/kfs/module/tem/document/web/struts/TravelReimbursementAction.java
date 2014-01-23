@@ -38,7 +38,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +51,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
@@ -519,16 +517,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             request.setAttribute("isClose", true);
         }
 
-        for (ActualExpense actualExpense : document.getActualExpenses()){
-            getTravelDocumentService().disableDuplicateExpenses(document, actualExpense);
-        }
-
-        //Display any messages
-        Iterator<String> it = document.getDisabledProperties().keySet().iterator();
-        while (it.hasNext()){
-            String key = it.next();
-            GlobalVariables.getMessageMap().putInfo(key, TemKeyConstants.MESSAGE_GENERIC,document.getDisabledProperties().get(key));
-        }
+        disablePerDiemExpenes(document);
 
         if(ObjectUtils.isNotNull(document.getActualExpenses())){
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());

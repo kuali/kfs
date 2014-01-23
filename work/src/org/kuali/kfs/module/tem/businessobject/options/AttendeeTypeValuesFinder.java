@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -31,7 +32,7 @@ public class AttendeeTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
 
         List<KeyValue> attendeeType = new ArrayList<KeyValue>();
-        attendeeType.add(new ConcreteKeyValue("", ""));
+        attendeeType.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         attendeeType.add(new ConcreteKeyValue("BG", "Business Guest"));
         attendeeType.add(new ConcreteKeyValue("EE", "Employee"));
         attendeeType.add(new ConcreteKeyValue("SP", "Spouse/Partner"));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 The Kuali Foundation.
+ * Copyright 2014 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.authorization;
+package org.kuali.kfs.module.tem.dataaccess;
 
-/**
- * A document presentation controller for travel authorization close documents (which is far more limited in functionality than travel authorization
- * presentation controllers - there is no cancel, obviously no close, no hold, etc etc at this point)
- */
-public class TravelAuthorizationCloseDocumentPresentationController extends TravelAuthorizationFamilyDocumentPresentationController {
-    // currently, nothing to override
+import java.util.List;
+
+import org.kuali.kfs.module.tem.businessobject.MileageRate;
+
+public interface MileageRateDao {
+
+    public List<MileageRate> findMileageRatesByExpenseTypeCode(String expenseTypeCode) ;
+
 }

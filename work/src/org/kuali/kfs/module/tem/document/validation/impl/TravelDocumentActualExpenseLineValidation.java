@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -26,7 +25,6 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -164,7 +162,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         KualiDecimal maxAmount = getMaximumAmount(actualExpense, document);
-        if (maxAmount.isNonZero() && maxAmount.subtract(getTotalExpenseAmount(actualExpense, document)).isNegative()) {
+        if (maxAmount.isNonZero() && maxAmount.isLessThan(actualExpense.getConvertedAmount())) {
             if (expenseTypeCode.isPerDaily()) {
                 success = false;
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
@@ -322,22 +320,15 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         final ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         if (expenseTypeCode != null && expenseTypeCode.getMaximumAmount() != null) {
-            if (expenseTypeCode.isPerDaily()) {
-                if (document.getTripBegin() != null && document.getTripEnd() != null) {
-                    double noOfDays = KfsDateUtils.getDifferenceInDays(new Timestamp(document.getTripBegin().getTime()), new Timestamp(document.getTripEnd().getTime()));
-                    maxAmount = expenseTypeCode.getMaximumAmount().multiply(new KualiDecimal(noOfDays));
-                }
-            }
-            else if (expenseTypeCode.isPerOccurrence()) {
-                maxAmount = expenseTypeCode.getMaximumAmount();
-            }
-            else {
-                maxAmount = expenseTypeCode.getMaximumAmount();
-            }
+            maxAmount = expenseTypeCode.getMaximumAmount();
         }
-        //add the group travler list + self (1)
-        KualiDecimal groupTravelMultipier = new KualiDecimal(document.getGroupTravelers().size() + 1);
-        return maxAmount.multiply(groupTravelMultipier);
+        //add the group traveler list + self (1)
+        if (actualExpense.getExpenseType().isGroupTravel()) {
+            KualiDecimal groupTravelMultipier = new KualiDecimal(document.getGroupTravelers().size() + 1);
+            maxAmount = maxAmount.multiply(groupTravelMultipier);
+        }
+
+        return maxAmount;
     }
 
     /**

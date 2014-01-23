@@ -30,57 +30,57 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class MileageRateValuesFinder extends KeyValuesBase {
+   protected static Logger LOG = Logger.getLogger(MileageRateValuesFinder.class);
 
-    protected static Logger LOG = Logger.getLogger(MileageRateValuesFinder.class);
+   private String queryDate;
 
-    private String queryDate;
-
-    /**
+   /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @Override
-    public List<KeyValue> getKeyValues() {
-        java.util.Date javaDate = null;
-        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        if(StringUtils.isNotEmpty(queryDate)) {
-            try {
-                javaDate = df.parse(queryDate);
-            } catch (ParseException ex) {
-                LOG.error("unable to parse date: " + queryDate);
-            }
-        }
-        Date searchDate = null;
-        try {
-            searchDate = getDateTimeService().convertToSqlDate(df.format(javaDate));
-        }
-        catch (ParseException ex) {
-            LOG.error("unable to convert date: " + queryDate);
-        }
-        return getTravelDocumentService().getMileageRateKeyValues(searchDate);
-    }
+   @Override
+   public List<KeyValue> getKeyValues() {
+       java.util.Date javaDate = null;
+       final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+       if(StringUtils.isNotEmpty(queryDate)) {
+           try {
+               javaDate = df.parse(queryDate);
+           } catch (ParseException ex) {
+               LOG.error("unable to parse date: " + queryDate);
+           }
+       }
+       Date searchDate = null;
+       try {
+           searchDate = getDateTimeService().convertToSqlDate(df.format(javaDate));
+       }
+       catch (ParseException ex) {
+           LOG.error("unable to convert date: " + queryDate);
+       }
+       return getTravelDocumentService().getMileageRateKeyValues(searchDate);
+   }
 
-    /**
+   /**
      * Gets the queryDate attribute.
      * @return Returns the queryDate.
      */
-    public String getQueryDate() {
-        return queryDate;
-    }
+   public String getQueryDate() {
+       return queryDate;
+   }
 
-    /**
+   /**
      * Sets the queryDate attribute value.
      * @param queryDate The queryDate to set.
      */
-    public void setQueryDate(String queryDate) {
-        this.queryDate = queryDate;
-    }
+   public void setQueryDate(String queryDate) {
+       this.queryDate = queryDate;
+   }
 
-    private TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
+   protected TravelDocumentService getTravelDocumentService() {
+       return SpringContext.getBean(TravelDocumentService.class);
+   }
 
-    private DateTimeService getDateTimeService() {
-        return SpringContext.getBean(DateTimeService.class);
-    }
+   protected DateTimeService getDateTimeService() {
+       return SpringContext.getBean(DateTimeService.class);
+   }
 
 }
+

@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 public class TemProfileLookupableImpl extends KualiLookupableImpl {
 
    @Override
    public String getCreateNewUrl() {
-    // TODO Auto-generated method stub
-    return "";
+    return KFSConstants.EMPTY_STRING;
 }
 
 }

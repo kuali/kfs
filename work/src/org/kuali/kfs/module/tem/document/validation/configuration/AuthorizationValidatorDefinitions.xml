@@ -203,7 +203,6 @@
     <bean id="TravelAuthorizationDocument-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
         <property name="validations">
             <list>
-            	<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
                 <bean parent="TravelAuthorizationDocument-addAccountingLine-failFastValidation" scope="prototype" />
             </list>
         </property>
@@ -237,7 +236,6 @@
     <bean id="TravelAuthorization-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
         <property name="validations">
             <list>
-            	<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
                 <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
                     <property name="parameterProperties">
                         <bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />

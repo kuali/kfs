@@ -18,7 +18,9 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -34,9 +36,9 @@ public class PurposeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<Purpose> purposes = (List<Purpose>) SpringContext.getBean(BusinessObjectService.class).findAll(Purpose.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (Purpose purpose : purposes) {
-            if(purpose.isActive()&&purpose.getDocumentType().equalsIgnoreCase("ENT")) {
+            if(purpose.isActive()&&purpose.getDocumentType().equalsIgnoreCase(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT)) {
                 labels.add(new ConcreteKeyValue(purpose.getPurposeCode(), purpose.getPurposeName()));
             }
         }

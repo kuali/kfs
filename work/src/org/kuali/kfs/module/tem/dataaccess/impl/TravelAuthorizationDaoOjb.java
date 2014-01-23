@@ -24,6 +24,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelAuthorizationDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TravelAuthorizationDaoOjb extends PlatformAwareDaoBaseOjb implements TravelAuthorizationDao {
@@ -35,7 +36,7 @@ public class TravelAuthorizationDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         final Criteria criteria = new Criteria();
         criteria.addEqualTo(TemPropertyConstants.TEM_PROFILE_ID, temProfileId);
-        criteria.addNotIn("documentHeader.financialDocumentStatusCode", Arrays.asList(DocumentStatusCodes.INITIATED));
+        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, Arrays.asList(DocumentStatusCodes.INITIATED));
         return  (List<TravelAuthorizationDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(TravelAuthorizationDocument.class, criteria));
 
     }

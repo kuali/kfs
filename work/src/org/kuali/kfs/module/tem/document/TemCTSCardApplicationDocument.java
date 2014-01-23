@@ -93,7 +93,6 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
     }
     @Override
     public String getUserAgreementText() {
-        // TODO Auto-generated method stub
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.CTS_CARD_DOCUMENT_USER_AGREEMENT);
     }
 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -32,7 +33,7 @@ public class TravelDocumentTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT, TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT));

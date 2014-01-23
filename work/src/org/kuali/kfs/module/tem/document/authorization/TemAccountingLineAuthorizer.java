@@ -44,7 +44,6 @@ public class TemAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
      */
     @Override
     protected String getAddMethod(AccountingLine accountingLine, String accountingLineProperty) {
-        //return super.getAddMethod(accountingLine, accountingLineProperty);
         String infix = getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty);
         if (accountingLineProperty.equals(TemPropertyConstants.ACCOUNT_DISTRIBUTION_NEW_SRC_LINE)) {
             infix = "Distribution";

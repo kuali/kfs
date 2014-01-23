@@ -89,7 +89,7 @@
 	<bean id="GeneralErrorCorrection-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  			  	<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" />
+  			  	<bean parent="AccountingDocument-AddCapitalAccountingLines-DefaultValidation" />
   				<bean parent="GeneralErrorCorrection-objectTypeValidation" scope="prototype" >
   					<property name="parameterProperties">
            				<list>
@@ -120,7 +120,7 @@
   
 	<bean id="GeneralErrorCorrection-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
+  			<bean parent="AccountingDocument-UpdateCapitalAccountingLines-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
   

@@ -138,9 +138,6 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
                 return false;
             }
 
-//            boolean isDeactivatePerDiem = this.isDeactivatePerDiem();
-//            List<PerDiem> perDiemsForExpriation =  this.getPerDiemService().retrieveExpireDeactivatePreviousPerDiem(validPerDiemList, isDeactivatePerDiem);
-
             for (TemRegion region : regions.values()) {
                 businessObjectService.save(region);
             }
@@ -167,8 +164,6 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
                 }
                 businessObjectService.save(perDiem);
             }
-        //    businessObjectService.save(perDiemsForExpriation);
-           // businessObjectService.save(validPerDiemList);
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);

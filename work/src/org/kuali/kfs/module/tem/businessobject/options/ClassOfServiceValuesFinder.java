@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -51,7 +52,7 @@ public class ClassOfServiceValuesFinder extends KeyValuesBase {
             bos = SpringContext.getBean(BusinessObjectService.class).findAll(ClassOfService.class);
         }
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (ClassOfService typ : bos) {
             keyValues.add(new ConcreteKeyValue(typ.getCode(), typ.getClassOfServiceName()));
         }

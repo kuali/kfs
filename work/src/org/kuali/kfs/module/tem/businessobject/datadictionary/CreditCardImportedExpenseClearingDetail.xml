@@ -19,18 +19,6 @@
 				<ref bean="CreditCardImportedExpenseClearingDetail-bankPostDate" />
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="creditCardStagingData" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardStagingDataId" p:targetName="id" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId" parent="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId-parentBean"/>
 	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId-parentBean" abstract="true" parent="CreditCardStagingData-id">

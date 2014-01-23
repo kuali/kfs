@@ -36,7 +36,7 @@ public class StateCodeValuesFinder extends KeyValuesBase {
 
         List<State> codes = SpringContext.getBean(StateService.class).findAllStatesInCountry(KFSConstants.COUNTRY_CODE_UNITED_STATES);
         List<KeyValue> keyvalues = new ArrayList<KeyValue>();
-        keyvalues.add(new ConcreteKeyValue("", ""));
+        keyvalues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (State state : codes) {
             if(state.isActive()) {
                 keyvalues.add(new ConcreteKeyValue(state.getCode(), state.getCode()));

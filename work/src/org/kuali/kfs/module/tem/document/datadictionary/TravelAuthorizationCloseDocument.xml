@@ -11,8 +11,8 @@
 		<property name="documentTypeName" value="TAC" />
 		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument" />
 		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
-		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationCloseAuthorizer" />
-	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationCloseDocumentPresentationController" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer" />
+	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationDocumentPresentationController" />
 		<property name="sessionDocument" value="true" />
 		<property name="allowsCopy" value="true" />
 		<property name="allowsNoteFYI" value="true" />

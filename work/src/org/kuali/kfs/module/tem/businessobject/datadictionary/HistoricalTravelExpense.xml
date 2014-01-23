@@ -35,22 +35,6 @@
 			<ref bean="HistoricalTravelExpense-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="creditCardAgency" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardAgencyId" p:targetName="id" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
 	</bean>
 	<bean id="HistoricalTravelExpense-id" parent="HistoricalTravelExpense-id-parentBean" />
 	<bean id="HistoricalTravelExpense-id-parentBean" abstract="true" parent="AttributeDefinition">

@@ -5,8 +5,6 @@
 	<bean id="ActualExpense" parent="ActualExpense-parentBean" />
 	<bean id="ActualExpense-parentBean" abstract="true" parent="BusinessObjectEntry" >
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ActualExpense" />
-		<property name="lookupDefinition" ref="ActualExpense-lookupDefinition" />
-		<property name="inquiryDefinition" ref="ActualExpense-inquiryDefinition" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="ActualExpense" />
 		<property name="attributes">
@@ -276,60 +274,5 @@
 		<property name="shortLabel" value="Version Number" />
 		<property name="summary" value="Version Number" />
 		<property name="description" value="Version Number" />
-	</bean>
-	<bean id="ActualExpense-inquiryDefinition" parent="ActualExpense-inquiryDefinition-parentBean" />
-	<bean id="ActualExpense-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Other Expense Inquiry"/>
-		<property name="inquirySections">
-		<list>
-			<bean parent="InquirySectionDefinition">
-				<property name="title" value="Other Expense Inquiry"/>
-				<property name="numberOfColumns" value="1"/>
-				<property name="inquiryFields">
-				<list>
-                  <!--
-					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-					<bean parent="FieldDefinition" p:attributeName="expenseDate" />
-					<bean parent="FieldDefinition" p:attributeName="expenseAmount" />
-					<bean parent="FieldDefinition" p:attributeName="description" />
-					<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
-                    -->
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
-	</bean>
-	<bean id="ActualExpense-lookupDefinition" parent="ActualExpense-lookupDefinition-parentBean" />
-	<bean id="ActualExpense-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Other Expense Lookup" />
-		<property name="defaultSort">
-		<bean parent="SortDefinition">
-			<property name="attributeNames"><list>
-			</list></property>
-		</bean>
-		</property>
-		<property name="lookupFields"><list>
-            <!--
-			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-			<bean parent="FieldDefinition" p:attributeName="expenseDate" />
-			<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
-            -->
-		</list>
-		</property>
-		<property name="resultFields">
-		<list>
-          <!--
-			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-			<bean parent="FieldDefinition" p:attributeName="expenseDate" />
-			<bean parent="FieldDefinition" p:attributeName="expenseAmount" />
-			<bean parent="FieldDefinition" p:attributeName="description" />
-			<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
-            -->
-		</list>
-		</property>
 	</bean>
 </beans>

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants.AttachmentTypeCodes;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -32,7 +33,7 @@ public class TravelEntertainmentAttachmentTypeValuesFinder extends KeyValuesBase
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_ATTENDEE_LIST, AttachmentTypeCodes.ATTACHMENT_TYPE_ATTENDEE_LIST));
         keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT, AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT));
         keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_RECEIPT, AttachmentTypeCodes.ATTACHMENT_TYPE_RECEIPT));

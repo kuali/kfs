@@ -88,7 +88,6 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
-    @Override
     public void setLookupDao(final LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }

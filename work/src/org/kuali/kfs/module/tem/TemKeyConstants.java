@@ -147,6 +147,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_RATE = "error.document.mileage.rate.invalid.rate";
     public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EXPENSE_TYPE = "error.document.mileage.rate.invalid.expense.type";
+    public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EFFECTIVE_DATE = "error.document.mileage.rate.invalid.effective.date";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";

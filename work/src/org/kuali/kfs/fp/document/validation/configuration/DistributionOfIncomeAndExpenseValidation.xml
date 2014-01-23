@@ -92,7 +92,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
+  			<bean parent="AccountingDocument-AddCapitalAccountingLines-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
   
@@ -108,7 +108,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
+  			<bean parent="AccountingDocument-UpdateCapitalAccountingLines-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
   

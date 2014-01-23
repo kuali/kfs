@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -31,7 +32,7 @@ public class ExpenseImportTypeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         keyValues.add(new ConcreteKeyValue(ExpenseImportTypes.IMPORT_BY_TRAVELLER, ExpenseImportTypes.IMPORT_BY_TRAVELLER));
         keyValues.add(new ConcreteKeyValue(ExpenseImportTypes.IMPORT_BY_TRIP, ExpenseImportTypes.IMPORT_BY_TRIP));
         return keyValues;

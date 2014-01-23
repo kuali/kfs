@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,7 +42,7 @@ public class TravelExpenseTypeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
 
         final KualiForm kualiForm = KNSGlobalVariables.getKualiForm();
         String documentType = TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT;

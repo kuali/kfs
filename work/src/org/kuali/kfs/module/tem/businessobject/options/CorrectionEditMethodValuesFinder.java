@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -28,7 +29,7 @@ public class CorrectionEditMethodValuesFinder extends KeyValuesBase{
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
-        activeLabels.add(new ConcreteKeyValue("", "Edit Method"));
+        activeLabels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, "Edit Method"));
         activeLabels.add(new ConcreteKeyValue(TemCorrectionDocumentService.CORRECTION_TYPE_MANUAL, "Manual Edit"));
         activeLabels.add(new ConcreteKeyValue(TemCorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING, "Remove Group From Processing"));
 

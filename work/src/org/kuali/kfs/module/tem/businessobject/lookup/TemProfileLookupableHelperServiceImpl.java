@@ -141,13 +141,6 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                             break;
                         }
                     }
-
-                    // Something is different between the tem profile and the kim data, add the updated profile to the list.
-                    // TODO: check this again because this is causing a terminated employee to be included in the tem profile
-                    // non-employee lookup. Commenting this out for now.
-                    /*
-                     * if (!isFound) { profiles.add(profileFromKim); }
-                     */
                 }
             }
         }

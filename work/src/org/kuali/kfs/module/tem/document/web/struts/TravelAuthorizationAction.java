@@ -135,6 +135,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         refreshTransportationModesAfterButtonAction(travelAuthDocument, request, authForm);
 
+        disablePerDiemExpenes(travelAuthDocument);
+
         if(ObjectUtils.isNotNull(travelAuthDocument.getActualExpenses())){
             travelAuthDocument.enableExpenseTypeSpecificFields(travelAuthDocument.getActualExpenses());
         }

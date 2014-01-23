@@ -19,22 +19,6 @@
 			<ref bean="PrimaryDestination-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="region" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="regionCode" p:targetName="regionCode" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
 	</bean>
 	<bean id="PrimaryDestination-id" parent="PrimaryDestination-id-parentBean" />
 	<bean id="PrimaryDestination-id-parentBean" abstract="true" parent="AttributeDefinition">

@@ -94,26 +94,6 @@
             <ref bean="AgencyStagingData-copiedFromId" />
 		</list>
 		</property>
-		<property name="collections">
-		<list>
-			<bean parent="CollectionDefinition" p:name="tripAccountingInformation" p:label="Accounting Information" 
-			      p:shortLabel="Accounting Info" p:elementLabel="Account" />
-		</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="profile" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="temProfileId"
-								p:targetName="profileId" />
-							
-						</list>
-					</property>
-					</bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="AgencyStagingData-id" parent="AgencyStagingData-id-parentBean" />
 	<bean id="AgencyStagingData-id-parentBean" abstract="true" parent="AttributeDefinition">

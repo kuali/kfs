@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAmountSummation;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -31,7 +32,7 @@ public class ExpenseTypeAmountSummationValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (ExpenseTypeAmountSummation summation : ExpenseTypeAmountSummation.values()) {
             keyValues.add(new ConcreteKeyValue(summation.getCode(), summation.getName()));
         }

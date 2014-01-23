@@ -28,22 +28,6 @@
 			<ref bean="PerDiem-seasonBeginMonthAndDay" />			
 		</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="primaryDestination" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryDestinationId" p:targetName="id" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
 	</bean>
 	<bean id="PerDiem-id" parent="PerDiem-id-parentBean" />
 	<bean id="PerDiem-id-parentBean" abstract="true" parent="AttributeDefinition">

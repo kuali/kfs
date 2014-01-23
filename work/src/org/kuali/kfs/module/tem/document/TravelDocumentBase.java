@@ -640,8 +640,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         // Set the identifier and org doc number before anything is done in the super class
         if (ObjectUtils.isNull(getTravelDocumentIdentifier())) {
             // need retrieve the next available TR id to save in GL entries (only do if travel request id is null which should be on
-            // first
-            // save)
+            // first save)
 
             setTravelDocumentIdentifier(generateTripId());
             this.getDocumentHeader().setOrganizationDocumentNumber(getTravelDocumentIdentifier());

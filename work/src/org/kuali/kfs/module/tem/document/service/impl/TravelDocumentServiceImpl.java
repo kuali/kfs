@@ -28,6 +28,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DIS
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -2262,28 +2263,27 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected List<DisabledPropertyMessage> disableDuplicateExpenseForPerDiem(ActualExpense actualExpense, PerDiemExpense perDiemExpense, int perDiemCount) {
         List<DisabledPropertyMessage> disabledPropertyMessages = new ArrayList<DisabledPropertyMessage>();
 
-        final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());
         if (actualExpense.getExpenseDate() == null){
             return disabledPropertyMessages;
         }
-        final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(actualExpense.getExpenseDate());
+        final String expenseDate = getDateTimeService().toDateString(actualExpense.getExpenseDate());
         String meal = "";
         boolean valid = true;
 
-        if (mileageDate.equals(expenseDate)) {
-            if (perDiemExpense.getBreakfast() && actualExpense.isHostedBreakfast()) {
+        if (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), actualExpense.getExpenseDate())) {
+            if (perDiemExpense.getBreakfast() && actualExpense.isBreakfast() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_BREAKFAST;
                 perDiemExpense.setBreakfast(false);
                 perDiemExpense.setBreakfastValue(KualiDecimal.ZERO);
                 valid = false;
             }
-            else if (perDiemExpense.getLunch() && actualExpense.isHostedLunch()) {
+            else if (perDiemExpense.getLunch() && actualExpense.isLunch() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_LUNCH;
                 perDiemExpense.setLunch(false);
                 perDiemExpense.setLunchValue(KualiDecimal.ZERO);
                 valid = false;
             }
-            else if (perDiemExpense.getDinner() && actualExpense.isHostedDinner()) {
+            else if (perDiemExpense.getDinner() && actualExpense.isDinner() && (actualExpense.getExpenseType().isHosted() || actualExpense.getExpenseType().isGroupTravel())) {
                 meal = TemConstants.HostedMeals.HOSTED_DINNER;
                 perDiemExpense.setDinner(false);
                 perDiemExpense.setDinnerValue(KualiDecimal.ZERO);
@@ -2592,6 +2592,62 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public CsvRecordFactory<GroupTravelerCsvRecord> getCsvRecordFactory() {
         return this.csvRecordFactory;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#restorePerDiemProperty(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
+     */
+    @Override
+    public void restorePerDiemProperty(TravelDocument document, String property) {
+        try {
+            final String[] perDiemPropertyParts = splitPerDiemProperty(property);
+            PerDiemExpense perDiemExpense = (PerDiemExpense)ObjectUtils.getPropertyValue(document, perDiemPropertyParts[0]);
+            final String mealName = perDiemPropertyParts[1];
+            final String mealValueName = mealName+"Value";
+
+            KualiDecimal currentMealValue = (KualiDecimal)ObjectUtils.getPropertyValue(perDiemExpense, mealValueName);
+            if (currentMealValue != null && currentMealValue.equals(KualiDecimal.ZERO)) {
+                PerDiem perDiem = perDiemExpense.getPerDiem();
+                KualiDecimal mealAmount = (KualiDecimal)ObjectUtils.getPropertyValue(perDiem, mealName);
+                final boolean prorated = !KfsDateUtils.isSameDay(document.getTripBegin(), document.getTripEnd()) && (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripBegin()) || KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripEnd()));
+                if (prorated && !ObjectUtils.isNull(document.getTripType())) {
+                    perDiemExpense.setProrated(true);
+                    final String perDiemCalcMethod = document.getTripType().getPerDiemCalcMethod();
+                    final Integer perDiemPercent = calculateProratePercentage(perDiemExpense, perDiemCalcMethod, document.getTripEnd());
+                    final KualiDecimal proratedAmount = PerDiemExpense.calculateMealsAndIncidentalsProrated(mealAmount, perDiemPercent);
+                    ObjectUtils.setObjectProperty(perDiemExpense, mealValueName, proratedAmount);
+                } else {
+                    ObjectUtils.setObjectProperty(perDiemExpense, mealValueName, mealAmount);
+                }
+                ObjectUtils.setObjectProperty(perDiemExpense, mealName, Boolean.TRUE);
+            }
+        }
+        catch (FormatException fe) {
+            throw new RuntimeException("Could not set meal value on per diem expense", fe);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Could not set meal value on per diem expense", iae);
+        }
+        catch (InvocationTargetException ite) {
+            throw new RuntimeException("Could not set meal value on per diem expense", ite);
+        }
+        catch (NoSuchMethodException nsme) {
+            throw new RuntimeException("Could not set meal value on per diem expense", nsme);
+        }
+    }
+
+    /**
+     * Splits a property into the per diem part and the property of the per diem expense we should update
+     * @param property the property to split
+     * @return an Array where the first element is the property path to a per diem expense and the second is the property path to a meal value on that per diem
+     */
+    protected String[] splitPerDiemProperty(String property) {
+        final String deDocumentedProperty = property.replace(KFSPropertyConstants.DOCUMENT+".", KFSConstants.EMPTY_STRING);
+        final int lastDivider = deDocumentedProperty.lastIndexOf('.');
+        final String perDiemPart = deDocumentedProperty.substring(0, lastDivider);
+        final String mealPart = deDocumentedProperty.substring(lastDivider+1);
+        return new String[] { perDiemPart, mealPart };
     }
 
     /**

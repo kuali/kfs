@@ -2,7 +2,7 @@ Dear $!{document.travelerDetail.firstName} $!{document.travelerDetail.lastName}:
 
 $!{document.taxableRamificationNotice}
 
-ADVANCE NUMBER:  $!{document.arInvoiceDocNumber}
+ADVANCE NUMBER:  $!{document.travelDocumentIdentifier}
 DUE DATE:        $!{document.dueDate}
 
 ORIGINAL AMOUNT: $!{document.invoiceAmount}

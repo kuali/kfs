@@ -53,6 +53,10 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
             editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
         }
 
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL))) {
+            editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
+        }
+
         return editModes;
     }
 
@@ -125,6 +129,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         }
     }
 
+    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }

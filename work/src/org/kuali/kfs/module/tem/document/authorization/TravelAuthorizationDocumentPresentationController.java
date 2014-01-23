@@ -63,6 +63,10 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
             editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
         }
 
+        if (wfDocument.isInitiated() || wfDocument.isSaved() || (nodeNames != null && !nodeNames.isEmpty() && nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL))) {
+            editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
+        }
+
         return editModes;
     }
 

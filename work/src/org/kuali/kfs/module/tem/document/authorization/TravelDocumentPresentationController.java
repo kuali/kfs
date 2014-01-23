@@ -62,7 +62,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
         editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
         editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
-        editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
 
         if (document.getDocumentHeader().getWorkflowDocument().getNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD)) {
             editModes.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);

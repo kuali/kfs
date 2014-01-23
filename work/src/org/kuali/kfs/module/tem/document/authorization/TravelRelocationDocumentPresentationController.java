@@ -47,6 +47,10 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
             editModes.add(TemConstants.EditModes.REQUESTER_LOOKUP_MODE);
         }
 
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && nodeNames.contains(TemWorkflowConstants.RouteNodeNames.MOVING_AND_RELOCATION_MANAGER))) {
+            editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
+        }
+
         return editModes;
     }
 

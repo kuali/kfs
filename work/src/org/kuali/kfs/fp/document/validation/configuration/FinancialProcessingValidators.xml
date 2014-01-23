@@ -436,6 +436,43 @@
 		
 	<bean id="CapitalAccountingLines-objectCodeSubTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesObjectSubtypeValidations" abstract="true" />		
 	
+	<bean id="AccountingDocument-capitalAccountingLinesAccessibleValidation" parent="AccountingDocument-accountingLineAccessibleValidation"
+		class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesAccessibleValidation" abstract="true">
+    	<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+	
+	<bean id="AccountingDocument-AddCapitalAccountingLines-DefaultValidation" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-AddAccountingLine-AccountingLineGroupedValidation" scope="prototype" />
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="AccountingDocument-UpdateCapitalAccountingLines-DefaultValidation" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-UpdateAccountingLine-AccountingLineGroupedValidation" scope="prototype" /> 
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="PreEncumbrance-accountingLineObjectCodeRestrictionValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineObjectCodeRestrictionValidation" abstract="true">
         <property name="parameterService" ref="parameterService" />
         <property name="parameterEvaluatorService" ref="parameterEvaluatorService" />

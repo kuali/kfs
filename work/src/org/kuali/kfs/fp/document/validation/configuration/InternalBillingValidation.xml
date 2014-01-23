@@ -119,7 +119,7 @@
   		<property name="validations">
   			<list>
   				<bean parent="InternalBilling-addAccountingLineValidation-AccountingLineGroupedValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />
@@ -177,7 +177,7 @@
   		<property name="validations">
   			<list>
 				<bean parent="InternalBilling-updatedAccountingLineValidation-AccountingLineGroupedValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

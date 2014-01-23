@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,11 +28,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents This class utilizes
  * the new accountingLine model.
  */
-public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
+public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends CapitalAccountingLinesAuthorizerBase {
 
     /**
      * This method determines if the current accounting line is editable based upon if electronic claims exists on the DI document.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineFieldModifyability(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.document.web.AccountingLineViewField, java.util.Map)
      */
@@ -42,7 +42,7 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
         if (canModify && accountingLine.isSourceAccountingLine()) {
             return !hasElectronicPaymentClaims(accountingDocument);
         }
-        
+
         return canModify;
     }
 

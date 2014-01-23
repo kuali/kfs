@@ -207,7 +207,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="CashReciept-addAccountingLine-failFastValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
 					<property name="parameterProperties">
 						<list>
@@ -275,7 +275,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="CashReceipt-updateAccountingLine-failFastValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="AccountingDocument-capitalAccountingLinesAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

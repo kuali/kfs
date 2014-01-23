@@ -115,7 +115,7 @@
 	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
 	  <property name="groupLabel" value="To"/>
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase"/>
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>

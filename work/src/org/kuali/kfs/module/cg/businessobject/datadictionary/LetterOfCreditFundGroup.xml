@@ -26,6 +26,7 @@
 		<property name="lookupDefinition">
 			<ref bean="LetterOfCreditFundGroup-lookupDefinition" />
 		</property>
+		<property name="titleAttribute" value="letterOfCreditFundGroupCode" />
 		<property name="objectLabel" value="Letter Of Credit Fund Group" />
 		<property name="attributes">
 			<list>

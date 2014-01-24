@@ -146,7 +146,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Campaign Information" />
+					<property name="title" value="Dunning Campaign" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -157,7 +157,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Dunning Letter Distribution Information" />
+					<property name="title" value="Dunning Letter Distribution" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>

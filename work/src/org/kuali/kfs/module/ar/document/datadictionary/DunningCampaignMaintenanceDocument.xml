@@ -68,7 +68,7 @@
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Dunning Letter Distribution" />
 		<property name="defaultOpen" value="true" />
-		<property name="title" value="Dunning Letter Distribution Information" />
+		<property name="title" value="Dunning Letter Distribution" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">

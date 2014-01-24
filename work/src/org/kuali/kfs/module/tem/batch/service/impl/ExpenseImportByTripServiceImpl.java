@@ -25,14 +25,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -240,7 +240,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
 
         // will we have an expense type object code when we want to reconcile?
-        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseType(agencyData.getExpenseTypeCategory(), travelDocument);
+        final ExpenseTypeObjectCode expenseTypeObjectCode = (agencyData.getExpenseTypeCategory() != null) ? getTravelExpenseType(agencyData.getExpenseTypeCategory(), travelDocument) : null;
         if (expenseTypeObjectCode == null) {
             LOG.error("Could not find an expense type object code record for trip id: "+agencyData.getTripId());
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE, agencyData.getTripId(), agencyData.getAgency(), agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString()));

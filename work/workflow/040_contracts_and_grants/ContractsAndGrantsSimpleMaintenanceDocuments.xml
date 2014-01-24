@@ -337,26 +337,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				AITM
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Account Invoice Templates
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Faccountinvoicetemplates.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				INST
 			</name>
 			<parent>

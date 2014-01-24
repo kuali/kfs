@@ -297,5 +297,25 @@
 				2
 			</routingVersion>
 		</documentType>
-	</documentTypes>
+			<documentType>
+			<name>
+				AITM
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Invoice Template
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Faccountinvoicetemplates.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+			</documentTypes>
 </data>

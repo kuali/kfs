@@ -336,10 +336,10 @@
 				AITM
 			</name>
 			<parent>
-				CGSM
+				ARSM
 			</parent>
 			<label>
-				Account Invoice Templates
+				Invoice Template
 			</label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Faccountinvoicetemplates.htm

@@ -29,7 +29,7 @@
 			<ref bean="InvoiceTemplate-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="invoiceTemplateCode" />
-		<property name="objectLabel" value="Invoice Templates" />
+		<property name="objectLabel" value="Invoice Template" />
 		<property name="attributes">
 			<list>
 				<ref bean="InvoiceTemplate-invoiceTemplateCode" />

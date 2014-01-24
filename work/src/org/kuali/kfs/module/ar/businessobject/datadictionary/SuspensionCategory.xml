@@ -28,7 +28,7 @@
 		<property name="lookupDefinition">
 			<ref bean="SuspensionCategory-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="suspensionCategory" />
+		<property name="titleAttribute" value="suspensionCategoryCode" />
 		<property name="objectLabel" value="Suspension Category" />
 		<property name="attributes">
 			<list>

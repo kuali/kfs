@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -37,6 +38,7 @@ public abstract class DocumentActionBuilderBase {
     protected volatile ParameterService parameterService;
     protected volatile DocumentTypeService documentTypeService;
     protected volatile TemRoleService superEvilTemRoleService;
+    protected volatile AccountingDocumentRelationshipService accountingDocumentRelationshipService;
 
     /**
      *
@@ -204,6 +206,16 @@ public abstract class DocumentActionBuilderBase {
             configurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return configurationService;
+    }
+
+    /**
+     * @return the default implementation of the AccountingDocumentRelationshipService
+     */
+    protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        if (accountingDocumentRelationshipService == null) {
+            accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
+        }
+        return accountingDocumentRelationshipService;
     }
 
 }

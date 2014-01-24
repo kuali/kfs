@@ -15,25 +15,30 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class AccountingDocumentRelationshipServiceImpl implements AccountingDocumentRelationshipService {
 
-    private AccountingDocumentRelationshipDao accountingDocumentRelationshipDao;
-    private PersonService personService;
+    protected AccountingDocumentRelationshipDao accountingDocumentRelationshipDao;
+    protected BusinessObjectService businessObjectService;
+    protected IdentityService identityService;
 
     private static final Logger LOG = Logger.getLogger(AccountingDocumentRelationshipServiceImpl.class);
 
@@ -156,7 +161,7 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
     @Override
     public void save(AccountingDocumentRelationship accountingDocumentRelationship) {
         if (accountingDocumentRelationship.getPrincipalId() == null) {
-            Person person = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+            Principal person = identityService.getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
             accountingDocumentRelationship.setPrincipalId(person.getPrincipalId());
         }
 
@@ -207,12 +212,33 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
         this.accountingDocumentRelationshipDao = accountingDocumentRelationshipDao;
     }
 
-    public PersonService getPersonService() {
-        return personService;
+    /**
+     * Counts the number of accounting document relationships where the given document number is the related document number; returns true
+     * if that count is greater than 0
+     * @see org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService#isDocumentSomebodysChild(java.lang.String)
+     */
+    @Override
+    public boolean isDocumentSomebodysChild(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(TemPropertyConstants.TRVL_RELATED_DOCUMENT_NUM, documentNumber);
+        final int count = getBusinessObjectService().countMatching(AccountingDocumentRelationship.class, fieldValues);
+        return count > 0;
     }
 
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 
     @Override

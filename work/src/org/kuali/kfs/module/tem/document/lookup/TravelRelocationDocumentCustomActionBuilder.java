@@ -32,7 +32,9 @@ public class TravelRelocationDocumentCustomActionBuilder extends DocumentActionB
       String tripId = document.getTravelDocumentIdentifier();
       StrBuilder actionsHTML = new StrBuilder();
       actionsHTML.setNewLineText("<br/>");
-      actionsHTML.appendln(createRelocationLink(tripId));
+      if (!getAccountingDocumentRelationshipService().isDocumentSomebodysChild(document.getDocumentNumber())) {
+          actionsHTML.appendln(createRelocationLink(tripId));
+      }
       actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));
 
       return actionsHTML.toString();

@@ -25,7 +25,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,7 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
     protected volatile TravelDocumentService travelDocumentService;
-    protected volatile AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     protected volatile ConfigurationService configurationService;
     protected volatile TravelReimbursementService travelReimbursementService;
 
@@ -140,16 +138,6 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
             travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
         }
         return travelDocumentService;
-    }
-
-    /**
-     * @return the default implementation of TEM's AccountingDocumentRelationship Service
-     */
-    protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        if (accountingDocumentRelationshipService == null) {
-            accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
-        }
-        return accountingDocumentRelationshipService;
     }
 
     /**

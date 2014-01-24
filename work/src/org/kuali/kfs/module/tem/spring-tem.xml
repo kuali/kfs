@@ -577,16 +577,14 @@
 		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
 
 	<bean id="temAccountingDocumentRelationshipService" parent="temAccountingDocumentRelationshipService-parentBean" />
-
-	<bean id="temAccountingDocumentRelationshipService-parentBean"
-		class="org.kuali.kfs.module.tem.document.service.impl.AccountingDocumentRelationshipServiceImpl"
-		abstract="true">
+	<bean id="temAccountingDocumentRelationshipService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.AccountingDocumentRelationshipServiceImpl"	abstract="true">
 		<property name="accountingDocumentRelationshipDao" ref="accountingDocumentRelationshipDao" />
-		<property name="personService" ref="personService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="identityService" ref="identityService" />
 	</bean>
 
-	<bean id="accountingDocumentRelationshipDao" parent="platformAwareDao"
-		class="org.kuali.kfs.module.tem.dataaccess.impl.AccountingDocumentRelationshipDaoOjb" />
+	<bean id="accountingDocumentRelationshipDao" parent="accountingDocumentRelationshipDao-parentBean"/>
+	<bean id="accountingDocumentRelationshipDao-parentBean" parent="platformAwareDao" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.AccountingDocumentRelationshipDaoOjb" />
 
 	<bean id="travelerDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl"/>
 

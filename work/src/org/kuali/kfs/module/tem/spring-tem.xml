@@ -495,7 +495,7 @@
 	</bean>
 
 	<bean id="travelDocumentService" parent="travelDocumentService-parentBean" />
-	<bean id="travelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"	abstract="true">
+	<bean id="travelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -527,6 +527,7 @@
     	<property name="perDiemService" ref="perDiemService"/>
     	<property name="travelExpenseService" ref="travelExpenseService"/>
     	<property name="noteService" ref="noteService"/>
+    	<property name="travelService" ref="temTravelService"/>
 	</bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
@@ -621,6 +622,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
 		<property name="documentHelperService" ref="documentHelperService"/>
+		<property name="travelService" ref="temTravelService"/>
 	</bean>
 	
 	<!-- Struts Events -->

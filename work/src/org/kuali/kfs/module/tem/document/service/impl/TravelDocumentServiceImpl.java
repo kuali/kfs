@@ -100,6 +100,7 @@ import org.kuali.kfs.module.tem.service.CsvRecordFactory;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -188,6 +189,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected PerDiemService perDiemService;
     protected TravelExpenseService travelExpenseService;
     protected NoteService noteService;
+    protected TravelService travelService;
 
 
     /**
@@ -616,13 +618,18 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         criteria.put(KFSPropertyConstants.ACTIVE, true);
 
         // add specialCircumstances with specific documentType SpecialCircumstancesQuestion
-        criteria.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);
+        Set<String> documentTypesToCheck = new HashSet<String>();
+        documentTypesToCheck.add(documentType);
+        final Set<String> parentDocTypes = getTravelService().getParentDocumentTypeNames(documentType);
+        documentTypesToCheck.addAll(parentDocTypes);
+        criteria.put(KFSPropertyConstants.DOCUMENT_TYPE, documentTypesToCheck);
         retval.addAll(buildSpecialCircumstances(documentNumber, criteria));
 
         return retval;
     }
 
-    private List<SpecialCircumstances> buildSpecialCircumstances(String documentNumber, Map<String, Object> criteria) {
+
+    protected List<SpecialCircumstances> buildSpecialCircumstances(String documentNumber, Map<String, Object> criteria) {
         List<SpecialCircumstances> retval = new ArrayList<SpecialCircumstances>();
 
         Collection<SpecialCircumstancesQuestion> questions = getBusinessObjectService().findMatching(SpecialCircumstancesQuestion.class, criteria);
@@ -2700,4 +2707,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
+
+    public TravelService getTravelService() {
+        return travelService;
+    }
+
+    public void setTravelService(TravelService travelService) {
+        this.travelService = travelService;
+    }
+
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -65,4 +66,11 @@ public interface TravelService {
      * @return
      */
     public List<String> getTravelCardTypes();
+
+    /**
+     * Retrieves the parent document type names - up to "TT" - for the document type
+     * @param documentTypeName the document type to find the ancestry of
+     * @return the document type names, including TT and the given document type
+     */
+    public Set<String> getParentDocumentTypeNames(String documentTypeName);
 }

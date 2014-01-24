@@ -68,7 +68,7 @@
 					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="totalAmountRemaining"
 					p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="award.awardClosingDate"
+				<bean parent="MaintainableFieldDefinition" p:name="award.awardEndingDate"
 					p:unconditionallyReadOnly="true" />
 			</list>
 		</property>

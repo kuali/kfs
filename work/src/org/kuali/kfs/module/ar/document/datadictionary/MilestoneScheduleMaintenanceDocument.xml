@@ -82,7 +82,7 @@
 	<bean id="MilestoneScheduleMaintenanceDocument-NewMilestone-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Milestones" />
-		<property name="title" value="New" />
+		<property name="title" value="Milestones" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">

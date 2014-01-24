@@ -111,7 +111,6 @@ public class ExpenseUtils {
     public static void calculateMileage(List<ActualExpense> actualExpenses){
         for (ActualExpense actualExpense : actualExpenses){
             if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()){
-                actualExpense.setCurrencyRate(BigDecimal.ONE);
                 KualiDecimal total = KualiDecimal.ZERO;
                 for (TemExpense detail : actualExpense.getExpenseDetails()){
                     ActualExpense detailExpense = (ActualExpense) detail;

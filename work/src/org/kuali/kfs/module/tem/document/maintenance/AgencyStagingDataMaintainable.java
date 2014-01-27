@@ -114,7 +114,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
                 maxSeq = glpe.getTransactionLedgerEntrySequenceNumber().intValue();
             }
         }
-        return maxSeq + 2; // bumping it up by one extra to be super safe
+        return maxSeq + 1;
     }
 
     /**

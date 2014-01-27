@@ -70,57 +70,60 @@ public class TravelExpenseServiceTest extends KualiTestBase {
 
     @Override
     public void setUp() {
-        ExpenseTypeObjectCodeDao expenseTypeObjectCodeDao = new ExpenseTypeObjectCodeDaoOjb() {
-            @Override
-            public List<ExpenseTypeObjectCode> findMatchingExpenseTypeObjectCodes(String expenseTypeCode, Set<String> documentTypes, String tripType, String travelerType) {
-                List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
-                if (MONKEY_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
-                    results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
-                } else if (GIRAFFE_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
-                    if ("IN".equals(tripType) && documentTypes.contains("TA")) {
-                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
-                    }
-                    if (documentTypes.contains("TA")) {
-                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
-                    }
-                    results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
-                    if ("IN".equals(tripType) && "EMP".equals(travelerType) && documentTypes.contains("TA")) {
-                        results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
-                    }
-                    if ("EMP".equals(travelerType) && documentTypes.contains("TA")) {
-                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
-                    }
-                } else {
-                    throw new UnsupportedOperationException("Hey, I'm just a mock interface.  I only know about monkeys and giraffes, not an expense type code like: "+expenseTypeCode);
-                }
-                return results;
-            }
-
-            @Override
-            public List<ExpenseTypeObjectCode> findMatchingExpenseTypesObjectCodes(Set<String> documentTypes, String tripType, String travelerType) {
-                List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
-                results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
-                results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
-                results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
-                results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
-                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
-                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
-                return results;
-            }
-        };
-
         travelExpenseService = new TravelExpenseServiceImpl() {
             @Override
             public ExpenseTypeObjectCodeDao getExpenseTypeObjectCodeDao() {
+                ExpenseTypeObjectCodeDao expenseTypeObjectCodeDao = new ExpenseTypeObjectCodeDaoOjb() {
+                    @Override
+                    public List<ExpenseTypeObjectCode> findMatchingExpenseTypeObjectCodes(String expenseTypeCode, Set<String> documentTypes, String tripType, String travelerType) {
+                        List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
+                        if (MONKEY_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
+                            results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
+                        } else if (GIRAFFE_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
+                            if ("IN".equals(tripType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
+                            }
+                            if (documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
+                            }
+                            results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
+                            if ("IN".equals(tripType) && "EMP".equals(travelerType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
+                            }
+                            if ("EMP".equals(travelerType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
+                            }
+                        } else {
+                            throw new UnsupportedOperationException("Hey, I'm just a mock interface.  I only know about monkeys and giraffes, not an expense type code like: "+expenseTypeCode);
+                        }
+                        return results;
+                    }
+
+                    @Override
+                    public List<ExpenseTypeObjectCode> findMatchingExpenseTypesObjectCodes(Set<String> documentTypes, String tripType, String travelerType) {
+                        List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
+                        results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
+                        return results;
+                    }
+                };
+
                 return expenseTypeObjectCodeDao;
+            }
+
+            @Override
+            public TravelService getTravelService() {
+                return SpringContext.getBean(TravelService.class);
             }
 
         };
     }
 
     public void testGetExpenseType() {
-        final TravelExpenseService travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
-
         // monkeys are easy.  let's try monkeys first
         final ExpenseTypeObjectCode monkeyETOC1 = travelExpenseService.getExpenseType("M", "TA", "IN", "EMP");
         assertEquals("M-TA-EMP-IN found correct monkey expense type object code", "6000", monkeyETOC1.getFinancialObjectCode());

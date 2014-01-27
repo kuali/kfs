@@ -21,7 +21,11 @@
 	</property>
 	<property name="documentTypeName"        value="TCOS" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-
+	<property name="defaultExistenceChecks">
+        <list>
+        	<bean parent="ReferenceDefinition" p:attributeName="expenseType" p:attributeToHighlightOnFail="expenseTypeCode"/>
+        </list>
+	</property>
 </bean>
 
 <bean id="ClassOfServiceMaintenanceDocument-Section" parent="ClassOfServiceMaintenanceDocument-Section-parentBean" />

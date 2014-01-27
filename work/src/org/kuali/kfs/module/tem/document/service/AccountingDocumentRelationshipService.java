@@ -89,4 +89,11 @@ public interface AccountingDocumentRelationshipService {
      * @return
      */
     public Set<String> huntForRelatedDocumentNumbersWithDocumentType(String documentNumber, String documentType);
+
+    /**
+     * Determines if the given document number represents a document which is a "child" of another document
+     * @param documentNumber the document number to check for childishness
+     * @return true if the document number represents a document which is the "related" document in any accounting document relationship; false otherwise
+     */
+    public boolean isDocumentSomebodysChild(String documentNumber);
 }

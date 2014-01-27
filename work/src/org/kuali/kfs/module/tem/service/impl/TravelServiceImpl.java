@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -124,6 +126,28 @@ public class TravelServiceImpl implements TravelService {
             travelCardTypes.add(cardType.getCode());
         }
         return travelCardTypes;
+    }
+
+    /**
+     * Retrieves the parent document type names - up to "TT" - for the document type
+     * @param documentTypeName the document type to find the ancestry of
+     * @return the document type names, including TT and the given document type
+     */
+    @Override
+    public Set<String> getParentDocumentTypeNames(String documentTypeName) {
+        // hard code for now until we can build the actual branch
+        Set<String> docTypes = new HashSet<String>();
+        docTypes.add(TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT);
+        if (TemConstants.TravelDocTypes.getAuthorizationDocTypes().contains(documentTypeName)) {
+            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT);
+            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        } else if (TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(documentTypeName)) {
+            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT);
+            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        } else {
+            docTypes.add(documentTypeName);
+        }
+        return docTypes;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

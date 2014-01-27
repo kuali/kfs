@@ -447,6 +447,7 @@
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -457,6 +458,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -467,6 +469,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="B"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -479,6 +482,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -489,6 +493,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="D"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -501,6 +506,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="I"/>
 			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -513,6 +519,9 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -523,6 +532,9 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="B"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -533,6 +545,9 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="D"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -543,6 +558,9 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -553,6 +571,9 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="J"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -563,6 +584,7 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -573,6 +595,7 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -583,6 +606,46 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="HB"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Hosted Breakfast"/>
+			<column name="GRP_TRVL_IND" value="Y"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="B"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="HL"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Hosted Lunch"/>
+			<column name="GRP_TRVL_IND" value="Y"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="HD"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Hosted Dinner"/>
+			<column name="GRP_TRVL_IND" value="Y"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="D"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -593,6 +656,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -605,6 +669,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="J"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -617,6 +682,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -627,6 +693,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -637,6 +704,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -647,6 +715,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -659,6 +728,7 @@
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
 			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -671,6 +741,7 @@
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
 			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -683,6 +754,7 @@
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -693,6 +765,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -703,6 +776,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -713,6 +787,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -723,6 +798,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -733,6 +809,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -743,6 +820,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -753,6 +831,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -762,7 +841,8 @@
 			<column name="EXP_TYP_NM" value="Prepaid Other"/>
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
-			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -773,6 +853,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -785,6 +866,7 @@
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -795,6 +877,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -805,6 +888,20 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Lodging Allowance"/>
+			<column name="GRP_TRVL_IND" value="N"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="HOSTED_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="W"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
@@ -2138,6 +2235,198 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="88.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="ENT"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E36E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="89.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="RELO"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E46E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5070"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="90.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="EMP"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E56E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="91.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="NON"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E66E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="4089"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="92.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="INT"/>
+			<column name="TRAVELER_TYP_CD" value="EMP"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E76E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6200"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="93.0"/>
+			<column name="EXP_TYP_CD" value="W"/>
+			<column name="TRIP_TYP_CD" value="OUT"/>
+			<column name="TRAVELER_TYP_CD" value="EMP"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="EFF2B17051E86E0EE040E00ABCD63D99"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6100"/>
+			<column name="MAX_AMT" valueNumeric="100.0"/>
+			<column name="MAX_AMT_SUM_CD" value="O"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="94.0"/>
+			<column name="EXP_TYP_CD" value="HD"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TT"/>
+			<column name="OBJ_ID" valueComputed="F02DC273A981821EE040E00ABCD64DA3"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="95.0"/>
+			<column name="EXP_TYP_CD" value="HL"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TT"/>
+			<column name="OBJ_ID" valueComputed="F02DC273A982821EE040E00ABCD64DA3"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="96.0"/>
+			<column name="EXP_TYP_CD" value="HB"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TT"/>
+			<column name="OBJ_ID" valueComputed="F02DC273A983821EE040E00ABCD64DA3"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="97.0"/>
+			<column name="EXP_TYP_CD" value="HD"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="F02E48CA9D18371EE040E00ABCD651F6"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="98.0"/>
+			<column name="EXP_TYP_CD" value="HL"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="F02E48CA9D19371EE040E00ABCD651F6"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="99.0"/>
+			<column name="EXP_TYP_CD" value="HB"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="F02E48CA9D1A371EE040E00ABCD651F6"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="5073"/>
+			<column name="NOTE_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>

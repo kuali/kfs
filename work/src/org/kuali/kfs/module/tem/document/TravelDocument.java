@@ -463,4 +463,10 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return if the expense limit exists and is less than the given amount, returns the expense limit; else returns the given amount
      */
     public KualiDecimal applyExpenseLimit(KualiDecimal totalAmount);
+
+    /**
+     * Determines if this document's actual expenses are all pre-paid expenses
+     * @return true if all expenses on this document are prepaid, false otherwise
+     */
+    public boolean hasOnlyPrepaidExpenses();
 }

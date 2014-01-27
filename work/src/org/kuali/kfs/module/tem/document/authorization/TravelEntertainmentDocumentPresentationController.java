@@ -42,6 +42,10 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
             editModes.add(TemConstants.EditModes.REQUESTER_LOOKUP_MODE);
         }
 
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && nodeNames.contains(TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER))) {
+            editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
+        }
+
         return editModes;
     }
 

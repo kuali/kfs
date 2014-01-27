@@ -67,6 +67,6 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
      * @return true if the authorization is not planning to generate encumbrances, false otherwise
      */
     protected boolean isNonEncumbranceTrip(TravelAuthorizationDocument travelAuth) {
-        return !travelAuth.getTripType().isGenerateEncumbrance() && (travelAuth.getSourceAccountingLines() == null || travelAuth.getSourceAccountingLines().isEmpty());
+        return (!travelAuth.getTripType().isGenerateEncumbrance() || travelAuth.hasOnlyPrepaidExpenses()) && (travelAuth.getSourceAccountingLines() == null || travelAuth.getSourceAccountingLines().isEmpty());
     }
 }

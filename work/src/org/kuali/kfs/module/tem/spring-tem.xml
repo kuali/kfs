@@ -495,7 +495,7 @@
 	</bean>
 
 	<bean id="travelDocumentService" parent="travelDocumentService-parentBean" />
-	<bean id="travelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"	abstract="true">
+	<bean id="travelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -527,6 +527,7 @@
     	<property name="perDiemService" ref="perDiemService"/>
     	<property name="travelExpenseService" ref="travelExpenseService"/>
     	<property name="noteService" ref="noteService"/>
+    	<property name="travelService" ref="temTravelService"/>
 	</bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
@@ -577,16 +578,14 @@
 		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
 
 	<bean id="temAccountingDocumentRelationshipService" parent="temAccountingDocumentRelationshipService-parentBean" />
-
-	<bean id="temAccountingDocumentRelationshipService-parentBean"
-		class="org.kuali.kfs.module.tem.document.service.impl.AccountingDocumentRelationshipServiceImpl"
-		abstract="true">
+	<bean id="temAccountingDocumentRelationshipService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.AccountingDocumentRelationshipServiceImpl"	abstract="true">
 		<property name="accountingDocumentRelationshipDao" ref="accountingDocumentRelationshipDao" />
-		<property name="personService" ref="personService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="identityService" ref="identityService" />
 	</bean>
 
-	<bean id="accountingDocumentRelationshipDao" parent="platformAwareDao"
-		class="org.kuali.kfs.module.tem.dataaccess.impl.AccountingDocumentRelationshipDaoOjb" />
+	<bean id="accountingDocumentRelationshipDao" parent="accountingDocumentRelationshipDao-parentBean"/>
+	<bean id="accountingDocumentRelationshipDao-parentBean" parent="platformAwareDao" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.AccountingDocumentRelationshipDaoOjb" />
 
 	<bean id="travelerDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl"/>
 
@@ -623,6 +622,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
 		<property name="documentHelperService" ref="documentHelperService"/>
+		<property name="travelService" ref="temTravelService"/>
 	</bean>
 	
 	<!-- Struts Events -->

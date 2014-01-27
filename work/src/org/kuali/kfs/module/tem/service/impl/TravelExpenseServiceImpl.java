@@ -51,6 +51,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -80,6 +81,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     protected DateTimeService dateTimeService;
     protected ExpenseTypeObjectCodeDao expenseTypeObjectCodeDao;
     protected DocumentHelperService documentHelperService;
+    protected TravelService travelService;
 
     @Override
     public ExpenseTypeObjectCode getExpenseType(String expense, String documentType, String tripType, String travelerType) {
@@ -87,7 +89,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             throw new IllegalArgumentException("Expense Type Code cannot be blank");
         }
 
-        final Set<String> parentDocumentTypes = getParentDocumentTypeNames(documentType);
+        final Set<String> parentDocumentTypes = getTravelService().getParentDocumentTypeNames(documentType);
         List<ExpenseTypeObjectCode> expenseTypeObjectCodes = getExpenseTypeObjectCodeDao().findMatchingExpenseTypeObjectCodes(expense, parentDocumentTypes, tripType, travelerType);
         if (expenseTypeObjectCodes == null || expenseTypeObjectCodes.isEmpty()) {
             return null;
@@ -206,7 +208,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
      */
     @Override
     public List<ExpenseType> getExpenseTypesForDocument(String documentTypeName, String tripType, String travelerType, boolean groupOnly) {
-        final Set<String> documentTypesForSearch = getParentDocumentTypeNames(documentTypeName);
+        final Set<String> documentTypesForSearch = getTravelService().getParentDocumentTypeNames(documentTypeName);
         final List<ExpenseTypeObjectCode> expenseTypeObjectCodes = getExpenseTypeObjectCodeDao().findMatchingExpenseTypesObjectCodes(documentTypesForSearch, tripType, travelerType);
         Set<String> expenseTypeCodes = new HashSet<String>();
         List<ExpenseType> expenseTypes = new ArrayList<ExpenseType>();
@@ -238,27 +240,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             }
         }
 
-    }
-
-    /**
-     * Retrieves the parent document type names - up to "TT" - for the document type
-     * @param documentTypeName the document type to find the ancestry of
-     * @return the document type names, including TT and the given document type
-     */
-    protected Set<String> getParentDocumentTypeNames(String documentTypeName) {
-        // hard code for now until we can build the actual branch
-        Set<String> docTypes = new HashSet<String>();
-        docTypes.add(TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT);
-        if (TemConstants.TravelDocTypes.getAuthorizationDocTypes().contains(documentTypeName)) {
-            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT);
-            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        } else if (TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(documentTypeName)) {
-            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT);
-            docTypes.add(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-        } else {
-            docTypes.add(documentTypeName);
-        }
-        return docTypes;
     }
 
     @Override
@@ -520,6 +501,14 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
 
     public void setDocumentHelperService(DocumentHelperService documentHelperService) {
         this.documentHelperService = documentHelperService;
+    }
+
+    public TravelService getTravelService() {
+        return travelService;
+    }
+
+    public void setTravelService(TravelService travelService) {
+        this.travelService = travelService;
     }
 
     /**

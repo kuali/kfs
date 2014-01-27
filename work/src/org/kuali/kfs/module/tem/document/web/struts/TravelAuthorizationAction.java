@@ -102,9 +102,19 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.execute(mapping, form, request, response);
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
+        // try pulling the transpo modes from the form or the request
+        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
+        if (transpoModes != null) {
+            authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
+        }
+        else {
+            authForm.setSelectedTransportationModes(travelAuthDocument.getTransportationModeCodes());
+        }
+        refreshTransportationModesAfterButtonAction(travelAuthDocument, request, authForm);
+
+        final ActionForward retval = super.execute(mapping, form, request, response);
 
         // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
         if (!StringUtils.isBlank(travelAuthDocument.getTripTypeCode())) {
@@ -124,16 +134,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         final String travelIdentifier = travelAuthDocument.getTravelDocumentIdentifier();
 
         authForm.setPerDiemPercentage(perDiemPercentage);
-
-        // try pulling the transpo modes from the form or the request
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
-        if (transpoModes != null) {
-            authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
-        }
-        else {
-            authForm.setSelectedTransportationModes(travelAuthDocument.getTransportationModeCodes());
-        }
-        refreshTransportationModesAfterButtonAction(travelAuthDocument, request, authForm);
 
         disablePerDiemExpenes(travelAuthDocument);
 
@@ -611,18 +611,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         LOG.debug("Save Called on "+ getClass().getSimpleName()+ " for "+ authForm.getDocument().getClass().getSimpleName());
         LOG.debug("Saving document traveler detail "+ travelReqDoc.getTravelerDetailId());
 
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
-        if (transpoModes != null) {
-            authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
-        }
-        List<String> selectedTransportationModes = authForm.getTempSelectedTransporationModes();
-        if (selectedTransportationModes != null) {
-            authForm.getTravelAuthorizationDocument().setTransportationModeCodes(selectedTransportationModes);
-        }
-        else {
-            authForm.getTravelAuthorizationDocument().setTransportationModeCodes(new ArrayList<String>());
-        }
-
         return super.save(mapping, form, request, response);
     }
 
@@ -1003,17 +991,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         recalculateTripDetailTotalOnly(mapping, form, request, response);
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
-        if(transpoModes != null) {
-            authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
-        }
-        List<String> selectedTransportationModes = authForm.getTempSelectedTransporationModes();
-        if (selectedTransportationModes != null) {
-            document.setTransportationModeCodes(selectedTransportationModes);
-        }
-        else {
-            document.setTransportationModeCodes(new ArrayList<String>());
-        }
         document.propagateAdvanceInformationIfNeeded();
 
         return super.route(mapping, form, request, response);

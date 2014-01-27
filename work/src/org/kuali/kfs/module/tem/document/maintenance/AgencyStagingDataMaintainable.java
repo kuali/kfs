@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.maintenance;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -47,7 +49,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  *
  */
 public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
-    private static final Logger LOG = Logger.getLogger(AgencyStagingDataMaintainable.class);
+    static final Logger LOG = Logger.getLogger(AgencyStagingDataMaintainable.class);
+
+    private volatile static AgencyDataImportService agencyDataImportService;
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      */
@@ -93,13 +97,24 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 
             updateCreditCardAgency(agencyStaging);
             //after fixing the agency audit record, attempt to move agency data to historical table
-            AgencyDataImportService importService = SpringContext.getBean(AgencyDataImportService.class);
-            boolean result = importService.processAgencyStagingExpense(agencyStaging, new GeneralLedgerPendingEntrySequenceHelper());
+            final int nextGLPESequenceValue = getPendingEntrySequenceNumberStart();
+            boolean result = getAgencyDataImportService().processAgencyStagingExpense(agencyStaging, new GeneralLedgerPendingEntrySequenceHelper(nextGLPESequenceValue));
             LOG.info("Agency Data Id: "+ agencyStaging.getId() + (result ? " was":" was not") +" processed.");
 
             // nota bene: agency staging data object does NOT need to be saved here as the maint doc will save it itself once processing completes
         }
         super.doRouteStatusChange(documentHeader);
+    }
+
+    protected int getPendingEntrySequenceNumberStart() {
+        Collection<GeneralLedgerPendingEntry> glpes = getAgencyDataImportService().getGeneralLedgerPendingEntriesForDocumentNumber((AgencyStagingData) getBusinessObject());
+        int maxSeq = Integer.MIN_VALUE;
+        for (GeneralLedgerPendingEntry glpe : glpes) {
+            if (glpe.getTransactionLedgerEntrySequenceNumber().intValue() > maxSeq) {
+                maxSeq = glpe.getTransactionLedgerEntrySequenceNumber().intValue();
+            }
+        }
+        return maxSeq + 2; // bumping it up by one extra to be super safe
     }
 
     /**
@@ -186,4 +201,10 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	    return SpringContext.getBean(DateTimeService.class);
 	}
 
+	public AgencyDataImportService getAgencyDataImportService() {
+	    if (agencyDataImportService == null) {
+	        agencyDataImportService = SpringContext.getBean(AgencyDataImportService.class);
+	    }
+	    return agencyDataImportService;
+	}
 }

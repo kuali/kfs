@@ -69,7 +69,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     private Integer hostProfileId;
     private String hostName;
     private String eventTitle;
-    private Boolean hostCertified;
     private Boolean nonEmployeeCertified;
     protected Boolean spouseIncluded;
     private String description;
@@ -110,14 +109,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.eventTitle = eventTitle;
     }
 
-    @Column(name = "HOST_CERTIFIED", length = 1, nullable = true)
-    public Boolean getHostCertified() {
-        return hostCertified;
-    }
-
-    public void setHostCertified(Boolean hostCertified) {
-        this.hostCertified = hostCertified;
-    }
 
     @Column(name = "NON_EMPLOYEE_CERTIFIED", length = 1, nullable = true)
     public Boolean getNonEmployeeCertified() {

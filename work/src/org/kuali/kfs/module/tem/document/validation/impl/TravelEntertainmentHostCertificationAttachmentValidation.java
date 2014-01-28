@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -29,6 +30,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelEntertainmentHostCertificationAttachmentValidation extends GenericValidation {
+    protected boolean warningOnly = true;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -48,20 +50,42 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
         }
 
 
-        if (!document.getHostAsPayee() || !entertainmentHostAttached) {
-                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
-
+        // if host is not as payee than entertainment host certification is required ; otherwise not
+        if (!document.getHostAsPayee() && !entertainmentHostAttached) {
+            valid = addError();
         }
 
-
-
-
-        int errCount = GlobalVariables.getMessageMap().getErrorCount();
-        if (errCount > 0) {
-            return false;
-        }
-
-        return true;
+        return valid;
     }
+
+    /**
+     * Adds an error
+     *
+     *
+     * @param warningOnly whether error should be a true error or a warning only
+     * @return true if rule suceeded, false otherwise
+     */
+    protected boolean addError() {
+        boolean success = true;
+        if (warningOnly) {
+            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
+        } else {
+            success = false;
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
+            final String matchingErrorPath = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".") + "." + TemPropertyConstants.EntertainmentFields.HOST_NAME;
+            GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(matchingErrorPath);
+        }
+        return success;
+    }
+
+
+    public boolean isWarningOnly() {
+        return warningOnly;
+    }
+
+    public void setWarningOnly(boolean warningOnly) {
+        this.warningOnly = warningOnly;
+    }
+
 
 }

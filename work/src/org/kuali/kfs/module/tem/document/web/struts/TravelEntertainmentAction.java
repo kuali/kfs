@@ -186,7 +186,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         document.setTripEnd(entDocument.getTripEnd());
         document.setSpouseIncluded(entDocument.getSpouseIncluded());
         document.setDescription(entDocument.getDescription());
-        document.setHostCertified(entDocument.getHostCertified());
         document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
         document.updatePayeeTypeForReimbursable();
 

@@ -19,6 +19,7 @@
 	<bean id="Entertainment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
    	<property name="validations">
    		<list>
+   			<bean parent="Entertainment-hostCertificationAttachmentValidation" scope="prototype" p:warningOnly="false"/>	
    			<bean parent="TEMReimbursement-requiredAccountingLinesCountValidation" scope="prototype" />
    			<bean parent="Entertainment-entertainmentInformationRequiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-travelerValidation" scope="prototype" /> 

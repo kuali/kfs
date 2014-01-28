@@ -47,9 +47,7 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
             if (ObjectUtils.isNotNull(note.getAttachment())&& TemConstants.AttachmentTypeCodes.NON_EMPLOYEE_FORM.equals(note.getAttachment().getAttachmentTypeCode())) {
                 nonEmployeeFormAttached = true;
             }
-            if (ObjectUtils.isNotNull(note.getAttachment())&& TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT.equals(note.getAttachment().getAttachmentTypeCode())) {
-                hostCertificationAttached = true;
-            }
+
         }
 
         boolean shouldAskQuestion = false;
@@ -63,10 +61,7 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
             question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
             shouldAskQuestion = true;
         }
-        else if (entDoc.getHostCertified()!=null&&entDoc.getHostCertified()&&!hostCertificationAttached){
-            question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION_QUESTION);
-            shouldAskQuestion = true;
-        }
+
 
         if (shouldAskQuestion) {
             boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING", question + proceed);

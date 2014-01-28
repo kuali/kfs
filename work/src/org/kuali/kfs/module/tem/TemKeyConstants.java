@@ -194,7 +194,6 @@ public class TemKeyConstants {
 
     public static final String TEM_ENT_DOC_ATTENDEE_LIST_QUESTION  = "tem.entertainment.attendee.list.question.text";
     public static final String TEM_ENT_NON_EMPLOYEE_FORM_QUESTION  = "tem.entertainment.NonEmployeeForm.question.text";
-    public static final String TEM_ENT_HOST_CERTIFICATION_QUESTION  = "tem.entertainment.host.certification.question.text";
     public static final String TEM_ENT_QUESTION_PROCEED="tem.entertainment.question.proceed.text";
 
     public static final String TEM_ENT_HOST_CERTIFICATION  = "tem.entertainment.host.certification";

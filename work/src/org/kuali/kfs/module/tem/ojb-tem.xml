@@ -624,7 +624,6 @@
 		<field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="eventTitle" column="TITLE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="hostCertified" column="HOST_CERTIFIED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="nonEmployeeCertified" column="NON_EMPLOYEE_CERTIFIED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="spouseIncluded" column="SPOUSE_INCLUDED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="expenseLimit" column="EXP_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />

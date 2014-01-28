@@ -326,7 +326,6 @@
 			<column name="PRIMARY_DEST_NAME" type="VARCHAR2(100)" />
 			<column name="PRIMARY_DEST_CNTRY_ST" type="VARCHAR2(100)" />
 			<column name="PRIMARY_DEST_CNTY" type="VARCHAR2(100)" />
-			<column name="HOST_CERTIFIED" type="VARCHAR2(1)" />
 			<column name="NON_EMPLOYEE_CERTIFIED" type="VARCHAR2(1)" />
 			<column name="SPOUSE_INCLUDED" type="VARCHAR2(1)" />
 			<column name="DESCRIPTION" type="VARCHAR2(255)" />

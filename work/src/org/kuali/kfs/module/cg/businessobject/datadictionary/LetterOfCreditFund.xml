@@ -206,7 +206,7 @@
 				<bean parent="FieldDefinition" p:attributeName="fundDescription" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+					p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" p:noInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundAmount" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundStartDate" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundExpirationDate" />

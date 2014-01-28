@@ -31,13 +31,13 @@
 <bean id="ClassOfServiceMaintenanceDocument-Section" parent="ClassOfServiceMaintenanceDocument-Section-parentBean" />
 <bean id="ClassOfServiceMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="ClassOfService" />
-		<property name="title" value="Edit ClassOfService" />
+		<property name="title" value="Edit Class Of Service" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="expenseTypeCode" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="expenseTypeCode" p:required="true" />
 			<bean parent="MaintainableFieldDefinition" p:name="classOfServiceName" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="approvalRequired" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="approvalRequired" />
+			<bean parent="MaintainableFieldDefinition" p:name="active" />
 		</list></property>
 </bean>
 </beans>

@@ -23,7 +23,7 @@
 	<bean id="ClassOfService-code" parent="ClassOfService-code-parentBean" />
 	<bean id="ClassOfService-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
+		<property name="label" value="Class of Service Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="required" value="true" />

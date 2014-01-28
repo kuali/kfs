@@ -1984,7 +1984,12 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
         //for cancel cases
         if (DocumentStatus.CANCELED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-            updateAppDocStatus(TemConstants.TravelStatusCodeKeys.CANCELLED);
+            try {
+                updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.CANCELLED);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Could not update document type", we);
+            }
         }
     }
 

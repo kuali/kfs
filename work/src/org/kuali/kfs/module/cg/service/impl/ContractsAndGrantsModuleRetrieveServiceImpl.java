@@ -15,36 +15,23 @@
  */
 package org.kuali.kfs.module.cg.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.CfdaService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import java.util.ArrayList;
 
 /**
  * This Class provides the implementation to the services required for inter module communication.
@@ -106,29 +93,6 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
 
         return service.callGetSearchResultsHelper(LookupUtils.forceUppercase(Award.class, fieldValues), unbounded);
     }
-
-    /**
-     * This method retrieves awards for Invoice On Demand in AR.
-     * @param lookupResultsSequenceNumber
-     * @param personId
-     * @return
-     */
-    @Override
-    public Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId){
-        Collection<ContractsAndGrantsBillingAward> intgAwards = new ArrayList<ContractsAndGrantsBillingAward>();
-        Collection<Award> awards = new ArrayList<Award>();
-        try {
-            for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, Award.class, personId)) {
-                awards.add((Award) obj);
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        intgAwards = new ArrayList<ContractsAndGrantsBillingAward>(awards);
-        return intgAwards;
-    }
-
 
     /**
      * Returns an implementation of the parameterService
@@ -215,7 +179,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    
+
+
 }
 

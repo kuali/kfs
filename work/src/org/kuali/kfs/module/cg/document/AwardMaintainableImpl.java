@@ -122,7 +122,6 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             newAward.getBills().clear();
         }
 
-        getAward().setLastBilledDate(null);
         getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
     }
 

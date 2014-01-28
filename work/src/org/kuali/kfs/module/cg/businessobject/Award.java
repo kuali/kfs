@@ -396,17 +396,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Unused since getLastBilledDate() returns a derived value.
-     *
-     * @param lastBilledDate The lastBilledDate to set.
-     */
-    @Deprecated
-    public void setLastBilledDate(Date lastBilledDate) {
-        this.lastBilledDate = lastBilledDate;
-    }
-
-
-    /**
      * Gets the awardTotalAmount attribute.
      *
      * @return Returns the awardTotalAmount

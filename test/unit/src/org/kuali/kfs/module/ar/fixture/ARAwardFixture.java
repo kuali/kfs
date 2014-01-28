@@ -94,7 +94,6 @@ public enum ARAwardFixture {
         award.setAwardId(this.awardId);
         award.setAwardBeginningDate(Date.valueOf(this.awardBeginningDate));
         award.setAwardEndingDate(Date.valueOf(this.awardEndingDate));
-        award.setLastBilledDate(this.lastBilledDate);
         award.setAwardDirectCostAmount(this.awardDirectCostAmount);
         award.setAwardIndirectCostAmount(this.awardIndirectCostAmount);
         award.setMinInvoiceAmount(this.minInvoiceAmount);

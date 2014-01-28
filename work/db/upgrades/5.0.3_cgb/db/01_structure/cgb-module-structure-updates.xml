@@ -257,7 +257,6 @@
 			<column name="FUNDING_EXP_DT" type="datetime" />
 			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />
 			<column name="CG_INV_OPT" type="varchar(120)" />
-			<column name="LST_BILLED_DT" type="datetime" />
 			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
 			<column name="SUSP_REASON_TXT" type="VARCHAR(255)" defaultValue="" />
 			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />

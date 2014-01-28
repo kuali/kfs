@@ -3579,24 +3579,26 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public java.sql.Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
         java.sql.Date awdLastBilledDate = null;
 
-        // last Billed of Award = least of last billed date of award account.
-        ContractsAndGrantsBillingAwardAccount awardAccount;
+        if (ObjectUtils.isNotNull(award)) {
+            // last Billed of Award = least of last billed date of award account.
+            ContractsAndGrantsBillingAwardAccount awardAccount;
 
-        if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
-            ContractsAndGrantsBillingAwardAccount firstActiveawardAccount = award.getActiveAwardAccounts().get(0);
+            if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
+                ContractsAndGrantsBillingAwardAccount firstActiveawardAccount = award.getActiveAwardAccounts().get(0);
 
-            awardAccount = firstActiveawardAccount;
-            awdLastBilledDate = firstActiveawardAccount.getCurrentLastBilledDate();
+                awardAccount = firstActiveawardAccount;
+                awdLastBilledDate = firstActiveawardAccount.getCurrentLastBilledDate();
 
-            for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
-                if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    // The dates would be null if the user is correcting the first invoice created for the award.
-                    // Then the award last billed date should also be null.
-                    awdLastBilledDate = null;
-                }
-                else if (ObjectUtils.isNotNull(awdLastBilledDate) && ObjectUtils.isNotNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                        awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
+                for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
+                    if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                        // The dates would be null if the user is correcting the first invoice created for the award.
+                        // Then the award last billed date should also be null.
+                        awdLastBilledDate = null;
+                    }
+                    else if (ObjectUtils.isNotNull(awdLastBilledDate) && ObjectUtils.isNotNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                        if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                            awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
+                        }
                     }
                 }
             }

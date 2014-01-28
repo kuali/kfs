@@ -16,13 +16,15 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -31,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
+public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -40,6 +42,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     private boolean active = true;
     private boolean newCollectionRecord;
     private boolean federalSponsor;
+
+    private boolean finalBilledIndicator;
+    private Date currentLastBilledDate;
+    private Date previousLastBilledDate;
+    private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
+    private boolean letterOfCreditReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
+    private String invoiceDocumentStatus; // This would the status of the invoice document associated with the award account.
+
     private Account account;
     private Chart chartOfAccounts;
     private Person projectDirector;
@@ -315,5 +325,35 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
 
     public void setFederalSponsor(boolean federalSponsor) {
         this.federalSponsor = federalSponsor;
+    }
+
+    @Override
+    public Date getCurrentLastBilledDate() {
+        return currentLastBilledDate;
+    }
+
+    @Override
+    public Date getPreviousLastBilledDate() {
+        return previousLastBilledDate;
+    }
+
+    @Override
+    public boolean isFinalBilledIndicator() {
+        return finalBilledIndicator;
+    }
+
+    @Override
+    public KualiDecimal getAmountToDraw() {
+        return amountToDraw;
+    }
+
+    @Override
+    public boolean isLetterOfCreditReviewIndicator() {
+        return letterOfCreditReviewIndicator;
+    }
+
+    @Override
+    public String getInvoiceDocumentStatus() {
+        return invoiceDocumentStatus;
     }
 }

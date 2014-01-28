@@ -20,7 +20,6 @@ import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -28,7 +27,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, ContractsAndGrantsBillingAwardAccount {
+public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -48,7 +47,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
      *
      * @return Returns the amountToDraw.
      */
-    
+
+    @Override
     public KualiDecimal getAmountToDraw() {
         return amountToDraw;
     }
@@ -67,7 +67,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
      *
      * @return Returns the letterOfCreditReviewIndicator.
      */
-    
+
+    @Override
     public boolean isLetterOfCreditReviewIndicator() {
         return letterOfCreditReviewIndicator;
     }
@@ -87,7 +88,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
      *
      * @return Returns the finalBilledIndicator.
      */
-    
+
+    @Override
     public boolean isFinalBilledIndicator() {
         return finalBilledIndicator;
     }
@@ -106,7 +108,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
      *
      * @return Returns the currentLastBilledDate.
      */
-    
+
+    @Override
     public Date getCurrentLastBilledDate() {
         return currentLastBilledDate;
     }
@@ -125,7 +128,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
      *
      * @return Returns the previousLastBilledDate.
      */
-   
+
+    @Override
     public Date getPreviousLastBilledDate() {
         return previousLastBilledDate;
     }
@@ -142,6 +146,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -159,6 +164,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -176,6 +182,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -192,6 +199,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
@@ -209,6 +217,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -216,6 +225,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -223,10 +233,12 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
+    @Override
     public String getProjectDirectorName() {
         return "";
     }
 
+    @Override
     public Account getAccount() {
         return null;
     }
@@ -236,6 +248,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     // return null;
     // }
 
+    @Override
     public Chart getChartOfAccounts() {
         return null;
     }
@@ -243,12 +256,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     public void prepareForWorkflow() {
     }
 
-    
+
+    @Override
     public void refresh() {
     }
 
 
-   
+
+    @Override
     public String getInvoiceDocumentStatus() {
         return invoiceDocumentStatus;
     }

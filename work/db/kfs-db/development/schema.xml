@@ -14979,14 +14979,14 @@
     </table>
     <table name="TEM_CLASS_SVC_T">
         <column name="CODE" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="DV_EXP_CD" required="true" size="2" type="VARCHAR"/>
+        <column name="EXP_TYP_CD" required="true" size="2" type="VARCHAR"/>
         <column name="CLASS_SVC_NAME" required="true" size="40" type="VARCHAR"/>
         <column name="APRVL_REQ_IND" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="FP_DV_EXP_TYP_T" name="TEM_CLASS_SVC_TR1">
-            <reference foreign="DV_EXP_CD" local="DV_EXP_CD"/>
+        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_CLASS_SVC_TR1">
+            <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
         </foreign-key>
         <unique name="TEM_CLASS_SVC_TC0">
             <unique-column name="OBJ_ID"/>

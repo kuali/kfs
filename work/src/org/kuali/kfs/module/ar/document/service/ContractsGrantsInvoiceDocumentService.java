@@ -541,4 +541,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return Set<String> objectCodes
      */
     public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException;
+
+
+    /**
+     * Calculate the lastBilledDate for the Award based on it's AwardAccounts
+     *
+     * @param award ContractsAndGrantsBillingAward to calculate lastBilledDate for
+     * @return the lastBilledDate
+     */
+    public java.sql.Date getLastBilledDate(ContractsAndGrantsBillingAward award);
 }

@@ -20,12 +20,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -395,33 +392,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     @Override
     public Date getLastBilledDate() {
-        Date awdLastBilledDate = null;
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        // last Billed of Award = least of last billed date of award account.
-        ContractsAndGrantsBillingAwardAccount awardAccount;
-
-        if (CollectionUtils.isNotEmpty(getActiveAwardAccounts())) {
-            ContractsAndGrantsBillingAwardAccount firstActiveawardAccount = getActiveAwardAccounts().get(0);
-
-            awardAccount = firstActiveawardAccount;
-            awdLastBilledDate = firstActiveawardAccount.getCurrentLastBilledDate();
-
-            for (int i = 0; i < getActiveAwardAccounts().size(); i++) {
-                if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    // The dates would be null if the user is correcting the first invoice created for the award.
-                    // Then the award last billed date should also be null.
-                    awdLastBilledDate = null;
-                }
-                else if (ObjectUtils.isNotNull(awdLastBilledDate) && ObjectUtils.isNotNull(getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    if (awdLastBilledDate.after(getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                        awdLastBilledDate = getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
-                    }
-                }
-            }
-        }
-
-        return awdLastBilledDate;
+        return SpringContext.getBean(AccountsReceivableModuleService.class).getLastBilledDate(getProposalNumber());
     }
 
     /**

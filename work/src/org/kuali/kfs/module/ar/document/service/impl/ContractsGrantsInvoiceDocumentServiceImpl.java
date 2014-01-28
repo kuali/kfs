@@ -3560,10 +3560,26 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // 2. Set last Billed to Award = least of last billed date of award account.
-        java.sql.Date awdLastBilledDate;
+        Long proposalNumber = document.getProposalNumber();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+
+        if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
+            // To set last billed Date to award.
+            contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(proposalNumber, getLastBilledDate(award));
+        }
+
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getLastBilledDate(java.lang.Long)
+     */
+    @Override
+    public java.sql.Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
+        java.sql.Date awdLastBilledDate = null;
+
+        // last Billed of Award = least of last billed date of award account.
         ContractsAndGrantsBillingAwardAccount awardAccount;
 
         if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
@@ -3574,9 +3590,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
                 if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    // The dates would be null if the user is correcting the first invoice created for the award. Then the award
-                    // last
-                    // billed date should also be null.
+                    // The dates would be null if the user is correcting the first invoice created for the award.
+                    // Then the award last billed date should also be null.
                     awdLastBilledDate = null;
                 }
                 else if (ObjectUtils.isNotNull(awdLastBilledDate) && ObjectUtils.isNotNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
@@ -3585,11 +3600,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
             }
-
-            // To set last billed Date to award.
-            contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
         }
 
+        return awdLastBilledDate;
     }
 
     /**

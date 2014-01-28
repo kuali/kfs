@@ -277,11 +277,13 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    @Override
     public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
+    @Override
     public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
@@ -296,6 +298,12 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Date getLastBilledDate(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
     }
 
 }

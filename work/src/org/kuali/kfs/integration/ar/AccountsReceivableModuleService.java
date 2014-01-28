@@ -348,4 +348,13 @@ public interface AccountsReceivableModuleService {
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
 
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
+
+    /**
+     * Calculate the lastBilledDate for the Award based on it's AwardAccounts
+     *
+     * @param proposalNumber key to get the Award used to calculate lastBilledDate
+     * @return the lastBilledDate
+     */
+    public Date getLastBilledDate(Long proposalNumber);
+
 }

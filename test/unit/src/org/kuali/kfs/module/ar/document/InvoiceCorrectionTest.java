@@ -23,19 +23,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
+import org.kuali.kfs.module.ar.fixture.InvoiceDetailAccountObjectCodeFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
+import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KualiModuleService;
 
@@ -46,18 +52,30 @@ import org.kuali.rice.krad.service.KualiModuleService;
 @ConfigureContext(session = khuntley)
 public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+
+
     /**
      * @see org.kuali.kfs.module.ar.document.CGInvoiceDocumentSetupTest#setUp()
      */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
-        assertFalse(document.getInvoiceGeneralDetail().isFinalBillIndicator());
+        document.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
+        document.setDateReportProcessed(new java.util.Date());
+        document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
+
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
+        assertNull(document.getMarkedForProcessing());
+        assertNull(document.getDateReportProcessed());
+
+        contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getProposalNumber());
         Iterator iterator = document.getAccountDetails().iterator();
+
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
             Map<String, Object> mapKey = new HashMap<String, Object>();
@@ -71,49 +89,87 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
     public void testCorrectedMilestones() throws WorkflowException {
         document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE);
-        List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
-        InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
-        invoiceMilestones.add(invMilestone_1);
-        document.setInvoiceMilestones(invoiceMilestones);
+
+        documentService.saveDocument(document);
+
+        String documentNumber = document.getDocumentNumber();
+        Long proposalNumber = document.getProposalNumber();
+
+        setupMilestones(documentNumber, proposalNumber, true);
 
         List<InvoiceMilestone> milestones = new ArrayList<InvoiceMilestone>();
         InvoiceMilestone invMilestone_2 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
+        invMilestone_2.setBilledIndicator(true);
         milestones.add(invMilestone_2);
-        Iterator iterator = milestones.iterator();
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        Iterator<InvoiceMilestone> iterator = milestones.iterator();
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
         List<InvoiceMilestone> correctedMilestones = document.getInvoiceMilestones();
-        Iterator correctedIterator = correctedMilestones.iterator();
+        Iterator<InvoiceMilestone> correctedIterator = correctedMilestones.iterator();
         while (iterator.hasNext() || correctedIterator.hasNext()) {
-            InvoiceMilestone id = (InvoiceMilestone) iterator.next();
-            InvoiceMilestone cid = (InvoiceMilestone) correctedIterator.next();
+            InvoiceMilestone id = iterator.next();
+            InvoiceMilestone cid = correctedIterator.next();
             assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
+            assertTrue(cid.isBilledIndicator());
         }
+
+        contractsGrantsInvoiceDocumentService.correctMilestones(document.getInvoiceMilestones());
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        List<Milestone> updatedMilestones = (List<Milestone>) boService.findMatching(Milestone.class, map);
+        assertTrue(CollectionUtils.isNotEmpty(updatedMilestones));
+
+        if (CollectionUtils.isNotEmpty(updatedMilestones)) {
+            Iterator<Milestone> iterator2 = updatedMilestones.iterator();
+            while (iterator2.hasNext()) {
+                assertFalse(iterator2.next().isBilledIndicator());
+            }
+        }
+
     }
 
     public void testCorrectedBills() throws WorkflowException {
         document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
-        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
-        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
-        invoiceBills.add(invBill_1);
-        document.setInvoiceBills(invoiceBills);
+        documentService.saveDocument(document);
+
+        String documentNumber = document.getDocumentNumber();
+        Long proposalNumber = document.getProposalNumber();
+
+        setupBills(documentNumber, proposalNumber, true);
 
         List<InvoiceBill> bills = new ArrayList<InvoiceBill>();
         InvoiceBill invBill_2 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
         bills.add(invBill_2);
         Iterator iterator = bills.iterator();
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
         List<InvoiceBill> correctedBills = document.getInvoiceBills();
         Iterator correctedIterator = correctedBills.iterator();
         while (iterator.hasNext() || correctedIterator.hasNext()) {
             InvoiceBill id = (InvoiceBill) iterator.next();
             InvoiceBill cid = (InvoiceBill) correctedIterator.next();
             assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
+            assertTrue(cid.isBilledIndicator());
         }
+
+        contractsGrantsInvoiceDocumentService.correctBills(document.getInvoiceBills());
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        List<Bill> updatedBills = (List<Bill>) boService.findMatching(Bill.class, map);
+        assertTrue(CollectionUtils.isNotEmpty(updatedBills));
+
+        if (CollectionUtils.isNotEmpty(updatedBills)) {
+            Iterator<Bill> iterator2 = updatedBills.iterator();
+            while (iterator2.hasNext()) {
+                assertFalse(iterator2.next().isBilledIndicator());
+            }
+        }
+
     }
 
     public void testCorrectedInvoiceDetails() throws WorkflowException {
         List<InvoiceDetail> invoiceDetail = document.getInvoiceDetails();
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
         List<InvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetails();
         Iterator iterator = invoiceDetail.iterator();
         Iterator correctedIterator = correctedInvoiceDetail.iterator();
@@ -125,10 +181,31 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedInvoiceDetailAccounts() throws WorkflowException {
-        List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCode = document.getInvoiceDetailAccountObjectCodes();
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_1 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();
+        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_2 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD2.createInvoiceDetailAccountObjectCode();
+
+        KualiDecimal value1 = (new KualiDecimal(3.01));
+        KualiDecimal value2 = (new KualiDecimal(2.02));
+
+        invoiceDetailAccountObjectCode_1.setCurrentExpenditures(value1);
+        invoiceDetailAccountObjectCode_2.setCurrentExpenditures(value2);
+
+        List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = new ArrayList<InvoiceDetailAccountObjectCode>();
+        invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
+        invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
+        document.setInvoiceDetailAccountObjectCodes(invoiceDetailAccountObjectCodes);
+
+        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_3 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();
+        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_4 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD2.createInvoiceDetailAccountObjectCode();
+        invoiceDetailAccountObjectCode_3.setCurrentExpenditures(value1);
+        invoiceDetailAccountObjectCode_4.setCurrentExpenditures(value2);
+        List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodesOriginal = new ArrayList<InvoiceDetailAccountObjectCode>();
+        invoiceDetailAccountObjectCodesOriginal.add(invoiceDetailAccountObjectCode_3);
+        invoiceDetailAccountObjectCodesOriginal.add(invoiceDetailAccountObjectCode_4);
+
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
         List<InvoiceDetailAccountObjectCode> correctedInvoiceDetailAccountObjectCode = document.getInvoiceDetailAccountObjectCodes();
-        Iterator iterator = invoiceDetailAccountObjectCode.iterator();
+        Iterator iterator = invoiceDetailAccountObjectCodesOriginal.iterator();
         Iterator correctedIterator = correctedInvoiceDetailAccountObjectCode.iterator();
         while (iterator.hasNext() || correctedIterator.hasNext()) {
             InvoiceDetailAccountObjectCode id = (InvoiceDetailAccountObjectCode) iterator.next();
@@ -139,7 +216,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
     public void testCorrectedAccountDetails() throws WorkflowException {
         List<InvoiceAccountDetail> accountDetail = document.getAccountDetails();
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
         List<InvoiceAccountDetail> correctedAccountDetail = document.getAccountDetails();
         Iterator iterator = accountDetail.iterator();
         Iterator correctedIterator = correctedAccountDetail.iterator();

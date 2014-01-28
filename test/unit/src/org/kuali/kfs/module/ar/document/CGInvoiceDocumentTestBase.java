@@ -28,10 +28,17 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
+import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
+import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
+import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -150,6 +157,58 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
      */
     public void setDocument(ContractsGrantsInvoiceDocument document) {
         this.document = document;
+    }
+
+    protected void setupBills(String documentNumber, Long proposalNumber, boolean billedIndicator) {
+        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
+        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
+        invBill_1.setDocumentNumber(documentNumber);
+        invBill_1.setProposalNumber(proposalNumber);
+        invBill_1.setBilledIndicator(billedIndicator);
+        boService.save(invBill_1);
+        invoiceBills.add(invBill_1);
+        document.setInvoiceBills(invoiceBills);
+
+        Bill bill = new Bill();
+        bill.setProposalNumber(invBill_1.getProposalNumber());
+        bill.setBillNumber(invBill_1.getBillNumber());
+        bill.setBillDescription(invBill_1.getBillDescription());
+        bill.setBillIdentifier(invBill_1.getBillIdentifier());
+        bill.setBillDate(invBill_1.getBillDate());
+        bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
+        bill.setBilledIndicator(invBill_1.isBilledIndicator());
+        bill.setAward(document.getAward());
+        boService.save(bill);
+    }
+
+    protected void setupMilestones(String documentNumber, Long proposalNumber, boolean billedIndicator) {
+        List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
+        InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
+        invMilestone_1.setDocumentNumber(documentNumber);
+        invMilestone_1.setProposalNumber(proposalNumber);
+        invMilestone_1.setBilledIndicator(billedIndicator);
+        boService.save(invMilestone_1);
+        invoiceMilestones.add(invMilestone_1);
+        document.setInvoiceMilestones(invoiceMilestones);
+
+        Milestone milestone = new Milestone();
+        milestone.setProposalNumber(invMilestone_1.getProposalNumber());
+        milestone.setMilestoneNumber(invMilestone_1.getMilestoneNumber());
+        milestone.setMilestoneIdentifier(invMilestone_1.getMilestoneIdentifier());
+        milestone.setMilestoneDescription(invMilestone_1.getMilestoneDescription());
+        milestone.setMilestoneAmount(invMilestone_1.getMilestoneAmount());
+        milestone.setMilestoneActualCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
+        milestone.setMilestoneExpectedCompletionDate(invMilestone_1.getMilestoneExpectedCompletionDate());
+        milestone.setBilledIndicator(invMilestone_1.isBilledIndicator());
+        milestone.setAward(document.getAward());
+
+        MilestoneSchedule milestoneSchedule = new MilestoneSchedule();
+        milestoneSchedule.setProposalNumber(proposalNumber);
+        List<Milestone> milestones = new ArrayList<Milestone>();
+        milestones.add(milestone);
+        milestoneSchedule.setMilestones(milestones);
+        boService.save(milestoneSchedule);
+        boService.save(milestone);
     }
 
 

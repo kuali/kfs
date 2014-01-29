@@ -27,7 +27,6 @@ import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -50,6 +49,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     protected ElectronicPaymentClaimingService electronicPaymentClaimingService;
     protected CashControlDocumentService cashControlDocumentService;
     protected ConfigurationService kualiConfigurationService;
+    protected FinancialSystemUserService financialSystemUserService;
     private static DocumentTypeService documentTypeService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected final static String URL_PREFIX = "ar";
@@ -69,7 +69,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
 
             //create and set AccountsReceivableDocumentHeader
-            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+            ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
             accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
             document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
@@ -225,7 +225,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         }
         return documentTypeService;
     }
-    
+
     /**
      * Sets the accountsReceivableDocumentHeaderService attribute value.
      *
@@ -233,6 +233,14 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 }
 

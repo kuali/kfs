@@ -24,11 +24,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -37,9 +35,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class UpcomingMilestoneNotificationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpcomingMilestoneNotificationStep.class);
     public final static double MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-    private UpcomingMilestoneNotificationService upcomingMilestoneNotificationService;
+    protected UpcomingMilestoneNotificationService upcomingMilestoneNotificationService;
+    protected BusinessObjectService businessObjectService;
     protected ParameterService parameterService;
-
 
     /**
      * Gets the upcomingMilestoneNotificationService attribute.
@@ -86,7 +84,7 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
 
         // To retrieve all milestones. Using key value service here so it retreives the externalizable business object.
 
-        List<Milestone> milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findAll(Milestone.class);
+        List<Milestone> milestones = (List<Milestone>) businessObjectService.findAll(Milestone.class);
         List<Milestone> milestonesToNotify = new ArrayList<Milestone>();
         if (CollectionUtils.isNotEmpty(milestones)) {
             for (Milestone mil : milestones) {
@@ -110,6 +108,14 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
 
 
         return true;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 

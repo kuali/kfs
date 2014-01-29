@@ -120,42 +120,53 @@
 
     <bean id="accountsReceivableModuleService" parent="accountsReceivableModuleService-parentBean"/>
     <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true">
-		<property name="customerLookupable" ref="customerLookupable" />
-		<property name="customerDocumentService" ref="customerDocumentService" />
-		<property name="parameterService" ref="parameterService" />
-		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService" />
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="accountsReceivableDocumentHeaderService">
-			<ref bean="accountsReceivableDocumentHeaderService" />
-		</property>
-		<property name="customerInvoiceDocumentService">
-			<ref bean="customerInvoiceDocumentService" />
-		</property>
-		<property name="customerService">
-			<ref bean="customerService" />
-		</property>
-		<property name="systemInformationService">
-			<ref bean="systemInformationService" />
-		</property>
-		<property name="receivableAccountingLineService">
-			<ref bean="receivableAccountingLineService" />
-		</property>
-		<property name="customerInvoiceDetailService">
-			<ref bean="customerInvoiceDetailService" />
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
 		</property>
 		<property name="customerCreditMemoDetailService">
 			<ref bean="customerCreditMemoDetailService" />
+		</property>
+		<property name="customerDocumentService">
+			<ref bean="customerDocumentService" />
+		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>
+		<property name="customerInvoiceDetailService">
+			<ref bean="customerInvoiceDetailService" />
+		</property>
+		<property name="customerLookupable">
+			<ref bean="customerLookupable" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="receivableAccountingLineService">
+			<ref bean="receivableAccountingLineService" />
+		</property>
+		<property name="systemInformationService">
+			<ref bean="systemInformationService" />
 		</property>
     </bean>
 
@@ -204,8 +215,17 @@
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
-		<property name="verifyBillingFrequencyService">
-			<ref bean="verifyBillingFrequencyService" />
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="contractsAndGrantsModuleRetrieveService">
+			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -213,23 +233,14 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
-		<property name="accountsReceivableDocumentHeaderService">
-			<ref bean="accountsReceivableDocumentHeaderService" />
-		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="contractsAndGrantsModuleRetrieveService">
-			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		<property name="verifyBillingFrequencyService">
+			<ref bean="verifyBillingFrequencyService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
 		</property>
 	</bean>
 
@@ -307,68 +318,51 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
-	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
-		<property name="awardAccountObjectCodeTotalBilledDao">
-			<ref bean="awardAccountObjectCodeTotalBilledDao" />
-		</property>
-		<property name="contractsGrantsInvoiceDocumentDao">
-			<ref bean="contractsGrantsInvoiceDocumentDao" />
-		</property>
-		<property name="customerInvoiceDetailService">
-			<ref bean="customerInvoiceDetailService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true" parent="customerInvoiceDocumentService">
+		<property name="accountService">
+			<ref bean="accountService" />
 		</property>
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="verifyBillingFrequencyService">
-			<ref bean="verifyBillingFrequencyService" />
-		</property>
-		<property name="invoicePaidAppliedService">
-			<ref bean="invoicePaidAppliedService" />
-		</property>
-		<property name="customerService">
-			<ref bean="customerService" />
-		</property>
-		<property name="milestoneDao" ref="milestoneDao" />
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>	
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="noteService">
-			<ref bean="noteService" />
-		</property>
 		<property name="attachmentService">
 			<ref bean="attachmentService" />
 		</property>
-		<property name="objectLevelService">
-			<ref bean="objectLevelService" />
+		<property name="awardAccountObjectCodeTotalBilledDao">
+			<ref bean="awardAccountObjectCodeTotalBilledDao" />
 		</property>
-		<property name="objectCodeService" ref="objectCodeService" />
-		<property name="accountService">
-			<ref bean="accountService" />
-		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="contractsAndGrantsModuleUpdateService">
 			<ref bean="contractsAndGrantsModuleUpdateService" />
 		</property>
-		<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
+		<property name="contractsGrantsInvoiceDocumentDao">
+			<ref bean="contractsGrantsInvoiceDocumentDao" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="milestoneDao">
+			<ref bean="milestoneDao" />
+		</property>
+		<property name="noteService">
+			<ref bean="noteService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
+		<property name="objectLevelService">
+			<ref bean="objectLevelService" />
+		</property>
+		<property name="verifyBillingFrequencyService">
+			<ref bean="verifyBillingFrequencyService" />
 		</property>
 	</bean>
 
@@ -428,6 +422,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
@@ -440,6 +437,9 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
@@ -881,17 +881,20 @@
 
 	<bean id="customerDocumentService" parent="customerDocumentService-parentBean" />
 	<bean id="customerDocumentService-parentBean" class="org.kuali.kfs.module.ar.service.impl.CustomerDocumentServiceImpl" abstract="true">
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
-			<property name="customerService">
-			<ref bean="customerService" />
-		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
+		</property>
+		<property name="maintenanceDocumentDictionaryService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
 		</property>
 	</bean>
 
@@ -947,26 +950,29 @@
 	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean" />
 
 	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl" abstract="true">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
+		<property name="accountsReceivableTaxService">
+			<ref bean="accountsReceivableTaxService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
 		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 		<property name="taxService">
 			<ref bean="taxService" />
 		</property>
-		<property name="accountsReceivableTaxService">
-			<ref bean="accountsReceivableTaxService" />
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
 		</property>
 	</bean>
 
@@ -1022,6 +1028,9 @@
 	<bean id="accountsReceivableDocumentHeaderService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableDocumentHeaderServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
@@ -1082,44 +1091,47 @@
 	
     <bean id="customerInvoiceDocumentService"  parent="customerInvoiceDocumentService-parentBean"/>
     <bean id="customerInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl" abstract="true">
-		<property name="documentDao">
-			<ref bean="documentDao" />
-		</property>
-		<property name="customerInvoiceDocumentDao">
-			<ref bean="customerInvoiceDocumentDao" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="receivableAccountingLineService">
-			<ref bean="receivableAccountingLineService" />
-		</property>
-		<property name="accountsReceivableDocumentHeaderService">
-			<ref bean="accountsReceivableDocumentHeaderService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
-		</property>
-		<property name="invoicePaidAppliedService">
-			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="customerInvoiceDetailService">
 			<ref bean="customerInvoiceDetailService" />
 		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
+		<property name="customerInvoiceDocumentDao">
+			<ref bean="customerInvoiceDocumentDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentDao">
+			<ref bean="documentDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
+		<property name="invoicePaidAppliedService">
+			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
 		<property name="personService">
 			<ref bean="personService" />
+		</property>
+		<property name="receivableAccountingLineService">
+			<ref bean="receivableAccountingLineService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
 		</property>
 	</bean>
 
@@ -1200,6 +1212,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
@@ -1258,6 +1273,9 @@
             <ref bean="businessObjectService" />
         </property>
    		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+		<property name="eventDao">
+			<ref bean="eventDao" />
+		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
@@ -1447,6 +1465,9 @@
 		<property name="cashControlDocumentService">
 			<ref bean="cashControlDocumentService" />
 		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -1609,14 +1630,23 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="customerAddressService">
+			<ref bean="customerAddressService" />
+		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
+		<property name="lockboxService">
+			<ref bean="lockboxService" />
+		</property>
+		<property name="writeoffService">
+			<ref bean="customerInvoiceWriteoffDocumentService" />
 		</property>
 	</bean>
 
@@ -1801,7 +1831,8 @@
 			<ref bean="documentService" />
 		</property>
 		<property name="customerAddressService">
-			<ref bean="customerAddressService" /></property>
+			<ref bean="customerAddressService" />
+		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -1988,9 +2019,14 @@
 	</bean>	
 	
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService"  parent="accountsReceivableOrganizationDerivedRoleTypeService-parentBean"/>
-    <bean id="accountsReceivableOrganizationDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl"
-      p:businessObjectService-ref="businessObjectService" abstract="true">
-      <property name="universityDateService">
+    <bean id="accountsReceivableOrganizationDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl" abstract="true">
+      	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
+      	<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
     </bean>
@@ -2132,7 +2168,15 @@
 	<import resource="spring-ar-bus-exports.xml"/>
 	
 	<!-- Funds Manager Derived Role -->
-	<bean id="fundsManagerDerivedRoleTypeService" class="org.kuali.kfs.module.ar.identity.FundsManagerDerivedRoleTypeServiceImpl" />
+	<bean id="fundsManagerDerivedRoleTypeService" parent="fundsManagerDerivedRoleTypeService-parentBean" />
+	<bean id="fundsManagerDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.FundsManagerDerivedRoleTypeServiceImpl" abstract="true">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>		
+	</bean>
 	
 	<!--  for Contracts and grants aging report -->
 	<bean id="arContractsAndGrantsAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl"

@@ -29,7 +29,6 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -218,12 +217,12 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         this.businessObjectService = businessObjectService;
     }
 
-
-    protected final FinancialSystemUserService getFinancialSystemUserService() {
-        if (financialSystemUserService == null) {
-            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
-        }
+    public final FinancialSystemUserService getFinancialSystemUserService() {
         return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 
     public void setUniversityDateService(UniversityDateService universityDateService) {

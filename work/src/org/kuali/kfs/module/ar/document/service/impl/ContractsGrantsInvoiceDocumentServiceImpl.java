@@ -96,21 +96,16 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -122,8 +117,6 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.AttachmentService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -134,31 +127,26 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDocumentServiceImpl implements ContractsGrantsInvoiceDocumentService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocumentServiceImpl.class);
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private CustomerService customerService;
-    private ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
-    private AccountingPeriodService accountingPeriodService;
-    private AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
-    private VerifyBillingFrequencyService verifyBillingFrequencyService;
-    private DateTimeService dateTimeService;
-    private InvoicePaidAppliedService invoicePaidAppliedService;
-    private MilestoneDao milestoneDao;
 
-    private ParameterService parameterService;
-    private UniversityDateService universityDateService;
+    protected AccountingPeriodService accountingPeriodService;
+    protected AccountService accountService;
+    protected AttachmentService attachmentService;
+    protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
+    protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
+    protected ConfigurationService configurationService;
+    protected CustomerService customerService;
+    protected KualiModuleService kualiModuleService;
+    protected MilestoneDao milestoneDao;
+    protected NoteService noteService;
+    protected ObjectCodeService objectCodeService;
+    protected ObjectLevelService objectLevelService;
+    protected VerifyBillingFrequencyService verifyBillingFrequencyService;
+
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private KualiModuleService kualiModuleService;
-    protected NoteService noteService;
-    private AttachmentService attachmentService;
-    private ObjectLevelService objectLevelService;
-    private ObjectCodeService objectCodeService;
-    private AccountService accountService;
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
-    private ConfigurationService configurationService;
+
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
      *
@@ -234,34 +222,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
         this.verifyBillingFrequencyService = verifyBillingFrequencyService;
-    }
-
-    public InvoicePaidAppliedService getInvoicePaidAppliedService() {
-        return invoicePaidAppliedService;
-    }
-
-    @Override
-    public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
-        this.invoicePaidAppliedService = invoicePaidAppliedService;
-    }
-
-    /**
-     * Gets the customerInvoiceDetailService attribute.
-     *
-     * @return Returns the customerInvoiceDetailService.
-     */
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    /**
-     * Sets the customerInvoiceDetailService attribute value.
-     *
-     * @param customerInvoiceDetailService The customerInvoiceDetailService to set.
-     */
-    @Override
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
 
     /**
@@ -2167,38 +2127,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return null;
     }
 
-
-    /**
-     * Sets the BusinessObjectService. Provides Spring compatibility.
-     *
-     * @param businessObjectService
-     */
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     *
-     * @param dateTimeService The dateTimeService to set.
-     */
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-
-    /**
-     * Gets the dateTimeService attribute.
-     *
-     * @return Returns the dateTimeService.
-     */
-    @Override
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardFinalInvoiceAlreadyBuilt(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
@@ -2698,7 +2626,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
             checkCollector = true;
-            Person collectorObj = getPersonService().getPersonByPrincipalName(collectorPrincName);
+            Person collectorObj = personService.getPersonByPrincipalName(collectorPrincName);
             if (collectorObj != null) {
                 collector = collectorObj.getPrincipalId();
             }
@@ -3161,7 +3089,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     note.setNotePostedTimestampToCurrent();
                     note.setNoteText("Auto-generated invoice for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                    Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
                     note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
                     Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
                     // adding attachment to the note
@@ -4575,7 +4503,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         note.setNotePostedTimestampToCurrent();
         note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE));
         note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
         noteService.save(note);
         document.addNote(note);
@@ -4589,55 +4517,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.customerService = customerService;
     }
 
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    @Override
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    @Override
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
-
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * This method gets the document service
-     *
-     * @return the document service
-     */
-    @Override
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    /**
-     * This method sets the document service
-     *
-     * @param documentService
-     */
-    @Override
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
     public ContractsAndGrantsModuleUpdateService getContractsAndGrantsModuleUpdateService() {
         return contractsAndGrantsModuleUpdateService;
     }
 
     public void setContractsAndGrantsModuleUpdateService(ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService) {
         this.contractsAndGrantsModuleUpdateService = contractsAndGrantsModuleUpdateService;
-    }
-
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
     }
 
     public KualiModuleService getKualiModuleService() {

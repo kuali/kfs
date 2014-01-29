@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -50,14 +49,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailService {
 
-    private DateTimeService dateTimeService;
-    private UniversityDateService universityDateService;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-    private InvoicePaidAppliedService invoicePaidAppliedService;
-    private AccountsReceivableTaxService accountsReceivableTaxService;
-    private TaxService taxService;
-
+    protected DateTimeService dateTimeService;
+    protected UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
+    protected FinancialSystemUserService financialSystemUserService;
+    protected ParameterService parameterService;
+    protected InvoicePaidAppliedService invoicePaidAppliedService;
+    protected AccountsReceivableTaxService accountsReceivableTaxService;
+    protected TaxService taxService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer,
@@ -98,7 +97,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     @Override
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear() {
         Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         return getCustomerInvoiceDetailFromOrganizationAccountingDefault(currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
 
@@ -167,7 +166,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      */
     @Override
     public CustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCodeForCurrentUser(String invoiceItemCode) {
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         return getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
 
@@ -431,5 +430,13 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
     public void setAccountsReceivableTaxService(AccountsReceivableTaxService accountsReceivableTaxService) {
         this.accountsReceivableTaxService = accountsReceivableTaxService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 }

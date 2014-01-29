@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -33,8 +32,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReceivableAccountingLineServiceImpl implements ReceivableAccountingLineService {
 
-    private UniversityDateService universityDateService;
-    private BusinessObjectService businessObjectService;
+    protected UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
+    protected FinancialSystemUserService financialSystemUserService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService#setReceivableAccountingLineForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -44,7 +44,7 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
 
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentUniverisityFiscalYear);
@@ -77,6 +77,14 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 
 }

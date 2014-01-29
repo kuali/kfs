@@ -42,7 +42,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.TestingStep;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.EvaluationOperator;
@@ -66,9 +65,10 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
+    protected LockboxService lockboxService;
+    protected CustomerAddressService customerAddressService;
+    protected CustomerInvoiceWriteoffDocumentService writeoffService;
     protected Collection<String> createdInvoices = new ArrayList<String>();
-
-
 
     // parameter constants and logging
     protected static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
@@ -92,16 +92,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
-            setDateTimeService(SpringContext.getBean(DateTimeService.class));
 
             Date billingDate = getDateTimeService().getCurrentDate();
             List<String> customernames;
 
             if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
-                setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
-                setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
-                setDocumentService(SpringContext.getBean(DocumentService.class));
-
                 customernames = Arrays.asList(jobName);
             } else {
                 customernames = Arrays.asList("ABB2", "3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
@@ -169,7 +164,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     }
 
     private long findAvailableLockboxBaseSeqNbr() {
-        LockboxService lockboxService = SpringContext.getBean(LockboxService.class);
         return lockboxService.getMaxLockboxSequenceNumber() + MAX_SEQ_NBR_OFFSET;
     }
 
@@ -268,8 +262,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     }
 
     public void writeoffInvoice(String invoiceNumberToWriteOff) {
-        CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
-
         //  have the service create us a new writeoff doc
         String writeoffDocNumber;
         try {
@@ -325,7 +317,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     }
 
     public boolean waitForStatusChange(int numSeconds, WorkflowDocument document, String[] desiredStatus) throws Exception {
-        DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatus);
+        DocWorkflowStatusMonitor monitor = new DocWorkflowStatusMonitor(documentService, "" + document.getDocumentId(), desiredStatus);
         return waitUntilChange(monitor, numSeconds, 5);
     }
 
@@ -361,75 +353,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         return valueChangedInd;
     }
 
-//    public void writeoffInvoice(String invoiceToWriteOff) {
-//        CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
-//        CustomerCreditMemoDocument customerCreditMemoDocument;
-//        CustomerCreditMemoDetail customerCreditMemoDetail = new CustomerCreditMemoDetail();
-//        CustomerInvoiceDocument customerInvoiceDocument;
-//
-//        try {
-//            customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getNewDocument(CustomerInvoiceDocument.class);
-//            LOG.info("\nCreated customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-//        } catch (WorkflowException e) {
-//            throw new RuntimeException("Customer Invoice Document creation failed.");
-//        }
-//
-//        customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
-//        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST paid off CUSTOMER INVOICE DOCUMENT");
-//        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("KAT17282");
-//        customerInvoiceDocument.setBillingDate(getDateTimeService().getCurrentSqlDate());
-//
-//        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress("KAT17282");
-//
-//        customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
-//        customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
-//        customerInvoiceDocument.setBillingAddressTypeCode("P");
-//        customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
-//        customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
-//        customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
-//        customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
-//        customerInvoiceDocument.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
-//        customerInvoiceDocument.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
-//        customerInvoiceDocument.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
-//        customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
-//        customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
-//        customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
-//        customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "2336320", "BL", "ISRT" ));
-//
-//        customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(100));
-//        customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount();
-//        try {
-//            // the document header is created and set here
-//
-//            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
-//        }
-//        catch (WorkflowException e) {
-//            throw new RuntimeException("Document customerCreditMemoDocument creation failed.");
-//        }
-//        customerCreditMemoDocument.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
-//        customerCreditMemoDocument.setInvoice(customerInvoiceDocument);
-//        customerCreditMemoDocument.populateCustomerCreditMemoDetails();
-//
-//        List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
-//        for (CustomerCreditMemoDetail customerCreditMemoDetail : customerCreditMemoDetails) {
-//            customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(1));
-//            customerCreditMemoDetail.setCreditMemoItemTotalAmount(new KualiDecimal(100));
-//            customerCreditMemoDetail.setCreditMemoLineTotalAmount(new KualiDecimal(100));
-//        }
-//
-//        try {
-//            documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
-//            Thread.sleep(5000);
-//            documentService.blanketApproveDocument(customerCreditMemoDocument, null, null);
-//            LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
-//        } catch (WorkflowException e) {
-//            throw new RuntimeException("Customer Invoice Document routing failed.");
-//        }
-//        LOG.info("Created customer credit memo " + customerCreditMemoDocument.getDocumentNumber());
-//
-//    }
-
-
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -447,8 +370,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
 
-        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
-//        CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+        CustomerAddress customerBillToAddress = customerAddressService.getPrimaryAddress(customerNumber);
 
         customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
         customerInvoiceDocument.setCustomerBillToAddressIdentifier(1);
@@ -463,20 +385,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
         customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
         customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
-
-//        customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
-//        customerInvoiceDocument.setShippingAddressTypeCode("P");
-//        customerInvoiceDocument.setShippingAddressName(customerShipToAddress.getCustomerAddressName());
-//        customerInvoiceDocument.setShippingLine1StreetAddress(customerShipToAddress.getCustomerLine1StreetAddress());
-//        customerInvoiceDocument.setShippingLine2StreetAddress(customerShipToAddress.getCustomerLine2StreetAddress());
-//        customerInvoiceDocument.setShippingCityName(customerShipToAddress.getCustomerCityName());
-//        customerInvoiceDocument.setShippingStateCode(customerShipToAddress.getCustomerStateCode());
-//        customerInvoiceDocument.setShippingZipCode(customerShipToAddress.getCustomerZipCode());
-//        customerInvoiceDocument.setShippingCountryCode(customerShipToAddress.getCustomerCountryCode());
-//        customerInvoiceDocument.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
-//        customerInvoiceDocument.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
-//        customerInvoiceDocument.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
-
 
         if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
             for (int i = 0; i < numinvoicedetails; i++) {
@@ -578,6 +486,30 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public LockboxService getLockboxService() {
+        return lockboxService;
+    }
+
+    public void setLockboxService(LockboxService lockboxService) {
+        this.lockboxService = lockboxService;
+    }
+
+    public CustomerInvoiceWriteoffDocumentService getWriteoffService() {
+        return writeoffService;
+    }
+
+    public void setWriteoffService(CustomerInvoiceWriteoffDocumentService writeoffService) {
+        this.writeoffService = writeoffService;
+    }
+
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
     }
 
     private class DocWorkflowStatusMonitor {

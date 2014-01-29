@@ -89,22 +89,24 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @SuppressWarnings("deprecation")
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
     protected static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CustomerDocumentService customerDocumentService;
-    private ParameterService parameterService;
-    protected Lookupable customerLookupable;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
-    private KualiModuleService kualiModuleService;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private CustomerService customerService;
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private SystemInformationService systemInformationService;
-    private ReceivableAccountingLineService receivableAccountingLineService;
-    private CustomerCreditMemoDetailService customerCreditMemoDetailService;
-    private CustomerAddressService customerAddressService;
+
+    protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected BusinessObjectService businessObjectService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected CustomerCreditMemoDetailService customerCreditMemoDetailService;
+    protected CustomerDocumentService customerDocumentService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected Lookupable customerLookupable;
+    protected CustomerService customerService;
+    protected CustomerAddressService customerAddressService;
+    protected DocumentService documentService;
+    protected FinancialSystemUserService financialSystemUserService;
+    protected KualiModuleService kualiModuleService;
+    protected ParameterService parameterService;
+    protected ReceivableAccountingLineService receivableAccountingLineService;
+    protected SystemInformationService systemInformationService;
 
     public CustomerAddressService getCustomerAddressService() {
         return customerAddressService;
@@ -514,7 +516,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public ChartOrgHolder getPrimaryOrganization() {
-        return SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        return financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
     }
 
     /**
@@ -776,6 +778,14 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
         return contractsGrantsInvoiceDocumentService.getLastBilledDate(award);
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 
 }

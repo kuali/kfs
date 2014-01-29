@@ -28,7 +28,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
@@ -44,15 +43,16 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  */
 public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
-    private DocumentService documentService;
-    private WorkflowDocumentService workflowDocumentService;
-    private CustomerService customerService;
-    private KualiModuleService kualiModuleService;
+    protected CustomerService customerService;
+    protected DocumentService documentService;
+    protected KualiModuleService kualiModuleService;
+    protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
+    protected WorkflowDocumentService workflowDocumentService;
 
     @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
         MaintenanceDocument doc = null;
-        doc = (MaintenanceDocument) documentService.getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Customer.class));
+        doc = (MaintenanceDocument) documentService.getNewDocument(maintenanceDocumentDictionaryService.getDocumentTypeName(Customer.class));
         // set a description to say that this application document has been created by the Agency Document
         doc.getDocumentHeader().setDocumentDescription(description);
         // to set the explanation to reference the agency number
@@ -171,5 +171,13 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    public MaintenanceDocumentDictionaryService getMaintenanceDocumentDictionaryService() {
+        return maintenanceDocumentDictionaryService;
+    }
+
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
 }

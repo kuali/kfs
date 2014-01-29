@@ -51,7 +51,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -73,24 +72,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
-    
 
-    protected PersonService personService;
-    protected BusinessObjectService businessObjectService;
-    protected DateTimeService dateTimeService;
-    protected ReceivableAccountingLineService receivableAccountingLineService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
+
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected BusinessObjectService businessObjectService;
     protected CustomerAddressService customerAddressService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
     protected CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
+    protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
+    protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected DocumentDao documentDao;
+    protected FinancialSystemUserService financialSystemUserService;
     protected InvoicePaidAppliedService<CustomerInvoiceDetail> invoicePaidAppliedService;
     protected NonInvoicedDistributionService nonInvoicedDistributionService;
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
-    protected UniversityDateService universityDateService;
     protected ParameterService parameterService;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
+    protected PersonService personService;
+    protected ReceivableAccountingLineService receivableAccountingLineService;
+    protected UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#convertDiscountsToPaidApplieds(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -729,7 +729,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @param document
      */
     protected void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
@@ -768,7 +768,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     @Override
     public void updateReportedDate(String docNumber) {
-        //businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", docNumber);
         CustomerInvoiceDocument customerInvoiceDocument = businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
@@ -878,12 +877,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @return Returns the personService.
      */
-    protected PersonService getPersonService() {
-        if (personService == null) {
-            personService = SpringContext.getBean(PersonService.class);
-        }
+    public PersonService getPersonService() {
         return personService;
     }
+
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#checkIfInvoiceNumberIsFinal(java.lang.String)
@@ -974,7 +971,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
 
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -982,6 +979,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-    
-    
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
+    }
+
+
 }

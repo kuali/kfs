@@ -25,7 +25,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -41,7 +40,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(FundsManagerDerivedRoleTypeServiceImpl.class);
-    private DocumentService documentService;
+    protected DocumentService documentService;
+    protected KualiModuleService kualiModuleService;
 
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
 
@@ -59,7 +59,7 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.ACTIVE, true);
                 map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-                List<ContractsAndGrantsFundManager> awardFundManagers = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsFundManager.class).getExternalizableBusinessObjectsList(ContractsAndGrantsFundManager.class, map);
+                List<ContractsAndGrantsFundManager> awardFundManagers = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsFundManager.class).getExternalizableBusinessObjectsList(ContractsAndGrantsFundManager.class, map);
                 for (ContractsAndGrantsFundManager awardFundManager : awardFundManagers) {
                     roleMembers.add(RoleMembership.Builder.create(null, null, awardFundManager.getPrincipalId(), MemberType.PRINCIPAL, null).build());
                 }
@@ -88,10 +88,19 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
      * Retrieves the document service.
      * @return documentService
      */
-    protected DocumentService getDocumentService() {
-        if (ObjectUtils.isNull(documentService)) {
-            documentService = SpringContext.getBean(DocumentService.class);
-        }
+    public DocumentService getDocumentService() {
         return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

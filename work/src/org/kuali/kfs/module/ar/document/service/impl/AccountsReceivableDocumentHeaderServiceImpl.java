@@ -25,7 +25,6 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -33,9 +32,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsReceivableDocumentHeaderService {
 
-    private BusinessObjectService businessObjectService;
-    private UniversityDateService universityDateService;
-    private SystemInformationService sysInfoService;
+    protected BusinessObjectService businessObjectService;
+    protected FinancialSystemUserService financialSystemUserService;
+    protected UniversityDateService universityDateService;
+    protected SystemInformationService sysInfoService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService#getNewAccountsReceivableDocumentHeader(java.lang.String,
@@ -82,7 +82,7 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
      */
     @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeaderForCurrentUser() {
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+        ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         return getNewAccountsReceivableDocumentHeader(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
 
@@ -100,6 +100,14 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
 
     public void setSysInfoService(SystemInformationService sysInfoService) {
         this.sysInfoService = sysInfoService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 
 }

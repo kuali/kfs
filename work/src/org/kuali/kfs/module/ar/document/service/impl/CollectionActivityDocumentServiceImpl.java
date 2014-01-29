@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ar.dataaccess.EventDao;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -52,11 +51,12 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class CollectionActivityDocumentServiceImpl implements CollectionActivityDocumentService {
 
-    private DocumentService documentService;
-    private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
-    private DocumentTypeService documentTypeService;
-    private KualiModuleService kualiModuleService;
+    protected DocumentService documentService;
+    protected DateTimeService dateTimeService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentTypeService documentTypeService;
+    protected EventDao eventDao;
+    protected KualiModuleService kualiModuleService;
 
     /**
      * Gets the documentService attribute.
@@ -201,7 +201,6 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      */
     @Override
     public Collection<Event> retrieveEventsByCriteria(Criteria criteria) {
-        EventDao eventDao = SpringContext.getBean(EventDao.class);
         return eventDao.getEventsByCriteria(criteria);
     }
 
@@ -236,5 +235,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             resultInd = false;
         }
         return resultInd;
+    }
+
+    public EventDao getEventDao() {
+        return eventDao;
+    }
+
+    public void setEventDao(EventDao eventDao) {
+        this.eventDao = eventDao;
     }
 }

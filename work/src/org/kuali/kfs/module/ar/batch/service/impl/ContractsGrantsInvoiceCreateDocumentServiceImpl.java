@@ -76,17 +76,18 @@ import org.springframework.util.CollectionUtils;
 public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements ContractsGrantsInvoiceCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceCreateDocumentServiceImpl.class);
 
-    private AccountingPeriodService accountingPeriodService;
-    private VerifyBillingFrequencyService verifyBillingFrequencyService;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private WorkflowDocumentService workflowDocumentService;
-    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private ConfigurationService configService;
+    protected AccountingPeriodService accountingPeriodService;
+    protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected BusinessObjectService businessObjectService;
+    protected ConfigurationService configService;
+    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected DocumentService documentService;
+    protected KualiModuleService kualiModuleService;
+    protected VerifyBillingFrequencyService verifyBillingFrequencyService;
+    protected WorkflowDocumentService workflowDocumentService;
+
     private List<String> errLines = new ArrayList<String>();
-    private KualiModuleService kualiModuleService;
-    private ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
     /**
@@ -569,7 +570,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 15. if there is no AR Invoice Account present when the GLPE is 3.
                 if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
-                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
+                    errorList.add(configService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -1023,6 +1024,5 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
         this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
-
 
 }

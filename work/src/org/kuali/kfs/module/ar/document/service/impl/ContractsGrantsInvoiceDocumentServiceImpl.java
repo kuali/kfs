@@ -1009,8 +1009,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("locCreationType", ArConstants.LOC_BY_LOC_FUND);
-        criteria.addEqualTo("letterOfCreditFundCode", locFund);
+        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
+        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
         criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, true);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND + " of value " + locFund;
@@ -1033,8 +1033,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("locCreationType", ArConstants.LOC_BY_LOC_FUND_GRP);
-        criteria.addEqualTo("letterOfCreditFundGroupCode", locFundGroup);
+        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
+        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
         criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, true);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;

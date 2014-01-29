@@ -1002,7 +1002,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-125"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value=" knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1035,7 +1035,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-128"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent from."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1090,7 +1090,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-134"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>

@@ -60,7 +60,6 @@ public class CGPropertyConstants{
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
     public static final String AWARD_CONTRACT_GRANT_TYPE = "contractGrantType";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
-    public static final String LOC_CRTN_TYPE = "locCreationType";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String LOC_FUND_GROUP = "letterOfCreditFundGroupCode";

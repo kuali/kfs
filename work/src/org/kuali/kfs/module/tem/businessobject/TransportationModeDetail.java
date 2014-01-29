@@ -23,7 +23,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -34,8 +33,6 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String transportationModeCode;
     private TransportationMode transportationMode;
-    private TravelDocumentBase travelAuthorizationDocument;
-
 
     /**
      *
@@ -75,15 +72,6 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
 
     public void setTransportationMode(TransportationMode transportationMode) {
         this.transportationMode = transportationMode;
-    }
-
-    public TravelDocumentBase getTravelAuthorizationDocument() {
-        return travelAuthorizationDocument;
-    }
-
-
-    public void setTravelAuthorizationDocument(TravelDocumentBase travelAuthorizationDocument) {
-        this.travelAuthorizationDocument = travelAuthorizationDocument;
     }
 
     @SuppressWarnings("rawtypes")

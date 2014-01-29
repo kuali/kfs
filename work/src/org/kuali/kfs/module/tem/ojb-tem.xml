@@ -606,9 +606,6 @@
         <field-descriptor name="transportationModeCode" column="TRANS_MODE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-        <reference-descriptor name="travelAuthorizationDocument" class-ref="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
         <reference-descriptor name="transportationMode" class-ref="org.kuali.kfs.module.tem.businessobject.TransportationMode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="transportationModeCode" />
         </reference-descriptor>

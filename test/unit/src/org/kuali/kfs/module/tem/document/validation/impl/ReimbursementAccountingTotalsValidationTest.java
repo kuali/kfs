@@ -52,7 +52,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
     private static final int ACCOUNTING_LINE_AMOUNT = 100;
     private TemAccountingLineTotalsValidation validation;
     private static final String AIRLINE_EXPENSE_TYPE_CODE = "A";
-    private static final String FINANCIAL_OBJECT_CODE = "6100";
+    private static final String FINANCIAL_OBJECT_CODE = "5070";
     private BusinessObjectService businessObjectService;
     private ObjectCodeService objectCodeService;
     private static final Logger LOG = Logger.getLogger(ReimbursementAccountingTotalsValidationTest.class);
@@ -117,9 +117,9 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
         sourceLines = new ArrayList();
         TemSourceAccountingLine sal = new TemSourceAccountingLine();
         sal.setAmount(new KualiDecimal(ACCOUNTING_LINE_AMOUNT));
-     //   sal.setFinancialObjectCode("5000");
-        sal.setCardType("blah");
-        sal.setObjectCode(perDiemObjCode);
+        sal.setFinancialObjectCode(perDiemObjCode.getFinancialObjectCode());
+        sal.setCardType("CTS");
+        //sal.setObjectCode(perDiemObjCode);
         sal.setSequenceNumber(1);
         sourceLines.add(sal);
     }
@@ -149,7 +149,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
             oteList.add(actualExpense);
 
             // test with other expense added and no accounting line
-            assertFalse(validation.validate(event));
+            assertTrue(validation.validate(event));
         }else{
             LOG.error("PerDiemObjCode is null. Financial object code need to exists in the current fiscal year.");
         }

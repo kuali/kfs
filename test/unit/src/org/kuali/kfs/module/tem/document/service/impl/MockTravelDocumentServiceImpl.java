@@ -184,11 +184,6 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public KualiDecimal calculateExpenseAmountTotalForMileage(final List<ActualExpense> actualExpenses) {
-        return realTravelDocumentService.calculateExpenseAmountTotalForMileage(actualExpenses);
-    }
-
-    @Override
     public void handleNewActualExpense(final ActualExpense newActualExpenseLine) {
         realTravelDocumentService.handleNewActualExpense(newActualExpenseLine);
     }

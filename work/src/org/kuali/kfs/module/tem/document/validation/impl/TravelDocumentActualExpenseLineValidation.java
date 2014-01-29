@@ -51,7 +51,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
 
         success = getDictionaryValidationService().isBusinessObjectValid(getActualExpenseForValidation());
         if (success) {
-            success = validateExpenses(getActualExpenseForValidation(), document);
+			success = validateExpenses(getActualExpenseForValidation(), document);
         }
         return success;
     }
@@ -91,6 +91,11 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      */
     public boolean validateGeneralRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
+
+        if (ObjectUtils.isNull(actualExpense)) {
+            return false;
+         }
+
         final ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         //validate expense amount greater than 0
@@ -292,8 +297,8 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         if (document.shouldRefreshExpenseTypeObjectCode()) {
             expense.refreshExpenseTypeObjectCode(document.getDocumentTypeName(), document.getTraveler().getTravelerTypeCode(), document.getTripTypeCode());
         }
-        final ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
 
+        final ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
         //do a check if its coming out of the document expense list - this will happen during route validation
         if (!document.getActualExpenses().contains(expense)){
             for (ActualExpense actualExpense : document.getActualExpenses()) {

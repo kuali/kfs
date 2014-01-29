@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -23,21 +25,22 @@ import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ErrorMessage;
 
-@ConfigureContext
+@ConfigureContext(session = khuntley)
 public class ExpenseImportByTripServiceTest extends KualiTestBase {
 
     private ExpenseImportByTripService expenseImportByTripService;
@@ -45,6 +48,7 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sas;
     private ParameterService parameterService;
+    private DocumentService documentService;
 
     private static final String TRIP_ID = "12345678";
 
@@ -57,6 +61,7 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         sas = SpringContext.getBean(SequenceAccessorService.class);
         parameterService = SpringContext.getBean(ParameterService.class);
+        documentService = SpringContext.getBean(DocumentService.class);
     }
 
 
@@ -65,10 +70,10 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
      * This method tests {@link ExpenseImportByTripService#validateAccountingInfo(TemProfile, AgencyStagingData)}
      */
     @Test
-    @ConfigureContext(shouldCommitTransactions = false)
+    @ConfigureContext(shouldCommitTransactions = false, session = khuntley)
     public void testValidateAccountingInfo() {
         AgencyStagingData agency = createAgencyStagingData();
-
+        TravelAuthorizationDocument travelAuth = createTA();
         // success case
         expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR));
@@ -81,12 +86,14 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT));
 
         // test with an invalid sub-account
+        accountingInfo.setTripAccountNumber("1031400");
         accountingInfo.setTripSubAccountNumber("ZZ");
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
         expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT));
 
         // test with an invalid project code
+        accountingInfo.setTripSubAccountNumber("");
         accountingInfo.setProjectCode("COOL");
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
         expenseImportByTripService.validateAccountingInfo(agency);
@@ -207,6 +214,7 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
         agency.setTripExpenseAmount(new KualiDecimal(123.45));
         agency.setTripInvoiceNumber("invoice12345");
         agency.setAirTicketNumber("12345678");
+        //agency.
 
         TripAccountingInformation account = new TripAccountingInformation();
         account.setTripChartCode("BL");
@@ -218,13 +226,33 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
     }
 
     protected TravelAuthorizationDocument createTA() {
-        TravelAuthorizationDocument ta = new TravelAuthorizationDocument();
-        ta.setTravelDocumentIdentifier(TRIP_ID);
-        SourceAccountingLine line = new SourceAccountingLine();
-        line.setAccountNumber("1031400");
-        line.setSubAccountNumber("ADV");
-        line.setFinancialObjectCode("6000");
+        TravelAuthorizationDocument ta = null;
+        try {
+            ta = (TravelAuthorizationDocument)documentService.getNewDocument(TravelAuthorizationDocument.class);
+            ta.getDocumentHeader().setDocumentDescription("testing");
+            ta.setTravelDocumentIdentifier(TRIP_ID);
+            ta.setTripTypeCode("IN");
+            ta.setApplicationDocumentStatus("In Process");
 
+            TemSourceAccountingLine line = new TemSourceAccountingLine();
+            line.setAccountNumber("1031400");
+            line.setSubAccountNumber("ADV");
+            line.setFinancialObjectCode("6000");
+            line.setChartOfAccountsCode("BL");
+            line.setCardType(TemConstants.ADVANCE);
+            line.setAmount(new KualiDecimal(50));
+            ta.addSourceAccountingLine(line);
+
+            TemProfile temProfile = new TemProfile();
+            temProfile.setPrincipalName("abeal");
+            temProfile.setProfileId(8);
+            temProfile.setTravelerTypeCode("EMP");
+            ta.setTemProfile(temProfile);
+
+            documentService.saveDocument(ta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ta;
     }
 }

@@ -834,7 +834,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 perDiemPercent = calculatePerDiemPercentageFromTimestamp(perDiemExpense, tripEnd);
             }
         }
-
         return perDiemPercent;
     }
 
@@ -933,45 +932,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     public KualiDecimal calculateMileage(ActualExpense actualExpense) {
         KualiDecimal mileageTotal = KualiDecimal.ZERO;
-
         if (ObjectUtils.isNotNull(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()) {
             mileageTotal = actualExpense.getMileageTotal();
         }
-
         return mileageTotal;
     }
 
-    /**
-     * Calculates Expense Amount total
-     *
-     * @param List<ActualExpense> actualExpenses
-     */
-    @Override
-    public KualiDecimal calculateExpenseAmountTotalForMileage(final List<ActualExpense> actualExpenses) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        for (final ActualExpense actualExpense : actualExpenses) {
-            if (actualExpense.isMileage()) {
-                actualExpense.setExpenseAmount(calculateMileage(actualExpense));
-                total = total.add(actualExpense.getExpenseAmount());
-                actualExpense.setConvertedAmount(new KualiDecimal(actualExpense.getExpenseAmount().bigDecimalValue().multiply(actualExpense.getCurrencyRate())));
-            }
-
-            // Check to see if it is detail record. if detail record, get parent record.
-            if (ObjectUtils.isNotNull(actualExpense.getExpenseParentId())) {
-                final ActualExpense parentActualExpense = getParentActualExpense(actualExpenses, actualExpense.getExpenseParentId());
-
-                // If expense type for parent record is mileage, add detail expense amount to the parent expense amount
-                if (parentActualExpense.isMileage()) {
-                    parentActualExpense.setExpenseAmount(actualExpense.getTotalDetailExpenseAmount());
-                    // total = total.add(parentActualExpense.getExpenseAmount());
-                    parentActualExpense.setConvertedAmount(new KualiDecimal(parentActualExpense.getExpenseAmount().bigDecimalValue().multiply(parentActualExpense.getCurrencyRate())));
-                }
-
-            }
-        }
-        return total;
-    }
 
     protected ActualExpense getParentActualExpense(final List<ActualExpense> actualExpenses, Long expenseId) {
         if (ObjectUtils.isNotNull(actualExpenses) && ObjectUtils.isNotNull(expenseId)) {
@@ -1019,6 +985,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isHostedMeal(final ExpenseTypeAware havingExpenseType) {
+        if (ObjectUtils.isNull(havingExpenseType)) {
+            return false;
+        }
+
         if (havingExpenseType.getExpenseTypeObjectCode() != null) {
             havingExpenseType.getExpenseTypeObjectCode().refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
             return havingExpenseType.getExpenseTypeObjectCode().getExpenseType().isHosted();
@@ -1405,7 +1375,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode) {
         boolean foundCode = false;
-        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES).contains(travelerTypeCode)) {
+        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
             foundCode = true;
         }
         return foundCode;
@@ -1909,8 +1879,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public KualiDecimal getAdvancesTotalFor(TravelDocument travelDocument) {
-        LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
         KualiDecimal retval = KualiDecimal.ZERO;
+        if (ObjectUtils.isNull(travelDocument)) {
+            return retval;
+        }
+
+        LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
+
         TravelAuthorizationDocument authorization = null;
         authorization = findCurrentTravelAuthorization(travelDocument);
 

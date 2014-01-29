@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,7 +41,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ErrorMessage;
 
-@ConfigureContext
+@ConfigureContext(session = khuntley)
 public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
 
     private ExpenseImportByTravelerService expenseImportByTravelerService;
@@ -259,6 +261,13 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         agency.setTransactionPostingDate(dateTimeService.getCurrentSqlDate());
         agency.setTripExpenseAmount(new KualiDecimal(123.45));
         agency.setTripInvoiceNumber("invoice12345");
+
+        TripAccountingInformation account = new TripAccountingInformation();
+        account.setTripChartCode("BL");
+        account.setTripAccountNumber("1031400");
+        account.setTripSubAccountNumber("ADV");
+        account.setProjectCode("KUL");
+        agency.addTripAccountingInformation(account);
 
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
         return agency;

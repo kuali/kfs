@@ -178,7 +178,7 @@ public class TemConstants {
         public static final String TRAVELER_ADDRESS_CHANGE_IND = "TRAVELER_ADDRESS_CHANGE_IND";
         //CLEANUP update all the parameter usage
         public static final String DOCUMENT_DTL_TYPE = "Document";
-        public static final String NON_EMPLOYEE_TRAVELER_TYPES = "NON_EMPLOYEE_TRAVELER_TYPES";
+        public static final String NON_EMPLOYEE_TRAVELER_TYPE_CODES = "NON_EMPLOYEE_TRAVELER_TYPE_CODES";
         public static final String EMPLOYEE_TRAVELER_TYPE_CODES = "EMPLOYEE_TRAVELER_TYPE_CODES";
         public static final String PER_DIEM_CATEGORIES = "PER_DIEM_CATEGORIES";
         public static final String VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND = "VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND";

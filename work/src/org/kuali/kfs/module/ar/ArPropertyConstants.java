@@ -300,7 +300,6 @@ public class ArPropertyConstants{
     public static final String AWARD_FUND_TYPE = "fundsType";
     public static final String AWARD_CONTRACT_GRANT_TYPE = "contractGrantType";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
-    public static final String LOC_CRTN_TYPE = "locCreationType";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String INCOME_OBJECT_TYPE = "IN";
     public static final String EXPENSE_OBJECT_TYPE = "EX";

@@ -45,7 +45,6 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -83,6 +82,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected DocumentService documentService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
     protected KualiModuleService kualiModuleService;
     protected VerifyBillingFrequencyService verifyBillingFrequencyService;
     protected WorkflowDocumentService workflowDocumentService;
@@ -736,8 +736,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
         DocumentSearchCriteria crit = criteria.build();
 
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
+        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
 
         for (int i = 0; i < iterations; i++) {
             LOG.debug("Fetch Iteration: " + i);
@@ -1023,6 +1023,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
         this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
+    }
+
+
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
 }

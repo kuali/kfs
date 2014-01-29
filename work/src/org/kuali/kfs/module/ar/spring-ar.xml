@@ -218,6 +218,9 @@
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -227,11 +230,11 @@
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
+		</property>
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
 		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
@@ -466,22 +469,27 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
-		<property name="cashControlDocumentService">
-			<ref bean="cashControlDocumentService" />
+		<property name="cashControlDetailDao">
+			<ref bean="cashControlDetailDao" />
 		</property>
 		<property name="cashControlDocumentDao">
 			<ref bean="cashControlDocumentDao" />
 		</property>
-		<property name="cashControlDetailDao">
-			<ref bean="cashControlDetailDao" />
+		<property name="cashControlDocumentService">
+			<ref bean="cashControlDocumentService" />
 		</property>
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="parameterService" ref="parameterService" />
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceReportLookupableHelperServiceImpl"

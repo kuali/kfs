@@ -37,7 +37,6 @@ import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDocumentDao;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -62,13 +61,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditCreateServiceImpl.class);
     public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
-    private DocumentService documentService;
-    private CashControlDocumentService cashControlDocumentService;
-    private CashControlDocumentDao cashControlDocumentDao;
-    private CashControlDetailDao cashControlDetailDao;
-    private WorkflowDocumentService workflowDocumentService;
-    private ConfigurationService configService;
-    private ParameterService parameterService;
+    protected CashControlDetailDao cashControlDetailDao;
+    protected CashControlDocumentDao cashControlDocumentDao;
+    protected CashControlDocumentService cashControlDocumentService;
+    protected ConfigurationService configService;
+    protected DocumentService documentService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected ParameterService parameterService;
+    protected WorkflowDocumentService workflowDocumentService;
 
     @NonTransactional
     public ConfigurationService getConfigService() {
@@ -316,8 +316,8 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
         DocumentSearchCriteria crit = criteria.build();
 
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
+        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
 
         for (int i = 0; i < iterations; i++) {
             LOG.debug("Fetch Iteration: "+ i);
@@ -353,8 +353,8 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
         DocumentSearchCriteria crit = criteria.build();
 
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
+        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
 
         for (int i = 0; i < iterations; i++) {
             LOG.debug("Fetch Iteration: "+ i);
@@ -500,6 +500,14 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     @NonTransactional
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
 }

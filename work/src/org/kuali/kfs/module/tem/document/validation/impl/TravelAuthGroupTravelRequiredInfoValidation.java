@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -23,6 +25,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,6 +74,16 @@ public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidati
         if (ObjectUtils.isNull(groupTraveler.getName())) {
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.GROUP_TRAVELER_NAME, KFSKeyConstants.ERROR_REQUIRED, "Name");
             valid = false;
+        } else {
+            TravelDocument document = (TravelDocument)event.getDocument();
+            List<GroupTraveler> groupTravelers = document.getGroupTravelers();
+            for (GroupTraveler gt : groupTravelers) {
+                if (StringUtils.equals(gt.getName(), groupTraveler.getName())) {
+                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.GROUP_TRAVELER_NAME, TemKeyConstants.ERROR_TRVL_GROUP_TRVL_DUPLICATE, "Name");
+                    valid = false;
+                }
+            }
+
         }
 
         return valid;

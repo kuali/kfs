@@ -356,15 +356,20 @@
 		</property>
 	</bean>
 	
-<bean id="routingFormResearchRiskService"  parent="routingFormResearchRiskService-parentBean"/>
-<bean id="routingFormResearchRiskService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl" abstract="true">
+	<bean id="routingFormResearchRiskService"  parent="routingFormResearchRiskService-parentBean"/>
+	<bean id="routingFormResearchRiskService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
    
     <bean id="researchRiskReviewRoleTypeService" parent="researchRiskReviewRoleTypeService-parentBean"/>
-    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>   
+    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true">
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>
+	</bean>
+       
 
 	<import resource="spring-cg-bus-exports.xml"/>
 </beans>

@@ -30,7 +30,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -344,6 +346,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     public boolean requiresTravelerApprovalRouting() {
         String initiator = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         String travelerID = getTraveler().getPrincipalId();
+
+        String travelerTypeCode = getTraveler().getTravelerTypeCode();
+        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
+            return false;
+        }
 
         boolean routeToTraveler = travelerID != null && !initiator.equals(travelerID);
         return routeToTraveler;

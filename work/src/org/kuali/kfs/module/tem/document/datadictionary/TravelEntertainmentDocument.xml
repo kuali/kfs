@@ -328,7 +328,7 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
 	<property name="searchingTypeDefinitions">
 		<list>
-		    <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
+		    <bean parent="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" />
             <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
             <bean parent="TravelModule-SearchingTypeDefinition-temProfileName" />
 			<bean parent="TravelModule-SearchingTypeDefinition-eventTitle" />

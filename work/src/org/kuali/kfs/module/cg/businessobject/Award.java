@@ -392,7 +392,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     @Override
     public Date getLastBilledDate() {
-        return SpringContext.getBean(AccountsReceivableModuleService.class).getLastBilledDate(getProposalNumber());
+        return SpringContext.getBean(AccountsReceivableModuleService.class).getLastBilledDate(this);
     }
 
     /**

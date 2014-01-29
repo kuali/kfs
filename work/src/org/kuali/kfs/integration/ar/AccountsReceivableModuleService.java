@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -352,9 +353,9 @@ public interface AccountsReceivableModuleService {
     /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts
      *
-     * @param proposalNumber key to get the Award used to calculate lastBilledDate
+     * @param award the Award used to calculate lastBilledDate
      * @return the lastBilledDate
      */
-    public Date getLastBilledDate(Long proposalNumber);
+    public Date getLastBilledDate(ContractsAndGrantsBillingAward award);
 
 }

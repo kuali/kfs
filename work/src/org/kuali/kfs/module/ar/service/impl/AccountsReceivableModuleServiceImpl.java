@@ -774,11 +774,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getLastBilledDate(java.lang.Long)
      */
     @Override
-    public Date getLastBilledDate(Long proposalNumber) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
-
+    public Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
         return contractsGrantsInvoiceDocumentService.getLastBilledDate(award);
     }
 

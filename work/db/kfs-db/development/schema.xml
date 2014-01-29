@@ -15146,7 +15146,6 @@
         <column name="PRIMARY_DEST_NAME" size="100" type="VARCHAR"/>
         <column name="PRIMARY_DEST_CNTRY_ST" size="100" type="VARCHAR"/>
         <column name="PRIMARY_DEST_CNTY" size="100" type="VARCHAR"/>
-        <column name="HOST_CERTIFIED" size="1" type="VARCHAR"/>
         <column name="NON_EMPLOYEE_CERTIFIED" size="1" type="VARCHAR"/>
         <column name="SPOUSE_INCLUDED" size="1" type="VARCHAR"/>
         <column name="DESCRIPTION" size="255" type="VARCHAR"/>

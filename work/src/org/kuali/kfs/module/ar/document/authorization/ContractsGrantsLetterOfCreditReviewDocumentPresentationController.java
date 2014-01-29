@@ -46,6 +46,10 @@ public class ContractsGrantsLetterOfCreditReviewDocumentPresentationController e
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal())) {
             editModes.add(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON);
+            //To remove recalculate button and make amount to draw field readonly.
+            editModes.add(ArAuthorizationConstants.ContractsGrantsLetterOfCreditReviewDocumentEditMode.HIDE_RECALCULATE_BUTTON);
+            editModes.add(ArAuthorizationConstants.ContractsGrantsLetterOfCreditReviewDocumentEditMode.DISABLE_AMT_TO_DRAW);
+
         }
         else {
             if (editModes.contains(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON)) {

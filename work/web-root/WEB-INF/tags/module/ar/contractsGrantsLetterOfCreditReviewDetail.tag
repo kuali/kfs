@@ -23,6 +23,12 @@
 <%@ attribute name="proposalNumberValue" required="true" description="Name of form property containing the customer invoice source accounting line."%>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
+<c:set var="hideRecalculateButton"
+	value="${KualiForm.editingMode['hideRecalculateButton']}" scope="request" />
+	
+<c:set var="disableAmountToDraw"
+	value="${KualiForm.editingMode['disableAmountToDraw']}" scope="request" />
+
 <table style="width: 100%; border: none" cellpadding="0" cellspacing="0" class="datatable">
 
 	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardDocumentNumber}" useShortLabel="false"
@@ -106,9 +112,9 @@
 			</c:if> <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 				<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" alt="show"
 					title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
-			</c:if> <%-- display the recalculate button--%> <html:image property="methodToCall.recalculateAmountToDraw.line${lineNumber}"
+			</c:if><c:if test="${hideRecalculateButton != 'true' && hideRecalculateButton != 'TRUE'}"> <%-- display the recalculate button--%> <html:image property="methodToCall.recalculateAmountToDraw.line${lineNumber}"
 				src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate Amount to Draw" alt="Recalculate Amount to Draw"
-				styleClass="tinybutton" />
+				styleClass="tinybutton" /></c:if>
 		</td>
 	</tr>
 </table>
@@ -135,8 +141,10 @@
 		hideRequiredAsterisk="true" align="center" />
 	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
+		
 	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}" useShortLabel="false"
-		hideRequiredAsterisk="true" align="center" />
+		hideRequiredAsterisk="true" align="center" />		
+	
 	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
 
@@ -159,9 +167,22 @@
 						property="document.accountReviewDetails[${ctr}].awardBudgetAmount" readOnly="true" /></td>
 				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}"
 						property="document.accountReviewDetails[${ctr}].claimOnCashBalance" readOnly="true" /></td>
-
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
+						
+				<c:choose>
+				<c:when test="${disableAmountToDraw != 'true' && disableAmountToDraw != 'TRUE'}">
+							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
 						property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="false" /></td>
+						
+				</c:when>
+				
+				<c:when test="${disableAmountToDraw}">
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
+						property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="true" /></td>
+						
+				</c:when>
+						</c:choose>
+		
+
 				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}"
 						property="document.accountReviewDetails[${ctr}].fundsNotDrawn" readOnly="true" /></td>
 			</tr>

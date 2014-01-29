@@ -193,7 +193,7 @@
 				<td align=left valign=middle class="datacell" colspan="3">
 					<div id="document.costShareAmount.div">
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}"
-							property="document.invoiceGeneralDetail.costShareAmount" />
+							property="document.invoiceGeneralDetail.costShareAmount" readOnly="${readOnlyForFinal}" />
 					</div>
 				</td>
 			</tr>

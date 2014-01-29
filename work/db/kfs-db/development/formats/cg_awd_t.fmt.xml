@@ -48,7 +48,6 @@
   <Field name="funding_exp_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="comment_txt"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_inv_opt"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="lst_billed_dt"                   type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="ltrcr_crtn_typ"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="susp_reason_txt"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="state_trnsfr_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />

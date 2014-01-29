@@ -4314,7 +4314,6 @@
         <column name="FUNDING_EXP_DT" type="TIMESTAMP"/>
         <column name="COMMENT_TXT" size="800" type="VARCHAR"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
-        <column name="LST_BILLED_DT" type="TIMESTAMP"/>
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="SUSP_REASON_TXT" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR_IND" size="1" type="VARCHAR"/>

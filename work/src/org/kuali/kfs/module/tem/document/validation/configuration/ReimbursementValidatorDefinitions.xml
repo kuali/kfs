@@ -41,6 +41,7 @@
     	<property name="validations">
     		<list>
     			<bean parent="TEMReimbursement-requiredAccountingLinesCountValidation" scope="prototype" />
+    			<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
     			<bean parent="TravelReimbursement-employeeCertificationValidation" scope="prototype" />
    				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />  			    			
     			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />

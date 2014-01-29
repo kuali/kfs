@@ -24,7 +24,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -32,21 +32,21 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TravelAuthAccommodationInfoRequiredValidation extends GenericValidation {
+public class TravelAccommodationInfoRequiredValidation extends GenericValidation {
     protected ParameterService parameterService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();
-        taDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = taDocument.getTripType();
+        TravelDocument document = (TravelDocument)event.getDocument();
+       document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+        TripType tripType = document.getTripType();
 
         boolean valid = true;
         GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.PER_DIEM_EXPENSES);
         final boolean internationalAccommodationInfoRequired = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND);
         if(tripType !=null && isInternationalTrip(tripType) && internationalAccommodationInfoRequired) {
             //loop through each trip detail estimate and check for accommodation information
-            for(PerDiemExpense detail : taDocument.getPerDiemExpenses()) {
+            for(PerDiemExpense detail : document.getPerDiemExpenses()) {
                 detail.refreshReferenceObject("accommodationType");
                 //accommodation type required
                 if(ObjectUtils.isNull(detail.getAccommodationType()) || StringUtils.isBlank(detail.getAccommodationTypeCode())) {

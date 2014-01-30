@@ -92,7 +92,6 @@ import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -236,17 +235,17 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      *
      * @param status
      */
-    @Override
-    public boolean updateAppDocStatus(String status) {
-        boolean updated = false;
-        WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
-        //final, processed and dispproved will always need to update the app doc status
-        if ((workflow.isFinal() || workflow.isProcessed()) || workflow.isDisapproved()){
-            setAppDocStatus(status);
-            updated = saveAppDocStatus();
-        }
-        return updated;
-    }
+//    @Override
+//    public boolean updateAppDocStatus(String status) {
+//        boolean updated = false;
+//        WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
+//        //final, processed and dispproved will always need to update the app doc status
+//        if ((workflow.isFinal() || workflow.isProcessed()) || workflow.isDisapproved()){
+//            setAppDocStatus(status);
+//            updated = saveAppDocStatus();
+//        }
+//        return updated;
+//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getAppDocStatus()
@@ -262,14 +261,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      *
      * @param status
      */
-    final public void setAppDocStatus(String status) {
-        // get current workflow status and compare to status change
-        String currStatus = getAppDocStatus();
-        if (StringUtils.isBlank(currStatus) || !status.equalsIgnoreCase(currStatus)) {
-            LOG.debug("NEW status is [" + status + "] was {" + currStatus + "}");
-            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(status);
-        }
-    }
+//    final public void setAppDocStatus(String status) {
+//        // get current workflow status and compare to status change
+//        String currStatus = getAppDocStatus();
+//        if (StringUtils.isBlank(currStatus) || !status.equalsIgnoreCase(currStatus)) {
+//            LOG.debug("NEW status is [" + status + "] was {" + currStatus + "}");
+//            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(status);
+//        }
+//    }
 
     /**
      * Save the current document header with the updated app doc status
@@ -755,7 +754,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         setNotes(new ArrayList<Note>());
 
         //set it to in-progress so it will be updated
-        setAppDocStatus(TemConstants.TravelStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(TemConstants.TravelStatusCodeKeys.IN_PROCESS);
     }
 
     /**
@@ -1974,12 +1973,24 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         //Update internal app doc status status
         String currStatus = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         if (ObjectUtils.isNotNull(currStatus)) {
-            updateAppDocStatus(currStatus);
+            try {
+                updateAndSaveAppDocStatus(currStatus);
+            }
+            catch (WorkflowException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
         }
 
         //for disapproval cases
         if (DocumentStatus.DISAPPROVED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-            updateAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
+            try {
+                updateAndSaveAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
+            }
+            catch (WorkflowException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
         }
 
         //for cancel cases

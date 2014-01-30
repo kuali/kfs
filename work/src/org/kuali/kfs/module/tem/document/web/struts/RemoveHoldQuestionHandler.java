@@ -104,7 +104,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
             getNoteService().save(newNote); // document dao doesn't save notes, so we need to save separately
 
             //save the new state on the document
-             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
+             document.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
             getDocumentDao().save(document);
 
           //send FYI for to initiator and traveler

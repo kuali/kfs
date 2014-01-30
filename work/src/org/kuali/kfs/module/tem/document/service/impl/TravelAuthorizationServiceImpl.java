@@ -550,7 +550,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             newNote.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
             authorization.addNote(newNote);
             getNoteService().save(newNote); // documentDao doesn't seem to save notes
-            authorization.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+            authorization.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
             documentDao.save(authorization);
 
             // setting to initiator principal name
@@ -567,7 +567,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
             // switching to KR user to route
             GlobalVariables.setUserSession(new UserSession(KRADConstants.SYSTEM_USER));
-            authorizationClose.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
+            authorizationClose.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
             documentService.routeDocument(authorizationClose, annotation, null);
         }
         catch (Exception e) {

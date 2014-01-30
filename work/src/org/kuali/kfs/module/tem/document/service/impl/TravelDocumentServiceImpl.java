@@ -2097,7 +2097,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         for (Document taDocument : relatedDocumentList) {
             if (taDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
                 TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) taDocument;
-                taDoc.updateAppDocStatus(status);
+                try {
+                    taDoc.updateAndSaveAppDocStatus(status);
+                }
+                catch (WorkflowException ex1) {
+                    // TODO Auto-generated catch block
+                    ex1.printStackTrace();
+                }
 
                 try {
                     Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, "Amemdment Canceled");

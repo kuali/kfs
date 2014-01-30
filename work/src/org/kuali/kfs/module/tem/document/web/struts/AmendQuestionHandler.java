@@ -116,7 +116,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
             getNoteService().save(newNote);
-            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
+            document.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
 
             final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
             documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
@@ -135,7 +135,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
             form.setDocument(taaDocument);
 
-             taaDocument.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
+            taaDocument.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
 
             //save the TAA document once so it will not be lost
             getDocumentService().saveDocument(taaDocument);

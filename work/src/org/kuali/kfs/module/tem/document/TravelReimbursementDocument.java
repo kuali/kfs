@@ -207,7 +207,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             // 1. process the reimbursement on the TR
             try {
                 // update the status to Dept approved
-                updateAppDocStatus(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
+                updateAndSaveAppDocStatus(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
                 getTravelReimbursementService().processCustomerReimbursement(this);
             }
             catch (Exception e) {
@@ -290,7 +290,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void initiateDocument() {
         super.initiateDocument();
-        setAppDocStatus(TravelReimbursementStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(TravelReimbursementStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }

@@ -736,7 +736,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
             insertBONote(mapping, taForm, request, response);
             // save the new state on the document
-            taDoc.updateAppDocStatus(newStatus);
+            taDoc.updateAndSaveAppDocStatus(newStatus);
 
             // send FYI for Hold, Remove Hold
             if (questionType.equals(TemConstants.REMOVE_HOLD_TA_QUESTION) || questionType.equals(TemConstants.HOLD_TA_QUESTION)) {

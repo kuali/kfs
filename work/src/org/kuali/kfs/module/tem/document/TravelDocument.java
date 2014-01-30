@@ -57,14 +57,6 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     void initiateDocument();
 
     /**
-     * Return true if app doc status has been updated in Workflow
-     *
-     * @param newStatus
-     * @return
-     */
-    public boolean updateAppDocStatus(String newStatus);
-
-    /**
      * @see org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument#getTravelDocumentIdentifier()
      */
     @Override

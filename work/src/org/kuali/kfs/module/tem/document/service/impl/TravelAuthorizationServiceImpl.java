@@ -642,8 +642,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public List<String> findMatchingTrips(TravelAuthorizationDocument authorization) {
         List<String> duplicateTrips = new ArrayList<String>();
 
-        Date tripBeginDate = getTripBeginDate(authorization.getTripBegin());
-        Date tripEndDate = getTripEndDate(authorization.getTripEnd());
+        Date tripBeginBufferDate = getTripBeginDate(authorization.getTripBegin());
+        Date tripEndBufferDate = getTripEndDate(authorization.getTripEnd());
 
         List<TravelAuthorizationDocument> authorizationDocuments = travelAuthorizationDao.findTravelAuthorizationByTraveler(authorization.getTemProfileId());
 
@@ -652,22 +652,19 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             List<TravelReimbursementDocument> travelReimbursementDocuments = travelDocumentService.findReimbursementDocuments(authorizationDocument.getTravelDocumentIdentifier());
 
             if(!ObjectUtils.isNull(travelReimbursementDocuments) && !travelReimbursementDocuments.isEmpty()) {
-                 boolean matchFound = matchReimbursements(travelReimbursementDocuments, authorization);
+                 boolean matchFound = matchReimbursements(travelReimbursementDocuments, tripBeginBufferDate, tripEndBufferDate);
                  if(matchFound) {
                      duplicateTrips.add(authorizationDocument.getDocumentNumber());
                  }
             }
             else {
                 // look for TA's
-                try {
-                    if(!authorization.getDocumentNumber().equals(authorizationDocument.getDocumentNumber()) &&
-                           ( dateTimeService.convertToSqlDate(authorizationDocument.getTripBegin()).compareTo(tripBeginDate)>= 0 && dateTimeService.convertToSqlDate(authorizationDocument.getTripEnd()).compareTo(tripEndDate)<= 0)) {
+                    Date tripBeginDate = convertToSqlDate(authorizationDocument.getTripBegin());
+                    Date tripEndDate = convertToSqlDate(authorizationDocument.getTripEnd());
+                    if(!authorization.getDocumentNumber().equals(authorizationDocument.getDocumentNumber()) && doesDatesOverlap(tripBeginBufferDate, tripEndBufferDate, tripBeginDate,tripEndDate)){
+
                         duplicateTrips.add(authorizationDocument.getDocumentNumber());
                     }
-                }
-                catch (ParseException ex) {
-                    LOG.error("Parse exception " + ex);
-                }
             }
         }
 
@@ -676,7 +673,28 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     }
 
-    private  boolean matchReimbursements(List<TravelReimbursementDocument> travelReimbursementDocuments, TravelAuthorizationDocument authorization) {
+    private Date convertToSqlDate(Timestamp date) {
+        Date convertedDate = null;
+        try {
+            convertedDate = dateTimeService.convertToSqlDate(date);
+
+        }
+        catch (ParseException ex) {
+            LOG.error("Parse exception " + ex);
+        }
+
+        return convertedDate;
+    }
+
+    public boolean doesDatesOverlap(Date tripBeginBufferDate, Date tripEndBufferDate, Date tripBeginDate, Date tripEndDate) {
+        if ((tripBeginDate.compareTo(tripBeginBufferDate) >= 0 && tripBeginDate.compareTo(tripEndBufferDate) <= 0) ||
+            (tripEndDate.compareTo(tripBeginBufferDate) >= 0 && tripEndDate.compareTo(tripEndBufferDate) <=0 )) {
+                      return true;
+                    }
+        return false;
+    }
+
+    private  boolean matchReimbursements(List<TravelReimbursementDocument> travelReimbursementDocuments, Date tripBeginBufferDate, Date tripEndBufferDate) {
         Timestamp earliestTripBeginDate = null;
         Timestamp greatestTripEndDate = null;
 
@@ -694,9 +712,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                 }
          }
 
-        if(authorization.getTripBegin().equals(earliestTripBeginDate)||  authorization.getTripEnd().equals(greatestTripEndDate)) {
-            return true;
-        }
+       if(doesDatesOverlap(tripBeginBufferDate, tripEndBufferDate, convertToSqlDate(earliestTripBeginDate), convertToSqlDate(greatestTripEndDate))) {
+           return true;
+       }
+
 
         return false;
     }

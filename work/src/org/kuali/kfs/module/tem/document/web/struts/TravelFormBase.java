@@ -980,7 +980,8 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     public boolean isDefaultOpenPaymentInfoTab() {
         boolean  initiated =  getTravelDocument().getDocumentHeader().getWorkflowDocument().isInitiated();
-        if(initiated) {
+        boolean  saved =  getTravelDocument().getDocumentHeader().getWorkflowDocument().isSaved();
+        if (initiated || saved) {
             return true;
         }
         return false;

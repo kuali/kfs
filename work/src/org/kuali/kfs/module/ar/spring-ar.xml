@@ -1975,8 +1975,6 @@
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
-		<property name="financialSystemDocumentHeaderDao">
-			<ref bean="documentHeaderDao" /></property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />			
 		</property>

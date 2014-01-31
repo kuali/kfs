@@ -63,7 +63,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class PaymentApplicationDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -81,7 +80,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-    protected WorkflowDocumentService workflowDocumentService;
     protected PaymentApplicationDocumentService paymentApplicationDocumentService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
@@ -94,7 +92,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         documentService = SpringContext.getBean(DocumentService.class);
-        workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
@@ -356,14 +353,17 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     continue;
                 }
 
+                if (containsIdentical(detailApplication.getInvoiceDetail(), detailApplication.getAmountApplied(), invoicePaidApplieds)) {
+                    continue;
+                }
+
                 // generate and validate the paidApplied, and always add it to the list, even if
                 // it fails validation. Validation failures will stop routing.
                 LOG.debug("Generating paid applied for detail application " + detailApplication.getInvoiceDocumentNumber());
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument);
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
-                InvoicePaidApplied invoicePaidApplied1 = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument);
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
-                invoicePaidApplieds.add(invoicePaidApplied1);
+                invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
             }
         }

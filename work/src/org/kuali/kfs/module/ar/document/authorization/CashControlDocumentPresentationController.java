@@ -46,7 +46,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         CashControlDocument cashControlDocument = (CashControlDocument) document;
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);

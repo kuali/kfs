@@ -128,7 +128,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="lockboxNumber"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
-					p:defaultValue="true" p:unconditionallyReadOnly="true" />
+					p:defaultValue="true"/>
 			</list>
 		</property>
 	</bean>

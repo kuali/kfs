@@ -830,4 +830,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
         return organizationRemitToCountryCode;
     }
 
+    public void setOrganizationRemitToCountryCode(String organizationRemitToCountryCode) {
+        this.organizationRemitToCountryCode = organizationRemitToCountryCode;
+    }
 }

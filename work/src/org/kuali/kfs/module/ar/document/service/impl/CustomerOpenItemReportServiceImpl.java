@@ -23,13 +23,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -51,7 +49,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -68,17 +65,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReportService {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
 
-    private AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
-    private WorkflowDocumentService workflowDocumentService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao;
-    private DocumentService documentService;
-    private DateTimeService dateTimeService;
-    private CustomerInvoiceDetailDao customerInvoiceDetailDao;
-    private NonAppliedHoldingDao nonAppliedHoldingDao;
-    private BusinessObjectService businessObjectService;
+    protected AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected DocumentService documentService;
+    protected DateTimeService dateTimeService;
+    protected CustomerInvoiceDetailDao customerInvoiceDetailDao;
+    protected NonAppliedHoldingDao nonAppliedHoldingDao;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * This method populates CustomerOpenItemReportDetails (Customer History Report).
@@ -247,7 +243,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     protected void populateReportDetailsForPaymentApplications(List paymentApplicationIds, List results, Hashtable details) throws WorkflowException {
         Collection paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
 
-        Set<String> relatedDisbursementVouchers = new HashSet<String>();
         for (Iterator itr = paymentApplications.iterator(); itr.hasNext();) {
             PaymentApplicationDocument paymentApplication = (PaymentApplicationDocument) itr.next();
             String documentNumber = paymentApplication.getDocumentNumber();
@@ -920,10 +915,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public void setFinancialSystemDocumentHeaderDao(FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao) {
-        this.financialSystemDocumentHeaderDao = financialSystemDocumentHeaderDao;
     }
 
     public void setDocumentService(DocumentService documentService) {

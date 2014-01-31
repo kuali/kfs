@@ -356,9 +356,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_PREPAID_EXPENSE_LINE);
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+        //KFSMI-9523
+        //no errors so go ahead and add the record to the list.  Need to set the document number
+        //and recalculate the next line number for the new record that is created after adding the
+        //current one.
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            newExpenseLine.setDocumentNumber(dvDocument.getDocumentNumber());
             dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
-            dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+            DisbursementVoucherNonEmployeeExpense newNewNonEmployeeExpenseLine = new DisbursementVoucherNonEmployeeExpense();
+            newNewNonEmployeeExpenseLine.setFinancialDocumentLineNumber(newExpenseLine.getFinancialDocumentLineNumber() + 1);
+            dvForm.setNewPrePaidNonEmployeeExpenseLine(newNewNonEmployeeExpenseLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -60,7 +60,6 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
         // clear extra buttons
         extraButtons.clear();
 
-        // TODO check with presentation controller first
         String buttonUrl = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         CashControlDocument cashControlDocument = (CashControlDocument) getDocument();
         CashControlDocumentPresentationController cashControlDocumentPresentationController = (CashControlDocumentPresentationController) KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(getDocument());

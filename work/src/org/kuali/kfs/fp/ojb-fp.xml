@@ -920,16 +920,11 @@
 		<orderby name="capitalAssetLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-        
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor> 
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CreditCardDetail" table="FP_CR_CARD_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1001,15 +996,11 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>  
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.AdvanceDepositDetail" table="FP_ADV_DPST_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -2209,24 +2200,6 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
 </class-descriptor>
-
-<!-- <class-descriptor class="org.kuali.kfs.fp.businessobject.RevolvingFundDetail" table="FP_REVOLVFND_DTL_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="financialDocumentRevolvingFundDate" column="FDOC_REVOLVFND_DT" jdbc-type="DATE" />
-    <field-descriptor name="financialDocumentRevolvingFundReferenceNumber" column="FDOC_RVLFNDREF_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentRevolvingFundDescription" column="FDOC_RVL_FND_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialDocumentRevolvingFundAmount" column="FDOC_REVOLVFND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" />
-    
-    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="financialDocumentBankCode" />
-    </reference-descriptor>
-</class-descriptor> -->
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CurrencyDetail" table="FP_CURRENCY_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

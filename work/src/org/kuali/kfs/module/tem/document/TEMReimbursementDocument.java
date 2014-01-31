@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -552,6 +553,45 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             }
         }
         return false;
+    }
+
+    /**
+     * Return the expense date if it exists
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(ActualExpense expense) {
+        if (expense != null && expense.getExpenseDate() != null) {
+            return expense.getExpenseDate();
+        }
+        return null;
+    }
+
+    /**
+     * Returns the mileage expense date if it exists
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(PerDiemExpense expense) {
+        if (expense != null && expense.getMileageDate() != null) {
+            return getEffectiveDateForPerDiem(expense.getMileageDate());
+        }
+        return null;
+    }
+
+    /**
+     * Just returns the date back
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(java.sql.Date)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate) {
+        return new java.sql.Date(expenseDate.getTime());
+    }
+
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**

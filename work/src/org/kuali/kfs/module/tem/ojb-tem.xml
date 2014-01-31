@@ -929,7 +929,7 @@
         <field-descriptor name="dinnerValue" column="DINNER_VAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="incidentalsValue" column="INCIDENTALS_VAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="personal" column="PERSONAL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="perDiemId" column="PER_DIEM_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="primaryDestinationId" column="PRI_DEST_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="lodging" column="LODGING" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="miles" column="MILES" jdbc-type="INTEGER"/>
         <field-descriptor name="mileageRateExpenseTypeCode" column="MILEAGE_RT_EXP_TYP_CD" jdbc-type="VARCHAR"/>
@@ -942,8 +942,8 @@
         <reference-descriptor name="mileageRateExpenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="mileageRateExpenseTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="perDiem" class-ref="org.kuali.kfs.module.tem.businessobject.PerDiem" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="perDiemId"/>
+        <reference-descriptor name="primaryDest" class-ref="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="primaryDestinationId"/>
         </reference-descriptor>
         <reference-descriptor name="accommodationType" class-ref="org.kuali.kfs.module.tem.businessobject.AccommodationType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="accommodationTypeCode"/>

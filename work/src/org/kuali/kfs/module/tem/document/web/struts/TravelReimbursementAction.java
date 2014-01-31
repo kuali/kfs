@@ -581,8 +581,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             reimbForm.getNewSourceLine().setFinancialObjectCode(objectCode);
         }
 
-        handleMissingPerDiemMileageRates(reimbForm);
-
         return retval;
     }
 

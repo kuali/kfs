@@ -21,6 +21,8 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 
 public interface MileageRateDao {
 
-    public List<MileageRate> findMileageRatesByExpenseTypeCode(String expenseTypeCode) ;
+    public List<MileageRate> findMileageRatesByExpenseTypeCode(String expenseTypeCode);
+
+    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, java.sql.Date effectiveDate);
 
 }

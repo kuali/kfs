@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.service;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,16 +22,12 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
-import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -59,36 +51,7 @@ public class TravelServiceTest extends KualiTestBase{
         final TravelService travelServiceTemp = SpringContext.getBean(TravelService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         sas = SpringContext.getBean(SequenceAccessorService.class);
-        travelService = (TravelService)Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] {TravelService.class}, new InvocationHandler() {
-
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                if(method.getName().equals("newperDiemExpense")) {
-                    PerDiemExpense perDiemExpense = new PerDiemExpense() {
-                        @Override
-                        public void refreshReferenceObject(String refObject) {
-                            if(refObject.equals("perDiem")) {
-                                PerDiem perDiem = new PerDiem();
-                                perDiem.setBreakfast(new KualiDecimal(12));
-                                perDiem.setLunch(new KualiDecimal(13));
-                                perDiem.setDinner(new KualiDecimal(25));
-                                perDiem.setIncidentals(new KualiDecimal(10));
-                                this.setPerDiem(perDiem);
-                            }
-                        }
-                        @Override
-                        public MileageRate getMileageRate() {
-                            MileageRate rate = new MileageRate();
-                            rate.setRate(new BigDecimal(0.45));
-                            rate.setExpenseTypeCode("MP");
-                            return rate;
-                        }
-                    };
-                    return perDiemExpense;
-                }
-                return method.invoke(travelServiceTemp, args);
-            }
-        });
+        travelService = SpringContext.getBean(TravelService.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 

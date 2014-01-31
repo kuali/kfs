@@ -1032,5 +1032,21 @@ public abstract class MockWorkflowDocument implements WorkflowDocument {
         return null;
     }
 
+    @Override
+    public void recall(String annotation, boolean cancel) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void returnToPreviousNode(String annotation, ReturnPoint returnPoint) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public boolean isRecalled() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
 

@@ -65,11 +65,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     private KualiDecimal dinnerValue = KualiDecimal.ZERO;
     private KualiDecimal incidentalsValue = KualiDecimal.ZERO;
 
-    @Column(name = "per_diem_id")
-    private Integer perDiemId;
-
-    @ManyToOne
-    @JoinColumn(name = "per_diem_id")
+    private Integer primaryDestinationId;
+    private PrimaryDestination primaryDest;
     private PerDiem perDiem;
 
     private Integer miles = new Integer(0);
@@ -162,8 +159,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      *
      * @return Returns the perDiemId.
      */
-    public Integer getPerDiemId() {
-        return perDiemId;
+    public Integer getPrimaryDestinationId() {
+        return primaryDestinationId;
     }
 
     /**
@@ -171,8 +168,16 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      *
      * @param perDiemId The perDiemId to set.
      */
-    public void setPerDiemId(Integer perDiemId) {
-        this.perDiemId = perDiemId;
+    public void setPrimaryDestinationId(Integer primaryDestinationId) {
+        this.primaryDestinationId = primaryDestinationId;
+    }
+
+    public PrimaryDestination getPrimaryDest() {
+        return primaryDest;
+    }
+
+    public void setPrimaryDest(PrimaryDestination primaryDest) {
+        this.primaryDest = primaryDest;
     }
 
     /**
@@ -180,20 +185,20 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
      *
      * @return Returns the perDiem.
      */
-    public PerDiem getPerDiem() {
+    /*public PerDiem getPerDiem() {
         return perDiem;
-    }
+    }*/
 
     /**
      * Sets the perDiem attribute value.
      *
      * @param perDiem The perDiem to set.
      */
-    public void setPerDiem(PerDiem perDiem) {
+    /*public void setPerDiem(PerDiem perDiem) {
         this.perDiem = perDiem;
 
         setupCustomPerDiem();
-    }
+    }*/
 
     /**
      * This method gets the accommodation type code associated with this day
@@ -612,7 +617,6 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     public KualiDecimal getDefaultMealsAndIncidentals() {
         KualiDecimal total = KualiDecimal.ZERO;
-        refreshPerDiem();
         if (!personal && this.perDiem != null) {
             if (breakfast) {
                 total = total.add(this.perDiem.getBreakfast());
@@ -632,26 +636,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return total;
     }
 
-    public void refreshPerDiem() {
-        if (!isCustomPerDiem()) {
-            this.refreshReferenceObject("perDiem");
-        }
-
-        setupCustomPerDiem();
-    }
-
-    /**
-     * This method generates a custom perDiem if perDiem is null
-     */
-    private void setupCustomPerDiem() {
-        if (this.perDiem == null) {
-            this.perDiem = new PerDiem();
-            this.perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
-        }
-    }
-
     public boolean isCustomPerDiem() {
-        return this.perDiem == null || this.perDiem.getId() == null ? true : this.perDiem.getId() == TemConstants.CUSTOM_PER_DIEM_ID;
+        return primaryDestinationId == null || this.primaryDestinationId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID;
     }
 
     /**

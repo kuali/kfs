@@ -18,15 +18,19 @@ package org.kuali.kfs.module.tem.businessobject.lookup;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationController;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 
 
 @SuppressWarnings("deprecation")
 public class PerDiemLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    protected DocumentDictionaryService documentDictionaryService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -46,7 +50,27 @@ public class PerDiemLookupableHelperServiceImpl extends KualiLookupableHelperSer
             collection = new CollectionIncomplete(results, (long) 0);
         }
         return collection;
+    }
 
+    @Override
+    protected boolean allowsMaintenanceEditAction(BusinessObject businessObject) {
+        String maintDocTypeName = getMaintenanceDocumentTypeName();
 
+        if (StringUtils.isNotBlank(maintDocTypeName)) {
+            final MaintenanceDocumentPresentationController docPresentationController = (MaintenanceDocumentPresentationController)getDocumentDictionaryService().getDocumentPresentationController(maintDocTypeName);
+            final boolean allowsEdit = docPresentationController.canMaintain(businessObject);
+            if (!allowsEdit) {
+                return false;
+            }
+        }
+        return super.allowsMaintenanceEditAction(businessObject);
+    }
+
+    public DocumentDictionaryService getDocumentDictionaryService() {
+        return documentDictionaryService;
+    }
+
+    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
+        this.documentDictionaryService = documentDictionaryService;
     }
 }

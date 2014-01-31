@@ -786,21 +786,16 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         PerDiemExpense expense = document.getPerDiemExpenses().get(copyIndex);
 
-        PerDiem perDiem = new PerDiem();
-        perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
-        perDiem.setPrimaryDestination(document.getPrimaryDestination());
-
         // now copy info over to expense
-        expense.setPerDiem(perDiem);
-        expense.setPerDiemId(perDiem.getId());
+        expense.setPrimaryDestinationId(TemConstants.CUSTOM_PRIMARY_DESTINATION_ID);
         expense.setPrimaryDestination("");
         expense.setCountryState("");
         expense.setCounty("");
-        expense.setLodging(perDiem.getLodging());
-        expense.setIncidentalsValue(perDiem.getIncidentals());
-        expense.setBreakfastValue(perDiem.getBreakfast());
-        expense.setLunchValue(perDiem.getLunch());
-        expense.setDinnerValue(perDiem.getDinner());
+        expense.setLodging(KualiDecimal.ZERO);
+        expense.setIncidentalsValue(KualiDecimal.ZERO);
+        expense.setBreakfastValue(KualiDecimal.ZERO);
+        expense.setLunchValue(KualiDecimal.ZERO);
+        expense.setDinnerValue(KualiDecimal.ZERO);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -834,17 +829,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
                 String[] priDestId = (String[])parameters.get(parameterKey);
                 PerDiem perDiem = null;
-                if (expense.getPerDiemId() != TemConstants.CUSTOM_PER_DIEM_ID && expense.getPerDiem().getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
-
-                    expense.refreshReferenceObject("perDiem");
-                    perDiem = expense.getPerDiem();
+                if (expense.getPrimaryDestinationId() != TemConstants.CUSTOM_PRIMARY_DESTINATION_ID && expense.getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
+                    perDiem = getPerDiemService().getPerDiem(expense.getPrimaryDestinationId(), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 } else {
-                  perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate());
+                  perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 }
 
                 // now copy info over to estimate
-                expense.setPerDiem(perDiem);
-                expense.setPerDiemId(perDiem.getId());
+                expense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
                 expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
                 expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
                 expense.setCounty(perDiem.getPrimaryDestination().getCounty());
@@ -1596,19 +1588,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected void populateForeignCurrencyUrl(TravelFormBase form) {
         final String currencyUrl = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, FOREIGN_CURRENCY_URL);
         form.setForeignCurrencyUrl(currencyUrl);
-    }
-
-    /**
-     * If mileage rate is missing for a day of the trip, this gives an error and sets the form to disallow create of per diem
-     * @param form the travel form to update if per diem cannot be created
-     */
-    protected void handleMissingPerDiemMileageRates(TravelFormBase form) {
-        if (!getPerDiemService().canCreatePerDiem(form.getTravelDocument())) {
-            // add an error about it
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING));
-            // set the form to false
-            form.setPerDiemCreatable(false);
-        }
     }
 
     /**

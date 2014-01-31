@@ -18,14 +18,9 @@ package org.kuali.kfs.module.tem.service.impl;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_OBJECT_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PER_DIEM_OBJECT_CODE;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +59,7 @@ import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -129,58 +125,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         return (List<T>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
     }
-
-
-    @Override
-    public void processPerDiem() {
-        Date today = dateTimeService.getCurrentSqlDate();
-        Collection<PerDiem> perDiems = perDiemDao.findAllPerDiemsOrderedBySeasonAndDest();
-        PerDiem lastPerDiem = perDiems.iterator().next();
-        List<PerDiem> group = new ArrayList<PerDiem>();
-        for (PerDiem pd : perDiems) {
-            if (lastPerDiem.getPrimaryDestinationId().equals(pd.getPrimaryDestinationId())) {
-                group.add(pd);
-            } else {
-                //process the group
-                processPerDiem(group, today);
-
-                group.clear();
-                group.add(pd);
-            }
-            lastPerDiem = pd;
-        }
-    }
-
-    protected void processPerDiem(List<PerDiem> perDiems, Date today) {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        PerDiem foundActivePerDiem = null;
-        for (PerDiem perDiem : perDiems) {
-            String season = perDiem.getSeasonBeginMonthAndDay()+"/"+Calendar.getInstance().get(Calendar.YEAR);
-            java.util.Date seasonDate;
-            try {
-                seasonDate = sdf.parse(season);
-
-                if (today.after(seasonDate)) {
-                    perDiem.setActive(Boolean.TRUE);
-                    if (foundActivePerDiem == null) {
-                        foundActivePerDiem = perDiem;
-                    } else {
-                        foundActivePerDiem.setActive(Boolean.FALSE);
-                        businessObjectService.save(foundActivePerDiem);
-                    }
-                } else {
-                    perDiem.setActive(Boolean.FALSE);
-                }
-
-                businessObjectService.save(perDiem);
-            }
-            catch (ParseException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-
 
 
     /**
@@ -696,15 +640,11 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Uses travelDocumentDao to look up per diem records (TravelDocumentDao handles the the date wierdnesses of per diem date)
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#getPerDiem(int, java.sql.Timestamp)
+     * @see org.kuali.kfs.module.tem.service.PerDiemService#getPerDiem(int, java.sql.Date, java.sql.Date)
      */
     @Override
-    public PerDiem getPerDiem(int primaryDestinationId, Timestamp perDiemDate) {
-        Map<String,Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, primaryDestinationId);
-        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
-        fieldValues.put(TemPropertyConstants.PER_DIEM_LOOKUP_DATE, perDiemDate);
-        final PerDiem perDiem = getTravelDocumentDao().findPerDiem(fieldValues);
+    public PerDiem getPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate) {
+        final PerDiem perDiem = getTravelDocumentDao().findPerDiem(primaryDestinationId, perDiemDate, effectiveDate);
         return perDiem;
     }
 
@@ -762,10 +702,14 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             return true; // we can't create per diem when trip begin or end are blank anyhow - but we shouldn't get the error
         }
         // now we need to loop through each day from begin date to end date to see if there is a validate mileage rate record for it
-        Calendar currDay = getCleanDay(doc.getTripBegin());
-        Calendar lastDay = getCleanDay(doc.getTripEnd());
+        Calendar currDay = Calendar.getInstance();
+        currDay.setTime(KfsDateUtils.clearTimeFields(doc.getTripBegin()));
+        Calendar lastDay = Calendar.getInstance();
+        lastDay.setTime(KfsDateUtils.clearTimeFields(doc.getTripEnd()));
+
         while (currDay.before(lastDay) || currDay.equals(lastDay)) {
-            final MileageRate currDayMileageRate = getTravelDocumentService().getMileageRate(defaultPerDiemMileageRate, new java.sql.Date(currDay.getTimeInMillis()));
+            java.sql.Date effectiveDay = doc.getEffectiveDateForPerDiem(new java.sql.Timestamp(currDay.getTimeInMillis()));
+            final MileageRate currDayMileageRate = getTravelDocumentService().getMileageRate(defaultPerDiemMileageRate, effectiveDay);
             if (currDayMileageRate == null) {
                 return false;
             }
@@ -775,20 +719,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         return true;
     }
 
-    /**
-     * Turns the given Timestamp into a Calendar where hour, minute, second, and millisecond are set to 0
-     * @param timestamp the timestamp to clean
-     * @return a Calendar which is only specified to the
-     */
-    protected Calendar getCleanDay(java.sql.Timestamp timestamp) {
-        Calendar uncleanDate = GregorianCalendar.getInstance();
-        uncleanDate.setTimeInMillis(timestamp.getTime());
-        uncleanDate.set(Calendar.HOUR, 0);
-        uncleanDate.set(Calendar.MINUTE, 0);
-        uncleanDate.set(Calendar.SECOND, 0);
-        uncleanDate.set(Calendar.MILLISECOND, 0);
-        return uncleanDate; // it's clean now
-    }
 
     public TravelDocumentDao getTravelDocumentDao() {
         return travelDocumentDao;

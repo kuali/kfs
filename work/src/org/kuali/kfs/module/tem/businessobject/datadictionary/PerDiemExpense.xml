@@ -26,7 +26,7 @@
             <ref bean="PerDiemExpense-lunchValue" />
 			<ref bean="PerDiemExpense-dinner" />
             <ref bean="PerDiemExpense-dinnerValue" />
-            <ref bean="PerDiemExpense-perDiemId" />
+            <ref bean="PerDiemExpense-primaryDestinationId" />
             <ref bean="PerDiemExpense-incidentalsValue" />
             <ref bean="PerDiemExpense-lodging" />
 			<ref bean="PerDiemExpense-miles" />
@@ -177,16 +177,9 @@
         <property name="summary" value="Dinner" />
         <property name="description" value="Dinner" />
     </bean>
-	<bean id="PerDiemExpense-perDiemId" parent="PerDiemExpense-perDiemId-parentBean" />
-	<bean id="PerDiemExpense-perDiemId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="perDiemId" />
-		<property name="label" value="Per Diem Id" />
-		<property name="shortLabel" value="Per Diem Id" />
-		<property name="maxLength" value="32" />
-		<property name="summary" value="Per Diem Id" />
-		<property name="description" value="Per Diem Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="32" /></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	<bean id="PerDiemExpense-primaryDestinationId" parent="PerDiemExpense-primaryDestinationId-parentBean" />
+	<bean id="PerDiemExpense-primaryDestinationId-parentBean" abstract="true" parent="PrimaryDestination-id">
+		<property name="name" value="primaryDestinationId" />
 	</bean>
 	<bean id="PerDiemExpense-incidentalsValue" parent="PerDiemExpense-incidentalsValue-parentBean" />
     <bean id="PerDiemExpense-incidentalsValue-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
@@ -297,7 +290,6 @@
 					<bean parent="FieldDefinition" p:attributeName="breakfast" />
 					<bean parent="FieldDefinition" p:attributeName="lunch" />
 					<bean parent="FieldDefinition" p:attributeName="dinner" />
-					<bean parent="FieldDefinition" p:attributeName="perDiem" />
 					<bean parent="FieldDefinition" p:attributeName="miles" />
 					<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 				</list>
@@ -324,7 +316,6 @@
 			<bean parent="FieldDefinition" p:attributeName="breakfast" />
 			<bean parent="FieldDefinition" p:attributeName="lunch" />
 			<bean parent="FieldDefinition" p:attributeName="dinner" />
-			<bean parent="FieldDefinition" p:attributeName="perDiem" />
 			<bean parent="FieldDefinition" p:attributeName="miles" />
 			<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 		</list>
@@ -339,7 +330,6 @@
 			<bean parent="FieldDefinition" p:attributeName="breakfast" />
 			<bean parent="FieldDefinition" p:attributeName="lunch" />
 			<bean parent="FieldDefinition" p:attributeName="dinner" />
-			<bean parent="FieldDefinition" p:attributeName="perDiem" />
 			<bean parent="FieldDefinition" p:attributeName="miles" />
 			<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 		</list>

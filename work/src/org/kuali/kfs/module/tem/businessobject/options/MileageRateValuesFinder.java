@@ -23,10 +23,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class MileageRateValuesFinder extends KeyValuesBase {
@@ -39,9 +43,33 @@ public class MileageRateValuesFinder extends KeyValuesBase {
      */
    @Override
    public List<KeyValue> getKeyValues() {
+       java.sql.Date searchDate = getSearchDateFromDocument();
+       if (searchDate == null) {
+           searchDate = getSearchDateFromQueryDate();
+       }
+
+       return getTravelDocumentService().getMileageRateKeyValues(searchDate);
+   }
+
+   /**
+    * @return the date to search for mileage rates on, based on the effective date from the document if possible
+    */
+   protected java.sql.Date getSearchDateFromDocument() {
+       final KualiForm currentForm = KNSGlobalVariables.getKualiForm();
+       if (currentForm instanceof KualiDocumentFormBase && ((KualiDocumentFormBase)currentForm).getDocument() instanceof TravelDocument) {
+           final TravelDocument travelDoc = (TravelDocument)((KualiDocumentFormBase)currentForm).getDocument();
+           return travelDoc.getEffectiveDateForMileageRate(null);
+       }
+       return null;
+   }
+
+   /**
+    * @return gets the date to search for mileage rates by from the injected query date
+    */
+   protected java.sql.Date getSearchDateFromQueryDate() {
        java.util.Date javaDate = null;
        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-       if(StringUtils.isNotEmpty(queryDate)) {
+       if(!StringUtils.isBlank(queryDate)) {
            try {
                javaDate = df.parse(queryDate);
            } catch (ParseException ex) {
@@ -55,7 +83,7 @@ public class MileageRateValuesFinder extends KeyValuesBase {
        catch (ParseException ex) {
            LOG.error("unable to convert date: " + queryDate);
        }
-       return getTravelDocumentService().getMileageRateKeyValues(searchDate);
+       return searchDate;
    }
 
    /**

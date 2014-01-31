@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.dataaccess.impl;
 
+import java.sql.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -33,8 +35,37 @@ public class MileageRateDaoOjb extends PlatformAwareDaoBaseOjb implements Mileag
         criteria.addEqualTo(TemPropertyConstants.EXPENSE_TYPE_CODE, expenseTypeCode);
         Query query = QueryFactory.newQuery(MileageRate.class, criteria);
         return (List<MileageRate>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
 
 
+    /**
+     * Query by both expense type and effective date - and with any luck, we'll find but one record
+     * @see org.kuali.kfs.module.tem.dataaccess.MileageRateDao#findMileageRatesByExpenseTypeCodeAndDate(java.lang.String, java.sql.Date)
+     */
+    @Override
+    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(TemPropertyConstants.EXPENSE_TYPE_CODE, expenseTypeCode);
+        criteria.addLessOrEqualThan(TemPropertyConstants.ACTIVE_FROM_DATE, effectiveDate);
+
+        Criteria toDateCriteria = new Criteria();
+        toDateCriteria.addIsNull(TemPropertyConstants.ACTIVE_TO_DATE);
+        Criteria toDateLimitCriteria = new Criteria();
+        toDateLimitCriteria.addGreaterOrEqualThan(TemPropertyConstants.ACTIVE_TO_DATE, effectiveDate);
+        toDateCriteria.addOrCriteria(toDateLimitCriteria);
+        criteria.addAndCriteria(toDateCriteria);
+
+        Query query = QueryFactory.newQuery(MileageRate.class, criteria);
+
+        Iterator<MileageRate> mileageRateIter = getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        MileageRate result = null;
+        if (mileageRateIter.hasNext()) {
+            result = mileageRateIter.next();
+        }
+        while (mileageRateIter.hasNext()) {
+            mileageRateIter.next(); // I hope we're not ever here.  But let's clear out the iterator so we don't hold on to DB resources
+        }
+        return result;
     }
 
 }

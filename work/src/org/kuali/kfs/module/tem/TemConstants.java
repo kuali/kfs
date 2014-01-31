@@ -495,8 +495,7 @@ public class TemConstants {
     public static final String INT_PHONE_PATTERN = "\\+?[0-9]{1}([0-9.]*|\\-|\\s)*[0-9]((\\s[x][0-9]+)*)";
     public static final String US_PHONE_PATTERN = "[0-9]{3}\\-[0-9]{3}\\-[0-9]{4}((\\s[x][0-9]+)*)";
 
-    public static final int CUSTOM_PER_DIEM_ID = Integer.MAX_VALUE;
-    public static final int CUSTOM_PRIMARY_DESTINATION_ID = CUSTOM_PER_DIEM_ID;
+    public static final int CUSTOM_PRIMARY_DESTINATION_ID = Integer.MAX_VALUE;
 
     public static final int QUADRANT_PERCENT_VALUE = 25;
 

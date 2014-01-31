@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.dataaccess;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
@@ -44,10 +43,13 @@ public interface TravelDocumentDao {
 	 *
 	 * PER_DIEM_LOOKUP_DATE can also be passed in for a custom date duration search
 	 *
-	 * @param fieldValues
+	 * @param primaryDestinationId the id of the primary destination to find dates for
+	 * @param perDiemDate the date of the per diem to find a PerDiem record for
+	 * @param effectiveDate the date we should use against the effective dates
 	 * @return
 	 */
-	public PerDiem findPerDiem(Map<String, Object> fieldValues);
+	@Deprecated
+	public PerDiem findPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate);
 
     /**
      * get all outstanding travel advances by the given invoice document numbers. The advances must have not been used to generate

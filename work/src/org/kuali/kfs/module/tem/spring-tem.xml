@@ -48,7 +48,6 @@
 		<property name="jobNames">
 			<list>
 			  	<value>perDiemLoadJob</value>
-			  	<value>perDiemDeactivationJob</value>
 			  	<value>taxableRamificationNotificationJob</value>
 				<value>agencyDataImportJob</value>
 				<value>creditCardDataImportJob</value>
@@ -128,24 +127,29 @@
 		scope="prototype">
 		<property name="lookupableHelperService" ref="perDiemLookupableHelperService" />
 	</bean>
-
-	<bean id="perDiemLookupableHelperService"
-		class="org.kuali.kfs.module.tem.businessobject.lookup.PerDiemLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
+	<bean id="perDiemLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.PerDiemLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="documentDictionaryService" ref="documentDictionaryService"/>
 	</bean>
 	
 	<bean id="primaryDestinationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
 		<property name="lookupableHelperService" ref="primaryDestinationLookupableHelperService" />
 	</bean>
-
 	<bean id="primaryDestinationLookupableHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.PrimaryDestinationLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
 	</bean>
+	
+	<bean id="mileageRateLookupable" parent="mileageRateLookupable-parentBean" />
+	<bean id="mileageRateLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService" ref="mileageRateLookupableHelperService" />
+	</bean>
+	<bean id="mileageRateLookupableHelperService" parent="mileageRateLookupableHelperService-parentBean" />
+	<bean id="mileageRateLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.MileageRateLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="documentDictionaryService" ref="documentDictionaryService"/>
+	</bean>
 
-	<bean id="historicalTravelExpenseLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
+	<bean id="historicalTravelExpenseLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="historicalTravelExpenseLookupableHelperService" />
 	</bean>
 
@@ -528,6 +532,7 @@
     	<property name="travelExpenseService" ref="travelExpenseService"/>
     	<property name="noteService" ref="noteService"/>
     	<property name="travelService" ref="temTravelService"/>
+    	<property name="mileageRateService" ref="mileageRateService"/>
 	</bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
@@ -699,20 +704,7 @@
         
 	    <property name="digestorRulesFileName" value="org/kuali/kfs/module/tem/batch/perDiemDigesterRules.xml" />
 	    <property name="schemaLocation" value="${externalizable.static.content.url}/xsd/tem/perDiem.xsd" />       
-    </bean>     
-
-	<bean id="perDiemDeactivationJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="perDiemDeactivationStep" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="perDiemDeactivationStep" class="org.kuali.kfs.module.tem.batch.PerDiemDeactivationStep"
-		parent="step">
-		<property name="perDiemService" ref="perDiemService" />
-	</bean>
+    </bean>
 
 	<bean id="perDiemLoadJob" parent="unscheduledJobDescriptor">
 		<property name="steps">

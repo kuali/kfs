@@ -43,6 +43,11 @@ public class MileageRateServiceImpl implements MileageRateService {
 
        }
 
+    @Override
+    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
+        return mileageRateDao.findMileageRatesByExpenseTypeCodeAndDate(expenseTypeCode, effectiveDate);
+    }
+
     public void setMileageRateDao(MileageRateDao mileageRateDao) {
         this.mileageRateDao = mileageRateDao;
     }

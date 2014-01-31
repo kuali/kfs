@@ -20,6 +20,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName"        value="TMR" />
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.MileageRateMaintenanceDocumentPresentationController" />
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="defaultExistenceChecks">
 			<list>

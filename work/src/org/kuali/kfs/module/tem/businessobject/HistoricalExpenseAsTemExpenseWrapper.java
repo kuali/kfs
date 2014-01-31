@@ -295,7 +295,7 @@ public class HistoricalExpenseAsTemExpenseWrapper implements TemExpense {
      */
     @Override
     public String getExpenseLineTypeCode() {
-        return baseExpense.getTravelExpenseType();
+        return baseExpense.getTravelExpenseTypeCode();
     }
 
     /**
@@ -343,7 +343,7 @@ public class HistoricalExpenseAsTemExpenseWrapper implements TemExpense {
      */
     @Override
     public String getExpenseTypeCode() {
-        return baseExpense.getTravelExpenseType();
+        return baseExpense.getTravelExpenseTypeCode();
     }
 
     /**

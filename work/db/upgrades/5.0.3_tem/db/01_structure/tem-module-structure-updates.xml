@@ -363,7 +363,7 @@
 			<column name="IMPORT_DT" type="DATE" />
 			<column name="COMPANY" type="VARCHAR2(40)" />
 			<column name="LOCATION" type="VARCHAR2(40)" />
-			<column name="DV_EXP_CD" type="VARCHAR2(2)" />
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)" />
 			<column name="AMOUNT" type="NUMBER(8,2)" />
 			<column name="TRANS_POST_DT" type="DATE" />
 			<column name="DESCRIPTION" type="VARCHAR2(25)" />

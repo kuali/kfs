@@ -5,11 +5,11 @@ $!{notificationText}
 #foreach( ${expense} in ${travelExpenses} )
 
 IMPORT DATE:        $!{expense.importDate}
-DESCRIPTION:        $!{expense.description}
+DESCRIPTION:        $!{expense.expenseType.name}
 TRIP ID:            $!{expense.tripId}
 CREDIT CARD AGENCY: $!{expense.creditCardAgency.creditCardOrAgencyName}
 TRAVEL COMPANY:     $!{expense.travelCompany}
-EXPENSE TYPE:       $!{expense.travelExpenseType}
+EXPENSE TYPE:       $!{expense.expenseType.name}
 AMOUNT:             $!{expense.amount}
 
 #end

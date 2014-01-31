@@ -1450,7 +1450,7 @@
 		<field-descriptor name="importDate" column="IMPORT_DT" jdbc-type="DATE"/>
 		<field-descriptor name="travelCompany" column="COMPANY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="travelExpenseType" column="DV_EXP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="travelExpenseTypeCode" column="EXP_TYP_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="transactionPostingDate" column="TRANS_POST_DT" jdbc-type="DATE"/>
 		<field-descriptor name="reconciliationDate" column="RECON_DT" jdbc-type="DATE"/>
@@ -1472,13 +1472,16 @@
 		<field-descriptor name="expenseNotificationDate" column="EXP_NTF_DT" jdbc-type="DATE"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="creditCardAgencyId"/>
 		</reference-descriptor>
-		<reference-descriptor name="agencyStagingData" class-ref="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="travelExpenseTypeCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="agencyStagingData" class-ref="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="agencyStagingDataId"/>
 		</reference-descriptor>
-		<reference-descriptor name="creditCardStagingData" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<reference-descriptor name="creditCardStagingData" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="creditCardStagingDataId"/>
 		</reference-descriptor>
 	</class-descriptor>

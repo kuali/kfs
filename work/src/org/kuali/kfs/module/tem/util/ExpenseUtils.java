@@ -61,7 +61,7 @@ public class ExpenseUtils {
             importedExpense.setConvertedAmount(historicalTravelExpense.getConvertedAmount());
             importedExpense.setExpenseAmount(historicalTravelExpense.getAmount());
             importedExpense.setTravelCompanyCodeName(historicalTravelExpense.getTravelCompany());
-            importedExpense.setExpenseTypeCode(historicalTravelExpense.getTravelExpenseType());
+            importedExpense.setExpenseTypeCode(historicalTravelExpense.getTravelExpenseTypeCode());
 
             final String travelerTypeCode = ObjectUtils.isNull(travelDocument.getTraveler()) ? null : travelDocument.getTraveler().getTravelerTypeCode(); // we shouldn't get here if traveler type is null, but just in case
             final ExpenseTypeObjectCode travelExpenseTypeCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(importedExpense.getExpenseTypeCode(), travelDocument.getDocumentTypeName(), travelDocument.getTripTypeCode(), travelerTypeCode);

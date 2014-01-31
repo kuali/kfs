@@ -105,6 +105,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = reimbForm.getTravelReimbursementDocument();
 
         refreshCollectionsFor(document);
+        initializeAssignAccounts(reimbForm);
     }
 
 
@@ -489,6 +490,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
         // do the distribution
         travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));
+        initializeAssignAccounts(travelForm);
     }
 
     @Override
@@ -579,6 +581,10 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (reimbForm.getNewSourceLine() != null) {
             final String objectCode = getObjectCodeForNewSourceAccountingLine(reimbForm);
             reimbForm.getNewSourceLine().setFinancialObjectCode(objectCode);
+        }
+
+        if (reimbForm.getAccountDistributionsourceAccountingLines() == null || reimbForm.getAccountDistributionsourceAccountingLines().isEmpty()) {
+            initializeAssignAccounts(reimbForm);
         }
 
         return retval;

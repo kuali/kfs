@@ -1351,17 +1351,22 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @param response
      * @return {@link ActionForward}
      */
-    public ActionForward distribute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelFormBase travelForm = (TravelFormBase) form;
-        travelForm.setAnchor(TemConstants.SUMMARY_ANCHOR);
+    protected void initializeAssignAccounts(TravelFormBase travelForm) {
         TravelDocument travelDocument = travelForm.getTravelDocument();
         TemDistributionAccountingLine newLine = getAccountingDistributionService().distributionToDistributionAccountingLine(travelForm.getDistribution());
         travelForm.setAccountDistributionsourceAccountingLines(new ArrayList<TemDistributionAccountingLine>());
         travelForm.setAccountDistributionnextSourceLineNumber(new Integer(1));
         newLine.setAccountLinePercent(new BigDecimal(100));
         newLine.setCardType(travelDocument.getDefaultAccountingLineCardAgencyType());
+
+        if (!ObjectUtils.isNull(travelDocument.getTemProfile())) {
+            newLine.setChartOfAccountsCode(travelDocument.getTemProfile().getDefaultChartCode());
+            newLine.setAccountNumber(travelDocument.getTemProfile().getDefaultAccount());
+            newLine.setSubAccountNumber(travelDocument.getTemProfile().getDefaultSubAccount());
+            newLine.setProjectCode(travelDocument.getTemProfile().getDefaultProjectCode());
+        }
+
         travelForm.setAccountDistributionnewSourceLine(newLine);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward distributeAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

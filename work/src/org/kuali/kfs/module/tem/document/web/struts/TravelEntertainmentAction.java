@@ -142,6 +142,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 populateFromPreviousENTDoc(document, identifierStr);
             }
         }
+        initializeAssignAccounts(entForm);
     }
 
     /**
@@ -155,6 +156,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
 
         refreshCollectionsFor(document);
+        entForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(entForm.getTravelDocument()));
+        initializeAssignAccounts(entForm);
     }
 
     //TODO: is this really necessary?
@@ -242,6 +245,10 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final KualiDecimal paymentTotal = document.getPaymentAmount();
         if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
             document.getTravelPayment().setCheckTotalAmount(paymentTotal);
+        }
+
+        if (entForm.getAccountDistributionsourceAccountingLines() == null || entForm.getAccountDistributionsourceAccountingLines().isEmpty()) {
+            initializeAssignAccounts(entForm);
         }
 
         return retval;

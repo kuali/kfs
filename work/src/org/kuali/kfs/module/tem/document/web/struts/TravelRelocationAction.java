@@ -82,6 +82,8 @@ public class TravelRelocationAction extends TravelActionBase {
         final TravelRelocationDocument document = reloForm.getTravelRelocationDocument();
 
         refreshCollectionsFor(document);
+        reloForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(reloForm.getTravelDocument()));
+        initializeAssignAccounts(reloForm);
     }
 
     /**
@@ -130,6 +132,10 @@ public class TravelRelocationAction extends TravelActionBase {
         final KualiDecimal paymentTotal = document.getPaymentAmount();
         if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
             document.getTravelPayment().setCheckTotalAmount(paymentTotal);
+        }
+
+        if (reloForm.getAccountDistributionsourceAccountingLines() == null || reloForm.getAccountDistributionsourceAccountingLines().isEmpty()) {
+            initializeAssignAccounts(reloForm);
         }
 
         return retval;
@@ -210,6 +216,7 @@ public class TravelRelocationAction extends TravelActionBase {
                 getBusinessObjectService().save(relationship);
             }
         }
+        initializeAssignAccounts(travelForm);
     }
 
     protected void createDVDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

@@ -1036,7 +1036,7 @@
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfile" table="TEM_PROFILE_T">
 		<field-descriptor name="profileId" primarykey="true" column="PROFILE_ID" jdbc-type="INTEGER" sequence-name="TEM_PROFILE_ID_SEQ" auto-increment="true"/>
 		<field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerNumber" column="CUSTOMER_NUM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="driversLicenseNumber" column="DRIVE_LIC_NUM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="driversLicenseState" column="DRIVE_LIC_STATE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="driversLicenseExpDate" column="DRIVE_LIC_EXP_DT" jdbc-type="DATE"/>

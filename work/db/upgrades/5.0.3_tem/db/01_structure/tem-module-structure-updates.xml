@@ -579,7 +579,7 @@
 		<createTable tableName="TEM_PROFILE_T">
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
 			<column name="PRNCPL_ID" type="VARCHAR2(40)" />
-			<column name="CUSTOMER_NUM" type="VARCHAR2(9)" />
+			<column name="CUST_NBR" type="VARCHAR2(9)" />
 			<column name="DRIVE_LIC_NUM" type="VARCHAR2(20)" />
 			<column name="DRIVE_LIC_STATE" type="VARCHAR2(2)" />
 			<column name="DRIVE_LIC_EXP_DT" type="DATE" />

@@ -25,11 +25,9 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
-import org.kuali.kfs.module.ar.fixture.InvoiceDetailFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -90,15 +88,6 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
         cgInvoice.setAward(award);
         cgInvoice.setOpenInvoiceIndicator(true);
         cgInvoice.setCustomerName(CUSTOMER_NAME);
-
-        // do we always need these? or should the service impls not assume they're present?
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL2.createInvoiceDetail();
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
-        invoiceDetails.add(invoiceDetail_1);
-        invoiceDetails.add(invoiceDetail_2);
-        // not set anywhere else?
-        cgInvoice.setInvoiceDetails(invoiceDetails);
 
         documentService.saveDocument(cgInvoice);
 

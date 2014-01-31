@@ -29,15 +29,19 @@ import java.util.Set;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
+import org.kuali.kfs.module.ar.fixture.InvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
@@ -46,6 +50,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -60,11 +65,15 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
     public ContractsAndGrantsCategories category;
     public ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument;
+    public ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
+        contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
 
         category = new ContractsAndGrantsCategories();
         category.setCategoryCode("testCode");
@@ -317,5 +326,70 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
     }
 
+    public void testInvoiceDetails() {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
+        contractsGrantsInvoiceDocument.setAward(award);
+        contractsGrantsInvoiceDocument.setProposalNumber(award.getProposalNumber());
+
+        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL4.createInvoiceDetail();
+        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL5.createInvoiceDetail();
+        InvoiceDetail invoiceDetail_3 = InvoiceDetailFixture.INV_DTL6.createInvoiceDetail();
+        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        invoiceDetails.add(invoiceDetail_1);
+        invoiceDetails.add(invoiceDetail_2);
+        invoiceDetails.add(invoiceDetail_3);
+        contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
+
+        // setup various invoice detail collections on invoice document
+        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
+
+        // all
+        List<InvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
+
+        // non-totals
+        List<InvoiceDetail> invoiceDetailsWithoutIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts();
+        List<InvoiceDetail> invoiceDetailsIdcOnly = contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly();
+        List<InvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts();
+
+        // totals
+        List<InvoiceDetail> totalInvoiceDetails = contractsGrantsInvoiceDocument.getTotalInvoiceDetails();
+        List<InvoiceDetail> dcInvoiceDetails = contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails();
+        List<InvoiceDetail> idcInvoiceDetails = contractsGrantsInvoiceDocument.getInDirectCostInvoiceDetails();
+
+        // non-totals
+        assertEquals(15, allInvoiceDetails.size());
+        assertEquals(11, invoiceDetailsWithoutIdc.size());
+        assertEquals(1, invoiceDetailsIdcOnly.size());
+        assertEquals(12, invoiceDetailsWithIdc.size());
+
+        // totals
+        assertEquals(1, totalInvoiceDetails.size());
+        assertEquals(ArConstants.TOTAL_COST_CD, totalInvoiceDetails.get(0).getCategoryCode());
+        assertEquals(new KualiDecimal(960.00), totalInvoiceDetails.get(0).getBudget());
+        assertEquals(new KualiDecimal(1020.00),totalInvoiceDetails.get(0).getCumulative());
+        assertEquals(new KualiDecimal(-60.00),totalInvoiceDetails.get(0).getBalance());
+        assertEquals(new KualiDecimal(0.00),totalInvoiceDetails.get(0).getBilled());
+        assertEquals(new KualiDecimal(0.00),totalInvoiceDetails.get(0).getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(960.00),totalInvoiceDetails.get(0).getAdjustedBalance());
+
+        assertEquals(1, dcInvoiceDetails.size());
+        assertEquals(ArConstants.TOTAL_DIRECT_COST_CD, dcInvoiceDetails.get(0).getCategoryCode());
+        assertEquals(new KualiDecimal(640.00), dcInvoiceDetails.get(0).getBudget());
+        assertEquals(new KualiDecimal(680.00), dcInvoiceDetails.get(0).getCumulative());
+        assertEquals(new KualiDecimal(-40.00), dcInvoiceDetails.get(0).getBalance());
+        assertEquals(new KualiDecimal(0.00), dcInvoiceDetails.get(0).getBilled());
+        assertEquals(new KualiDecimal(0.00), dcInvoiceDetails.get(0).getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(640.00), dcInvoiceDetails.get(0).getAdjustedBalance());
+
+        assertEquals(1, idcInvoiceDetails.size());
+        assertEquals(ArConstants.TOTAL_IN_DIRECT_COST_CD, idcInvoiceDetails.get(0).getCategoryCode());
+        assertEquals(new KualiDecimal(320.00), idcInvoiceDetails.get(0).getBudget());
+        assertEquals(new KualiDecimal(340.00), idcInvoiceDetails.get(0).getCumulative());
+        assertEquals(new KualiDecimal(-20.00), idcInvoiceDetails.get(0).getBalance());
+        assertEquals(new KualiDecimal(0.00), idcInvoiceDetails.get(0).getBilled());
+        assertEquals(new KualiDecimal(0.00), idcInvoiceDetails.get(0).getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(320.00), idcInvoiceDetails.get(0).getAdjustedBalance());
+
+    }
 
 }

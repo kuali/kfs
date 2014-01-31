@@ -168,9 +168,9 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedInvoiceDetails() throws WorkflowException {
-        List<InvoiceDetail> invoiceDetail = document.getInvoiceDetails();
+        List<InvoiceDetail> invoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        List<InvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetails();
+        List<InvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
         Iterator iterator = invoiceDetail.iterator();
         Iterator correctedIterator = correctedInvoiceDetail.iterator();
         while (iterator.hasNext() || correctedIterator.hasNext()) {

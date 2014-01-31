@@ -1917,19 +1917,6 @@
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="invoiceNumber" />
 		</collection-descriptor>
-		
-		<collection-descriptor name="directCostInvoiceDetails" proxy="false" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceDetail"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="documentNumber" />
-		</collection-descriptor>
-		<collection-descriptor name="inDirectCostInvoiceDetails" proxy="false" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceDetail"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="documentNumber" />
-		</collection-descriptor>
-		<collection-descriptor name="totalInvoiceDetails" proxy="false" element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceDetail"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="documentNumber" />
-		</collection-descriptor>
 
 		<collection-descriptor name="invoiceDetailAccountObjectCodes" proxy="true"
 			element-class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"

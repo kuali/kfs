@@ -66,9 +66,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private KualiDecimal balanceDue = KualiDecimal.ZERO;
     private List<InvoiceDetail> invoiceDetails;
     private List<Event> events;
-    private List<InvoiceDetail> directCostInvoiceDetails;
-    private List<InvoiceDetail> inDirectCostInvoiceDetails;
-    private List<InvoiceDetail> totalInvoiceDetails;
     private List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes;
     private List<InvoiceAddressDetail> invoiceAddressDetails;
     private List<InvoiceAccountDetail> accountDetails;
@@ -103,9 +100,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         invoiceAddressDetails = new ArrayList<InvoiceAddressDetail>();
         invoiceDetails = new ArrayList<InvoiceDetail>();
         events = new ArrayList<Event>();
-        directCostInvoiceDetails = new ArrayList<InvoiceDetail>();
-        inDirectCostInvoiceDetails = new ArrayList<InvoiceDetail>();
-        totalInvoiceDetails = new ArrayList<InvoiceDetail>();
         accountDetails = new ArrayList<InvoiceAccountDetail>();
         invoiceMilestones = new ArrayList<InvoiceMilestone>();
         invoiceBills = new ArrayList<InvoiceBill>();
@@ -279,12 +273,11 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the invoiceDetails attribute.
+     * Gets the list of invoice Details without the Total fields or any indirect cost categories
      *
      * @return Returns the invoiceDetails.
      */
-    public List<InvoiceDetail> getInvoiceDetails() {
-        // To get the list of invoice Details without the Total fields or any indirect cost categories
+    public List<InvoiceDetail> getInvoiceDetailsWithoutIndirectCosts() {
         List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
         for (InvoiceDetail invD : invoiceDetails) {
             if (!invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD) && !invD.isIndirectCostIndicator()) {
@@ -294,8 +287,12 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         return invDetails;
     }
 
+    /**
+     * Get the list of invoice Details without the Total fields
+     *
+     * @return Returns the invoiceDetails.
+     */
     public List<InvoiceDetail> getInvoiceDetailsWithIndirectCosts(){
-     // To get the list of invoice Details without the Total fields
         List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
         for (InvoiceDetail invD : invoiceDetails) {
             if (!invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
@@ -308,7 +305,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method returns a list of invoice details which are indirect costs only.
-     * These invoice details are not shown on the document and is different form the
+     * These invoice details are not shown on the document and is different from the
      * other method getInDirectCostInvoiceDetails() because that method returns the total.
      */
     public List<InvoiceDetail> getInvoiceDetailsIndirectCostOnly(){
@@ -322,22 +319,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
+     * Gets the invoiceDetails attribute value.
+     *
+     * @param invoiceDetails The invoiceDetails to set.
+     */
+    public List<InvoiceDetail> getInvoiceDetails() {
+        return invoiceDetails;
+    }
+
+    /**
      * Sets the invoiceDetails attribute value.
      *
      * @param invoiceDetails The invoiceDetails to set.
      */
     public void setInvoiceDetails(List<InvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
-    }
-
-    /**
-     * Adds the given invoiceDetail to the InvoiceDetails list.
-     *
-     * @param invoiceDetail The invoiceDetails to add.
-     */
-    public void addInvoiceDetail(InvoiceDetail invoiceDetail) {
-        // KFSMI-12033 adding method to add invoice details
-        this.invoiceDetails.add(invoiceDetail);
     }
 
     /**
@@ -589,28 +585,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the directCostInvoiceDetails attribute.
+     * Gets the Total Direct Cost InvoiceDetail.
      *
-     * @return Returns the directCostInvoiceDetails.
+     * @return Returns the total direct Cost InvoiceDetails.
      */
     public List<InvoiceDetail> getDirectCostInvoiceDetails() {
-        for (Iterator<InvoiceDetail> iter = directCostInvoiceDetails.iterator(); iter.hasNext();) {
-            InvoiceDetail dInvD = iter.next();
-            if (!dInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
-                iter.remove();
+        List<InvoiceDetail> directCostInvoiceDetails = new ArrayList<InvoiceDetail>();
+
+        for (InvoiceDetail invoiceDetail: invoiceDetails) {
+            if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
+                directCostInvoiceDetails.add(invoiceDetail);
             }
         }
 
         return directCostInvoiceDetails;
-    }
-
-    /**
-     * Sets the directCostInvoiceDetails attribute value.
-     *
-     * @param directCostInvoiceDetails The directCostInvoiceDetails to set.
-     */
-    public void setDirectCostInvoiceDetails(List<InvoiceDetail> directCostInvoiceDetails) {
-        this.directCostInvoiceDetails = directCostInvoiceDetails;
     }
 
     /**
@@ -632,16 +620,16 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the inDirectCostInvoiceDetails attribute.
+     * Gets the total indirect cost InvoiceDetail
      *
-     * @return Returns the inDirectCostInvoiceDetails.
+     * @return Returns the total indirect cost InvoiceDetail.
      */
     public List<InvoiceDetail> getInDirectCostInvoiceDetails() {
         // To get the list of invoice Details for indirect cost
-        for (Iterator<InvoiceDetail> iter = inDirectCostInvoiceDetails.iterator(); iter.hasNext();) {
-            InvoiceDetail indInvD = iter.next();
-            if (!indInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
-                iter.remove();
+        List<InvoiceDetail> inDirectCostInvoiceDetails = new ArrayList<InvoiceDetail>();
+        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+            if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
+                inDirectCostInvoiceDetails.add(invoiceDetail);
             }
         }
 
@@ -649,47 +637,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Sets the inDirectCostInvoiceDetails attribute value.
-     *
-     * @param inDirectCostInvoiceDetails The inDirectCostInvoiceDetails to set.
-     */
-    public void setInDirectCostInvoiceDetails(List<InvoiceDetail> inDirectCostInvoiceDetails) {
-        this.inDirectCostInvoiceDetails = inDirectCostInvoiceDetails;
-    }
-
-    /**
-     * Gets the totalInvoiceDetails attribute.
+     * Gets the total cost InvoiceDetail.
      *
      * @return Returns the totalInvoiceDetails.
      */
     public List<InvoiceDetail> getTotalInvoiceDetails() {
         // To get the list of invoice Details for total cost
         List<InvoiceDetail> totalInvDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail tInvD : totalInvoiceDetails) {
+        for (InvoiceDetail tInvD : invoiceDetails) {
             if (tInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD)) {
                 totalInvDetails.add(tInvD);
             }
         }
 
         return totalInvDetails;
-    }
-
-    /**
-     * Adds the totalInvoiceDetail to the totalInvoiceDetails list
-     *
-     * @param totalInvoiceDetail The InvoiceDetail to add to the totalInvoiceDetails List.
-     */
-    public void addTotalInvoiceDetail(InvoiceDetail totalInvoiceDetail) {
-        totalInvoiceDetails.add(totalInvoiceDetail);
-    }
-
-    /**
-     * Sets the totalInvoiceDetails attribute value.
-     *
-     * @param totalInvoiceDetails The totalInvoiceDetails to set.
-     */
-    public void setTotalInvoiceDetails(List<InvoiceDetail> totalInvoiceDetails) {
-        this.totalInvoiceDetails = totalInvoiceDetails;
     }
 
     /**

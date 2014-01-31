@@ -113,8 +113,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         KualiDecimal value1 = new KualiDecimal(5);
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(0).setExpenditures(value1);
+        contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(1).setExpenditures(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
@@ -128,16 +128,16 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(value1, contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).getExpenditures());
-        assertEquals(value2, contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
+        assertEquals(value1, contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(0).getExpenditures());
+        assertEquals(value2, contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(1).getExpenditures());
 
         // change the award total, it should now prorate
         contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setAwardTotal(new KualiDecimal(4));
 
         contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).getExpenditures());
-        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
+        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(0).getExpenditures());
+        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(1).getExpenditures());
     }
 
     /**
@@ -358,8 +358,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         KualiDecimal value1 = new KualiDecimal(5);
 
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(0).setExpenditures(value1);
+        contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts().get(1).setExpenditures(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL3.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL4.createInvoiceAccountDetail();

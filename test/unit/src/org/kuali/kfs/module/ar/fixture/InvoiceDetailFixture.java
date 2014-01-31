@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * Fixture class for InvoiceDetail
  */
 public enum InvoiceDetailFixture {
-    INV_DTL1(new Long(2341), "6320", "SAL", "Salaries and Wages", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false), INV_DTL2(new Long(2350), "6321", "SAL", "Salaries and Wages", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false), INV_DTL3(new Long(2350), "6322", "EMPB", "Employee Benefits", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false);
-
+    INV_DTL1(new Long(2341), "6320", "SAL", "Salaries and Wages", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false),
+    INV_DTL2(new Long(2350), "6321", "SAL", "Salaries and Wages", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false),
+    INV_DTL3(new Long(2350), "6322", "EMPB", "Employee Benefits", KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO, false),
+    INV_DTL4(new Long(2355), "6324", "SAL", "Salaries and Wages", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, false),
+    INV_DTL5(new Long(2356), "6325", "EMPB", "Employee Benefits", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, false),
+    INV_DTL6(new Long(2357), "6326", "OIC", "Other Indirect Cost", new KualiDecimal(320.00), KualiDecimal.ZERO, new KualiDecimal(340.00), new KualiDecimal(-20.00), KualiDecimal.ZERO, true);
 
     private Long invoiceDetailIdentifier;
     private String documentNumber;

@@ -480,7 +480,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         if (expenditureValueChanged) {
             // update Total Direct Cost in the Invoice Detail Tab
-            KualiDecimal totalDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetails());
+            KualiDecimal totalDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts());
 
             // Set expenditures to Direct Cost invoice Details
             if (CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails())){
@@ -3188,19 +3188,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("systemInformation.state", returnProperStringValue(sysInfo.getOrganizationRemitToStateCode()));
             parameterMap.put("systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
         }
-        if (CollectionUtils.isNotEmpty(document.getInvoiceDetails())) {
-            InvoiceDetail firstInvoiceDetail = document.getInvoiceDetails().get(0);
+        if (CollectionUtils.isNotEmpty(document.getInvoiceDetailsWithoutIndirectCosts())) {
+            InvoiceDetail firstInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts().get(0);
 
-            for (int i = 0; i < document.getInvoiceDetails().size(); i++) {
-                parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
-                parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
-                parameterMap.put("invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetails().get(i).getCategory()));
-                parameterMap.put("invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetails().get(i).getBudget()));
-                parameterMap.put("invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetails().get(i).getExpenditures()));
-                parameterMap.put("invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetails().get(i).getCumulative()));
-                parameterMap.put("invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
-                parameterMap.put("invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
-                parameterMap.put("invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
+            for (int i = 0; i < document.getInvoiceDetailsWithoutIndirectCosts().size(); i++) {
+                parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getInvoiceDetailIdentifier()));
+                parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getDocumentNumber()));
+                parameterMap.put("invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCategory()));
+                parameterMap.put("invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getBudget()));
+                parameterMap.put("invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getExpenditures()));
+                parameterMap.put("invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCumulative()));
+                parameterMap.put("invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getBalance()));
+                parameterMap.put("invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getBilled()));
+                parameterMap.put("invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getAdjustedCumExpenditures()));
                 parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(firstInvoiceDetail.getAdjustedBalance()));
             }
         }
@@ -3669,7 +3669,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException {
-        Iterator iterator = document.getInvoiceDetails().iterator();
+        Iterator iterator = document.getInvoiceDetailsWithoutIndirectCosts().iterator();
         // correct Invoice Details.
         while (iterator.hasNext()) {
             InvoiceDetail id = (InvoiceDetail) iterator.next();
@@ -4223,8 +4223,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invDetail.performBudgetCalculations(awardAccounts, completeObjectCodeArrayForSingleCategory, document.getAward().getAwardBeginningDate());// accounting
                                                                                                                                                       // calculations
             // happening here
-            // KFSMI-12033 correcting the building of invoice details
-            document.addInvoiceDetail(invDetail);
+            document.getInvoiceDetails().add(invDetail);
         }
 
 
@@ -4240,7 +4239,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         KualiDecimal totalInDirectCostExpenditures = KualiDecimal.ZERO;
         KualiDecimal totalInDirectCostBalance = KualiDecimal.ZERO;
         KualiDecimal totalInDirectCostBilled = KualiDecimal.ZERO;
-        Iterator<InvoiceDetail> o = document.getInvoiceDetails().iterator();
+        Iterator<InvoiceDetail> o = document.getInvoiceDetailsWithIndirectCosts().iterator();
 
         while (o.hasNext()) {
 
@@ -4295,7 +4294,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         directCostInvDetail.setCumulative(totalDirectCostCumulative);
         directCostInvDetail.setBalance(totalDirectCostBalance);
         directCostInvDetail.setBilled(totalDirectCostBilled);
-        document.getDirectCostInvoiceDetails().add(directCostInvDetail);
+        document.getInvoiceDetails().add(directCostInvDetail);
 
         // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
 
@@ -4309,7 +4308,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         indInvDetail.setCumulative(totalInDirectCostCumulative);
         indInvDetail.setBalance(totalInDirectCostBalance);
         indInvDetail.setBilled(totalInDirectCostBilled);
-        document.getInDirectCostInvoiceDetails().add(indInvDetail);
+        document.getInvoiceDetails().add(indInvDetail);
 
         // Sum up the direct cost and indirect cost invoice details.
 
@@ -4328,7 +4327,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalInvDetail.setBilled(firstDirectCostInvoiceDetail.getBilled().add(totalInDirectCostBilled));
         }
 
-        document.addTotalInvoiceDetail(totalInvDetail);
+        document.getInvoiceDetails().add(totalInvDetail);
 
     }
 

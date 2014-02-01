@@ -814,7 +814,7 @@
         <column name="CUST_PMT_MEDIUM_ID" size="30" type="VARCHAR"/>
         <column name="FDOC_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CUST_PMT_DESC" size="60" type="VARCHAR"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_PMT_DT" type="DATE"/>
         <foreign-key foreignTable="AR_CSH_CTRL_T" name="AR_CSH_CTRL_DTL_TR2">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
@@ -857,7 +857,7 @@
         </unique>
     </table>
     <table name="AR_CUST_ADDR_T">
-        <column name="CUST_NBR" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
         <column name="CUST_ADDR_ID" primaryKey="true" size="7" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -917,7 +917,7 @@
         </unique>
     </table>
     <table name="AR_CUST_T">
-        <column name="CUST_NBR" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CUST_NM" size="60" type="VARCHAR"/>
@@ -963,7 +963,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="PRCS_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="PRCS_ORG_CD" size="4" type="VARCHAR"/>
         <column name="AR_ENTRY_DT" type="DATE"/>
@@ -990,7 +990,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="FDOC_REF_NBR" size="14" type="VARCHAR"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="DOC_RCURRNC_BEG_DT" type="DATE"/>
         <column name="DOC_RCURRNC_END_DT" type="DATE"/>
         <column name="DOC_TOT_RCURRNC_NBR" size="7" type="DECIMAL"/>
@@ -1263,7 +1263,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="FDOC_REF_DOC_NBR" size="14" type="VARCHAR"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="DOC_RCURRNC_BEG_DT" type="DATE"/>
         <column name="DOC_RCURRNC_END_DT" type="DATE"/>
         <column name="DOC_TOT_RCURRNC_NBR" size="7" type="DECIMAL"/>
@@ -1279,7 +1279,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="AR_LOCKBOX_NBR" size="10" type="VARCHAR"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="FDOC_REF_INV_NBR" size="14" type="VARCHAR"/>
         <column name="AR_BILLING_DT" type="DATE"/>
         <column name="AR_INV_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
@@ -1324,7 +1324,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="FDOC_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CUST_T" name="AR_NON_APLD_HLDG_TR1">
             <reference foreign="CUST_NBR" local="CUST_NBR"/>
         </foreign-key>
@@ -15323,15 +15323,15 @@
         <column name="ACCOM_PH" size="20" type="VARCHAR"/>
         <column name="ACCOM_ADDRESS" size="255" type="VARCHAR"/>
         <column name="MLG_DT" type="DATE"/>
-        <column name="PER_DIEM_ID" size="22" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="MILEAGE_RT_EXP_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_PER_DIEM_EXP_TR1">
             <reference foreign="EXP_TYP_CD" local="MILEAGE_RT_EXP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_PER_DIEM_EXP_TR2">
-            <reference foreign="ID" local="PER_DIEM_ID"/>
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_PER_DIEM_EXP_TR2">
+            <reference foreign="ID" local="PRI_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_ACCOMM_TYP_T" name="TEM_PER_DIEM_EXP_TR3">
             <reference foreign="CODE" local="ACCOM_TYP_CD"/>
@@ -15513,7 +15513,7 @@
     <table name="TEM_PROFILE_T">
         <column name="PROFILE_ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="PRNCPL_ID" size="40" type="VARCHAR"/>
-        <column name="CUSTOMER_NUM" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="DRIVE_LIC_NUM" size="20" type="VARCHAR"/>
         <column name="DRIVE_LIC_STATE" size="2" type="VARCHAR"/>
         <column name="DRIVE_LIC_EXP_DT" type="DATE"/>
@@ -15692,7 +15692,7 @@
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="DOC_NBR" size="255" type="VARCHAR"/>
         <column name="EMP_PRINCIPAL_ID" size="255" type="VARCHAR"/>
-        <column name="CUST_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="FIRST_NM" size="40" type="VARCHAR"/>
         <column name="LAST_NM" size="40" type="VARCHAR"/>
         <column name="ADDR_LINE_1" size="50" type="VARCHAR"/>

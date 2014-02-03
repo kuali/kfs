@@ -25,6 +25,7 @@
 		<property name="lookupDefinition">
 			<ref bean="BillingFrequency-lookupDefinition" />
 		</property>
+		<property name="titleAttribute" value="frequency" />
 		<property name="objectLabel" value="Frequency" />
 		<property name="attributes">
 			<list>

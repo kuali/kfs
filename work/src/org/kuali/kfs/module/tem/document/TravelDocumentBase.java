@@ -2260,6 +2260,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public boolean hasOnlyPrepaidExpenses() {
+        if (getPerDiemExpenses() != null && !getPerDiemExpenses().isEmpty()) {
+            return false; // we've got per diem expenses
+        }
+        if (getImportedExpenses() != null && !getImportedExpenses().isEmpty()) {
+            for (ImportedExpense expense : getImportedExpenses()) {
+                if (!expense.getNonReimbursable()) {
+                    return false; // we've got reimbursable imported expenses
+                }
+            }
+        }
         if (getActualExpenses() == null || getActualExpenses().isEmpty()) {
             return false; // we don't have any expenses at all
         }

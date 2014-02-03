@@ -32,7 +32,7 @@
 				<value>invoiceTemplateCode</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="AITM" />
+		<property name="documentTypeName" value="ITM" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

@@ -766,6 +766,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         this.getTraveler().setId(null);
         this.getDocumentHeader().setOrganizationDocumentNumber("");
         this.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        this.setPerDiemAdjustment(KualiDecimal.ZERO);
     }
 
     /**

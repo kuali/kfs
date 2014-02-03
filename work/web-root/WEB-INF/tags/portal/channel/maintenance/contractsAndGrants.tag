@@ -61,10 +61,6 @@
 			<portal:portalLink displayTitle="true" title="Grant Description"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.GrantDescription&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Invoice Indicators"
-					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.InvoiceIndicator&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>		
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Letter of Credit Fund Group"

@@ -1461,10 +1461,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     protected boolean requiresAccountApprovalRouting() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (AccountingLine line : ((List<AccountingLine>) this.getSourceAccountingLines())) {
-            total = total.add(line.getAmount());
-        }
-        if (total.isGreaterThan(KualiDecimal.ZERO)) {
-            return true;
+            if (line.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
         }
 
         return false;

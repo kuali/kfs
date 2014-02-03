@@ -31,6 +31,8 @@
 
 	<kul:routeLog />
 
+	<kul:superUserActions />
+
 	<kul:panelFooter />
 
 	<kul:documentControls transactionalDocument="true" />

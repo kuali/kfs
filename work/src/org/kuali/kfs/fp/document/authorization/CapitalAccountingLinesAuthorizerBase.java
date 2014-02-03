@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
  * Authorizer which deals with financial processing documents that have the capital accounting lines tab. It deals with
  * making source and target accounting lines read only and limiting their actions (buttons) when a user is working on capital lines.
  */
-public class CapitalAccountingLinesAuthorizerBase extends FinancialProcessingAccountingLineAuthorizer {
+public class CapitalAccountingLinesAuthorizerBase extends FinancialProcessingAccountingLineAuthorizer implements CapitalAccountingLinesAuthorizer {
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
@@ -57,10 +57,9 @@ public class CapitalAccountingLinesAuthorizerBase extends FinancialProcessingAcc
     }
 
     /**
-     * This method id useful because it bypasses the capital accounting lines readOnly check in this class and
-     * calls the super determineEditPermissionOnField
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
+     * @see org.kuali.kfs.sys.document.authorization.CapitalAccountingLinesAuthorizer#determineEditPermissionOnFieldBypassCapitalCheck(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
      */
+    @Override
     public boolean determineEditPermissionOnFieldBypassCapitalCheck(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
         return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
     }

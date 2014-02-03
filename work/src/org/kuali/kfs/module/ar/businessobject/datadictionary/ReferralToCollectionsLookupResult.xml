@@ -71,10 +71,10 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="ReferralToCollectionsLookupResult-proposalNumber" parent="ReferralToCollectionsLookupResult-proposalNumber-parentBean" />
-	<bean id="ReferralToCollectionsLookupResult-proposalNumber-parentBean" abstract="true" parent="GenericAttributes-proposalNumber" />
+	<bean id="ReferralToCollectionsLookupResult-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
 
 	<bean id="ReferralToCollectionsLookupResult-agencyNumber" parent="ReferralToCollectionsLookupResult-agencyNumber-parentBean" />
-	<bean id="ReferralToCollectionsLookupResult-agencyNumber-parentBean" abstract="true" parent="GenericAttributes-agencyNumber" />
+	<bean id="ReferralToCollectionsLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
 
 	<bean id="ReferralToCollectionsLookupResult-accountNumber" parent="ReferralToCollectionsLookupResult-accountNumber-parentBean" />
 	<bean id="ReferralToCollectionsLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />

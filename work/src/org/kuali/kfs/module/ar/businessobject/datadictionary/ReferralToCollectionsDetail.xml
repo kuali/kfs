@@ -40,7 +40,7 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="ReferralToCollectionsDetail-proposalNumber" parent="ReferralToCollectionsDetail-proposalNumber-parentBean" />
-	<bean id="ReferralToCollectionsDetail-proposalNumber-parentBean" abstract="true" parent="GenericAttributes-proposalNumber" />
+	<bean id="ReferralToCollectionsDetail-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
 
 	<bean id="ReferralToCollectionsDetail-referralTypeCode" parent="ReferralToCollectionsDetail-referralTypeCode-parentBean" />
 	<bean id="ReferralToCollectionsDetail-referralTypeCode-parentBean" abstract="true" parent="AttributeDefinition">

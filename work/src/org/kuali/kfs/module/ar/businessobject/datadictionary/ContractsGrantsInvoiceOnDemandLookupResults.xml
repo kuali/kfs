@@ -38,16 +38,16 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-proposalNumber" parent="ContractsGrantsInvoiceOnDemandLookupResult-proposalNumber-parentBean" />
-	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-proposalNumber-parentBean" abstract="true" parent="GenericAttributes-proposalNumber" />
+	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyNumber" parent="ContractsGrantsInvoiceOnDemandLookupResult-agencyNumber-parentBean" />
-	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyNumber-parentBean" abstract="true" parent="GenericAttributes-agencyNumber" />
+	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-accountNumber" parent="ContractsGrantsInvoiceOnDemandLookupResult-accountNumber-parentBean" />
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyFullName" parent="ContractsGrantsInvoiceOnDemandLookupResult-agencyFullName-parentBean" />
-	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyFullName-parentBean" abstract="true" parent="GenericAttributes-agencyFullName">
+	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyFullName-parentBean" abstract="true" parent="ArGenericAttributes-agencyFullName">
 		<property name="name" value="agencyFullName" />
 		<property name="label" value="Agency Full Name" />
 	</bean>
@@ -93,7 +93,7 @@
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-awardBillingFrequency" parent="ContractsGrantsInvoiceOnDemandLookupResult-awardBillingFrequency-parentBean" />
-	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-awardBillingFrequency-parentBean" abstract="true" parent="GenericAttributes-billingFrequency">
+	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-awardBillingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequency">
 		<property name="name" value="awardBillingFrequency" />
 		<property name="label" value="Preferred Billing Frequency" />
 		<property name="shortLabel" value="Preferred Billing Frequency" />

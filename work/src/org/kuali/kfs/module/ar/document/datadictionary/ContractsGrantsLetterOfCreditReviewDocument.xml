@@ -54,7 +54,7 @@
 
 	<bean
 		id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundGroupCode-parentBean"
-		abstract="true" parent="GenericAttributes-letterOfCreditFundGroupCode">
+		abstract="true" parent="ArGenericAttributes-letterOfCreditFundGroupCode">
 		<property name="label" value="Letter Of Credit Fund Group" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -68,7 +68,7 @@
 
 	<bean
 		id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundCode-parentBean"
-		abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
+		abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"

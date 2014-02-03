@@ -39,7 +39,7 @@
 	<bean id="ContractsGrantsLOCDrawDetailsReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
 	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundGroupCode" parent="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundGroupCode-parentBean" />
-	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundGroupCode-parentBean" abstract="true" parent="GenericAttributes-letterOfCreditFundGroupCode">
+	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundGroupCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundGroupCode">
 		<property name="label" value="Letter Of Credit Fund Group" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundGroupValuesFinder"
@@ -48,7 +48,7 @@
 	</bean>
 
 	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundCode" parent="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundCode-parentBean" />
-	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundCode-parentBean" abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
+	<bean id="ContractsGrantsLOCDrawDetailsReport-letterOfCreditFundCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundValuesFinder"

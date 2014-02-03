@@ -112,7 +112,7 @@
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" />
 
-	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true" parent="GenericAttributes-agencyNumber">
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber">
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-customerNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-customerNumber-parentBean" />

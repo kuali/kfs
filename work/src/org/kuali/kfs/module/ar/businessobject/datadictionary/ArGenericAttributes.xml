@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+        
+<bean id="ArGenericAttributes" parent="ArGenericAttributes-parentBean"/>
+
+<bean id="ArGenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<property name="objectLabel" value="AR Generic Attributes"/>
+	<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ArGenericAttributes"/>
+	<property name="attributes">
+		<list>
+			<ref bean="ArGenericAttributes-proposalNumber"/>
+			<ref bean="ArGenericAttributes-agencyNumber"/>
+			<ref bean="ArGenericAttributes-agencyFullName"/>
+			<ref bean="ArGenericAttributes-letterOfCreditFundGroupCode"/>
+			<ref bean="ArGenericAttributes-letterOfCreditFundCode"/>
+		</list>
+	</property>
+</bean>
+
+  	<!-- CGB related attributes -->
+	<bean id="ArGenericAttributes-proposalNumber" parent="ArGenericAttributes-proposalNumber-parentBean" />
+
+	<bean id="ArGenericAttributes-proposalNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="proposalNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+	<bean id="ArGenericAttributes-agencyNumber" parent="ArGenericAttributes-agencyNumber-parentBean" />
+
+	<bean id="ArGenericAttributes-agencyNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Agency Number" />
+		<property name="shortLabel" value="AgencyNbr" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:exactLength="5" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+
+	<bean id="ArGenericAttributes-agencyFullName" parent="ArGenericAttributes-agencyFullName-parentBean" />
+
+	<bean id="ArGenericAttributes-agencyFullName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyFullName" />
+		<property name="label" value="Agency Full Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="ArGenericAttributes-letterOfCreditFundGroupCode"
+		parent="ArGenericAttributes-letterOfCreditFundGroupCode-parentBean" />
+
+	<bean id="ArGenericAttributes-letterOfCreditFundGroupCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditFundGroupCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Letter Of Credit Fund Group Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<bean id="ArGenericAttributes-letterOfCreditFundCode" parent="ArGenericAttributes-letterOfCreditFundCode-parentBean" />
+
+	<bean id="ArGenericAttributes-letterOfCreditFundCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditFundCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Fund Code" />
+		<property name="shortLabel" value="FundCode" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	  
+</beans>

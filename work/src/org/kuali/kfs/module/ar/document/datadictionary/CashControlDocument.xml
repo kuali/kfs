@@ -126,7 +126,7 @@
 		parent="CashControlDocument-letterOfCreditFundGroupCode-parentBean" />
 
 	<bean id="CashControlDocument-letterOfCreditFundGroupCode-parentBean"
-		abstract="true" parent="GenericAttributes-letterOfCreditFundGroupCode">
+		abstract="true" parent="ArGenericAttributes-letterOfCreditFundGroupCode">
 		<property name="label" value="Letter Of Credit Fund Group" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -138,7 +138,7 @@
 	<bean id="CashControlDocument-letterOfCreditFundCode" parent="CashControlDocument-letterOfCreditFundCode-parentBean" />
 
 	<bean id="CashControlDocument-letterOfCreditFundCode-parentBean"
-		abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
+		abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"

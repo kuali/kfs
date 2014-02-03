@@ -44,7 +44,7 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="CollectionActivityInvoiceLookup-proposalNumber" parent="CollectionActivityInvoiceLookup-proposalNumber-parentBean" />
-	<bean id="CollectionActivityInvoiceLookup-proposalNumber-parentBean" abstract="true" parent="GenericAttributes-proposalNumber" />
+	<bean id="CollectionActivityInvoiceLookup-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
 
 	<bean id="CollectionActivityInvoiceLookup-agencyNumber" parent="CollectionActivityInvoiceLookup-agencyNumber-parentBean" />
 	<bean id="CollectionActivityInvoiceLookup-agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber" />
@@ -104,7 +104,7 @@
 	</bean>
 	
 	<bean id="CollectionActivityInvoiceLookup-billingFrequency" parent="CollectionActivityInvoiceLookup-billingFrequency-parentBean" />
-	<bean id="CollectionActivityInvoiceLookup-billingFrequency-parentBean" abstract="true" parent="GenericAttributes-billingFrequency">
+	<bean id="CollectionActivityInvoiceLookup-billingFrequency-parentBean" abstract="true" parent="InvoiceGeneralDetail-billingFrequency">
 		<property name="name" value="billingFrequency" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Billing Frequency" />

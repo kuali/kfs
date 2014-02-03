@@ -41,10 +41,10 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="ReferralToCollectionsDocument-agencyNumber" parent="ReferralToCollectionsDocument-agencyNumber-parentBean" />
-	<bean id="ReferralToCollectionsDocument-agencyNumber-parentBean" abstract="true" parent="GenericAttributes-agencyNumber" />
+	<bean id="ReferralToCollectionsDocument-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
 
 	<bean id="ReferralToCollectionsDocument-agencyFullName" parent="ReferralToCollectionsDocument-agencyFullName-parentBean" />
-	<bean id="ReferralToCollectionsDocument-agencyFullName-parentBean" abstract="true" parent="GenericAttributes-agencyFullName">
+	<bean id="ReferralToCollectionsDocument-agencyFullName-parentBean" abstract="true" parent="ArGenericAttributes-agencyFullName">
 		<property name="name" value="agencyFullName" />
 		<property name="label" value="Agency Name" />
 	</bean>

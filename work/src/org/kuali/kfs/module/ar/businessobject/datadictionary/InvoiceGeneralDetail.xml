@@ -80,7 +80,7 @@
 
 	<bean id="InvoiceGeneralDetail-billingFrequency" parent="InvoiceGeneralDetail-billingFrequency-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-billingFrequency-parentBean" abstract="true" parent="GenericAttributes-billingFrequency">
+	<bean id="InvoiceGeneralDetail-billingFrequency-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="billingFrequency" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Billing Frequency" />
@@ -91,7 +91,6 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-
 
 	<bean id="InvoiceGeneralDetail-finalBillIndicator" parent="InvoiceGeneralDetail-finalBillIndicator-parentBean" />
 

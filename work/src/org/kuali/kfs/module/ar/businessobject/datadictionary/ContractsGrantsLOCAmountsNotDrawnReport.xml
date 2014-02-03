@@ -40,7 +40,7 @@
 
 	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundGroupCode" parent="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundGroupCode-parentBean" />
 	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundGroupCode-parentBean" abstract="true"
-		parent="GenericAttributes-letterOfCreditFundGroupCode">
+		parent="ArGenericAttributes-letterOfCreditFundGroupCode">
 		<property name="label" value="Letter Of Credit Fund Group" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundGroupValuesFinder"
@@ -49,7 +49,7 @@
 	</bean>
 
 	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundCode" parent="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundCode-parentBean" />
-	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundCode-parentBean" abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
+	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-letterOfCreditFundCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundValuesFinder"

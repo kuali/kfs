@@ -444,7 +444,7 @@
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="CUST_NBR" type="varchar(40)">
+			<column name="CUST_NBR" type="varchar(9)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="CUST_ADDR_ID" type="decimal(7,0)">

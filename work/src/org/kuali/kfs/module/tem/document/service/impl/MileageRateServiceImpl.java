@@ -34,7 +34,7 @@ public class MileageRateServiceImpl implements MileageRateService {
            List<MileageRate>  mileageRates = mileageRateDao.findMileageRatesByExpenseTypeCode(mileageRate.getExpenseTypeCode());
            for (MileageRate rate : mileageRates) {
 
-               if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveFromDate(), Calendar.DATE) >= 0  || DateUtils.truncatedCompareTo(toDate, rate.getActiveToDate(), Calendar.DATE) <= 0)) {
+               if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveToDate(), Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, rate.getActiveFromDate() , Calendar.DATE) >= 0)) {
                    return rate;
                }
            }

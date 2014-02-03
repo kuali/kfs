@@ -760,16 +760,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         boolean pageAdded = false;
         for (ContractsGrantsInvoiceDocument invoice : list) {
             // add a document
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAddressDetail> agencyAddresses = (List<InvoiceAddressDetail>) businessObjectService.findMatching(InvoiceAddressDetail.class, map);
+            List<InvoiceAddressDetail> agencyAddresses = invoice.getInvoiceAddressDetails();
+
             for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    CustomerAddress address;
-                    Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
-                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
-                    address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
+                    CustomerAddress address = agencyAddress.getCustomerAddress();
+
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
                     if(ObjectUtils.isNotNull(address.getCustomerCopiesToPrint())){
                     for (int i = 0; i < address.getCustomerCopiesToPrint(); i++) {
@@ -808,18 +804,13 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         Font titleFont = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
         Font smallFont = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
         for (ContractsGrantsInvoiceDocument invoice : list) {
-
             // add a document
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAddressDetail> agencyAddresses = (List<InvoiceAddressDetail>) businessObjectService.findMatching(InvoiceAddressDetail.class, map);
+            List<InvoiceAddressDetail> agencyAddresses = invoice.getInvoiceAddressDetails();
+
             for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    CustomerAddress address;
-                    Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
-                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
-                    address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
+                    CustomerAddress address = agencyAddress.getCustomerAddress();
+
                     //If envelopes to print is empty - donot print them.
                     if(ObjectUtils.isNotNull(address.getCustomerPrintEnvelopesNumber())){
                     for (int i = 0; i < address.getCustomerPrintEnvelopesNumber(); i++) {

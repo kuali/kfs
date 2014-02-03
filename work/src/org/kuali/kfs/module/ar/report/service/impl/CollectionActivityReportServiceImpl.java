@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -269,18 +268,20 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
      */
     protected CollectionActivityReport convertEventToCollectionActivityReport(CollectionActivityReport collectionActivityReport, Event event) {
 
+        if (ObjectUtils.isNull(event)) {
+            LOG.error("an invalid(null) argument was given");
+            throw new IllegalArgumentException("an invalid(null) argument was given");
+        }
+
         // account no
         collectionActivityReport.setInvoiceNumber(event.getInvoiceNumber());
         collectionActivityReport.setActivityDate(event.getActivityDate());
-        String activityCode = event.getActivityCode();
-        Map<String, String> map = new HashMap<String, String>();
 
-        if (ObjectUtils.isNotNull(activityCode)) {
-            map.put(ArPropertyConstants.CollectionActivityTypeFields.ACTIVITY_CODE, activityCode);
-            CollectionActivityType collectionActivityType = businessObjectService.findByPrimaryKey(CollectionActivityType.class, map);
-            if (ObjectUtils.isNotNull(collectionActivityType)) {
-                collectionActivityReport.setActivityType(collectionActivityType.getActivityDescription());
-            }
+        // Activity Type
+        CollectionActivityType collectionActivityType = event.getCollectionActivityType();
+
+        if (ObjectUtils.isNotNull(collectionActivityType)) {
+            collectionActivityReport.setActivityType(collectionActivityType.getActivityDescription());
         }
 
         collectionActivityReport.setActivityComment(event.getActivityText());

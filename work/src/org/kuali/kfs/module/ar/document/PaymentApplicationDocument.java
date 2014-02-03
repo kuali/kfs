@@ -71,7 +71,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -962,7 +961,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetCreditEntry.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
             offsetCreditEntry.setFinancialObjectTypeCode(accountsReceivableObjectCode.getFinancialObjectTypeCode());
             offsetCreditEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
-            offsetCreditEntry.setFinancialDocumentTypeCode(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
+            offsetCreditEntry.setFinancialDocumentTypeCode(paymentApplicationDocumentTypeCode);
             if (StringUtils.isBlank(ipa.getInvoiceDetail().getSubAccountNumber())) {
             	offsetCreditEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             }

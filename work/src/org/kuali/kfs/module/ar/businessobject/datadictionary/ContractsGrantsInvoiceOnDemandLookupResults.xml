@@ -53,8 +53,18 @@
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyReportingName" parent="ContractsGrantsInvoiceOnDemandLookupResult-agencyReportingName-parentBean" />
-	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyReportingName-parentBean" abstract="true" parent="GenericAttributes-reportingName">
+	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-agencyReportingName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="agencyReportingName" />
+		<property name="label" value="Agency Reporting Name" />
+		<property name="shortLabel" value="ReportingNm" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceOnDemandLookupResult-customerNumber" parent="ContractsGrantsInvoiceOnDemandLookupResult-customerNumber-parentBean" />

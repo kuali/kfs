@@ -97,7 +97,8 @@ function toggle(id) {
 	<ar:paymentApplicationNonAr customerAttributes="${customerAttributes}"
 		isCustomerSelected="${isCustomerSelected}"
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-		readOnly="${readOnly}" />
+        readOnly="${readOnly}"
+        accountsCanCrossCharts="${accountsCanCrossCharts}"/>
 	<ar:paymentApplicationUnappliedTab
 		isCustomerSelected="${isCustomerSelected}" readOnly="${readOnly}"
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" />
@@ -110,6 +111,8 @@ function toggle(id) {
 
 	<kul:routeLog />
 
+	<kul:superUserActions />
+	
 	<kul:panelFooter />
 
 	<sys:documentControls transactionalDocument="true"

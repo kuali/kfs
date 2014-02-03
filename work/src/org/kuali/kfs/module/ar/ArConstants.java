@@ -235,7 +235,6 @@ public class ArConstants{
     public static final String LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER = "Lockbox: Remittance for invoice number ";
 
     // Probably refactor these two constants out to pull them from a service, system parameter or something.
-    public static final String ACTUALS_BALANCE_TYPE_CODE = "AC";
     public static final String PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE = "APP";
     public static final String INVOICE_WRITEOFF_DOCUMENT_TYPE_CODE = "INVW";
 

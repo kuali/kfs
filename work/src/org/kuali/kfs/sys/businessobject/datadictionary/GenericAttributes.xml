@@ -416,22 +416,6 @@
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
-	<bean id="GenericAttributes-reportingName" parent="GenericAttributes-reportingName-parentBean" />
-
-	<bean id="GenericAttributes-reportingName-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="reportingName" />
-		<property name="label" value="Agency Reporting Name" />
-		<property name="shortLabel" value="ReportingNm" />
-		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
-	</bean>
 
 	<bean id="GenericAttributes-agencyFullName" parent="GenericAttributes-agencyFullName-parentBean" />
 
@@ -500,37 +484,5 @@
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
-
-	<bean id="GenericAttributes-contractGrantTypeCode" parent="GenericAttributes-contractGrantTypeCode-parentBean" />
-
-	<bean id="GenericAttributes-contractGrantTypeCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="contractGrantTypeCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Instrument" />
-		<property name="shortLabel" value="Code" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
-		</property>
-	</bean>
-	
-  	<bean id="GenericAttributes-customerTypeCode" parent="GenericAttributes-customerTypeCode-parentBean" />
-
-	<bean id="GenericAttributes-customerTypeCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="customerTypeCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Type" />
-		<property name="shortLabel" value="Type" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-	</bean>
-  
+ 
 </beans>

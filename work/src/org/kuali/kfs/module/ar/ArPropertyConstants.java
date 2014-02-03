@@ -25,7 +25,6 @@ public class ArPropertyConstants{
     // CustomerInvoiceDocument
     public static class CustomerInvoiceDocumentFields {
 
-        public static final String DOCUMENT_TYPE = "INV";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "paymentChartOfAccountsCode";
         public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "paymentFinancialObjectCode";

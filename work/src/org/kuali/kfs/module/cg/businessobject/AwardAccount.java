@@ -36,7 +36,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
 public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, MutableInactivatable, ContractsAndGrantsBillingAwardAccount {
-
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccount.class);
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -80,11 +80,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
-//        try {
-//            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-//        }
-//        catch (Exception e) {
-//        }
+        if ( SpringContext.isInitialized() ) {
+            try {
+                projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+            }
+            catch (Exception ex) {
+                LOG.error( "Unable to create a template person object.", ex );
+            }
+        }
     }
 
     /***

@@ -68,7 +68,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering AwardRule.processCustomSaveDocumentBusinessRules");
+        LOG.debug("Entering AwardRule.processCustomSaveDocumentBusinessRules");
         processCustomRouteDocumentBusinessRules(document);
         LOG.info("Leaving AwardRule.processCustomSaveDocumentBusinessRules");
         return true; // save despite error messages
@@ -79,7 +79,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering AwardRule.processCustomRouteDocumentBusinessRules");
+        LOG.debug("Entering AwardRule.processCustomRouteDocumentBusinessRules");
         boolean success = true;
         success &= checkProposal();
         success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), KFSPropertyConstants.AWARD_ENDING_DATE);

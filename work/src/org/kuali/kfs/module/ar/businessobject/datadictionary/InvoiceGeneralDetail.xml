@@ -125,7 +125,7 @@
 
 	<bean id="InvoiceGeneralDetail-contractGrantType" parent="InvoiceGeneralDetail-contractGrantType-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-contractGrantType-parentBean" abstract="true" parent="GenericAttributes-contractGrantTypeCode">
+	<bean id="InvoiceGeneralDetail-contractGrantType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contractGrantType" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Instrument Type" />
@@ -136,7 +136,6 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-
 
 	<bean id="InvoiceGeneralDetail-awardTotal" parent="InvoiceGeneralDetail-awardTotal-parentBean" />
 

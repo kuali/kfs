@@ -67,7 +67,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering AgencyRule.processCustomApproveDocumentBusinessRules");
+        LOG.debug("Entering AgencyRule.processCustomApproveDocumentBusinessRules");
         boolean success = super.processCustomApproveDocumentBusinessRules(document);
 
         success &= checkAgencyReportsTo(document);
@@ -81,7 +81,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering AgencyRule.processCustomRouteDocumentBusinessRules");
+        LOG.debug("Entering AgencyRule.processCustomRouteDocumentBusinessRules");
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
 
         success &= checkAgencyReportsTo(document);
@@ -112,7 +112,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering AgencyRule.processCustomSaveDocumentBusinessRules");
+        LOG.debug("Entering AgencyRule.processCustomSaveDocumentBusinessRules");
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
 
         success &= checkAgencyReportsTo(document);

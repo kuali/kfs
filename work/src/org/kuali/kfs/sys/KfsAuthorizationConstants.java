@@ -24,7 +24,7 @@ public class KfsAuthorizationConstants  {
         public static final String WIRE_ENTRY = "wireEntry";
     }
 
-    public static class DisbursementVoucherEditMode extends TransactionalEditMode {
+    public static class DisbursementVoucherEditMode {
         public static final String PAYEE_ENTRY = "payeeEntry";
         public static final String TAX_ENTRY = "taxEntry";
         public static final String TRAVEL_ENTRY = "travelEntry";

@@ -44,7 +44,7 @@
 	<c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
 	 	<strong>Effort Certification</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ECD'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Effort Certification' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=ECD'/></li>
 	    </ul>
 	</c:if>    
 	<strong>Financial Processing</strong><br/>

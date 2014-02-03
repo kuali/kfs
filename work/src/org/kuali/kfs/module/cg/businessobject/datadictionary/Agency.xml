@@ -386,8 +386,7 @@
 
 	<bean id="Agency-customerTypeCode" parent="Agency-customerTypeCode-parentBean" />
 
-	<bean id="Agency-customerTypeCode-parentBean" abstract="true"
-		parent="GenericAttributes-customerTypeCode">
+	<bean id="Agency-customerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerTypeCode" />
 		<property name="label" value="Customer Type" />
 		<property name="shortLabel" value="Customer Type" />

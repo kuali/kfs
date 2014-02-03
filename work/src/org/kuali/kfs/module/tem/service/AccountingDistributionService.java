@@ -49,7 +49,7 @@ public interface AccountingDistributionService {
 
     public TemDistributionAccountingLine distributionToDistributionAccountingLine(List<AccountingDistribution> accountingDistributionList);
 
-    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal expenseLimit);
+    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal accountingLinesTotal, KualiDecimal expenseLimit);
 
     //TODO: remove when sure.
     //public void normalizeAmountAndPercents(List<TemDistributionAccountingLine> lines, KualiDecimal remainingTotal);

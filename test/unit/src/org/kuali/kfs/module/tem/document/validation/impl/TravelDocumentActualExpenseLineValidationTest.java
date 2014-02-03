@@ -28,13 +28,18 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
 public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase {
 
     private static final int EXPENSE_AMOUNT = 100;
     private TravelDocumentActualExpenseLineValidation validation;
+    private DateTimeService dateTimeService;
+    private DocumentService docService;
 
     private static final String AIRFARE_EXPENSE_TYPE_CODE = "A";
     private static final String MILEAGE_EXPENSE_TYPE_CODE = "M";
@@ -48,6 +53,8 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
     protected void setUp() throws Exception {
         super.setUp();
         validation = new TravelDocumentActualExpenseLineValidation();
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        docService = SpringContext.getBean(DocumentService.class);
     }
 
     @Override
@@ -61,18 +68,32 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
      */
     @Test
     public void testValidation() {
-        TravelReimbursementDocument tr = new TravelReimbursementDocument();
-        ActualExpense ote = new ActualExpense();
+        TravelReimbursementDocument tr = null;
+        try {
+            tr = (TravelReimbursementDocument)docService.getNewDocument(TravelReimbursementDocument.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
+//        tr.setActualExpenses(actualExpenses);
+        //ActualExpense ote = new ActualExpense();
 
-        @SuppressWarnings("rawtypes")
-        AddActualExpenseLineEvent event = new AddActualExpenseLineEvent("errorPathPrefix", tr, ote);
+//        @SuppressWarnings("rawtypes")
+//        AddActualExpenseLineEvent event = new AddActualExpenseLineEvent("errorPathPrefix", tr, ote);
+//
+//        //test using empty actualExpense
+//        assertFalse(validation.validate(event));
 
-        //test using empty actualExpense
-        assertFalse(validation.validate(event));
+        ActualExpense ote2 = new ActualExpense();
 
-        ote.setExpenseAmount(new KualiDecimal(EXPENSE_AMOUNT));
+        ote2.setExpenseAmount(new KualiDecimal(EXPENSE_AMOUNT));
+        ote2.setExpenseDate(dateTimeService.getCurrentSqlDate());
+        ote2.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE_CODE);
+       //tr.addActualExpense(ote2);
 
-        assertTrue(validation.validate(event));
+        AddActualExpenseLineEvent event2 = new AddActualExpenseLineEvent("errorPathPrefix", tr, ote2);
+        validation.setActualExpenseForValidation(ote2);
+        assertTrue(validation.validate(event2));
     }
 
     @Test
@@ -90,11 +111,13 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
 
       //Testing expense amount required validation since expense type is not mileage
         airFareEntry.setTravelExpenseTypeCode(aTravelExpenseTypeCode);
-        assertFalse(validation.validateGeneralRules(airFareEntry, document));
+        airFareEntry.setExpenseDate(dateTimeService.getCurrentSqlDate());
+        airFareEntry.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE_CODE);
+        assertTrue(validation.validateGeneralRules(airFareEntry, document));
 
       //Testing expense amount required validation since expense type is not mileage
-        airFareEntry.setExpenseAmount(new KualiDecimal(100));
-        assertTrue(validation.validateGeneralRules(airFareEntry, document));
+        airFareEntry.setExpenseAmount(new KualiDecimal(-100));
+        assertFalse(validation.validateGeneralRules(airFareEntry, document));
 
       //Testing Currency rate required validation
         airFareEntry.setExpenseAmount(new KualiDecimal(100));
@@ -104,7 +127,9 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
         //Testing duplicate entry
         ActualExpense duplicateAirfareEntry = new ActualExpense();
         duplicateAirfareEntry.setTravelExpenseTypeCode(aTravelExpenseTypeCode);
-        duplicateAirfareEntry.setExpenseAmount(new KualiDecimal(500.00));
+        duplicateAirfareEntry.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE_CODE);
+        duplicateAirfareEntry.setExpenseAmount(new KualiDecimal(100.00));
+        duplicateAirfareEntry.setExpenseDate(dateTimeService.getCurrentSqlDate());
         actualExpenses.add(airFareEntry);
         assertFalse(validation.validateGeneralRules(duplicateAirfareEntry, document));
 

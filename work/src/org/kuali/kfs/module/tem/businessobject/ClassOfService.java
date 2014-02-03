@@ -35,6 +35,8 @@ public class ClassOfService extends PersistableBusinessObjectBase implements Mut
     private boolean approvalRequired = Boolean.FALSE;
     private boolean active = Boolean.TRUE;
 
+    private ExpenseType expenseType;
+
     @Id
     @Column(name="CODE",length=10, nullable=false)
     public String getCode() {
@@ -81,6 +83,19 @@ public class ClassOfService extends PersistableBusinessObjectBase implements Mut
     @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ExpenseType getExpenseType() {
+        return expenseType;
+    }
+
+    /**
+     * This is deprecated because it is for use of the ORM, not devs
+     * @param expenseType
+     */
+    @Deprecated
+    public void setExpenseType(ExpenseType expenseType) {
+        this.expenseType = expenseType;
     }
 
     @SuppressWarnings("rawtypes")

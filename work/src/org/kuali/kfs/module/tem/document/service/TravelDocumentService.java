@@ -146,14 +146,6 @@ public interface TravelDocumentService {
      */
     KualiDecimal calculateMileage(ActualExpense actualExpense);
 
-
-    /**
-     * This method calculates & updates expense amount for parent & detail records
-     *
-     * @param actualExpenses
-     */
-    public KualiDecimal calculateExpenseAmountTotalForMileage(final List<ActualExpense> actualExpenses);
-
     /**
      *
      */

@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_CONFIGURED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_SELECTED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD;
@@ -196,7 +196,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected boolean isNonEmployeeSearch(final Map<String, String> fieldValues) {
         LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
-        final String nonEmployeeTypes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES);
+        final String nonEmployeeTypes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPE_CODES);
         return nonEmployeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
 

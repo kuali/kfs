@@ -43,7 +43,6 @@
 			<ref bean="TravelEntertainmentDocument-tripBegin" />
 			<ref bean="TravelEntertainmentDocument-tripEnd" />
 			<ref bean="TravelEntertainmentDocument-eventTitle" />
-			<ref bean="TravelEntertainmentDocument-hostCertified" />
 			<ref bean="TravelEntertainmentDocument-nonEmployeeCertified" />
 			<ref bean="TravelEntertainmentDocument-spouseIncluded" />
 			<ref bean="TravelEntertainmentDocument-spouseIncludedForSearching" />
@@ -164,14 +163,6 @@
 		<property name="summary" value="Event Title" />
 		<property name="description" value="Event Title" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
-	</bean>
-	<bean id="TravelEntertainmentDocument-hostCertified" parent="TravelEntertainmentDocument-hostCertified-parentBean" />
-	<bean id="TravelEntertainmentDocument-hostCertified-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="hostCertified" />
-		<property name="label" value="Certification of Official Host for Entertainment Expense Attached" />
-		<property name="shortLabel" value="Certification of Official Host for Entertainment Expense Attached" />
-		<property name="summary" value="Certification of Official Host for Entertainment Expense Attached" />
-		<property name="description" value="Certification of Official Host for Entertainment Expense Attached" />
 	</bean>
 	<bean id="TravelEntertainmentDocument-nonEmployeeCertified" parent="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" />
 	<bean id="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
@@ -337,7 +328,7 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
 	<property name="searchingTypeDefinitions">
 		<list>
-		    <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
+		    <bean parent="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" />
             <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
             <bean parent="TravelModule-SearchingTypeDefinition-temProfileName" />
 			<bean parent="TravelModule-SearchingTypeDefinition-eventTitle" />

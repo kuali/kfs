@@ -21,9 +21,9 @@
 	</list>
 	</property>
 	<property name="documentTypeName"        value="TPD" />
+	<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.PerDiemMaintenanceDocumentPresentationController" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 	<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.PerDiemDocumentPreRules" />
-
 </bean>
 
 <bean id="PerDiemMaintenanceDocument-Section" parent="PerDiemMaintenanceDocument-Section-parentBean" />

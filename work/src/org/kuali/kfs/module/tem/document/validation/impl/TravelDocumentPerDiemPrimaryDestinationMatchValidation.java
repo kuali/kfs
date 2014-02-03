@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Validates that at least one of the per diem expenses on a document matches the location of the primary destination on the document
@@ -44,16 +43,15 @@ public class TravelDocumentPerDiemPrimaryDestinationMatchValidation extends Gene
         if (primaryDestId != null) {
             if (travelDoc.getPerDiemExpenses() != null && !travelDoc.getPerDiemExpenses().isEmpty()) {
                 for (PerDiemExpense perDiemExpense : travelDoc.getPerDiemExpenses()) {
-                    if (primaryDestId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID) {
-                        if (perDiemExpense.getPerDiemId() == TemConstants.CUSTOM_PER_DIEM_ID &&
+                    if (primaryDestId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID) { // if the primary destination for the trip is custom, we need to make sure at least one per diem matches all of the name information
+                        if (perDiemExpense.getPrimaryDestinationId() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID &&
                                 StringUtils.equals(perDiemExpense.getCountryStateText(), travelDoc.getPrimaryDestinationCountryState()) &&
                                 StringUtils.equals(perDiemExpense.getPrimaryDestination(), travelDoc.getPrimaryDestinationName()) &&
                                 StringUtils.equals(perDiemExpense.getCounty(), travelDoc.getPrimaryDestinationCounty())) {
                             return true;
                         }
-                    } else if (perDiemExpense.getPerDiemId() != TemConstants.CUSTOM_PER_DIEM_ID) {
-                        perDiemExpense.refreshReferenceObject(TemPropertyConstants.PER_DIEM);
-                        if (!ObjectUtils.isNull(perDiemExpense.getPerDiem()) && primaryDestId.equals(perDiemExpense.getPerDiem().getPrimaryDestinationId())) {
+                    } else { // if not custom, then we can just check the primary destination id
+                        if (primaryDestId.equals(perDiemExpense.getPrimaryDestinationId())) {
                             return true; // skip out loop - we're fine
                         }
                     }

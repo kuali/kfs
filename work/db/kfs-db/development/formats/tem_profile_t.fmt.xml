@@ -1,7 +1,7 @@
 <Record name="tem_profile_t" type="delimited">
   <Field name="profile_id"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
   <Field name="prncpl_id"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="customer_num"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cust_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="drive_lic_num"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="drive_lic_state"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="drive_lic_exp_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.lookup;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 
 public class TravelEntertainmentDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
@@ -29,14 +30,19 @@ public class TravelEntertainmentDocumentCustomActionBuilder extends DocumentActi
      */
     @Override
     public String buildCustomActionHTML(DocumentSearchResult documentSearchResult, TravelDocument document) {
-        String tripId = document.getTravelDocumentIdentifier();
-        StrBuilder actionsHTML = new StrBuilder();
-        actionsHTML.setNewLineText("<br/>");
-        if (!getAccountingDocumentRelationshipService().isDocumentSomebodysChild(document.getDocumentNumber())) {
-            actionsHTML.appendln(createEntertainmentLink(tripId, documentSearchResult));
-        }
-        actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));
+        final DocumentStatus documentStatus = documentSearchResult.getDocument().getStatus();
+        boolean documentEnded = (documentStatus.equals(DocumentStatus.CANCELED)
+                                      || documentStatus.equals(DocumentStatus.DISAPPROVED));
 
+        StrBuilder actionsHTML = new StrBuilder();
+        if (!documentEnded) {
+            String tripId = document.getTravelDocumentIdentifier();
+            actionsHTML.setNewLineText("<br/>");
+            if (!getAccountingDocumentRelationshipService().isDocumentSomebodysChild(document.getDocumentNumber())) {
+                actionsHTML.appendln(createEntertainmentLink(tripId, documentSearchResult));
+            }
+            actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));
+        }
         return actionsHTML.toString();
     }
 

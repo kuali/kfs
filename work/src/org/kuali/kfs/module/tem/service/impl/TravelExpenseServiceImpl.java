@@ -260,7 +260,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
         final ExpenseType expenseType = getDefaultExpenseTypeForCategory(agency.getExpenseTypeCategory());
         if (expenseType != null) {
-            expense.setTravelExpenseType(expenseType.getCode());
+            expense.setTravelExpenseTypeCode(expenseType.getCode());
         }
         expense.setTravelCompany(agency.getMerchantName());
         expense.setAmount(agency.getTripExpenseAmount());
@@ -274,7 +274,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
 
         // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode.
         if (agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseType());
+            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseTypeCode());
             if (ObjectUtils.isNotNull(travelExpense)) {
                 expense.setTravelExpenseTypeString(travelExpense.getName());
             }
@@ -313,7 +313,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
 
-        expense.setTravelExpenseType(creditCard.getExpenseTypeCode());
+        expense.setTravelExpenseTypeCode(creditCard.getExpenseTypeCode());
         expense.setDescription(creditCard.getExpenseTypeCode());
 
         expense.setTravelCompany(creditCard.getMerchantName());
@@ -328,7 +328,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
 
         // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode.
         if (creditCard.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseType());
+            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseTypeCode());
             if (ObjectUtils.isNotNull(travelExpense)) {
                 expense.setTravelExpenseTypeString(travelExpense.getName());
             }

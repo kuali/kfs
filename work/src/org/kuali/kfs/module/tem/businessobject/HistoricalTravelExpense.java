@@ -38,7 +38,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
 
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
-
+    private ExpenseType expenseType;
     /**
      * If CreditCardStagingDataId is null, this is agency data (CTS)
      *
@@ -210,5 +210,15 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     public void setTravelExpenseTypeString(String travelExpenseTypeString) {
         this.travelExpenseTypeString = travelExpenseTypeString;
     }
+
+    public ExpenseType getExpenseType() {
+        return expenseType;
+    }
+
+    public void setExpenseType(ExpenseType expenseType) {
+        this.expenseType = expenseType;
+    }
+
+
 
 }

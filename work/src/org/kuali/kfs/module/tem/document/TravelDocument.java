@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -55,14 +56,6 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * Initiate travel document
      */
     void initiateDocument();
-
-    /**
-     * Return true if app doc status has been updated in Workflow
-     *
-     * @param newStatus
-     * @return
-     */
-    public boolean updateAppDocStatus(String newStatus);
 
     /**
      * @see org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument#getTravelDocumentIdentifier()
@@ -469,4 +462,25 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return true if all expenses on this document are prepaid, false otherwise
      */
     public boolean hasOnlyPrepaidExpenses();
+
+    /**
+     * Finds an effective date to look up a mileage rate record
+     * @param expense the expense to find the effective date for
+     * @return the effective date for mileage rate records on the expense
+     */
+    public Date getEffectiveDateForMileageRate(ActualExpense expense);
+
+    /**
+     * Finds an effective date to help us look up a per diem record
+     * @param expense per diem expense to find an effective date for
+     * @return the effective date to use to look up the right per diem record
+     */
+    public Date getEffectiveDateForPerDiem(PerDiemExpense expense);
+
+    /**
+     * Finds an effective date to help us look up a per diem record
+     * @param expenseDate the date when the per diem record would be created
+     * @return the effective date to use to look up the right per diem record
+     */
+    public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate);
 }

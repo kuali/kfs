@@ -185,7 +185,7 @@
 			constraintName="TEM_ATTENDEE_TP1" columnNames="ID" />
 		<createTable tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" type="VARCHAR2(10)" />
-			<column name="DV_EXP_CD" type="VARCHAR2(2)" />
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)" />
 			<column name="CLASS_SVC_NAME" type="VARCHAR2(40)" />
 			<column name="APRVL_REQ_IND" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
@@ -326,7 +326,6 @@
 			<column name="PRIMARY_DEST_NAME" type="VARCHAR2(100)" />
 			<column name="PRIMARY_DEST_CNTRY_ST" type="VARCHAR2(100)" />
 			<column name="PRIMARY_DEST_CNTY" type="VARCHAR2(100)" />
-			<column name="HOST_CERTIFIED" type="VARCHAR2(1)" />
 			<column name="NON_EMPLOYEE_CERTIFIED" type="VARCHAR2(1)" />
 			<column name="SPOUSE_INCLUDED" type="VARCHAR2(1)" />
 			<column name="DESCRIPTION" type="VARCHAR2(255)" />
@@ -364,7 +363,7 @@
 			<column name="IMPORT_DT" type="DATE" />
 			<column name="COMPANY" type="VARCHAR2(40)" />
 			<column name="LOCATION" type="VARCHAR2(40)" />
-			<column name="DV_EXP_CD" type="VARCHAR2(2)" />
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)" />
 			<column name="AMOUNT" type="NUMBER(8,2)" />
 			<column name="TRANS_POST_DT" type="DATE" />
 			<column name="DESCRIPTION" type="VARCHAR2(25)" />
@@ -580,7 +579,7 @@
 		<createTable tableName="TEM_PROFILE_T">
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
 			<column name="PRNCPL_ID" type="VARCHAR2(40)" />
-			<column name="CUSTOMER_NUM" type="VARCHAR2(40)" />
+			<column name="CUST_NBR" type="VARCHAR2(9)" />
 			<column name="DRIVE_LIC_NUM" type="VARCHAR2(20)" />
 			<column name="DRIVE_LIC_STATE" type="VARCHAR2(2)" />
 			<column name="DRIVE_LIC_EXP_DT" type="DATE" />
@@ -733,7 +732,7 @@
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="DOC_NBR" type="VARCHAR2(255)" />
 			<column name="EMP_PRINCIPAL_ID" type="VARCHAR2(255)" />
-			<column name="CUST_NBR" type="VARCHAR2(40)" />
+			<column name="CUST_NBR" type="VARCHAR2(9)" />
 			<column name="FIRST_NM" type="VARCHAR2(40)" />
 			<column name="LAST_NM" type="VARCHAR2(40)" />
 			<column name="ADDR_LINE_1" type="VARCHAR2(50)" />

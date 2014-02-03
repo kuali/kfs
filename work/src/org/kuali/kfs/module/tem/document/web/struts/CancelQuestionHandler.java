@@ -109,7 +109,7 @@ public class CancelQuestionHandler implements QuestionHandler<TravelDocument> {
             cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
             taDocument.addNote(cancelNote);
 
-            taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
+            taDocument.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
             getTravelEncumbranceService().liquidateEncumbranceForCancelTA(taDocument);
             SpringContext.getBean(DocumentService.class).saveDocument(taDocument, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             taDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);

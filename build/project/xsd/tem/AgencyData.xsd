@@ -189,7 +189,7 @@
     
     <xsd:simpleType name="travelerNetworkId">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="9"/>
+            <xsd:maxLength value="10"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>

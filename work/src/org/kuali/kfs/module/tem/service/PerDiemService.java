@@ -56,11 +56,6 @@ public interface PerDiemService {
     public <T extends PerDiem> void updateTripType(T perDiem);
 
     /**
-     * deactivate the active per diem and save the changes if today's date is beyond the season end date
-     */
-    public void processPerDiem();
-
-    /**
      * find the previous per diems for the given new per diems
      *
      * @param perDiemList the given list of per diems
@@ -113,9 +108,10 @@ public interface PerDiemService {
      * Finds the active per diem record for the given destination id and date
      * @param primaryDestinationId the id of the destination to find the per diem for
      * @param perDiemDate the date we want the per diem to be active on
+     * @param effectiveDate the date to use when testing the per diem's effective date records
      * @return the retrieved per diem or null if a record was not found
      */
-    public PerDiem getPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate);
+    public PerDiem getPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate);
 
     /**
      * Determines if:

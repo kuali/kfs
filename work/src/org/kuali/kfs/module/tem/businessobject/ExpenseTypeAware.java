@@ -30,4 +30,8 @@ public interface ExpenseTypeAware {
      * @return the value of travelExpenseTypeCode
      */
     ExpenseTypeObjectCode getExpenseTypeObjectCode();
+
+    String getExpenseTypeCode();
+
+    ExpenseType getExpenseType();
 }

@@ -44,7 +44,7 @@
 			<table cellpadding="0" class="datatable" summary="Destination, Miles and Meals">
 				<c:forEach items="${KualiForm.document.perDiemExpenses}" var="perDiemExpense" varStatus="perDiemIndex">
 					<c:set target="${paramMap}" property="queryDate" value="${perDiemExpense.mileageDate}" />
-					<c:set var="isCustom" value="${perDiemExpense.perDiem.id == TemConstants.CUSTOM_PER_DIEM_ID}" />
+					<c:set var="isCustom" value="${perDiemExpense.primaryDestinationId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID}" />
 					<c:set var="colspan" value="${!showPerDiemBreakdown && !isCustom && !isTR ? 10 : 14}" />
 					<c:set var="mileageDate" value="${KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageDate}" />
 					
@@ -106,13 +106,13 @@
 								readOnly="${!isCustom || !fullEntryMode}" />
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
-								attributeEntry="${perDiemExpensesAttributes.perDiemId}"
+								attributeEntry="${perDiemExpensesAttributes.primaryDestination}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination"
 								readOnly="${!isCustom || !fullEntryMode}" /> 
 							<c:if test="${fullEntryMode}">
 								<kul:lookup
 									boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"
-									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].perDiem.primaryDestination.id"
+									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestinationId"
 									readOnlyFields="tripTypeCode"
 									lookupParameters="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState:countryState,document.perDiemExpenses[${perDiemIndex.count - 1}].county:county,document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination:primaryDestinationName,document.tripTypeCode:tripTypeCode" />
 								<c:if test="${!isCustom && enablePrimaryDestination}">

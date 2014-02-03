@@ -1002,7 +1002,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-125"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value=" knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1035,7 +1035,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-128"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent from."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1090,7 +1090,7 @@
 			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-134"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="quickstart@localhost"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1306,8 +1306,12 @@
 		</insert>
 		
 		<update tableName="KRCR_PARM_T">
-			<column name="VAL" value="V=C,E;U=V;A=V;B=V,E;C=S,V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=C,V;W=V;X=V;Z=E"/>
+			<column name="VAL" value="A=V;B=V,E;C=S,V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=V;V=V;W=V;X=V;Z=E"/>
 			<where>nmspc_cd = 'KFS-FP' and cmpnt_cd = 'DisbursementVoucher' and parm_nm = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' and appl_id = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="A=OEXP,NORE,FINA;B=SERV,ADV,COMP,OEXP,PHON,PRIN,R&amp;M,RESA,S&amp;E,TAXP,UTIL,S&amp;S;C=SERV;E=ADV,CREX,DEBT,OEXP,R&amp;M,SASV,SERV,SUPL;F=ACPA,AR,BENF,C&amp;G,DEBT,GIFT,INSS,INVR,OLIA,OTHR,OTHS,TAXP;G=CAP,PHON,RESA,S&amp;E,SASV,TAXP,UTIL;H=SERV,SASV,BENF,CREX,S&amp;E;J=COSV,SERV,CREX;K=COSV,CREX,SERV;L=CAP,R&amp;M,COSV,S&amp;E,RESV;N=TRAV,S&amp;E,OEXP;P=TRAV,S&amp;E,OEXP;R=ADV,S&amp;E,COSV;T=RENT;V=TRAV;W=SASV,OEXP,PRIN,RESA,S&amp;E,INV,CAP;Y=R&amp;M;Z=TAXP,ACPA,TAX,S&amp;E,OLIA,DEBT,CASH,CREX"/>
+			<where>nmspc_cd = 'KFS-FP' and cmpnt_cd = 'DisbursementVoucher' and parm_nm = 'VALID_OBJECT_LEVELS_BY_PAYMENT_REASON' and appl_id = 'KFS'</where>
 		</update>
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL" value="PO;POA;POC;POPH;PORH;POR;PORT;POSP;POV;TA;TAA;TAC"/>

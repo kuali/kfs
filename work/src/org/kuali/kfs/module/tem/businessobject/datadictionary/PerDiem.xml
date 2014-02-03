@@ -223,6 +223,7 @@
 			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
             <bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
+            <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>

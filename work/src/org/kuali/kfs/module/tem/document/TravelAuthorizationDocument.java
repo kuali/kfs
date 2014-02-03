@@ -135,7 +135,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         doc.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), doc.getDocumentNumber()));
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
 
         doc.initiateAdvancePaymentAndLines();
 
@@ -186,7 +186,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
         doc.getDocumentHeader().setOrganizationDocumentNumber("");
-        doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        doc.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
         doc.setTravelDocumentIdentifier(null); // reset, so it regenerates
 
         doc.initiateAdvancePaymentAndLines();
@@ -194,27 +194,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return doc;
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#updateAppDocStatus(java.lang.String)
-     */
-    @Override
-    public boolean updateAppDocStatus(String status) {
-        boolean updated = false;
-
-        //using the parent's update app doc status logic
-        updated = super.updateAppDocStatus(status);
-
-        if (!updated && (status.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
-                || status.equals(TravelAuthorizationStatusCodeKeys.OPEN_REIMB)
-                || status.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
-                || status.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
-                || status.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
-                || status.equals(TravelAuthorizationStatusCodeKeys.CLOSED))){
-            setAppDocStatus(status);
-            updated = saveAppDocStatus();
-        }
-        return updated;
-    }
 
     /**
      *
@@ -504,7 +483,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void initiateDocument() {
         super.initiateDocument();
-        setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
 
         //always default trip begin/date
         Calendar calendar = getDateTimeService().getCurrentCalendar();
@@ -778,7 +757,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
             if (!(this instanceof TravelAuthorizationCloseDocument)) {
                 // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
-                updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
+                try {
+                    updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
+                }
+                catch (WorkflowException ex) {
+                    // TODO Auto-generated catch block
+                    ex.printStackTrace();
+                }
 
                 getTravelAuthorizationService().createCustomerInvoice(this);
 
@@ -1428,6 +1413,33 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     protected boolean shouldRouteByProfileAccount() {
         return getBlanketTravel() || !getTripType().isGenerateEncumbrance() || hasOnlyPrepaidExpenses();
+    }
+
+    /**
+     * Returns the initiation date of the TA
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(ActualExpense expense) {
+        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+    }
+
+    /**
+     * Returns the initiation date of the TA
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(PerDiemExpense expense) {
+        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+    }
+
+    /**
+     * Returns the initiation date of the TA
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(java.sql.Date)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate) {
+        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
     }
 
     /**

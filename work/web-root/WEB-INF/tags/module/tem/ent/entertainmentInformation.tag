@@ -59,14 +59,6 @@
             <td class="datacell" >
             	<kul:htmlControlAttribute attributeEntry="${documentAttributes.spouseIncluded}" property="document.spouseIncluded" readOnly="${!fullEntryMode}"/>                 
             </td>
-             <th class="bord-l-b">
-	            <div align="right" >
-	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.hostCertified}" />
-	           	</div>
-            </th>
-            <td class="datacell">
-            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostCertified}" property="document.hostCertified" readOnly="${!fullEntryMode}"/>                 
-            </td>
             <c:if test="${KualiForm.displayNonEmployeeCheckBox}"> 
 	            <th>
 	            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.nonEmployeeCertified}" /></div>

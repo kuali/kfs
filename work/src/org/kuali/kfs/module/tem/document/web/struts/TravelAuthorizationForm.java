@@ -488,11 +488,13 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public boolean isDefaultTravelAdvanceTab() {
         if (getTravelDocument() != null && getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
 
-            if(TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVLR.equals(getTravelDocument().getAppDocStatus()) ||
+            if( TemConstants.TravelAuthorizationStatusCodeKeys.IN_PROCESS.equals(getTravelDocument().getAppDocStatus()) ||
+                TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVLR.equals(getTravelDocument().getAppDocStatus()) ||
                 TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_FISCAL.equals(getTravelDocument().getAppDocStatus()) ||
                 TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVL_MGR.equals(getTravelDocument().getAppDocStatus())) {
                 return true;
             }
+
         }
 
        return false;

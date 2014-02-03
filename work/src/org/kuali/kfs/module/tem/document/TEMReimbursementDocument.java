@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,7 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -345,6 +348,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         String initiator = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         String travelerID = getTraveler().getPrincipalId();
 
+        String travelerTypeCode = getTraveler().getTravelerTypeCode();
+        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
+            return false;
+        }
+
         boolean routeToTraveler = travelerID != null && !initiator.equals(travelerID);
         return routeToTraveler;
     }
@@ -545,6 +553,45 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             }
         }
         return false;
+    }
+
+    /**
+     * Return the expense date if it exists
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(ActualExpense expense) {
+        if (expense != null && expense.getExpenseDate() != null) {
+            return expense.getExpenseDate();
+        }
+        return null;
+    }
+
+    /**
+     * Returns the mileage expense date if it exists
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(PerDiemExpense expense) {
+        if (expense != null && expense.getMileageDate() != null) {
+            return getEffectiveDateForPerDiem(expense.getMileageDate());
+        }
+        return null;
+    }
+
+    /**
+     * Just returns the date back
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(java.sql.Date)
+     */
+    @Override
+    public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate) {
+        return new java.sql.Date(expenseDate.getTime());
+    }
+
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**

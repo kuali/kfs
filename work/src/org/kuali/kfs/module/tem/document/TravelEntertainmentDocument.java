@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -69,7 +70,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     private Integer hostProfileId;
     private String hostName;
     private String eventTitle;
-    private Boolean hostCertified;
     private Boolean nonEmployeeCertified;
     protected Boolean spouseIncluded;
     private String description;
@@ -110,14 +110,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.eventTitle = eventTitle;
     }
 
-    @Column(name = "HOST_CERTIFIED", length = 1, nullable = true)
-    public Boolean getHostCertified() {
-        return hostCertified;
-    }
-
-    public void setHostCertified(Boolean hostCertified) {
-        this.hostCertified = hostCertified;
-    }
 
     @Column(name = "NON_EMPLOYEE_CERTIFIED", length = 1, nullable = true)
     public Boolean getNonEmployeeCertified() {
@@ -321,7 +313,13 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
 
             // for some reason when it goes to final it never updates to the last status
-            updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
+            try {
+                updateAndSaveAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
+            }
+            catch (WorkflowException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
 
             // If the hold new fiscal year encumbrance indicator is true and the trip end date
             // is after the current fiscal year end date then mark all the gl pending entries
@@ -354,7 +352,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         super.initiateDocument();
         setTripBegin(null);
         setTripEnd(null);
-        setAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }

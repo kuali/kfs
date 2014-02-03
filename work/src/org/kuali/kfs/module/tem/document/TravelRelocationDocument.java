@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -230,25 +231,25 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
 
     }
 
-    /**
-     * This method updates both the internal travel document status value and the app doc status
-     * in the document header of workflow
-     *
-     * @param status
-     */
-    @Override
-    public boolean updateAppDocStatus(String status) {
-        boolean updated = false;
-
-        //using the parent's update app doc status logic
-        updated = super.updateAppDocStatus(status);
-
-        if (!updated && (status.equals(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED))){
-            setAppDocStatus(status);
-            updated = saveAppDocStatus();
-        }
-        return updated;
-    }
+//    /**
+//     * This method updates both the internal travel document status value and the app doc status
+//     * in the document header of workflow
+//     *
+//     * @param status
+//     */
+//    @Override
+//    public boolean updateAppDocStatus(String status) {
+//        boolean updated = false;
+//
+//        //using the parent's update app doc status logic
+//        updated = super.updateAppDocStatus(status);
+//
+//        if (!updated && (status.equals(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED))){
+//            setAppDocStatus(status);
+//            updated = saveAppDocStatus();
+//        }
+//        return updated;
+//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
@@ -258,7 +259,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         super.initiateDocument();
         setTripBegin(null);
         setTripEnd(null);
-        setAppDocStatus(TravelRelocationStatusCodeKeys.IN_PROCESS);
+        setApplicationDocumentStatus(TravelRelocationStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelRelocationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }
@@ -274,7 +275,13 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
                 || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
 
             LOG.debug("New route status is: " + statusChangeEvent.getNewRouteStatus());
-            updateAppDocStatus(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED);
+            try {
+                updateAndSaveAppDocStatus(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED);
+            }
+            catch (WorkflowException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
         }
     }
 

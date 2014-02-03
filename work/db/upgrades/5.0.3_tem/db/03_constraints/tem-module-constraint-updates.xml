@@ -108,8 +108,8 @@
 		<addNotNullConstraint tableName="TEM_ATTENDEE_T"
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
 		<addForeignKeyConstraint constraintName="TEM_CLASS_SVC_TR1"
-			baseTableName="TEM_CLASS_SVC_T" baseColumnNames="DV_EXP_CD"
-			referencedTableName="FP_DV_EXP_TYP_T" referencedColumnNames="DV_EXP_CD" />
+			baseTableName="TEM_CLASS_SVC_T" baseColumnNames="EXP_TYP_CD"
+			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addUniqueConstraint tableName="TEM_CLASS_SVC_T"
 			constraintName="TEM_CLASS_SVC_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
@@ -259,8 +259,8 @@
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_GRP_TRVLR_T"
 			columnName="TRAVELER_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addForeignKeyConstraint constraintName="TEM_HIST_EXP_TR2"
-			baseTableName="TEM_HIST_EXP_T" baseColumnNames="DV_EXP_CD"
+		<addForeignKeyConstraint constraintName="TEM_HIST_EXP_TR1"
+			baseTableName="TEM_HIST_EXP_T" baseColumnNames="EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addUniqueConstraint tableName="TEM_HIST_EXP_T"
 			constraintName="TEM_HIST_EXP_TC0" columnNames="OBJ_ID" />

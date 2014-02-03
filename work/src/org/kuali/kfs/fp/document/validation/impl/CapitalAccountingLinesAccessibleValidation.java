@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
-import org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase;
+import org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizer;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -54,8 +54,10 @@ public class CapitalAccountingLinesAccessibleValidation extends AccountingLineAc
                     }
                 }
 
-                final CapitalAccountingLinesAuthorizerBase accountingLineAuthorizer = (CapitalAccountingLinesAuthorizerBase) lookupAccountingLineAuthorizer();
-                return accountingLineAuthorizer.determineEditPermissionOnFieldBypassCapitalCheck(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, true);
+                // we can safely cast the lookup result to CapitalAccountingLinesAuthorizer, because even if the security module is turned on so that
+                // the returned result is CapitalAccountingLinesAuthorizer, it's still fine since the latter implements CapitalAccountingLinesAuthorizer
+                final CapitalAccountingLinesAuthorizer capitalAccountingLineAuthorizer = (CapitalAccountingLinesAuthorizer) lookupAccountingLineAuthorizer();
+                return capitalAccountingLineAuthorizer.determineEditPermissionOnFieldBypassCapitalCheck(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, true);
             }
         }
 

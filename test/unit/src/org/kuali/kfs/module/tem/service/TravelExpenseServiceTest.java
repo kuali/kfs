@@ -15,16 +15,115 @@
  */
 package org.kuali.kfs.module.tem.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
+import org.kuali.kfs.module.tem.dataaccess.ExpenseTypeObjectCodeDao;
+import org.kuali.kfs.module.tem.dataaccess.impl.ExpenseTypeObjectCodeDaoOjb;
+import org.kuali.kfs.module.tem.service.impl.TravelExpenseServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext
 public class TravelExpenseServiceTest extends KualiTestBase {
-    public void testGetExpenseType() {
-        final TravelExpenseService travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
+    protected static final String MONKEY_EXPENSE_TYPE_CODE = "M";
+    protected static final String GIRAFFE_EXPENSE_TYPE_CODE = "G";
 
+    protected TravelExpenseService travelExpenseService;
+
+    protected enum MockExpenseTypeObjectCode {
+        MONKEY("M","TT", "All", "All", "6000"),
+        GIRAFFE_TT("G", "TT", "All", "All", "6001"),
+        GIRAFFE_TA("G", "TA", "All", "All", "6002"),
+        GIRAFFE_EMP_IN("G", "TA", "EMP", "IN", "6003"),
+        GIRAFFE_TRIP_ALL("G", "TA", "EMP", "All", "6004"),
+        GIRAFFE_TRAVELER_ALL("G", "TA", "All", "IN", "6005");
+
+        private String expenseTypeCode;
+        private String documentTypeName;
+        private String travelerType;
+        private String tripType;
+        private String financialObjectCode;
+
+        MockExpenseTypeObjectCode(String expenseTypeCode, String documentTypeName, String travelerType, String tripType, String financialObjectCode) {
+            this.expenseTypeCode = expenseTypeCode;
+            this.documentTypeName = documentTypeName;
+            this.travelerType = travelerType;
+            this.tripType = tripType;
+            this.financialObjectCode = financialObjectCode;
+        }
+
+        protected ExpenseTypeObjectCode buildExpenseTypeObjectCode() {
+            ExpenseTypeObjectCode etoc = new ExpenseTypeObjectCode();
+            etoc.setExpenseTypeObjectCodeId(1L);
+            etoc.setExpenseTypeCode(expenseTypeCode);
+            etoc.setDocumentTypeName(documentTypeName);
+            etoc.setTravelerTypeCode(travelerType);
+            etoc.setTripTypeCode(tripType);
+            etoc.setFinancialObjectCode(financialObjectCode);
+            return etoc;
+        }
+    }
+
+    @Override
+    public void setUp() {
+        travelExpenseService = new TravelExpenseServiceImpl() {
+            @Override
+            public ExpenseTypeObjectCodeDao getExpenseTypeObjectCodeDao() {
+                ExpenseTypeObjectCodeDao expenseTypeObjectCodeDao = new ExpenseTypeObjectCodeDaoOjb() {
+                    @Override
+                    public List<ExpenseTypeObjectCode> findMatchingExpenseTypeObjectCodes(String expenseTypeCode, Set<String> documentTypes, String tripType, String travelerType) {
+                        List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
+                        if (MONKEY_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
+                            results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
+                        } else if (GIRAFFE_EXPENSE_TYPE_CODE.equals(expenseTypeCode)) {
+                            if ("IN".equals(tripType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
+                            }
+                            if (documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
+                            }
+                            results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
+                            if ("IN".equals(tripType) && "EMP".equals(travelerType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
+                            }
+                            if ("EMP".equals(travelerType) && documentTypes.contains("TA")) {
+                                results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
+                            }
+                        } else {
+                            throw new UnsupportedOperationException("Hey, I'm just a mock interface.  I only know about monkeys and giraffes, not an expense type code like: "+expenseTypeCode);
+                        }
+                        return results;
+                    }
+
+                    @Override
+                    public List<ExpenseTypeObjectCode> findMatchingExpenseTypesObjectCodes(Set<String> documentTypes, String tripType, String travelerType) {
+                        List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
+                        results.add(MockExpenseTypeObjectCode.MONKEY.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_EMP_IN.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TT.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TA.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRAVELER_ALL.buildExpenseTypeObjectCode());
+                        results.add(MockExpenseTypeObjectCode.GIRAFFE_TRIP_ALL.buildExpenseTypeObjectCode());
+                        return results;
+                    }
+                };
+
+                return expenseTypeObjectCodeDao;
+            }
+
+            @Override
+            public TravelService getTravelService() {
+                return SpringContext.getBean(TravelService.class);
+            }
+
+        };
+    }
+
+    public void testGetExpenseType() {
         // monkeys are easy.  let's try monkeys first
         final ExpenseTypeObjectCode monkeyETOC1 = travelExpenseService.getExpenseType("M", "TA", "IN", "EMP");
         assertEquals("M-TA-EMP-IN found correct monkey expense type object code", "6000", monkeyETOC1.getFinancialObjectCode());

@@ -110,11 +110,6 @@
 										alt="${(fn:length(KualiForm.distribution) == selectedCount)? 'Uns' : 'S'}elect All Distributions" 
 										title="${(fn:length(KualiForm.distribution) == selectedCount)? 'Uns' : 'S'}elect All Distributions"
 										styleClass="tinybutton" />
-									<html:image
-										property="methodToCall.distribute"
-										src="${ConfigProperties.externalizable.images.url}tinybutton-setdist.gif"
-										alt="Setup Distribution" title="Setup Distribution"
-										styleClass="tinybutton" />
 								</c:otherwise>
 							</c:choose>							
 						</div>

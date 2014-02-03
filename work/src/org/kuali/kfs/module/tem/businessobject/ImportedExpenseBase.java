@@ -33,7 +33,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     protected Date importDate;
     protected String travelCompany;
     protected String location;
-    protected String travelExpenseType;
+    protected String travelExpenseTypeCode;
     protected KualiDecimal amount;
     protected Date transactionPostingDate;
     protected Date reconciliationDate;
@@ -156,17 +156,17 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
      * Gets the travelExpenseType attribute.
      * @return Returns the travelExpenseType.
      */
-    @Column(name="DV_EXP_CD")
-    public String getTravelExpenseType() {
-        return travelExpenseType;
+    @Column(name="EXP_TYP_CD")
+    public String getTravelExpenseTypeCode() {
+        return travelExpenseTypeCode;
     }
 
     /**
      * Sets the travelExpenseType attribute value.
      * @param travelExpenseType The travelExpenseType to set.
      */
-    public void setTravelExpenseType(String travelExpenseType) {
-        this.travelExpenseType = travelExpenseType;
+    public void setTravelExpenseTypeCode(String travelExpenseTypeCode) {
+        this.travelExpenseTypeCode = travelExpenseTypeCode;
     }
 
     /**

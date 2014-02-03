@@ -194,7 +194,6 @@ public class TemKeyConstants {
 
     public static final String TEM_ENT_DOC_ATTENDEE_LIST_QUESTION  = "tem.entertainment.attendee.list.question.text";
     public static final String TEM_ENT_NON_EMPLOYEE_FORM_QUESTION  = "tem.entertainment.NonEmployeeForm.question.text";
-    public static final String TEM_ENT_HOST_CERTIFICATION_QUESTION  = "tem.entertainment.host.certification.question.text";
     public static final String TEM_ENT_QUESTION_PROCEED="tem.entertainment.question.proceed.text";
 
     public static final String TEM_ENT_HOST_CERTIFICATION  = "tem.entertainment.host.certification";
@@ -218,6 +217,7 @@ public class TemKeyConstants {
     public static final String MESSAGE_UPLOADPARSER_INVALID_VALUE = "error.uploadParser.invalidValue";
 
     public static final String ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND = "error.document.tem.travel.groupTraveler.employeeNotFound";
+    public static final String ERROR_TRVL_GROUP_TRVL_DUPLICATE = "error.document.tem.travel.groupTraveler.duplicate";
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
     public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";

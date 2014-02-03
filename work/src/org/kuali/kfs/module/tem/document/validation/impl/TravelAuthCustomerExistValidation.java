@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_OVERVIEW;
-
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -39,7 +37,7 @@ public class TravelAuthCustomerExistValidation extends GenericValidation {
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().addToErrorPath(TRIP_OVERVIEW);
+        GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.TRIP_OVERVIEW);
         boolean rulePassed = true;
         final TravelDocumentBase taDocument = (TravelDocumentBase)event.getDocument();
 
@@ -48,12 +46,12 @@ public class TravelAuthCustomerExistValidation extends GenericValidation {
         LOG.debug("Got " + taDocument.getTraveler().getCustomer());
 
         if (taDocument.getTraveler().getCustomer() == null
-            && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES).contains(taDocument.getTraveler().getTravelerTypeCode())) {
+            && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(taDocument.getTraveler().getTravelerTypeCode())) {
             // if not found and non-employee, throw an error
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRAVELER_TYPE, TemKeyConstants.ERROR_TA_AR_CUST_NOT_FOUND);
             rulePassed = false;
         }
-        GlobalVariables.getMessageMap().removeFromErrorPath(TRIP_OVERVIEW);
+        GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.TRIP_OVERVIEW);
         return rulePassed;
     }
 

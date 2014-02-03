@@ -391,7 +391,13 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         return sequenceHelper;
     }
 
-    protected Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData) {
+    /**
+     * Gets the currently existing GLPEs for the document we're going to add GLPEs to
+     * @param agencyStagingData
+     * @return
+     */
+    @Override
+    public Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData) {
         Collection<GeneralLedgerPendingEntry> glpes = null;
 
         TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyStagingData.getTripId());

@@ -15,7 +15,7 @@
 			<ref bean="HistoricalTravelExpense-importDate" />
 			<ref bean="HistoricalTravelExpense-travelCompany" />
 			<ref bean="HistoricalTravelExpense-location" />
-			<ref bean="HistoricalTravelExpense-travelExpenseType" />
+			<ref bean="HistoricalTravelExpense-travelExpenseTypeCode" />
 			<ref bean="HistoricalTravelExpense-amount" />
 			<ref bean="HistoricalTravelExpense-transactionPostingDate" />
 			<ref bean="HistoricalTravelExpense-reconciliationDate" />
@@ -88,9 +88,9 @@
 		<property name="description" value="Location" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
-	<bean id="HistoricalTravelExpense-travelExpenseType" parent="HistoricalTravelExpense-travelExpenseType-parentBean" />
-	<bean id="HistoricalTravelExpense-travelExpenseType-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="travelExpenseType" />
+	<bean id="HistoricalTravelExpense-travelExpenseTypeCode" parent="HistoricalTravelExpense-travelExpenseTypeCode-parentBean" />
+	<bean id="HistoricalTravelExpense-travelExpenseTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="travelExpenseTypeCode" />
 		<property name="label" value="Travel Expense Type" />
 		<property name="shortLabel" value="Travel Expense Type" />
 		<property name="maxLength" value="255" />
@@ -271,7 +271,7 @@
 					<bean parent="FieldDefinition" p:attributeName="importDate" />
 					<bean parent="FieldDefinition" p:attributeName="travelCompany" />
 					<bean parent="FieldDefinition" p:attributeName="location" />
-					<bean parent="FieldDefinition" p:attributeName="travelExpenseType" />
+					<bean parent="FieldDefinition" p:attributeName="travelExpenseTypeCode" />
 					<bean parent="FieldDefinition" p:attributeName="amount" />
 					<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
 					<bean parent="FieldDefinition" p:attributeName="description" />

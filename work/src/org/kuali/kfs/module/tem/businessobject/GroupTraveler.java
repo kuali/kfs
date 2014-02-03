@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES;
-
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
@@ -162,7 +160,7 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
      * @return Returns the travelerLabel.
      */
     public String getTravelerLabel() {
-        if(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES).contains(groupTravelerTypeCode)) {
+        if(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(groupTravelerTypeCode)) {
             return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SpringContext.getBean(AccountsReceivableModuleService.class).createCustomer().getClass(), KFSPropertyConstants.CUSTOMER_NUMBER);
         } else {
             return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(GroupTraveler.class, TemPropertyConstants.GROUP_TRAVELER_EMP_ID);

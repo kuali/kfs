@@ -109,7 +109,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
             getNoteService().save(newNote);
 
             //save the new state on the document
-            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
+            document.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
             TravelAuthorizationDocument authorization = (TravelAuthorizationDocument)document;
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             authorization.setHoldRequestorprincipalId(principalId);

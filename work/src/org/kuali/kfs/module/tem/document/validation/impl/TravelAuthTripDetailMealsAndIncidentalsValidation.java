@@ -23,10 +23,12 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -36,8 +38,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericValidation {
 
-    private TravelDocumentService travelDocumentService;
-    private ParameterService parameterService;
+    protected TravelDocumentService travelDocumentService;
+    protected ParameterService parameterService;
+    protected PerDiemService perDiemService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -50,7 +53,8 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
             String expenseDate = sdf.format(estimate.getMileageDate());
 
             if (estimate != null) {
-                if (estimate.getPerDiem() != null && perDiemPercent != null) {
+                final PerDiem estimatePerDiem = getPerDiemService().getPerDiem(estimate.getPrimaryDestinationId(), estimate.getMileageDate(), document.getEffectiveDateForPerDiem(estimate));
+                if (estimatePerDiem != null && perDiemPercent != null) {
 
                     //determine if per diem rule should be daily or per meal
                     boolean checkDailyPerDiem = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND);
@@ -59,7 +63,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                     if (!checkDailyPerDiem){
 
                         // check for invalid breakfast amounts
-                        KualiDecimal defaultBreakfast = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimate.getPerDiem().getBreakfast(), perDiemPercent);
+                        KualiDecimal defaultBreakfast = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimatePerDiem.getBreakfast(), perDiemPercent);
                         if (defaultBreakfast.isGreaterThan(KualiDecimal.ZERO) && defaultBreakfast.isLessThan(estimate.getBreakfastValue())) {
                             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_MEAL_AND_INC_NOT_VALID, new String[]{"Breakfast - " + expenseDate, estimate.getBreakfastValue().toString(), defaultBreakfast.toString()});
                             rulePassed = false;
@@ -67,7 +71,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                         }
 
                         // check for invalid lunch amounts
-                        KualiDecimal defaultLunch = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimate.getPerDiem().getLunch(), perDiemPercent);
+                        KualiDecimal defaultLunch = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimatePerDiem.getLunch(), perDiemPercent);
                         if (defaultLunch.isGreaterThan(KualiDecimal.ZERO) && defaultLunch.isLessThan(estimate.getLunchValue())) {
                             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_MEAL_AND_INC_NOT_VALID, new String[]{"Lunch - " + expenseDate, estimate.getLunchValue().toString(), defaultLunch.toString()});
                             rulePassed = false;
@@ -75,7 +79,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                         }
 
                         // check for invalid dinner amounts
-                        KualiDecimal defaultDinner = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimate.getPerDiem().getDinner(), perDiemPercent);
+                        KualiDecimal defaultDinner = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimatePerDiem.getDinner(), perDiemPercent);
                         if (defaultDinner.isGreaterThan(KualiDecimal.ZERO) && defaultDinner.isLessThan(estimate.getDinnerValue())) {
                             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_MEAL_AND_INC_NOT_VALID, new String[]{"Dinner - " + expenseDate, estimate.getDinnerValue().toString(), defaultDinner.toString()});
                             rulePassed = false;
@@ -83,7 +87,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                         }
 
                         // check for invalid incidentals amounts
-                        KualiDecimal defaultIncidentals = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimate.getPerDiem().getIncidentals(), perDiemPercent);
+                        KualiDecimal defaultIncidentals = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimatePerDiem.getIncidentals(), perDiemPercent);
                         if (defaultIncidentals.isGreaterThan(KualiDecimal.ZERO) && defaultIncidentals.isLessThan(estimate.getIncidentalsValue())) {
                             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_MEAL_AND_INC_NOT_VALID, new String[]{"Incidentals - " + expenseDate, estimate.getIncidentalsValue().toString(), defaultIncidentals.toString()});
                             rulePassed = false;
@@ -92,7 +96,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                     }
                     else{
 
-                        KualiDecimal dailyPerDiem = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimate.getPerDiem().getMealsAndIncidentals(), perDiemPercent);
+                        KualiDecimal dailyPerDiem = PerDiemExpense.calculateMealsAndIncidentalsProrated(estimatePerDiem.getMealsAndIncidentals(), perDiemPercent);
                         if (dailyPerDiem.isGreaterThan(KualiDecimal.ZERO) && dailyPerDiem.isLessThan(estimate.getMealsAndIncidentals())) {
                             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_MEAL_AND_INC_NOT_VALID, new String[]{"Daily PerDiem - " + expenseDate, estimate.getMealsAndIncidentals().toString(), dailyPerDiem.toString()});
                             rulePassed = false;
@@ -132,6 +136,14 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public PerDiemService getPerDiemService() {
+        return perDiemService;
+    }
+
+    public void setPerDiemService(PerDiemService perDiemService) {
+        this.perDiemService = perDiemService;
     }
 
 }

@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 
 public interface AgencyDataImportService {
@@ -69,5 +71,12 @@ public interface AgencyDataImportService {
      * @return
      */
     boolean matchExpenses();
+
+    /**
+     * Gets the currently existing GLPEs for the document we're going to add GLPEs to
+     * @param agencyStagingData
+     * @return
+     */
+    public Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData);
 
 }

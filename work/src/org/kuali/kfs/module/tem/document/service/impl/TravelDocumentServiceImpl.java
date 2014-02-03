@@ -91,6 +91,7 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.module.tem.document.service.MileageRateService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
@@ -190,6 +191,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected TravelExpenseService travelExpenseService;
     protected NoteService noteService;
     protected TravelService travelService;
+    protected MileageRateService mileageRateService;
 
 
     /**
@@ -200,19 +202,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     protected PerDiemExpense createPerDiemItem(final TravelDocument document, final PerDiem newPerDiem, final Timestamp ts, final boolean prorated, String mileageRateExpenseTypeCode) {
         final PerDiemExpense expense = newPerDiemExpense();
-        expense.setPerDiem(newPerDiem);
-        expense.setPerDiemId(newPerDiem.getId());
-        expense.refreshPerDiem();
+        expense.setPrimaryDestinationId(newPerDiem.getPrimaryDestinationId());
         expense.setProrated(prorated);
         expense.setMileageDate(ts);
 
-        PerDiem perDiem = expense.getPerDiem();
-        expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
-        expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+        expense.setPrimaryDestination(newPerDiem.getPrimaryDestination().getPrimaryDestinationName());
+        expense.setCountryState(newPerDiem.getPrimaryDestination().getRegion().getRegionName());
+        expense.setCounty(newPerDiem.getPrimaryDestination().getCounty());
 
-        setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
-        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
+        setPerDiemMealsAndIncidentals(expense, newPerDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
+        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? newPerDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
         expense.setMileageRateExpenseTypeCode(mileageRateExpenseTypeCode);
         return expense;
@@ -326,21 +325,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         List<PerDiem> perDiemList = new ArrayList<PerDiem>();
 
-        Map<String,Object> fieldValues = new HashMap<String, Object>();
-        // Gather all primary destination info
-        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, document.getPrimaryDestinationId());
-        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
-
         // find a valid per diem for each date.  If per diem is null, make it a custom per diem.
-        for (final Timestamp eachDate : dateRange(start, end)) {
-            fieldValues.put(TemPropertyConstants.PER_DIEM_LOOKUP_DATE, eachDate);
-            PerDiem perDiem = getTravelDocumentDao().findPerDiem(fieldValues);
-            if (perDiem == null){
+        for (final Timestamp eachTimestamp : dateRange(start, end)) {
+            PerDiem perDiem = getTravelDocumentDao().findPerDiem(document.getPrimaryDestinationId(), eachTimestamp, document.getEffectiveDateForPerDiem(eachTimestamp));
+            if (perDiem == null || perDiem.getPrimaryDestinationId() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 perDiem = new PerDiem();
                 perDiem.setPrimaryDestination(new PrimaryDestination());
                 perDiem.getPrimaryDestination().setRegion(new TemRegion());
                 perDiem.getPrimaryDestination().getRegion().setTripType(new TripType());
-                perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
+                perDiem.setPrimaryDestinationId(TemConstants.CUSTOM_PRIMARY_DESTINATION_ID);
                 perDiem.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
                 perDiem.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
                 perDiem.getPrimaryDestination().getRegion().setTripType(document.getTripType());
@@ -419,9 +412,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         for (final ExpenseType expenseType : expenseTypes) {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
                 final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
-                keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
+                if (mileageRate != null) {
+                    keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
                 }
             }
+        }
 
         //sort by label
         Comparator<KeyValue> labelComparator = new Comparator<KeyValue>() {
@@ -443,20 +438,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @return the matching mileage rate
      */
     @Override
-    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date expenseDate) {
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
-        fieldValues.put(TemPropertyConstants.EXPENSE_TYPE_CODE, expenseTypeCode);
-
-        final Collection<MileageRate> mileageRates = getBusinessObjectService().findMatching(MileageRate.class, fieldValues);
-        MileageRate chosenMileageRate = null;
-        for (MileageRate mileageRate : mileageRates) {
-            final Date fromDate = mileageRate.getActiveFromDate();
-            final Date toDate = mileageRate.getActiveToDate();
-
-            if(DateUtils.truncatedCompareTo(fromDate, expenseDate, Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, expenseDate, Calendar.DATE) >= 0) {
-                chosenMileageRate = mileageRate;
-            }
-        }
+    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date effectiveDate) {
+        final MileageRate chosenMileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseTypeCode, effectiveDate);
         return chosenMileageRate;
     }
 
@@ -834,7 +817,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 perDiemPercent = calculatePerDiemPercentageFromTimestamp(perDiemExpense, tripEnd);
             }
         }
-
         return perDiemPercent;
     }
 
@@ -898,7 +880,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         retval.setAccommodationName(perDiemExpense.getAccommodationName());
         retval.setAccommodationPhoneNum(perDiemExpense.getAccommodationPhoneNum());
         retval.setAccommodationAddress(perDiemExpense.getAccommodationAddress());
-        retval.setPerDiemId(perDiemExpense.getPerDiemId());
+        retval.setPrimaryDestinationId(perDiemExpense.getPrimaryDestinationId());
 
         if (retval.getMiles() == null) {
             retval.setMiles(0);
@@ -933,45 +915,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     public KualiDecimal calculateMileage(ActualExpense actualExpense) {
         KualiDecimal mileageTotal = KualiDecimal.ZERO;
-
         if (ObjectUtils.isNotNull(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()) {
             mileageTotal = actualExpense.getMileageTotal();
         }
-
         return mileageTotal;
     }
 
-    /**
-     * Calculates Expense Amount total
-     *
-     * @param List<ActualExpense> actualExpenses
-     */
-    @Override
-    public KualiDecimal calculateExpenseAmountTotalForMileage(final List<ActualExpense> actualExpenses) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        for (final ActualExpense actualExpense : actualExpenses) {
-            if (actualExpense.isMileage()) {
-                actualExpense.setExpenseAmount(calculateMileage(actualExpense));
-                total = total.add(actualExpense.getExpenseAmount());
-                actualExpense.setConvertedAmount(new KualiDecimal(actualExpense.getExpenseAmount().bigDecimalValue().multiply(actualExpense.getCurrencyRate())));
-            }
-
-            // Check to see if it is detail record. if detail record, get parent record.
-            if (ObjectUtils.isNotNull(actualExpense.getExpenseParentId())) {
-                final ActualExpense parentActualExpense = getParentActualExpense(actualExpenses, actualExpense.getExpenseParentId());
-
-                // If expense type for parent record is mileage, add detail expense amount to the parent expense amount
-                if (parentActualExpense.isMileage()) {
-                    parentActualExpense.setExpenseAmount(actualExpense.getTotalDetailExpenseAmount());
-                    // total = total.add(parentActualExpense.getExpenseAmount());
-                    parentActualExpense.setConvertedAmount(new KualiDecimal(parentActualExpense.getExpenseAmount().bigDecimalValue().multiply(parentActualExpense.getCurrencyRate())));
-                }
-
-            }
-        }
-        return total;
-    }
 
     protected ActualExpense getParentActualExpense(final List<ActualExpense> actualExpenses, Long expenseId) {
         if (ObjectUtils.isNotNull(actualExpenses) && ObjectUtils.isNotNull(expenseId)) {
@@ -1019,11 +968,17 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isHostedMeal(final ExpenseTypeAware havingExpenseType) {
-        if (havingExpenseType.getExpenseTypeObjectCode() != null) {
-            havingExpenseType.getExpenseTypeObjectCode().refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
-            return havingExpenseType.getExpenseTypeObjectCode().getExpenseType().isHosted();
+        if (ObjectUtils.isNull(havingExpenseType) || StringUtils.isBlank(havingExpenseType.getExpenseTypeCode())) {
+            return false;
         }
-        return false;
+
+        if (havingExpenseType instanceof PersistableBusinessObject) {
+            ((PersistableBusinessObject)havingExpenseType).refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
+        }
+        if (ObjectUtils.isNull(havingExpenseType.getExpenseType())) {
+            return false;
+        }
+        return havingExpenseType.getExpenseType().isHosted();
     }
 
     /**
@@ -1405,7 +1360,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode) {
         boolean foundCode = false;
-        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES).contains(travelerTypeCode)) {
+        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
             foundCode = true;
         }
         return foundCode;
@@ -1909,8 +1864,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public KualiDecimal getAdvancesTotalFor(TravelDocument travelDocument) {
-        LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
         KualiDecimal retval = KualiDecimal.ZERO;
+        if (ObjectUtils.isNull(travelDocument)) {
+            return retval;
+        }
+
+        LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
+
         TravelAuthorizationDocument authorization = null;
         authorization = findCurrentTravelAuthorization(travelDocument);
 
@@ -2122,7 +2082,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         for (Document taDocument : relatedDocumentList) {
             if (taDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
                 TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) taDocument;
-                taDoc.updateAppDocStatus(status);
+                try {
+                    taDoc.updateAndSaveAppDocStatus(status);
+                }
+                catch (WorkflowException ex1) {
+                    // TODO Auto-generated catch block
+                    ex1.printStackTrace();
+                }
 
                 try {
                     Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, "Amemdment Canceled");
@@ -2615,8 +2581,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
             KualiDecimal currentMealValue = (KualiDecimal)ObjectUtils.getPropertyValue(perDiemExpense, mealValueName);
             if (currentMealValue != null && currentMealValue.equals(KualiDecimal.ZERO)) {
-                PerDiem perDiem = perDiemExpense.getPerDiem();
-                KualiDecimal mealAmount = (KualiDecimal)ObjectUtils.getPropertyValue(perDiem, mealName);
+                final PerDiem perDiem = getPerDiemService().getPerDiem(perDiemExpense.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), document.getEffectiveDateForPerDiem(perDiemExpense));
+                final KualiDecimal mealAmount = (KualiDecimal)ObjectUtils.getPropertyValue(perDiem, mealName);
                 final boolean prorated = !KfsDateUtils.isSameDay(document.getTripBegin(), document.getTripEnd()) && (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripBegin()) || KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripEnd()));
                 if (prorated && !ObjectUtils.isNull(document.getTripType())) {
                     perDiemExpense.setProrated(true);
@@ -2714,6 +2680,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public void setTravelService(TravelService travelService) {
         this.travelService = travelService;
+    }
+
+    public MileageRateService getMileageRateService() {
+        return mileageRateService;
+    }
+
+    public void setMileageRateService(MileageRateService mileageRateService) {
+        this.mileageRateService = mileageRateService;
     }
 
 }

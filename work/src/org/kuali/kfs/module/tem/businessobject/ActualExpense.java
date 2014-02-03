@@ -293,6 +293,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         if (ObjectUtils.isNull(getExpenseType()) && !StringUtils.isBlank(getExpenseTypeCode())) {
             refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
         }
+
         return ( !ObjectUtils.isNull(getExpenseType()) && category.getCode().equals(getExpenseType().getExpenseTypeMetaCategoryCode()));
     }
 
@@ -308,7 +309,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         KualiDecimal total = KualiDecimal.ZERO;
 
         if(ObjectUtils.isNotNull(this.miles) && this.miles != 0){
-            if (!ObjectUtils.isNull(mileageOtherRate)) {
+            if (ObjectUtils.isNotNull(mileageOtherRate) && mileageOtherRate != BigDecimal.ZERO) {
                 total= new KualiDecimal(new BigDecimal(miles).multiply(this.mileageOtherRate)); // mileageOtherRate takes precedence
             }
             else {

@@ -15,7 +15,16 @@
  */
 package org.kuali.kfs.sys.document;
 
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.TransactionalDocument;
 
 public interface FinancialSystemTransactionalDocument extends TransactionalDocument, FinancialSystemDocument {
+
+    public String getApplicationDocumentStatus();
+
+    public void setApplicationDocumentStatus(String applicationDocumentStatus);
+
+    public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException;
+
+
 }

@@ -56,6 +56,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -104,6 +105,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = reimbForm.getTravelReimbursementDocument();
 
         refreshCollectionsFor(document);
+        initializeAssignAccounts(reimbForm);
     }
 
 
@@ -447,6 +449,17 @@ public class TravelReimbursementAction extends TravelActionBase {
                 document.setPrimaryDestinationIndicator(true);
             }
 
+            //copy special circumstances from root document
+            for (SpecialCircumstances rootSpecialCircumstances : rootDocument.getSpecialCircumstances() ) {
+                for (SpecialCircumstances circumstances : document.getSpecialCircumstances()) {
+                    if(circumstances.getQuestionId().equals(rootSpecialCircumstances.getQuestionId())) {
+                        circumstances.setText(rootSpecialCircumstances.getText());
+                    }
+                }
+            }
+
+
+
             //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
             //document.setSourceAccountingLines(rootDocument.getSourceAccountingLines());
             //document.setTargetAccountingLines(rootDocument.getTargetAccountingLines());
@@ -477,6 +490,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
         // do the distribution
         travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));
+        initializeAssignAccounts(travelForm);
     }
 
     @Override
@@ -569,7 +583,9 @@ public class TravelReimbursementAction extends TravelActionBase {
             reimbForm.getNewSourceLine().setFinancialObjectCode(objectCode);
         }
 
-        handleMissingPerDiemMileageRates(reimbForm);
+        if (reimbForm.getAccountDistributionsourceAccountingLines() == null || reimbForm.getAccountDistributionsourceAccountingLines().isEmpty()) {
+            initializeAssignAccounts(reimbForm);
+        }
 
         return retval;
     }

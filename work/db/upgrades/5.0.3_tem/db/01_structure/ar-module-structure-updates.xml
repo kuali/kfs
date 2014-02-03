@@ -4,17 +4,9 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
 	<changeSet author="KFSTEM" id="KFSMI-11126">
-		<modifyDataType tableName="AR_CSH_CTRL_DTL_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_CUST_ADDR_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_CUST_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_DOC_HDR_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_DOC_RCURRNC_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
 		<addColumn tableName="AR_INV_DOC_T">
 			<column name="AGING_RPT_SENT_TM" type="DATE" />
 		</addColumn>
-		<modifyDataType tableName="AR_INV_RCURRNC_DTL_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_LOCKBOX_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
-		<modifyDataType tableName="AR_NON_APLD_HLDG_T" columnName="CUST_NBR" newDataType="VARCHAR2(40)"/>
 		
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />

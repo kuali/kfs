@@ -19,9 +19,6 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-        
-    <bean id="expenseTypeObjectCodeDao" parent="expenseTypeObjectCodeDao-test-parentBean"/>
-	<bean id="expenseTypeObjectCodeDao-test-parentBean" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.MockExpenseTypeObjectCodeDao" />
 
     <bean id="realTemTravelDocumentService" parent="realTemTravelDocumentService-parentBean" />
 	<bean id="realTemTravelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"	abstract="true">

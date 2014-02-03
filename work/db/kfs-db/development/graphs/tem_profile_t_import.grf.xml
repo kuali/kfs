@@ -20,7 +20,7 @@
     function transform() {
         $0.profile_id := $profile_id;
         $0.prncpl_id := replace(nvl($prncpl_id, ""), "~!~", "|" );
-        $0.customer_num := replace(nvl($customer_num, ""), "~!~", "|" );
+        $0.cust_nbr := replace(nvl($cust_nbr, ""), "~!~", "|" );
         $0.drive_lic_num := replace(nvl($drive_lic_num, ""), "~!~", "|" );
         $0.drive_lic_state := replace(nvl($drive_lic_state, ""), "~!~", "|" );
         $0.drive_lic_exp_dt := $drive_lic_exp_dt;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,11 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Persistent class for detailed fields of Referral to collections TD.
@@ -49,7 +46,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the docDetailId attribute.
-     * 
+     *
      * @return Returns the docDetailId field.
      */
     public Long getDocDetailId() {
@@ -58,7 +55,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the docDetailId attribute.
-     * 
+     *
      * @param docDetailId The docDetaillId to set.
      */
     public void setDocDetailId(Long docDetailId) {
@@ -67,7 +64,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber field.
      */
     public String getDocumentNumber() {
@@ -76,7 +73,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber attribute to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -85,7 +82,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber attribute.
      */
     public String getAgencyNumber() {
@@ -94,7 +91,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agency number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -103,7 +100,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber attribute.
      */
     public Long getProposalNumber() {
@@ -112,7 +109,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the proposalNumber to set.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -121,7 +118,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart attribute.
      */
     public String getChart() {
@@ -130,7 +127,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chart attribute.
-     * 
+     *
      * @param chart The chart code to set.
      */
     public void setChart(String chart) {
@@ -139,7 +136,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber attribute.
      */
     public String getAccountNumber() {
@@ -148,7 +145,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber attribute to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -157,7 +154,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Returns the invoiceNumber attribute.
      */
     public String getInvoiceNumber() {
@@ -166,7 +163,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceNumber attribute.
-     * 
+     *
      * @param invoiceNumber The invoiceNumber attribute to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -175,7 +172,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the billingDate attribute.
-     * 
+     *
      * @return Returns the billingDate attribute.
      */
     public Date getBillingDate() {
@@ -184,7 +181,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billingDate attribute.
-     * 
+     *
      * @param billingDate The billingDate attribute to set.
      */
     public void setBillingDate(Date billingDate) {
@@ -193,7 +190,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceTotal attribute.
-     * 
+     *
      * @return Returns the invoiceTotal attribute.
      */
     public KualiDecimal getInvoiceTotal() {
@@ -202,7 +199,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceTotal attribute.
-     * 
+     *
      * @param invoiceTotal The invoiceTotal attribute to set.
      */
     public void setInvoiceTotal(KualiDecimal invoiceTotal) {
@@ -211,7 +208,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceBalance attribute.
-     * 
+     *
      * @return Returns the invoiceBalance attribute.
      */
     public KualiDecimal getInvoiceBalance() {
@@ -220,7 +217,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceBalance attribute.
-     * 
+     *
      * @param invoiceBalance The invoiceBalance attribute to set.
      */
     public void setInvoiceBalance(KualiDecimal invoiceBalance) {
@@ -229,7 +226,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the finalDispositionCode attribute.
-     * 
+     *
      * @return Returns the finalDispositionCode attribute.
      */
     public String getFinalDispositionCode() {
@@ -238,7 +235,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the finalDispositionCode attribute.
-     * 
+     *
      * @param finalDispositionCode The finalDispositionCode attribute to set.
      */
     public void setFinalDispositionCode(String finalDispositionCode) {
@@ -247,7 +244,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the age attribute.
-     * 
+     *
      * @return Returns the age attribute.
      */
     public Integer getAge() {
@@ -256,7 +253,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the age attribute.
-     * 
+     *
      * @param age The age attribute to set.
      */
     public void setAge(Integer age) {
@@ -265,20 +262,16 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceDocument object.
-     * 
+     *
      * @return Returns the invoiceDocument object.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
-        if (ObjectUtils.isNotNull(invoiceNumber)) {
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            invoiceDocument = boService.findBySinglePrimaryKey(ContractsGrantsInvoiceDocument.class, invoiceNumber);
-        }
         return invoiceDocument;
     }
 
     /**
      * Sets the invoiceDocument object.
-     * 
+     *
      * @param invoiceDocument The invoiceDocument object to set.
      */
     public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
@@ -287,7 +280,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the referralTypeCode attribute.
-     * 
+     *
      * @return Returns the referralTypeCode attribute.
      */
     public String getReferralTypeCode() {
@@ -296,7 +289,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the referralTypeCode attribute.
-     * 
+     *
      * @param referralTypeCode The referralTypeCode attribute to set.
      */
     public void setReferralTypeCode(String referralTypeCode) {
@@ -306,7 +299,7 @@ public class ReferralToCollectionsDetail extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("docDetailId", this.docDetailId);

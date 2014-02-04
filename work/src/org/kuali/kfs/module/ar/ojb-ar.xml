@@ -1385,6 +1385,11 @@
         <field-descriptor name="finalDispositionCode" column="FINAL_DISPOS_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        
+        <reference-descriptor name="invoiceDocument" class-ref="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="invoiceNumber" />
+		</reference-descriptor>
     </class-descriptor>
     
  	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.DunningCampaign" table="AR_DUN_CMPGN_DOC_T">

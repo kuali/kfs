@@ -1737,7 +1737,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     protected boolean hasLodgingExpenseOnDay(java.sql.Date day, List<PerDiemExpense> perDiemExpenses, List<ActualExpense> actualExpenses) {
         for (PerDiemExpense perDiemExpense : perDiemExpenses) {
             java.sql.Date perDiemDate = new java.sql.Date(perDiemExpense.getMileageDate().getTime());
-            if (KfsDateUtils.isSameDay(day, perDiemDate) && perDiemExpense.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+            if (KfsDateUtils.isSameDay(day, perDiemDate) && perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
         }

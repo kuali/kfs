@@ -14866,7 +14866,7 @@
         <column name="OTHER_AMT" scale="2" size="8" type="DECIMAL"/>
         <column name="TRAVELER_NM" required="true" size="50" type="VARCHAR"/>
         <column name="TRAVELER_ID" size="40" type="VARCHAR"/>
-        <column name="TRAVELER_NTWK_ID" size="9" type="VARCHAR"/>
+        <column name="TRAVELER_NTWK_ID" size="10" type="VARCHAR"/>
         <column name="TRP_EXP_AMT" scale="2" size="8" type="DECIMAL"/>
         <column name="ALT_TRP_ID" size="20" type="VARCHAR"/>
         <column name="TRP_ARR_NM" size="50" type="VARCHAR"/>

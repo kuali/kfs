@@ -200,13 +200,6 @@
         </property>
     </bean>
 
-	
-	<bean id="invoiceTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="invoiceTemplateLookupableHelperService" />
-		</property>
-	</bean>
-
 	<bean id="agencyLookupHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AgencyLookupableHelperServiceImpl" scope="prototype"
 		parent="lookupableHelperService" />
 

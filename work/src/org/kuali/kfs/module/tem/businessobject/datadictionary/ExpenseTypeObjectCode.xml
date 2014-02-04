@@ -156,6 +156,7 @@
 	<bean id="ExpenseTypeObjectCode-financialObjectCode" parent="ExpenseTypeObjectCode-financialObjectCode-parentBean"/>
 	<bean id="ExpenseTypeObjectCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
 	
+	
 	<bean id="ExpenseTypeObjectCode-maximumAmount" parent="ExpenseTypeObjectCode-maximumAmount-parentBean" />
 	<bean id="ExpenseTypeObjectCode-maximumAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="maximumAmount" />
@@ -186,8 +187,11 @@
 		<property name="maxLength" value="1" />
 		<property name="summary" value="Error Type Code" />
 		<property name="description" value="Error Type Code" />
+		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="1" />
+			<bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ErrorTypeCodeValuesFinder"
+                p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 	<bean id="ExpenseTypeObjectCode-noteRequired" parent="ExpenseTypeObjectCode-noteRequired-parentBean" />

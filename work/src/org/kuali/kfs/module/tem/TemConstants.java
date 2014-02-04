@@ -994,6 +994,39 @@ public class TemConstants {
         }
     }
 
+    public enum ErrorTypeCode {
+
+        HARDSTOP("1"),
+        WARNING("2");
+        private String code;
+
+        ErrorTypeCode(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(this.toString().toLowerCase());
+        }
+        /**
+         * Lookup GroupTravelerType value based on code
+         * @param c the code to look up
+         * @return the GroupTravelerType, or null if the code does not match an existing traveler type
+         */
+        public static ErrorTypeCode forCode(String c) {
+            for (ErrorTypeCode errorType : ErrorTypeCode.values()) {
+                if (StringUtils.equals(errorType.getCode(), c)) {
+                    return errorType;
+                }
+            }
+            return null;
+        }
+
+    }
+
     /**
      * Enumeration which represents the types of group travelers
      */

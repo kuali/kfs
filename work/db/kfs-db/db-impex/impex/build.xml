@@ -1081,7 +1081,9 @@ END;
 		      failonerror="true">		    
 		    <classpath>
 		    	<pathelement path="${java.class.path}" />
-		    	<pathelement path="${drivers.directory}" />
+		    	<fileset dir="${drivers.directory}" >
+		    		<include name="**/*.jar"/>
+		    	</fileset>
 		    </classpath>
 		    <jvmarg value="-Xmx1g" />
 		    <arg value="-Duser.home=${user.home}" />

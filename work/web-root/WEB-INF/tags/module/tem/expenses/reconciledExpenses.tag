@@ -17,6 +17,7 @@
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 <c:set var="historicalTravelExpenseAttributes" value="${DataDictionary.HistoricalTravelExpense.attributes}" />
 <c:set var="travelCardTypeAttributes" value="${DataDictionary.TravelCardType.attributes}" />
+<c:set var="expenseTypeAttributes" value="${DataDictionary.ExpenseType.attributes}"/>
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
   
 <div class="tab-container" align="center">
@@ -24,13 +25,13 @@
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Imported Expenses">
 	<tr>
 		<th align="center">Action</th>
-		<th align="center">Status</th>
+		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.reconciled}" hideRequiredAsterisk="true" />
 		<th align="center">Document Number</th>
-		<th align="center"><kul:htmlAttributeLabel attributeEntry="${travelCardTypeAttributes.code}" noColon="true" /></th>
-		<th align="center">Expense Date</th>
-		<th align="center">Expense Type</th>
-		<th align="center">Company Name</th>
-		<th align="center">Amount</th>
+		<kul:htmlAttributeHeaderCell attributeEntry="${travelCardTypeAttributes.code}" hideRequiredAsterisk="true" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.transactionPostingDate}" useShortLabel="true" hideRequiredAsterisk="true" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${expenseTypeAttributes.name}" hideRequiredAsterisk="true" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.travelCompany}" hideRequiredAsterisk="true" />
+		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.amount}" hideRequiredAsterisk="true" />
 	</tr>
 	<logic:iterate indexId="ctr" name="KualiForm"
 			property="document.reconciledHistoricalTravelExpenses" id="currentLine">
@@ -77,8 +78,8 @@
 			<td>
 				<div align="left">
 					<kul:htmlControlAttribute
-						attributeEntry="${historicalTravelExpenseAttributes.travelExpenseType}"
-						property="document.reconciledHistoricalTravelExpenses[${ctr}].travelExpenseType" 
+						attributeEntry="${expenseTypeAttributes.name}"
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].expenseType.name" 
 						readOnly="true" />
 				</div>
 			</td>

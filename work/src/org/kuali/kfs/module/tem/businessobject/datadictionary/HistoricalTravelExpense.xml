@@ -31,7 +31,7 @@
 			<ref bean="HistoricalTravelExpense-profileId" />
 			<ref bean="HistoricalTravelExpense-tripId" />
 			<ref bean="HistoricalTravelExpense-creditCardOrAgencyCode" />
-			<ref bean="HistoricalTravelExpense-travelExpenseTypeString" />
+			<ref bean="HistoricalTravelExpense-expenseType.name" />
 			<ref bean="HistoricalTravelExpense-versionNumber" />
 		</list>
 		</property>
@@ -110,7 +110,7 @@
 	<bean id="HistoricalTravelExpense-transactionPostingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="transactionPostingDate" />
 		<property name="label" value="Transaction Posting Date" />
-		<property name="shortLabel" value="Transaction Posting Date" />
+		<property name="shortLabel" value="Expense Date" />
 		<property name="summary" value="Transaction Posting Date" />
 		<property name="description" value="Transaction Posting Date" />
 	</bean>
@@ -125,8 +125,8 @@
 	<bean id="HistoricalTravelExpense-reconciled" parent="HistoricalTravelExpense-reconciled-parentBean" />
 	<bean id="HistoricalTravelExpense-reconciled-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reconciled" />
-		<property name="label" value="Reconciled" />
-		<property name="shortLabel" value="Reconciled" />
+		<property name="label" value="Status" />
+		<property name="shortLabel" value="Status" />
 		<property name="maxLength" value="15" />
 		<property name="required" value="true" />
 		<property name="summary" value="Reconciled" />
@@ -238,15 +238,13 @@
 		<property name="description" value="Credit Card or Agency Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
-	<bean id="HistoricalTravelExpense-travelExpenseTypeString" parent="HistoricalTravelExpense-travelExpenseTypeString-parentBean" />
-	<bean id="HistoricalTravelExpense-travelExpenseTypeString-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="travelExpenseTypeString" />
+	<bean id="HistoricalTravelExpense-expenseType.name" parent="HistoricalTravelExpense-expenseType.name-parentBean" />
+	<bean id="HistoricalTravelExpense-expenseType.name-parentBean" abstract="true" parent="ExpenseType-name">
+		<property name="name" value="expenseType.name" />
 		<property name="label" value="Travel Expense Type" />
 		<property name="shortLabel" value="Travel Expense Type" />
-		<property name="maxLength" value="25" />
 		<property name="summary" value="Travel Expense Type" />
 		<property name="description" value="Travel Expense Type" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="25"/></property>
 	</bean>
 	<bean id="HistoricalTravelExpense-versionNumber" parent="HistoricalTravelExpense-versionNumber-parentBean" />
 	<bean id="HistoricalTravelExpense-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -318,7 +316,7 @@
 			<bean parent="FieldDefinition" p:attributeName="importDate" />
 			<bean parent="FieldDefinition" p:attributeName="travelCompany" />
 			<bean parent="FieldDefinition" p:attributeName="location" />
-			<bean parent="FieldDefinition" p:attributeName="travelExpenseTypeString" />
+			<bean parent="FieldDefinition" p:attributeName="expenseType.name" />
 			<bean parent="FieldDefinition" p:attributeName="amount" />
 			<bean parent="FieldDefinition" p:attributeName="assigned" />
 		</list>

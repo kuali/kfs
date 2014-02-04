@@ -440,7 +440,6 @@
 		<createTable tableName="TEM_PER_DIEM_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="PRI_DEST" type="VARCHAR2(100)" />
-			<column name="SSN_BGN_DT" type="DATE" />
 			<column name="EFFECT_FROM_DT" type="DATE" />
 			<column name="EFFECT_TO_DT" type="DATE" />
 			<column name="LOAD_DT" type="DATE" />
@@ -455,7 +454,6 @@
 				defaultValueNumeric="0" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_T"
 			constraintName="TEM_PER_DIEM_TP1" columnNames="ID" />

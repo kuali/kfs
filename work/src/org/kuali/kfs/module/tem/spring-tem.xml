@@ -828,7 +828,7 @@
 				<entry key="regionNameForReport" value="REGION" />
 				<entry key="countyForReport" value="COUNTY" />
 				<entry key="primaryDestinationForReport" value="PRIMARY DESTINATION" />
-				<entry key="seasonBeginDate" value="SEASON BEGIN" />
+				<entry key="seasonBeginMonthAndDay" value="SEASON BEGIN" />
 				<entry key="effectiveFromDate" value="EFFECTIVE DATE" />
 			</map>
 		</property>

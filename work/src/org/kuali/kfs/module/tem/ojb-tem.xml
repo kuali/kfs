@@ -103,7 +103,6 @@
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiem" table="TEM_PER_DIEM_T">
         <field-descriptor name="id" 					column="ID" 				jdbc-type="INTEGER" primarykey="true" sequence-name="TEM_PER_DIEM_ID_SEQ" autoincrement="true"/>
         <field-descriptor name="primaryDestinationId" 	column="PRI_DEST_ID" 		jdbc-type="INTEGER"/>
-        <field-descriptor name="seasonBeginDate" 		column="SSN_BGN_DT" 		jdbc-type="DATE"/>
 		<field-descriptor name="seasonBeginMonthAndDay" column="SSN_BGN_MONTH_DAY" 	jdbc-type="VARCHAR"/>
         <field-descriptor name="effectiveFromDate" 		column="EFFECT_FROM_DT"		jdbc-type="DATE"/>
         <field-descriptor name="effectiveToDate" 		column="EFFECT_TO_DT" 		jdbc-type="DATE"/>
@@ -114,7 +113,6 @@
         <field-descriptor name="incidentals" 			column="INC" 				jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="mealsAndIncidentals"	column="MEALS_INC" 			jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="lodging"				column="LODGING" 			jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="active" 				column="ACTV_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" 				column="OBJ_ID" 			jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" 			column="VER_NBR" 			jdbc-type="BIGINT" locking="true"/>
         

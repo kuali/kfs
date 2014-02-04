@@ -14,7 +14,7 @@
 			<ref bean="PerDiem-lineNumber" />
 			<ref bean="PerDiem-id" />
 			<ref bean="PerDiem-primaryDestinationId" />
-			<ref bean="PerDiem-seasonBeginDate" />
+			<ref bean="PerDiem-seasonBeginMonthAndDay" />
 			<ref bean="PerDiem-effectiveFromDate" />
 			<ref bean="PerDiem-effectiveToDate" />			
 			<ref bean="PerDiem-breakfast" />
@@ -23,9 +23,7 @@
             <ref bean="PerDiem-lodging" />
 			<ref bean="PerDiem-incidentals" />
 			<ref bean="PerDiem-mealsAndIncidentals" />
-			<ref bean="PerDiem-active" />
-			<ref bean="PerDiem-versionNumber" />
-			<ref bean="PerDiem-seasonBeginMonthAndDay" />			
+			<ref bean="PerDiem-versionNumber" />	
 		</list>
 		</property>
 	</bean>
@@ -52,14 +50,7 @@
 		<property name="description" value="Primary Destination" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="40"/>
-		</property>	</bean>
-	<bean id="PerDiem-seasonBeginDate" parent="PerDiem-seasonBeginDate-parentBean" />
-	<bean id="PerDiem-seasonBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-		<property name="name" value="seasonBeginDate" />
-		<property name="label" value="Season Begin Date" />
-		<property name="shortLabel" value="Season Begin Date" />
-		<property name="summary" value="Season Begin Date" />
-		<property name="description" value="Season Begin Date" />
+		</property>
 	</bean>
 	<bean id="PerDiem-effectiveFromDate" parent="PerDiem-effectiveFromDate-parentBean" />
 	<bean id="PerDiem-effectiveFromDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -126,15 +117,6 @@
 		<property name="summary" value="Meals And Incidentals" />
 		<property name="description" value="Meals And Incidentals" />
 	</bean>
-	<bean id="PerDiem-active" parent="PerDiem-active-parentBean" />
-	<bean id="PerDiem-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-		<property name="shortLabel" value="Active" />
-		<property name="required" value="true" />
-		<property name="summary" value="Active" />
-		<property name="description" value="Active" />
-	</bean>
 	<bean id="PerDiem-versionNumber" parent="PerDiem-versionNumber-parentBean" />
 	<bean id="PerDiem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -194,7 +176,7 @@
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
 					<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
-					<bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
+					<bean parent="FieldDefinition" p:attributeName="seasonBeginMonthAndDay" />
 					<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
                     <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />
 					<bean parent="FieldDefinition" p:attributeName="breakfast" />
@@ -202,7 +184,6 @@
 					<bean parent="FieldDefinition" p:attributeName="dinner" />
 					<bean parent="FieldDefinition" p:attributeName="incidentals" />
 					<bean parent="FieldDefinition" p:attributeName="mealsAndIncidentals" />
-					<bean parent="FieldDefinition" p:attributeName="active" />
 				</list>
 				</property>
 			</bean>
@@ -224,14 +205,13 @@
 			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
             <bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />
-			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
-			<bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
+			<bean parent="FieldDefinition" p:attributeName="seasonBeginMonthAndDay" />
 			<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />		
 			<bean parent="FieldDefinition" p:attributeName="breakfast" />
@@ -240,7 +220,6 @@
 			<bean parent="FieldDefinition" p:attributeName="incidentals" />
 			<bean parent="FieldDefinition" p:attributeName="mealsAndIncidentals" />
             <bean parent="FieldDefinition" p:attributeName="lodging" />
-			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 	</bean>

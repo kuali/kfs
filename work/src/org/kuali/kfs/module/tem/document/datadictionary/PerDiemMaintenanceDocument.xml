@@ -33,7 +33,6 @@
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="primaryDestinationId" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="seasonBeginDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveFromDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveToDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="seasonBeginMonthAndDay" p:required="true"/>
@@ -43,7 +42,6 @@
 			<bean parent="MaintainableFieldDefinition" p:name="incidentals" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="mealsAndIncidentals" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="lodging" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 		</list></property>
 </bean>
 </beans>

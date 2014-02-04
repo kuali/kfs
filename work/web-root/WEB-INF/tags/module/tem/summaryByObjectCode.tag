@@ -25,6 +25,7 @@
 		tabErrorKey="${TemKeyConstants.TRVL_REIMB_ACCOUNTING_DISTRIBUTION_ERRORS}">
 		<div class="tab-container" align="center">
 			<h3>Accounting Distribution</h3>
+			<input type="hidden" id="accountDistributionSize" name="accountDistributionSize" value="<c:out value="${fn:length(KualiForm.distribution)}" />" />
 			<table class="datatable" summary="Summary by Object Code"
 				cellpadding="0">
 				<tr>
@@ -48,7 +49,10 @@
 											<kul:htmlControlAttribute
 												attributeEntry="${distributionAttributes.selected}"
 												property="distribution[${ctr}].selected"
-												readOnly="false" />
+												readOnly="false"
+												onclick="recalculateDistributionRemainingAmount();"/>
+											<input type="hidden" id="distribution[<c:out value="${ctr}"/>].remainingAmount" name="distribution[<c:out value="${ctr}"/>].remainingAmount" value="<c:out value="${KualiForm.distribution[ctr].remainingAmount}"/>" />
+											<input type="hidden" id="distribution[<c:out value="${ctr}"/>].subTotal" name="distribution[<c:out value="${ctr}"/>].subTotal" value="<c:out value="${KualiForm.distribution[ctr].subTotal}"/>" />
 										</c:when>
 										<c:otherwise>
 											&nbsp;

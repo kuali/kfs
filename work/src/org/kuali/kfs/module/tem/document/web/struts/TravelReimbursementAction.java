@@ -106,6 +106,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         refreshCollectionsFor(document);
         initializeAssignAccounts(reimbForm);
+        reimbForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
     }
 
 

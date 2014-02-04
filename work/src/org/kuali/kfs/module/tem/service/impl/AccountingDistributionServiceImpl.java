@@ -61,10 +61,10 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 
     protected static Logger LOG = Logger.getLogger(AccountingDistributionServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private ObjectCodeService objectCodeService;
-    private TravelDocumentService travelDocumentService;
-    private ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected ObjectCodeService objectCodeService;
+    protected TravelDocumentService travelDocumentService;
+    protected ParameterService parameterService;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -142,7 +142,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
      * @param total
      * @return
      */
-    private List<TemSourceAccountingLine> adjustValues(List<TemSourceAccountingLine> sourceAccountingList, KualiDecimal total) {
+    protected List<TemSourceAccountingLine> adjustValues(List<TemSourceAccountingLine> sourceAccountingList, KualiDecimal total) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         for (TemSourceAccountingLine newLine : sourceAccountingList) {
             totalAmount = totalAmount.add(newLine.getAmount());

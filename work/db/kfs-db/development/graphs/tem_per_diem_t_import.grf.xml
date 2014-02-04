@@ -19,7 +19,6 @@
 //#TL
     function transform() {
         $0.id := $id;
-        $0.ssn_bgn_dt := $ssn_bgn_dt;
         $0.effect_from_dt := $effect_from_dt;
         $0.effect_to_dt := $effect_to_dt;
         $0.load_dt := $load_dt;
@@ -30,7 +29,6 @@
         $0.lodging := $lodging;
         $0.inc := $inc;
         $0.meals_inc := $meals_inc;
-        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.pri_dest_id := $pri_dest_id;

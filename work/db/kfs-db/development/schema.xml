@@ -15368,7 +15368,6 @@
     </table>
     <table name="TEM_PER_DIEM_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="SSN_BGN_DT" type="DATE"/>
         <column name="EFFECT_FROM_DT" type="DATE"/>
         <column name="EFFECT_TO_DT" type="DATE"/>
         <column name="LOAD_DT" type="DATE"/>
@@ -15379,7 +15378,6 @@
         <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>

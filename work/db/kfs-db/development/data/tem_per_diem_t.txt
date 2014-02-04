@@ -1,2 +1,2 @@
-id|ssn_bgn_dt|effect_from_dt|effect_to_dt|load_dt|ssn_bgn_month_day|bkfst|lunch|din|lodging|inc|meals_inc|actv_ind|ver_nbr|obj_id|pri_dest_id|
-2.147483647E9||||||0.0|0.0|0.0|0.0|0.0|0.0|Y|1.0|E57CF064A1937D06E040E00ABCD64592|2.147483647E9|
+id|effect_from_dt|effect_to_dt|load_dt|ssn_bgn_month_day|bkfst|lunch|din|lodging|inc|meals_inc|ver_nbr|obj_id|pri_dest_id|
+2.147483647E9|||||0.0|0.0|0.0|0.0|0.0|0.0|1.0|E57CF064A1937D06E040E00ABCD64592|2.147483647E9|

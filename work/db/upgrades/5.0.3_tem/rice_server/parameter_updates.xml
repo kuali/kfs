@@ -845,17 +845,6 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="INACTIVATE_PREVIOUS_PER_DIEM_IND"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-110"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, inactivate any previously loaded per diems when new values are loaded."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
 			<column name="PARM_NM" value="REJECT_FILE_IND"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-111"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>

@@ -91,7 +91,6 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
     public PerDiem findPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate){
 	    Criteria criteria = new Criteria();
 	    criteria.addEqualTo(TemPropertyConstants.PRIMARY_DESTINATION_ID, new Integer(primaryDestinationId));
-	    criteria.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
 	    //Add date criteria so the date falls in a specific range
 	    //or their is no "To" date.  (Open-ended)

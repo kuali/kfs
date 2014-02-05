@@ -352,9 +352,9 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         List<InvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts();
 
         // totals
-        List<InvoiceDetail> totalInvoiceDetails = contractsGrantsInvoiceDocument.getTotalInvoiceDetails();
-        List<InvoiceDetail> dcInvoiceDetails = contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails();
-        List<InvoiceDetail> idcInvoiceDetails = contractsGrantsInvoiceDocument.getInDirectCostInvoiceDetails();
+        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        InvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
+        InvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
 
         // non-totals
         assertEquals(15, allInvoiceDetails.size());
@@ -363,32 +363,32 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(12, invoiceDetailsWithIdc.size());
 
         // totals
-        assertEquals(1, totalInvoiceDetails.size());
-        assertEquals(ArConstants.TOTAL_COST_CD, totalInvoiceDetails.get(0).getCategoryCode());
-        assertEquals(new KualiDecimal(960.00), totalInvoiceDetails.get(0).getBudget());
-        assertEquals(new KualiDecimal(1020.00),totalInvoiceDetails.get(0).getCumulative());
-        assertEquals(new KualiDecimal(-60.00),totalInvoiceDetails.get(0).getBalance());
-        assertEquals(new KualiDecimal(0.00),totalInvoiceDetails.get(0).getBilled());
-        assertEquals(new KualiDecimal(0.00),totalInvoiceDetails.get(0).getAdjustedCumExpenditures());
-        assertEquals(new KualiDecimal(960.00),totalInvoiceDetails.get(0).getAdjustedBalance());
+        assertNotNull(totalCostInvoiceDetail);
+        assertEquals(ArConstants.TOTAL_COST_CD, totalCostInvoiceDetail.getCategoryCode());
+        assertEquals(new KualiDecimal(960.00), totalCostInvoiceDetail.getBudget());
+        assertEquals(new KualiDecimal(1020.00), totalCostInvoiceDetail.getCumulative());
+        assertEquals(new KualiDecimal(-60.00), totalCostInvoiceDetail.getBalance());
+        assertEquals(new KualiDecimal(0.00), totalCostInvoiceDetail.getBilled());
+        assertEquals(new KualiDecimal(0.00), totalCostInvoiceDetail.getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(960.00), totalCostInvoiceDetail.getAdjustedBalance());
 
-        assertEquals(1, dcInvoiceDetails.size());
-        assertEquals(ArConstants.TOTAL_DIRECT_COST_CD, dcInvoiceDetails.get(0).getCategoryCode());
-        assertEquals(new KualiDecimal(640.00), dcInvoiceDetails.get(0).getBudget());
-        assertEquals(new KualiDecimal(680.00), dcInvoiceDetails.get(0).getCumulative());
-        assertEquals(new KualiDecimal(-40.00), dcInvoiceDetails.get(0).getBalance());
-        assertEquals(new KualiDecimal(0.00), dcInvoiceDetails.get(0).getBilled());
-        assertEquals(new KualiDecimal(0.00), dcInvoiceDetails.get(0).getAdjustedCumExpenditures());
-        assertEquals(new KualiDecimal(640.00), dcInvoiceDetails.get(0).getAdjustedBalance());
+        assertNotNull(totalDirectCostInvoiceDetail);
+        assertEquals(ArConstants.TOTAL_DIRECT_COST_CD, totalDirectCostInvoiceDetail.getCategoryCode());
+        assertEquals(new KualiDecimal(640.00), totalDirectCostInvoiceDetail.getBudget());
+        assertEquals(new KualiDecimal(680.00), totalDirectCostInvoiceDetail.getCumulative());
+        assertEquals(new KualiDecimal(-40.00), totalDirectCostInvoiceDetail.getBalance());
+        assertEquals(new KualiDecimal(0.00), totalDirectCostInvoiceDetail.getBilled());
+        assertEquals(new KualiDecimal(0.00), totalDirectCostInvoiceDetail.getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(640.00), totalDirectCostInvoiceDetail.getAdjustedBalance());
 
-        assertEquals(1, idcInvoiceDetails.size());
-        assertEquals(ArConstants.TOTAL_IN_DIRECT_COST_CD, idcInvoiceDetails.get(0).getCategoryCode());
-        assertEquals(new KualiDecimal(320.00), idcInvoiceDetails.get(0).getBudget());
-        assertEquals(new KualiDecimal(340.00), idcInvoiceDetails.get(0).getCumulative());
-        assertEquals(new KualiDecimal(-20.00), idcInvoiceDetails.get(0).getBalance());
-        assertEquals(new KualiDecimal(0.00), idcInvoiceDetails.get(0).getBilled());
-        assertEquals(new KualiDecimal(0.00), idcInvoiceDetails.get(0).getAdjustedCumExpenditures());
-        assertEquals(new KualiDecimal(320.00), idcInvoiceDetails.get(0).getAdjustedBalance());
+        assertNotNull(totalInDirectCostInvoiceDetail);
+        assertEquals(ArConstants.TOTAL_IN_DIRECT_COST_CD, totalInDirectCostInvoiceDetail.getCategoryCode());
+        assertEquals(new KualiDecimal(320.00), totalInDirectCostInvoiceDetail.getBudget());
+        assertEquals(new KualiDecimal(340.00), totalInDirectCostInvoiceDetail.getCumulative());
+        assertEquals(new KualiDecimal(-20.00), totalInDirectCostInvoiceDetail.getBalance());
+        assertEquals(new KualiDecimal(0.00), totalInDirectCostInvoiceDetail.getBilled());
+        assertEquals(new KualiDecimal(0.00), totalInDirectCostInvoiceDetail.getAdjustedCumExpenditures());
+        assertEquals(new KualiDecimal(320.00), totalInDirectCostInvoiceDetail.getAdjustedBalance());
 
     }
 

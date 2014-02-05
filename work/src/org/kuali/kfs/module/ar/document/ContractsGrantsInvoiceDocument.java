@@ -589,16 +589,17 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the total direct Cost InvoiceDetails.
      */
-    public List<InvoiceDetail> getDirectCostInvoiceDetails() {
-        List<InvoiceDetail> directCostInvoiceDetails = new ArrayList<InvoiceDetail>();
+    public InvoiceDetail getTotalDirectCostInvoiceDetail() {
+        InvoiceDetail totalDirectCostInvoiceDetail = null;
 
         for (InvoiceDetail invoiceDetail: invoiceDetails) {
             if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
-                directCostInvoiceDetails.add(invoiceDetail);
+                totalDirectCostInvoiceDetail = invoiceDetail;
+                break;
             }
         }
 
-        return directCostInvoiceDetails;
+        return totalDirectCostInvoiceDetail;
     }
 
     /**
@@ -624,33 +625,35 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the total indirect cost InvoiceDetail.
      */
-    public List<InvoiceDetail> getInDirectCostInvoiceDetails() {
-        // To get the list of invoice Details for indirect cost
-        List<InvoiceDetail> inDirectCostInvoiceDetails = new ArrayList<InvoiceDetail>();
+    public InvoiceDetail getTotalInDirectCostInvoiceDetail() {
+        InvoiceDetail totalInDirectCostInvoiceDetail = null;
+
         for (InvoiceDetail invoiceDetail : invoiceDetails) {
             if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
-                inDirectCostInvoiceDetails.add(invoiceDetail);
+                totalInDirectCostInvoiceDetail = invoiceDetail;
+                break;
             }
         }
 
-        return inDirectCostInvoiceDetails;
+        return totalInDirectCostInvoiceDetail;
     }
 
     /**
      * Gets the total cost InvoiceDetail.
      *
-     * @return Returns the totalInvoiceDetails.
+     * @return Returns the total cost InvoiceDetail.
      */
-    public List<InvoiceDetail> getTotalInvoiceDetails() {
-        // To get the list of invoice Details for total cost
-        List<InvoiceDetail> totalInvDetails = new ArrayList<InvoiceDetail>();
+    public InvoiceDetail getTotalCostInvoiceDetail() {
+        // To get the invoice Detail for total cost
+        InvoiceDetail totalCostInvoiceDetail = null;
         for (InvoiceDetail tInvD : invoiceDetails) {
             if (tInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD)) {
-                totalInvDetails.add(tInvD);
+                totalCostInvoiceDetail = tInvD;
+                break;
             }
         }
 
-        return totalInvDetails;
+        return totalCostInvoiceDetail;
     }
 
     /**

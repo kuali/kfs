@@ -57,62 +57,62 @@
 					</logic:iterate>
 					<tr>
 						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.category}"
-									property="document.directCostInvoiceDetails[0].category" readOnly="true" />
+									property="document.totalDirectCostInvoiceDetail.category" readOnly="true" />
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.budget}"
-								property="document.directCostInvoiceDetails[0].budget" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.budget" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.expenditures}"
-								property="document.directCostInvoiceDetails[0].expenditures" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.expenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.cumulative}"
-								property="document.directCostInvoiceDetails[0].cumulative" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.cumulative" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.directCostInvoiceDetails[0].balance" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.balance" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.directCostInvoiceDetails[0].billed" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.billed" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.directCostInvoiceDetails[0].adjustedCumExpenditures" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.adjustedCumExpenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.directCostInvoiceDetails[0].adjustedBalance" readOnly="true" /></td>
+								property="document.totalDirectCostInvoiceDetail.adjustedBalance" readOnly="true" /></td>
 					</tr>
 
 					<tr>
 						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.category}"
-									property="document.inDirectCostInvoiceDetails[0].category" readOnly="true" />
+									property="document.totalInDirectCostInvoiceDetail.category" readOnly="true" />
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.budget}"
-								property="document.inDirectCostInvoiceDetails[0].budget" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.budget" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.expenditures}"
-								property="document.inDirectCostInvoiceDetails[0].expenditures" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.expenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.cumulative}"
-								property="document.inDirectCostInvoiceDetails[0].cumulative" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.cumulative" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.inDirectCostInvoiceDetails[0].balance" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.balance" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.inDirectCostInvoiceDetails[0].billed" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.billed" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.inDirectCostInvoiceDetails[0].adjustedCumExpenditures" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.adjustedCumExpenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.inDirectCostInvoiceDetails[0].adjustedBalance" readOnly="true" /></td>
+								property="document.totalInDirectCostInvoiceDetail.adjustedBalance" readOnly="true" /></td>
 					</tr>
 
 					<tr>
 						<td class="datacell"><b> <kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.category}"
-									property="document.totalInvoiceDetails[0].category" readOnly="true" />
+									property="document.totalCostInvoiceDetail.category" readOnly="true" />
 						</b></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.budget}"
-								property="document.totalInvoiceDetails[0].budget" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.budget" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.expenditures}"
-								property="document.totalInvoiceDetails[0].expenditures" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.expenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.cumulative}"
-								property="document.totalInvoiceDetails[0].cumulative" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.cumulative" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.totalInvoiceDetails[0].balance" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.balance" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.totalInvoiceDetails[0].billed" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.billed" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.balance}"
-								property="document.totalInvoiceDetails[0].adjustedCumExpenditures" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.adjustedCumExpenditures" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceDetailAttributes.billed}"
-								property="document.totalInvoiceDetails[0].adjustedBalance" readOnly="true" /></td>
+								property="document.totalCostInvoiceDetail.adjustedBalance" readOnly="true" /></td>
 					</tr>
 
 

@@ -2193,11 +2193,17 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     * @return the amount on the document that needs to be matched by accounting lines
+     * @return the amount on the document that needs to be matched by accounting lines - which means we need to remove the hung expenses amount
      */
     @Override
     public KualiDecimal getTotalAccountLineAmount() {
-       return getApprovedAmount();
+       KualiDecimal approvedAmount = getApprovedAmount();
+       // remove hung expenses amount
+       KualiDecimal totalAccountingLineAmount = new KualiDecimal(approvedAmount.bigDecimalValue());
+       for (HistoricalTravelExpense expense : getHistoricalTravelExpenses()) {
+           totalAccountingLineAmount = totalAccountingLineAmount.subtract(expense.getConvertedAmount());
+       }
+       return totalAccountingLineAmount;
     }
 
 

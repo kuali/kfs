@@ -1,6 +1,5 @@
 bill_freq_cd|obj_id|ver_nbr|bill_freq_desc|actv_ind|grace_period|
 ANNUALLY|KFSCGA|1.0|Annually|Y|0|
-BILL|BILL_FREQ_01|1.0|Billing|Y|0|
 LOCB|KFSCG01|1.0|LOC Billing|Y|0|
 MON|FFACA586-E725-006E-1756-650CCD9607F8|1.0|Monthly|Y|0|
 MS|3A0C2C70-37C0-3DAB-C20A-E05CCFD5C1D6|1.0|Milestone|Y|0|

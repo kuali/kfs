@@ -128,7 +128,7 @@
 			<c:choose>
 				<c:when test="${fullEntryMode}">
 					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
-					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
+					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}" tabindex="${KualiForm.currentTabIndex}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
 							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
@@ -147,7 +147,7 @@
 			<c:choose>
 				<c:when test="${fullEntryMode}">
 					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
-					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
+					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}" tabindex="${KualiForm.currentTabIndex}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
 							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
@@ -167,6 +167,8 @@
 			</div>		
 		</td>
 	</c:if>
+	<c:set var="notesTabIndex" value="${KualiForm.currentTabIndex}" />
+	<c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 	<td class="infoline" rowspan="2">
 		<c:choose>
 			<c:when test="${detailLineNumber != null}">
@@ -204,6 +206,6 @@
 		</div>
 	</th>
 	<td valign="top" class="infoline" colspan="${calcColspan}">
-		<kul:htmlControlAttribute attributeEntry="${otherExpenseAttributes.description}" property="${detail}.description" readOnly="${!fullEntryMode }" />
+		<kul:htmlControlAttribute attributeEntry="${otherExpenseAttributes.description}" property="${detail}.description" readOnly="${!fullEntryMode }" tabindexOverride="${notesTabIndex}" />
 	</td>
 </tr>

@@ -43,7 +43,8 @@
 						<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
 						<html:select property="${expense}.expenseTypeCode" 
 							styleId="${expense}.expenseTypeCode"
-							onchange="checkDirectBilled('${expense}');loadExpenseTypeObjectCode(this, '${KualiForm.docTypeName}', '${KualiForm.document.traveler.travelerTypeCode}', '${KualiForm.document.tripTypeCode}');disableExpenseAmount(this)">
+							onchange="checkDirectBilled('${expense}');loadExpenseTypeObjectCode(this, '${KualiForm.docTypeName}', '${KualiForm.document.traveler.travelerTypeCode}', '${KualiForm.document.tripTypeCode}');disableExpenseAmount(this)"
+							tabindex="${KualiForm.currentTabIndex}">
 							<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
 								<c:set var="isSelected" value="${detailObject.expenseTypeCode == option.key}" />
 								<%-- Populate the value that was previously selected before error occurred --%>
@@ -95,7 +96,7 @@
 						readOnly="${currencyRateReadOnly}" />
 					<br/>
 					<c:if test="${lineNumber == null}" >
-						<a href="${KualiForm.foreignCurrencyUrl}" target="currency_conversion_window">Rate Conversion Site</a>
+						<a href="${KualiForm.foreignCurrencyUrl}" target="currency_conversion_window" tabindex="${KualiForm.currentTabIndex}">Rate Conversion Site</a>
 					</c:if>
 	            </div>
             </td>
@@ -146,6 +147,8 @@
 				</div>
 			</td>
 			<td class="infoline" rowspan="2">
+				<c:set var="notesTabIndex" value="${KualiForm.currentTabIndex}" />
+				<c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 				<c:set var="tabindex" value="${KualiForm.currentTabIndex}"/>
 				<c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 				<div align="center">
@@ -186,6 +189,6 @@
 			<td valign="top" class="infoline" colspan="9">
 				<kul:htmlControlAttribute
 					attributeEntry="${otherExpenseAttributes.description}"
-					property="${expense}.description" readOnly="${!fullEntryMode}" />
+					property="${expense}.description" readOnly="${!fullEntryMode}" tabindexOverride="${notesTabIndex}" />
 			</td>
 		</tr>

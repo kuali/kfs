@@ -136,7 +136,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         //create glpe's for just corp cards;
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
             if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){
-                importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
+                importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, TemConstants.TravelDocTypes.REIMBURSABLE_CORPORATE_CARD_CHECK_ACH_DOCUMENT);
             }
         }
     }

@@ -165,9 +165,8 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 
         Map<String,String> criteria = new HashMap<String,String>(2);
         criteria.put("principalId", principalId);
-        criteria.put("active", "true");
 
-        // If an active TEM Profile doesn't exist, display a create link
+        // If a TEM Profile doesn't exist, display a create link
         if (temProfileService.findTemProfile(criteria) == null) {
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 

@@ -43,7 +43,7 @@
   <bean id="CollectionStatus-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="statusCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Status Code"/>
+    <property name="label" value="Collection Status Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="6"/>
     <property name="validationPattern">
@@ -59,7 +59,7 @@
 
   <bean id="CollectionStatus-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="statusDescription"/>
-    <property name="label" value="Status Description"/>
+    <property name="label" value="Collection Status Description"/>
     <property name="shortLabel" value="Type Desc"/>
     <property name="maxLength" value="120"/>
     <property name="validationPattern">

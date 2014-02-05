@@ -61,7 +61,7 @@
 
   <bean id="ReferralType-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description"/>
-    <property name="label" value="Description"/>
+    <property name="label" value="Referral Type Description"/>
     <property name="shortLabel" value="Type Desc"/>
     <property name="maxLength" value="40"/>
     <property name="validationPattern">

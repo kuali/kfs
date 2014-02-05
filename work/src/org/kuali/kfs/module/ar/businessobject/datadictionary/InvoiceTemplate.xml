@@ -53,7 +53,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="invoiceTemplateCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Template" />
+		<property name="label" value="Invoice Template Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -71,7 +71,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="invoiceTemplateDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Invoice Description" />
+		<property name="label" value="Invoice Template Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
@@ -171,7 +171,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Template Information" />
+					<property name="title" value="Invoice Template" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -182,7 +182,17 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Template file Information" />
+					<property name="title" value="Organization" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
+							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Invoice Template File" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>

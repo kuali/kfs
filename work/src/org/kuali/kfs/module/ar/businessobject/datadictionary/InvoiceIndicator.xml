@@ -30,7 +30,7 @@
 			<ref bean="InvoiceIndicators-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="invoiceIndicator" />
-		<property name="objectLabel" value="Invoice Indicators" />
+		<property name="objectLabel" value="Invoice Indicator" />
 		<property name="attributes">
 			<list>
 				<ref bean="InvoiceIndicators-invoiceIndicator" />
@@ -49,7 +49,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="invoiceIndicator" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Indicator" />
+		<property name="label" value="Invoice Indicator Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -93,7 +93,7 @@
 
 	<bean id="InvoiceIndicators-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Invoice Indicators Inquiry" />
+		<property name="title" value="Invoice Indicator Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -118,7 +118,7 @@
 
 	<bean id="InvoiceIndicators-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Invoice Indicators Lookup" />
+		<property name="title" value="Invoice Indicator Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

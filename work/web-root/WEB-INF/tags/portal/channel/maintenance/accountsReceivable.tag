@@ -44,7 +44,7 @@
 		<li><portal:portalLink displayTitle="true" title="Dunning Campaign"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningCampaign&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Dunning Letter Templates"
+		<li><portal:portalLink displayTitle="true" title="Dunning Letter Template"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Final Disposition"

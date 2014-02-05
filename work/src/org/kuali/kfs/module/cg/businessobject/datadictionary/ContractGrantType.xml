@@ -27,7 +27,7 @@
 			<ref bean="ContractGrantType-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="contractGrantTypeCode" />
-		<property name="objectLabel" value="Instrument" />
+		<property name="objectLabel" value="Instrument Type" />
 		<property name="attributes">
 			<list>
 				<ref bean="ContractGrantType-contractGrantTypeCode" />
@@ -46,7 +46,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contractGrantTypeCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Instrument" />
+		<property name="label" value="Instrument Type" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -64,7 +64,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contractGrantTypeDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Instrument Name" />
+		<property name="label" value="Instrument Type Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
@@ -90,7 +90,7 @@
 
 	<bean id="ContractGrantType-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Instrument Inquiry" />
+		<property name="title" value="Instrument Type Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -115,7 +115,7 @@
 
 	<bean id="ContractGrantType-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Instrument Lookup" />
+		<property name="title" value="Instrument Type Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

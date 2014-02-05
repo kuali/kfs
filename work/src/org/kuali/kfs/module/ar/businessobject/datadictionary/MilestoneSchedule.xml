@@ -236,13 +236,13 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Milestone Schedule Details" />
+					<property name="title" value="Milestone Schedule" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 							<bean parent="FieldDefinition" p:attributeName="award.agency.fullName" />
-							<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount" />
+							<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount"/>
 							<bean parent="FieldDefinition" p:attributeName="totalAmountScheduled" />
 							<bean parent="FieldDefinition" p:attributeName="totalAmountRemaining" />
 							<bean parent="FieldDefinition" p:attributeName="award.awardEndingDate" />
@@ -307,10 +307,10 @@
 				<bean parent="FieldDefinition" p:attributeName="milestoneScheduleInquiryTitle" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:attributeName="award.agency.fullName" />
-				<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount" />
+				<bean parent="FieldDefinition" p:attributeName="award.awardTotalAmount" p:noInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="totalAmountScheduled" />
 				<bean parent="FieldDefinition" p:attributeName="totalAmountRemaining" />
-				<bean parent="FieldDefinition" p:attributeName="award.awardEndingDate" />
+				<bean parent="FieldDefinition" p:attributeName="award.awardEndingDate" p:noInquiry="true"/>
 			</list>
 		</property>
 	</bean>

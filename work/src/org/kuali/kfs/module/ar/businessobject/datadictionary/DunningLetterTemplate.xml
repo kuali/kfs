@@ -28,7 +28,7 @@
 			<ref bean="DunningLetterTemplate-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="letterTemplateCode" />
-		<property name="objectLabel" value="Dunning Letter Templates" />
+		<property name="objectLabel" value="Dunning Letter Template" />
 		<property name="attributes">
 			<list>
 				<ref bean="DunningLetterTemplate-letterTemplateCode" />
@@ -52,7 +52,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="letterTemplateCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Letter Template" />
+		<property name="label" value="Dunning Letter Template Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -70,7 +70,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="letterTemplateDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Letter Description" />
+		<property name="label" value="Dunning Letter Template Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
@@ -166,11 +166,11 @@
 
 	<bean id="DunningLetterTemplate-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
-		<property name="title" value="Dunning Letter Templates Inquiry" />
+		<property name="title" value="Dunning Letter Template Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Letter Template Information" />
+					<property name="title" value="Dunning Letter Template" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -192,7 +192,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Letter Template file Information" />
+					<property name="title" value="Dunning Letter Template File" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -212,7 +212,7 @@
 
 	<bean id="DunningLetterTemplate-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Dunning Letter Templates Lookup" />
+		<property name="title" value="Dunning Letter Template Lookup" />
 		<property name="lookupableID" value="letterTemplateLookupable" />
 
 		<property name="defaultSort">

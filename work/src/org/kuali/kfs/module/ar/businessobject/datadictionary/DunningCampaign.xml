@@ -60,7 +60,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="campaignID" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Campaign ID" />
+		<property name="label" value="Dunning Campaign ID" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="4" />
 		<property name="validationPattern">
@@ -78,7 +78,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="campaignDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Campaign Description" />
+		<property name="label" value="Dunning Campaign Description" />
 		<property name="shortLabel" value="campaignDescription" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">

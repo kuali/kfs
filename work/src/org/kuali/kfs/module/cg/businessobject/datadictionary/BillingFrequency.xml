@@ -46,7 +46,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="frequency" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Frequency" />
+		<property name="label" value="Billing Frequency Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -63,7 +63,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="frequencyDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Frequency Description" />
+		<property name="label" value="Billing Frequency Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">

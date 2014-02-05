@@ -62,7 +62,7 @@
 
   <bean id="FinalDisposition-dispositionDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="dispositionDescription"/>
-    <property name="label" value="Description"/>
+    <property name="label" value="Final Disposition Description"/>
     <property name="shortLabel" value="Type Desc"/>
     <property name="maxLength" value="25"/>
     <property name="validationPattern">

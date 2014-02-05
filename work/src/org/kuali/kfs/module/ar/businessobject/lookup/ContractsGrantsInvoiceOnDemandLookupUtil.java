@@ -166,11 +166,16 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
                     for (ResultRow subResultRow : ((ContractsGrantsInvoiceOnDemandResultRow) result).getSubResultRows()) {
                         String objId = subResultRow.getObjectId();
                         if (selectedIds.contains(objId)) {
-                            // This is somewhat brittle - it depends on the fact that the Proposal Number
-                            // is the first column. If the format of the lookup results changes so that
-                            // Proposal Number isn't the first column this will no longer work and will
+                            // This is somewhat brittle - it depends on the fact that the Proposal Number is one of
+                            // the columns in the sub result rows. If that changes, this will no longer work and will
                             // need to be changed.
-                            selectedProposalNumbers.add(subResultRow.getColumns().get(0).getPropertyValue());
+                            for (Column column: subResultRow.getColumns()) {
+                                if (StringUtils.equals(column.getPropertyName(), ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER)) {
+                                    selectedProposalNumbers.add(subResultRow.getColumns().get(0).getPropertyValue());
+                                    break;
+                                }
+                            }
+
                         }
                     }
                 }

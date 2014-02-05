@@ -101,7 +101,7 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
             TravelMvcWrapperBean wrapper = distributionEvent.getTravelForm();
 
             if (!getAccountingDistributionService().getTotalAmount(wrapper.getAccountDistributionsourceAccountingLines()).equals(wrapper.getDistributionRemainingAmount(true))
-                    || !getAccountingDistributionService().getTotalPercent(wrapper.getAccountDistributionsourceAccountingLines()).equals(new BigDecimal(100))){
+                    || getAccountingDistributionService().getTotalPercent(wrapper.getAccountDistributionsourceAccountingLines()).compareTo(new BigDecimal(100)) != 0){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACCOUNT_DISTRIBUTION_SRC_LINES + "[0]." + TemPropertyConstants.ACCOUNT_LINE_PERCENT,
                         TemKeyConstants.ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL, wrapper.getDistributionRemainingAmount(true).toString());
                 success = false;

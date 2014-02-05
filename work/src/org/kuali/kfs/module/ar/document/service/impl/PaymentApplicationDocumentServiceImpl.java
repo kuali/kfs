@@ -19,10 +19,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -51,9 +49,7 @@ import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -63,7 +59,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -93,7 +88,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private PersonService personService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private KualiRuleService kualiRuleService;
-    
+
     /**
      *
      * @param customerInvoiceDocument
@@ -343,11 +338,13 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return isPairs;
     }
 
+    /*
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
 		Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+        fieldValues.put("customerNumber", customerNumber);
+
         Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
         List<String> documentHeaderIds = new ArrayList<String>();
         for (AccountsReceivableDocumentHeader header : documentHeaders) {
@@ -363,9 +360,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         if (0 < documentHeaderIds.size()) {
             try {
-                for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds)) {
-                    payments.add((PaymentApplicationDocument)doc);
-                }
+                payments = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds);
             }
             catch (WorkflowException e) {
                 //LOG.error(e.getMessage(), e);
@@ -373,6 +368,28 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
         return payments;
     }
+
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
+
+        Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+
+        Set<String> customerNumberSet = new HashSet<String>();
+        for (CustomerInvoiceDocument invoice : invoiceList) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("documentNumber", invoice.getDocumentNumber());
+
+            AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
+            customerNumberSet.add(arDocHeader.getCustomerNumber());
+        }
+
+        Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();
+        for (String customerNumber : customerNumberSet) {
+            paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
+        }
+
+        return paymentApplicationDocumentList;
+    }
+    */
 
     /* Start TEM REFUND merge */
     /**
@@ -549,23 +566,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
 
-	public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
-		Collection<CustomerInvoiceDocument> invoiceList = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-
-        Set<String> customerNumberSet = new HashSet<String>();
-        for (CustomerInvoiceDocument invoice : invoiceList) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-			AccountsReceivableDocumentHeader arDocHeader = businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
-            customerNumberSet.add(arDocHeader.getCustomerNumber());
-		}
-		Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();
-        for (String customerNumber : customerNumberSet) {
-            paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
-		}
-		return paymentApplicationDocumentList;
-	}
-
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#addNoteToPaymentRequestDocument(java.lang.String,
      *      java.lang.String)
@@ -683,7 +683,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         return payments;
     }
-    
+
     public PersonService getPersonService() {
         return personService;
     }
@@ -691,11 +691,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-    
+
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }    
-    
+    }
+
     public void setKualiRuleService(KualiRuleService ruleService) {
         this.kualiRuleService = ruleService;
     }

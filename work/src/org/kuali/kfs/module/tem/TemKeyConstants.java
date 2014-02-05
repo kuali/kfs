@@ -317,7 +317,6 @@ public class TemKeyConstants {
 
     public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
 
-    public static final String ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED = "error.mileage.rates.per.diem.rates.changed";
     public static final String ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY = "error.perdiem.invalid.date.seasonBeginMonthDay";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
 

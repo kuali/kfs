@@ -420,11 +420,6 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
-        return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
-    }
-
-    @Override
     public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
         return realTravelDocumentService.getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
     }

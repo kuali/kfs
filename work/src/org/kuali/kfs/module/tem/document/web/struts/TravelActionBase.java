@@ -350,10 +350,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             if (travelDoc.getActualExpenses() != null && !travelDoc.getActualExpenses().isEmpty()) {
                 ExpenseUtils.calculateMileage(travelDoc.getActualExpenses());
             }
-            if (!getTravelDocumentService().travelDocumentTotalsUnchangedFromPersisted(travelDoc)) {
-                // let's throw up an warning message here
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, TemKeyConstants.ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED);
-            }
         }
     }
 

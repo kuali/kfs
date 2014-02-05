@@ -2427,24 +2427,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * Compares the accounting line total of the persisted version of the document with the current approved amount on the document...that's the only
-     * way to capture the discrepancy between the two
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#travelDocumentTotalsUnchangedFromPersisted(org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
-        // get persisted document (we'll use business object service since we don't need workflow document information)
-        final TravelDocument persistedDocument = getBusinessObjectService().findBySinglePrimaryKey(travelDocument.getClass(), travelDocument.getDocumentNumber());
-        // now the question is: does the accounting line total of the persisted document equal the expense total of the given doc?
-        if (persistedDocument == null || persistedDocument.getSourceAccountingLines() == null || persistedDocument.getSourceAccountingLines().isEmpty()) {
-            return true; // we don't have any values we can reliably test against, so...those values are not changed
-        }
-        final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
-        final KualiDecimal currentDocumentApprovedAmount = travelDocument.applyExpenseLimit(travelDocument.getApprovedAmount());
-        return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);
-    }
-
-    /**
      * Calculate the total of the source accounting lines on the document
      * @param travelDoc the travel document to calculate the source accounting line total for
      * @return the total of the source accounting lines

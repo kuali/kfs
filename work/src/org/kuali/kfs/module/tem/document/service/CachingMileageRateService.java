@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.dataaccess;
+package org.kuali.kfs.module.tem.document.service;
 
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 
-public interface MileageRateDao {
+public interface CachingMileageRateService {
 
-    public List<MileageRate> findMileageRatesByExpenseTypeCode(String expenseTypeCode);
-
-    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, java.sql.Date effectiveDate);
-
+    public List<MileageRate> findAllMileageRates();
 }

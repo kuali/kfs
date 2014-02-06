@@ -709,7 +709,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         while (currDay.before(lastDay) || currDay.equals(lastDay)) {
             java.sql.Date effectiveDay = doc.getEffectiveDateForPerDiem(new java.sql.Timestamp(currDay.getTimeInMillis()));
-            final MileageRate currDayMileageRate = getTravelDocumentService().getMileageRate(defaultPerDiemMileageRate, effectiveDay);
+            final MileageRate currDayMileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(defaultPerDiemMileageRate, effectiveDay);
             if (currDayMileageRate == null) {
                 return false;
             }

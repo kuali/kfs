@@ -30,7 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.MileageRateService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -121,7 +121,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * @return the value of mileageRate
      */
     public MileageRate getMileageRate(){
-        return SpringContext.getBean(TravelDocumentService.class).getMileageRate(getExpenseTypeCode(), getExpenseDate());
+        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getExpenseTypeCode(), getExpenseDate());
     }
 
     /**

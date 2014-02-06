@@ -1506,11 +1506,15 @@
 	
 	<bean id="mileageRateService" parent="mileageRateService-parentBean"/>
 	<bean id="mileageRateService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.MileageRateServiceImpl" abstract="true">
-		<property name="mileageRateDao" ref="mileageRateDao"/>
+		<property name="cachingMileageRateService" ref="cachingMileageRateService" />
+	</bean>
+	
+	<bean id="cachingMileageRateService" parent="cachingMileageRateService-parentBean"/>
+	<bean id="cachingMileageRateService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.CachingMileageRateServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="travelAuthorizationDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelAuthorizationDaoOjb"/>
-	<bean id="mileageRateDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.MileageRateDaoOjb"/>
 
     <import resource="spring-tem-bus-exports.xml"/>
     <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 

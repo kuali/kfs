@@ -47,7 +47,6 @@ public class MileageRateValuesFinder extends KeyValuesBase {
        if (searchDate == null) {
            searchDate = getSearchDateFromQueryDate();
        }
-
        return getTravelDocumentService().getMileageRateKeyValues(searchDate);
    }
 

@@ -411,7 +411,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         for (final ExpenseType expenseType : expenseTypes) {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
-                final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
+                final MileageRate mileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
                 if (mileageRate != null) {
                     keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
                 }
@@ -429,18 +429,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         Collections.sort(keyValues, labelComparator);
 
         return keyValues;
-    }
-
-    /**
-     * Finds the mileage rate for the given expense type code and expense date
-     * @param expenseTypeCode the expense type to find a related mileage rate for
-     * @param expenseDate the date of the expense date, passed in as mileage rates are effectively dated
-     * @return the matching mileage rate
-     */
-    @Override
-    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date effectiveDate) {
-        final MileageRate chosenMileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseTypeCode, effectiveDate);
-        return chosenMileageRate;
     }
 
     /**

@@ -24,10 +24,13 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DataObjectAuthorizer;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.document.Document;
@@ -37,12 +40,14 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Override of BusinessObjectAuthorizationServiceImpl to allow document authorizers to build qualifiers for checks in {@link #canFullyUnmaskField(org.kuali.rice.kim.api.identity.Person, Class, String, org.kuali.rice.krad.document.Document)}
+ * The developer of this class apologizes for its tortuous complexity - it was all to get TemProfile to work...
  * and {@link #canPartiallyUnmaskField(org.kuali.rice.kim.api.identity.Person, Class, String, org.kuali.rice.krad.document.Document)}
  */
 public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl {
     protected volatile PermissionService permissionServiceForUs;
     protected volatile ConfigurationService kualiConfigurationServiceForUs;
     protected volatile MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
+    protected volatile DataDictionaryService dataDictionaryService;
 
     /**
      * Overridden to defer to canFullyUnmaskFieldForBusinessObject and canPartiallyUnmaskFieldForBusinessObject
@@ -105,7 +110,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             return false;
         }
 
-        DocumentAuthorizer authorizer = null;
+        DataObjectAuthorizer authorizer = null;
         BusinessObject boForAuthorization = null;
         if (document != null) {
             authorizer = findDocumentAuthorizerForBusinessObject(document);
@@ -113,6 +118,9 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
         }
         if (authorizer == null) {
             authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
+            if (authorizer == null) {
+                authorizer = findInquiryAuthorizerForBusinessObject(businessObject);
+            }
             boForAuthorization = businessObject;
         }
         if (authorizer == null) {
@@ -145,7 +153,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             return false;
         }
 
-        DocumentAuthorizer authorizer = null;
+        DataObjectAuthorizer authorizer = null;
         BusinessObject boForAuthorization = null;
         if (document != null) {
             authorizer = findDocumentAuthorizerForBusinessObject(document);
@@ -153,6 +161,9 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
         }
         if (authorizer == null) {
             authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
+            if (authorizer == null) {
+                authorizer = findInquiryAuthorizerForBusinessObject(businessObject);
+            }
             boForAuthorization = businessObject;
         }
         if ( authorizer == null ) {
@@ -187,6 +198,30 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             return null;
         }
         return getDocumentHelperService().getDocumentAuthorizer(maintDocType);
+    }
+
+    /**
+     * Attempts to find an InquiryAuthorizer for the given business object, by looking at the inquiry definition
+     * @param businessObject the business object to attempt to find a InquiryAuthorizer for
+     * @return an instantiated InquiryAuthorizer associated with the business object, or null if none could be found
+     */
+    protected DataObjectAuthorizer findInquiryAuthorizerForBusinessObject(BusinessObject businessObject) {
+        if (businessObject == null) {
+            return null;
+        }
+        final BusinessObjectEntry boEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        if (boEntry != null && boEntry.getInquiryDefinition() != null && boEntry.getInquiryDefinition().getAuthorizerClass() != null) {
+            try {
+                return (DataObjectAuthorizer)boEntry.getInquiryDefinition().getAuthorizerClass().newInstance();
+            }
+            catch (InstantiationException ie) {
+                throw new RuntimeException("Could not instantiate authorizer for inquiry of "+businessObject.getClass().getName(), ie);
+            }
+            catch (IllegalAccessException iae) {
+                throw new RuntimeException("Could not instantiate authorizer for inquiry of "+businessObject.getClass().getName(), iae);
+            }
+        }
+        return null;
     }
 
     /**
@@ -225,5 +260,13 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             maintenanceDocumentDictionaryService = KNSServiceLocator.getMaintenanceDocumentDictionaryService();
         }
         return maintenanceDocumentDictionaryService;
+    }
+
+    @Override
+    protected DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+        }
+        return dataDictionaryService;
     }
 }

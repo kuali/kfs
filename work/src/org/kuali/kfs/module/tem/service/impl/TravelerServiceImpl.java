@@ -707,8 +707,9 @@ public class TravelerServiceImpl implements TravelerService {
             return roleChartCode.equals(chartCode)
                     || (descendHierarchy && chartService.isParentChart(chartCode, roleChartCode));
         }
-        return (roleChartCode.equals(chartCode) && roleOrgCode.equals(orgCode))
+        final boolean parentOrg = (roleChartCode.equals(chartCode) && roleOrgCode.equals(orgCode))
                 || (descendHierarchy && organizationService.isParentOrganization(chartCode, orgCode, roleChartCode, roleOrgCode));
+        return parentOrg;
     }
 
     protected ChartOrgHolder getOrganizationForUser(String principalId, String roleName) {

@@ -559,6 +559,7 @@
 		parent="InquiryDefinition">
 		<property name="title" value="TEM Profile Inquiry" />
         <property name="inquirableClass" value="org.kuali.kfs.module.tem.businessobject.inquiry.TemProfileInquirableImpl"/>
+        <property name="authorizerClass" value="org.kuali.kfs.module.tem.businessobject.inquiry.TemProfileInquiryAuthorizer"/>
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

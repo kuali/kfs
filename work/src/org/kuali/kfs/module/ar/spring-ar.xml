@@ -1615,9 +1615,6 @@
 		<property name="invoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
-		<property name="invoiceWriteoffDocumentService">
-			<ref bean="customerInvoiceWriteoffDocumentService" />
-		</property>
 	</bean>
 
 	<bean id="customerInvoiceWriteoffBatchInputFileType"  parent="customerInvoiceWriteoffBatchInputFileType-parentBean"/>

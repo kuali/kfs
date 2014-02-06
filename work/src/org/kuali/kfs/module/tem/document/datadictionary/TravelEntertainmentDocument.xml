@@ -238,7 +238,7 @@
 	</bean>
 	
 	<bean id="TravelEntertainmentDocument-temProfileName" parent="TravelEntertainmentDocument-temProfileName-parentBean" />
-	<bean id="TravelEntertainmentDocument-temProfileName-parentBean" abstract="true" parent="TemProfile-principal.principalName">
+	<bean id="TravelEntertainmentDocument-temProfileName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="temProfileName" />
 		<property name="label" value="Payee Name" />
 		<property name="shortLabel" value="Payee Name" />
@@ -246,8 +246,9 @@
 		<property name="summary" value="Payee Name" />
 		<property name="description" value="Payee Name" />
 		<property name="required" value="false" />
+		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-	</bean> 
+	</bean>
 	
 	<bean id="TravelEntertainmentDocument-attendeeListAttached" parent="TravelEntertainmentDocument-attendeeListAttached-parentBean" />
 	<bean id="TravelEntertainmentDocument-attendeeListAttached-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">

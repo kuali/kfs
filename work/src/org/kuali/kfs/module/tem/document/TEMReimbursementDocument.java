@@ -427,10 +427,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      *
      */
     public String getTemProfileName() {
-        if (!ObjectUtils.isNull(getTemProfile()) && !StringUtils.isBlank(getTemProfile().getPrincipalName())) {
-            return getTemProfile().getPrincipalName();
+        if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getName())) {
+            return getTraveler().getName().toUpperCase();
         }
-        return null;
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

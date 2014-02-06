@@ -23,6 +23,8 @@
             <ref bean="PerDiem-lodging" />
 			<ref bean="PerDiem-incidentals" />
 			<ref bean="PerDiem-mealsAndIncidentals" />
+			<ref bean="PerDiem-primaryDestination.primaryDestinationName"/>
+			<ref bean="PerDiem-primaryDestination.regionCode"/>
 			<ref bean="PerDiem-versionNumber" />	
 		</list>
 		</property>
@@ -162,7 +164,17 @@
 		<property name="shortLabel" value="Effective To Date" />
 		<property name="summary" value="Effective To Date" />
 		<property name="description" value="Effective To Date" />
-	</bean>	
+	</bean>
+	
+	<bean id="PerDiem-primaryDestination.primaryDestinationName" parent="PerDiem-primaryDestination.primaryDestinationName-parentBean"/>
+	<bean id="PerDiem-primaryDestination.primaryDestinationName-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName">
+		<property name="name" value="primaryDestination.primaryDestinationName"/>
+	</bean>
+	
+	<bean id="PerDiem-primaryDestination.regionCode" parent="PerDiem-primaryDestination.regionCode-parentBean"/>
+	<bean id="PerDiem-primaryDestination.regionCode-parentBean" abstract="true" parent="PrimaryDestination-regionCode">
+		<property name="name" value="primaryDestination.regionCode"/>
+	</bean>
 	
 	<bean id="PerDiem-inquiryDefinition" parent="PerDiem-inquiryDefinition-parentBean" />
 	<bean id="PerDiem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -175,7 +187,8 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
+					<bean parent="FieldDefinition" p:attributeName="primaryDestination.primaryDestinationName" />
+					<bean parent="FieldDefinition" p:attributeName="primaryDestination.regionCode"/>
 					<bean parent="FieldDefinition" p:attributeName="seasonBeginMonthAndDay" />
 					<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
                     <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />
@@ -210,7 +223,8 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestination.primaryDestinationName" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestination.regionCode"/>
 			<bean parent="FieldDefinition" p:attributeName="seasonBeginMonthAndDay" />
 			<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />		

@@ -18,8 +18,6 @@ package org.kuali.kfs.module.cg.document;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.kfs.module.ar.document.InvoiceTemplateTest;
-
 /**
  * Basic CG Tests
  */
@@ -39,7 +37,6 @@ public class AllCGTests {
         suite.addTestSuite(ContractGrantTypeTest.class);
         suite.addTestSuite(BillingFrequencyTest.class);
         suite.addTestSuite(FinancialReportFrequenciesTest.class);
-        suite.addTestSuite(InvoiceTemplateTest.class);
         suite.addTestSuite(LetterOfCreditFundTest.class);
 
         return suite;

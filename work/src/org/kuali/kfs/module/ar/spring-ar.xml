@@ -53,7 +53,6 @@
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate" value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator" value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
             </map>
         </property>  
 		<property name="dataDictionaryPackages">

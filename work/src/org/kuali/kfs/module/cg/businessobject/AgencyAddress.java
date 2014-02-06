@@ -21,8 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
@@ -364,6 +362,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
         this.agencyInvoiceEmailAddress = agencyInvoiceEmailAddress;
     }
 
+    @Override
     public String getCustomerAddressTypeCode() {
         return customerAddressTypeCode;
     }

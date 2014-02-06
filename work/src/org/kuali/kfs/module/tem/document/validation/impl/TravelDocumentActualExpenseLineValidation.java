@@ -30,7 +30,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpenseLineValidation {
-    protected boolean warningOnly = true;
     protected ActualExpense actualExpenseForValidation;
 
     /**
@@ -66,12 +65,12 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
     public boolean validateExpenses(ActualExpense expense, TravelDocument document) {
 
          boolean success = (validateGeneralRules(expense, document) &&
-                validateExpenseDetail(expense, isWarningOnly()) &&
+                validateExpenseDetail(expense) &&
                 validateAirfareRules(expense, document) &&
                 validateRentalCarRules(expense, document) &&
                 validateLodgingRules(expense, document) &&
                 validateLodgingAllowanceRules(expense, document) &&
-                validatePerDiemRules(expense, document, isWarningOnly()) &&
+                validatePerDiemRules(expense, document) &&
                 validateMaximumAmountRules(expense, document));
 
         return success;
@@ -135,7 +134,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param isWarning
      * @return
      */
-    public boolean validateExpenseDetail(ActualExpense actualExpense, boolean isWarning) {
+    public boolean validateExpenseDetail(ActualExpense actualExpense) {
         boolean success = true;
         actualExpense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         ExpenseTypeObjectCode expenseType = actualExpense.getExpenseTypeObjectCode();
@@ -143,7 +142,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         if (ObjectUtils.isNotNull(expenseType)){
             if (expenseType.getExpenseType().isExpenseDetailRequired() && actualExpense.getExpenseDetails().isEmpty()){
                 //detail is required when adding the expense
-                if (isWarning){
+                if (isWarningOnly()){
                     GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getExpenseType().getName());
                 }else{
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getExpenseType().getName());
@@ -350,14 +349,6 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
             }
         }
         return totalExpenseAmount.add(ote.getExpenseAmount());
-    }
-
-    public boolean isWarningOnly() {
-        return warningOnly;
-    }
-
-    public void setWarningOnly(boolean warningOnly) {
-        this.warningOnly = warningOnly;
     }
 
     public ActualExpense getActualExpenseForValidation() {

@@ -130,8 +130,6 @@
 				<entry
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardProjectDirector" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer"
-					value="org.kuali.kfs.integration.ar.businessobject.Customer" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType"
 					value="org.kuali.kfs.integration.ar.businessobject.CustomerAddressType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"

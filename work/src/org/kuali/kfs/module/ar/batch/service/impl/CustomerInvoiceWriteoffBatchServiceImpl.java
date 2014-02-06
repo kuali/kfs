@@ -74,7 +74,6 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType batchInputFileType;
     private String reportsDirectory;
-    private CustomerInvoiceWriteoffDocumentService invoiceWriteoffDocumentService;
     
     public CustomerInvoiceWriteoffBatchServiceImpl() {}
 
@@ -233,7 +232,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
             isSucceeded = true;
             writeoffDocNumber = null;
             try {
-                writeoffDocNumber = invoiceWriteoffDocumentService.createCustomerInvoiceWriteoffDocument(invoiceNumber, note);
+                writeoffDocNumber = getInvoiceWriteoffDocumentService().createCustomerInvoiceWriteoffDocument(invoiceNumber, note);
             }
             catch (WorkflowException e) {
                 isSucceeded = false;
@@ -545,6 +544,12 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return xmldoc;
     }
 
+    // this strange construct (rather than using setter injection) is here to eliminate a
+    // circular reference problem with Spring's eager init.
+    protected CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
+        return SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+    }
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -570,12 +575,4 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         this.invoiceDocumentService = invoiceDocumentService;
     }
 
-    
-    public CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
-        return invoiceWriteoffDocumentService;
-    }
-
-    public void setInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
-        this.invoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
-    }
 }

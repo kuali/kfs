@@ -29,11 +29,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.integration.ar.businessobject.Customer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
+import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -104,7 +104,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private KualiDecimal totalOpenInvoices = KualiDecimal.ZERO;
     private KualiDecimal totalCredits = KualiDecimal.ZERO;
     private KualiDecimal totalWriteOffs = KualiDecimal.ZERO;
-    
+
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
@@ -132,14 +132,14 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        processingOrBillingChartCode = (String) fieldValues.get("processingOrBillingChartOfAccountsCode");
-        accountChartCode = (String) fieldValues.get("accountChartOfAccountsCode");
-        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        reportOption = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
+        accountNumber = fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+        processingOrBillingChartCode = fieldValues.get("processingOrBillingChartOfAccountsCode");
+        accountChartCode = fieldValues.get("accountChartOfAccountsCode");
+        orgCode = fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
 
 
         total0to30 = KualiDecimal.ZERO;
@@ -154,7 +154,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Date today = getDateTimeService().getCurrentDate();
         try {
-            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+            reportRunDate = dateFormat.parse(fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate = today;
@@ -568,6 +568,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     /**
      * @param businessObjectService
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

@@ -23,9 +23,9 @@ import java.util.Map;
 
 import javax.jws.WebParam;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.integration.ar.businessobject.Customer;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.dto.CustomerCreationStatusDto;
 import org.kuali.kfs.module.external.kc.dto.CustomerTypeDto;
@@ -87,11 +87,11 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
 
     @Override
     public boolean isValidCustomer(@WebParam(name = "customerNumber") String customerNumber) {
-        ModuleService responsibleModuleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(Customer.class);
-        if (responsibleModuleService!=null && responsibleModuleService.isExternalizable(Customer.class)) {
+        ModuleService responsibleModuleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(AccountsReceivableCustomer.class);
+        if (responsibleModuleService!=null && responsibleModuleService.isExternalizable(AccountsReceivableCustomer.class)) {
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("customerNumber", customerNumber);
-            return (responsibleModuleService.getExternalizableBusinessObject(Customer.class, values) != null);
+            return (responsibleModuleService.getExternalizableBusinessObject(AccountsReceivableCustomer.class, values) != null);
         } else {
             return false;
         }

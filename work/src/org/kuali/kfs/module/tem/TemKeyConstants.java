@@ -157,6 +157,7 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_PROFILE_SUB_ACCOUNT_NOT_EXIST = "error.tem.profile.subAccountNumberMustExist";
     public static final String ERROR_TEM_PROFILE_PROJECT_CODE_NOT_EXIST = "error.tem.profile.projectCodeMustExist";
     public static final String ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_ACTIVE_ARRANGER = "error.tem.profile.nonEmployee.mustHaveActiveArranger";
+    public static final String ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_EMAIL = "error.tem.profile.nonEmployee.mustHaveEmail";
 
     public static final String ERROR_TEM_PROFILE_ORGANIZATION_INACTIVE = "error.tem.profile.organization.inactive";
 

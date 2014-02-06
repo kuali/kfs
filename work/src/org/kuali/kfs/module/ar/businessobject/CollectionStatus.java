@@ -17,15 +17,14 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Defines the various statuses users wish to assign invoices to.
  *
- * @author mpritmani
  */
-public class CollectionStatus extends PersistableBusinessObjectBase implements AccountsReceivableCollectionStatus {
+public class CollectionStatus extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String statusCode;
     private String statusDescription;
@@ -43,7 +42,6 @@ public class CollectionStatus extends PersistableBusinessObjectBase implements A
      *
      * @return Returns statusCode.
      */
-    @Override
     public String getStatusCode() {
         return statusCode;
     }
@@ -62,7 +60,6 @@ public class CollectionStatus extends PersistableBusinessObjectBase implements A
      *
      * @return Returns statusDescription.
      */
-    @Override
     public String getStatusDescription() {
         return statusDescription;
     }

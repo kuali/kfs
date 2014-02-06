@@ -57,7 +57,6 @@
     			<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
     			<bean parent="TravelModule-emergencyContactRequiredValidation" scope="prototype" />
     			<bean parent="TravelDocument-perDiemPrimaryDestMatchValidation" scope="prototype"/>
-    			<bean parent="TravelDocument-actualExpenseRoutingValidation" scope="prototype"/>
     			<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion" p:sourceEventProperty="document.traveler" p:targetValidationProperty="businessObjectForValidation"/>

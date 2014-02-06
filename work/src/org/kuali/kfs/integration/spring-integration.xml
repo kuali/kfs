@@ -139,10 +139,6 @@
 					value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill"
 					value="org.kuali.kfs.integration.cg.businessobject.Bill" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone"
-					value="org.kuali.kfs.integration.ar.businessobject.Milestone" />					            
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule"
-					value="org.kuali.kfs.integration.ar.businessobject.MilestoneSchedule" />					            
             </map>
         </property>
     </bean>

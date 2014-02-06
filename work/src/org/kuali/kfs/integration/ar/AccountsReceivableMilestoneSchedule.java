@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.integration.ar;
 
-import java.util.List;
-
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 

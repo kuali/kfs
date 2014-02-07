@@ -215,6 +215,8 @@ public class TravelRelocationAction extends TravelActionBase {
                 final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(oldRelocation, document);
                 getBusinessObjectService().save(relationship);
             }
+        } else {
+            document.setTripProgenitor(true); // this is the trip progenitor
         }
         initializeAssignAccounts(travelForm);
     }

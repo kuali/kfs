@@ -183,7 +183,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
             }
         }
         if (!StringUtils.isBlank(reconciledExpense.getTripId())) {
-            final TravelDocument travelDoc = getTravelDocumentService().getTravelDocument(reconciledExpense.getTripId());
+            final TravelDocument travelDoc = getTravelDocumentService().getParentTravelDocument(reconciledExpense.getTripId());
             if (travelDoc != null && !ObjectUtils.isNull(travelDoc.getTemProfileId())) {
                 return travelDoc.getTemProfileId();
             }

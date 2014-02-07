@@ -103,18 +103,18 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
-        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
         // try pulling the transpo modes from the form or the request
         String[] transpoModes = request.getParameterValues("selectedTransportationModes");
         if (transpoModes != null) {
             authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }
         else {
-            authForm.setSelectedTransportationModes(travelAuthDocument.getTransportationModeCodes());
+            authForm.setSelectedTransportationModes(authForm.getTravelAuthorizationDocument().getTransportationModeCodes());
         }
-        refreshTransportationModesAfterButtonAction(travelAuthDocument, request, authForm);
 
         final ActionForward retval = super.execute(mapping, form, request, response);
+        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
+        refreshTransportationModesAfterButtonAction(travelAuthDocument, authForm);
 
         // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
         if (!StringUtils.isBlank(travelAuthDocument.getTripTypeCode())) {
@@ -456,7 +456,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @param request
      * @param authForm
      */
-    protected void refreshTransportationModesAfterButtonAction(TravelAuthorizationDocument travelReqDoc, HttpServletRequest request, TravelAuthorizationForm authForm) {
+    protected void refreshTransportationModesAfterButtonAction(TravelAuthorizationDocument travelReqDoc, TravelAuthorizationForm authForm) {
         List<String> selectedTransportationModes = authForm.getTempSelectedTransporationModes();
         if (selectedTransportationModes != null) {
             LOG.debug("selected transportation modes are: "+ selectedTransportationModes.toString());

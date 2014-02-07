@@ -406,11 +406,21 @@ public interface TravelDocumentService {
 
     /**
      *
-     * This method gets the current travel document by travel document identifier
+     * This method gets the parent travel document by travel document identifier
+     * This means: the current TA which is the authorization of the trip; or if no TA is present, the root TR, ENT, or RELO document
      *  @param travelDocumentIdentifier
      *  @return
      */
-    public TravelDocument getTravelDocument(String travelDocumentIdentifier);
+    public TravelDocument getParentTravelDocument(String travelDocumentIdentifier);
+
+    /**
+     * Returns the root travel document by the travel document identifier.  This is the progenitor document of the trip - either the first TA,
+     * first TR, first ENT, or first RELO which began the trip
+     * It does not retrieve the workflow document of the associated document
+     * @param travelDocumentIdentifier
+     * @return the root document of the trip
+     */
+    public TravelDocument getRootTravelDocumentWithoutWorkflowDocument(String travelDocumentIdentifier);
 
     /**
      * This method retrieves a list of approved documents related to a travelDocumentIdentifier. It will grab the most current TA (TAA, TAC)

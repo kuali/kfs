@@ -135,6 +135,7 @@ public class TemPropertyConstants {
     public static final String TEM_PROFILE_ID = "temProfileId";
     public static final String TRIP_BEGIN_DT = "tripBegin";
     public static final String TRIP_END_DT = "tripEnd";
+    public static final String TRIP_PROGENITOR = "tripProgenitor";
 
     public static class TravelAuthorizationFields {
         public static final String TRVL_ADV_REQUESTED = "travelAdvanceRequested";

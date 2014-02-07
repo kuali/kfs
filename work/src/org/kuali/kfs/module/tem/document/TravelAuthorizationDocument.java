@@ -484,6 +484,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public void initiateDocument() {
         super.initiateDocument();
         setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        this.tripProgenitor = true;
 
         //always default trip begin/date
         Calendar calendar = getDateTimeService().getCurrentCalendar();

@@ -99,6 +99,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -132,6 +133,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     private String mealWithoutLodgingReason;
     private String dummyAppDocStatus;
     private String financialDocumentBankCode;
+    protected boolean tripProgenitor;
 
     // Traveler section
     private Integer temProfileId;
@@ -1821,6 +1823,15 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         this.importedExpenses = importedExpenses;
     }
 
+    @Override
+    public boolean isTripProgenitor() {
+        return tripProgenitor;
+    }
+
+    public void setTripProgenitor(boolean tripProgenitor) {
+        this.tripProgenitor = tripProgenitor;
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getCTSTotal()
      */
@@ -2284,5 +2295,22 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             }
         }
         return true;
+    }
+
+    /**
+     * The note target for the big travel docs are the progenitor of the trip
+     * @see org.kuali.rice.krad.document.DocumentBase#getNoteTarget()
+     */
+    @Override
+    public PersistableBusinessObject getNoteTarget() {
+        if (StringUtils.isBlank(getTravelDocumentIdentifier()) || isTripProgenitor()) {
+            // I may not even have a travel doc identifier yet, or else, I call myself the progentitor!  I must be the progenitor!
+            return getDocumentHeader();
+        }
+        final TravelDocument rootDocument = getTravelDocumentService().getRootTravelDocumentWithoutWorkflowDocument(getTravelDocumentIdentifier());
+        if (rootDocument == null) {
+            return getDocumentHeader(); // I couldn't find a root, so once again, chances are that I am the progenitor, even though I don't believe it entirely myself
+        }
+        return rootDocument.getDocumentHeader();
     }
 }

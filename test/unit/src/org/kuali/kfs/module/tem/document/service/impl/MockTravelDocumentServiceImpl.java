@@ -409,8 +409,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
-        return realTravelDocumentService.getTravelDocument(travelDocumentIdentifier);
+    public TravelDocument getParentTravelDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getParentTravelDocument(travelDocumentIdentifier);
     }
 
     @Override
@@ -426,6 +426,11 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void restorePerDiemProperty(TravelDocument document, String property) {
         realTravelDocumentService.restorePerDiemProperty(document, property);
+    }
+
+    @Override
+    public TravelDocument getRootTravelDocumentWithoutWorkflowDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getRootTravelDocumentWithoutWorkflowDocument(travelDocumentIdentifier);
     }
 
 }

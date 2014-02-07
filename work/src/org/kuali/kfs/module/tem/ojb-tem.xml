@@ -267,6 +267,7 @@
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -369,6 +370,7 @@
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -471,6 +473,7 @@
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="travelReimbursementDocumentNumber" column="TR_FDOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -639,6 +642,7 @@
 		<field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="documentNumber"/>
 		</reference-descriptor>
@@ -752,6 +756,7 @@
         <field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
@@ -854,6 +859,7 @@
         <field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
         <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
+        <field-descriptor name="tripProgenitor" column="PRGNTR_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>

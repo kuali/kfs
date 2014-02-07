@@ -204,7 +204,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
         if (ObjectUtils.isNotNull(travelDocument)) {
             return errorMessages;
         }
@@ -225,7 +225,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
         if (ObjectUtils.isNull(travelDocument)) {
             LOG.error("Unable to retrieve a travel document for the tripId: "+ agencyData.getTripId());
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
@@ -458,7 +458,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.info("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
 
-                    final TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+                    final TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
 
                     ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, travelDocument);
                     if (travelExpenseType != null) {

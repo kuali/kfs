@@ -403,7 +403,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData) {
         Collection<GeneralLedgerPendingEntry> glpes = new ArrayList<GeneralLedgerPendingEntry>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyStagingData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyStagingData.getTripId());
         if (ObjectUtils.isNotNull(travelDocument)) {
             Map<String,Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());

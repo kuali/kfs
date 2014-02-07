@@ -1010,7 +1010,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         // don't set "travelArranger" attribute if this isn't the base document
         if (!StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
-            final TravelDocument baseTravelDocument = getTravelDocumentService().getTravelDocument(travelDocument.getTravelDocumentIdentifier());
+            final TravelDocument baseTravelDocument = getTravelDocumentService().getParentTravelDocument(travelDocument.getTravelDocumentIdentifier());
             if (baseTravelDocument != null && !StringUtils.equals(baseTravelDocument.getDocumentNumber(), travelDocument.getDocumentNumber())) {
                 return false; // this isn't the base document...so we can't change the traveler
             }

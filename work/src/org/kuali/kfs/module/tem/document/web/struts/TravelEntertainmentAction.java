@@ -149,6 +149,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
             }
+        } else {
+            document.setTripProgenitor(true); // this is the trip progenitor
         }
         initializeAssignAccounts(entForm);
     }

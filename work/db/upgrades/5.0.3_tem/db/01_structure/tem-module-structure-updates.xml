@@ -342,6 +342,7 @@
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
 			<column name="HOST_AS_PAYEE" type="VARCHAR2(1)" />
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_ENT_DOC_T" constraintName="TEM_ENT_DOC_TP1"
 			columnNames="FDOC_NBR" />
@@ -659,6 +660,7 @@
 			<column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_RELO_DOC_T"
 			constraintName="TEM_RELO_DOC_TP1" columnNames="FDOC_NBR" />
@@ -898,6 +900,7 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
 			constraintName="TEM_TRVL_AUTH_AMEND_DOC_TP1" columnNames="FDOC_NBR" />
@@ -928,6 +931,7 @@
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
 			constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TP1" columnNames="FDOC_NBR" />
@@ -960,6 +964,7 @@
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
 			<column name="HOLD_RQSTR_PRNCPL_ID" type="VARCHAR2(40)"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_DOC_T"
 			constraintName="TEM_TRVL_AUTH_DOC_TP1" columnNames="FDOC_NBR" />
@@ -1079,6 +1084,7 @@
 			<column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
 		<createTable tableName="TEM_TRVL_PMT_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)"/>

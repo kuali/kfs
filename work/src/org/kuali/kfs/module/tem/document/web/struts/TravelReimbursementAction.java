@@ -488,6 +488,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             // we have no parent document; blank out the trip begin and end dates
             document.setTripBegin(null);
             document.setTripEnd(null);
+            document.setTripProgenitor(true); // this is the trip progenitor
         }
         // do the distribution
         travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));

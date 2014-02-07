@@ -2395,6 +2395,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        Map<String, Object> fieldValues = new HashMap<String, Object>();
        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+       fieldValues.put(TemPropertyConstants.TRIP_PROGENITOR, Boolean.TRUE);
 
        Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
        if (entDocuments.iterator().hasNext()) {

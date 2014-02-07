@@ -38,7 +38,7 @@ public class TravelEntertainmentDocumentCustomActionBuilder extends DocumentActi
         if (!documentEnded) {
             String tripId = document.getTravelDocumentIdentifier();
             actionsHTML.setNewLineText("<br/>");
-            if (!getAccountingDocumentRelationshipService().isDocumentSomebodysChild(document.getDocumentNumber())) {
+            if (document.isTripProgenitor()) {
                 actionsHTML.appendln(createEntertainmentLink(tripId, documentSearchResult));
             }
             actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));

@@ -173,5 +173,6 @@
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
 
-	<bean id="travelEntertainmentMovingModuleService" class="org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleServiceNoOp" />
+	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />
+	<bean id="travelEntertainmentMovingModuleService-parentBean" abstract="true" class="org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleServiceNoOp" />
 </beans>

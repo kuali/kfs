@@ -116,10 +116,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
             getNoteService().save(newNote);
-            document.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
-
-            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
-            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
+            document.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
             final Note firstNote = getDocumentService().createNoteFromDocument(taaDocument, noteText.toString());
@@ -129,7 +126,9 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             secondNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
 
             document.addNote(secondNote);
-            getDocumentDao().save(document);
+
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
 
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);

@@ -111,12 +111,4 @@
 			baseTableName="AR_CLCTR_INFO_T" referencedColumnNames="CLCTR_HEAD_PRNCPL_ID" />
 	</changeSet>
 
-	<!-- There is a bug in our version of liquibase where a unique constraint name is ignored when adding a column
-		(see: https://liquibase.jira.com/browse/CORE-1313). So we are adding the constraint here instead of
-		when the column is added to the table in cgb-module-structure-updates.xml as a workaround. -->
-	<changeSet author="KFSCGB" id="addUniqueConstraint-example">
-    	<addUniqueConstraint constraintName="CG_AGENCY_TC1"
-        	tableName="CG_AGENCY_T" columnNames="SPNSR_CD"/>
-	</changeSet>
-	
 </databaseChangeLog>

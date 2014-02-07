@@ -20,9 +20,6 @@
 			<column name="CUST_NBR" type="varchar(9)" />
 			<column name="CUST_TYP_CD" type="varchar(10)" />
 			<column name="CUST_CRTD" type="varchar(1)" />
-			<column name="SPNSR_CD" type="varchar(6)">
-				<constraints nullable="true" />
-			</column>
 			<column name="CMPGN_ID" type="varchar(4)" />
 			<column name="STATE_AGENCY_IND" type="varchar(1)"
 				defaultValue="N" />
@@ -252,7 +249,6 @@
 			<column name="AWRD_SRC_OF_FNDS" type="varchar(10)" />
 			<column name="CG_MIN_INV_AMT" type="decimal(19,2)" />
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)" />
-			<column name="AWD_ID" type="varchar(45)" />
 			<column name="AUTO_APP" type="varchar(1)" />
 			<column name="FUNDING_EXP_DT" type="datetime" />
 			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />

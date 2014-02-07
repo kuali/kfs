@@ -103,6 +103,6 @@ public interface ExpenseImportByTripService {
      * @param sequenceHelper
      * @return
      */
-    public boolean reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    public List<ErrorMessage> reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
 }

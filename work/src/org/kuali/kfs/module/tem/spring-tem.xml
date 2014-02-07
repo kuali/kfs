@@ -962,8 +962,10 @@
 		<property name="agencyDataFileErrorDirectory" value="${staging.directory}/tem/agencyData/error" />
 		<property name="agencyDataReportDirectory" value="${reports.directory}/tem" />
 		<property name="agencyDataReportFilePrefix" value="agencyDataAuditReport" />
+		<property name="agencyDataReconciliationReportFilePrefix" value="agencyDataReconciliationReport" />
 		<property name="agencyDataTravelerUploadReportHelper" ref="agencyDataTravelerUploadReportHelper" />
 		<property name="agencyDataTripUploadReportHelper" ref="agencyDataTripUploadReportHelper" />
+		<property name="agencyDataReconciliationReportHelper" ref="agencyDataReconciliationReportHelper" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	    <property name="dataReportService" ref="dataReportService" />
 	    <property name="travelDocumentService" ref="travelDocumentService" />
@@ -1026,6 +1028,29 @@
 			</map>
 		</property>
 		<property name="columnCount" value="17" />
+	</bean>
+	<bean id="agencyDataReconciliationReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass"
+			value="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map> 
+			    <entry key="id" value="AGENCY ID" />
+				<entry key="tripId" value="TRIP ID" />
+				<entry key="tripInvoiceNumber" value="TRIP INVOICE NUMBER" />
+				<entry key="tripExpenseAmount" value="TRIP EXPENSE AMOUNT" />
+				<entry key="airTicketNumber" value="AIR TICKET NUMBER" />
+				<entry key="airServiceFeeNumber" value="SERVICE FEE NUMBER" />
+				<entry key="lodgingItineraryNumber" value="LODGING ITINERARY NUMBER" />
+				<entry key="rentalCarItineraryNumber" value="RENTAL CAR ITINERARY NUMBER" />
+                <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
+				<entry key="travelerName" value="TRAVELER NAME" />
+				<entry key="alternateTripId" value="ALTERNATE TRIP ID" />
+				<entry key="tripDepartureDate" value="TRIP DEPARTURE DATE" />
+				<entry key="transactionPostingDate" value="TRANSACTION POSTING DATE" />
+			    <entry key="importBy" value="IMPORT BY" />
+			</map>
+		</property>
+		<property name="columnCount" value="14" />
 	</bean>
 	<bean id="expenseImportByTravelerService" parent="expenseImportByTravelerService-parentBean" />
 	<bean id="expenseImportByTravelerService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTravelerServiceImpl">

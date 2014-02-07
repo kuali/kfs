@@ -253,6 +253,19 @@ public class TemKeyConstants {
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";
     public static final String MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA="message.batch.tem.agency.creditcard.data.InvalidCreditCardAgency";
 
+    public static final String MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER = "message.batch.tem.agencydatareconciliation.reportHeader";
+    public static final String MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION = "message.batch.tem.agencydatareconciliation.glpeCreation";
+    public static final String MESSAGE_AGENCY_DATA_RECON_ACCOUNTING_LINE_MATCH = "message.batch.tem.agencydatareconciliation.accountingLineNoMatch";
+    public static final String MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE = "message.batch.tem.agencydatareconciliation.expenseTypeObjectCodeInvalid";
+    public static final String MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH = "message.batch.tem.agencydatareconciliation.tripNoMatch";
+    public static final String MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH_AIR = "message.batch.tem.agencydatareconciliation.tripNoMatchAir";
+    public static final String MESSAGE_AGENCY_DATA_RECON_INVALID_EXPENSE_TYPE_CATEGORY = "message.batch.tem.agencydatareconciliation.invalidExpenseTypeCategory";
+    public static final String MESSAGE_AGENCY_DATA_RECON_INVALID_ERROR_CODE = "message.batch.tem.agencydatareconciliation.errorCode";
+    public static final String MESSAGE_AGENCY_DATA_RECON_ACTIVE = "message.batch.tem.agencydatareconciliation.active";
+
+    public static final String MESSAGE_AGENCY_DATA_DISTRIBUTE_INVALID_ERROR_CODE = "message.batch.tem.agencydatadistribution.errorCode";
+    public static final String MESSAGE_AGENCY_DATA_DISTRIBUTE_ACTIVE = "message.batch.tem.agencydatadistribution.active";
+
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL="error.tem.distribution.accountingline.total";
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_AMOUNT_OR_PERCENT="error.tem.distribution.accountingline.amount.or.percent";
     public static final String ERROR_TEM_DISTRIBUTION_TOO_MANY_DISTRIBUTION_TARGETS_WITH_EXPENSE_LIMIT = "error.tem.distribution.tooManyTargets";

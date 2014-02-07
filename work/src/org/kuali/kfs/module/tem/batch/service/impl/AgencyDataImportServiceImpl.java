@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.batch.service.impl;
 
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,9 +33,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
@@ -75,10 +77,12 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private String agencyDataFileErrorDirectory;
     private BusinessObjectReportHelper agencyDataTravelerUploadReportHelper;
     private BusinessObjectReportHelper agencyDataTripUploadReportHelper;
+    private BusinessObjectReportHelper agencyDataReconciliationReportHelper;
     private DateTimeService dateTimeService;
     private DataReportService dataReportService;
     private String agencyDataReportDirectory;
     private String agencyDataReportFilePrefix;
+    private String agencyDataReconciliationReportFilePrefix;
 
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#importAgencyData()
@@ -192,6 +196,8 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 importedAgencyStagingData.setId(Integer.valueOf(idFinder.getValue()));
                 importedAgencyStagingData.setImportBy(agencyImportData.getImportBy());
                 importedAgencyStagingData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
+                importedAgencyStagingData.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
+
 
                 String itineraryData = importedAgencyStagingData.getItineraryDataString();
 
@@ -296,23 +302,47 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Override
     public boolean moveAgencyDataToHistoricalExpenseTable() {
-
         LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
+
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
 
-            //set up map for keeping track of sequence helpers per Trip Id. Sequence helper is not needed for ImportBy=TRV
-            Map<String,GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String,GeneralLedgerPendingEntrySequenceHelper>();
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = null;
+            PrintStream reportDataStream = dataReportService.getReportPrintStream(getAgencyDataReportDirectory(), getAgencyDataReconciliationReportFilePrefix());
+            BusinessObjectReportHelper reportHelper = getAgencyDataReconciliationReportHelper();
 
-            for (AgencyStagingData agency : agencyData) {
+            try {
+                dataReportService.writeReportHeader(reportDataStream, null, TemKeyConstants.MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER, reportHelper);
 
-                if (agency.getExpenseImport() == ExpenseImport.trip) {
-                    sequenceHelper = getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap);
+                //set up map for keeping track of sequence helpers per Trip Id. Sequence helper is not needed for ImportBy=TRV
+                Map<String,GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String,GeneralLedgerPendingEntrySequenceHelper>();
+                GeneralLedgerPendingEntrySequenceHelper sequenceHelper = null;
+
+                for (AgencyStagingData agency : agencyData) {
+
+                    List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+                    if (agency.getExpenseImport() == ExpenseImport.trip) {
+                        sequenceHelper = getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap);
+                    }
+                    errorMessages.addAll(processAgencyStagingExpense(agency, sequenceHelper));
+
+                    getBusinessObjectService().save(agency);
+
+                    //writer to error report
+                    if (!errorMessages.isEmpty()){
+                        dataReportService.writeToReport(reportDataStream, agency, errorMessages, reportHelper);
+                        LOG.info("Agency Data Id: "+ agency.getId() + " was not processed.");
+                    }
+                    else {
+                        LOG.info("Agency Data Id: "+ agency.getId() + " was processed.");
+                    }
                 }
-                boolean result = processAgencyStagingExpense(agency, sequenceHelper);
-                getBusinessObjectService().save(agency);
-                LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") + " processed.");
+            }
+            finally {
+                if (reportDataStream != null) {
+                    reportDataStream.flush();
+                    reportDataStream.close();
+                }
             }
         }
 
@@ -325,18 +355,21 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Transactional
     @Override
-    public boolean processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean result = false;
+    public List<ErrorMessage> processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
+
+        agency.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
+
         if (agency.getExpenseImport() == ExpenseImport.traveler) {
-            result = expenseImportByTravelerService.distributeExpense(agency);
+            errors.addAll(expenseImportByTravelerService.distributeExpense(agency));
 
         }
 
         if (agency.getExpenseImport() == ExpenseImport.trip) {
-            result = expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
+            errors.addAll(expenseImportByTripService.reconciliateExpense(agency, sequenceHelper));
         }
 
-        return result;
+        return errors;
     }
 
     /**
@@ -354,8 +387,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             for (AgencyStagingData agency : agencyData) {
                 if (!visitedIds.contains(agency.getId())) {
                     LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
-                    boolean result = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
-                    LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") +" reconciled.");
+                    List<ErrorMessage> errors = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
+                    getBusinessObjectService().save(agency);
+                    LOG.info("Agency Data Id: "+ agency.getId() + (errors.isEmpty() ? " was":" was not") +" reconciled.");
                     visitedIds.add(agency.getId());
                 }
                 count++;
@@ -398,7 +432,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Override
     public Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData) {
-        Collection<GeneralLedgerPendingEntry> glpes = null;
+        Collection<GeneralLedgerPendingEntry> glpes = new ArrayList<GeneralLedgerPendingEntry>();
 
         TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyStagingData.getTripId());
         if (ObjectUtils.isNotNull(travelDocument)) {
@@ -549,6 +583,14 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         this.agencyDataTripUploadReportHelper = agencyDataTripUploadReportHelper;
     }
 
+    public BusinessObjectReportHelper getAgencyDataReconciliationReportHelper() {
+        return agencyDataReconciliationReportHelper;
+    }
+
+    public void setAgencyDataReconciliationReportHelper(BusinessObjectReportHelper agencyDataReconciliationReportHelper) {
+        this.agencyDataReconciliationReportHelper = agencyDataReconciliationReportHelper;
+    }
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -571,6 +613,14 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
     public void setAgencyDataReportFilePrefix(String agencyDataReportFilePrefix) {
         this.agencyDataReportFilePrefix = agencyDataReportFilePrefix;
+    }
+
+    public String getAgencyDataReconciliationReportFilePrefix() {
+        return agencyDataReconciliationReportFilePrefix;
+    }
+
+    public void setAgencyDataReconciliationReportFilePrefix(String agencyDataReconciliationReportFilePrefix) {
+        this.agencyDataReconciliationReportFilePrefix = agencyDataReconciliationReportFilePrefix;
     }
 
     private static ConfigurationService getConfigurationService() {

@@ -55,6 +55,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -145,6 +146,10 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
                 final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(travelDocument, document);
                 getBusinessObjectService().save(relationship);
+
+                // we're not the progenitor so let's force a refresh of notes
+                final List<Note> notes = getNoteService().getByRemoteObjectId(travelDocument.getNoteTarget().getObjectId());
+                document.setNotes(notes);
             }
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
@@ -211,6 +216,10 @@ public class TravelEntertainmentAction extends TravelActionBase {
         catch (WorkflowException we) {
             throw new RuntimeException("Could not load workflow document for old entertainment document "+temDocId, we);
         }
+
+        // we're not the progenitor so let's force a refresh of notes
+        final List<Note> notes = getNoteService().getByRemoteObjectId(entDocument.getNoteTarget().getObjectId());
+        document.setNotes(notes);
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {

@@ -105,6 +105,9 @@
 				<entry
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory"
 					value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup"
+					value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFundGroup" />					
             </map>
         </property>
     </bean>

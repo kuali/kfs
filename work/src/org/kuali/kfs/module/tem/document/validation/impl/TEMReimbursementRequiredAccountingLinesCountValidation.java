@@ -43,7 +43,7 @@ public class TEMReimbursementRequiredAccountingLinesCountValidation extends Gene
         boolean validated = true;
         final TEMReimbursementDocument reimbursableDocument = (TEMReimbursementDocument) event.getDocument();
 
-        if (reimbursableDocument.hasReimbursableExpenses()) {
+        if (reimbursableDocument.hasReimbursableExpenses() && !reimbursableDocument.hasOnlyPrepaidExpenses()) {
             if (reimbursableDocument.getSourceAccountingLines() == null || reimbursableDocument.getSourceAccountingLines().isEmpty()) {
                 validated = false; // there's no accounting lines even though we have reimbursable expenses
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_NO_SINGLE_SECTION_ACCOUNTING_LINES);

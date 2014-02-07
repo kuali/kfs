@@ -530,7 +530,8 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      */
     @Override
     protected boolean shouldRouteByProfileAccount() {
-        return !hasReimbursableExpenses();
+        final boolean shouldRouteByProfileAccount = !hasReimbursableExpenses() || hasOnlyPrepaidExpenses();
+        return shouldRouteByProfileAccount;
     }
 
     /**

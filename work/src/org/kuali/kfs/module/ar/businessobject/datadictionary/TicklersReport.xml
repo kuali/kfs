@@ -315,7 +315,7 @@
 		parent="TicklersReport-lookupDefinition-parentBean" />
 	<bean id="TicklersReport-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="title" value="Tickler Report Lookup" />
+		<property name="title" value="Tickler Report" />
 		<property name="lookupableID"
 			value="ticklersReportLookupResultLookupable" />
 		<property name="defaultSort">

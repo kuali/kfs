@@ -67,14 +67,6 @@ public interface AgencyDataImportService {
     List<ErrorMessage> processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
-     *
-     * This method matches all valid Agency Staging data with Credit Card Staging data. Matched data is moved
-     * to the historical expense table.
-     * @return
-     */
-    boolean matchExpenses();
-
-    /**
      * Gets the currently existing GLPEs for the document we're going to add GLPEs to
      * @param agencyStagingData
      * @return

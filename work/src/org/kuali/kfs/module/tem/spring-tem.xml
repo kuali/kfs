@@ -51,7 +51,6 @@
 			  	<value>taxableRamificationNotificationJob</value>
 				<value>agencyDataImportJob</value>
 				<value>creditCardDataImportJob</value>
-				<value>agencyReconciliationMatchJob</value>
 				<value>travelImportedExpenseNotificationJob</value>
 			  	<value>temProfileExportJob</value>
 			  	<value>travelPreDisbursementProcessorExtractJob</value>
@@ -931,24 +930,12 @@
 			</list>
 		</property>
 	</bean>
-	
-    <bean id="agencyReconciliationMatchJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="agencyReconciliationMatchStep" />
-			</list>
-		</property>
-	</bean>
 
 	<bean id="agencyDataImportStep" class="org.kuali.kfs.module.tem.batch.AgencyDataImportStep" parent="step">
 		<property name="agencyDataImportService" ref="agencyDataImportService" />
 	</bean>
 	
 	<bean id="agencyDataStagingToHistoricalStep" class="org.kuali.kfs.module.tem.batch.AgencyDataStagingToHistoricalStep" parent="step">
-		<property name="agencyDataImportService" ref="agencyDataImportService" />
-	</bean>
-	
-	<bean id="agencyReconciliationMatchStep" class="org.kuali.kfs.module.tem.batch.AgencyReconciliationMatchStep" parent="step">
 		<property name="agencyDataImportService" ref="agencyDataImportService" />
 	</bean>
 	

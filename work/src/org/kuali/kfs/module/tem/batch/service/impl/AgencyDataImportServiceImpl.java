@@ -24,10 +24,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -35,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
@@ -370,34 +367,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         }
 
         return errors;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#matchExpenses()
-     */
-    @Override
-    public boolean matchExpenses() {
-        LOG.info("Starting Agency Reconciliation Match Process");
-
-        Set<Integer> visitedIds = new HashSet<Integer>();
-        List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyDataByImportType(ExpenseImportTypes.IMPORT_BY_TRIP);
-        if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
-            Map<String, GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String, GeneralLedgerPendingEntrySequenceHelper>();
-            int count = 1;
-            for (AgencyStagingData agency : agencyData) {
-                if (!visitedIds.contains(agency.getId())) {
-                    LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
-                    List<ErrorMessage> errors = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
-                    getBusinessObjectService().save(agency);
-                    LOG.info("Agency Data Id: "+ agency.getId() + (errors.isEmpty() ? " was":" was not") +" reconciled.");
-                    visitedIds.add(agency.getId());
-                }
-                count++;
-            }
-        }
-
-        LOG.info("Finished Agency Reconciliation Match Process");
-        return true;
     }
 
     protected GeneralLedgerPendingEntrySequenceHelper getGeneralLedgerPendingEntrySequenceHelper(AgencyStagingData agencyStagingData, Map<String,GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap) {

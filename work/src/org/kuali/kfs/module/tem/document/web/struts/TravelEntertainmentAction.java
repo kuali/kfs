@@ -107,7 +107,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
             if (!StringUtils.isBlank(fromDocumentNumber)){
                 LOG.debug("Creating reimbursement for document number "+ identifierStr);
                 document.setTravelDocumentIdentifier(identifierStr);
-                TravelDocument travelDocument = (TravelDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
+                TravelEntertainmentDocument travelDocument = (TravelEntertainmentDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
 
                 LOG.debug("Setting traveler with id "+ travelDocument.getTravelerDetailId());
                 document.setTravelerDetailId(travelDocument.getTravelerDetailId());
@@ -118,6 +118,14 @@ public class TravelEntertainmentAction extends TravelActionBase {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
                 }
 
+                document.setPurposeCode(travelDocument.getPurposeCode());
+                document.setTripBegin(travelDocument.getTripBegin());
+                document.setTripEnd(travelDocument.getTripEnd());
+                document.setSpouseIncluded(travelDocument.getSpouseIncluded());
+                document.setDescription(travelDocument.getDescription());
+                document.setAttendeeListAttached(travelDocument.getAttendeeListAttached());
+                document.setAttendee(travelDocument.getAttendee());
+                document.setNumberOfAttendees(travelDocument.getNumberOfAttendees());
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
 
                 document.setExpenseLimit(travelDocument.getExpenseLimit());

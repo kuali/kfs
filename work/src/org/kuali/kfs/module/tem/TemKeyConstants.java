@@ -186,7 +186,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_ADR_DOCUMENT_NOT_EXIST = "error.tem.adr.documentMustExist";
 
-    public static final String TRVL_RELO_REQUESTER_OVERVIEW_ERRORS = "fromStateCode,toStateCode,state,attachmentFile,document.reasonCode,document.jobClsCode,tripOverview.*";
+    public static final String TRVL_RELO_REQUESTER_OVERVIEW_ERRORS = "fromStateCode,toStateCode,state,attachmentFile,document.reasonCode,document.jobClsCode,tripOverview.*,document.tripBegin,document.tripEnd";
 
     public static final String ERROR_RELO_FROM_STATE_REQUIRED = "error.tem.relocation.fromstate.required";
     public static final String ERROR_RELO_TO_STATE_REQUIRED = "error.tem.relocation.tostate.required";

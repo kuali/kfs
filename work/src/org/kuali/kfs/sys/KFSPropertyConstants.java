@@ -149,7 +149,6 @@ public class KFSPropertyConstants {
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
     public static final String AWARD_ENTRY_DATE = "awardEntryDate";
     public static final String AWARD_FEDERAL_PASS_THROUGH_INDICATOR = "awardFederalPassThroughIndicator";
-    public static final String AWARD_ID = "awardId";
     public static final String AWARD_INDR_COST_RCVY_ENTRY_NBR = "awardIndrCostRcvyEntryNbr";
     public static final String AWARD_INDR_COST_RCVY_RATE_PCT = "awardIndrCostRcvyRatePct";
     public static final String AWARD_ORGRANIZATIONS = "awardOrganizations";

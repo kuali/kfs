@@ -51,8 +51,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private AgencyType agencyType;
     private boolean active;
 
-    private String sponsorCode;
-
     // Contracts and Grants fields
     private String cageNumber;
     private String dodacNumber;
@@ -101,24 +99,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public Agency() {
         agencyAddresses = new ArrayList<AgencyAddress>();
-    }
-
-    /**
-     * Gets the sponsorCode attribute.
-     *
-     * @return Returns the sponsorCode.
-     */
-    public String getSponsorCode() {
-        return sponsorCode;
-    }
-
-    /**
-     * Sets the sponsorCode attribute value.
-     *
-     * @param sponsorCode The sponsorCode to set.
-     */
-    public void setSponsorCode(String sponsorCode) {
-        this.sponsorCode = sponsorCode;
     }
 
     // Getters and setters for Billing frequency
@@ -580,6 +560,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      *
      * @return agencyAddresses
      */
+    @Override
     public List<AgencyAddress> getAgencyAddresses() {
         return agencyAddresses;
     }

@@ -84,7 +84,6 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
             ContractsGrantsAwardBalancesReport awardBalancesReportEntry = new ContractsGrantsAwardBalancesReport();
 
             awardBalancesReportEntry.setProposalNumber(award.getProposalNumber());
-            awardBalancesReportEntry.setAwardId(award.getAwardId());
             awardBalancesReportEntry.setAgencyNumber(award.getAgencyNumber());
             awardBalancesReportEntry.setAgency(award.getAgency());
             awardBalancesReportEntry.setAwardProjectTitle(award.getAwardProjectTitle());
@@ -202,6 +201,7 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
     /**
      * @return an implementation of the ConfigurationService
      */
+    @Override
     protected ConfigurationService getConfigurationService() {
         if (configurationService == null) {
             configurationService = SpringContext.getBean(ConfigurationService.class);

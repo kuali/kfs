@@ -92,8 +92,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="agencyFinancialReportCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyFinancialReportFreqCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyExpirationDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="sponsorCode" />
-				
 			</list>
 		</property>
 	</bean>

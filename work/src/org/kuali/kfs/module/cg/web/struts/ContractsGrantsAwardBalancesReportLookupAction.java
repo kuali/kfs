@@ -266,7 +266,6 @@ public class ContractsGrantsAwardBalancesReportLookupAction extends KualiLookupA
      */
     private void setReportDate(ContractsGrantsAwardBalancesReport awardBalancesReportEntry, ContractsGrantsAwardBalancesReportDetailDataHolder reportDetail) {
         reportDetail.setProposalNumber(awardBalancesReportEntry.getProposalNumber());
-        reportDetail.setAwardId(awardBalancesReportEntry.getAwardId());
 
         String agencyName = (ObjectUtils.isNull(awardBalancesReportEntry.getAgency())) ? null : awardBalancesReportEntry.getAgency().getReportingName();
         reportDetail.setAgencyName(agencyName);

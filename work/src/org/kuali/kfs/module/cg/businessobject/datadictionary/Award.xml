@@ -29,7 +29,6 @@
 				<ref bean="Award-routingOrg" />
 				<ref bean="Award-primaryAwardOrganization.organizationCode" />
 				<ref bean="Award-proposal.proposalNumber" />
-				<ref bean="Award-awardId" />
 				<ref bean="Award-proposalNumber" />
 				<ref bean="Award-awardAccounts.account.accountNumber" />
 				<ref bean="Award-awardOrganizations.organization.organizationCode" />
@@ -260,21 +259,6 @@
 		<property name="name" value="primaryAwardOrganization.organizationCode" />
 		<property name="label" value="Primary Organization Code" />
 		<property name="shortLabel" value="Primary Org Cd" />
-	</bean>
-
-	<bean id="Award-awardId" parent="Award-awardId-parentBean" />
-
-	<bean id="Award-awardId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="awardId" />
-		<property name="label" value="Award ID" />
-		<property name="shortLabel" value="ID" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="42" />
-		</property>
 	</bean>
 
 	<bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean" />
@@ -1131,7 +1115,6 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-							<bean parent="FieldDefinition" p:attributeName="awardId" />
 							<bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber" />
 							<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
 							<bean parent="FieldDefinition" p:attributeName="agency.reportingName" />

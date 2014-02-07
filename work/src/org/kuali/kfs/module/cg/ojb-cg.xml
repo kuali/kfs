@@ -37,7 +37,6 @@
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerCreated" column="CUST_CRTD" jdbc-type="VARCHAR" />
-		<field-descriptor name="sponsorCode" column="SPNSR_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
 		
 		<field-descriptor name="stateAgencyIndicator" column="STATE_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -395,7 +394,6 @@
 
 	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Award" table="CG_AWD_T">
 		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="awardId" column="AWD_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="DATE" />

@@ -53,7 +53,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private List<AwardAccount> awardAccounts;
 
     //BillingAward fields
-    private String awardId;
     private Date awardBeginningDate;
     private Date awardEndingDate;
     private Date lastBilledDate;
@@ -266,15 +265,6 @@ public class Award implements ContractsAndGrantsBillingAward {
      */
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
-    }
-
-    @Override
-    public String getAwardId() {
-        return awardId;
-    }
-
-    public void setAwardId(String awardId) {
-        this.awardId = awardId;
     }
 
     @Override

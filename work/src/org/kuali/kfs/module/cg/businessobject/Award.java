@@ -46,7 +46,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class Award extends PersistableBusinessObjectBase implements MutableInactivatable, ContractsAndGrantsBillingAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
     private Long proposalNumber;
-    private String awardId;
     private Date awardBeginningDate;
     private Date awardEndingDate;
     private Date lastBilledDate;
@@ -1678,26 +1677,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the awardId attribute.
-     *
-     * @return Returns the awardId.
-     */
-
-    @Override
-    public String getAwardId() {
-        return awardId;
-    }
-
-    /**
-     * Sets the awardId attribute value.
-     *
-     * @param awardId The awardId to set.
-     */
-    public void setAwardId(String awardId) {
-        this.awardId = awardId;
-    }
-
-    /**
      * Gets the autoApproveIndicator attribute.
      *
      * @return Returns the autoApproveIndicator.
@@ -2037,7 +2016,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         if (ObjectUtils.isNotNull(this.proposalNumber)) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
-        m.put("awardId", this.awardId);
 
         return m;
     }

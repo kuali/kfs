@@ -19,9 +19,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Integration interface for Award (specific to CGB functionality)
@@ -33,6 +32,7 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
      *
      * @return Returns the proposalNumber.
      */
+    @Override
     public Long getProposalNumber();
 
     /**
@@ -40,6 +40,7 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
      *
      * @return Returns the proposal object.
      */
+    @Override
     public ContractAndGrantsProposal getProposal();
 
     /**
@@ -47,14 +48,8 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
      *
      * @return Returns the awardInquiryTitle.
      */
+    @Override
     public String getAwardInquiryTitle();
-
-    /**
-     * Gets the awardId attribute.
-     *
-     * @return Returns the awardId.
-     */
-    public String getAwardId();
 
     /**
      * Gets the awardBeginningDate attribute.

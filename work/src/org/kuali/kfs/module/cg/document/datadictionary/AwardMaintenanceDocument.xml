@@ -101,7 +101,6 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="proposalNumber"
 					p:required="true" p:lookupReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="awardId" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardStatusCode"
 					p:defaultValue="A" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyNumber"

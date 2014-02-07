@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,11 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Defines a Contracts Grants Award Balances Report object.
@@ -44,10 +39,9 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Award.class);
     private Long proposalNumber;
-    private String awardId;
     private Date awardBeginningDate;
     private Date awardEndingDate;
-    
+
     protected KualiDecimal awardTotalAmount;
 
     private String awardStatusCode;
@@ -131,7 +125,7 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     /**
      * Gets the awardTotalAmountForReport attribute.
-     * 
+     *
      * @return Returns the awardTotalAmountForReport.
      */
     public KualiDecimal getAwardTotalAmountForReport() {
@@ -140,7 +134,7 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     /**
      * Sets the awardTotalAmountForReport attribute value.
-     * 
+     *
      * @param awardTotalAmountForReport The awardTotalAmountForReport to set.
      */
     public void setAwardTotalAmountForReport(KualiDecimal awardTotalAmountForReport) {
@@ -153,14 +147,6 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-    public String getAwardId() {
-        return awardId;
-    }
-
-    public void setAwardId(String awardId) {
-        this.awardId = awardId;
     }
 
     public Date getAwardBeginningDate() {
@@ -229,17 +215,16 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
-     * 
+     *
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
-        m.put("awardId", this.awardId);
 
         return m;
     }

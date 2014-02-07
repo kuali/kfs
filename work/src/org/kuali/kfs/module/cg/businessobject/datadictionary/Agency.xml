@@ -62,7 +62,6 @@
 				<ref bean="Agency-customerCreated" />
 				<ref bean="Agency-customerNumber" />
 				<ref bean="Agency-customerTypeCode" />
-				<ref bean="Agency-sponsorCode" />
 				<ref bean="Agency-dunningCampaign" />
 				<ref bean="Agency-notes"/>
 				<ref bean="Agency-stateAgencyIndicator"/>
@@ -543,24 +542,6 @@
 		<property name="name" value="agencyAddresses.agencyInvoiceEmailAddress" />
 	</bean>
 
-	<bean id="Agency-sponsorCode" parent="Agency-sponsorCode-parentBean" />
-
-	<bean id="Agency-sponsorCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="sponsorCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Sponsor Code" />
-		<property name="shortLabel" value="Sponsor Code" />
-		<property name="maxLength" value="6" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
-		</property>
-	</bean>
-	
   <bean id="Agency-notes" parent="Agency-notes-parentBean"/>
 
   <bean id="Agency-notes-parentBean" abstract="true" parent="AttributeDefinition">
@@ -620,8 +601,6 @@
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-
 						</list>
 					</property>
 				</bean>

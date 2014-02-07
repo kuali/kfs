@@ -25,7 +25,6 @@
 
 
 	<field name="proposalNumber" class="java.lang.Long"/>
-	<field name="awardId" class="java.lang.String"/>
 	<field name="agencyName" class="java.lang.String"/>
 	<field name="awardProjectTitle" class="java.lang.String"/>
 	<field name="awardStatusCode" class="java.lang.String"/>
@@ -137,19 +136,6 @@
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{agencyName}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="45"
-						y="0"
-						width="60"
-						height="11"
-						key="textField-6"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" size="7" isBold="false"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{awardId}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

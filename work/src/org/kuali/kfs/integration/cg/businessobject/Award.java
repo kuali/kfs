@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
@@ -44,7 +44,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class Award implements ContractsAndGrantsBillingAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
     private Long proposalNumber;
-    private String awardId;
     private Date awardBeginningDate;
     private Date awardEndingDate;
     private Date lastBilledDate;
@@ -184,25 +183,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     @Override
     public ContractAndGrantsProposal getProposal() {
         return null;
-    }
-
-    /**
-     * Gets the awardId attribute.
-     *
-     * @return Returns the awardId.
-     */
-    @Override
-    public String getAwardId() {
-        return awardId;
-    }
-
-    /**
-     * Sets the awardId attribute value.
-     *
-     * @param awardId The awardId to set.
-     */
-    public void setAwardId(String awardId) {
-        this.awardId = awardId;
     }
 
     /**

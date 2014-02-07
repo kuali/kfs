@@ -3340,7 +3340,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.payments", returnProperStringValue(payments));
             parameterMap.put("award.receivables", returnProperStringValue(receivable));
             parameterMap.put("award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
-            parameterMap.put("award.awardId", returnProperStringValue(award.getAwardId()));
             if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
                 parameterMap.put("award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
             }

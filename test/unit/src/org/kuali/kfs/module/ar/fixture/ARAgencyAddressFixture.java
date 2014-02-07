@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.fixture;
 
-import org.kuali.kfs.integration.cg.businessobject.AgencyAddress;
+import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 
 
 /**

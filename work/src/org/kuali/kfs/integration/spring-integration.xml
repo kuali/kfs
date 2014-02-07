@@ -73,13 +73,11 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.integration.cg</value>
-                <value>org.kuali.kfs.integration.ar</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/kfs/integration/cg/businessobject/datadictionary</value>
-                <value>org/kuali/kfs/integration/ar/businessobject/datadictionary</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
@@ -92,9 +90,6 @@
 				<entry
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation"
-					value="org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 					value="org.kuali.kfs.integration.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward"
@@ -105,40 +100,11 @@
 					value="org.kuali.kfs.integration.cg.businessobject.Agency" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency"
 					value="org.kuali.kfs.integration.cg.businessobject.Agency" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup"
-					value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFundGroup" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund"
-					value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFund" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress"
-					value="org.kuali.kfs.integration.cg.businessobject.AgencyAddress" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency"
-					value="org.kuali.kfs.integration.cg.businessobject.BillingFrequency" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType"
-					value="org.kuali.kfs.integration.cg.businessobject.ContractGrantType" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager"
-					value="org.kuali.kfs.integration.cg.businessobject.AwardFundManager" />
-				<entry
-					key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate"
-					value="org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization"
-					value="org.kuali.kfs.integration.cg.businessobject.AwardOrganization" />
-				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector"
-					value="org.kuali.kfs.integration.cg.businessobject.AwardProjectDirector" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType"
-					value="org.kuali.kfs.integration.ar.businessobject.CustomerAddressType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"
 					value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />
 				<entry
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory"
 					value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill"
-					value="org.kuali.kfs.integration.cg.businessobject.Bill" />
             </map>
         </property>
     </bean>

@@ -58,7 +58,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundGroupCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition"
-					p:name="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+					p:name="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundAmount"
 					p:defaultValue="0.00" />
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundStartDate" />

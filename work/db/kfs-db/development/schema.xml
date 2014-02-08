@@ -4043,7 +4043,6 @@
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_TYP_CD" size="10" type="VARCHAR"/>
         <column name="CUST_CRTD" size="1" type="VARCHAR"/>
-        <column name="SPNSR_CD" size="6" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STATE_AGENCY_IND" size="1" type="VARCHAR"/>
         <column name="NTE_TXT" size="800" type="VARCHAR"/>
@@ -4064,9 +4063,6 @@
         </foreign-key>
         <unique name="CG_AGENCY_TC0">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="CG_AGENCY_TC1">
-            <unique-column name="SPNSR_CD"/>
         </unique>
         <index name="CG_AGENCY_TI2">
             <index-column name="CG_RPTTO_AGNCY_NBR"/>
@@ -4309,7 +4305,6 @@
         <column name="AWRD_SRC_OF_FNDS" size="10" type="VARCHAR"/>
         <column name="CG_MIN_INV_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CG_LTRCR_FND_CD" size="15" type="VARCHAR"/>
-        <column name="AWD_ID" size="45" type="VARCHAR"/>
         <column name="AUTO_APP" size="1" type="VARCHAR"/>
         <column name="FUNDING_EXP_DT" type="TIMESTAMP"/>
         <column name="COMMENT_TXT" size="800" type="VARCHAR"/>

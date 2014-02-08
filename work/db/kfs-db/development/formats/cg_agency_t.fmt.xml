@@ -21,7 +21,6 @@
   <Field name="cust_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_crtd"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="spnsr_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cmpgn_id"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="state_agency_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="nte_txt"                         type="string"     nullable="true"  trim="false" delimiter="|\r\n" />

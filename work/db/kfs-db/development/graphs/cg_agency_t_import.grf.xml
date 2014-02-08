@@ -40,7 +40,6 @@
         $0.cust_nbr := replace(nvl($cust_nbr, ""), "~!~", "|" );
         $0.cust_typ_cd := replace(nvl($cust_typ_cd, ""), "~!~", "|" );
         $0.cust_crtd := replace(nvl($cust_crtd, ""), "~!~", "|" );
-        $0.spnsr_cd := replace(nvl($spnsr_cd, ""), "~!~", "|" );
         $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );
         $0.state_agency_ind := replace(nvl($state_agency_ind, ""), "~!~", "|" );
         $0.nte_txt := replace(nvl($nte_txt, ""), "~!~", "|" );

@@ -31,15 +31,13 @@
 				<value>frequency</value>
 			</list>
 		</property>
-
-
-
 		<property name="documentTypeName" value="BILF" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">
 			<ref bean="BillingFrequencyMaintenanceDocument-workflowAttributes" />
 		</property>
+		<property name="allowsNewOrCopy" value="false" />		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

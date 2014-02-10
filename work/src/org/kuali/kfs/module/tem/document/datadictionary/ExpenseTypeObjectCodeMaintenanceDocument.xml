@@ -45,7 +45,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="tripTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="maximumAmount" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="maximumAmountSummationCode" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="errorTypeCode" p:required="false" />

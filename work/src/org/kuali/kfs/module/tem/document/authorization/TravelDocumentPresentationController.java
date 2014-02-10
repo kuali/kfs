@@ -177,7 +177,7 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
             // no trip id?  then we must be the root
             return true;
         }
-        final TravelDocument baseTravelDocument = getTravelDocumentService().getTravelDocument(travelDoc.getTravelDocumentIdentifier());
+        final TravelDocument baseTravelDocument = getTravelDocumentService().getParentTravelDocument(travelDoc.getTravelDocumentIdentifier());
         return baseTravelDocument == null || StringUtils.equals(baseTravelDocument.getDocumentNumber(), travelDoc.getDocumentNumber());
     }
 

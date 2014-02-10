@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document.maintenance;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
@@ -31,18 +33,27 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
+import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Maintainable instance for the travel agency audit maintenance document
@@ -52,6 +63,14 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
     static final Logger LOG = Logger.getLogger(AgencyStagingDataMaintainable.class);
 
     private volatile static AgencyDataImportService agencyDataImportService;
+    private volatile static ExpenseImportByTravelerService expenseImportByTravelerService;
+    private volatile static ExpenseImportByTripService expenseImportByTripService;
+    private volatile static CreditCardAgencyService creditCardAgencyService;
+    private volatile static DocumentService documentService;
+    private volatile static DataDictionaryService dataDictionaryService;
+    private volatile static IdentityService identityService;
+    private volatile static NoteService noteService;
+
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      */
@@ -63,6 +82,9 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 
         //default the import type (probably by trip)
         agencyData.setImportBy(ExpenseImportTypes.IMPORT_BY_TRIP);
+
+        agencyData.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
+        agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
     }
 
     /**
@@ -73,6 +95,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         super.processAfterCopy(document, parameters);
         AgencyStagingData agencyData = (AgencyStagingData) getBusinessObject();
         agencyData.setManualCreated(true);
+        agencyData.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
 
         AgencyStagingDataMaintainable oldMaintainable = (AgencyStagingDataMaintainable)document.getOldMaintainableObject();
         //this is not new, so it must be for copy - we will set the Copied From Id
@@ -96,25 +119,46 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
             AgencyStagingData agencyStaging  = (AgencyStagingData) getBusinessObject();
 
             updateCreditCardAgency(agencyStaging);
+
+            //All validations have passed at this point. Set error code to 'OK'.
+            agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+
             //after fixing the agency audit record, attempt to move agency data to historical table
-            final int nextGLPESequenceValue = getPendingEntrySequenceNumberStart();
-            boolean result = getAgencyDataImportService().processAgencyStagingExpense(agencyStaging, new GeneralLedgerPendingEntrySequenceHelper(nextGLPESequenceValue));
-            LOG.info("Agency Data Id: "+ agencyStaging.getId() + (result ? " was":" was not") +" processed.");
+            List<ErrorMessage> errors = getAgencyDataImportService().processAgencyStagingExpense(agencyStaging, getGeneralLedgerPendingEntrySequenceHelper());
+            LOG.info("Agency Data Id: "+ agencyStaging.getId() + (errors.isEmpty() ? " was":" was not") +" processed.");
+
+            //add a Note if there were errors reconciling or distributing the record
+            if (!errors.isEmpty()) {
+                try {
+                    MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getByDocumentHeaderId(documentHeader.getDocumentNumber());
+                    addNoteAfterProcessingAgencyStagingExpense(document, errors);
+                }
+                catch (WorkflowException exception) {
+                    LOG.error("Unable to add Note to Document Id: "+ documentHeader.getDocumentNumber(), exception);
+                    LOG.error(getMessageAsString(errors));
+                }
+            }
 
             // nota bene: agency staging data object does NOT need to be saved here as the maint doc will save it itself once processing completes
+
         }
         super.doRouteStatusChange(documentHeader);
     }
 
-    protected int getPendingEntrySequenceNumberStart() {
+    protected GeneralLedgerPendingEntrySequenceHelper getGeneralLedgerPendingEntrySequenceHelper() {
         Collection<GeneralLedgerPendingEntry> glpes = getAgencyDataImportService().getGeneralLedgerPendingEntriesForDocumentNumber((AgencyStagingData) getBusinessObject());
-        int maxSeq = Integer.MIN_VALUE;
+
+        int maxGLPESequenceValue = 0;
+
         for (GeneralLedgerPendingEntry glpe : glpes) {
-            if (glpe.getTransactionLedgerEntrySequenceNumber().intValue() > maxSeq) {
-                maxSeq = glpe.getTransactionLedgerEntrySequenceNumber().intValue();
+            if (glpe.getTransactionLedgerEntrySequenceNumber().intValue() > maxGLPESequenceValue) {
+                maxGLPESequenceValue = glpe.getTransactionLedgerEntrySequenceNumber().intValue();
             }
         }
-        return maxSeq + 1;
+
+        maxGLPESequenceValue++;
+
+        return new GeneralLedgerPendingEntrySequenceHelper(maxGLPESequenceValue);
     }
 
     /**
@@ -123,8 +167,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
      */
     protected void updateCreditCardAgency(AgencyStagingData agencyStaging){
         //update the agency name base on code if provided
-        CreditCardAgencyService creditCardAgencyService = SpringContext.getBean(CreditCardAgencyService.class);
-        CreditCardAgency agency = creditCardAgencyService.getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
+        CreditCardAgency agency = getCreditCardAgencyService().getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
         if (agency != null){
             agencyStaging.setCreditCardAgency(agency);
         }
@@ -148,12 +191,14 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         AgencyStagingData  agency = (AgencyStagingData)document.getNewMaintainableObject().getBusinessObject();
 
         if(TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(agency.getImportBy())) {
-           ExpenseImportByTripService expenseImportByTripService =   SpringContext.getBean(ExpenseImportByTripService.class);
-           errorMessages = expenseImportByTripService.validateAgencyData(agency);
+           errorMessages = getExpenseImportByTripService().validateAgencyData(agency);
         }
         else if (TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER.equals(agency.getImportBy())) {
-            ExpenseImportByTravelerService expenseImportByTravelerService =  SpringContext.getBean(ExpenseImportByTravelerService.class);
-            errorMessages = expenseImportByTravelerService.validateAgencyData(agency);
+            errorMessages = getExpenseImportByTravelerService().validateAgencyData(agency);
+        }
+
+        if (errorMessages.isEmpty()) {
+            agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
         }
 
         MessageMap messageMap = GlobalVariables.getMessageMap();
@@ -176,12 +221,6 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	    if (agencyStaging.isActive()) {
     	    //since it is fixed and submitted, changing the status to OK
     	    agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-
-	        agencyStaging.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
-
-	        if (ObjectUtils.isNull(agencyStaging.getCreationTimestamp())) {
-	            agencyStaging.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
-	        }
         }
 
         super.saveBusinessObject();
@@ -197,6 +236,40 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         return StringUtils.substring(descriptionText, 0, 39);
 	}
 
+	protected void addNoteAfterProcessingAgencyStagingExpense(MaintenanceDocument document, List<ErrorMessage> errors) {
+
+        Principal kfsSystemUser = getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+	    String errorText = getMessageAsString(errors);
+
+	    if (!StringUtils.isEmpty(errorText)) {
+	        //check maxLength on a Note and truncate if necessary
+    	    Integer maxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME);
+    	    if (errorText.length() > maxLength) {
+    	        LOG.warn("Adding a truncated error text to Note due to space limitations. Original text:");
+    	        LOG.warn(errorText);
+    	        errorText = errorText.substring(0,maxLength);
+    	    }
+
+            final Note newNote = getDocumentService().createNoteFromDocument(document, errorText);
+            newNote.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
+            document.addNote(newNote);
+            getNoteService().save(newNote);
+	    }
+	}
+
+    protected String getMessageAsString(List<ErrorMessage> errorMessages){
+
+        List<String> messageList = new ArrayList<String>();
+
+        for (ErrorMessage error : errorMessages){
+            messageList.add(MessageUtils.getErrorMessage(error));
+        }
+
+        StrBuilder builder = new StrBuilder();
+        builder.appendWithSeparators(messageList, BusinessObjectReportHelper.LINE_BREAK);
+        return  builder.toString();
+    }
+
 	public DateTimeService getDateTimeService(){
 	    return SpringContext.getBean(DateTimeService.class);
 	}
@@ -207,4 +280,55 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	    }
 	    return agencyDataImportService;
 	}
+
+	public ExpenseImportByTravelerService getExpenseImportByTravelerService() {
+	    if (expenseImportByTravelerService == null) {
+	        expenseImportByTravelerService = SpringContext.getBean(ExpenseImportByTravelerService.class);
+	    }
+	    return expenseImportByTravelerService;
+	}
+
+	public ExpenseImportByTripService getExpenseImportByTripService() {
+	    if (expenseImportByTripService == null) {
+	        expenseImportByTripService = SpringContext.getBean(ExpenseImportByTripService.class);
+	    }
+	    return expenseImportByTripService;
+	}
+
+	public CreditCardAgencyService getCreditCardAgencyService() {
+	    if (creditCardAgencyService == null) {
+	        creditCardAgencyService = SpringContext.getBean(CreditCardAgencyService.class);
+	    }
+	    return creditCardAgencyService;
+	}
+
+    public DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        return documentService;
+    }
+
+	@Override
+    public DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
+	}
+
+	public IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = SpringContext.getBean(IdentityService.class);
+        }
+        return identityService;
+	}
+
+	public NoteService getNoteService() {
+        if (noteService == null) {
+            noteService = SpringContext.getBean(NoteService.class);
+        }
+        return noteService;
+	}
+
 }

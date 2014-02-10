@@ -34,8 +34,10 @@ import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLine
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class AddImportedExpenseEvent implements Observer {
@@ -92,7 +94,7 @@ public class AddImportedExpenseEvent implements Observer {
 
                 for (TripAccountingInformation tripAccountingInformation : tripAccountinfoList){
                     TemSourceAccountingLine importedLine = new TemSourceAccountingLine();
-                    importedLine.setAmount(tripAccountingInformation.getAmount());
+                    importedLine.setAmount(ObjectUtils.isNotNull(tripAccountingInformation.getAmount()) ? tripAccountingInformation.getAmount() : KualiDecimal.ZERO);
                     importedLine.setChartOfAccountsCode(tripAccountingInformation.getTripChartCode());
 
                     importedLine.setAccountNumber(tripAccountingInformation.getTripAccountNumber());

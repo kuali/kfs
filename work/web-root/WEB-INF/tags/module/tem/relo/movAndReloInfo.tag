@@ -38,7 +38,7 @@
 		<th width="25%">
 			<div align="right">
 				<kul:htmlAttributeLabel
-					attributeEntry="${documentAttributes.tripBegin}" readOnly="true" />
+					attributeEntry="${documentAttributes.tripBegin}" />
 			</div></th>
 		<td class="datacell" width="25%"><kul:htmlControlAttribute
 				attributeEntry="${documentAttributes.tripBegin}"
@@ -46,7 +46,7 @@
 		<th width="25%">
 			<div align="right">
 				<kul:htmlAttributeLabel
-					attributeEntry="${documentAttributes.tripEnd}" readOnly="true" />
+					attributeEntry="${documentAttributes.tripEnd}" />
 			</div></th>
 		<td class="datacell" width="25%"><kul:htmlControlAttribute
 				attributeEntry="${documentAttributes.tripEnd}"

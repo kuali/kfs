@@ -342,11 +342,11 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#distributeExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData+ org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean distributeExpense(final AgencyStagingData agencyData) {
+    public List<ErrorMessage> distributeExpense(final AgencyStagingData agencyData) {
 
         LOG.info("Distributing expense for agency data: "+ agencyData.getId());
 
-        boolean result = false;
+        List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
         if (agencyData.isActive()) {
 
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
@@ -356,18 +356,22 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
                 businessObjectService.save(expense);
                 agencyData.setMoveToHistoryIndicator(true);
                 agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
-                result = true;
+
+                // nota bene: agency staging data object can NOT be saved here b/c the AgencyStagingDataMaint doc calls this method and will save it itself once processing completes.
+                // batch steps which call this method need to save the business object after calling this method
             }
             else {
                 LOG.info("Agency Data: "+ agencyData.getId() +"; expected errorCode="+ AgencyStagingDataErrorCodes.AGENCY_NO_ERROR +", received errorCode="+ agencyData.getErrorCode() +". Will not attempt to distribute expense.");
+                errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_DISTRIBUTE_INVALID_ERROR_CODE, AgencyStagingDataErrorCodes.AGENCY_NO_ERROR, agencyData.getErrorCode()));
             }
         }
         else {
             LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not distribute.");
+            errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_DISTRIBUTE_ACTIVE));
         }
 
-        LOG.info("Finished distributing expense for agency data: "+ agencyData.getId() +". Agency data "+ (result ? "was":"was not") +" distributed.");
-        return result;
+        LOG.info("Finished distributing expense for agency data: "+ agencyData.getId() +". Agency data "+ (errors.isEmpty() ? "was":"was not") +" distributed.");
+        return errors;
     }
 
 

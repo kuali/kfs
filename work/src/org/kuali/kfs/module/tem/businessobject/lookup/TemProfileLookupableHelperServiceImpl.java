@@ -236,9 +236,8 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
         Map<String, String> criteria = new HashMap<String, String>(2);
         criteria.put("principalId", user.getPrincipalId());
-        criteria.put("active", "true");
 
-        // If an active TEM Profile doesn't exist and user is granted KFS-TEM Edit My TEM Profile permission, allow the user to create their profile
+        // If a TEM Profile doesn't exist and user is granted KFS-TEM Edit My TEM Profile permission, allow the user to create their profile
         if (getTemProfileService().findTemProfile(criteria) == null ) {
             canCreateMyProfile = authorizer.canEditOwnProfile(dummyProfile, user.getPerson());
         }

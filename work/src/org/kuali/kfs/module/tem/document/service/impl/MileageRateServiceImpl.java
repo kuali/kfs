@@ -17,22 +17,20 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
-import org.kuali.kfs.module.tem.dataaccess.MileageRateDao;
+import org.kuali.kfs.module.tem.document.service.CachingMileageRateService;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
 
 public class MileageRateServiceImpl implements MileageRateService {
-    private MileageRateDao mileageRateDao;
+    private CachingMileageRateService cachingMileageRateService;
 
     @Override
     public MileageRate getMileageRateByExpenseTypeCode(MileageRate mileageRate) {
            final Date fromDate = mileageRate.getActiveFromDate();
            final Date toDate = mileageRate.getActiveToDate();
-           List<MileageRate>  mileageRates = mileageRateDao.findMileageRatesByExpenseTypeCode(mileageRate.getExpenseTypeCode());
-           for (MileageRate rate : mileageRates) {
+           for (MileageRate rate : cachingMileageRateService.findAllMileageRates()) {
 
                if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveToDate(), Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, rate.getActiveFromDate() , Calendar.DATE) >= 0)) {
                    return rate;
@@ -43,15 +41,20 @@ public class MileageRateServiceImpl implements MileageRateService {
 
        }
 
+
     @Override
     public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
-        return mileageRateDao.findMileageRatesByExpenseTypeCodeAndDate(expenseTypeCode, effectiveDate);
+
+        for (MileageRate mileageRate : cachingMileageRateService.findAllMileageRates()) {
+            if (effectiveDate.after(mileageRate.getActiveFromDate()) && effectiveDate.before(mileageRate.getActiveToDate()) && mileageRate.getExpenseTypeCode().equals(expenseTypeCode)) {
+                return mileageRate;
+            }
+        }
+
+        return null;
     }
 
-    public void setMileageRateDao(MileageRateDao mileageRateDao) {
-        this.mileageRateDao = mileageRateDao;
+    public void setCachingMileageRateService(CachingMileageRateService cachingMileageRateService) {
+        this.cachingMileageRateService = cachingMileageRateService;
     }
-
-
-
 }

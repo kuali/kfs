@@ -266,6 +266,23 @@ public class TemProfileValidation extends MaintenanceDocumentRuleBase{
         return success;
     }
 
+    /**
+     * Checks that, if the profile represents a non-employee, the profile has an email address
+     * @param profile the profile to check
+     * @return true if the profile passed the validation, false otherwise
+     */
+    protected boolean checkEmailAddressForNonEmployees(TemProfile profile) {
+        boolean success = true;
+        if (profile != null && getTemProfileService().isProfileNonEmploye(profile)) {
+            // we've got a non-employee.  let's see if they have an email address
+            if (StringUtils.isBlank(profile.getEmailAddress())) {
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject."+TemPropertyConstants.TemProfileProperties.EMAIL_ADDRESS, TemKeyConstants.ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_EMAIL);
+                success = false;
+            }
+        }
+        return success;
+    }
+
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
@@ -277,6 +294,7 @@ public class TemProfileValidation extends MaintenanceDocumentRuleBase{
             }
         }
         success &= checkActiveArrangersForNonEmployees(profile);
+        success &= checkEmailAddressForNonEmployees(profile);
         return success;
     }
 

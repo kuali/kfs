@@ -28,7 +28,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
@@ -410,18 +409,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public MileageRate getMileageRate(String expenseTypeCode, Date expenseDate) {
-        return realTravelDocumentService.getMileageRate(expenseTypeCode, expenseDate);
-    }
-
-    @Override
-    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
-        return realTravelDocumentService.getTravelDocument(travelDocumentIdentifier);
-    }
-
-    @Override
-    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
-        return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
+    public TravelDocument getParentTravelDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getParentTravelDocument(travelDocumentIdentifier);
     }
 
     @Override
@@ -437,6 +426,11 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void restorePerDiemProperty(TravelDocument document, String property) {
         realTravelDocumentService.restorePerDiemProperty(document, property);
+    }
+
+    @Override
+    public TravelDocument getRootTravelDocumentWithoutWorkflowDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getRootTravelDocumentWithoutWorkflowDocument(travelDocumentIdentifier);
     }
 
 }

@@ -28,14 +28,13 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name="TEM_PER_DIEM_T")
-public class PerDiem extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class PerDiem extends PersistableBusinessObjectBase {
 
     @Id
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
@@ -49,9 +48,6 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
 
     @Column(name="PRI_DEST_ID",length=100, nullable=false)
     protected Integer primaryDestinationId;
-
-    @Column(name="SSN_BGN_DT")
-    protected Date seasonBeginDate;
 
     @Column(name="BKFST",nullable=false)
     protected KualiDecimal breakfast = KualiDecimal.ZERO;
@@ -70,9 +66,6 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
 
     @Column(name="MEALS_INC",precision=19,scale=2,nullable=false)
     protected KualiDecimal mealsAndIncidentals = KualiDecimal.ZERO;
-
-    @Column(name="ACTV_IND",nullable=false,length=1)
-    protected Boolean active = Boolean.TRUE;
 
     protected String seasonBeginMonthAndDay;
 
@@ -137,35 +130,6 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
         this.primaryDestinationId = primaryDestinationId;
     }
 
-    /**
-     * Gets the active attribute.
-     *
-     * @return Returns the active
-     */
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    /**
-     * Sets the active attribute.
-     *
-     * @param active The active to set.
-     */
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    @Deprecated
-    public Date getSeasonBeginDate() {
-        return seasonBeginDate;
-    }
-
-    @Deprecated
-    public void setSeasonBeginDate(Date seasonBeginDate) {
-        this.seasonBeginDate = seasonBeginDate;
-    }
-
     public void setEffectiveFromDate(Date effectiveDate) {
         this.effectiveFromDate = effectiveDate;
     }
@@ -221,16 +185,6 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
 
     public void setMealsAndIncidentals(KualiDecimal mealsAndIncidentals) {
         this.mealsAndIncidentals = mealsAndIncidentals;
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     /**

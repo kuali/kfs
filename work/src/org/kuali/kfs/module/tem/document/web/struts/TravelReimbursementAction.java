@@ -82,6 +82,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -106,6 +107,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         refreshCollectionsFor(document);
         initializeAssignAccounts(reimbForm);
+        reimbForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
     }
 
 
@@ -483,10 +485,15 @@ public class TravelReimbursementAction extends TravelActionBase {
             final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(rootDocument, document);
             getBusinessObjectService().save(relationship);
 
+            // we're not the progenitor so let's force a refresh of notes
+            final List<Note> notes = getNoteService().getByRemoteObjectId(rootDocument.getNoteTarget().getObjectId());
+            document.setNotes(notes);
+
         } else {
             // we have no parent document; blank out the trip begin and end dates
             document.setTripBegin(null);
             document.setTripEnd(null);
+            document.setTripProgenitor(true); // this is the trip progenitor
         }
         // do the distribution
         travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));

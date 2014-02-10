@@ -233,7 +233,8 @@
     </bean>
     
     <!-- Update Accounting Line Event -->
-    <bean id="TravelAuthorization-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+    <bean id="TravelAuthorization-updateAccountingLine-failFastValidation" abstract="true" parent="TravelAuthorization-updateAccountingLine-failFastValidation-parentBean" scope="prototype"/>
+    <bean id="TravelAuthorization-updateAccountingLine-failFastValidation-parentBean" abstract="true" parent="CompositeValidation" scope="prototype">
         <property name="validations">
             <list>
                 <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">

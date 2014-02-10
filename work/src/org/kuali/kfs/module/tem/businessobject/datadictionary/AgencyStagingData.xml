@@ -300,10 +300,10 @@
 		<property name="name" value="travelerNetworkId" />
 		<property name="label" value="Traveler Network Id" />
 		<property name="shortLabel" value="Traveler Network Id" />
-		<property name="maxLength" value="9" />
+		<property name="maxLength" value="10" />
 		<property name="summary" value="Traveler Network Id" />
 		<property name="description" value="Traveler Network Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="9"/></property>
+		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
 	<bean id="AgencyStagingData-travelerId" parent="AgencyStagingData-travelerId-parentBean" />
 	<bean id="AgencyStagingData-travelerId-parentBean" abstract="true" parent="AttributeDefinition">

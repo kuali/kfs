@@ -26,7 +26,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
@@ -406,30 +405,22 @@ public interface TravelDocumentService {
     public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate);
 
     /**
-     * Finds the mileage rate for the given expense type code and expense date
-     * @param expenseTypeCode the expense type to find a related mileage rate for
-     * @param expenseDate the date of the expense date, passed in as mileage rates are effectively dated
-     * @return the matching mileage rate
-     */
-    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date expenseDate);
-
-    /**
      *
-     * This method gets the current travel document by travel document identifier
+     * This method gets the parent travel document by travel document identifier
+     * This means: the current TA which is the authorization of the trip; or if no TA is present, the root TR, ENT, or RELO document
      *  @param travelDocumentIdentifier
      *  @return
      */
-    public TravelDocument getTravelDocument(String travelDocumentIdentifier);
-
-
+    public TravelDocument getParentTravelDocument(String travelDocumentIdentifier);
 
     /**
-     * Determines if the per diem and actual expense total on the given document equal that of the persisted document
-     * (useful if trying to figure out if mileage rate or per diem rates changed)
-     * @param travelDocument the travel document to check
-     * @return true if the totals are unchanged, false otherwise
+     * Returns the root travel document by the travel document identifier.  This is the progenitor document of the trip - either the first TA,
+     * first TR, first ENT, or first RELO which began the trip
+     * It does not retrieve the workflow document of the associated document
+     * @param travelDocumentIdentifier
+     * @return the root document of the trip
      */
-    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument);
+    public TravelDocument getRootTravelDocumentWithoutWorkflowDocument(String travelDocumentIdentifier);
 
     /**
      * This method retrieves a list of approved documents related to a travelDocumentIdentifier. It will grab the most current TA (TAA, TAC)

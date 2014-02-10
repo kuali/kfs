@@ -204,7 +204,7 @@
     </bean>
     
     <bean id="TravelRelocationDocument-temProfileName" parent="TravelRelocationDocument-temProfileName-parentBean" />
-	<bean id="TravelRelocationDocument-temProfileName-parentBean" abstract="true" parent="TemProfile-principal.principalName">
+	<bean id="TravelRelocationDocument-temProfileName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="temProfileName" />
 		<property name="label" value="Payee Name" />
 		<property name="shortLabel" value="Payee Name" />
@@ -212,6 +212,7 @@
 		<property name="summary" value="Payee Name" />
 		<property name="description" value="Payee Name" />
 		<property name="required" value="false"/>
+		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean> 
     <bean id="TravelRelocationDocument-fromAddress1" parent="TravelRelocationDocument-fromAddress1-parentBean" />

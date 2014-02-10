@@ -322,7 +322,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
      * @return
      */
     protected String getImportExpenseDocumentNumber(AgencyStagingData agencyData) {
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
         return getImportExpenseDocumentNumber(travelDocument);
     }
 

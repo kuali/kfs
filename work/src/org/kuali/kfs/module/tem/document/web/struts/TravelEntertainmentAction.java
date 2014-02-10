@@ -55,6 +55,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -107,7 +108,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
             if (!StringUtils.isBlank(fromDocumentNumber)){
                 LOG.debug("Creating reimbursement for document number "+ identifierStr);
                 document.setTravelDocumentIdentifier(identifierStr);
-                TravelDocument travelDocument = (TravelDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
+                TravelEntertainmentDocument travelDocument = (TravelEntertainmentDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
 
                 LOG.debug("Setting traveler with id "+ travelDocument.getTravelerDetailId());
                 document.setTravelerDetailId(travelDocument.getTravelerDetailId());
@@ -118,6 +119,14 @@ public class TravelEntertainmentAction extends TravelActionBase {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
                 }
 
+                document.setPurposeCode(travelDocument.getPurposeCode());
+                document.setTripBegin(travelDocument.getTripBegin());
+                document.setTripEnd(travelDocument.getTripEnd());
+                document.setSpouseIncluded(travelDocument.getSpouseIncluded());
+                document.setDescription(travelDocument.getDescription());
+                document.setAttendeeListAttached(travelDocument.getAttendeeListAttached());
+                document.setAttendee(travelDocument.getAttendee());
+                document.setNumberOfAttendees(travelDocument.getNumberOfAttendees());
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
 
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
@@ -137,10 +146,16 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
                 final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(travelDocument, document);
                 getBusinessObjectService().save(relationship);
+
+                // we're not the progenitor so let's force a refresh of notes
+                final List<Note> notes = getNoteService().getByRemoteObjectId(travelDocument.getNoteTarget().getObjectId());
+                document.setNotes(notes);
             }
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
             }
+        } else {
+            document.setTripProgenitor(true); // this is the trip progenitor
         }
         initializeAssignAccounts(entForm);
     }
@@ -201,6 +216,10 @@ public class TravelEntertainmentAction extends TravelActionBase {
         catch (WorkflowException we) {
             throw new RuntimeException("Could not load workflow document for old entertainment document "+temDocId, we);
         }
+
+        // we're not the progenitor so let's force a refresh of notes
+        final List<Note> notes = getNoteService().getByRemoteObjectId(entDocument.getNoteTarget().getObjectId());
+        document.setNotes(notes);
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {

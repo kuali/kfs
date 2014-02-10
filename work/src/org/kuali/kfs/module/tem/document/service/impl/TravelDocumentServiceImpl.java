@@ -411,7 +411,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         for (final ExpenseType expenseType : expenseTypes) {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
-                final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
+                final MileageRate mileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
                 if (mileageRate != null) {
                     keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
                 }
@@ -429,18 +429,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         Collections.sort(keyValues, labelComparator);
 
         return keyValues;
-    }
-
-    /**
-     * Finds the mileage rate for the given expense type code and expense date
-     * @param expenseTypeCode the expense type to find a related mileage rate for
-     * @param expenseDate the date of the expense date, passed in as mileage rates are effectively dated
-     * @return the matching mileage rate
-     */
-    @Override
-    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date effectiveDate) {
-        final MileageRate chosenMileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseTypeCode, effectiveDate);
-        return chosenMileageRate;
     }
 
     /**
@@ -2386,7 +2374,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @return
      */
     @Override
-    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
+    public TravelDocument getParentTravelDocument(String travelDocumentIdentifier) {
 
        if (ObjectUtils.isNull(travelDocumentIdentifier) || StringUtils.equals(travelDocumentIdentifier,"")) {
            LOG.error("Received a null tripId/travelDocumentIdentifier; returning a null TravelDocument");
@@ -2407,6 +2395,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        Map<String, Object> fieldValues = new HashMap<String, Object>();
        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+       fieldValues.put(TemPropertyConstants.TRIP_PROGENITOR, Boolean.TRUE);
 
        Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
        if (entDocuments.iterator().hasNext()) {
@@ -2424,24 +2413,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
        return null;
-    }
-
-    /**
-     * Compares the accounting line total of the persisted version of the document with the current approved amount on the document...that's the only
-     * way to capture the discrepancy between the two
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#travelDocumentTotalsUnchangedFromPersisted(org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
-        // get persisted document (we'll use business object service since we don't need workflow document information)
-        final TravelDocument persistedDocument = getBusinessObjectService().findBySinglePrimaryKey(travelDocument.getClass(), travelDocument.getDocumentNumber());
-        // now the question is: does the accounting line total of the persisted document equal the expense total of the given doc?
-        if (persistedDocument == null || persistedDocument.getSourceAccountingLines() == null || persistedDocument.getSourceAccountingLines().isEmpty()) {
-            return true; // we don't have any values we can reliably test against, so...those values are not changed
-        }
-        final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
-        final KualiDecimal currentDocumentApprovedAmount = travelDocument.applyExpenseLimit(travelDocument.getApprovedAmount());
-        return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);
     }
 
     /**
@@ -2469,7 +2440,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         List<String> travelDocumentNumbers = new ArrayList<String>();
 
-        TravelDocument travelDocument = getTravelDocument(travelDocumentIdentifier);
+        TravelDocument travelDocument = getParentTravelDocument(travelDocumentIdentifier);
         if (ObjectUtils.isNotNull(travelDocument)) {
             travelDocumentNumbers.add(travelDocument.getDocumentNumber());
         }
@@ -2621,6 +2592,52 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         final String perDiemPart = deDocumentedProperty.substring(0, lastDivider);
         final String mealPart = deDocumentedProperty.substring(lastDivider+1);
         return new String[] { perDiemPart, mealPart };
+    }
+
+    /**
+     * Looks up the document with the progenitor document for the trip
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getRootTravelDocumentWithoutWorkflowDocument(java.lang.String)
+     */
+    @Override
+    public TravelDocument getRootTravelDocumentWithoutWorkflowDocument(String travelDocumentIdentifier) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+        fieldValues.put(TemPropertyConstants.TRIP_PROGENITOR, new Boolean(true));
+        for (String documentType : getTravelDocumentTypesToCheck()) {
+            final Class<? extends TravelDocument> docClazz = getTravelDocumentForType(documentType);
+            Collection<TravelDocument> matchingDocs = (Collection<TravelDocument>)getBusinessObjectService().findMatching(docClazz, fieldValues);
+            if (matchingDocs != null && !matchingDocs.isEmpty()) {
+                List<TravelDocument> foundDocs = new ArrayList<TravelDocument>();
+                foundDocs.addAll(matchingDocs);
+                return foundDocs.get(0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * HEY EVERYONE! BIG CUSTOMIZATION OPPORTUNITY!
+     * This method returns an ordered list of where to look for progenitor documents.  The order is based on my total guess of which
+     * document type is most likely to be the progenitor, so it's TA, ENT, RELO, TR.  But, if you don't use TA's, then obviously TR's should
+     * be first.  Anyhow, please feel free to rearrange this list as seems most helpful to you
+     * @return a List of the document types to look for root documents in - in which order
+     */
+    protected List<String> getTravelDocumentTypesToCheck() {
+        List<String> documentTypes = new ArrayList<String>();
+        documentTypes.add(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        documentTypes.add(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
+        documentTypes.add(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
+        documentTypes.add(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        return documentTypes;
+    }
+
+    /**
+     * Looks up the class associated with the given document type to check
+     * @param documentType the document type name to find a class for
+     * @return the class of that document type
+     */
+    protected Class<? extends TravelDocument> getTravelDocumentForType(String documentType) {
+        return (Class<TravelDocument>)getDataDictionaryService().getDocumentClassByTypeName(documentType);
     }
 
     /**

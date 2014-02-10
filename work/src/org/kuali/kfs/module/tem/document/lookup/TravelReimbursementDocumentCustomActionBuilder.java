@@ -87,7 +87,7 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
             }
 
             //only allow the link to display if the TR is the root document
-            originalDocumentCheck = document.getDocumentNumber().equals(getAccountingDocumentRelationshipService().getRootDocumentNumber(document.getDocumentNumber()));
+            originalDocumentCheck = document.isTripProgenitor();
 
             //only allow the link to display if a TR can be initiated without a TA
             initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);

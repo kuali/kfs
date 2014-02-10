@@ -24,6 +24,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.MileageRateService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -67,6 +68,9 @@ public abstract class ExpenseServiceBase implements TemExpenseService {
 
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
+    }
+    protected MileageRateService getMileageRateService() {
+        return SpringContext.getBean(MileageRateService.class);
     }
 
     public BusinessObjectService getBusinessObjectService() {

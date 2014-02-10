@@ -911,7 +911,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
                 distributedTotal = distributedTotal.add(accountDistribution.getSubTotal().subtract(accountDistribution.getRemainingAmount()));
             }
         }
-        if (getTravelDocument().getExpenseLimit() != null && getTravelDocument().getExpenseLimit().isGreaterThan(KualiDecimal.ZERO)) {
+        if (getTravelDocument().getExpenseLimit() != null && getTravelDocument().getExpenseLimit().isPositive()) {
             if (distributedTotal.isGreaterEqual(getTravelDocument().getExpenseLimit())) {
                 return KualiDecimal.ZERO; // we're over our expense limit
             } else {

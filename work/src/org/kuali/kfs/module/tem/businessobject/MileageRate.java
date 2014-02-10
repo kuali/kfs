@@ -39,6 +39,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 @Entity
 @Table(name="TEM_MILEAGE_RT_T")
 public class MileageRate extends PersistableBusinessObjectBase {
+
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "MileageRate";
+
     private Integer id;
     private String expenseTypeCode;
     private BigDecimal rate;

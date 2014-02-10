@@ -89,7 +89,7 @@ public interface ExpenseImportByTravelerService {
      * @param sequenceHelper
      * @return
      */
-    public boolean distributeExpense(AgencyStagingData agencyData);
+    public List<ErrorMessage> distributeExpense(AgencyStagingData agencyData);
 
 
     /**

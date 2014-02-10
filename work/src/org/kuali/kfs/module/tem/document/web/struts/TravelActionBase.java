@@ -350,10 +350,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             if (travelDoc.getActualExpenses() != null && !travelDoc.getActualExpenses().isEmpty()) {
                 ExpenseUtils.calculateMileage(travelDoc.getActualExpenses());
             }
-            if (!getTravelDocumentService().travelDocumentTotalsUnchangedFromPersisted(travelDoc)) {
-                // let's throw up an warning message here
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, TemKeyConstants.ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED);
-            }
         }
     }
 
@@ -1014,7 +1010,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         // don't set "travelArranger" attribute if this isn't the base document
         if (!StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
-            final TravelDocument baseTravelDocument = getTravelDocumentService().getTravelDocument(travelDocument.getTravelDocumentIdentifier());
+            final TravelDocument baseTravelDocument = getTravelDocumentService().getParentTravelDocument(travelDocument.getTravelDocumentIdentifier());
             if (baseTravelDocument != null && !StringUtils.equals(baseTravelDocument.getDocumentNumber(), travelDocument.getDocumentNumber())) {
                 return false; // this isn't the base document...so we can't change the traveler
             }

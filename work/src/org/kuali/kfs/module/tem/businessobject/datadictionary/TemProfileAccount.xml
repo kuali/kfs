@@ -201,6 +201,7 @@
 	<bean id="TemProfileAccount-inquiryDefinition" parent="TemProfileAccount-inquiryDefinition-parentBean" />
 	<bean id="TemProfileAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="TEM Profile Account Inquiry"/>
+		<property name="authorizerClass" value="org.kuali.kfs.module.tem.businessobject.inquiry.TemProfileInquiryAuthorizer"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">

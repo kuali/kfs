@@ -195,9 +195,8 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
 
         Map<String,String> criteria = new HashMap<String,String>(2);
         criteria.put("customerNumber", customerNumber);
-        criteria.put("active", "true");
 
-        // If an active TEM Profile doesn't exist, display a create link
+        // If a TEM Profile doesn't exist, display a create link
         if (getTemProfileService().findTemProfile(criteria) == null) {
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 

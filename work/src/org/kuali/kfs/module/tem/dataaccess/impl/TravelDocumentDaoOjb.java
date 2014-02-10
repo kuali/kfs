@@ -91,7 +91,6 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
     public PerDiem findPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate){
 	    Criteria criteria = new Criteria();
 	    criteria.addEqualTo(TemPropertyConstants.PRIMARY_DESTINATION_ID, new Integer(primaryDestinationId));
-	    criteria.addEqualTo(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
 	    //Add date criteria so the date falls in a specific range
 	    //or their is no "To" date.  (Open-ended)
@@ -156,13 +155,13 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
             final int violaBeginMonth = Integer.parseInt(violaSeasonBegin[0]);
             final int sebastianBeginMonth = Integer.parseInt(sebastianSeasonBegin[0]);
             if (violaBeginMonth != sebastianBeginMonth) {
-                return sebastianBeginMonth - violaBeginMonth;
+                return violaBeginMonth - sebastianBeginMonth;
             }
 
             final int violaBeginDay = Integer.parseInt(violaSeasonBegin[1]);
             final int sebastianBeginDay = Integer.parseInt(sebastianSeasonBegin[1]);
             if (violaBeginDay != sebastianBeginDay) {
-                return sebastianBeginDay - violaBeginDay;
+                return violaBeginDay - sebastianBeginDay;
             }
             return 0;
         }

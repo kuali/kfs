@@ -143,7 +143,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="BUSINS"/>
-			<column name="DV_EXP_CD" value="A"/>
+			<column name="EXP_TYP_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -152,7 +152,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="COACH"/>
-			<column name="DV_EXP_CD" value="A"/>
+			<column name="EXP_TYP_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -161,7 +161,61 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECNPLUS"/>
-			<column name="DV_EXP_CD" value="A"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GBUSINS"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GCOACH"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
+			<column name="APRVL_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GECNPLUS"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="PBUSINS"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="PCOACH"/>
+			<column name="EXP_TYP_CD" value="A"/>
+			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
+			<column name="APRVL_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="PECNPLUS"/>
+			<column name="EXP_TYP_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -170,7 +224,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECONMY"/>
-			<column name="DV_EXP_CD" value="R"/>
+			<column name="EXP_TYP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Economy, Intermediate"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -179,7 +233,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="GPS"/>
-			<column name="DV_EXP_CD" value="R"/>
+			<column name="EXP_TYP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="GPS"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="N"/>
@@ -188,7 +242,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PRIVLIMO"/>
-			<column name="DV_EXP_CD" value="R"/>
+			<column name="EXP_TYP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Private Limo"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -197,7 +251,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="SHRRIDE"/>
-			<column name="DV_EXP_CD" value="R"/>
+			<column name="EXP_TYP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Shared Ride"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -206,7 +260,52 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="UPGRDE"/>
-			<column name="DV_EXP_CD" value="R"/>
+			<column name="EXP_TYP_CD" value="R"/>
+			<column name="CLASS_SVC_NAME" value="Upgrade (Mid-Size, Van, Other)"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+				<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GECONMY"/>
+			<column name="EXP_TYP_CD" value="R"/>
+			<column name="CLASS_SVC_NAME" value="Economy, Intermediate"/>
+			<column name="APRVL_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GGPS"/>
+			<column name="EXP_TYP_CD" value="R"/>
+			<column name="CLASS_SVC_NAME" value="GPS"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="N"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GPRIVLIMO"/>
+			<column name="EXP_TYP_CD" value="R"/>
+			<column name="CLASS_SVC_NAME" value="Private Limo"/>
+			<column name="APRVL_REQ_IND" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GSHRRIDE"/>
+			<column name="EXP_TYP_CD" value="R"/>
+			<column name="CLASS_SVC_NAME" value="Shared Ride"/>
+			<column name="APRVL_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_CLASS_SVC_T">
+			<column name="CODE" value="GUPGRDE"/>
+			<column name="EXP_TYP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Upgrade (Mid-Size, Van, Other)"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -595,6 +694,7 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -798,6 +898,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -820,6 +921,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>

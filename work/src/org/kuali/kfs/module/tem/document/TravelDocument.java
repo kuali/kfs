@@ -414,6 +414,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public Boolean getBlanketTravel();
 
     /**
+     * @return true if this document is the root document of the trip
+     */
+    public boolean isTripProgenitor();
+
+    /**
      * Determines if this document should attempt to refresh the expense type object codes for expenses or not
      * @return true of expense type object codes on expenses should be refreshed; false otherwise
      */

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -34,11 +33,13 @@ import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class TemDocumentExpenseLineValidation extends GenericValidation {
+    protected boolean warningOnly = true;
 
     public TemDocumentExpenseLineValidation() {
         super();
@@ -52,7 +53,7 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
      * @param document
      * @return boolean
      */
-    protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document, boolean warningOnly) {
+    protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
         PerDiemType perDiem = null;
         // Check to see if the same expense type is been entered in PerDiem
@@ -76,7 +77,7 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
         }
 
         if (perDiem != null){
-            success &= addPerDiemError(perDiem, warningOnly);
+            success &= addPerDiemError(perDiem, isWarningOnly());
         }
 
         return success;
@@ -225,11 +226,29 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
 
         if (actualExpense.isAirfare() && StringUtils.isEmpty(actualExpense.getDescription())) {
             if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
-                message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                if (isWarningOnly()) {
+                    message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                } else {
+                    removeWarningsForProperty(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE);
+                    message.putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                    success = false;
+                }
             }
         }
 
         return success;
+    }
+
+    /**
+     * Removes any warnings associated with the given property name
+     * @param propertyName the property name to remove warning messages for
+     */
+    protected void removeWarningsForProperty(String propertyName) {
+        final String fullPropertyName = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".")+"."+propertyName;
+        List<ErrorMessage> warningMessages = GlobalVariables.getMessageMap().getWarningMessagesForProperty(fullPropertyName);
+        if (warningMessages != null && !warningMessages.isEmpty()) {
+            GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(fullPropertyName);
+        }
     }
 
     /**
@@ -252,7 +271,13 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
         if (ObjectUtils.isNotNull(expense.getExpenseTypeObjectCode()) && expense.getExpenseTypeObjectCode().isSpecialRequestRequired()) {
             if (StringUtils.isBlank(expense.getDescription())) {
                 if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
-                    message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                    if (isWarningOnly()) {
+                        message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                    } else {
+                        removeWarningsForProperty(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE);
+                        message.putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                        success = false;
+                    }
                 }
             }
         }
@@ -273,6 +298,14 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
             }
         }
         return maxMileage;
+    }
+
+    public boolean isWarningOnly() {
+        return warningOnly;
+    }
+
+    public void setWarningOnly(boolean warningOnly) {
+        this.warningOnly = warningOnly;
     }
 
     /**

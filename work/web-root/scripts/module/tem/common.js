@@ -312,3 +312,129 @@ function padZeros(amount){
 		}
 	}
 }
+
+var recalculateDistributionRemainingAmount = function() {
+	var numOfDistributions = document.getElementById("accountDistributionSize").value;
+	var total = 0;
+	var distributedTotal = 0;
+	for (var i = 0; i < numOfDistributions; i++) {
+		var distributionName = "distribution["+i+"]";
+		var distributionSelected = document.getElementById(distributionName+".selected").checked;
+		if (distributionSelected) {
+			var subTotal = parseFloat(document.getElementById(distributionName+".subTotal").value);
+			var remainingAmount = parseFloat(document.getElementById(distributionName+".remainingAmount").value);
+			total += remainingAmount;
+			distributedTotal += (subTotal - remainingAmount);
+		}
+	}
+	
+	var selectedDistributionAmount = total;
+	var expenseLimit = parseFloat(document.getElementById("document.expenseLimit").value);
+	if (expenseLimit && expenseLimit > 0) {
+		if (distributedTotal > expenseLimit) {
+			selectedDistributionAmount = 0;
+		} else if (expenseLimit < total) {
+			selectedDistributionAmount = expenseLimit - distributedTotal;
+		}
+	}
+	
+	var selectedDistributionAmountControl = document.getElementById("selectedDistributionAmount");
+	selectedDistributionAmountControl.value = selectedDistributionAmount;
+	
+	// now loop through the assign account accounting lines and update their amounts
+	var newDistributionLineAmount = kualiElements["accountDistributionnewSourceLine.amount"];
+	if (newDistributionLineAmount) {
+		newDistributionLineAmount.value = selectedDistributionAmount;
+		updatePercent("accountDistributionnewSourceLine.amount");
+	}
+	var count = 0;
+	var distributionLineAmount = kualiElements["accountDistributionsourceAccountingLines["+count+"].amount"];
+	while (distributionLineAmount) {
+		updatePercent("accountDistributionsourceAccountingLines["+count+"].amount");
+		count += 1;
+		distributionLineAmount = kualiElements["accountDistributionsourceAccountingLines["+count+"].amount"];
+	}
+}
+
+function updatePercent(amountField) {
+	var currentAmount = parseFloat(document.getElementById("selectedDistributionAmount").value);
+	if (currentAmount != 0) {
+		var thisFieldAmount = parseFloat(document.getElementById(amountField).value);
+		if (isNaN(thisFieldAmount)) {
+			thisFieldAmount = 0.00;
+			document.getElementById(amountField).value = "0.00";
+		}
+		var strName = amountField.split(".amount");
+		var percentField = document.getElementById(strName[0] + ".accountLinePercent");
+		var percent = thisFieldAmount * 100 / currentAmount;
+		percent = roundNumber(percent, 5);
+		percentField.value = percent;
+		//if this is called from the new line, do not update itself again base on the collections
+		if (amountField.indexOf("[") != -1) {
+			var success = updateNewAssignAccountsPercentAmount(currentAmount);
+			if (!success) {
+				var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
+				var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
+				document.getElementById(amountField).value = thisFieldAmount + newAmount;
+				percentField.value = percent + newPercent;
+				document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
+				document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+			}
+		}
+	}
+}
+function updateAmount(percentField) {
+	var currentAmount = parseFloat(document.getElementById("selectedDistributionAmount").value);
+	var thisFieldPercent = parseFloat(document.getElementById(percentField).value);
+	thisFieldPercent = roundNumber(thisFieldPercent, 5);
+	if (isNaN(thisFieldPercent)) {
+		thisFieldAmount = 0.00;
+		document.getElementById(amountField).value = "0.00";
+	}
+	var strName = percentField.split(".accountLinePercent");
+	var amountField = document.getElementById(strName[0] + ".amount");
+	var amount = thisFieldPercent * currentAmount / 100;
+	amount = roundNumber(amount, 2);
+	amountField.value = amount;
+	//if this is called from the new line, do not update itself again base on the collections
+	if (percentField.indexOf("[") != -1) {
+		var success = updateNewAssignAccountsPercentAmount(currentAmount);
+		if (!success) {
+			var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
+			var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
+			document.getElementById(percentField).value = thisFieldPercent	+ newPercent;
+			amountField.value = amount + newAmount;
+			document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
+			document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+		}
+	}
+}
+function updateNewAssignAccountsPercentAmount(currentAmount) {
+	var totalAmount = 0.00;
+	var totalPercent = 0.00;
+	var counter = 0;
+	var fieldPercent = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].accountLinePercent");
+	var fieldAmount = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].amount");
+
+	while (fieldAmount != null) {
+		if (isNaN(parseFloat(fieldAmount.value))) {
+			fieldAmount.value = "0.00";
+		} else {
+			totalAmount += parseFloat(fieldAmount.value);
+		}
+		if (isNaN(parseFloat(fieldPercent.value))) {
+			fieldAmount.value = "0.00";
+		} else {
+			totalPercent += parseFloat(fieldPercent.value);
+		}
+		counter++;
+		fieldPercent = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].accountLinePercent");
+		fieldAmount = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].amount");
+	}
+	//if there is any change from the existing assign accounting lines
+	if (totalAmount != "0.00") {
+		document.getElementById("accountDistributionnewSourceLine.amount").value = roundNumber(currentAmount - totalAmount, 2);
+		document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = roundNumber(	100 - totalPercent, 5);
+	}
+	return currentAmount - totalAmount >= 0;
+}

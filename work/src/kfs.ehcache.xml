@@ -27,7 +27,8 @@
 			maxBytesLocalHeap="300M"
 			overflowToDisk="false" 
 			copyOnRead="false"
-         copyOnWrite="false"/>
+         	copyOnWrite="false"
+         	/>
 
     <!-- Cache with copyOnRead (replacement for @Cached) -->
     <cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
@@ -38,6 +39,7 @@
   	<cache name="KFS/CustomerInvoiceDetail" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />  	
     <cache name="KFS/OrgReviewRole" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/Bank" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" /> 
+  	
 
   	<!-- Cache (replacement for @CacheNoCopy)-->
   	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 
@@ -49,5 +51,7 @@
   	<!-- <cache name="KFS/Organization" /> -->
   	<cache name="KFS/HomeOrigination" maxEntriesLocalHeap="10000" />
   	<cache name="KFS/AssetObjectCode" maxEntriesLocalHeap="10000" />  
+  	<cache name="KFS/MileageRate" maxEntriesLocalHeap="10000" statistics="true"/>  
+  	
   
 </ehcache>

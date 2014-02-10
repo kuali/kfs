@@ -56,6 +56,7 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceImpl extends TemOrgan
         String roleOrganizationCode = storedAttributes.get(KfsKimAttributes.ORGANIZATION_CODE);
         boolean descendHierarchy = StringUtils.equalsIgnoreCase(storedAttributes.get(KfsKimAttributes.DESCEND_HIERARCHY), DESCEND_HIERARCHY_TRUE_VALUE);
 
-        return isParentOrg(orgChartOfAccountsCode, organizationCode, roleChartOfAccountsCode, roleOrganizationCode, descendHierarchy);
+        final boolean parentOrg = isParentOrg(orgChartOfAccountsCode, organizationCode, roleChartOfAccountsCode, roleOrganizationCode, descendHierarchy);
+        return parentOrg;
     }
 }

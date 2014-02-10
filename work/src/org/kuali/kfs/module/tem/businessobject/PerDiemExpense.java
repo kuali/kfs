@@ -32,7 +32,7 @@ import javax.persistence.Table;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.MileageRateService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -465,7 +465,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     public MileageRate getMileageRate() {
-        return SpringContext.getBean(TravelDocumentService.class).getMileageRate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
+        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
     }
 
     /**

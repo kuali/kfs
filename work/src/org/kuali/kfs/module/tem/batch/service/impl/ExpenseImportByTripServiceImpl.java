@@ -25,14 +25,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -204,7 +204,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
         if (ObjectUtils.isNotNull(travelDocument)) {
             return errorMessages;
         }
@@ -225,7 +225,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
         if (ObjectUtils.isNull(travelDocument)) {
             LOG.error("Unable to retrieve a travel document for the tripId: "+ agencyData.getTripId());
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
@@ -427,11 +427,12 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      */
     @SuppressWarnings("null")
     @Override
-    public boolean reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public List<ErrorMessage> reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         LOG.info("Reconciling expense for agency data: "+ agencyData.getId()+ " tripId: "+ agencyData.getTripId());
 
-        boolean result = false;
+        List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
+
         //only reconcile the record if it is active
         if (agencyData.isActive()) {
 
@@ -457,7 +458,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.info("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
 
-                    final TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+                    final TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
 
                     ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, travelDocument);
                     if (travelExpenseType != null) {
@@ -543,35 +544,54 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                                 businessObjectService.save(ccData);
                                 agencyData.setMoveToHistoryIndicator(true);
                                 agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
-                                businessObjectService.save(agencyData);
-                                result = true;
+
+                                // nota bene: agency staging data object can NOT be saved here b/c the AgencyStagingDataMaint doc calls this method and will save it itself once processing completes.
+                                // batch steps which call this method need to save the business object after calling this method
                             }
                             else {
-                                LOG.error("An error occured while creating GLPEs for agency data: "+ agencyData.getId()+ " tripId"+ agencyData.getTripId()+ ". Not creating GLPE or historical expense for this agency record.");
+                                LOG.error("An error occurred while creating GLPEs for agency data: "+ agencyData.getId()+ " tripId"+ agencyData.getTripId()+ ". Will not reconcile expense.");
+                                errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION));
                             }
                         }
                         else {
                             LOG.error("The accounting lines on the agency data record do not have a match on the travel document. Agency data: "+ agencyData.getId() +"; tripId: "+ agencyData.getTripId() +"; documentNumber: "+ travelDocument.getDocumentNumber());
+                            errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_ACCOUNTING_LINE_MATCH, travelDocument.getDocumentNumber()));
                         }
                     }
                     else {
                         LOG.info("No expense type object code could be found for agency data: "+agencyData.getId()+" tripId: "+agencyData.getTripId());
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE));
                     }
                 }
                 else {
                     LOG.info("No match found for agency data: "+ agencyData.getId()+ " tripId:"+ agencyData.getTripId());
+
+                    if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.AIRFARE) {
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH_AIR, agencyData.getTripExpenseAmount().toString(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber()));
+                    }
+                    else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.LODGING) {
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH, agencyData.getTripExpenseAmount().toString(), agencyData.getLodgingItineraryNumber()));
+                    }
+                    else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR) {
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH, agencyData.getTripExpenseAmount().toString(), agencyData.getRentalCarItineraryNumber()));
+                    }
+                    else {
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_INVALID_EXPENSE_TYPE_CATEGORY));
+                    }
                 }
             }
             else {
                 LOG.info("Agency Data: "+ agencyData.getId() +"; expected errorCode="+ AgencyStagingDataErrorCodes.AGENCY_NO_ERROR +", received errorCode="+ agencyData.getErrorCode() +". Will not attempt to reconcile expense.");
+                errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_INVALID_ERROR_CODE, AgencyStagingDataErrorCodes.AGENCY_NO_ERROR, agencyData.getErrorCode()));
             }
         }
         else {
-            LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not try to reconcile");
+            LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not attempt to reconcile expense.");
+            errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_ACTIVE));
         }
 
-        LOG.info("Finished reconciling expense for agency data: "+ agencyData.getId()+ ", Trip Id: "+ agencyData.getTripId() +". Agency data "+ (result ? "was":"was not") +" reconciled.");
-        return result;
+        LOG.info("Finished reconciling expense for agency data: "+ agencyData.getId()+ ", Trip Id: "+ agencyData.getTripId() +". Agency data "+ (errors.isEmpty() ? "was":"was not") +" reconciled.");
+        return errors;
     }
 
     /**
@@ -637,14 +657,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 }
 
                 if (account && subaccount && objectcode && subobjectcode) {
-                    LOG.info("Found source accounting line match for DocumentId: "+ sourceAccountingLine.getDocumentNumber() +", "+ sourceAccountingLine);
+                    LOG.debug("Found accounting line match on DocumentId: "+ sourceAccountingLine.getDocumentNumber() +", "+ sourceAccountingLine);
                     foundAMatch = true;
                     break;
                 }
                 else {
-                    LOG.info("Source accounting line did not match agency accounting line: AgncyStgDataId:"+ agencyAccount.getAgencyStagingDataId() +",trpAcctInfo: "+ agencyAccount.getId());
-                    LOG.info("Agency Account:"+ agencyAccount);
-                    LOG.info("Source Accounting Line: "+ sourceAccountingLine);
+                    LOG.info("Document accounting line did not match agency accounting line: AgncyStgDataId:"+ agencyAccount.getAgencyStagingDataId() +",trpAcctInfoId: "+ agencyAccount.getId() +", documentNumber:"+ sourceAccountingLine.getDocumentNumber());
+                    LOG.info("Agency Data Accounting Line: "+ agencyAccount);
+                    LOG.info("Document Accounting Line: "+ sourceAccountingLine);
                 }
             }
             //the agency data accounting line does not have a matching source account on the trip- return false
@@ -666,9 +686,16 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, TravelDocument travelDoc) {
         // get the default expense type for category
         final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
+
         // Is there a document associated with this trip?  If so, let's grab the trip type and traveler type from that
         if (ObjectUtils.isNotNull(travelDoc)) {
-            return travelExpenseService.getExpenseType(expenseType.getCode(), travelDoc.getDocumentTypeName(), travelDoc.getTripTypeCode(), travelDoc.getTraveler().getTravelerTypeCode());
+
+            ExpenseTypeObjectCode expenseTypeObjectCode = travelExpenseService.getExpenseType(expenseType.getCode(), travelDoc.getDocumentTypeName(), travelDoc.getTripTypeCode(), travelDoc.getTraveler().getTravelerTypeCode());
+            if (expenseTypeObjectCode == null) {
+                LOG.error("Unable to retrieve ExpenseTypeObjectCode for ExpenseTypeCode:"+ expenseType.getCode() +", DocTypeName:"+ travelDoc.getDocumentTypeName() +", TripType:"+ travelDoc.getTripTypeCode() +", TravelerType:"+ travelDoc.getTraveler().getTravelerTypeCode());
+            }
+
+            return expenseTypeObjectCode;
         }
         LOG.error("Unable to retrieve TemTravelExpenseTypeCode");
         return null; // we shouldn't ever get here if the trip id was validated, but hey.  You never know.

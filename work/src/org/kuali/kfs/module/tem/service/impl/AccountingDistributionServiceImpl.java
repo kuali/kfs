@@ -61,14 +61,14 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 
     protected static Logger LOG = Logger.getLogger(AccountingDistributionServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private ObjectCodeService objectCodeService;
-    private TravelDocumentService travelDocumentService;
-    private ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected ObjectCodeService objectCodeService;
+    protected TravelDocumentService travelDocumentService;
+    protected ParameterService parameterService;
 
     @SuppressWarnings("deprecation")
     @Override
-    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal expenseLimit){
+    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal sourceAccountingLinesTotal, KualiDecimal expenseLimit){
         List<TemSourceAccountingLine> sourceAccountingList = new ArrayList<TemSourceAccountingLine>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         KualiDecimal total = KualiDecimal.ZERO;
@@ -81,49 +81,57 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
             }
         }
 
-        if (expenseLimit != null && expenseLimit.isPositive() && expenseLimit.isLessThan(total)) {
-            total = new KualiDecimal(expenseLimit.bigDecimalValue());
-            useExpenseLimit = true;
+        if (expenseLimit != null && expenseLimit.isPositive()) {
+            KualiDecimal expenseLimitTotal = new KualiDecimal(expenseLimit.bigDecimalValue());
+            // do we have any accounting line amount to subtract from the expense limit?
+            if (sourceAccountingLinesTotal != null && sourceAccountingLinesTotal.isGreaterThan(KualiDecimal.ZERO)) {
+                expenseLimitTotal = expenseLimitTotal.subtract(sourceAccountingLinesTotal);
+            }
+            if (expenseLimitTotal.isLessThan(total)) {
+                total = expenseLimitTotal;
+                useExpenseLimit = true;
+            }
         }
 
-        for (AccountingDistribution accountingDistribution : accountingDistributionList){
-            List<TemSourceAccountingLine> tempSourceAccountingList = new ArrayList<TemSourceAccountingLine>();
-            if (accountingDistribution.getSelected()){
-                for (TemDistributionAccountingLine accountingLine : distributionAccountingLines){
-                    TemSourceAccountingLine newLine = new TemSourceAccountingLine();
-                    try {
-                        BeanUtils.copyProperties(newLine, accountingLine);
-                    }
-                    catch (IllegalAccessException ex) {
-                        ex.printStackTrace();
-                    }
-                    catch (InvocationTargetException ex) {
-                        ex.printStackTrace();
-                    }
-                    BigDecimal distributionAmount = (distributionTargetCount > 1) ? accountingDistribution.getRemainingAmount().bigDecimalValue() : total.bigDecimalValue();
-                    BigDecimal product = accountingLine.getAccountLinePercent().multiply(distributionAmount);
-                    product = product.divide(new BigDecimal(100),5,RoundingMode.HALF_UP);
-                    BigDecimal lineAmount = product.divide(total.bigDecimalValue(),5,RoundingMode.HALF_UP);
+        if (total.isGreaterThan(KualiDecimal.ZERO)) {
+            for (AccountingDistribution accountingDistribution : accountingDistributionList){
+                List<TemSourceAccountingLine> tempSourceAccountingList = new ArrayList<TemSourceAccountingLine>();
+                if (accountingDistribution.getSelected()){
+                    for (TemDistributionAccountingLine accountingLine : distributionAccountingLines){
+                        TemSourceAccountingLine newLine = new TemSourceAccountingLine();
+                        try {
+                            BeanUtils.copyProperties(newLine, accountingLine);
+                        }
+                        catch (IllegalAccessException ex) {
+                            ex.printStackTrace();
+                        }
+                        catch (InvocationTargetException ex) {
+                            ex.printStackTrace();
+                        }
+                        BigDecimal distributionAmount = (distributionTargetCount > 1) ? accountingDistribution.getRemainingAmount().bigDecimalValue() : total.bigDecimalValue();
+                        BigDecimal product = accountingLine.getAccountLinePercent().multiply(distributionAmount);
+                        product = product.divide(new BigDecimal(100),5,RoundingMode.HALF_UP);
+                        BigDecimal lineAmount = product.divide(total.bigDecimalValue(),5,RoundingMode.HALF_UP);
 
-                    newLine.setAmount(new KualiDecimal(product));
-                    newLine.setCardType(accountingDistribution.getCardType());
-                    Map<String,Object> fieldValues = new HashMap<String,Object>();
-                    fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingDistribution.getObjectCode());
-                    fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, newLine.getChartOfAccountsCode());
-                    fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-                    ObjectCode objCode = getBusinessObjectService().findByPrimaryKey(ObjectCode.class, fieldValues);
-                    newLine.setObjectCode(objCode);
-                    newLine.setFinancialObjectCode(accountingDistribution.getObjectCode());
-                    tempSourceAccountingList.add(newLine);
-                }
-                if (useExpenseLimit) {
-                    sourceAccountingList.addAll(tempSourceAccountingList); //we just adjusted the accounting lines for the expense...let's not readjust
-                } else {
-                    sourceAccountingList.addAll(adjustValues(tempSourceAccountingList,accountingDistribution.getRemainingAmount()));
+                        newLine.setAmount(new KualiDecimal(product));
+                        newLine.setCardType(accountingDistribution.getCardType());
+                        Map<String,Object> fieldValues = new HashMap<String,Object>();
+                        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingDistribution.getObjectCode());
+                        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, newLine.getChartOfAccountsCode());
+                        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+                        ObjectCode objCode = getBusinessObjectService().findByPrimaryKey(ObjectCode.class, fieldValues);
+                        newLine.setObjectCode(objCode);
+                        newLine.setFinancialObjectCode(accountingDistribution.getObjectCode());
+                        tempSourceAccountingList.add(newLine);
+                    }
+                    if (useExpenseLimit) {
+                        sourceAccountingList.addAll(tempSourceAccountingList); //we just adjusted the accounting lines for the expense...let's not readjust
+                    } else {
+                        sourceAccountingList.addAll(adjustValues(tempSourceAccountingList,accountingDistribution.getRemainingAmount()));
+                    }
                 }
             }
         }
-        //Collections.sort(sourceAccountingList, new SourceAccountingLineComparator());
         return sourceAccountingList;
     }
 
@@ -134,7 +142,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
      * @param total
      * @return
      */
-    private List<TemSourceAccountingLine> adjustValues(List<TemSourceAccountingLine> sourceAccountingList, KualiDecimal total) {
+    protected List<TemSourceAccountingLine> adjustValues(List<TemSourceAccountingLine> sourceAccountingList, KualiDecimal total) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         for (TemSourceAccountingLine newLine : sourceAccountingList) {
             totalAmount = totalAmount.add(newLine.getAmount());

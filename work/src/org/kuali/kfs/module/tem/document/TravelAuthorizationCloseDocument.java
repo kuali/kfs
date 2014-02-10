@@ -111,4 +111,11 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
         this.travelReimbursementDocumentNumber = travelReimbursementDocumentNumber;
     }
 
+    @Override
+    public boolean isTripProgenitor() {
+        return false; // TAA's are never trip progenitors
+    }
+
+    @Override
+    public void setTripProgenitor(boolean tripProgenitor) {}
 }

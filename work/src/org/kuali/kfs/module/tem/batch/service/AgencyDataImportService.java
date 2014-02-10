@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
+
 import java.util.Collection;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 public interface AgencyDataImportService {
 
@@ -62,15 +64,7 @@ public interface AgencyDataImportService {
      * @param agency
      * @param sequenceHelper
      */
-    boolean processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
-
-    /**
-     *
-     * This method matches all valid Agency Staging data with Credit Card Staging data. Matched data is moved
-     * to the historical expense table.
-     * @return
-     */
-    boolean matchExpenses();
+    List<ErrorMessage> processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * Gets the currently existing GLPEs for the document we're going to add GLPEs to

@@ -135,7 +135,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         doc.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), doc.getDocumentNumber()));
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        doc.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
 
         doc.initiateAdvancePaymentAndLines();
 
@@ -484,6 +484,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public void initiateDocument() {
         super.initiateDocument();
         setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        this.tripProgenitor = true;
 
         //always default trip begin/date
         Calendar calendar = getDateTimeService().getCurrentCalendar();

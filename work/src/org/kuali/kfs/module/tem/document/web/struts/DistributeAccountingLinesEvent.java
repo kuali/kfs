@@ -44,7 +44,7 @@ public class DistributeAccountingLinesEvent implements Observer {
 
         if (rulePassed){
             List<TemSourceAccountingLine> newLines = getAccountingDistributionService().distributionToSouceAccountingLines(wrapper.getAccountDistributionsourceAccountingLines(),
-                    wrapper.getDistribution(), wrapper.getTravelDocument().getExpenseLimit());
+                    wrapper.getDistribution(), wrapper.getTravelDocument().getSourceTotal(), wrapper.getTravelDocument().getExpenseLimit());
 
             for (TemSourceAccountingLine newLine : newLines) {
                 wrapper.getTravelDocument().addSourceAccountingLine(newLine);

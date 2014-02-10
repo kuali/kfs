@@ -15620,7 +15620,7 @@
         <column name="OTHER_AMT" scale="2" size="8" type="DECIMAL"/>
         <column name="TRAVELER_NM" required="true" size="50" type="VARCHAR"/>
         <column name="TRAVELER_ID" size="40" type="VARCHAR"/>
-        <column name="TRAVELER_NTWK_ID" size="9" type="VARCHAR"/>
+        <column name="TRAVELER_NTWK_ID" size="10" type="VARCHAR"/>
         <column name="TRP_EXP_AMT" scale="2" size="8" type="DECIMAL"/>
         <column name="ALT_TRP_ID" size="20" type="VARCHAR"/>
         <column name="TRP_ARR_NM" size="50" type="VARCHAR"/>
@@ -15909,8 +15909,9 @@
         <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
         <column name="HOST_AS_PAYEE" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_TR1">
-            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
+            <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
@@ -16113,7 +16114,6 @@
     </table>
     <table name="TEM_PER_DIEM_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="SSN_BGN_DT" type="DATE"/>
         <column name="EFFECT_FROM_DT" type="DATE"/>
         <column name="EFFECT_TO_DT" type="DATE"/>
         <column name="LOAD_DT" type="DATE"/>
@@ -16124,7 +16124,6 @@
         <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
@@ -16344,6 +16343,7 @@
         <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_RELO_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16630,6 +16630,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16668,6 +16669,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column name="TR_FDOC_NBR" size="14" type="VARCHAR"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16708,6 +16710,7 @@
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <column name="HOLD_RQSTR_PRNCPL_ID" size="40" type="VARCHAR"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16839,6 +16842,7 @@
         <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
+        <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_REIMB_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

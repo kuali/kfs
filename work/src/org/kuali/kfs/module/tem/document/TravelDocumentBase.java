@@ -99,6 +99,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -132,6 +133,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     private String mealWithoutLodgingReason;
     private String dummyAppDocStatus;
     private String financialDocumentBankCode;
+    protected boolean tripProgenitor;
 
     // Traveler section
     private Integer temProfileId;
@@ -1461,10 +1463,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     protected boolean requiresAccountApprovalRouting() {
         KualiDecimal total = KualiDecimal.ZERO;
         for (AccountingLine line : ((List<AccountingLine>) this.getSourceAccountingLines())) {
-            total = total.add(line.getAmount());
-        }
-        if (total.isGreaterThan(KualiDecimal.ZERO)) {
-            return true;
+            if (line.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
         }
 
         return false;
@@ -1738,7 +1739,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     protected boolean hasLodgingExpenseOnDay(java.sql.Date day, List<PerDiemExpense> perDiemExpenses, List<ActualExpense> actualExpenses) {
         for (PerDiemExpense perDiemExpense : perDiemExpenses) {
             java.sql.Date perDiemDate = new java.sql.Date(perDiemExpense.getMileageDate().getTime());
-            if (KfsDateUtils.isSameDay(day, perDiemDate) && perDiemExpense.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+            if (KfsDateUtils.isSameDay(day, perDiemDate) && perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
         }
@@ -1820,6 +1821,15 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public void setImportedExpenses(List<ImportedExpense> importedExpenses) {
         this.importedExpenses = importedExpenses;
+    }
+
+    @Override
+    public boolean isTripProgenitor() {
+        return tripProgenitor;
+    }
+
+    public void setTripProgenitor(boolean tripProgenitor) {
+        this.tripProgenitor = tripProgenitor;
     }
 
     /**
@@ -2194,11 +2204,17 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     * @return the amount on the document that needs to be matched by accounting lines
+     * @return the amount on the document that needs to be matched by accounting lines - which means we need to remove the hung expenses amount
      */
     @Override
     public KualiDecimal getTotalAccountLineAmount() {
-       return getApprovedAmount();
+       KualiDecimal approvedAmount = getApprovedAmount();
+       // remove hung expenses amount
+       KualiDecimal totalAccountingLineAmount = new KualiDecimal(approvedAmount.bigDecimalValue());
+       for (HistoricalTravelExpense expense : getHistoricalTravelExpenses()) {
+           totalAccountingLineAmount = totalAccountingLineAmount.subtract(expense.getConvertedAmount());
+       }
+       return totalAccountingLineAmount;
     }
 
 
@@ -2279,5 +2295,22 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             }
         }
         return true;
+    }
+
+    /**
+     * The note target for the big travel docs are the progenitor of the trip
+     * @see org.kuali.rice.krad.document.DocumentBase#getNoteTarget()
+     */
+    @Override
+    public PersistableBusinessObject getNoteTarget() {
+        if (StringUtils.isBlank(getTravelDocumentIdentifier()) || isTripProgenitor()) {
+            // I may not even have a travel doc identifier yet, or else, I call myself the progentitor!  I must be the progenitor!
+            return getDocumentHeader();
+        }
+        final TravelDocument rootDocument = getTravelDocumentService().getRootTravelDocumentWithoutWorkflowDocument(getTravelDocumentIdentifier());
+        if (rootDocument == null) {
+            return getDocumentHeader(); // I couldn't find a root, so once again, chances are that I am the progenitor, even though I don't believe it entirely myself
+        }
+        return rootDocument.getDocumentHeader();
     }
 }

@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.mo.common.Coded;
  * The valid values that an ExpenseTypeObjectCode's maximum amount summation codes can be
  */
 public enum ExpenseTypeAmountSummation implements Coded {
-    PER_DAILY("D", "Per Daily"),
+    PER_DAILY("D", "Per Day"),
     PER_OCCURRENCE("O", "Per Occurrence");
 
     private final String code;

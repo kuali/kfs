@@ -12,7 +12,7 @@
 			<ref bean="PerDiemForLoad-lineNumber" />
 			<ref bean="PerDiemForLoad-id" />
 			<ref bean="PerDiemForLoad-primaryDestinationId" />
-			<ref bean="PerDiemForLoad-seasonBeginDate" />
+			<ref bean="PerDiemForLoad-seasonBeginMonthAndDay" />
 			<ref bean="PerDiemForLoad-effectiveFromDate" />
             <ref bean="PerDiemForLoad-effectiveToDate" />
 			<ref bean="PerDiemForLoad-breakfast" />
@@ -20,7 +20,6 @@
 			<ref bean="PerDiemForLoad-dinner" />
 			<ref bean="PerDiemForLoad-incidentals" />
 			<ref bean="PerDiemForLoad-mealsAndIncidentals" />
-			<ref bean="PerDiemForLoad-active" />
 			<ref bean="PerDiemForLoad-versionNumber" />
 			<ref bean="PerDiemForLoad-regionNameForReport" />
 			<ref bean="PerDiemForLoad-countyForReport" />
@@ -40,8 +39,10 @@
 		<property name="required" value="false" />
 	</bean>
 	
-	<bean id="PerDiemForLoad-seasonBeginDate" parent="PerDiemForLoad-seasonBeginDate-parentBean" />
-	<bean id="PerDiemForLoad-seasonBeginDate-parentBean" abstract="true" parent="PerDiem-seasonBeginDate"/>
+	<bean id="PerDiemForLoad-seasonBeginMonthAndDay" parent="PerDiemForLoad-seasonBeginMonthAndDay-parentBean" />
+	<bean id="PerDiemForLoad-seasonBeginMonthAndDay-parentBean" abstract="true" parent="PerDiem-seasonBeginMonthAndDay">
+		<property name="name" value="seasonBeginMonthAndDay" /> 
+	</bean>
 	
 	<bean id="PerDiemForLoad-effectiveFromDate" parent="PerDiemForLoad-effectiveFromDate-parentBean" />
 	<bean id="PerDiemForLoad-effectiveFromDate-parentBean" abstract="true" parent="PerDiem-effectiveFromDate" >
@@ -65,9 +66,6 @@
 
 	<bean id="PerDiemForLoad-mealsAndIncidentals" parent="PerDiemForLoad-mealsAndIncidentals-parentBean" />
 	<bean id="PerDiemForLoad-mealsAndIncidentals-parentBean" abstract="true" parent="PerDiem-mealsAndIncidentals" />
-
-	<bean id="PerDiemForLoad-active" parent="PerDiemForLoad-active-parentBean" />
-	<bean id="PerDiemForLoad-active-parentBean" abstract="true" parent="PerDiem-active" />
 	
 	<bean id="PerDiemForLoad-versionNumber" parent="PerDiemForLoad-versionNumber-parentBean" />
 	<bean id="PerDiemForLoad-versionNumber-parentBean" abstract="true" parent="PerDiem-versionNumber" />

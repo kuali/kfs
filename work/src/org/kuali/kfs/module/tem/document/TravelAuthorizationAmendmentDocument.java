@@ -30,6 +30,12 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 @Table(name = "TEM_TRVL_AUTH_AMEND_DOC_T")
 public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDocument {
 
+    @Override
+    public void initiateDocument() {
+        super.initiateDocument();
+        this.tripProgenitor = false;
+    }
+
     /**
      * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
@@ -75,5 +81,13 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
         getTravelEncumbranceService().adjustEncumbranceForAmendment(this, sequenceHelper);
         return result;
     }
+
+    @Override
+    public boolean isTripProgenitor() {
+        return false; // TAA's are never trip progenitors
+    }
+
+    @Override
+    public void setTripProgenitor(boolean tripProgenitor) {}
 
 }

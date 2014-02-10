@@ -549,7 +549,6 @@ public class TemConstants {
         public static final String OCONUS_MEAL_BREAKDOWN_PARAM_NAME = "OCONUS_MEAL_BREAKDOWN";
         public static final String CONUS_MEAL_BREAKDOWN = "CONUS_MEAL_BREAKDOWN";
         public static final String REJECT_FILE_IND = "REJECT_FILE_IND";
-        public static final String INACTIVATE_PREVIOUS_PER_DIEM_IND = "INACTIVATE_PREVIOUS_PER_DIEM_IND";
         public static final String BYPASS_STATE_OR_COUNTRY_CODES = "BYPASS_STATE_OR_COUNTRY_CODES";
     }
 
@@ -993,6 +992,39 @@ public class TemConstants {
             }
             return null;
         }
+    }
+
+    public enum ErrorTypeCode {
+
+        HARDSTOP("1"),
+        WARNING("2");
+        private String code;
+
+        ErrorTypeCode(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(this.toString().toLowerCase());
+        }
+        /**
+         * Lookup GroupTravelerType value based on code
+         * @param c the code to look up
+         * @return the GroupTravelerType, or null if the code does not match an existing traveler type
+         */
+        public static ErrorTypeCode forCode(String c) {
+            for (ErrorTypeCode errorType : ErrorTypeCode.values()) {
+                if (StringUtils.equals(errorType.getCode(), c)) {
+                    return errorType;
+                }
+            }
+            return null;
+        }
+
     }
 
     /**

@@ -327,7 +327,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         // find a valid per diem for each date.  If per diem is null, make it a custom per diem.
         for (final Timestamp eachTimestamp : dateRange(start, end)) {
-            PerDiem perDiem = getTravelDocumentDao().findPerDiem(document.getPrimaryDestinationId(), eachTimestamp, document.getEffectiveDateForPerDiem(eachTimestamp));
+            PerDiem perDiem = getPerDiemService().getPerDiem(document.getPrimaryDestinationId(), eachTimestamp, document.getEffectiveDateForPerDiem(eachTimestamp));
             if (perDiem == null || perDiem.getPrimaryDestinationId() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 perDiem = new PerDiem();
                 perDiem.setPrimaryDestination(new PrimaryDestination());

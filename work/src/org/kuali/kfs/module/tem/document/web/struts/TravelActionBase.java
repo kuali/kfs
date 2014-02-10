@@ -828,17 +828,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 if (expense.getPrimaryDestinationId() != TemConstants.CUSTOM_PRIMARY_DESTINATION_ID && expense.getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
                     perDiem = getPerDiemService().getPerDiem(expense.getPrimaryDestinationId(), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 } else {
-                  perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
+                    perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 }
 
                 // now copy info over to estimate
-                expense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
-                expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
-                expense.setCounty(perDiem.getPrimaryDestination().getCounty());
-                final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
-                getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
-                expense.setLodging(perDiem.getLodging());
+                if (perDiem != null) {
+                    expense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
+                    expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
+                    expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+                    expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+                    final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
+                    getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
+                    expense.setLodging(perDiem.getLodging());
+                }
                 return null;
             }
         }

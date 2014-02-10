@@ -16,8 +16,9 @@
 package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.cg.businessobject.Bill;
 
 /**
@@ -29,7 +30,7 @@ public interface BillDao {
      * @param
      * @return a {@link Collection} of appropriate {@link Milestone}.
      */
-    public Collection<Bill> getBillsByMatchingCriteria(Criteria criteria);
+    public Collection<Bill> getBillsByMatchingCriteria(List<Map<String, String>> fieldValuesList);
 
 
 }

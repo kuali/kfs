@@ -38,7 +38,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -351,7 +350,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 if (awardBillByInvoicingAccountInd) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
-                    if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2){
+                    if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2) {
                         try {
                             CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
                             contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
@@ -579,7 +578,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalCost = totalCost.add(invD.getExpenditures());
         }
         KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed
-                                                                                                                   // so far
+        // so far
         KualiDecimal accountAwardTotal = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAwardTotal(); // AwardTotal
 
         if (accountAwardTotal.subtract(billedTotalCost).isGreaterEqual(new KualiDecimal(0))) {
@@ -948,14 +947,47 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method retrieves all CG invoice document that match the given criteria
+     * This method retrieves all CG invoice document that match the given field values
      *
-     * @param criteria
+     * @param fieldValues
      * @return
      */
     @Override
-    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteria(Criteria criteria) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getInvoicesByCriteria(criteria);
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteria(Map fieldValues) {
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
+        if (CollectionUtils.isEmpty(cgInvoices)) {
+            return null;
+        }
+        return cgInvoices;
+    }
+
+    /**
+     * This method retrieves all CG invoice document that match the given field values
+     *
+     * @param fieldValues field values to use as criteria for the search
+     * @param outsideColAgencyCodeToExclude Outside collector Agency code to exclude
+     * @return a collection of invoices matching the given input
+     */
+    @Override
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude) {
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(fieldValues, outsideColAgencyCodeToExclude);
+        if (CollectionUtils.isEmpty(cgInvoices)) {
+            return null;
+        }
+        return cgInvoices;
+    }
+
+    /**
+     * This method retrieves all CG invoice document that match the given field values and the date range.
+     *
+     * @param fieldValues field values to match against
+     * @param beginningInvoiceBillingDate Beginning invoice billing date
+     * @param endingInvoiceBillingDate Ending invoice billing date
+     * @return a collection of CG Invoices that match the given parameters
+     */
+    @Override
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteriaAndBillingDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoiceBillingDate) {
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollectionAndDateRange(fieldValues, beginningInvoiceBillingDate, endingInvoiceBillingDate);
         if (CollectionUtils.isEmpty(cgInvoices)) {
             return null;
         }
@@ -972,13 +1004,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
-        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, true);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND + " of value " + locFund;
-        cgInvoices = contractsGrantsInvoiceDocumentDao.getInvoicesByCriteria(criteria);
+        cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
@@ -996,13 +1028,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
-        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, true);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;
-        cgInvoices = contractsGrantsInvoiceDocumentDao.getInvoicesByCriteria(criteria);
+        cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
@@ -1257,7 +1289,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE , objectTypeCodeList);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
@@ -1816,7 +1848,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
-        if (CollectionUtils.isNotEmpty(invoiceMilestones)){
+        if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
             this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
         }
     }
@@ -1836,8 +1868,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             LOG.error("problem during lgetMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId()", ex);
         }
         for (Milestone milestone : milestones) {
-            if(value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)){
-            milestone.setBilledIndicator(Boolean.TRUE);
+            if (value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)) {
+                milestone.setBilledIndicator(Boolean.TRUE);
             }else{
                 milestone.setBilledIndicator(Boolean.FALSE);
             }
@@ -1855,31 +1887,30 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             throw new Exception("(List<InvoiceBill> invoiceBills cannot be null");
         }
 
-        Criteria mainCriteria = new Criteria();
+        List<Map<String, String>> fieldValuesList = new ArrayList<Map<String, String>>();
+        Map<String, String> tempFieldValues;
 
         for (InvoiceBill invoiceBill : invoiceBills) {
-            Criteria billNumberCriteria = new Criteria();
-            Criteria billIdCriteria = new Criteria();
-            Criteria proposalNumberCriteria = new Criteria();
-            Criteria subCriteria = new Criteria();
+            tempFieldValues = new HashMap<String, String>();
 
-            billNumberCriteria.addEqualTo("billNumber", invoiceBill.getBillNumber());
-            billIdCriteria.addEqualTo("billIdentifier", invoiceBill.getBillIdentifier());
-            proposalNumberCriteria.addEqualTo("proposalNumber", invoiceBill.getProposalNumber());
+            if (ObjectUtils.isNotNull(invoiceBill.getBillNumber())) {
+                tempFieldValues.put("billNumber", invoiceBill.getBillNumber().toString());
+            }
 
-            subCriteria.addAndCriteria(billNumberCriteria);
-            subCriteria.addAndCriteria(billIdCriteria);
-            subCriteria.addAndCriteria(proposalNumberCriteria);
+            if (ObjectUtils.isNotNull(invoiceBill.getBillIdentifier())) {
+                tempFieldValues.put("billIdentifier", invoiceBill.getBillIdentifier().toString());
+            }
 
-            mainCriteria.addOrCriteria(subCriteria);
+            if (ObjectUtils.isNotNull(invoiceBill.getProposalNumber())) {
+                tempFieldValues.put("proposalNumber", invoiceBill.getProposalNumber().toString());
+            }
+
+            fieldValuesList.add(tempFieldValues);
         }
 
         // To get the bills with the criteria defined and set value to isItBilled.
-        contractsAndGrantsModuleUpdateService.setBillsisItBilled(mainCriteria, value);
+        contractsAndGrantsModuleUpdateService.setBillsisItBilled(fieldValuesList, value);
     }
-
-
-
 
 
     /**
@@ -2543,27 +2574,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments;
-        Criteria criteria = new Criteria();
+        Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
-            criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
         if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }
         if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
-            criteria.addEqualTo("documentNumber", invoiceDocumentNumber);
+            fieldValuesForInvoice.put("documentNumber", invoiceDocumentNumber);
         }
         if (ObjectUtils.isNotNull(awardTotal) && StringUtils.isNotBlank(awardTotal) && StringUtils.isNotEmpty(awardTotal)) {
-            criteria.addEqualTo("invoiceGeneralDetail.awardTotal", awardTotal);
+            fieldValuesForInvoice.put("invoiceGeneralDetail.awardTotal", awardTotal);
         }
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
-            criteria.addIn("accountDetails.accountNumber", Arrays.asList(new String[] { accountNumber }));
+            fieldValuesForInvoice.put("accountDetails.accountNumber", accountNumber);
         }
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
 
-        cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(criteria);
+        cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(fieldValuesForInvoice);
 
 
         // attach headers
@@ -2903,18 +2934,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber, String errorFileName) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        criteria.addIsNull(ArPropertyConstants.DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER);
-
-        Collection<String> invoiceNumbers = contractsGrantsInvoiceDocumentDao.getFinancialDocumentInErrorNumbers();
-        if (ObjectUtils.isNotNull(invoiceNumbers) && CollectionUtils.isNotEmpty(invoiceNumbers)) {
-            criteria.addNotIn(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumbers);
+        // Setting up proposal number and error correcting document for search
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        if (ObjectUtils.isNotNull(proposalNumber)) {
+            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber.toString());
         }
+        fieldValues.put(ArPropertyConstants.DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER, "NULL");
 
+        // Retrieving invoice numbers to exclude
+        Collection<String> invoiceNumbers = contractsGrantsInvoiceDocumentDao.getFinancialDocumentInErrorNumbers();
+
+        // Retrieving matching invoices
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        cgInvoices = contractsGrantsInvoiceDocumentDao.getInvoicesByCriteria(criteria);
-        String detail = "Proposal Number#" + proposalNumber;
+        cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues, invoiceNumbers);
+
         return cgInvoices;
     }
 
@@ -2964,29 +2997,26 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         String collectorPrincipalName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 
         Collection<ContractsGrantsInvoiceDocument> invoices;
-        Criteria criteria = new Criteria();
+        Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
-            criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())) {
-            criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_DETAILS_ACCOUNT_NUMBER, Arrays.asList(new String[] { accountNumber }));
+            fieldValuesForInvoice.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
         }
         if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
         }
         if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }
         if (ObjectUtils.isNotNull(customerName) && StringUtils.isNotBlank(customerName) && StringUtils.isNotEmpty(customerName)) {
-            criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNTS_RECEIVABLE_CUSTOMER_NAME, customerName);
+            fieldValuesForInvoice.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNTS_RECEIVABLE_CUSTOMER_NAME, customerName);
         }
 
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
-        Criteria referralNull = new Criteria();
-        Criteria referralOutside = new Criteria();
-        Criteria subCriteria = new Criteria();
 
         Map<String, String> refFieldValues = new HashMap<String, String>();
         refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, "true");
@@ -2994,15 +3024,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<ReferralType> refTypes = (List<ReferralType>) businessObjectService.findMatching(ReferralType.class, refFieldValues);
         String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;
 
-        referralNull.addIsNull(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TYPE);
-        referralOutside.addNotEqualTo(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TYPE, outsideColAgencyCode);
 
-        subCriteria.addOrCriteria(referralNull);
-        subCriteria.addOrCriteria(referralOutside);
-
-        criteria.addAndCriteria(subCriteria);
-
-        invoices = this.retrieveAllCGInvoicesByCriteria(criteria);
+        invoices = this.retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(fieldValuesForInvoice, outsideColAgencyCode);
 
         if ((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) || ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
             this.filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
@@ -3778,7 +3801,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
-      bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+        bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
 
 
         if (ObjectUtils.isNotNull(award)) {
@@ -4499,7 +4522,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return retval;
     }
 
-    private void addNoteForInvoiceReportFail(ContractsGrantsInvoiceDocument document){
+    private void addNoteForInvoiceReportFail(ContractsGrantsInvoiceDocument document) {
         Note note = new Note();
         note.setNotePostedTimestampToCurrent();
         note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE));

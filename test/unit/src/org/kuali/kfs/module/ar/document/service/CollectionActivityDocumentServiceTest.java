@@ -21,11 +21,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
@@ -161,9 +162,9 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
      * Tests the retrieveEventsByCriteria() method of service.
      */
     public void testRetrieveEventsByCriteria() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("invoiceNumber", INVOICE_NUMBER);
-        Collection<Event> events = collectionActivityDocumentService.retrieveEventsByCriteria(criteria);
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("invoiceNumber", INVOICE_NUMBER);
+        Collection<Event> events = collectionActivityDocumentService.retrieveEvents(fieldValues,false,null);
         assertNotNull(events);
         for (Event event : events) {
             assertEquals(INVOICE_NUMBER, event.getInvoiceNumber());

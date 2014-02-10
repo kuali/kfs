@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -77,7 +77,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     }
 
     @Override
-    public void setBillsisItBilled(Criteria criteria, String value) {
+    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
         // TODO Auto-generated method stub
 
     }

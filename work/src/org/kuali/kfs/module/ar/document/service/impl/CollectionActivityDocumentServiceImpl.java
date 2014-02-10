@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -200,8 +199,8 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
      */
     @Override
-    public Collection<Event> retrieveEventsByCriteria(Criteria criteria) {
-        return eventDao.getEventsByCriteria(criteria);
+    public Collection<Event> retrieveEvents(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude) {
+        return eventDao.getMatchingEventsByCollection(fieldValues, isSavedRouteStatus, documentNumberToExclude);
     }
 
     /**
@@ -225,12 +224,10 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
         boolean resultInd = true;
-        Criteria criteria = new Criteria();
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
 
-        criteria.addEqualTo(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
-        criteria.addEqualTo(ArPropertyConstants.EventFields.EVENT_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        criteria.addNotEqualTo(ArPropertyConstants.EventFields.DOCUMENT_NUMBER, documentNumber);
-        List<Event> events = (List<Event>) this.retrieveEventsByCriteria(criteria);
+        List<Event> events = (List<Event>) this.retrieveEvents(fieldValues, true, documentNumber);
         if (CollectionUtils.isNotEmpty(events)) {
             resultInd = false;
         }

@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -180,56 +179,47 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
         java.sql.Date invoiceFromDate = null;
         java.sql.Date invoiceToDate = null;
 
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
 
         if (ObjectUtils.isNotNull(processingOrgCode) && StringUtils.isNotEmpty(processingOrgCode)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
         }
 
         if (ObjectUtils.isNotNull(processingChartCode) && StringUtils.isNotEmpty(processingChartCode)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, processingChartCode);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, processingChartCode);
         }
 
         if (ObjectUtils.isNotNull(orgCode) && StringUtils.isNotEmpty(orgCode)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, orgCode);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, orgCode);
         }
 
         if (ObjectUtils.isNotNull(chartCode) && StringUtils.isNotEmpty(chartCode)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartCode);
-        }
-
-        criteria.addNotNull(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
-
-        if (ObjectUtils.isNotNull(begin)) {
-            criteria.addGreaterOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, begin);
-        }
-        if (ObjectUtils.isNotNull(end)) {
-            criteria.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, end);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartCode);
         }
 
         if (StringUtils.isNotEmpty(customerNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }
         if (StringUtils.isNotEmpty(customerName)) {
-            criteria.addEqualTo(ArPropertyConstants.CUSTOMER_NAME, customerName);
+            fieldValuesForInvoice.put(ArPropertyConstants.CUSTOMER_NAME, customerName);
         }
         if (StringUtils.isNotEmpty(proposalNumber)) {
-            criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
         if (StringUtils.isNotEmpty(markedAsFinal)) {
             if (markedAsFinal.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
-                criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, true);
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, "true");
             }
             else if (markedAsFinal.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
-                criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, false);
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_FINAL_BILL, "false");
             }
         }
         if (StringUtils.isNotEmpty(invoiceNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
         }
         if (StringUtils.isNotEmpty(responsibilityId)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CG_ACCT_RESP_ID, responsibilityId);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CG_ACCT_RESP_ID, responsibilityId);
         }
 
 
@@ -247,7 +237,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
         // here put all criterias and find the docs
         Map<String, ContractsGrantsInvoiceDocument> documents = new HashMap<String, ContractsGrantsInvoiceDocument>();
-        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
+        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteriaAndBillingDateRange(fieldValuesForInvoice, begin, end);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
         // Filter "CINV" docs and remove "INV" docs.

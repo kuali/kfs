@@ -25,7 +25,6 @@ import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
@@ -83,31 +82,30 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         Collection<TicklersReport> displayList = new ArrayList<TicklersReport>();
 
         CollectionActivityDocumentService colActDocService = SpringContext.getBean(CollectionActivityDocumentService.class);
-        Criteria criteria = new Criteria();
+        Map<String,String> fieldValues = new HashMap<String,String>();
 
         String principalId = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COLLECTOR);
         String collectorPrincName = (String) lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 
         String lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE);
         if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            criteria.addEqualTo(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, lookupFieldValue);
+            fieldValues.put(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, lookupFieldValue);
         }
 
         lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER);
         if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            criteria.addEqualTo(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, lookupFieldValue);
+            fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, lookupFieldValue);
         }
 
         lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COMPLETED);
         if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            criteria.addEqualTo(ArPropertyConstants.EventFields.COMPLETED, lookupFieldValue);
+            fieldValues.put(ArPropertyConstants.EventFields.COMPLETED, lookupFieldValue);
         }
 
-        criteria.addEqualTo(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
-        criteria.addEqualTo(ArPropertyConstants.EventFields.FOLLOW_UP_IND, Boolean.TRUE);
-        criteria.addNotEqualTo(ArPropertyConstants.EventFields.EVENT_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
+        fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
+        fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP_IND, "true");
 
-        Collection<Event> events = colActDocService.retrieveEventsByCriteria(criteria);
+        Collection<Event> events = colActDocService.retrieveEvents(fieldValues,false,null);
 
         lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 

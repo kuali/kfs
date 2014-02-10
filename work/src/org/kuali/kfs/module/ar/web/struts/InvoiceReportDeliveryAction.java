@@ -24,7 +24,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
@@ -36,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -266,23 +267,23 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         }
         String user = form.getUserId();
         ContractsGrantsInvoiceDocumentService invoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        Criteria criteria = new Criteria();
+        Map<String,String> fieldValues = new HashMap<String,String>();
         if (StringUtils.isNotEmpty(form.getProposalNumber())) {
-            criteria.addEqualTo("proposalNumber", form.getProposalNumber());
+            fieldValues.put("proposalNumber", form.getProposalNumber());
         }
         if (StringUtils.isNotEmpty(form.getDocumentNumber())) {
-            criteria.addEqualTo("documentNumber", form.getDocumentNumber());
+            fieldValues.put("documentNumber", form.getDocumentNumber());
         }
         if (ObjectUtils.isNotNull(form.getInvoiceAmount())) {
-            criteria.addEqualTo("documentHeader.financialDocumentTotalAmount", new KualiDecimal(form.getInvoiceAmount()));
+            fieldValues.put("documentHeader.financialDocumentTotalAmount", form.getInvoiceAmount());
         }
         if (StringUtils.isNotEmpty(form.getChartCode())) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, form.getChartCode());
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, form.getChartCode());
         }
         if (StringUtils.isNotEmpty(form.getOrgCode())) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, form.getOrgCode());
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, form.getOrgCode());
         }
-        Collection<ContractsGrantsInvoiceDocument> list = invoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
+        Collection<ContractsGrantsInvoiceDocument> list = invoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
         Collection<ContractsGrantsInvoiceDocument> finalList = new ArrayList<ContractsGrantsInvoiceDocument>();
         if (CollectionUtils.isEmpty(list)) {
             return null;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -36,8 +35,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class ObjectLevelServiceImpl implements ObjectLevelService {
 
     private ObjectLevelDao objectLevelDao;
-    
-    
+
+
     public ObjectLevelDao getObjectLevelDao() {
         return objectLevelDao;
     }
@@ -49,23 +48,24 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
      */
+    @Override
     public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevelCode);
-        return (ObjectLevel)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
     }
 
+    @Override
     public List<ObjectLevel> getObjectLevelsByConsolidationsIds(List<String> consolidationIds) {
-        Criteria criteria = new Criteria();
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE,consolidationIds);
-        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByCriteria(criteria);
+
+        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByConsolidationIds(consolidationIds);
     }
 
+    @Override
     public List<ObjectLevel> getObjectLevelsByLevelIds(List<String> levelCodes) {
-        Criteria criteria = new Criteria();
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,levelCodes);
-        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByCriteria(criteria);
+
+        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByLevelIds(levelCodes);
     }
 
 }

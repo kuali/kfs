@@ -31,7 +31,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
@@ -345,9 +344,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     protected KualiDecimal getCashReceipts(ContractsAndGrantsBillingAward award) {
     	KualiDecimal cashReceipt = KualiDecimal.ZERO;
-    	Criteria key = new Criteria();
-        key.addEqualTo("proposalNumber", award.getProposalNumber());
-        List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).retrieveAllCGInvoicesByCriteria(key);
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(award.getProposalNumber())){
+            fieldValues.put("proposalNumber", award.getProposalNumber().toString());
+        }
+        List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).retrieveAllCGInvoicesByCriteria(fieldValues);
         for(ContractsGrantsInvoiceDocument invoice: list){
             Map primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());

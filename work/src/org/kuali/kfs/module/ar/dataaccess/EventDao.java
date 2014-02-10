@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.ar.businessobject.Event;
 
 /**
@@ -26,11 +28,16 @@ import org.kuali.kfs.module.ar.businessobject.Event;
 public interface EventDao {
 
     /**
-     * Gets the events based on given criteria.
-     * 
-     * @param criteria The criteria to filter out the events.
-     * @return Returns the collection of event which matches the given criteria.
+     * Gets the events based on the field values given in the map and the indicator
+     * for saved route status.
+     *
+     * @param fieldValues The map containing field values to filter out the events.
+     * @param savedRouteStatusOnly Indicator for returning events that are in saved route status only.
+     * @param documentNumberToExclude Document number that will be filtered out of the results.
+     *
+     * @return Returns the collection of events which match the given map and indicator.
      */
-    public Collection<Event> getEventsByCriteria(Criteria criteria);
+    public Collection<Event> getMatchingEventsByCollection(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude);
 
+    public Collection<ObjectCode> getObjectCodesByLevelCodes(List<String> levelCodes);
 }

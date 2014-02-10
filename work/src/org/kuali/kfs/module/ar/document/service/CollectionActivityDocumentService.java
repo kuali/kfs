@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
+import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
@@ -56,12 +56,15 @@ public interface CollectionActivityDocumentService {
     public void loadAwardInformationForCollectionActivityDocument(CollectionActivityDocument colActDoc);
 
     /**
-     * Retrieves the events based on the criteria.
+     * Retrieves the events based on the field values passed in. Results are furthered filtered
+     * by document number to exclude and saved route status only indicator.
      *
-     * @param criteria The criteria to filter out events.
+     * @param fieldValues The fieldValues to filter out events.
+     * @param savedRouteStatusOnly Indicator for returning events that are in saved route status only.
+     * @param documentNumberToExclude Document number that will be filtered out of the results.
      * @return Returns the collection of Event which match the criteria.
      */
-    public Collection<Event> retrieveEventsByCriteria(Criteria criteria);
+    public Collection<Event> retrieveEvents(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude);
 
     /**
      * Retrieves the award by given proposal number.

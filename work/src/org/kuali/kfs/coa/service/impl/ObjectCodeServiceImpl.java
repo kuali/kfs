@@ -23,9 +23,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -122,10 +120,10 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
         return getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
     }
-    
+
+    @Override
     public List<ObjectCode> getObjectCodesByLevelIds(List<String> levelCodes){
-        Criteria criteria = new Criteria();
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,levelCodes);
-        return (List<ObjectCode>) objectCodeDao.getObjectCodesByCriteria(criteria);
+
+        return (List<ObjectCode>) objectCodeDao.getObjectCodesByLevelCodes(levelCodes);
     }
 }

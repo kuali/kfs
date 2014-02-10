@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
@@ -185,8 +184,8 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
      */
     @Transactional
     @Override
-    public void setBillsisItBilled(Criteria criteria, String value) {
-        Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(criteria);
+    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
+        Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(fieldValuesList);
         for (Bill bill : bills) {
             if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
                 bill.setBilledIndicator(true);

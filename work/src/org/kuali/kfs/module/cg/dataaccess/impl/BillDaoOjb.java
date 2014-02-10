@@ -16,9 +16,12 @@
 package org.kuali.kfs.module.cg.dataaccess.impl;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.module.cg.dataaccess.BillDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -29,7 +32,13 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class BillDaoOjb extends PlatformAwareDaoBaseOjb implements BillDao {
 
     @Override
-    public Collection<Bill> getBillsByMatchingCriteria(Criteria criteria) {
+    public Collection<Bill> getBillsByMatchingCriteria(List<Map<String, String>> fieldValuesList) {
+        Criteria criteria = new Criteria();
+
+        for (Map<String,String> m : fieldValuesList){
+            criteria.addOrCriteria(OJBUtility.buildCriteriaFromMap(m, new Bill()));
+        }
+
         QueryByCriteria query = new QueryByCriteria(Bill.class, criteria);
         Collection<Bill> bills = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return bills;

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -186,12 +185,32 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByCustomerNumber(String customerNumber, String errorFileName);
 
     /**
-     * This method retrieves CG invoice documents that match the given criteria
+     * This method retrieves CG invoice documents that match the given field values
      *
-     * @param criteria
+     * @param fieldValues
      * @return
      */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteria(Criteria criteria);
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteria(Map fieldValues);
+
+    /**
+     * This method retrieves CG invoice documents that match the given field values and excludes
+     * the given outside collection agency code
+     *
+     * @param fieldValues
+     * @param outsideColAgencyCodeToExclude
+     * @return
+     */
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude);
+
+    /**
+     * This method retrieves CG invoice documents that match the given field values
+     *
+     * @param fieldValues field values to match
+     * @param beginningInvoiceBillingDate Beginning invoice billing date for range
+     * @param endingInvoicebillingDate Ending invoice billing date for range
+     * @return
+     */
+    public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteriaAndBillingDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoicebillingDate);
 
     /**
      * This method updates the Suspension Categories on the document

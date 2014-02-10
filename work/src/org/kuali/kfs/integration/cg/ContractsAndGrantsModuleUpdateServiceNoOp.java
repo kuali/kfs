@@ -16,10 +16,10 @@
 package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -56,7 +56,7 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
      *      java.util.List, java.lang.String)
      */
     @Override
-    public void setBillsisItBilled(Criteria criteria, String value) {
+    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
 
     }

@@ -21,13 +21,13 @@ import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -177,23 +177,21 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     @Transactional
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
+
+        Map<String,String> fieldValues = new HashMap<String,String>();
+
+        fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
         if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
-            criteria.addEqualTo(ArConstants.PROPOSAL_NUMBER, (new Long(locValue)));
+            fieldValues.put(ArConstants.PROPOSAL_NUMBER, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
-            criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
+            fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
-            criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
+            fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
         }
 
-        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
-        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
-
-        CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocumentByCriteria(criteria);
+        CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocument(fieldValues);
         if (ObjectUtils.isNotNull(cashControlDocument)) {
             // Now to check if there is a cash control detail with the same customer number. - just double checking.
             List<CashControlDetail> cashControlDetails = new ArrayList<CashControlDetail>();

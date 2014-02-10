@@ -18,13 +18,13 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
@@ -139,7 +139,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
         List<CollectionActivityReport> displayList = new ArrayList<CollectionActivityReport>();
 
         CollectionActivityDocumentService colActDocService = SpringContext.getBean(CollectionActivityDocumentService.class);
-        Criteria criteria = new Criteria();
+        Map<String,String> fieldValues = new HashMap<String,String>();
 
         String collectorPrincName = lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME).toString();
         String collector = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.COLLECTOR).toString();
@@ -149,22 +149,22 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
         String accountNumber = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER).toString();
 
         // Getting final docs
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotEmpty(proposalNumber)) {
-            criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
 
         if (ObjectUtils.isNotNull(invoiceNumber) && StringUtils.isNotEmpty(invoiceNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
         }
 
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
         }
 
         // Filter Invoice docs according to criteria.
-        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
+        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
         // Filter "CINV" docs and remove "INV" docs.

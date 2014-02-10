@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -196,7 +195,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
         List<ReferralToCollectionsReport> displayList = new ArrayList<ReferralToCollectionsReport>();
 
-        Criteria criteria = new Criteria();
+        Map<String,String> fieldValues = new HashMap<String,String>();
 
         String collectorPrincName = lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME).toString();
         String collector = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.COLLECTOR).toString();
@@ -206,7 +205,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         accountNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.ACCOUNT_NUMBER).toString();
 
         if (ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotEmpty(agencyNumber)) {
-            criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_NUMBER, agencyNumber);
+            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_NUMBER, agencyNumber);
         }
 
         considerProposalNumberInd = false;
@@ -214,25 +213,25 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         considerAccountNumberInd = false;
 
         // considering final docs
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotEmpty(proposalNumber.trim())) {
             considerProposalNumberInd = true;
-            criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.PROPOSAL_NUMBER, proposalNumber);
+            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
         if (ObjectUtils.isNotNull(invoiceNumber) && StringUtils.isNotEmpty(invoiceNumber.trim())) {
             considerinvoiceNumberInd = true;
-            criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_NUMBER, invoiceNumber);
+            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_NUMBER, invoiceNumber);
         }
 
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber.trim())) {
             considerAccountNumberInd = true;
-            criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_NUMBER, accountNumber);
+            fieldValues.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_NUMBER, accountNumber);
         }
 
         // filter by criteria
-        Collection<ReferralToCollectionsDocument> referralToCollectionsDocs = referralToCollectionsDao.getRefToCollDocsByCriteria(criteria);
+        Collection<ReferralToCollectionsDocument> referralToCollectionsDocs = referralToCollectionsDao.getRefToCollDocs(fieldValues);
         referralToCollectionsDocs = this.populateWorkflowHeaders(referralToCollectionsDocs);
 
         // filter by collector

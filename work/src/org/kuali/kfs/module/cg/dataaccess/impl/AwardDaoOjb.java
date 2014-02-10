@@ -61,15 +61,6 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
-     */
-    @Override
-    public Collection<Award> getActiveAwardsByCriteria(Criteria criteria) {
-
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
-    }
-
-    /**
      * Retrieve all the accounts assigned to an award
      *
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAccountsOfAward(org.kuali.kfs.module.cg.businessobject.Award)

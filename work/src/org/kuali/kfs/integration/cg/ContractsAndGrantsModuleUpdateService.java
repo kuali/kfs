@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -88,7 +88,7 @@ public interface ContractsAndGrantsModuleUpdateService {
      *
      * @param criteria
      */
-    public void setBillsisItBilled(Criteria criteria, String value);
+    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value);
 
     /**
      * This method sets final billed and last billed date to Award Account.

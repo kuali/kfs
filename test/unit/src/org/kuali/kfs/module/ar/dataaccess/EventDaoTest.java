@@ -50,7 +50,7 @@ public class EventDaoTest extends KualiTestBase {
     /**
      * This method tests the method getEventsByCriteria() of EventDao class.
      */
-    public void testGetEventsByCriteria() {
+    public void testGetMatchingEventsByCollection() {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, INVOICE_NUMBER);
         List<Event> events = new ArrayList<Event>(eventDao.getMatchingEventsByCollection(fieldValues, true, null));

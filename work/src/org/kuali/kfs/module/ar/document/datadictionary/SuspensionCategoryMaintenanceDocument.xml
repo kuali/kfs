@@ -34,6 +34,7 @@
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes"
 			ref="SuspensionCategoryMaintenanceDocument-workflowAttributes" />
+		<property name="allowsNewOrCopy" value="false" />	
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

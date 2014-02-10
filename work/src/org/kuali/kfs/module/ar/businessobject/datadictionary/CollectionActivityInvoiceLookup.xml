@@ -15,7 +15,7 @@
 
 	<bean id="CollectionActivityInvoiceLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup" />
-		<property name="objectLabel" value="Contracts Grants Invoice On Demand Lookup Result" />
+		<property name="objectLabel" value="Contracts Grants Invoice Lookup Result" />
 		<property name="lookupDefinition">
 			<ref bean="CollectionActivityInvoiceLookup-lookupDefinition" />
 		</property>

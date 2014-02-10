@@ -28,8 +28,8 @@
 					title="Collection Activity"
 					url="arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=COLA" /></li>
 					<li><portal:portalLink displayTitle="true"
-					title="Contracts Grants Invoice On Demand"
-					url="arContractsGrantsInvoiceOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
+					title="Contracts Grants Invoice"
+					url="arContractsGrantsInvoiceLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true"
 					title="Contracts Grants LOC Review"
 					url="arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=LCR" /></li>			
@@ -46,8 +46,8 @@
 					title="Customer Invoice Writeoff Lookup"
 					url="arCustomerInvoiceWriteoffLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Dunning Letter Distribution On Demand"
-					url="arDunningLetterDistributionOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
+					title="Dunning Letter Distribution"
+					url="arDunningLetterDistributionLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
 			<li><portal:portalLink displayTitle="true"
 					title="Final Invoice Reversal"
 					url="arFinalInvoiceReversalDocument.do?methodToCall=docHandler&command=initiate&docTypeName=FIR" /></li>

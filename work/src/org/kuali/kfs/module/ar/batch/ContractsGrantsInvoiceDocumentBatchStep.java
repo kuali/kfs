@@ -42,8 +42,8 @@ public class ContractsGrantsInvoiceDocumentBatchStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-        String errOutputFile1 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-        String errOutputFile2 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+        String errOutputFile1 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_BATCH_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+        String errOutputFile2 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_BATCH_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
         Collection<ContractsAndGrantsBillingAward> awards = cgInvoiceDocumentCreateService.retrieveAwards();
 
         Collection<ContractsAndGrantsBillingAward> validAwards = cgInvoiceDocumentCreateService.validateAwards(awards, errOutputFile1);

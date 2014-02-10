@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="DunningLetterDistributionLookupResult" parent="DunningLetterDistributionLookupResult-parentBean" />
+
+	<bean id="DunningLetterDistributionLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult" />
+		<property name="objectLabel" value="Dunning Letter Distribution Lookup Result" />
+		<property name="lookupDefinition">
+			<ref bean="DunningLetterDistributionLookupResult-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="DunningLetterDistributionLookupResult-billingChartCode" />
+				<ref bean="DunningLetterDistributionLookupResult-billingOrganizationCode" />
+				<ref bean="DunningLetterDistributionLookupResult-processingChartCode" />
+				<ref bean="DunningLetterDistributionLookupResult-processingOrganizationCode" />
+				<ref bean="DunningLetterDistributionLookupResult-principalId" />
+ 				<ref bean="DunningLetterDistributionLookupResult-collector.principalName" />
+				<ref bean="DunningLetterDistributionLookupResult-proposalNumber" />
+				<ref bean="DunningLetterDistributionLookupResult-accountNumber" />
+				<ref bean="DunningLetterDistributionLookupResult-agencyNumber" />
+				<ref bean="DunningLetterDistributionLookupResult-customerNumber" />
+				<ref bean="DunningLetterDistributionLookupResult-campaignID" />
+				<ref bean="DunningLetterDistributionLookupResult-agingBucket" />
+				<ref bean="DunningLetterDistributionLookupResult-awardTotal" />
+				<ref bean="DunningLetterDistributionLookupResult-invoiceDocumentNumber" />
+			</list>
+		</property>
+				<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="collector"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+		            </list>
+		          </property>
+		          <property name="supportAttributes">
+		            <list>
+		              <bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName" p:targetName="principalName"/>
+		              <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode" p:targetName="lookupRoleNamespaceCode"/>
+		              <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName" p:targetName="lookupRoleName"/>                    
+		            </list>
+		          </property>
+		        </bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="award">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="billingChart"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingChartCode" p:targetName="chartOfAccountsCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="billingOrganization"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingOrganizationCode" p:targetName="organizationCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="processingChart"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingChartCode" p:targetName="chartOfAccountsCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="processingOrganization"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingOrganizationCode" p:targetName="organizationCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean
+		id="DunningLetterDistributionLookupResult-billingChartCode"
+		parent="DunningLetterDistributionLookupResult-billingChartCode-parentBean" />
+	<bean
+		id="DunningLetterDistributionLookupResult-billingChartCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billingChartCode" />
+		<property name="label" value="Billing Chart Code" />
+	</bean>
+
+	<bean id="DunningLetterDistributionLookupResult-billingOrganizationCode" parent="DunningLetterDistributionLookupResult-billingOrganizationCode-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-billingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="billingOrganizationCode" />
+		<property name="label" value="Billing Organization Code" />
+	</bean>
+
+	<bean
+		id="DunningLetterDistributionLookupResult-processingChartCode"
+		parent="DunningLetterDistributionLookupResult-processingChartCode-parentBean" />
+	<bean
+		id="DunningLetterDistributionLookupResult-processingChartCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="processingChartCode" />
+		<property name="label" value="Processing Chart Code" />
+	</bean>
+
+	<bean id="DunningLetterDistributionLookupResult-processingOrganizationCode" parent="DunningLetterDistributionLookupResult-processingOrganizationCode-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-processingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="processingOrganizationCode" />
+		<property name="label" value="Processing Organization Code" />
+	</bean>
+
+  <bean id="DunningLetterDistributionLookupResult-collector.principalName" parent="DunningLetterDistributionLookupResult-collector.principalName-parentBean"/>
+
+  <bean id="DunningLetterDistributionLookupResult-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="collector.principalName"/>
+    <property name="label" value="Collector"/>
+    <property name="required" value="false"/>
+    <property name="maxLength" value="40"/>
+  </bean>
+
+  <bean id="DunningLetterDistributionLookupResult-principalId" parent="DunningLetterDistributionLookupResult-principalId-parentBean"/>
+
+  <bean id="DunningLetterDistributionLookupResult-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Collector"/>
+    <property name="shortLabel" value="Collector"/>
+    <property name="maxLength" value="40"/>
+     <property name="control">
+       <ref bean="HiddenControl" />
+     </property>
+  </bean>
+
+	<bean id="DunningLetterDistributionLookupResult-proposalNumber" parent="DunningLetterDistributionLookupResult-proposalNumber-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber" />
+		<property name="label" value="Proposal Number" />
+	</bean>
+	
+	<bean id="DunningLetterDistributionLookupResult-accountNumber" parent="DunningLetterDistributionLookupResult-accountNumber-parentBean" />
+
+	<bean id="DunningLetterDistributionLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+
+	<bean id="DunningLetterDistributionLookupResult-agencyNumber" parent="DunningLetterDistributionLookupResult-agencyNumber-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-agencyNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
+		<property name="name" value="agencyNumber" />
+		<property name="label" value="Agency Number" />
+	</bean>
+	
+	<bean id="DunningLetterDistributionLookupResult-invoiceDocumentNumber" parent="DunningLetterDistributionLookupResult-invoiceDocumentNumber-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-invoiceDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" >
+	<property name="name" value="invoiceDocumentNumber" />
+	<property name="label" value="Invoice Document Number" />
+	</bean>
+
+
+	<bean id="DunningLetterDistributionLookupResult-customerNumber" parent="DunningLetterDistributionLookupResult-customerNumber-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber" />
+
+	
+	<bean id="DunningLetterDistributionLookupResult-campaignID" parent="DunningLetterDistributionLookupResult-campaignID-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-campaignID-parentBean" abstract="true" parent="DunningCampaign-campaignID" />
+	
+
+	<bean id="DunningLetterDistributionLookupResult-awardTotal" parent="DunningLetterDistributionLookupResult-awardTotal-parentBean" />
+	<bean id="DunningLetterDistributionLookupResult-awardTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="awardTotal" />
+		<property name="label" value="Award Total Amount" />
+		<property name="shortLabel" value="Total" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+	</bean>
+
+		<bean id="DunningLetterDistributionLookupResult-agingBucket" parent="DunningLetterDistributionLookupResult-agingBucket-parentBean" />
+
+	<bean id="DunningLetterDistributionLookupResult-agingBucket-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agingBucket" />
+		<property name="label" value="Aging Bucket" />
+		<property name="maxLength" value="40"/>
+		<property name="shortLabel" value="agingBucket" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.DaysPastDueValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="DunningLetterDistributionLookupResult-lookupDefinition" parent="DunningLetterDistributionLookupResult-lookupDefinition-parentBean" />
+
+	<bean id="DunningLetterDistributionLookupResult-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Dunning Letter Distribution Lookup" />
+		<property name="lookupableID" value="dunningLetterDistributionLookupResultLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>agencyNumber</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<property name="lookupFields">
+			<list>		
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="billingChartCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="billingOrganizationCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="processingChartCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="processingOrganizationCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="collector.principalName" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="principalId" />		
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="agencyNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="awardTotal" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="campaignID" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="agingBucket" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="invoiceDocumentNumber" />		
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="agencyNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="awardTotal" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="campaignID" />								
+			</list>
+		</property>
+	</bean>
+</beans>

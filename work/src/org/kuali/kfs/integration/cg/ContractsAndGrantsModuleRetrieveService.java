@@ -27,7 +27,7 @@ public interface ContractsAndGrantsModuleRetrieveService {
 
 
     /**
-     * This method would return list of business object - in this case Awards for CG Invoice On Demand functionality in AR.
+     * This method would return list of business object - in this case Awards for CG Invoice functionality in AR.
      *
      * @param fieldValues
      * @param unbounded

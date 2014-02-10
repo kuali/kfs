@@ -382,26 +382,26 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceOnDemandLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl"
+	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"
 		scope="prototype">
 	</bean>
 
-	<bean id="contractsGrantsInvoiceOnDemandLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="contractsGrantsInvoiceLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="contractsGrantsInvoiceOnDemandLookupableHelperService" />
+			<ref bean="contractsGrantsInvoiceLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionOnDemandLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionOnDemandLookupableHelperServiceImpl"
+	<bean id="dunningLetterDistributionLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupableHelperServiceImpl"
 		scope="prototype">
 				<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="dunningLetterDistributionOnDemandLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="dunningLetterDistributionLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="dunningLetterDistributionOnDemandLookupableHelperService" />
+			<ref bean="dunningLetterDistributionLookupableHelperService" />
 		</property>
 	</bean>
 
@@ -2267,8 +2267,8 @@
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionOnDemandService" parent="dunningLetterDistributionOnDemandService-parentBean" />
-	<bean id="dunningLetterDistributionOnDemandService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionOnDemandServiceImpl" abstract="true">
+	<bean id="dunningLetterDistributionService" parent="dunningLetterDistributionService-parentBean" />
+	<bean id="dunningLetterDistributionService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

@@ -137,20 +137,20 @@
 		<form-bean name="ContractsGrantsMilestoneReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsMilestoneReportLookupForm" />
 
-		<form-bean name="ContractsGrantsInvoiceOnDemandLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceOnDemandLookupForm" />
+		<form-bean name="ContractsGrantsInvoiceLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceLookupForm" />
 
-		<form-bean name="ContractsGrantsInvoiceOnDemandSummaryForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceOnDemandSummaryForm" />
+		<form-bean name="ContractsGrantsInvoiceSummaryForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSummaryForm" />
 
 		<form-bean name="CollectionActivityInvoiceLookupForm"
  			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityInvoiceLookupForm" />
  						
-		<form-bean name="DunningLetterDistributionOnDemandLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandLookupForm" />
+		<form-bean name="DunningLetterDistributionLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm" />
 
-		<form-bean name="DunningLetterDistributionOnDemandSummaryForm"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandSummaryForm" />
+		<form-bean name="DunningLetterDistributionSummaryForm"
+			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionSummaryForm" />
 
  		<form-bean name="ReferralToCollectionsLookupForm"
  			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupForm" />
@@ -582,36 +582,36 @@
 			<forward name="basic" path="/jsp/module/ar/InvoiceReportDelivery.jsp" />
 		</action>
 
-		<action path="/arContractsGrantsInvoiceOnDemandSummary" name="ContractsGrantsInvoiceOnDemandSummaryForm"
+		<action path="/arContractsGrantsInvoiceSummary" name="ContractsGrantsInvoiceSummaryForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction">
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSummaryAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/ContractsGrantsInvoiceOnDemandSummary.jsp" />
+				path="/jsp/module/ar/ContractsGrantsInvoiceSummary.jsp" />
 		</action>
 
-		<action path="/arContractsGrantsInvoiceOnDemandLookup" name="ContractsGrantsInvoiceOnDemandLookupForm"
+		<action path="/arContractsGrantsInvoiceLookup" name="ContractsGrantsInvoiceLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceOnDemandLookupAction">
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceLookupAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/ContractsGrantsInvoiceOnDemandLookup.jsp" />
+				path="/jsp/module/ar/ContractsGrantsInvoiceLookup.jsp" />
 		</action>
 		
-		<action path="/arDunningLetterDistributionOnDemandSummary" name="DunningLetterDistributionOnDemandSummaryForm"
+		<action path="/arDunningLetterDistributionSummary" name="DunningLetterDistributionSummaryForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandSummaryAction">
+			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionSummaryAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/DunningLetterDistributionOnDemandSummary.jsp" />
+				path="/jsp/module/ar/DunningLetterDistributionSummary.jsp" />
 		</action>
 
-		<action path="/arDunningLetterDistributionOnDemandLookup" name="DunningLetterDistributionOnDemandLookupForm"
+		<action path="/arDunningLetterDistributionLookup" name="DunningLetterDistributionLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandLookupAction">
+			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/DunningLetterDistributionOnDemandLookup.jsp" />
+				path="/jsp/module/ar/DunningLetterDistributionLookup.jsp" />
 		</action>
 
 		<action path="/arReferralToCollectionsLookup" name="ReferralToCollectionsLookupForm"

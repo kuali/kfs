@@ -252,7 +252,7 @@ public class ArKeyConstants {
 
     // Contracts Grants Invoice constants and errors
     public static class ContractsGrantsInvoiceConstants {
-        public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoiceOnDemand.batchSent";
+        public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoice.batchSent";
         public static final String WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.less.than.eligible.for.billing";
         public static final String WARNING_PRORATE_VALUE_IS_MORE_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.more.than.eligible.for.billing";
         public static final String ERROR_NO_AWARDS_RETRIEVED = "error.document.no.awards.retrieved";
@@ -280,7 +280,7 @@ public class ArKeyConstants {
     }
 
     public static class DunningCampaignConstantsAndErrors {
-        public static final String MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT = "message.document.dunningCampaignOnDemand.batchNotSent";
+        public static final String MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT = "message.document.dunningCampaign.batchNotSent";
 
     }
 

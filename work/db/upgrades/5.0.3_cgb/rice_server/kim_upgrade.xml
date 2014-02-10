@@ -159,8 +159,7 @@
 		</insert>
 	</changeSet>
 	
-	<!-- To insert values in Permissions to make the Invoice On Demand process 
-		acessible to the user. -->
+	<!-- To insert values in Permissions to make the Invoice process accessible to the user. -->
 
 	<changeSet author="kfs" id="KRIM_PERM_T_ADD">
 
@@ -175,17 +174,6 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 
-		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="1111" />
-			<column name="PERM_TMPL_ID" value="29" />
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Use Screen CG Invoice On Demand" />
-			<column name="DESC_TXT"
-				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process" />
-			<column name="OBJ_ID" value="KFSCG02" />
-			<column name="VER_NBR" value="1" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
 	</changeSet>
 
 	<!-- Adding the permissions detail attributes -->
@@ -201,16 +189,6 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 
-		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCG02" />
-			<column name="PERM_ID" value="1111" />
-			<column name="KIM_TYP_ID" value="12" />
-			<column name="KIM_ATTR_DEFN_ID" value="2" />
-			<column name="ATTR_VAL"
-				value="org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction" />
-			<column name="OBJ_ID" value="KFSCG02" />
-			<column name="VER_NBR" value="1" />
-		</insert>
 	</changeSet>
 
 	<!-- Adding the permissions to the role for khuntley - default test user -->
@@ -221,14 +199,6 @@
 			<column name="ROLE_ID" value="38" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" value="KFSCG01" />
-			<column name="VER_NBR" value="1" />
-		</insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG02" />
-			<column name="PERM_ID" value="1111" />
-			<column name="ROLE_ID" value="38" />
-			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" value="KFSCG02" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 	</changeSet>
@@ -392,14 +362,6 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCG09" />
-			<column name="PERM_ID" value="1111" />
-			<column name="ROLE_ID" value="62" />
-			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" value="KFSCG09" />
-			<column name="VER_NBR" value="1" />
-		</insert>
 	</changeSet>
 
 	<changeSet author="kfs" id="ADD_FUND_MANAGER_RSP_ATTR_DATA">

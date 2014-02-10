@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,10 +29,10 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * Action class for Referral To Document Summary.
@@ -40,9 +40,9 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 public class ReferralToCollectionsSummaryAction extends KualiAction {
 
     /**
-     * 1. This method passes the control from Contracts Grants Invoice On Demand lookup to the Contracts Grants Invoice On Demand
+     * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice
      * Summary page. 2. Retrieves the list of selected awards by agency for creating invoices.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -66,7 +66,7 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
     /**
      * This method would create invoices for the list of awards. It calls the batch process to reuse the functionality to create the
      * invoices.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -93,7 +93,7 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
 
     /**
      * To cancel the document, invoices are not created when the cancel method is called.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

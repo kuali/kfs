@@ -90,6 +90,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
      *
      * @see org.kuali.core.lookup.LookupableHelperService#validateSearchParameters(java.util.Map)
      */
+    @Override
     public void validateSearchParameters(Map fieldValues) {
         List<String> lookupFieldAttributeList = null;
         if (getBusinessObjectMetaDataService().isLookupable(getBusinessObjectClass())) {
@@ -166,7 +167,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
                     }
                 }
 
-                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
+                ResultRow subResultRow = new ResultRow(subResultColumns, "", "");
                 subResultRow.setObjectId(((PersistableBusinessObjectBase) invoice).getObjectId());
                 subResultRows.add(subResultRow);
             }
@@ -294,7 +295,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
     }
 
     /**
-     * overriding this method to convert the list of awards to a list of ContratcsGrantsInvoiceOnDemandLookupResult
+     * overriding this method to convert the list of awards to a list of ContratcsGrantsInvoiceLookupResult
      *
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
@@ -317,7 +318,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // Sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));

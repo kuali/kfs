@@ -28,7 +28,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
+import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
@@ -439,12 +439,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
 
 
     /**
-     * To retrieve invoices matching the dunning letter on demand lookup values.
+     * To retrieve invoices matching the dunning letter distribution lookup values.
      *
      * @param fieldValues
-     * @return collection of DunningLetterDistributionOnDemandLookupResult
+     * @return collection of DunningLetterDistributionLookupResult
      */
-    public Collection<DunningLetterDistributionOnDemandLookupResult> getInvoiceDocumentsForDunningLetterOnDemandLookup(Map<String, String> fieldValues);
+    public Collection<DunningLetterDistributionLookupResult> getInvoiceDocumentsForDunningLetterLookup(Map<String, String> fieldValues);
 
     /**
      * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.

@@ -274,10 +274,10 @@ public class ArConstants{
 
         static final public String EXTENSION = ".log";
 
-        static final public String CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE = "cgin_batch_validation_err";
-        static final public String CGINVOICE_CREATION_ERROR_OUTPUT_FILE = "cgin_batch_create_doc_err";
-        static final public String ONDEMAND_VALIDATION_ERROR_OUTPUT_FILE = "cgin_onDemand_validation_err";
-        static final public String ONDEMAND_CREATION_ERROR_OUTPUT_FILE = "cgin_onDemand_create_doc_err";
+        static final public String CGINVOICE_BATCH_VALIDATION_ERROR_OUTPUT_FILE = "cgin_batch_validation_err";
+        static final public String CGINVOICE_BATCH_CREATION_ERROR_OUTPUT_FILE = "cgin_batch_create_doc_err";
+        static final public String CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE = "cgin_validation_err";
+        static final public String CGINVOICE_CREATION_ERROR_OUTPUT_FILE = "cgin_create_doc_err";
         static final public String LOC_REVIEW_VALIDATION_ERROR_OUTPUT_FILE = "cgin_locReview_validation_err";
         static final public String LOC_REVIEW_CREATION_ERROR_OUTPUT_FILE = "cgin_locReview_create_doc_err";
 

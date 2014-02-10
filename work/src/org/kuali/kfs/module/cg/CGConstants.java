@@ -149,6 +149,7 @@ public class CGConstants{
 
     public static class SectionId {
         public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
+        public static final String AGENCY_CUSTOMER_SECTION_ID = "Customer";
     }
 
     public static class ReportsConstants {

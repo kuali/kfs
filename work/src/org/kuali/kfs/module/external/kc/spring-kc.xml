@@ -42,6 +42,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.external.kc.businessobject.AgencyAddress"/>

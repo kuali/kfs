@@ -105,15 +105,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         // try pulling the transpo modes from the form or the request
         String[] transpoModes = request.getParameterValues("selectedTransportationModes");
+
+        final ActionForward retval = super.execute(mapping, form, request, response);
+        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
         if (transpoModes != null) {
             authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }
         else {
             authForm.setSelectedTransportationModes(authForm.getTravelAuthorizationDocument().getTransportationModeCodes());
         }
-
-        final ActionForward retval = super.execute(mapping, form, request, response);
-        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
         refreshTransportationModesAfterButtonAction(travelAuthDocument, authForm);
 
         // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to

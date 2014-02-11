@@ -119,7 +119,7 @@ cat <<-EOF
 	post.import.workflow.ingester.jdbc.url.property=datasource.url
 	post.import.workflow.ingester.username.property=datasource.username
 	post.import.workflow.ingester.password.property=datasource.password
-	post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide=
+	post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide= -Ddrivers.directory=/opt/hudson/drivers
 
 EOF
 ) > $WORKSPACE/impex-build.properties
@@ -347,7 +347,7 @@ if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
 		post.import.workflow.ingester.jdbc.url.property=datasource.url
 		post.import.workflow.ingester.username.property=datasource.username
 		post.import.workflow.ingester.password.property=datasource.password
-		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide=
+		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide= -Ddrivers.directory=/opt/hudson/drivers
 
 EOF
 	) > $WORKSPACE/impex-build.properties

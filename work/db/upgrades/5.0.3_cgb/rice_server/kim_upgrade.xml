@@ -298,7 +298,7 @@
 			<column name="NM" value="Derived Role: Funds Manager" />
 			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}fundsManagerDerivedRoleTypeService" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 		</insert>
 	</changeSet>
 
@@ -308,7 +308,7 @@
 			<column name="OBJ_ID" value="KFSCG20111101" />
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_NM" value="Funds Manager" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="DESC_TXT"
 				value="This role derives its members from the funds manager listed on the Award Document" />
 			<column name="KIM_TYP_ID" value="KFSCG20111101" />
@@ -322,7 +322,7 @@
 			<column name="OBJ_ID" value="KFS169" />
 			<column name="VER_NBR" value="1" />
 			<column name="RSP_TMPL_ID" value="1" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="Funds Manager Review" />
 			<column name="DESC_TXT" value="Funds Manager Review" />
 			<column name="ACTV_IND" value="Y" />

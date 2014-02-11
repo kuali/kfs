@@ -78,4 +78,4 @@ KFSAR5340R,KFSAR5340R,1,Multi Organization Invoicer,KFS-AR,,1,Y
 KFSMI6886-ROLE,KFSMI6886-ROLE,1,Payee ACH Accounts Administrator,KFS-PDP,Administration staff who can view and update Payee ACH Account records and the legacy history of a certain ACH Transaction Type.,KFSMI6886-TYP,Y
 KFSCNTRB789-ROLE1,KFSCNTRB789-ROLE1,1,Workstudy Reviewer,KFS-SYS,Workstudy Reviewer Role,1,Y
 KFSCGBPII1,KFSCGBPII1,1,CGB Collector,KFS-AR,This role defines the list of users that may be selected as Collectors on the Customer document.,KFSMI10824-TYP1,Y
-101,KFSCG20111101,1,Funds Manager,KFS-CG,This role derives its members from the funds manager listed on the Award Document,KFSCG20111101,Y
+101,KFSCG20111101,1,Funds Manager,KFS-AR,This role derives its members from the funds manager listed on the Award Document,KFSCG20111101,Y

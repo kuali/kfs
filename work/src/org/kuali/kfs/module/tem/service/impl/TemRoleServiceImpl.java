@@ -189,9 +189,11 @@ public class TemRoleServiceImpl implements TemRoleService{
      * @return
      */
     protected TemProfile getProfile(String profileId) {
-        final TemProfile profile = businessObjectService.findBySinglePrimaryKey(TemProfile.class, profileId);
-        if (profile != null && profile.isActive()) {
-            return profile;
+        if (!StringUtils.isBlank(profileId)) {
+            final TemProfile profile = businessObjectService.findBySinglePrimaryKey(TemProfile.class, profileId);
+            if (profile != null && profile.isActive()) {
+                return profile;
+            }
         }
         return null;
     }

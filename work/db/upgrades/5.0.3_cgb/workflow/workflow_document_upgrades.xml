@@ -673,7 +673,7 @@
 				default.htm?turl=WordDocuments%2Fcashcontrol.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcashcontrols.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -741,7 +741,7 @@
 				default.htm?turl=WordDocuments%2Fpaymentapplication.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentapplications.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -767,7 +767,7 @@
 				default.htm?turl=WordDocuments%2Fcollectionactivity.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -793,7 +793,7 @@
 				default.htm?turl=WordDocuments%2Freferraltocollections.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Freferraltocollections.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -819,7 +819,7 @@
 				default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoffscustomdocumentsearch.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -881,7 +881,7 @@
 				default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomercreditmemos.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -892,18 +892,19 @@
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="Account" />
-					<role name="Account" />
+          			<role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+		  			<role name="AccountingOrganizationHierarchy"/>
 				</routePath>
 			</routePaths>
 			<routeNodes>
 				<start name="AdHoc" />
 				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-					</activationType>
+          			<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+				<role name="AccountingOrganizationHierarchy">
+          			<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
 				</role>
 			</routeNodes>
 		</documentType>
@@ -924,7 +925,7 @@
 				default.htm?turl=WordDocuments%2Fcustomerinvoice.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoices.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -995,7 +996,7 @@
 				default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
 			</docSearchHelpURL>
 			<active>
 				true
@@ -1054,7 +1055,7 @@
 				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
 			</helpDefinitionURL>
 			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
 			</docSearchHelpURL>
 			<active>
 				true

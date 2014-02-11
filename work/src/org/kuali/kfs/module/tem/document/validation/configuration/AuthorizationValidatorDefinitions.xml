@@ -182,10 +182,10 @@
     </bean> 
     
     <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation" parent="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" />
-    <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthOneSidedRequiredAccountingLinesCountValidation" />
+    <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthOneSidedRequiredAccountingLinesCountValidation" />
     
     <bean id="TravelAuthorization-amendmentValidation" parent="TravelAuthorization-amendmentValidation-parent" />
-    <bean id="TravelAuthorization-amendmentValidation-parent" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAmendmentValidation">
+    <bean id="TravelAuthorization-amendmentValidation-parent" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAmendmentValidation">
         <property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
     </bean>
     

@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.external.kc.dto.AwardAccountDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
@@ -73,7 +73,7 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
      * @param chartOfAccountsCode
      * @param cfdaNumber
      */
-    public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber) {
+    public AwardAccount(AwardAccountDTO awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber) {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
             projectDirector = SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
@@ -93,7 +93,7 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
         this.setPrincipalId(awardAccountDTO.getProjectDirector());
         this.setProposalNumber(awardAccountDTO.getAwardId());
         this.setActive(true);
-        this.setFederalSponsor(awardAccountDTO.getFederalSponsor());
+        this.setFederalSponsor(awardAccountDTO.isFederalSponsor());
 
         award.setAwardNumber(awardAccountDTO.getProposalNumber());
         award.setProposalNumber(awardAccountDTO.getAwardId());
@@ -115,6 +115,14 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
         primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
         this.getAward().setAgency(agency);
         this.getAward().setPrimeAgency(primeAgency);
+
+        finalBilledIndicator = awardAccountDTO.isFinalBill();
+        currentLastBilledDate = new Date(awardAccountDTO.getLastBilledDate().getTime());
+        previousLastBilledDate = new Date(awardAccountDTO.getPreviousLastBilledDate().getTime());
+        amountToDraw = awardAccountDTO.getAmountToDraw();
+        letterOfCreditReviewIndicator = awardAccountDTO.isLetterOfCreditReviewIndicator();
+        invoiceDocumentStatus = awardAccountDTO.getInvoiceDocumentStatus();
+
     }
 
     /**

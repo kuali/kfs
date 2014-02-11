@@ -301,22 +301,6 @@
 		</insert>
 	</changeSet>
 
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_AGENCY_TYPE_DEFUALT">
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="AgencyType" />
-			<column name="PARM_NM" value="DEFAULT_AGENCY_TYPE_CODE" />
-			<column name="OBJ_ID" value="KFS-CG-PARM-01" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="X" />
-			<column name="PARM_DESC_TXT"
-				value="Default Agency Code used to auto create Agency from external system." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-	</changeSet>
-	
 	<!-- script to add new parameter for FINAL Days past due for Dunning Letter Distribtuion -->
 	<changeSet author="KFS411CGB"
 		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_10">

@@ -1085,10 +1085,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * Sets the letterOfCreditFund attribute.
      *
      * @param letterOfCreditFund The letterOfCreditFund to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
-     *             creation of the object and should not be changed.
      */
-    @Deprecated
     public void setLetterOfCreditFund(LetterOfCreditFund letterOfCreditFund) {
         this.letterOfCreditFund = letterOfCreditFund;
     }

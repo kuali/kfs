@@ -51,7 +51,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="letterOfCreditFundCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Fund Code" />
+		<property name="label" value="LOC Fund Code" />
 		<property name="shortLabel" value="FundCode" />
 		<property name="maxLength" value="15" />
 		<property name="required" value="false" />
@@ -67,7 +67,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="fundDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Description" />
+		<property name="label" value="LOC Fund Description" />
 		<property name="shortLabel" value="fundDescription" />
 		<property name="maxLength" value="45" />
 		<property name="required" value="false" />
@@ -81,7 +81,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="letterOfCreditFundGroupCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Letter Of Credit Fund Group Code" />
+		<property name="label" value="LOC Fund Group Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="4" />
 		<property name="validationPattern">
@@ -115,7 +115,7 @@
 	<bean id="LetterOfCreditFund-letterOfCreditFundAmount-parentBean"
 		abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="letterOfCreditFundAmount" />
-		<property name="label" value="LOC Amount" />
+		<property name="label" value="LOC Fund Amount" />
 		<property name="shortLabel" value="LetterOfCreditFundAmount" />
 		<property name="validationPattern">
 			<bean parent="GenericAmountValiationPattern" p:allowNegative="false" />
@@ -128,7 +128,7 @@
 	<bean id="LetterOfCreditFund-letterOfCreditFundStartDate-parentBean"
 		abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="letterOfCreditFundStartDate" />
-		<property name="label" value="LOC Start Date" />
+		<property name="label" value="LOC Fund Start Date" />
 		<property name="shortLabel" value="LetterOfCreditFundStartDate" />
 		<property name="required" value="false" />
 	</bean>
@@ -139,7 +139,7 @@
 	<bean id="LetterOfCreditFund-letterOfCreditFundExpirationDate-parentBean"
 		abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="letterOfCreditFundExpirationDate" />
-		<property name="label" value="LOC Expiration Date" />
+		<property name="label" value="LOC Fund Expiration Date" />
 		<property name="shortLabel" value="LetterOfCreditFundExpirationDate" />
 		<property name="required" value="false" />
 	</bean>
@@ -186,7 +186,7 @@
 
 	<bean id="LetterOfCreditFund-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="title" value="Letter Of Credit Lookup" />
+		<property name="title" value="Letter Of Credit Fund Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

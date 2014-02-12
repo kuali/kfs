@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
 
@@ -820,7 +821,7 @@ public class TemConstants {
 
     public static final String IMPORTED_FLAG = "-IMP";
 
-    public static final String TEM_IMPORTED_SYS_ORIG_CD = "TM";
+    public static final String TEM_IMPORTED_SYS_ORIG_CD = KFSConstants.ORIGIN_CODE_KUALI;
     public static final String TEM_IMPORTED_GLPE_DESC = "TEM Imported Expense Re-Distribution";
 
     public static final String TEM_PROFILE_RELO_ENT = "Requester";

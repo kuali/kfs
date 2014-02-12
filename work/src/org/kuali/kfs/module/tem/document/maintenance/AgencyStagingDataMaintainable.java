@@ -219,8 +219,10 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	    AgencyStagingData agencyStaging = (AgencyStagingData) getBusinessObject();
 
 	    if (agencyStaging.isActive()) {
-    	    //since it is fixed and submitted, changing the status to OK
-    	    agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+    	    //since it is fixed and submitted, changing the status to OK unless it has already been set to HIS
+	        if (!agencyStaging.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL)) {
+	            agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+	        }
         }
 
         super.saveBusinessObject();

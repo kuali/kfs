@@ -1100,6 +1100,8 @@
       <property name="parameterService" ref="parameterService"/>
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
       <property name="travelDocumentService" ref="travelDocumentService" />
+      <property name="objectCodeService" ref="objectCodeService" />
+      <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 	<!-- End Agency Upload configuration -->
 

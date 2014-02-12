@@ -26,8 +26,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -39,7 +39,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -59,6 +58,8 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     ParameterService parameterService;
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     TravelDocumentService travelDocumentService;
+    ObjectCodeService objectCodeService;
+    DataDictionaryService dataDictionaryService;
 
 
     /**
@@ -89,7 +90,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             String chartCode, String objectCode, KualiDecimal amount, String glCredtiDebitCode){
 
         GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
-        ObjectCode objectCd = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartCode, objectCode);
+        ObjectCode objectCd = getObjectCodeService().getByPrimaryIdForCurrentYear(chartCode, objectCode);
         if (ObjectUtils.isNull(objectCd)) {
             LOG.error("ERROR: Could not get an ObjectCode for chart code: " + chartCode + " object code: " + objectCode);
             //set glpe as null
@@ -97,7 +98,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         }
         else{
 
-            final String DIST_INCOME_DOC_TYPE = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+            final String DIST_INCOME_DOC_TYPE = getDataDictionaryService().getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
 
             //setup document number by agency data
             glpe.setDocumentNumber(getImportExpenseDocumentNumber(agencyData));
@@ -348,5 +349,21 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
+    }
+
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 }

@@ -382,7 +382,8 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                     Integer sequenceNumber = glpe.getTransactionLedgerEntrySequenceNumber();
                     maxSequenceNumber = (maxSequenceNumber < sequenceNumber ? sequenceNumber : maxSequenceNumber);
                 }
-                sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(maxSequenceNumber++);
+                maxSequenceNumber += 1;
+                sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(maxSequenceNumber);
             }
             else {
                 sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();

@@ -7,6 +7,11 @@ public class AwardSearchCriteriaDto {
 	private String accountNumber;
 	private String chartOfAccounts;
 	private String principalInvestigatorId;
+	private String sponsorCode;
+	private String startDate;
+	private String endDate;
+	private String billingFrequency;
+	private String awardTotal;
 
 	public Long getAwardId() {
 		return awardId;
@@ -38,4 +43,34 @@ public class AwardSearchCriteriaDto {
     public void setPrincipalInvestigatorId(String principalInvestigatorId) {
         this.principalInvestigatorId = principalInvestigatorId;
     }
+	public String getSponsorCode() {
+		return sponsorCode;
+	}
+	public void setSponsorCode(String sponsorCode) {
+		this.sponsorCode = sponsorCode;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getBillingFrequency() {
+		return billingFrequency;
+	}
+	public void setBillingFrequency(String billingFrequency) {
+		this.billingFrequency = billingFrequency;
+	}
+	public String getAwardTotal() {
+		return awardTotal;
+	}
+	public void setAwardTotal(String awardTotal) {
+		this.awardTotal = awardTotal;
+	}
 }

@@ -96,13 +96,22 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     public Collection findMatching(Map fieldValues) {
         List<AwardDTO> result = null;
         AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();
-        if (fieldValues.containsKey(KFSPropertyConstants.PROPOSAL_NUMBER)) {
+        if (fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) != null && fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) instanceof String
+                && StringUtils.isNotBlank((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER))) {
             criteria.setAwardId(Long.parseLong((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER)));
+        } else if (fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) != null && fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) instanceof Long){
+            criteria.setAwardId((Long) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
         }
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
         criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
         criteria.setPrincipalInvestigatorId((String) fieldValues.get("principalId"));
+        criteria.setSponsorCode((String) fieldValues.get("agencyNumber"));
+        //the below should only be passed in from the lookup framework, meaning they will all be strings
+        criteria.setStartDate((String) fieldValues.get("awardBeginningDate"));
+        criteria.setEndDate((String) fieldValues.get("awardEndingDate"));
+        criteria.setBillingFrequency((String) fieldValues.get("awardBillingFrequency"));
+        criteria.setAwardTotal((String) fieldValues.get("awardTotal"));
         try {
           result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {

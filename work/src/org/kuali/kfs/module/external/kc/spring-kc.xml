@@ -213,5 +213,10 @@
     <bean id="awardProjectDirectorService" parent="awardProjectDirectorService-parentBean"/>
     <bean id="awardProjectDirectorService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardProjectDirectorServiceImpl" abstract="true" parent="awardWebService"/>
     
+    <bean id="contractsAndGrantsModuleRetrieveService" parent="contractsAndGrantsModuleRetrieveService-parentBean"/>
+    <bean id="contractsAndGrantsModuleRetrieveService-parentBean" abstract="true" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl">
+    	<property name="awardService" ref="awardWebService"/>
+    </bean>
+    
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

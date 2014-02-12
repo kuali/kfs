@@ -88,8 +88,6 @@ public class CGConstants{
     public static final String LOC_BY_AWARD = "LOC By Award";
     public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
     public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
-    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
-
 
     // Award Invoice
     public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";

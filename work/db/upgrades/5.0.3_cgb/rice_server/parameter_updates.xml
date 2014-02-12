@@ -149,10 +149,10 @@
 
 	<changeSet author="kfs" id="KRCR_PARM_T_1">
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="Batch" />
 			<column name="PARM_NM" value="AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT" />
-			<column name="OBJ_ID" value="KFSCG05" />
+			<column name="OBJ_ID" value="KFSAR10" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="Upcoming Milestones Notification for Award." />
@@ -165,10 +165,10 @@
 
 	<changeSet author="kfs" id="KRCR_PARM_T_2">
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="Batch" />
 			<column name="PARM_NM" value="AWARD_MILESTONE_CHECK_LIMIT_DAYS" />
-			<column name="OBJ_ID" value="KFSCG06" />
+			<column name="OBJ_ID" value="KFSAR11" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="10" />

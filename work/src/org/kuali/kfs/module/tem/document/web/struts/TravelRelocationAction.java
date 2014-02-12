@@ -38,10 +38,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelRelocationAuthorizer;
 import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
@@ -60,7 +60,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -239,29 +238,13 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String refreshCaller = ((KualiForm)form).getRefreshCaller();
-        if (!StringUtils.isBlank(refreshCaller)) {
-            final TravelRelocationDocument document = (TravelRelocationDocument)((KualiDocumentFormBase)form).getDocument();
-
-            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
-                performRequesterRefresh(document);
-            }
-        }
-
-        return super.refresh(mapping, form, request, response);
-    }
-
-    /**
      * Performs necessary updates after the requester on the relocation document was updated, such as updating the payee type
      * @param document the document to update
      */
-    protected void performRequesterRefresh(TravelRelocationDocument document) {
-        document.updatePayeeTypeForReimbursable();
+    @Override
+    protected void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request) {
+        ((TravelRelocationDocument)document).updatePayeeTypeForReimbursable();
+        updateAccountsWithNewProfile(travelForm, document.getTemProfile());
     }
 
     protected TravelRelocationService getTravelRelocationService() {

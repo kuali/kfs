@@ -121,6 +121,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -399,6 +400,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         // set wire charge message in form
         ((TravelFormBase)form).setWireChargeMessage(retrieveWireChargeMessage());
+
+        final String refreshCaller = ((KualiForm)form).getRefreshCaller();
+        if (!StringUtils.isBlank(refreshCaller)) {
+            final TravelDocument document = ((TravelFormBase)form).getTravelDocument();
+
+            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
+                performRequesterRefresh(document, (TravelFormBase)form, request);
+            }
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1638,4 +1648,37 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
+    /**
+     * Performs necessary updates after the requester on the travel document was updated
+     * @param document the document to update
+     * @param request the current web request
+     */
+    protected abstract void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request);
+
+    /**
+     * Updates new accounting lines on the document with default info from the profile if applicable
+     * @param form the form holding new accounting lines
+     * @param profile the profile to switch the lines over to the default accounting information of
+     */
+    protected void updateAccountsWithNewProfile(TravelFormBase form, TemProfile profile) {
+        if (profile != null) {
+            // update new source accounting line
+            if (form.getNewSourceLine() != null) {
+                TemSourceAccountingLine acctLine = (TemSourceAccountingLine)form.getNewSourceLine();
+                acctLine.setChartOfAccountsCode(profile.getDefaultChartCode());
+                acctLine.setAccountNumber(profile.getDefaultAccount());
+                acctLine.setSubAccountNumber(profile.getDefaultSubAccount());
+                acctLine.setProjectCode(profile.getDefaultProjectCode());
+            }
+
+            // update new distribution line
+            if (form.getAccountDistributionnewSourceLine() != null) {
+                TemDistributionAccountingLine acctLine = form.getAccountDistributionnewSourceLine();
+                acctLine.setChartOfAccountsCode(profile.getDefaultChartCode());
+                acctLine.setAccountNumber(profile.getDefaultAccount());
+                acctLine.setSubAccountNumber(profile.getDefaultSubAccount());
+                acctLine.setProjectCode(profile.getDefaultProjectCode());
+            }
+        }
+    }
 }

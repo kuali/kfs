@@ -437,9 +437,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         authForm.setSelectedTransportationModes(authForm.getTravelAuthorizationDocument().getTransportationModeCodes());
-        ActionForward actionAfterTravelerLookup = this.refreshAfterTravelerLookup(mapping, authForm, request);
-        if (actionAfterTravelerLookup != null) {
-            return actionAfterTravelerLookup;
+
+        String refreshCaller = authForm.getRefreshCaller();
+
+        LOG.debug("refresh call is: "+ refreshCaller);
+        String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
+        // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
+        // information
+        if (refreshCaller == null) {
+            authForm.setTravelerId(authForm.getTempTravelerId());
         }
 
         ActionForward actionAfterPrimaryDestinationLookup = this.refreshAfterPrimaryDestinationLookup(mapping, authForm, request);
@@ -468,36 +474,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
     }
 
-    /**
-     * This method is called during a refresh from lookup, it checks to see if it is being called for Group Traveler or the initial
-     * Traveler lookup
-     *
-     * @param mapping
-     * @param authForm
-     * @param request
-     * @return null, no special page to return to
-     */
-    protected ActionForward refreshAfterTravelerLookup(ActionMapping mapping, TravelAuthorizationForm authForm, HttpServletRequest request) {
-        String refreshCaller = authForm.getRefreshCaller();
-
-        LOG.debug("refresh call is: "+ refreshCaller);
-        String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
-        TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
-
-        boolean isTravelerLookupable = StringUtils.equals(refreshCaller, TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE);
-
-        // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
-        // information
-        if (refreshCaller == null) {
-            authForm.setTravelerId(authForm.getTempTravelerId());
-            return null;
-        }
-
-        // do not execute the further refreshing logic if the refresh caller is not a traveler profile lookupable
-        if (!isTravelerLookupable) {
-            return null;
-        }
-
+    @Override
+    protected void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request) {
         LOG.debug("Looking up customer with number "+ document.getTraveler().getCustomerNumber());
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.CUSTOMER);
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
@@ -508,9 +486,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
             document.getTraveler().setPrincipalName(principalName);
         }
 
-        document.updatePayeeTypeForAuthorization();
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        ((TravelAuthorizationDocument)document).updatePayeeTypeForAuthorization();
+        updateAccountsWithNewProfile(travelForm, document.getTemProfile());
     }
 
     /**

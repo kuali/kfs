@@ -29,11 +29,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
@@ -93,23 +89,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
 
         return vendorFieldValues;
     }
-
-    // get the vendor name from the given field value map
-    @Override
-    protected String getVendorName(Map<String, String> vendorFieldValues) {
-        String firstName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
-        String lastName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
-
-        if (StringUtils.isNotBlank(lastName)) {
-            return lastName + VendorConstants.NAME_DELIM + firstName;
-        }
-        else if (StringUtils.isNotBlank(firstName)) {
-            return KFSConstants.WILDCARD_CHARACTER + VendorConstants.NAME_DELIM + firstName;
-        }
-
-        return StringUtils.EMPTY;
-    }
-
 
  // gets the search criteria valid for person lookup, from the specified field value map.
     @Override
@@ -289,22 +268,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
         return results;
     }
 
-    // perform person search
-    @Override
-    protected List<DisbursementPayee> getPersonAsPayees(Map<String, String> fieldValues) {
-        List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
-
-        Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);
-        List<? extends Person> persons = SpringContext.getBean(PersonService.class).findPeople(fieldsForLookup);
-
-        for (Person personDetail : persons) {
-            DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
-            payeeList.add(payee);
-        }
-
-        return payeeList;
-    }
-
     /**
      * Determines if a String is "filled enough", i.e. if a wildcard is present, has a length greater than the defined minimum length (3 characters, plus a wildcard).
      * @param s the String to test
@@ -328,12 +291,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
      */
     protected boolean containsLookupWildcard(String s) {
         return StringUtils.contains(s, "*") || StringUtils.contains(s, "%");
-    }
-
-    // get the label for the given attribute of the current business object
-    @Override
-    protected String getAttributeLabel(String attributeName) {
-        return this.getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
     }
 
     /**

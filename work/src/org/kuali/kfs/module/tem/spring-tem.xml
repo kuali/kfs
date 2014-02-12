@@ -1153,7 +1153,7 @@
                 <entry key="creditCardKey" value="CREDIT CARD KEY" />
                 <entry key="creditCardNumber" value="CREDIT CARD NUMBER" />
                 <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
-                <entry key="referenceNumber" value="MERCHANT NAME" />
+                <entry key="referenceNumber" value="REFERENCE NUMBER" />
                 <entry key="merchantName" value="MERCHANT NAME" />                
                 <entry key="transactionAmount" value="TRANSACTION AMOUNT" />
                 <entry key="transactionDate" value="TRANSACTION DATE" />

@@ -252,6 +252,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER = "message.batch.tem.creditcard.DataReportHeader";
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";
     public static final String MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA="message.batch.tem.agency.creditcard.data.InvalidCreditCardAgency";
+    public static final String MESSAGE_CREDIT_CARD_DATA_NO_TRAVELER_FOUND="message.batch.tem.creditcard.NoTravelerFoundForCardNumber";
+    public static final String MESSAGE_CREDIT_CARD_DATA_INVALID_EXPENSE_TYPE_CODE="message.batch.tem.creditcard.InvalidExpenseTypeCode";
 
     public static final String MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER = "message.batch.tem.agencydatareconciliation.reportHeader";
     public static final String MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION = "message.batch.tem.agencydatareconciliation.glpeCreation";

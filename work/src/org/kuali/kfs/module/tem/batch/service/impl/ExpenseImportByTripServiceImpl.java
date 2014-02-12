@@ -398,7 +398,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         if (!isCreditCardAgencyValid(agencyData)) {
             //setErrorCode is already done in isCreditCardAgencyValid()
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA, agencyData.getCreditCardOrAgencyCode()));
         }
 
         return errorMessages;

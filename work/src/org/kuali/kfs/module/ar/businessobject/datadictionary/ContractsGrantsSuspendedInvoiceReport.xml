@@ -231,7 +231,7 @@
 	<bean id="ContractsGrantsSuspendedInvoiceReport-lookupDefinition" parent="ContractsGrantsSuspendedInvoiceReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsSuspendedInvoiceReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsSuspendedInvoiceReport Lookup" />
+		<property name="title" value="Suspended Invoice Report" />
 		<property name="lookupableID" value="contractsGrantsSuspendedInvoiceReportLookupResultLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

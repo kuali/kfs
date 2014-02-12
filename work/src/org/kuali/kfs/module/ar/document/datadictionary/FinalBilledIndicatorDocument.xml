@@ -12,13 +12,13 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="FinalInvoiceReversalDocument" parent="FinalInvoiceReversalDocument-parentBean" />
+	<bean id="FinalBilledIndicatorDocument" parent="FinalBilledIndicatorDocument-parentBean" />
 
-	<bean id="FinalInvoiceReversalDocument-parentBean" abstract="true"
+	<bean id="FinalBilledIndicatorDocument-parentBean" abstract="true"
 		parent="TransactionalDocumentEntry">
-		<property name="documentTypeName" value="FIR" />
+		<property name="documentTypeName" value="FBI" />
 		<property name="documentClass"
-			value="org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument" />
+			value="org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument" />
 	</bean>
 
 </beans>

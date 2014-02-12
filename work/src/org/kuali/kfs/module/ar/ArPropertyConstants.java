@@ -304,7 +304,7 @@ public class ArPropertyConstants{
     public static final String EXPENSE_OBJECT_TYPE = "EX";
     public static final String BUDGET_BALANCE_TYPE = "CB";
     public static final String ACTUAL_BALANCE_TYPE = "AC";
-    public static final String FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceEntries";
+    public static final String FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceEntries";
     public static final String OPEN_INVOICE_IND = "openInvoiceIndicator";
     public static final String DOCUMENT_STATUS_CODE = "documentHeader.financialDocumentStatusCode";
     public static final String DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "documentHeader.financialDocumentInErrorNumber";

@@ -49,8 +49,8 @@
 					title="Dunning Letter Distribution"
 					url="arDunningLetterDistributionLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
 			<li><portal:portalLink displayTitle="true"
-					title="Final Invoice Reversal"
-					url="arFinalInvoiceReversalDocument.do?methodToCall=docHandler&command=initiate&docTypeName=FIR" /></li>
+					title="Final Billed Indicator"
+					url="arFinalBilledIndicatorDocument.do?methodToCall=docHandler&command=initiate&docTypeName=FBI" /></li>
 			<li><portal:portalLink displayTitle="true"
 					title="Payment Application"
 					url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>

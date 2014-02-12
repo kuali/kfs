@@ -161,8 +161,8 @@
  		<form-bean name="ReferralToCollectionsDocumentForm"
  			type="org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentForm" />
 
-		<form-bean name="FinalInvoiceReversalDocumentForm"
-			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentForm" />
+		<form-bean name="FinalBilledIndicatorDocumentForm"
+			type="org.kuali.kfs.module.ar.document.web.struts.FinalBilledIndicatorDocumentForm" />
 
 		<form-bean name="ContractsGrantsLetterOfCreditReviewDocumentForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
@@ -558,12 +558,12 @@
 				path="/jsp/module/ar/ContractsGrantsInvoiceDocument.jsp" />
 		</action>
 
-		<action path="/arFinalInvoiceReversalDocument" name="FinalInvoiceReversalDocumentForm"
+		<action path="/arFinalBilledIndicatorDocument" name="FinalBilledIndicatorDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.FinalBilledIndicatorDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/FinalInvoiceReversalDocument.jsp" />
+				path="/jsp/module/ar/FinalBilledIndicatorDocument.jsp" />
 		</action>
 
 		<action path="/arFederalFinancialReport" name="FederalFinancialReportForm"

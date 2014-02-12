@@ -262,8 +262,8 @@ public class ArKeyConstants {
         public static final String ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID = "error.document.amount.to.draw.invalid";
     }
 
-    // Final Invoice Reversal Error
-    public static final String FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY = "error.custom";
+    // Final Billed Indicator Error
+    public static final String FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY = "error.custom";
 
     /* Start TEM REFUND Merge */
     // ar refunding

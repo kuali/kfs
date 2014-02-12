@@ -17,13 +17,13 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/module/cg" prefix="cg"%>
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="FIR"
-	htmlFormAction="arFinalInvoiceReversalDocument" renderMultipart="true"
+<kul:documentPage showDocumentInfo="true" documentTypeName="FBI"
+	htmlFormAction="arFinalBilledIndicatorDocument" renderMultipart="true"
 	showTabButtons="true">
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<ar:finalInvoiceReversalEntries editingMode="${KualiForm.editingMode}" />
+	<ar:finalBilledIndicatorEntries editingMode="${KualiForm.editingMode}" />
 
 	<kul:notes />
 

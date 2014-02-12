@@ -21,9 +21,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.document.Document;
 
 /**
- * Describes a Final Invoice Reversal Entry.
+ * Describes a Final Billed Indicator Entry.
  */
-public class FinalInvoiceReversalEntry extends PersistableBusinessObjectBase {
+public class FinalBilledIndicatorEntry extends PersistableBusinessObjectBase {
 
     private Long id;
     private String invoiceDocumentNumber;

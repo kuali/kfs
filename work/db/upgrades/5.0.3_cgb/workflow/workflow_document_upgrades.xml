@@ -1063,15 +1063,15 @@
 		</documentType>
 		<documentType>
 			<name>
-				FIR
+				FBI
 			</name>
 			<parent>
 				AR
 			</parent>
 			<label>
-				Final Invoice Reversal
+				Final Billed Indicator
 			</label>
-			<docHandler>${kfs.url}/arFinalInvoiceReversalDocument.do?methodToCall=docHandler
+			<docHandler>${kfs.url}/arFinalBilledIndicatorDocument.do?methodToCall=docHandler
 			</docHandler>
 			<routePaths>
 				<routePath>

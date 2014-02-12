@@ -15,22 +15,22 @@
  limitations under the License.
 -->
 
-	<bean id="FinalInvoiceReversalEntry" parent="FinalInvoiceReversalEntry-parentBean" />
+	<bean id="FinalBilledIndicatorEntry" parent="FinalBilledIndicatorEntry-parentBean" />
 
-	<bean id="FinalInvoiceReversalEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry" />
+	<bean id="FinalBilledIndicatorEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry" />
 		<property name="titleAttribute" value="id" />
-		<property name="objectLabel" value="FinalInvoiceReversalEntry" />
+		<property name="objectLabel" value="FinalBilledIndicatorEntry" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="FinalInvoiceReversalEntry-invoiceDocumentNumber" />
+				<ref bean="FinalBilledIndicatorEntry-invoiceDocumentNumber" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="FinalInvoiceReversalEntry-invoiceDocumentNumber" parent="FinalInvoiceReversalEntry-invoiceDocumentNumber-parentBean" />
+	<bean id="FinalBilledIndicatorEntry-invoiceDocumentNumber" parent="FinalBilledIndicatorEntry-invoiceDocumentNumber-parentBean" />
 
-	<bean id="FinalInvoiceReversalEntry-invoiceDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+	<bean id="FinalBilledIndicatorEntry-invoiceDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
 		<property name="name" value="invoiceDocumentNumber" />
 		<property name="forceUppercase" value="true" />
 		<property name="required" value="false" />

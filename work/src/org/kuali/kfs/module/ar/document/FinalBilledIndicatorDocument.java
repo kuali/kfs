@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
+import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
@@ -28,19 +28,19 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class unfinalizes the invoices that have previously been finalized.
  */
-public class FinalInvoiceReversalDocument extends TransactionalDocumentBase {
+public class FinalBilledIndicatorDocument extends TransactionalDocumentBase {
 
-    public FinalInvoiceReversalDocument() {
+    public FinalBilledIndicatorDocument() {
     }
 
-    private List<FinalInvoiceReversalEntry> invoiceEntries = new ArrayList<FinalInvoiceReversalEntry>();
+    private List<FinalBilledIndicatorEntry> invoiceEntries = new ArrayList<FinalBilledIndicatorEntry>();
 
     /**
      * Gets the invoiceEntries attribute.
      *
      * @return Returns the invoiceEntries.
      */
-    public List<FinalInvoiceReversalEntry> getInvoiceEntries() {
+    public List<FinalBilledIndicatorEntry> getInvoiceEntries() {
         return invoiceEntries;
     }
 
@@ -49,7 +49,7 @@ public class FinalInvoiceReversalDocument extends TransactionalDocumentBase {
      *
      * @param invoiceEntries The invoiceEntries to set.
      */
-    public void setInvoiceEntries(List<FinalInvoiceReversalEntry> invoiceEntries) {
+    public void setInvoiceEntries(List<FinalBilledIndicatorEntry> invoiceEntries) {
         this.invoiceEntries = invoiceEntries;
     }
 
@@ -57,7 +57,7 @@ public class FinalInvoiceReversalDocument extends TransactionalDocumentBase {
      * @throws WorkflowException
      */
     public void updateContractsGrantsInvoiceDocument() throws WorkflowException {
-        for (FinalInvoiceReversalEntry entry : this.getInvoiceEntries()) {
+        for (FinalBilledIndicatorEntry entry : this.getInvoiceEntries()) {
             ContractsGrantsInvoiceDocument invoiceDocument;
             invoiceDocument = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(entry.getInvoiceDocumentNumber());
             if (ObjectUtils.isNotNull(invoiceDocument)) {
@@ -72,7 +72,7 @@ public class FinalInvoiceReversalDocument extends TransactionalDocumentBase {
     /**
      * @param invoiceEntry
      */
-    public void addInvoiceEntry(FinalInvoiceReversalEntry invoiceEntry) {
+    public void addInvoiceEntry(FinalBilledIndicatorEntry invoiceEntry) {
         invoiceEntry.setDocumentId(getDocumentNumber());
         invoiceEntries.add(invoiceEntry);
     }

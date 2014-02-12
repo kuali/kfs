@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,28 +15,27 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
-import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
-import org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
+import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
 /**
- * Form class for Final Invoice Reversal Document.
+ * Form class for Final Billed Indicator Document.
  */
-public class FinalInvoiceReversalDocumentForm extends KualiTransactionalDocumentFormBase {
-    private FinalInvoiceReversalEntry invoiceEntry;
+public class FinalBilledIndicatorDocumentForm extends KualiTransactionalDocumentFormBase {
+    private FinalBilledIndicatorEntry invoiceEntry;
 
     // this in sync with the default
     // value set in the document business object
-    public FinalInvoiceReversalDocumentForm() {
+    public FinalBilledIndicatorDocumentForm() {
         super();
     }
 
     /**
-     * @return FinalInvoiceReversalDocument
+     * @return FinalBilledIndicatorDocument
      */
-    public FinalInvoiceReversalDocument getFinalInvoiceReversalDocument() {
-        return (FinalInvoiceReversalDocument) getDocument();
+    public FinalBilledIndicatorDocument getFinalBilledIndicatorDocument() {
+        return (FinalBilledIndicatorDocument) getDocument();
     }
 
     /**
@@ -44,24 +43,24 @@ public class FinalInvoiceReversalDocumentForm extends KualiTransactionalDocument
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "FIR";
+        return "FBI";
     }
 
     /**
      * Gets the invoiceEntry attribute.
-     * 
+     *
      * @return Returns the invoiceEntry.
      */
-    public FinalInvoiceReversalEntry getInvoiceEntry() {
+    public FinalBilledIndicatorEntry getInvoiceEntry() {
         return invoiceEntry;
     }
 
     /**
      * Sets the invoiceEntry attribute value.
-     * 
+     *
      * @param invoiceEntry The invoiceEntry to set.
      */
-    public void setInvoiceEntry(FinalInvoiceReversalEntry invoiceEntry) {
+    public void setInvoiceEntry(FinalBilledIndicatorEntry invoiceEntry) {
         this.invoiceEntry = invoiceEntry;
     }
 

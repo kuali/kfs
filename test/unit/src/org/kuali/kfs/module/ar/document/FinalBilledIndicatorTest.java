@@ -23,10 +23,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
+import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.validation.impl.FinalInvoiceReversalValidation;
+import org.kuali.kfs.module.ar.document.validation.impl.FinalBilledIndicatorValidation;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,10 +35,10 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
- * This class tests the final invoice reversal process
+ * This class tests the final billed indicator process
  */
 @ConfigureContext(session = khuntley)
-public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
+public class FinalBilledIndicatorTest extends CGInvoiceDocumentTestBase {
 
     @Override
     protected void setUp() throws Exception {
@@ -56,19 +56,19 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
         document.getDocumentHeader().getWorkflowDocument().switchPrincipal("6162502038");
         documentService.routeDocument(document, "route test doc", new ArrayList<AdHocRouteRecipient>());
 
-        FinalInvoiceReversalDocument firDocument = (FinalInvoiceReversalDocument) documentService.getNewDocument(FinalInvoiceReversalDocument.class);
+        FinalBilledIndicatorDocument firDocument = (FinalBilledIndicatorDocument) documentService.getNewDocument(FinalBilledIndicatorDocument.class);
         firDocument.getDocumentHeader().setDocumentDescription("Unit Test Document");
-        FinalInvoiceReversalEntry entry = new FinalInvoiceReversalEntry();
+        FinalBilledIndicatorEntry entry = new FinalBilledIndicatorEntry();
         entry.setInvoiceDocumentNumber(document.getDocumentNumber());
         firDocument.addInvoiceEntry(entry);
         documentService.saveDocument(firDocument);
-        assertTrue(FinalInvoiceReversalValidation.validateDocument(firDocument));
+        assertTrue(FinalBilledIndicatorValidation.validateDocument(firDocument));
     }
 
     public void testInvoiceReversal() throws WorkflowException {
-        FinalInvoiceReversalEntry entry = new FinalInvoiceReversalEntry();
+        FinalBilledIndicatorEntry entry = new FinalBilledIndicatorEntry();
         entry.setInvoiceDocumentNumber(document.getDocumentNumber());
-        FinalInvoiceReversalDocument firDocument = (FinalInvoiceReversalDocument) documentService.getNewDocument(FinalInvoiceReversalDocument.class);
+        FinalBilledIndicatorDocument firDocument = (FinalBilledIndicatorDocument) documentService.getNewDocument(FinalBilledIndicatorDocument.class);
         firDocument.getDocumentHeader().setDocumentDescription("Unit Test Document");
         firDocument.addInvoiceEntry(entry);
         documentService.saveDocument(firDocument);

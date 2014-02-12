@@ -18,11 +18,11 @@
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
-<kul:tab tabTitle="Final Invoice Reversal Entries" defaultOpen="true" tabErrorKey="document.invoiceEntries">
-	<c:set var="attributes" value="${DataDictionary.FinalInvoiceReversalEntry.attributes}" />
+<kul:tab tabTitle="Final Billed Indicator Entries" defaultOpen="true" tabErrorKey="document.invoiceEntries">
+	<c:set var="attributes" value="${DataDictionary.FinalBilledIndicatorEntry.attributes}" />
 	<div class="tab-container" align=center>
 		<h3>Entries</h3>
-		<table cellpadding=0 class="datatable" summary="Final Invoice Reversal Entries">
+		<table cellpadding=0 class="datatable" summary="Final Billed Indicator Entries">
 
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
@@ -44,7 +44,7 @@
 					</td>
 				</tr>
 			</c:if>
-			<logic:iterate id="FinalInvoiceReversalEntry" name="KualiForm" property="document.invoiceEntries" indexId="ctr">
+			<logic:iterate id="FinalBilledIndicatorEntry" name="KualiForm" property="document.invoiceEntries" indexId="ctr">
 				<tr>
 					<kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row" />
 

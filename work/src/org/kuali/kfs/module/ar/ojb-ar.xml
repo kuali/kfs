@@ -1500,8 +1500,8 @@
 	<!-- ALL CG Related DESCRIPTORS -->
 
 
-	<!-- Final Invoice Reversal Document -->
-<class-descriptor class="org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument" table="AR_FINAL_INV_RVRSL_DOC_T">
+	<!-- Final Billed Indicator Document -->
+	<class-descriptor class="org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument" table="AR_FINAL_BILLED_IND_DOC_T">
 		<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1509,14 +1509,14 @@
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 			<foreignkey field-ref="documentNumber" />
 		</reference-descriptor>
-		<collection-descriptor name="invoiceEntries" element-class-ref="org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry"
+		<collection-descriptor name="invoiceEntries" element-class-ref="org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentId" />
 		</collection-descriptor>
 	</class-descriptor>
 	
-	<!-- Final Invoice Reversal Entries -->
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry" table="AR_FINAL_INV_RVRSL_ENTRY_T">
+	<!-- Final Billed Indicator Entries -->
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry" table="AR_FINAL_BILLED_IND_ENTRY_T">
 		<field-descriptor name="id" column="ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="FINAL_INV_RVRSL_ENTRY_SEQ" />
 		<field-descriptor name="documentId" column="DOC_HDR_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="invoiceDocumentNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" />

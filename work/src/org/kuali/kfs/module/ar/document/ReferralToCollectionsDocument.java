@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -267,6 +268,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                     if (ObjectUtils.isNotNull(invoice)) {
                         invoice.setReferralTypeCode(this.getReferralTypeCode());
                         invoice.setFinalDispositionCode(rcDetail.getFinalDispositionCode());
+                        // not sure why we have to do this, but without it, the FinancialSystemDocumentHeader documentNumber is null
+                        // on the invoice doc, and an exception is thrown when we try to save the invoice
+                        invoice.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
                         boService.save(invoice);
 
                         Map<String, String> fieldValues = new HashMap<String, String>();

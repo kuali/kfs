@@ -373,4 +373,12 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
+
+    public ConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
 }

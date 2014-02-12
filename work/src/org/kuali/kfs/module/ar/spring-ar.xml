@@ -76,6 +76,7 @@
 				<value>letterOfCreditJob</value>
 				<value>invoiceReportEmailDeliveryJob</value>
 				<value>contractsGrantsInvoiceDocumentJob</value>
+				<value>upcomingMilestoneNotificationJob</value> 			
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -275,11 +276,20 @@
 		</property>
 	</bean>
 
+	<bean id="upcomingMilestoneNotificationJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="upcomingMilestoneNotificationStep" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="arEmailService" parent = "arEmailService-parentBean" />
 	<bean id="arEmailService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AREmailServiceImpl" abstract="true">
 		<property name="mailService" ref="mailService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
 		<property name="noteService" ref="noteService" />
@@ -467,6 +477,31 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
+	<bean id="upcomingMilestoneNotificationStep" class="org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep" parent="step">
+		<property name="upcomingMilestoneNotificationService">
+			<ref bean="upcomingMilestoneNotificationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+
+	<bean id="upcomingMilestoneNotificationService" parent="upcomingMilestoneNotificationService-parentBean"/>
+	<bean id="upcomingMilestoneNotificationService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.UpcomingMilestoneNotificationServiceImpl" abstract="true">
+		<property name="arEmailService">
+			<ref bean="arEmailService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
 	<bean id="letterOfCreditCreateService" parent="letterOfCreditCreateService-parentBean"/>
 	<bean id="letterOfCreditCreateService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.LetterOfCreditCreateServiceImpl" abstract="true">
 		<property name="documentService">

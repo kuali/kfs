@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.external.kc.dto.AwardAccountDTO;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -33,7 +34,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount implements ContractsAndGrantsBillingAwardAccount {
+public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, MutableInactivatable {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

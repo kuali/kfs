@@ -16,8 +16,9 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class ContractGrantType implements ContractsAndGrantsContractGrantType {
+public class ContractGrantType implements ContractsAndGrantsContractGrantType, MutableInactivatable {
 
     private String contractGrantTypeCode;
     private String contractGrantTypeDescription;

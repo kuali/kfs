@@ -16,8 +16,9 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class BillingFrequency implements ContractsAndGrantsBillingFrequency {
+public class BillingFrequency implements ContractsAndGrantsBillingFrequency, MutableInactivatable {
 
     private String frequency;
     private String frequencyDescription;

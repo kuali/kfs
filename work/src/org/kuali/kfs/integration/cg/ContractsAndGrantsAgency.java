@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.integration.cg;
 
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Methods which return information needed about Contracts and Grants agencies by other modules.
  */
-public interface ContractsAndGrantsAgency extends MutableInactivatable, ExternalizableBusinessObject {
+public interface ContractsAndGrantsAgency extends ExternalizableBusinessObject, Inactivatable {
 
     /**
      * Returns the agency number for this agency
@@ -29,4 +29,5 @@ public interface ContractsAndGrantsAgency extends MutableInactivatable, External
      * @return the agency number for the given agency
      */
     public abstract String getAgencyNumber();
+
 }

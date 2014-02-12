@@ -19,9 +19,10 @@ import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund {
+public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund, MutableInactivatable {
 
     private String letterOfCreditFundCode;
     private String fundDescription;

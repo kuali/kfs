@@ -17,13 +17,13 @@ package org.kuali.kfs.integration.ar;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for InvoiceTemplate
  */
-public interface AccountsReceivableInvoiceTemplate extends MutableInactivatable, ExternalizableBusinessObject {
+public interface AccountsReceivableInvoiceTemplate extends ExternalizableBusinessObject, Inactivatable {
 
 
     /**
@@ -87,4 +87,5 @@ public interface AccountsReceivableInvoiceTemplate extends MutableInactivatable,
      * @return
      */
     public boolean isValidOrganization();
+
 }

@@ -16,8 +16,9 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class DunningCampaignDTO implements AccountsReceivableDunningCampaign {
+public class DunningCampaignDTO implements AccountsReceivableDunningCampaign, MutableInactivatable {
 
     private String campaignID;
     private String campaignDescription;

@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -29,7 +30,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Invoice Types under Contracts and Grants section.
  */
 
-public class InvoiceTemplate extends PersistableBusinessObjectBase implements AccountsReceivableInvoiceTemplate {
+public class InvoiceTemplate extends PersistableBusinessObjectBase implements AccountsReceivableInvoiceTemplate, MutableInactivatable {
 
     private String invoiceTemplateCode;
     private String invoiceTemplateDescription;
@@ -69,6 +70,7 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
      *
      * @return Returns the accessRestrictedIndicator.
      */
+    @Override
     public boolean isAccessRestrictedIndicator() {
         return accessRestrictedIndicator;
     }

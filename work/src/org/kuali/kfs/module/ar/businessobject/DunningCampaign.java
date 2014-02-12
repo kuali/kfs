@@ -20,12 +20,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for Dunning Campaigns
  */
-public class DunningCampaign extends PersistableBusinessObjectBase implements AccountsReceivableDunningCampaign {
+public class DunningCampaign extends PersistableBusinessObjectBase implements AccountsReceivableDunningCampaign, MutableInactivatable {
 
     private String campaignID;
     private String campaignDescription;

@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.integration.ar;
 
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for Dunning Campaign
  */
-public interface AccountsReceivableDunningCampaign extends ExternalizableBusinessObject, MutableInactivatable {
+public interface AccountsReceivableDunningCampaign extends ExternalizableBusinessObject, Inactivatable {
 
     /**
      * Gets the campaignID attribute.

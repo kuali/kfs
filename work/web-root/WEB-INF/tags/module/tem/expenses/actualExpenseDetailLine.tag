@@ -127,7 +127,7 @@
 		<td valign="top" class="infoline">
 			<c:choose>
 				<c:when test="${fullEntryMode}">
-					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
+					<c:set target="${paramMap}" property="expenseTypeMetaCategoryCode" value="${parentObject.expenseType.expenseTypeMetaCategoryCode}" />
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}" tabindex="${KualiForm.currentTabIndex}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
@@ -146,7 +146,7 @@
 		<td valign="top" class="infoline">
 			<c:choose>
 				<c:when test="${fullEntryMode}">
-					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
+					<c:set target="${paramMap}" property="expenseTypeMetaCategoryCode" value="${parentObject.expenseType.expenseTypeMetaCategoryCode}" />
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}" tabindex="${KualiForm.currentTabIndex}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />

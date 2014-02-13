@@ -1208,17 +1208,7 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_FINAL_DISPOS_T">
-        <column name="AR_FINAL_DISPOS_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="DISPOS_DESC" size="25" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
-        <unique name="AR_FINAL_DISPOS_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="AR_FINAL_INV_RVRSL_DOC_T">
+    <table name="AR_FINAL_BILLED_IND_DOC_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -1226,13 +1216,23 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_FINAL_INV_RVRSL_ENTRY_T">
+    <table name="AR_FINAL_BILLED_IND_ENTRY_T">
         <column name="ENTRY_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="DOC_HDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="INVOICE_NBR" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <unique name="AR_FINAL_INV_RVRSL_ENTRY_TC1">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_FINAL_DISPOS_T">
+        <column name="AR_FINAL_DISPOS_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="DISPOS_DESC" size="25" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="AR_FINAL_DISPOS_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

@@ -86,37 +86,6 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="totalInvoicesCleared" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Total Cleared" />
-		<property name="shortLabel" value="Cleared" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<ref bean="NumericValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-	</bean>
-
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="totalInvoicesRemainingToClear" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Total Remaining" />
-		<property name="shortLabel" value="Remaining" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<ref bean="NumericValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-	</bean>
-
-
 	<!-- Business Object Lookup Definition -->
 
 	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" parent="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" />

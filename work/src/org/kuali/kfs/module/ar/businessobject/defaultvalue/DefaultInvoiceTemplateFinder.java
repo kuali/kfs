@@ -32,7 +32,7 @@ public class DefaultInvoiceTemplateFinder implements ValueFinder {
     @Override
     public String getValue() {
         String value = null;
-        value = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.CG_NAMESPACE_CODE, ArConstants.AGENCY_DETAIL_TYPE_CODE, ArConstants.DEFAULT_INVOICE_TEMPLATE);
+        value = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, ArConstants.CUSTOMER_COMPONENT, ArConstants.DEFAULT_INVOICE_TEMPLATE);
         if (StringUtils.isEmpty(value)) {
             return "";
         }

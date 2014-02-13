@@ -105,8 +105,10 @@ public class ArConstants{
     public static final String TOTAL_COST_CD = "TC";
 
     public static final String DOCUMENT_STATUS_FINAL = "F";
+
+    public static final String CUSTOMER_COMPONENT = "Customer";
+
     // Agency Address
-    public static final String AGENCY_DETAIL_TYPE_CODE = "Agency";
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
     public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";

@@ -75,17 +75,17 @@
 
 
 	<changeSet author="kfs"
-		id="KRCR_PARM_T_ADD_CG_DEFAULT_INVOICE_TEMPLATE">
+		id="KRCR_PARM_T_ADD_AR_DEFAULT_INVOICE_TEMPLATE">
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Agency" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="Customer" />
 			<column name="PARM_NM" value="DEFAULT_INVOICE_TEMPLATE" />
-			<column name="OBJ_ID" value="CG-DEFAULT-INV-TMPLT-PARM" />
+			<column name="OBJ_ID" value="AR-DEFAULT-INV-TMPLT-PARM" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="STD" />
 			<column name="PARM_DESC_TXT"
-				value="Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses." />
+				value="Invoice templates can be configured at the Customer level or Customer Address level. Use this value to default the Invoice Template on the Customer and Customer Address." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>

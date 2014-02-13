@@ -36,13 +36,6 @@ public interface ContractsAndGrantsModuleRetrieveService {
     public List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded);
 
     /**
-     * Determines whether the CG and Billing Enhancements are on from the system parameters
-     *
-     * @return true if parameter ENABLE_CG_BILLING_ENHANCEMENTS_IND is set to "Y"; otherwise false.
-     */
-    public boolean isContractsGrantsBillingEnhancementsActive();
-
-    /**
      * This method checks the Contract Control account set for Award Account based on award's invoicing option.
      *
      * @return errorString

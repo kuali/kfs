@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg.businessobject.authorization;
 
 import java.util.Set;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -42,7 +42,7 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
         Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
 
         // Determine if CG and Billing enhancements are ON from system parameters
-        boolean billingEnhacementsInd = SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).isContractsGrantsBillingEnhancementsActive();
+        boolean billingEnhacementsInd = SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
 
         return requiredPropertyNames;
     }
@@ -72,7 +72,7 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
      */
     private boolean isContractsGrantsBillingEnhancementsActive() {
 
-        return SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).isContractsGrantsBillingEnhancementsActive();
+        return SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
     }
 
 }

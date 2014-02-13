@@ -31,11 +31,6 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
     }
 
     @Override
-    public boolean isContractsGrantsBillingEnhancementsActive() {
-        return false;
-    }
-
-    @Override
     public List<String> hasValidContractControlAccounts(Long proposalNumber) {
         // TODO Auto-generated method stub
         return null;

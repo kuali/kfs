@@ -20,14 +20,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
-import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
@@ -138,17 +136,6 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
     public AwardService getAwardService() {
         return awardService;
     }
-
-    /**
-     * Retrieve the boolean value for whether CG and Billing Enhancements are on from system parameter
-     * @return true if parameter ENABLE_CG_BILLING_ENHANCEMENTS_IND is set to "Y"; otherwise false.
-     */
-    @Override
-    public boolean isContractsGrantsBillingEnhancementsActive() {
-
-        return getParameterService().getParameterValueAsBoolean(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, CGConstants.ENABLE_CG_BILLING_ENHANCEMENTS_IND);
-    }
-
 
     /**
      * This method checks the Contract Control account set for Award Account based on award's invoicing option.

@@ -40,12 +40,6 @@ public class ContractsAndGrantsModuleRetrieveServiceNoOp implements ContractsAnd
     }
 
     @Override
-    public boolean isContractsGrantsBillingEnhancementsActive() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
     public List<String> hasValidContractControlAccounts(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return new ArrayList<String>();

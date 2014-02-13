@@ -25,6 +25,8 @@
     <bean id="CollectionValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" />
     
     <bean id="NodeSpecificValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.NodeSpecificValidation" />
+    
+    <bean id="NodeSkippingValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.NodeSkippingValidation"/>
 
 	<bean id="validationFieldConversion" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.ValidationFieldConversion" />
 	

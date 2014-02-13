@@ -155,7 +155,7 @@
 	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentPerDiemPrimaryDestinationMatchValidation"/>
 	
 	<bean id="TEMReimbursement-requiredAccountingLinesCountValidation" parent="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" />
-    <bean id="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TEMReimbursementRequiredAccountingLinesCountValidation" />
+    <bean id="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TEMReimbursementRequiredAccountingLinesCountValidation" />
 
 	<!-- Add Accounting Line Event -->
 	<bean id="TravelModule-addAccountingLine-failFastValidation" parent="TravelModule-addAccountingLine-failFastValidation-parentBean" scope="prototype"/>
@@ -222,7 +222,7 @@
     </bean>
 	
 	<bean id="TravelModule-expenseTotalsValidation" parent="TravelModule-expenseTotalsValidation-parentBean"/>	
-	<bean id="TravelModule-expenseTotalsValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TemExpenseTotalsValidation"/>
+	<bean id="TravelModule-expenseTotalsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TemExpenseTotalsValidation"/>
 		
 	<bean id="TravelDocument-actualExpenseDatesValidation" parent="TravelDocument-actualExpenseDatesValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseDatesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseDatesValidation" abstract="true">

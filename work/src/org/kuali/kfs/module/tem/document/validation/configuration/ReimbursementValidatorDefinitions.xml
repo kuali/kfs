@@ -25,13 +25,22 @@
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
-                <bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="accountingDocumentFieldConversion" />
-						</list>
-					</property>
-				</bean>
+                <bean parent="NodeSkippingValidation" scope="prototype">
+   					<property name="validation">		    			
+    					<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+							<property name="parameterProperties">
+								<list>
+									<bean parent="accountingDocumentFieldConversion" />
+								</list>
+							</property>
+						</bean>
+    				</property>
+    				<property name="validationSkipNodes">
+    					<list>
+    						<value>Travel</value>
+    					</list>
+    				</property>
+    			</bean>
     		</list>
     	</property>
     </bean>
@@ -43,13 +52,13 @@
     			<bean parent="TEMReimbursement-requiredAccountingLinesCountValidation" scope="prototype" />
     			<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
     			<bean parent="TravelReimbursement-employeeCertificationValidation" scope="prototype" />
-   				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />  			    			
-    			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
+   				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
 				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype" p:quitOnFail="true" />
 				<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
 				<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
+				<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
 				<bean parent="TravelDocument-perDiemPrimaryDestMatchValidation" scope="prototype"/>
 				<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
 					<property name="parameterProperties">

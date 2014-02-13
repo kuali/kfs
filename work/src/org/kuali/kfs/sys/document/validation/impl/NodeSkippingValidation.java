@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 The Kuali Foundation.
+ * Copyright 2014 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,39 +18,39 @@ package org.kuali.kfs.sys.document.validation.impl;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 
 /**
- * A generic validation which will only validate at specified notes
+ * The opposite of org.kuali.kfs.sys.document.validation.impl.NodeSpecificValidation, this validation will run the child validation
+ * on every node <strong>except</strong> those listed as validationSkipNodes
  */
-public class NodeSpecificValidation extends NodeAwareValidation {
-    protected List<String> validationNodes;
+public class NodeSkippingValidation extends NodeAwareValidation {
+    protected List<String> validationSkipNodes;
 
     /**
-     * @return the List of node names where this validation should occur
+     * @return a List of nodes where this validation should be skipped
      */
-    public List<String> getValidationNodes() {
-        return validationNodes;
+    public List<String> getValidationSkipNodes() {
+        return validationSkipNodes;
     }
 
     /**
-     * Sets the list of node names where this validation should occur
-     * @param validationNodes a List of node names
+     * Sets a List of route node names where this validation should be skipped
+     * @param validationSkipNodes the List of node names to skip
      */
-    public void setValidationNodes(List<String> validationNodes) {
-        this.validationNodes = validationNodes;
+    public void setValidationSkipNodes(List<String> validationSkipNodes) {
+        this.validationSkipNodes = validationSkipNodes;
     }
 
     /**
-     * Determines that something has been passed into the validationNodes property, or else the injected validation will never run
+     * There's less harm here if no validation nodes are set, because the validation will just run everywhere - so this is always true
      * @see org.kuali.kfs.sys.document.validation.impl.NodeAwareValidation#isNodesPropertyValid()
      */
     @Override
     protected boolean isNodesPropertyValid() {
-        return getValidationNodes() != null && !getValidationNodes().isEmpty();
+        return true;
     }
 
     /**
@@ -67,30 +67,19 @@ public class NodeSpecificValidation extends NodeAwareValidation {
         final WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
         if (workflowDocument != null) {
-            if (getValidationNodes() != null && getValidationNodes().contains(PRE_ROUTE)) {
+            if (getValidationSkipNodes() != null && getValidationSkipNodes().contains(PRE_ROUTE)) {
                 if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
-                    return true; // special pre-route check
+                    return false; // special pre-route check
                 }
             }
 
             final Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
-            for (String validationNode : getValidationNodes()) {
+            for (String validationNode : getValidationSkipNodes()) {
                 if (currentNodes.contains(validationNode)) {
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
-
-    /**
-     * Currently, there does not seem a way in which this method would be called - stageValidation should be called, not this.  So we'll
-     * throw an UnsupportedOperationException until someone calls me up and tells me I'm crazy
-     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
-     */
-    @Override
-    public boolean validate(AttributedDocumentEvent event) {
-        throw new UnsupportedOperationException("NodeSpecificValidation does not run validate - all validations are pushed to the composed Validation via stageValidation.  However, if you believe you called this method for a valid reason, please e-mail the KFS tech list.");
-    }
-
 }

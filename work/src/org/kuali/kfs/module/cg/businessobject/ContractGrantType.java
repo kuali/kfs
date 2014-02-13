@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,13 +18,14 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Contract Grant Types under Contracts and Grants section.
  */
 
-public class ContractGrantType extends PersistableBusinessObjectBase implements ContractsAndGrantsContractGrantType {
+public class ContractGrantType extends PersistableBusinessObjectBase implements ContractsAndGrantsContractGrantType, MutableInactivatable {
 
     private String contractGrantTypeCode;
     private String contractGrantTypeDescription;
@@ -36,6 +37,7 @@ public class ContractGrantType extends PersistableBusinessObjectBase implements 
     public ContractGrantType() {
     }
 
+    @Override
     public String getContractGrantTypeCode() {
         return contractGrantTypeCode;
     }
@@ -44,6 +46,7 @@ public class ContractGrantType extends PersistableBusinessObjectBase implements 
         this.contractGrantTypeCode = contractGrantTypeCode;
     }
 
+    @Override
     public String getContractGrantTypeDescription() {
         return contractGrantTypeDescription;
     }
@@ -52,10 +55,12 @@ public class ContractGrantType extends PersistableBusinessObjectBase implements 
         this.contractGrantTypeDescription = contractGrantTypeDescription;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -978,6 +978,9 @@
         <field-descriptor name="rentalCarInsurance"     	column="RENTAL_CAR_INSURANCE"   jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="objectId"                   column="OBJ_ID"         		jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber"              column="VER_NBR"        		jdbc-type="BIGINT"  locking="true" />
+        <reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="expenseTypeCode"/>
+		</reference-descriptor>
         <reference-descriptor name="expenseTypeObjectCode" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="expenseTypeObjectCodeId"/>
 		</reference-descriptor>

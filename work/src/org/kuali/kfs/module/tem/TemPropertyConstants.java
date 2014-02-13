@@ -389,6 +389,7 @@ public class TemPropertyConstants {
     public static final String EXPENSE_TYPE = "expenseType";
     public static final String NAME = "name";
     public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseTypeMetaCategoryCode";
+
     public static final String CATEGORY_DEFAULT = "categoryDefault";
 
     public static final String TRAVEL_PAYMENT = "travelPayment";
@@ -401,5 +402,9 @@ public class TemPropertyConstants {
     public class TravelPaymentProperties {
         public static final String SPECIAL_HANDLING_PERSON_NAME = "specialHandlingPersonName";
         public static final String SPECIAL_HANDLING_STATE_CODE = "specialHandlingStateCode";
+    }
+
+    public class ClassOfService {
+        public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseType.expenseTypeMetaCategoryCode";
     }
 }

@@ -2,21 +2,23 @@ package org.kuali.kfs.module.external.kc.dto;
 
 public class AwardSearchCriteriaDto {
 
-	private Long awardId;
+	private String awardId;
 	private String awardNumber;
 	private String accountNumber;
 	private String chartOfAccounts;
 	private String principalInvestigatorId;
 	private String sponsorCode;
 	private String startDate;
+	private String startDateLowerBound;
 	private String endDate;
+	private String endDateLowerBound;
 	private String billingFrequency;
 	private String awardTotal;
 
-	public Long getAwardId() {
+	public String getAwardId() {
 		return awardId;
 	}
-	public void setAwardId(Long awardId) {
+	public void setAwardId(String awardId) {
 		this.awardId = awardId;
 	}
 	public String getAwardNumber() {
@@ -72,5 +74,17 @@ public class AwardSearchCriteriaDto {
 	}
 	public void setAwardTotal(String awardTotal) {
 		this.awardTotal = awardTotal;
+	}
+	public String getStartDateLowerBound() {
+		return startDateLowerBound;
+	}
+	public void setStartDateLowerBound(String startDateLowerBound) {
+		this.startDateLowerBound = startDateLowerBound;
+	}
+	public String getEndDateLowerBound() {
+		return endDateLowerBound;
+	}
+	public void setEndDateLowerBound(String endDateLowerBound) {
+		this.endDateLowerBound = endDateLowerBound;
 	}
 }

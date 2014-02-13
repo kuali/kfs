@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
-import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAndGrantsModuleRetrieveService {
@@ -29,7 +27,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
 
     @Override
     public List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return new ArrayList<Award>(getAwardService().findMatching(fieldValues));
+        return getAwardService().getSearchResults(fieldValues);
     }
 
     @Override

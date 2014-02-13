@@ -24,7 +24,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateDto;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateStatusDto;
-import org.kuali.kfs.module.external.kc.dto.AwardSearchCriteriaDto;
+import org.kuali.kfs.module.external.kc.dto.AwardFieldValuesDto;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
@@ -51,8 +51,8 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
         handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(buildSearchDto(criteria), updateDto));
     }
 
-    protected AwardSearchCriteriaDto buildSearchDto(Map<String, Object> criteria) {
-        AwardSearchCriteriaDto dto = new AwardSearchCriteriaDto();
+    protected AwardFieldValuesDto buildSearchDto(Map<String, Object> criteria) {
+        AwardFieldValuesDto dto = new AwardFieldValuesDto();
         dto.setAccountNumber((String) criteria.get(KFSPropertyConstants.ACCOUNT_NUMBER));
         dto.setChartOfAccounts((String) criteria.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         dto.setAwardId((Long) criteria.get(KFSPropertyConstants.PROPOSAL_NUMBER));
@@ -65,7 +65,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
         updateDto.setDoLastBillDateUpdate(true);
         updateDto.setLastBillDate(lastBilledDate);
-        AwardSearchCriteriaDto searchDto = new AwardSearchCriteriaDto();
+        AwardFieldValuesDto searchDto = new AwardFieldValuesDto();
         searchDto.setAwardId(proposalNumber);
         handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(searchDto, updateDto));
     }
@@ -75,7 +75,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
         updateDto.setDoLocCreationTypeUpdate(true);
         updateDto.setLocCreationType(locCreationType);
-        AwardSearchCriteriaDto searchDto = new AwardSearchCriteriaDto();
+        AwardFieldValuesDto searchDto = new AwardFieldValuesDto();
         searchDto.setAwardId(proposalNumber);
         handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(searchDto, updateDto));
 

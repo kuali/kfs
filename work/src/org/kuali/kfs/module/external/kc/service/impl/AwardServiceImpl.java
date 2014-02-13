@@ -34,6 +34,7 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
+import org.kuali.kfs.module.external.kc.dto.AwardFieldValuesDto;
 import org.kuali.kfs.module.external.kc.dto.AwardSearchCriteriaDto;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
@@ -47,6 +48,7 @@ import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -95,23 +97,46 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     @Override
     public Collection findMatching(Map fieldValues) {
         List<AwardDTO> result = null;
-        AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();
-        if (fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) != null && fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) instanceof String
-                && StringUtils.isNotBlank((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER))) {
-            criteria.setAwardId(Long.parseLong((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER)));
-        } else if (fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) != null && fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER) instanceof Long){
-            criteria.setAwardId((Long) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
-        }
+        AwardFieldValuesDto criteria = new AwardFieldValuesDto();
+        criteria.setAwardId((Long) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
         criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
         criteria.setPrincipalInvestigatorId((String) fieldValues.get("principalId"));
-        criteria.setSponsorCode((String) fieldValues.get("agencyNumber"));
+
+        try {
+          result  = this.getWebService().getMatchingAwards(criteria);
+        } catch (WebServiceException ex) {
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+        }
+
+        if (result == null) {
+            return new ArrayList();
+        } else {
+            List<Award> awards = new ArrayList<Award>();
+            for (AwardDTO dto : result) {
+                awards.add(awardFromDTO(dto));
+            }
+            return awards;
+        }
+    }
+
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<AwardDTO> result = null;
+        AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();
+        criteria.setAwardId(fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
+        criteria.setAwardNumber(fieldValues.get("awardNumber"));
+        criteria.setChartOfAccounts(fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+        criteria.setAccountNumber(fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
+        criteria.setPrincipalInvestigatorId(fieldValues.get("principalId"));
+        criteria.setSponsorCode(fieldValues.get("agencyNumber"));
         //the below should only be passed in from the lookup framework, meaning they will all be strings
-        criteria.setStartDate((String) fieldValues.get("awardBeginningDate"));
-        criteria.setEndDate((String) fieldValues.get("awardEndingDate"));
-        criteria.setBillingFrequency((String) fieldValues.get("awardBillingFrequency"));
-        criteria.setAwardTotal((String) fieldValues.get("awardTotal"));
+        criteria.setStartDate(fieldValues.get("awardBeginningDate"));
+        criteria.setStartDateLowerBound(fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate"));
+        criteria.setEndDate(fieldValues.get("awardEndingDate"));
+        criteria.setEndDateLowerBound(fieldValues.get("rangeLowerBoundKeyPrefix_awardEndingDate"));
+        criteria.setBillingFrequency(fieldValues.get("awardBillingFrequency"));
+        criteria.setAwardTotal(fieldValues.get("awardTotal"));
         try {
           result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {

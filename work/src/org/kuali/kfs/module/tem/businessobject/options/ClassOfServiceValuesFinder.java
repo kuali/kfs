@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ClassOfServiceValuesFinder extends KeyValuesBase {
 
-    private String expenseTypeCode;
+    private String expenseTypeMetaCategoryCode;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -43,9 +43,9 @@ public class ClassOfServiceValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         Collection<ClassOfService> bos = null;
-        if(ObjectUtils.isNotNull(expenseTypeCode)){
+        if(ObjectUtils.isNotNull(expenseTypeMetaCategoryCode)){
             Map<String, String> searchMap = new HashMap<String, String>();
-            searchMap.put(TemPropertyConstants.EXPENSE_TYPE_CODE, expenseTypeCode);
+            searchMap.put(TemPropertyConstants.ClassOfService.EXPENSE_TYPE_META_CATEGORY_CODE, expenseTypeMetaCategoryCode);
             bos = SpringContext.getBean(BusinessObjectService.class).findMatching(ClassOfService.class, searchMap);
         }
         else{
@@ -60,12 +60,14 @@ public class ClassOfServiceValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
-    public void setExpenseTypeCode(String expenseTypeCode){
-        this.expenseTypeCode = expenseTypeCode;
+    public String getExpenseTypeMetaCategoryCode() {
+        return expenseTypeMetaCategoryCode;
     }
 
-    public String getExpenseTypeCode(){
-        return this.expenseTypeCode;
+    public void setExpenseTypeMetaCategoryCode(String expenseTypeMetaCategoryCode) {
+        this.expenseTypeMetaCategoryCode = expenseTypeMetaCategoryCode;
     }
+
+
 
 }

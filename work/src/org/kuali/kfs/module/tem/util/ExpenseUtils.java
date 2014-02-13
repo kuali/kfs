@@ -71,6 +71,7 @@ public class ExpenseUtils {
                 importedExpense.setDescription(historicalTravelExpense.getDescription());
                 importedExpense.setTravelExpenseTypeCode(travelExpenseTypeCode);
                 importedExpense.setExpenseTypeObjectCodeId(travelExpenseTypeCode.getExpenseTypeObjectCodeId());
+                importedExpense.setTaxable(travelExpenseTypeCode.isTaxable());
             }
 
             importedExpense.setHistoricalTravelExpenseId(historicalTravelExpense.getId());

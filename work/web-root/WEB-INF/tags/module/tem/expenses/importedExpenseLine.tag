@@ -51,7 +51,7 @@
 							<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
 							<html:select property="${expense}.expenseTypeCode" 
 								styleId="${expense}.expenseTypeCode"
-								onchange="checkDirectBilled('${expense}')">
+								onchange="checkDirectBilled('${expense}');loadExpenseTypeObjectCode(this, '${KualiForm.docTypeName}', '${KualiForm.document.traveler.travelerTypeCode}', '${KualiForm.document.tripTypeCode}')">
 								<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
 									<c:set var="isSelected" value="${detailObject.expenseTypeCode == option.key}" />
 									<%-- Populate the value that was previously selected before error occurred --%>

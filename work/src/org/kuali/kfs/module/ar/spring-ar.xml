@@ -737,7 +737,7 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceSuspenseActivityReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Grants Invoice Suspense Activity Report" />
+		<property name="reportTitle" value="Invoice Suspense Activity Report" />
 		<property name="reportFileName" value="cg_invoice_suspense_activity_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />

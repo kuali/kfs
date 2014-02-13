@@ -17,13 +17,10 @@
 
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport" />
 
-		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-inquiryDefinition"/> </property> -->
-
 		<property name="lookupDefinition">
 			<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="ContractsGrantsInvoiceSuspenseActivityReportInquiryTitle" />
-		<property name="objectLabel" value="ContractsGrantsInvoiceSuspenseActivityReport" />
+		<property name="objectLabel" value="Invoice Suspense Activity Report" />
 
 		<property name="attributes">
 			<list>
@@ -31,8 +28,6 @@
 				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode" />
 				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription" />
 				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended" />
-				<!-- <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesCleared" /> -->
-				<!-- <ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesRemainingToClear" /> -->
 			</list>
 		</property>
 
@@ -127,7 +122,7 @@
 	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" parent="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsInvoiceSuspenseActivityReport Lookup" />
+		<property name="title" value="Invoice Suspense Activity Report" />
 		<property name="lookupableID" value="contractsGrantsInvoiceSuspenseActivityReportLookupResultLookupable" />
 
 		<property name="defaultSort">
@@ -136,22 +131,14 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<!-- <bean parent="FieldDefinition" p:attributeName="fundManager" /> -->
 				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
-				<bean parent="FieldDefinition" p:attributeName="categoryDescription" />
-				<bean parent="FieldDefinition" p:attributeName="totalInvoicesSuspended" />
-				<!-- <bean parent="FieldDefinition" p:attributeName="totalInvoicesCleared" /> <bean parent="FieldDefinition" p:attributeName="totalInvoicesRemainingToClear" 
-					/> -->
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<!-- <bean parent="FieldDefinition" p:attributeName="fundManager" /> -->
 				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="categoryDescription" />
 				<bean parent="FieldDefinition" p:attributeName="totalInvoicesSuspended" />
-				<!-- <bean parent="FieldDefinition" p:attributeName="totalInvoicesCleared" /> <bean parent="FieldDefinition" p:attributeName="totalInvoicesRemainingToClear" 
-					/> -->
 			</list>
 		</property>
 	</bean>

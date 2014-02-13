@@ -796,7 +796,9 @@
 
 	<bean id="importedCTSExpenseService" parent="importedCTSExpenseService-parentBean" />
 	<bean id="importedCTSExpenseService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" >		
-        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />    
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
+        <property name="travelExpenseService" ref="travelExpenseService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
     </bean>
 
 	<bean id="importedCorporateCardExpenseService" parent="importedCorporateCardExpenseService-parentBean" />

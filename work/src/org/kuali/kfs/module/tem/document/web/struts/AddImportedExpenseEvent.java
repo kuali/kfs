@@ -23,7 +23,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -33,6 +37,7 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -41,6 +46,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class AddImportedExpenseEvent implements Observer {
+    protected volatile TravelExpenseService travelExpenseService;
 
     @SuppressWarnings("null")
     @Override
@@ -91,15 +97,18 @@ public class AddImportedExpenseEvent implements Observer {
                 HistoricalTravelExpense historicalTravelExpense = getBusinessObjectService().findBySinglePrimaryKey(HistoricalTravelExpense.class, newImportedExpenseLine.getHistoricalTravelExpenseId());
                 historicalTravelExpense.refreshReferenceObject("agencyStagingData");
                 List<TripAccountingInformation> tripAccountinfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();
+                final ExpenseTypeObjectCode expenseTypeObjectCode = findExpenseTypeObjectCodeForAgencyStagingData(document, historicalTravelExpense.getAgencyStagingData());
 
                 for (TripAccountingInformation tripAccountingInformation : tripAccountinfoList){
                     TemSourceAccountingLine importedLine = new TemSourceAccountingLine();
-                    importedLine.setAmount(ObjectUtils.isNotNull(tripAccountingInformation.getAmount()) ? tripAccountingInformation.getAmount() : KualiDecimal.ZERO);
+                    importedLine.setAmount(ObjectUtils.isNotNull(tripAccountingInformation.getAmount()) ? tripAccountingInformation.getAmount() :
+                        historicalTravelExpense.getAmount().divide(new KualiDecimal(tripAccountinfoList.size())));
                     importedLine.setChartOfAccountsCode(tripAccountingInformation.getTripChartCode());
-
                     importedLine.setAccountNumber(tripAccountingInformation.getTripAccountNumber());
                     importedLine.setSubAccountNumber(tripAccountingInformation.getTripSubAccountNumber());
-                    importedLine.setFinancialObjectCode(tripAccountingInformation.getObjectCode());
+                    if (expenseTypeObjectCode != null) {
+                        importedLine.setFinancialObjectCode(expenseTypeObjectCode.getFinancialObjectCode());
+                    }
                     importedLine.setFinancialSubObjectCode(tripAccountingInformation.getSubObjectCode());
                     importedLine.setProjectCode(tripAccountingInformation.getProjectCode());
                     importedLine.setOrganizationReferenceId(tripAccountingInformation.getOrganizationReference());
@@ -110,6 +119,24 @@ public class AddImportedExpenseEvent implements Observer {
                 }
             }
         }
+    }
+
+    /**
+     * Looks up the appropriate ExpenseTypeObjectCode record for the given document and agency staging data
+     * @param document the document which has a document type, a traveler type (hopefully), and a trip type
+     * @param agencyStagingData the agency staging data, from which we can find the expense type
+     * @return the ExpenseTypeObjectCode or null if it could not be determined
+     */
+    protected ExpenseTypeObjectCode findExpenseTypeObjectCodeForAgencyStagingData(TravelDocument document, AgencyStagingData agencyStagingData) {
+        final String documentType = document.getDocumentTypeName();
+        final String tripType = StringUtils.isBlank(document.getTripTypeCode()) ? TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE : document.getTripTypeCode();
+        final String travelerType = ObjectUtils.isNull(document.getTraveler()) || StringUtils.isBlank(document.getTraveler().getTravelerTypeCode()) ? TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE : document.getTraveler().getTravelerTypeCode();
+        final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(agencyStagingData.getExpenseTypeCategory());
+        if (expenseType == null) {
+            return null;
+        }
+        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseService().getExpenseType(expenseType.getCode(), documentType, tripType, travelerType);
+        return expenseTypeObjectCode;
     }
 
     /**
@@ -136,5 +163,12 @@ public class AddImportedExpenseEvent implements Observer {
 
     protected AccountingDistributionService getAccountingDistributionService() {
         return SpringContext.getBean(AccountingDistributionService.class);
+    }
+
+    protected TravelExpenseService getTravelExpenseService() {
+        if (travelExpenseService == null) {
+            travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
+        }
+        return travelExpenseService;
     }
 }

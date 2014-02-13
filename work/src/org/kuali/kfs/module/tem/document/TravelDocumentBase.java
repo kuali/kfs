@@ -1882,7 +1882,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         List<HistoricalTravelExpense> allHistoricalExpenses = getHistoricalTravelExpenses();
         List<HistoricalTravelExpense> reconciledHistoricalExpenses = new ArrayList<HistoricalTravelExpense>();
         for (HistoricalTravelExpense historicalExpense : allHistoricalExpenses) {
-            if (!ObjectUtils.isNull(historicalExpense.getCreditCardStagingData()) && !ObjectUtils.isNull(historicalExpense.getAgencyStagingData())) {
+            if (StringUtils.equals(historicalExpense.getReconciled(), TemConstants.ReconciledCodes.RECONCILED)) {
                 reconciledHistoricalExpenses.add(historicalExpense);
             }
         }

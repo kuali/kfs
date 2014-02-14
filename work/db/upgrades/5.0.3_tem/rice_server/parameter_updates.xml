@@ -431,7 +431,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-049"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Pre-Trip Payments and Requisitions links become available in the TA custom search prior to TA approval."/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Vendor Payment link becomes available in the TA custom search prior to TA approval."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

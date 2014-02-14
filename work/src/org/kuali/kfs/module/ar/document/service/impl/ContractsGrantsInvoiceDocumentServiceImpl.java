@@ -3408,8 +3408,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.agencyAnalystName", returnProperStringValue(award.getAgencyAnalystName()));
             parameterMap.put("award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
             parameterMap.put("award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
-            parameterMap.put("award.preferredReportTemplate", returnProperStringValue(award.getPreferredReportTemplate()));
-            parameterMap.put("award.preferredReportFrequency", returnProperStringValue(award.getPreferredReportFrequency()));
             parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
             parameterMap.put("award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
             parameterMap.put("award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));

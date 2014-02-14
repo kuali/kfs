@@ -379,8 +379,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency"
 					p:webUILeaveFieldFunction="onblur_preferredBillingFrequency"
 					p:triggerOnChange="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="preferredReportTemplate" />
-				<bean parent="MaintainableFieldDefinition" p:name="preferredReportFrequency" />
 				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="suspendInvoicingIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="suspensionReason" />

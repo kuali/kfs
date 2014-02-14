@@ -87,10 +87,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String analystTelephoneNumber;
     private String preferredBillingFrequency;
     private BillingFrequency billingFrequency;
-    private String preferredReportTemplate;
-    private FinancialFormTemplate financialFormTemplate;
-    private String preferredReportFrequency;
-    private FinancialReportFrequencies financialReportFrequencies;
     private String awardProjectTitle;
     private String awardCommentText;
     private String awardPurposeCode;
@@ -1484,25 +1480,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.preferredBillingFrequency = preferredBillingFrequency;
     }
 
-    /**
-     * Gets the preferredReportFrequency attribute.
-     *
-     * @return Returns the preferredReportFrequency.
-     */
-
-    @Override
-    public String getPreferredReportFrequency() {
-        return preferredReportFrequency;
-    }
-
-    /**
-     * Sets the preferredReportFrequency attribute value.
-     *
-     * @param preferredReportFrequency The preferredReportFrequency to set.
-     */
-    public void setPreferredReportFrequency(String preferredReportFrequency) {
-        this.preferredReportFrequency = preferredReportFrequency;
-    }
 
     /**
      * Gets the suspendInvoicingIndicator attribute.
@@ -1584,27 +1561,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.contractGrantType = contractGrantType;
     }
 
-    /**
-     * Gets the preferredReportTemplate attribute.
-     *
-     * @return Returns the preferredReportTemplate.
-     */
-
-    @Override
-    public String getPreferredReportTemplate() {
-        return preferredReportTemplate;
-    }
-
-    /**
-     * Sets the preferredReportTemplate attribute value.
-     *
-     * @param preferredReportTemplate The preferredReportTemplate to set.
-     */
-    public void setPreferredReportTemplate(String preferredReportTemplate) {
-        this.preferredReportTemplate = preferredReportTemplate;
-    }
-
-    /**
+     /**
      * Gets the billingFrequency attribute.
      *
      * @return Returns the billingFrequency.
@@ -1624,41 +1581,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.billingFrequency = billingFrequency;
     }
 
-    /**
-     * Gets the financialFormTemplate attribute.
-     *
-     * @return Returns the financialFormTemplate.
-     */
-    public FinancialFormTemplate getFinancialFormTemplate() {
-        return financialFormTemplate;
-    }
-
-    /**
-     * Sets the financialFormTemplate attribute value.
-     *
-     * @param financialFormTemplate The financialFormTemplate to set.
-     */
-    public void setFinancialFormTemplate(FinancialFormTemplate financialFormTemplate) {
-        this.financialFormTemplate = financialFormTemplate;
-    }
-
-    /**
-     * Gets the financialReportFrequencies attribute.
-     *
-     * @return Returns the financialReportFrequencies.
-     */
-    public FinancialReportFrequencies getFinancialReportFrequencies() {
-        return financialReportFrequencies;
-    }
-
-    /**
-     * Sets the financialReportFrequencies attribute value.
-     *
-     * @param financialReportFrequencies The financialReportFrequencies to set.
-     */
-    public void setFinancialReportFrequencies(FinancialReportFrequencies financialReportFrequencies) {
-        this.financialReportFrequencies = financialReportFrequencies;
-    }
 
     public List<AccountsReceivableMilestone> getMilestones() {
         // To get completed milestones only - Milestones that have a completion date filled

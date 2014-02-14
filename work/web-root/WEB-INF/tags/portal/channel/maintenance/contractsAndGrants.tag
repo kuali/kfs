@@ -48,14 +48,6 @@
 			<li><portal:portalLink displayTitle="true"
 					title="Instrument Type"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ContractGrantType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Financial Form Templates"
-					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Financial Report Frequency"
-					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>	
 		<li>
 			<portal:portalLink displayTitle="true" title="Grant Description"

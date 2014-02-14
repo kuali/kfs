@@ -56,8 +56,6 @@
 				<ref bean="Award-agency.reportingName" />
 				<ref bean="Award-analystTelephoneNumber" />
 				<ref bean="Award-preferredBillingFrequency" />
-				<ref bean="Award-preferredReportTemplate" />
-				<ref bean="Award-preferredReportFrequency" />
 				<ref bean="Award-awardAddendumNumber" />
 				<ref bean="Award-awardAllocatedUniversityComputingServicesAmount" />
 				<ref bean="Award-awardBeginningDate" />
@@ -903,33 +901,6 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	<bean id="Award-preferredReportFrequency" parent="Award-preferredReportFrequency-parentBean" />
-
-	<bean id="Award-preferredReportFrequency-parentBean" abstract="true"
-		parent="FinancialReportFrequencies-reportFrequency">
-		<property name="name" value="preferredReportFrequency" />
-		<property name="label" value="Financial Report Frequency" />
-		<property name="shortLabel" value="Financial Report Frequency" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.FinancialReportFrequencyValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<bean id="Award-preferredReportTemplate" parent="Award-preferredReportTemplate-parentBean" />
-
-	<bean id="Award-preferredReportTemplate-parentBean" abstract="true"
-		parent="FinancialFormTemplate-financialFormTemplateCode">
-		<property name="name" value="preferredReportTemplate" />
-		<property name="label" value="Financial Report Template" />
-		<property name="shortLabel" value="Financial Report Template" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyFinancialReportTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
 
 	<bean id="Award-stateTransferIndicator" parent="Award-stateTransferIndicator-parentBean" />
 
@@ -1188,8 +1159,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 							<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
-							<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
-							<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
 							<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="suspensionReason" />
@@ -1451,8 +1420,6 @@
 				<bean parent="FieldDefinition" p:attributeName="awardOrganizations.organization.organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="awardAccounts.account.accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
-				<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
 				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />

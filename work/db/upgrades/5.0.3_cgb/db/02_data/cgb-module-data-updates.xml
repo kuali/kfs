@@ -39,23 +39,7 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<update tableName="CG_FIN_FORM_TYP_T">
-			<column name="FIN_FORM_TYP_DESC">Federal SF-269A</column>
-			<where>FIN_FORM_TYP_CD='269A'</where>
-		</update>
-		<update tableName="CG_FIN_FORM_TYP_T">
-			<column name="FIN_FORM_TYP_DESC">Federal SF-272A</column>
-			<where>FIN_FORM_TYP_CD='272A'</where>
-		</update>
-		<update tableName="CG_FIN_FORM_TYP_T">
-			<column name="FIN_FORM_TYP_DESC">Federal SF-425</column>
-			<where>FIN_FORM_TYP_CD='425'</where>
-		</update>
-		<update tableName="CG_FIN_RPT_FREQ_T">
-			<column name="FIN_RPT_FREQ_DESC">Annually</column>
-			<where>FIN_RPT_FREQ_CD='ANN'</where>
-		</update>
-		<update tableName="CG_CNTRCT_GRNT_TYP_T">
+			<update tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD">GFP</column>
 			<where>CNTRCT_GRNT_TYP_CD='FP'</where>
 		</update>

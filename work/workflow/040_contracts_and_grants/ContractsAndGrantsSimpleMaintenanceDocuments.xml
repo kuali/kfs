@@ -297,26 +297,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				FRF
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Financial Report Frequency
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Ffinancialreportfrequency.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				BILF
 			</name>
 			<parent>
@@ -347,26 +327,6 @@
 			</label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcontractsorgranttype.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
-				FFTM
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Financial Form Template
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Ffinancialformtemplate.htm
 			</helpDefinitionURL>
 			<active>
 				true

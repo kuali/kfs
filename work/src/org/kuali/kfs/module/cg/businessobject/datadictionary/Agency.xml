@@ -10,7 +10,6 @@
 		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
-
 	<bean id="Agency" parent="Agency-parentBean" />
 
 	<bean id="Agency-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -40,9 +39,7 @@
 				<ref bean="Agency-dunAndBradstreetNumber" />
 				<ref bean="Agency-dunsPlusFourNumber" />
 				<ref bean="Agency-agencyFrequencyCode" />
-				<ref bean="Agency-agencyFinancialReportCode" />
 				<ref bean="Agency-agencyInvoiceTemplateCode" />
-				<ref bean="Agency-agencyFinancialReportFreqCode" />
 				<ref bean="Agency-agencyExpirationDate" />
 				<ref bean="Agency-agencyAddresses.agencyAddressName" />
 				<ref bean="Agency-agencyAddresses.agencyLine1StreetAddress" />
@@ -300,28 +297,6 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	<!-- -->
-
-	<!-- Link to Financial Report Type -->
-	<bean id="Agency-agencyFinancialReportCode" parent="Agency-agencyFinancialReportCode-parentBean" />
-
-	<bean id="Agency-agencyFinancialReportCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyFinancialReportCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Financial Template" />
-		<property name="shortLabel" value="RptType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyFinancialReportTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-	<!-- -->
 
 	<!-- Link to Invoice Template -->
 	<bean id="Agency-agencyInvoiceTemplateCode" parent="Agency-agencyInvoiceTemplateCode-parentBean" />
@@ -342,28 +317,7 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	<!-- -->
 
-	<!-- Link to Financial Report Frequency -->
-	<bean id="Agency-agencyFinancialReportFreqCode" parent="Agency-agencyFinancialReportFreqCode-parentBean" />
-
-	<bean id="Agency-agencyFinancialReportFreqCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyFinancialReportFreqCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Financial Report Frequency" />
-		<property name="shortLabel" value="FreqType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.FinancialReportFrequencyValuesFinder"
-				p:includeKeyInLabel="true" />
-		</property>
-	</bean>
-	<!-- -->
 
 	<bean id="Agency-agencyExpirationDate" parent="Agency-agencyExpirationDate-parentBean" />
 
@@ -598,8 +552,6 @@
 							<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
 							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
-							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
-							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
 						</list>
 					</property>
@@ -730,8 +682,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active" />				
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactName" />
@@ -750,7 +700,6 @@
 				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

@@ -262,20 +262,6 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getPreferredBillingFrequency();
 
     /**
-     * Gets the preferredReportTemplate attribute.
-     *
-     * @return Returns the preferredReportTemplate.
-     */
-    public String getPreferredReportTemplate();
-
-    /**
-     * Gets the preferredReportFrequency attribute.
-     *
-     * @return Returns the preferredReportFrequency.
-     */
-    public String getPreferredReportFrequency();
-
-    /**
      * Gets the awardProjectTitle attribute.
      *
      * @return Returns the awardProjectTitle.

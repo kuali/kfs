@@ -86,10 +86,7 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     private String preferredBillingFrequency;
     private ContractsAndGrantsBillingFrequency billingFrequency;
-    private String preferredReportTemplate;
 
-    // private String preferredBillingFormat;
-    private String preferredReportFrequency;
 
 
     private String awardProjectTitle;
@@ -807,49 +804,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
 
-    /**
-     * Gets the preferredReportTemplate attribute.
-     *
-     * @return Returns the preferredReportTemplate.
-     */
-    @Override
-    public String getPreferredReportTemplate() {
-        return preferredReportTemplate;
-    }
-
-
-    /**
-     * Sets the preferredReportTemplate attribute value.
-     *
-     * @param preferredReportTemplate The preferredReportTemplate to set.
-     */
-    public void setPreferredReportTemplate(String preferredReportTemplate) {
-        this.preferredReportTemplate = preferredReportTemplate;
-    }
-
-
-    /**
-     * Gets the preferredReportFrequency attribute.
-     *
-     * @return Returns the preferredReportFrequency.
-     */
-    @Override
-    public String getPreferredReportFrequency() {
-        return preferredReportFrequency;
-    }
-
-
-    /**
-     * Sets the preferredReportFrequency attribute value.
-     *
-     * @param preferredReportFrequency The preferredReportFrequency to set.
-     */
-    public void setPreferredReportFrequency(String preferredReportFrequency) {
-        this.preferredReportFrequency = preferredReportFrequency;
-    }
-
-
-    /**
+     /**
      * Gets the awardProjectTitle attribute.
      *
      * @return Returns the awardProjectTitle.

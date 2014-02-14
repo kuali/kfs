@@ -82,8 +82,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String agencyAnalystName;
     private String analystTelephoneNumber;
     private String preferredBillingFrequency;
-    private String preferredReportTemplate;
-    private String preferredReportFrequency;
     private String awardProjectTitle;
     private String awardCommentText;
     private String awardPurposeCode;
@@ -531,23 +529,6 @@ public class Award implements ContractsAndGrantsBillingAward {
         this.preferredBillingFrequency = preferredBillingFrequency;
     }
 
-    @Override
-    public String getPreferredReportTemplate() {
-        return preferredReportTemplate;
-    }
-
-    public void setPreferredReportTemplate(String preferredReportTemplate) {
-        this.preferredReportTemplate = preferredReportTemplate;
-    }
-
-    @Override
-    public String getPreferredReportFrequency() {
-        return preferredReportFrequency;
-    }
-
-    public void setPreferredReportFrequency(String preferredReportFrequency) {
-        this.preferredReportFrequency = preferredReportFrequency;
-    }
 
     @Override
     public String getAwardProjectTitle() {

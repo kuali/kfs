@@ -89,8 +89,6 @@
 					p:webUILeaveFieldFunction="setNewAddressInvoiceTemplate"
 					p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.DefaultInvoiceTemplateFinder" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyFrequencyCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="agencyFinancialReportCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="agencyFinancialReportFreqCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyExpirationDate" />
 			</list>
 		</property>

@@ -33,10 +33,10 @@ public class AllCGTests {
     public static Test suite() {
         TestSuite suite = new TestSuite(AllCGTests.class.getName());
 
-        suite.addTestSuite(FinancialFormTemplateTest.class);
+
         suite.addTestSuite(ContractGrantTypeTest.class);
         suite.addTestSuite(BillingFrequencyTest.class);
-        suite.addTestSuite(FinancialReportFrequenciesTest.class);
+
         suite.addTestSuite(LetterOfCreditFundTest.class);
 
         return suite;

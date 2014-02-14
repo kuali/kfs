@@ -28,11 +28,9 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="agencyFrequencyCode" column="CG_AGENCY_BILL_FREQ_CD" jdbc-type="VARCHAR" /><!-- Billing Frequency Link -->
-		<field-descriptor name="agencyFinancialReportCode" column="CG_AGENCY_FIN_FORM_TYP_CD" jdbc-type="VARCHAR" />   <!-- Financial Form Type Link -->
 		<field-descriptor name="agencyInvoiceTemplateCode" column="CG_AGENCY_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type 
 			Link -->
-		<field-descriptor name="agencyFinancialReportFreqCode" column="FIN_RPT_FREQ_CD" jdbc-type="VARCHAR" /><!-- Financial Report Frequency 
-			Link -->
+		
 		<field-descriptor name="agencyExpirationDate" column="AGCY_EXP_DT" jdbc-type="DATE" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" />
@@ -55,16 +53,6 @@
 		<reference-descriptor name="agencybillingFrequency" class-ref="org.kuali.kfs.module.cg.businessobject.BillingFrequency"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="agencyFrequencyCode" />
-		</reference-descriptor>
-		<!-- Financial Form Type Link -->
-		<reference-descriptor name="agencyFinancialReportType" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="agencyFinancialReportCode" />
-		</reference-descriptor>
-		<!-- Financial Report Frequency Link -->
-		<reference-descriptor name="agencyFinancialReportFreq" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="agencyFinancialReportFreqCode" />
 		</reference-descriptor>
 
 		<collection-descriptor name="agencyAddresses" element-class-ref="org.kuali.kfs.module.cg.businessobject.AgencyAddress"
@@ -442,8 +430,6 @@
 		<field-descriptor name="autoApproveIndicator" column="AUTO_APP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 				<field-descriptor name="preferredBillingFrequency" column="PREF_BILL_FREQ_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="preferredReportFrequency" column="PREF_RPRT_FREQ" jdbc-type="VARCHAR" />
-		<field-descriptor name="preferredReportTemplate" column="PREF_RPRT_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="stateTransferIndicator" column="STATE_TRNSFR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="suspendInvoicingIndicator" column="SUSPND_INVCNG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="suspensionReason" column="SUSP_REASON_TXT" jdbc-type="VARCHAR" />
@@ -493,18 +479,7 @@
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="preferredBillingFrequency" />
 		</reference-descriptor>
-		
-		<!-- Financial Form Type Link -->
-		<reference-descriptor name="financialFormTemplate" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="preferredReportTemplate" />
-		</reference-descriptor>
-		
-		<!-- Financial Report Frequency Link -->
-		<reference-descriptor name="financialReportFrequencies" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="preferredReportFrequency" />
-		</reference-descriptor>
+
 		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber" />
@@ -721,15 +696,6 @@
 		<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<!-- FINANCIAL FORM TEMPLATE -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate" table="CG_FIN_FORM_TYP_T">
-		<field-descriptor name="financialFormTemplateCode" column="FIN_FORM_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="financialFormTemplateDescription" column="FIN_FORM_TYP_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
 
 	<!-- CONTRACT OR GRANT TYPE -->
 
@@ -741,16 +707,6 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 
-
-	<!-- FINANCIAL REPORT FREQUENCIES -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies" table="CG_FIN_RPT_FREQ_T">
-		<field-descriptor name="reportFrequency" column="FIN_RPT_FREQ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="reportFrequencyDescription" column="FIN_RPT_FREQ_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
 
 	<!-- BILLING FREQUENCY -->
 

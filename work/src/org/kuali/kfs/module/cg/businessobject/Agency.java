@@ -68,15 +68,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private String agencyInvoiceTemplateCode;
     private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
 
-    // Financial Report Type link
-
-    private String agencyFinancialReportCode;
-    private FinancialFormTemplate agencyFinancialReportType;
-
-    // Financial Report Frequency
-
-    private String agencyFinancialReportFreqCode;
-    private FinancialReportFrequencies agencyFinancialReportFreq;
 
     private Date agencyExpirationDate;
 
@@ -177,80 +168,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
         this.agencyInvoiceTemplate = agencyInvoiceTemplate;
     }
 
-
-    // Getters and setters for Financial Report Type
-    /**
-     * Gets the agencyFinancialReportCode attribute.
-     *
-     * @return Returns the agencyFinancialReportCode.
-     */
-    public String getAgencyFinancialReportCode() {
-        return agencyFinancialReportCode;
-    }
-
-    /**
-     * Sets the agencyFinancialReportCode attribute value.
-     *
-     * @param agencyFinancialReportCode The agencyFinancialReportCode to set.
-     */
-    public void setAgencyFinancialReportCode(String agencyFinancialReportCode) {
-        this.agencyFinancialReportCode = agencyFinancialReportCode;
-    }
-
-    /**
-     * Gets the agencyFinancialReportType attribute.
-     *
-     * @return Returns the agencyFinancialReportType.
-     */
-    public FinancialFormTemplate getAgencyFinancialReportType() {
-        return agencyFinancialReportType;
-    }
-
-    /**
-     * Sets the agencyFinancialReportType attribute value.
-     *
-     * @param agencyFinancialReportType The agencyFinancialReportType to set.
-     */
-    public void setAgencyFinancialReportType(FinancialFormTemplate agencyFinancialReportType) {
-        this.agencyFinancialReportType = agencyFinancialReportType;
-    }
-
-
-    /**
-     * Gets the agencyFinancialReportFreqCode attribute.
-     *
-     * @return Returns the agencyFinancialReportFreqCode.
-     */
-    public String getAgencyFinancialReportFreqCode() {
-        return agencyFinancialReportFreqCode;
-    }
-
-    /**
-     * Sets the agencyFinancialReportFreqCode attribute value.
-     *
-     * @param agencyFinancialReportFreqCode The agencyFinancialReportFreqCode to set.
-     */
-    public void setAgencyFinancialReportFreqCode(String agencyFinancialReportFreqCode) {
-        this.agencyFinancialReportFreqCode = agencyFinancialReportFreqCode;
-    }
-
-    /**
-     * Gets the agencyFinancialReportFreq attribute.
-     *
-     * @return Returns the agencyFinancialReportFreq.
-     */
-    public FinancialReportFrequencies getAgencyFinancialReportFreq() {
-        return agencyFinancialReportFreq;
-    }
-
-    /**
-     * Sets the agencyFinancialReportFreq attribute value.
-     *
-     * @param agencyFinancialReportFreq The agencyFinancialReportFreq to set.
-     */
-    public void setAgencyFinancialReportFreq(FinancialReportFrequencies agencyFinancialReportFreq) {
-        this.agencyFinancialReportFreq = agencyFinancialReportFreq;
-    }
 
     /**
      * Gets the agencyExpirationDate attribute.

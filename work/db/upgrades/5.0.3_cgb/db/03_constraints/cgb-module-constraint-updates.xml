@@ -34,6 +34,9 @@
 		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
+		<addForeignKeyConstraint constraintName="AR_BILL_TR1"
+			referencedTableName="AR_PRDTRMND_BILL_SCHDL_T" baseColumnNames="PRPSL_NBR"
+			baseTableName="AR_BILL_T" referencedColumnNames="PRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R3"
 			referencedTableName="CA_ACCOUNT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />

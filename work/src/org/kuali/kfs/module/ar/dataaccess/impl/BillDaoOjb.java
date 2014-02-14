@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.dataaccess.impl;
+package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.module.cg.businessobject.Bill;
-import org.kuali.kfs.module.cg.dataaccess.BillDao;
+import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**

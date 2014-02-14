@@ -36,6 +36,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
+import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -51,6 +52,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -751,6 +753,16 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
         ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
+    }
+
+    @Override
+    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
+        return new PredeterminedBillingSchedule();
+    }
+
+    @Override
+    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
+        ((PredeterminedBillingSchedule) predeterminedBillingSchedule).setProposalNumber(proposalNumber);
     }
 
     /**

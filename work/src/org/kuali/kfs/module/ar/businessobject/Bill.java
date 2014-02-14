@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.businessobject;
+package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,7 +31,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
  */
-public class Bill extends PersistableBusinessObjectBase implements ContractsAndGrantsBill {
+public class Bill extends PersistableBusinessObjectBase implements AccountsReceivableBill {
 
 
     private Long proposalNumber;

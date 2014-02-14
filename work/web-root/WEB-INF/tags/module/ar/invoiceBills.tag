@@ -37,7 +37,7 @@
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceBills" id="bill">
 					<tr>
 						<td class="datacell"><a
-							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Bill&proposalNumber=${KualiForm.document.proposalNumber}&billIdentifier=${KualiForm.document.award.bills[ctr].billIdentifier}&billNumber=${KualiForm.document.award.bills[ctr].billNumber}&methodToCall=start"
+							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Bill&proposalNumber=${KualiForm.document.proposalNumber}&billIdentifier=${KualiForm.document.award.bills[ctr].billIdentifier}&billNumber=${KualiForm.document.award.bills[ctr].billNumber}&methodToCall=start"
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceBillAttributes.billNumber}"
 									property="document.invoiceBills[${ctr}].billNumber" readOnly="true" />
 						</a></td>

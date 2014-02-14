@@ -49,7 +49,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -61,6 +60,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -89,6 +89,7 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupUtil;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
+import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -120,6 +121,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements the services required for Contracts and Grants Invoice Document.
@@ -138,6 +140,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected CustomerService customerService;
     protected KualiModuleService kualiModuleService;
     protected MilestoneDao milestoneDao;
+    protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
     protected ObjectLevelService objectLevelService;
@@ -267,6 +270,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     public void setMilestoneDao(MilestoneDao milestoneDao) {
         this.milestoneDao = milestoneDao;
+    }
+
+    public BillDao getBillDao() {
+        return billDao;
+    }
+
+    public void setBillDao(BillDao billDao) {
+        this.billDao = billDao;
     }
 
     /**
@@ -1909,7 +1920,28 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To get the bills with the criteria defined and set value to isItBilled.
-        contractsAndGrantsModuleUpdateService.setBillsisItBilled(fieldValuesList, value);
+        setBillsisItBilled(fieldValuesList, value);
+    }
+
+    /**
+     * This method updates value of isItBilled in Bill BO to Yes
+     *
+     * @param criteria
+     */
+    @Transactional
+    protected void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
+        Collection<Bill> bills = billDao.getBillsByMatchingCriteria(fieldValuesList);
+        for (Bill bill : bills) {
+            if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
+                bill.setBilledIndicator(true);
+            }
+            else {
+                bill.setBilledIndicator(false);
+            }
+        }
+        List<Bill> billsToSave = new ArrayList<Bill>();
+        billsToSave.addAll(bills);
+        getBusinessObjectService().save(billsToSave);
     }
 
 
@@ -2262,12 +2294,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
-            List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
-            List<ContractsAndGrantsBill> validBills = new ArrayList<ContractsAndGrantsBill>();
+            List<Bill> bills = new ArrayList<Bill>();
+            List<Bill> validBills = new ArrayList<Bill>();
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
 
-            bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+            bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
             // To retrieve the previous period end Date to check for milestones and billing schedule.
 
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
@@ -2276,7 +2308,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
             java.sql.Date invoiceDate = pair[1];
 
-            for (ContractsAndGrantsBill awdBill : bills) {
+            for (Bill awdBill : bills) {
                 if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validBills.add(awdBill);
                 }
@@ -2515,11 +2547,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
 
-        List<ContractsAndGrantsBill> bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, totalBilledKeys);
+        List<Bill> bills = (List<Bill>) businessObjectService.findMatching(Bill.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(bills)) {
-            Iterator<ContractsAndGrantsBill> iterator = bills.iterator();
+            Iterator<Bill> iterator = bills.iterator();
             while (iterator.hasNext()) {
-                ContractsAndGrantsBill bill = iterator.next();
+                Bill bill = iterator.next();
                 if (bill.isBilledIndicator()) {
                     billedToDateAmount = billedToDateAmount.add(bill.getEstimatedAmount());
                 }
@@ -3795,12 +3827,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
         List<Milestone> milestones = new ArrayList<Milestone>();
-        List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
+        List<Bill> bills = new ArrayList<Bill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
-        bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
-
+        bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
 
         if (ObjectUtils.isNotNull(award)) {
 
@@ -3882,7 +3913,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 // copy award milestones to invoice milestones
                 document.getInvoiceBills().clear();
-                for (ContractsAndGrantsBill awdBill : bills) {
+                for (Bill awdBill : bills) {
                     // To check for null - Bill Completion date.
                     // To consider the completed milestones only.
                     if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {

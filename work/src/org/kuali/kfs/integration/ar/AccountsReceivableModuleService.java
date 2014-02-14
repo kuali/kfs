@@ -350,6 +350,10 @@ public interface AccountsReceivableModuleService {
 
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
 
+    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule();
+
+    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber);
+
     /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts
      *

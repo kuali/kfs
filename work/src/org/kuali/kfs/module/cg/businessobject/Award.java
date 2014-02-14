@@ -20,12 +20,16 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
@@ -38,6 +42,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -100,9 +105,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardInvoiceAccount> awardInvoiceAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
-    private List<AccountsReceivableMilestone> milestones;
-    private List<Bill> bills;
-
 
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
@@ -129,6 +131,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private boolean autoApproveIndicator;
 
     private AccountsReceivableMilestoneSchedule milestoneSchedule;
+    private AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule;
 
     private Date fundingExpirationDate;
     private String commentText;
@@ -155,8 +158,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardAccounts = new ArrayList<AwardAccount>();
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
-        milestones = new ArrayList<AccountsReceivableMilestone>();
-        bills = new ArrayList<Bill>();
         awardInvoiceAccounts = new ArrayList<AwardInvoiceAccount>();
     }
 
@@ -1584,6 +1585,12 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     public List<AccountsReceivableMilestone> getMilestones() {
         // To get completed milestones only - Milestones that have a completion date filled
+        List<AccountsReceivableMilestone> milestones = new ArrayList<AccountsReceivableMilestone>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
+
+        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableMilestone.class).getExternalizableBusinessObjectsList(AccountsReceivableMilestone.class, map);
+
         List<AccountsReceivableMilestone> milestonesCompleted = new ArrayList<AccountsReceivableMilestone>();
         for (AccountsReceivableMilestone mlstn : milestones) {
             if (mlstn.getMilestoneActualCompletionDate() != null) {
@@ -1592,10 +1599,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         }
 
         return milestonesCompleted;
-    }
-
-    public void setMilestones(List<AccountsReceivableMilestone> milestones) {
-        this.milestones = milestones;
     }
 
     /**
@@ -1667,7 +1670,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         if (milestoneSchedule != null) {
-//            milestoneSchedule.setProposalNumber(proposalNumber);
             SpringContext.getBean(AccountsReceivableModuleService.class).setProposalNumber(milestoneSchedule, proposalNumber);
         }
         return milestoneSchedule;
@@ -1682,7 +1684,26 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.milestoneSchedule = milestoneSchedule;
     }
 
+    /**
+     * Gets the predeterminedBillingSchedule attribute.
+     *
+     * @return Returns the predeterminedBillingSchedule.
+     */
+    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
+        if (predeterminedBillingSchedule != null) {
+            SpringContext.getBean(AccountsReceivableModuleService.class).setProposalNumber(predeterminedBillingSchedule, proposalNumber);
+        }
+        return predeterminedBillingSchedule;
+    }
 
+    /**
+     * Sets the predeterminedBillingSchedule attribute value.
+     *
+     * @param predeterminedBillingSchedule The predeterminedBillingSchedule to set.
+     */
+    public void setPredeterminedBillingSchedule(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule) {
+        this.predeterminedBillingSchedule = predeterminedBillingSchedule;
+    }
 
     @Override
     public AwardProjectDirector getAwardPrimaryProjectDirector() {
@@ -1824,23 +1845,25 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the bills attribute.
-     *
-     * @return Returns the bills.
+     * gets Bills - only those that have a bill date
+     * @return bills with a bill date
      */
+    public List<AccountsReceivableBill> getBills() {
+        // To get completed bills only - Bills that have a completion date filled
+        List<AccountsReceivableBill> bills = new ArrayList<AccountsReceivableBill>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
 
-    public List<Bill> getBills() {
-        return bills;
-    }
+        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
 
-    /**
-     * Sets the bills attribute value.
-     *
-     * @param bills The bills to set.
-     */
+        List<AccountsReceivableBill> billsCompleted = new ArrayList<AccountsReceivableBill>();
+        for (AccountsReceivableBill bill : bills) {
+            if (bill.getBillDate() != null) {
+                billsCompleted.add(bill);
+            }
+        }
 
-    public void setBills(List<Bill> bills) {
-        this.bills = bills;
+        return billsCompleted;
     }
 
     /**
@@ -1863,7 +1886,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.commentText = commentText;
 
     }
-
 
     /**
      * Gets the dunningCampaign attribute.

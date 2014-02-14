@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg;
+package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
 
@@ -23,7 +23,7 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 /**
  * Integration interface for Bill
  */
-public interface ContractsAndGrantsBill extends ExternalizableBusinessObject {
+public interface AccountsReceivableBill extends ExternalizableBusinessObject {
 
 
     /**

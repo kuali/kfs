@@ -28,7 +28,6 @@
 				<ref bean="AwardMaintenanceDocument-Organizations" />
 				<ref bean="AwardMaintenanceDocument-Invoicing" />
 				<ref bean="AwardMaintenanceDocument-Subcontractors" />
-				<ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> 
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
@@ -429,54 +428,6 @@
 			</list>
 		</property>
 	</bean>
- <bean id="AwardMaintenanceDocument-PredeterminedSchedule"
-		parent="AwardMaintenanceDocument-PredeterminedSchedule-parentBean" />
-
-	<bean id="AwardMaintenanceDocument-PredeterminedSchedule-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Predetermined Schedule" />
-		<property name="defaultOpen" value="true" />
-		<property name="title" value="Predetermined Schedule" />
-		<property name="maintainableItems">
-			<list>
-				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="bills" />
-					<property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Bill" />
-					<property name="summaryFields">
-						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="billNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="billDescription" />
-							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier" />
-							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
-								p:defaultValue="No" p:unconditionallyReadOnly="true" />
-						</list>
-					</property>
-					<property name="maintainableFields">
-						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber"
-								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="billNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="billDescription" />
-							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier"
-								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
-								p:defaultValue="No" p:unconditionallyReadOnly="true" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean> 
-
-	<!-- <bean id="AwardMaintenanceDocument-AwardBudgets" parent="AwardMaintenanceDocument-AwardBudgets-parentBean" 
-		/> <bean id="AwardMaintenanceDocument-AwardBudgets-parentBean" abstract="true" 
-		parent="MaintainableSectionDefinition"> <property name="id" value="AwardBudgets" 
-		/> <property name="title" value="Award Budgets" /> </bean> -->
 
 	<!-- workflow attributes -->
 	<bean id="AwardMaintenanceDocument-workflowAttributes" parent="AwardMaintenanceDocument-workflowAttributes-parentBean" />

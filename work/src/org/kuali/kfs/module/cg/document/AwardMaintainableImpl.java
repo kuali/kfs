@@ -112,17 +112,10 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             // Clear Accounts
             oldAward.getAwardAccounts().clear();
             newAward.getAwardAccounts().clear();
-
-            //Clear Milestones
-            oldAward.getMilestones().clear();
-            newAward.getMilestones().clear();
-
-            //Clear Bills
-            oldAward.getBills().clear();
-            newAward.getBills().clear();
         }
 
         getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
+        getAward().setPredeterminedBillingSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getPredeterminedBillingSchedule());
     }
 
     /**
@@ -489,18 +482,6 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         if (sections != null) {
             for (Section section : sections) {
                 String sectionId = section.getSectionId();
-                if (award.getPreferredBillingFrequency() != null && CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(award.getPreferredBillingFrequency())) {
-                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
-                        section.setHidden(false);
-                        section.setDefaultOpen(true);
-                    }
-                }
-                else {
-                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
-                        section.setHidden(true);
-                        section.setDefaultOpen(true);
-                    }
-                }
                 // To get parameter Value of GLPE Recievable offset generation method.
                 String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
 

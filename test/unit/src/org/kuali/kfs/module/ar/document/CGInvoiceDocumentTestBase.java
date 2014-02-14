@@ -28,17 +28,18 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
+import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -178,6 +179,13 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
         bill.setBilledIndicator(invBill_1.isBilledIndicator());
         bill.setAward(document.getAward());
+
+        PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
+        predeterminedBillingSchedule.setProposalNumber(proposalNumber);
+        List<Bill> bills = new ArrayList<Bill>();
+        bills.add(bill);
+        predeterminedBillingSchedule.setBills(bills);
+        boService.save(predeterminedBillingSchedule);
         boService.save(bill);
     }
 

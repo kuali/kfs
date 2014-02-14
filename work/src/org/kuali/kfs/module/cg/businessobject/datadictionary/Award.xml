@@ -38,6 +38,7 @@
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
+				<ref bean="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
   				<ref bean="Award-lookupPersonUniversalIdentifier" />
 				<ref bean="Award-lookupPerson.principalName" />
 				<ref bean="Award-lookupPerson.name" />
@@ -195,22 +196,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="bills" p:targetClass="org.kuali.kfs.module.cg.businessobject.Bill">
-							<property name="primitiveAttributes">
-								<list>		        			
-		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
-		        		</list>
-		        	</property>
-		        </bean>
-				<!--bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="milestoneSchedule" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="milestoneSchedule.proposalNumber"
-								p:targetName="proposalNumber" />
-						</list>
-					</property>
-				</bean-->
 			</list>
 		</property>
 		<property name="inactivationBlockingDefinitions">
@@ -377,6 +362,18 @@
 			value="milestoneSchedule.milestoneScheduleInquiryTitle" />
 		<property name="label" value="Milestone Schedule" />
 		<property name="shortLabel" value="MlstnSchdlLink" />
+	</bean>
+
+	<bean id="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle"
+		parent="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle-parentBean" />
+
+	<bean
+		id="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle-parentBean"
+		abstract="true" parent="PredeterminedBillingSchedule-predeterminedBillingScheduleInquiryTitle">
+		<property name="name"
+			value="predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
+		<property name="label" value="Predetrmined Billing Schedule" />
+		<property name="shortLabel" value="PdbsLink" />
 	</bean>
 
 	<bean id="Award-lookupPersonUniversalIdentifier" parent="Award-lookupPersonUniversalIdentifier-parentBean" />
@@ -1349,22 +1346,27 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Predetermined Schedule" />
-					<property name="numberOfColumns" value="1" />
+				<bean parent="InquirySectionDefinition" p:title="Predetermined Billing Schedule">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition"
+								p:attributeName="predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Bills - Completed">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="bills"
-							p:businessObjectClass="org.kuali.kfs.module.cg.businessobject.Bill" >
+								p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill">
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 										<bean parent="FieldDefinition" p:attributeName="billNumber" />
-										<bean parent="FieldDefinition" p:attributeName="billDescription" />
 										<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
-										<bean parent="FieldDefinition" p:attributeName="billDate" />
+										<bean parent="FieldDefinition" p:attributeName="billDescription" />
 										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
-										 <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
+										<bean parent="FieldDefinition" p:attributeName="billDate" />
+										<bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
 									</list>
 								</property>
 							</bean>

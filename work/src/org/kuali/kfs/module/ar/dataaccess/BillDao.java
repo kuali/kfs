@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.dataaccess;
+package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.cg.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 
 /**
  * Implementations of this interface provide access to persisted Bill instances.

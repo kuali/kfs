@@ -291,14 +291,24 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
 
     @Override
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
-        // TODO Auto-generated method stub
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
-        // TODO Auto-generated method stub
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
+    @Override
+    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    @Override
+    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 
     @Override

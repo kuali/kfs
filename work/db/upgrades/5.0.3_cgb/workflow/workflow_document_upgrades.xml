@@ -289,6 +289,26 @@
 				2
 			</routingVersion>
 		</documentType>
+		<documentType>
+			<name>
+				PDBS
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Predetermined Billing Schedule
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpredeterminedbillingschedule.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
 		
 		<!-- Added from ContractsAndGrantsSimpleMaintenanceDocuments.xml -->
 

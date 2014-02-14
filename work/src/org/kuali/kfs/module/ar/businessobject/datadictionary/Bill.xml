@@ -17,7 +17,7 @@
 	<bean id="Bill" parent="Bill-parentBean" />
 
 	<bean id="Bill-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Bill" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 		<property name="inquiryDefinition">
 			<ref bean="Bill-inquiryDefinition" />
 		</property>
@@ -35,7 +35,6 @@
 				<ref bean="Bill-estimatedAmount" />
 				<ref bean="Bill-billDate" />
 				<ref bean="Bill-billedIndicator" />
-
 			</list>
 		</property>
 		<property name="relationships">
@@ -71,7 +70,6 @@
 			<ref bean="HiddenControl" />
 		</property>
 	</bean>
-
 
 	<bean id="Bill-billNumber" parent="Bill-billNumber-parentBean" />
 

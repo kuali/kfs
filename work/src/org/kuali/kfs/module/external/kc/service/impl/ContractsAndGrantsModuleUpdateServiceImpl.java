@@ -17,7 +17,6 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
 import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
@@ -119,12 +118,6 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
         return getWebService();
     }
 
-
-    @Override
-    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
-        // TODO Auto-generated method stub
-
-    }
 
     @Override
     public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {

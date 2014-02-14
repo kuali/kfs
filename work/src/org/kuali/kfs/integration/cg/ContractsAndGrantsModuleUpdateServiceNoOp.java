@@ -16,7 +16,6 @@
 package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -40,7 +39,6 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
 
     }
 
-
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setLastBilledDateToAward(java.lang.Long,
      *      java.sql.Date)
@@ -50,17 +48,6 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
 
     }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setBillsisItBilled(java.lang.Long,
-     *      java.util.List, java.lang.String)
-     */
-    @Override
-    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-
-    }
-
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setLOCCreationTypeToAward(java.lang.Long,

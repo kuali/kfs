@@ -12,18 +12,18 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="MilestoneScheduleMaintenanceDocument" parent="MilestoneScheduleMaintenanceDocument-parentBean" />
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument" parent="PredeterminedBillingScheduleMaintenanceDocument-parentBean" />
 
-	<bean id="MilestoneScheduleMaintenanceDocument-parentBean"
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument-parentBean"
 		abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
+			value="org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule" />
 		<property name="maintainableClass"
-			value="org.kuali.kfs.module.ar.document.MilestoneScheduleMaintainableImpl" />
+			value="org.kuali.kfs.module.ar.document.PredeterminedBillingScheduleMaintainableImpl" />
 		<property name="maintainableSections">
 			<list>
-				<ref bean="MilestoneScheduleMaintenanceDocument-MilestoneSchedule" />
-				<ref bean="MilestoneScheduleMaintenanceDocument-NewMilestone" />
+				<ref bean="PredeterminedBillingScheduleMaintenanceDocument-PredeterminedBillingSchedule" />
+				<ref bean="PredeterminedBillingScheduleMaintenanceDocument-NewBill" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -31,25 +31,25 @@
 				<value>proposalNumber</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="MILE" />
+		<property name="documentTypeName" value="PDBS" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">
-			<ref bean="MilestoneScheduleMaintenanceDocument-workflowAttributes" />
+			<ref bean="PredeterminedBillingScheduleMaintenanceDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
 
-	<bean id="MilestoneScheduleMaintenanceDocument-MilestoneSchedule"
-		parent="MilestoneScheduleMaintenanceDocument-MilestoneSchedule-parentBean" />
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument-PredeterminedBillingSchedule"
+		parent="PredeterminedBillingScheduleMaintenanceDocument-PredeterminedBillingSchedule-parentBean" />
 
 	<bean
-		id="MilestoneScheduleMaintenanceDocument-MilestoneSchedule-parentBean"
+		id="PredeterminedBillingScheduleMaintenanceDocument-PredeterminedBillingSchedule-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Milestone Schedule" />
-		<property name="title" value="Milestone Schedule" />
+		<property name="id" value="Predetermined Billing Schedule" />
+		<property name="title" value="Predetermined Billing Schedule" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="proposalNumber"
@@ -70,43 +70,41 @@
 
 
 
-	<bean id="MilestoneScheduleMaintenanceDocument-NewMilestone"
-		parent="MilestoneScheduleMaintenanceDocument-NewMilestone-parentBean" />
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument-NewBill"
+		parent="PredeterminedBillingScheduleMaintenanceDocument-NewBill-parentBean" />
 
-	<bean id="MilestoneScheduleMaintenanceDocument-NewMilestone-parentBean"
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument-NewBill-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Milestones" />
-		<property name="title" value="Milestones" />
+		<property name="id" value="Bills" />
+		<property name="title" value="Bills" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="milestones" />
+					<property name="name" value="bills" />
 					<property name="businessObjectClass"
-						value="org.kuali.kfs.module.ar.businessobject.Milestone" />
+						value="org.kuali.kfs.module.ar.businessobject.Bill" />
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneIdentifier" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneDescription" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneExpectedCompletionDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneActualCompletionDate" />
+							<bean parent="MaintainableFieldDefinition" p:name="billNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier" />
+							<bean parent="MaintainableFieldDefinition" p:name="billDescription" />
+							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
+							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator" />
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneNumber"
+							<bean parent="MaintainableFieldDefinition" p:name="billNumber"
 								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneIdentifier"
+							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier"
 								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneDescription" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneExpectedCompletionDate"
+							<bean parent="MaintainableFieldDefinition" p:name="billDescription" />
+							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
+							<bean parent="MaintainableFieldDefinition" p:name="billDate"
 								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneActualCompletionDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
 								p:unconditionallyReadOnly="true" />
 						</list>
@@ -116,13 +114,12 @@
 		</property>
 	</bean>
 
-
 	<!-- workflow attributes -->
-	<bean id="MilestoneScheduleMaintenanceDocument-workflowAttributes"
-		parent="MilestoneScheduleMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean id="PredeterminedBillingScheduleMaintenanceDocument-workflowAttributes"
+		parent="PredeterminedBillingScheduleMaintenanceDocument-workflowAttributes-parentBean" />
 
 	<bean
-		id="MilestoneScheduleMaintenanceDocument-workflowAttributes-parentBean"
+		id="PredeterminedBillingScheduleMaintenanceDocument-workflowAttributes-parentBean"
 		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>
 

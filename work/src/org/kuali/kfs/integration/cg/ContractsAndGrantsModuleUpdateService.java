@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.integration.cg;
 
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -82,13 +81,6 @@ public interface ContractsAndGrantsModuleUpdateService {
      * @param invoiceDocumentStatus
      */
     public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus);
-
-    /**
-     * This method updates value of isItBilled in Bill BO to Yes
-     *
-     * @param criteria
-     */
-    public void setBillsisItBilled(List<Map<String, String>> fieldValuesList, String value);
 
     /**
      * This method sets final billed and last billed date to Award Account.

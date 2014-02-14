@@ -22,7 +22,8 @@
 <c:set var="advancePolicyMode" value="${KualiForm.editingMode['advancePolicyEntry']}" scope="request"/>
 <c:set var="expenseTaxableMode" value="${KualiForm.editingMode['expenseTaxableEntry']}" scope="request"/>
 <c:set var="clearAdvanceMode" value="${KualiForm.editingMode['clearAdvanceMode']}" scope="request"/>
-<c:set var="blanketTravelMode" value="${KualiForm.editingMode['blanketTravelEntry']}" scope="request"/>
+<c:set var="blanketTravelEntryMode" value="${KualiForm.editingMode['blanketTravelEntry']}" scope="request"/>
+<c:set var="blanketTravelViewMode" value="${KualiForm.editingMode['blanketTravelView']}" scope="request"/>
 <c:set var="conversionRateEntryMode" value="${KualiForm.editingMode['conversionRateEntry']}" scope="request"/>
 <c:set var="frnEntryMode" value="${canEdit && KualiForm.editingMode['frnEntry']}" scope="request" />
 <c:set var="wireEntryMode" value="${canEdit && KualiForm.editingMode['wireEntry']}" scope="request" />

@@ -916,6 +916,7 @@ public class TemConstants {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
         public static final String EXPENSE_TAXABLE_MODE = "expenseTaxableEntry";
         public static final String BLANKET_TRAVEL_ENTRY = "blanketTravelEntry";
+        public static final String BLANKET_TRAVEL_VIEW = "blanketTravelView";
         public static final String EXPENSE_LIMIT_ENTRY = "expenseLimitEntry";
         public static final String CONVERSION_RATE_ENTRY = "conversionRateEntry";
         public static final String REQUESTER_LOOKUP_MODE = "requesterLooupMode";

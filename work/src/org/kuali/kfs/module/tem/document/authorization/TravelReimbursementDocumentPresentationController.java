@@ -48,6 +48,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);  // the check amount cannot be edited on travel reimbursements
         editModes.remove(TemConstants.EditModes.BLANKET_TRAVEL_ENTRY);
+        editModes.remove(TemConstants.EditModes.BLANKET_TRAVEL_VIEW);
         final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)))) {
             editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);

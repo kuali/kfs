@@ -308,7 +308,7 @@ public class TemKeyConstants {
     public static final String ERROR_DOCUMENT_TOTAL_ESTIMATED = "error.document.tem.total.estimated";
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
     public static final String ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH = "error.document.tem.primary.destination.per.diem.location.no.match";
-
+    public static final String ERROR_TRAVEL_DOCUMENT_EXPENSES_ON_BLANKET_TRAVEL = "error.document.tem.expenses.on.blanket.travel";
 
     public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.cts.card.document.user.agreement";
     public static final String CORP_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.corp.card.document.user.agreement";

@@ -80,10 +80,6 @@
 					title="Award Balances"
 					url="contractsGrantsAwardBalancesReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Billable but Not Invoiced Awards"
-					url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&fileName=cgin_*_validation_err*&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
 		</ul>
 	</c:if>
 	<c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">

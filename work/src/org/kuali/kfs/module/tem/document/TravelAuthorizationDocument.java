@@ -625,6 +625,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         final String description = MessageFormat.format(getConfigurationService().getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION), getDataDictionaryService().getDocumentTypeNameByClass(getClass()), getDocumentNumber());
         final int maxLength = getDataDictionaryService().getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
         explicitEntry.setTransactionLedgerEntryDescription(StringUtils.abbreviate(description, maxLength));
+        explicitEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
     }
 
     /**
@@ -684,6 +685,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public boolean customizeAdvanceOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         final String paymentDocumentType = StringUtils.isBlank(getTravelAdvancePaymentDocumentType()) ? TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT : getTravelAdvancePaymentDocumentType();
         offsetEntry.setFinancialDocumentTypeCode(paymentDocumentType);
+        offsetEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
         return true;
     }
 

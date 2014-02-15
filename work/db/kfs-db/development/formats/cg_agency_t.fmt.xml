@@ -14,9 +14,7 @@
   <Field name="duns_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="duns_plus_four_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_bill_freq_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cg_agency_fin_form_typ_cd"       type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_inv_typ_cd"            type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="fin_rpt_freq_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="agcy_exp_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="cust_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />

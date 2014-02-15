@@ -53,8 +53,6 @@
         $0.cgawd_purpose_cd := replace(nvl($cgawd_purpose_cd, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
         $0.pref_bill_freq_cd := replace(nvl($pref_bill_freq_cd, ""), "~!~", "|" );
-        $0.pref_rprt_freq := replace(nvl($pref_rprt_freq, ""), "~!~", "|" );
-        $0.pref_rprt_typ := replace(nvl($pref_rprt_typ, ""), "~!~", "|" );
         $0.suspnd_invcng := replace(nvl($suspnd_invcng, ""), "~!~", "|" );
         $0.addtnl_frms_rqrd := replace(nvl($addtnl_frms_rqrd, ""), "~!~", "|" );
         $0.addtnl_frm_desc := replace(nvl($addtnl_frm_desc, ""), "~!~", "|" );

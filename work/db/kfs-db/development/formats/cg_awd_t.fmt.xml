@@ -34,8 +34,6 @@
   <Field name="cgawd_purpose_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="pref_bill_freq_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="pref_rprt_freq"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="pref_rprt_typ"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="suspnd_invcng"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="addtnl_frms_rqrd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="addtnl_frm_desc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />

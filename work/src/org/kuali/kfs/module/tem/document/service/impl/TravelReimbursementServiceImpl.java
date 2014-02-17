@@ -36,6 +36,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -728,20 +730,130 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param sequenceHelper the sequence helper to assign sequences to pending entries
      */
     protected void generatePendingEntriesForAdvanceClearing(TravelReimbursementDocument reimbursement, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        final List<TemSourceAccountingLine> expenseAccountingLines = reimbursement.getSourceAccountingLines();
+        final List<TemSourceAccountingLine> expenseAccountingLines = smooshAccountingLinesToSubAccount(reimbursement.getSourceAccountingLines());
         if (!ObjectUtils.isNull(expenseAccountingLines) && !expenseAccountingLines.isEmpty()) {
             final List<TemSourceAccountingLineTotalPercentage> expenseAccountingLinesTotalPercentages = getPercentagesForLines(expenseAccountingLines);
             final List<TemSourceAccountingLine> clearingLines = createAccountingLinesFromPercentages(expenseAccountingLinesTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
 
             for (TemSourceAccountingLine clearingLine : clearingLines) {
                 // create clearing entry and offset
-                final OffsetDefinition offsetDefinition = this.getOffsetDefinitionForAdvanceClearing(reimbursement, clearingLine);
+                final OffsetDefinition offsetDefinition = getOffsetDefinitionForAdvanceClearing(reimbursement, clearingLine);
                 clearingLine.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
                 clearingLine.setFinancialSubObjectCode(null);
                 clearingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE); // set the line type code to a special value that will alert customize entry to change the credit/debit codes
                 reimbursement.generateGeneralLedgerPendingEntries(clearingLine, sequenceHelper);
                 sequenceHelper.increment();
             }
+        }
+    }
+
+    /**
+     * This smooshes the accounting lines which will do advance clearing.  Here, since we're replacing the object code, we'll smooth together all accounting lines
+     * which have the same chart - account - sub-acount.
+     * @param originalAccountingLines the List of accounting lines to smoosh
+     * @return the smooshed accounting lines
+     */
+    protected List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines) {
+       final Map<SmooshLineKey, KualiDecimal> smooshLines =  smooshLinesToMap(originalAccountingLines);
+       final List<TemSourceAccountingLine> unsmooshedLines = raiseMapToLines(smooshLines);
+       return unsmooshedLines;
+    }
+
+    /**
+     * Smooshes the lines into a Map
+     * @param accountingLines the accounting lines to smoosh
+     * @return the Map of smooshed lines
+     */
+    protected Map<SmooshLineKey, KualiDecimal> smooshLinesToMap(List<TemSourceAccountingLine> accountingLines) {
+        Map<SmooshLineKey, KualiDecimal> smooshLines = new HashMap<SmooshLineKey, KualiDecimal>();
+        for (TemSourceAccountingLine line : accountingLines) {
+            final SmooshLineKey key = new SmooshLineKey(line);
+            if (smooshLines.containsKey(key)) {
+                KualiDecimal currAmount = smooshLines.get(key);
+                KualiDecimal newAmount = currAmount.add(line.getAmount());
+                smooshLines.put(key, newAmount);
+            } else {
+                smooshLines.put(key, line.getAmount());
+            }
+        }
+        return smooshLines;
+    }
+
+    /**
+     * According to thesaurus.com, "raise" is the antonym of "smoosh".  So this method takes our smooshed line information and turns them back into things which sort of resemble accounting lines
+     * @param smooshLineMap the Map to turn back into accounting lines
+     * @return the un-smooshed accounting lines.  Yeah, I like that verb better too
+     */
+    protected List<TemSourceAccountingLine> raiseMapToLines(Map<SmooshLineKey, KualiDecimal> smooshLineMap) {
+        List<TemSourceAccountingLine> raisedLines = new ArrayList<TemSourceAccountingLine>();
+        for (SmooshLineKey key : smooshLineMap.keySet()) {
+            final TemSourceAccountingLine line = convertKeyAndAmountToLine(key, smooshLineMap.get(key));
+            raisedLines.add(line);
+        }
+        return raisedLines;
+    }
+
+    /**
+     * Converts a SmooshLineKey and an amount into a real - though somewhat less informative - accounting line
+     * @param key the key
+     * @param amount the amount
+     * @return the reconstituted accounting line.  I like that verb too.
+     */
+    protected TemSourceAccountingLine convertKeyAndAmountToLine(SmooshLineKey key, KualiDecimal amount) {
+        TemSourceAccountingLine line = new TemSourceAccountingLine();
+        line.setChartOfAccountsCode(key.getChartOfAccountsCode());
+        line.setAccountNumber(key.getAccountNumber());
+        line.setSubAccountNumber(key.getSubAccountNumber());
+        line.setAmount(amount);
+        return line;
+    }
+
+    /**
+     * Hash key of lines we want to smoosh
+     */
+    protected class SmooshLineKey {
+        protected String chartOfAccountsCode;
+        protected String accountNumber;
+        protected String subAccountNumber;
+
+        public SmooshLineKey(TemSourceAccountingLine accountingLine) {
+            this.chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+            this.accountNumber = accountingLine.getAccountNumber();
+            this.subAccountNumber = accountingLine.getSubAccountNumber();
+        }
+
+        public String getChartOfAccountsCode() {
+            return chartOfAccountsCode;
+        }
+
+        public String getAccountNumber() {
+            return accountNumber;
+        }
+
+        public String getSubAccountNumber() {
+            return subAccountNumber;
+        }
+
+        @Override
+        public int hashCode() {
+            HashCodeBuilder hcb = new HashCodeBuilder();
+            hcb.append(getChartOfAccountsCode());
+            hcb.append(getAccountNumber());
+            hcb.append(getSubAccountNumber());
+            return hcb.toHashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof SmooshLineKey) || obj == null) {
+                return false;
+            }
+            final SmooshLineKey golyadkin = (SmooshLineKey)obj;
+            EqualsBuilder eb = new EqualsBuilder();
+            eb.append(getChartOfAccountsCode(), golyadkin.getChartOfAccountsCode());
+            eb.append(getAccountNumber(), golyadkin.getAccountNumber());
+            eb.append(getSubAccountNumber(), golyadkin.getSubAccountNumber());
+            return eb.isEquals();
         }
     }
 
@@ -753,7 +865,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param sequenceHelper the sequence helper to assign sequences to pending entries
      */
     protected void generatePendingEntriesForAdvanceCrediting(TravelReimbursementDocument reimbursement, TravelAdvance advance, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        final List<TemSourceAccountingLine> advanceAccountingLines = getAccountingLinesForAdvance(advance);
+        final List<TemSourceAccountingLine> advanceAccountingLines = smooshAccountingLinesToSubAccount(getAccountingLinesForAdvance(advance));
         if (!ObjectUtils.isNull(advanceAccountingLines) && !advanceAccountingLines.isEmpty()) {
             final List<TemSourceAccountingLineTotalPercentage> advanceAccountingLineTotalPercentages = getPercentagesForLines(advanceAccountingLines);
             final List<TemSourceAccountingLine> creditLines = createAccountingLinesFromPercentages(advanceAccountingLineTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
@@ -762,6 +874,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             for (TemSourceAccountingLine creditLine : creditLines) {
                 // credit advance
                 creditLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE);
+                creditLine.setFinancialObjectCode(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE, KFSConstants.EMPTY_STRING));
                 reimbursement.generateGeneralLedgerPendingEntries(creditLine, sequenceHelper);
                 sequenceHelper.increment();
             }

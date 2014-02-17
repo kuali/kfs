@@ -76,6 +76,7 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
+import org.kuali.kfs.module.tem.businessobject.SmooshLineKey;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
@@ -2638,6 +2639,68 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     protected Class<? extends TravelDocument> getTravelDocumentForType(String documentType) {
         return (Class<TravelDocument>)getDataDictionaryService().getDocumentClassByTypeName(documentType);
+    }
+
+    /**
+     * This smooshes the accounting lines which will do advance clearing.  Here, since we're replacing the object code, we'll smooth together all accounting lines
+     * which have the same chart - account - sub-acount.
+     * @param originalAccountingLines the List of accounting lines to smoosh
+     * @return the smooshed accounting lines
+     */
+    @Override
+    public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines) {
+       final Map<SmooshLineKey, KualiDecimal> smooshLines =  smooshLinesToMap(originalAccountingLines);
+       final List<TemSourceAccountingLine> unsmooshedLines = raiseMapToLines(smooshLines);
+       return unsmooshedLines;
+    }
+
+    /**
+     * Smooshes the lines into a Map
+     * @param accountingLines the accounting lines to smoosh
+     * @return the Map of smooshed lines
+     */
+    protected Map<SmooshLineKey, KualiDecimal> smooshLinesToMap(List<TemSourceAccountingLine> accountingLines) {
+        Map<SmooshLineKey, KualiDecimal> smooshLines = new HashMap<SmooshLineKey, KualiDecimal>();
+        for (TemSourceAccountingLine line : accountingLines) {
+            final SmooshLineKey key = new SmooshLineKey(line);
+            if (smooshLines.containsKey(key)) {
+                KualiDecimal currAmount = smooshLines.get(key);
+                KualiDecimal newAmount = currAmount.add(line.getAmount());
+                smooshLines.put(key, newAmount);
+            } else {
+                smooshLines.put(key, line.getAmount());
+            }
+        }
+        return smooshLines;
+    }
+
+    /**
+     * According to thesaurus.com, "raise" is the antonym of "smoosh".  So this method takes our smooshed line information and turns them back into things which sort of resemble accounting lines
+     * @param smooshLineMap the Map to turn back into accounting lines
+     * @return the un-smooshed accounting lines.  Yeah, I like that verb better too
+     */
+    protected List<TemSourceAccountingLine> raiseMapToLines(Map<SmooshLineKey, KualiDecimal> smooshLineMap) {
+        List<TemSourceAccountingLine> raisedLines = new ArrayList<TemSourceAccountingLine>();
+        for (SmooshLineKey key : smooshLineMap.keySet()) {
+            final TemSourceAccountingLine line = convertKeyAndAmountToLine(key, smooshLineMap.get(key));
+            raisedLines.add(line);
+        }
+        return raisedLines;
+    }
+
+    /**
+     * Converts a SmooshLineKey and an amount into a real - though somewhat less informative - accounting line
+     * @param key the key
+     * @param amount the amount
+     * @return the reconstituted accounting line.  I like that verb too.
+     */
+    protected TemSourceAccountingLine convertKeyAndAmountToLine(SmooshLineKey key, KualiDecimal amount) {
+        TemSourceAccountingLine line = new TemSourceAccountingLine();
+        line.setChartOfAccountsCode(key.getChartOfAccountsCode());
+        line.setAccountNumber(key.getAccountNumber());
+        line.setSubAccountNumber(key.getSubAccountNumber());
+        line.setAmount(amount);
+        return line;
     }
 
     /**

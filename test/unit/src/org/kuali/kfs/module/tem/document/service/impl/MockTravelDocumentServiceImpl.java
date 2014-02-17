@@ -33,6 +33,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -433,4 +434,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return realTravelDocumentService.getRootTravelDocumentWithoutWorkflowDocument(travelDocumentIdentifier);
     }
 
+    @Override
+    public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines) {
+        return realTravelDocumentService.smooshAccountingLinesToSubAccount(originalAccountingLines);
+    }
 }

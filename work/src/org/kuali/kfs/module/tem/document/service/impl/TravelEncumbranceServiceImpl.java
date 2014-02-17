@@ -489,7 +489,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     @Override
     public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<Encumbrance> tripEncumbrances = getEncumbrancesForTrip(travelReimbursementDocument.getTravelDocumentIdentifier(), null);
-        for (TemSourceAccountingLine accountingLine : ((List<TemSourceAccountingLine>)travelReimbursementDocument.getSourceAccountingLines())) {
+        final List<TemSourceAccountingLine> travelReimbursementLines =travelReimbursementDocument.getSourceAccountingLines();
+        final List<TemSourceAccountingLine> smooshedReimbursementLines = travelDocumentService.smooshAccountingLinesToSubAccount(travelReimbursementLines);
+        for (TemSourceAccountingLine accountingLine : smooshedReimbursementLines) {
             Encumbrance encumbrance = findMatchingEncumbrance(accountingLine, tripEncumbrances);
             if (encumbrance != null && encumbrance.getAccountLineEncumbranceOutstandingAmount().isPositive()) {
                 GeneralLedgerPendingEntry pendingEntry = setupPendingEntry(encumbrance, sequenceHelper, travelReimbursementDocument);

@@ -553,7 +553,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     isInvalid = true;
                 }
                 // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
-                List<String> errorString = contractsAndGrantsModuleRetrieveService.hasValidContractControlAccounts(award.getProposalNumber());
+                List<String> errorString = contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
                 if (!CollectionUtils.isEmpty(errorString) && errorString.size() > 1) {
                     errorList.add(configService.getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
                     invalidGroup.put(award, errorList);

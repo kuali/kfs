@@ -4613,5 +4613,80 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.configurationService = configurationService;
     }
 
+    @Override
+    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
+        List<String> errorString = new ArrayList<String>();
+        boolean isValid = true;
+        int accountNum = award.getActiveAwardAccounts().size();
+        // To check if invoicing options exist on the award
+        if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
+
+            // To check if the award account is associated with a contract control account.
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                if (ObjectUtils.isNull(awardAccount.getAccount().getContractControlAccount())) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            // if the Invoicing option is "By Contract Control Account" and there are no contract control accounts for one / all
+            // award accounts, then throw error.
+            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+                if (!isValid) {
+                    errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
+                    errorString.add(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+                }
+            }
+
+            // if the Invoicing option is "By Award" and there are no contract control accounts for one / all award accounts, then
+            // throw error.
+            else if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
+                if (!isValid) {
+                    errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
+                    errorString.add(ArPropertyConstants.INV_AWARD);
+                }
+                else {
+                    if (accountNum != 1) {
+                        Account tmpAcct1, tmpAcct2;
+
+                        Object[] awardAccounts = award.getActiveAwardAccounts().toArray();
+                        for (int i = 0; i < awardAccounts.length - 1; i++) {
+                            tmpAcct1 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i]).getAccount().getContractControlAccount();
+                            tmpAcct2 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
+                            // if the Invoicing option is "By Award" and there are more than one contract control account assigned
+                            // for the award, then throw error.
+                            if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !areTheSameAccounts(tmpAcct1, tmpAcct2)) {
+                                errorString.add(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT);
+                                errorString.add(ArPropertyConstants.INV_AWARD);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return errorString;
+    }
+
+    /**
+     * This method validate if two accounts present the same account by comparing their "account number" and
+     * "chart of account code",which are primary key.
+     *
+     * @param obj1
+     * @param obj2
+     * @return True if these two accounts are the same
+     */
+    protected boolean areTheSameAccounts(Account obj1, Account obj2) {
+        boolean isEqual = false;
+
+        if (obj1 != null && obj2 != null) {
+            if (StringUtils.equals(obj1.getChartOfAccountsCode(), obj2.getChartOfAccountsCode())) {
+                if (StringUtils.equals(obj1.getAccountNumber(), obj2.getAccountNumber())) {
+                    isEqual = true;
+                }
+            }
+        }
+
+        return isEqual;
+    }
 
 }

@@ -32,12 +32,8 @@ public class CGKeyConstants {
 
     // Award Constants and errors
     public static class AwardConstants {
-        public static final String ERROR_NO_CTRL_ACCT = "error.cg.no.control.account";
-        public static final String ERROR_MULTIPLE_CTRL_ACCT = "error.cg.multiple.control.account";
-        public static final String ERROR_LOC_FUND_REQUIRED = "error.cg.loc.fund.required";
         public static final String ERROR_ONE_AR_INV_ACCT_REQD = "error.cg.one.ar.account.required";
         public static final String ERROR_MULTIPLE_INV_ACCT = "error.cg.multiple.inv.account";
-        public static final String ERROR_ACCT_NBR_REPEATED = "error.cg.account.repeated";
     }
 
 

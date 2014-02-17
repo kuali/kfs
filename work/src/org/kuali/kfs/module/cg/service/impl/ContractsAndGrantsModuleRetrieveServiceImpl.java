@@ -137,16 +137,6 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
         return awardService;
     }
 
-    /**
-     * This method checks the Contract Control account set for Award Account based on award's invoicing option.
-     * @return errorString
-     */
-    @Override
-    public List<String> hasValidContractControlAccounts(Long proposalNumber){
-        Award award = getAwardService().getByPrimaryId(proposalNumber);
-        return getAwardService().hasValidContractControlAccounts(award);
-    }
-
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }

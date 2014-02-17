@@ -65,30 +65,36 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     public void addNoteToRelatedPaymentRequestDocument(String paymentRequestDocumentNumber, String noteText) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         // do nothing
     }
 
     public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public Collection<AccountsReceivableCustomer> searchForCustomers(Map<String, String> fieldValues) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomer findCustomer(String customerNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public Collection<AccountsReceivableCustomerAddress> searchForCustomerAddresses(Map<String, String> fieldValues) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerAddress findCustomerAddress(String customerNumber, String customerAddressIdentifer) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
@@ -123,132 +129,164 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#cancelInvoicesForTrip(java.lang.String)
      */
     @Override
-    public void cancelInvoicesForTrip(String tripId, AccountsReceivableOrganizationOptions organizationOptions) {}
+    public void cancelInvoicesForTrip(String tripId, AccountsReceivableOrganizationOptions organizationOptions) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
     public AccountsReceivableCustomer createCustomer() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerAddress createCustomerAddress() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public String getNextCustomerNumber(AccountsReceivableCustomer newCustomer) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
-    public void saveCustomer(AccountsReceivableCustomer customer) {}
+    public void saveCustomer(AccountsReceivableCustomer customer) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
-    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {}
+    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
     public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public ChartOrgHolder getPrimaryOrganization() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public boolean isUsingReceivableFAU() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
 
     @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {}
+    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
-    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {}
+    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
-    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {}
+    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
 
     @Override
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
-        // TODO Auto-generated method stub
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
     @Override
     public String retrieveGLPEReceivableParameterValue() {
-        // TODO Auto-generated method stub
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }
 
@@ -268,9 +306,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
-
     }
-
 
     @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
@@ -313,6 +349,12 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
 
     @Override
     public Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    @Override
+    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }

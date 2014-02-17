@@ -30,12 +30,6 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
         return getAwardService().getSearchResults(fieldValues);
     }
 
-    @Override
-    public List<String> hasValidContractControlAccounts(Long proposalNumber) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public AwardServiceImpl getAwardService() {
         return awardService;
     }

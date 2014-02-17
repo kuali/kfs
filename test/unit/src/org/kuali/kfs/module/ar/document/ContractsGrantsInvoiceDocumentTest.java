@@ -30,6 +30,8 @@ import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
@@ -390,6 +392,106 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(new KualiDecimal(0.00), totalInDirectCostInvoiceDetail.getAdjustedCumExpenditures());
         assertEquals(new KualiDecimal(320.00), totalInDirectCostInvoiceDetail.getAdjustedBalance());
 
+    }
+
+    public void testCheckAwardContractControlAccounts_ValidNoInvoicingOption() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(0, errorString.size());
+    }
+
+    public void testCheckAwardContractControlAccounts_ValidInvoicingByAccount() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
+        refreshAccounts(award);
+
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(0, errorString.size());
+    }
+
+    public void testCheckAwardContractControlAccounts_ValidInvoicingByContractControlAccount() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_CCA.createAward();
+
+        award.getActiveAwardAccounts().clear();
+        AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_1.createAwardAccount();
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_2.createAwardAccount();
+
+        List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        awardAccounts.add(awardAccount_2);
+        ((Award)award).setAwardAccounts(awardAccounts);
+        refreshAccounts(award);
+
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(0, errorString.size());
+    }
+
+    public void testCheckAwardContractControlAccounts_InvalidInvoicingByContractControlAccountNoCCA() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_CCA.createAward();
+        refreshAccounts(award);
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(2, errorString.size());
+        assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
+        assertTrue(errorString.contains(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+    }
+
+    public void testCheckAwardContractControlAccounts_ValidInvoicingByAward() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
+
+        award.getActiveAwardAccounts().clear();
+        AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_1.createAwardAccount();
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_2.createAwardAccount();
+
+        List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        awardAccounts.add(awardAccount_2);
+        ((Award)award).setAwardAccounts(awardAccounts);
+        refreshAccounts(award);
+
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(0, errorString.size());
+    }
+
+    public void testCheckAwardContractControlAccounts_InvalidInvoicingByAwardNoCCA() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
+        refreshAccounts(award);
+
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(2, errorString.size());
+        assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
+        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+    }
+
+    public void testCheckAwardContractControlAccounts_InvalidInvoicingByAwardMultipleCCAs() throws Exception {
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
+        award.getActiveAwardAccounts().clear();
+
+        AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_1.createAwardAccount();
+        AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_3.createAwardAccount();
+
+        List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        awardAccounts.add(awardAccount_2);
+        ((Award)award).setAwardAccounts(awardAccounts);
+        refreshAccounts(award);
+
+        List<String> errorString = contractsGrantsInvoiceDocumentServiceImpl.checkAwardContractControlAccounts(award);
+        assertNotNull(errorString);
+        assertEquals(2, errorString.size());
+        assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT));
+        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+    }
+
+    private void refreshAccounts(ContractsAndGrantsBillingAward award) {
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        for (ContractsAndGrantsBillingAwardAccount awardAccount: awardAccounts) {
+            ((AwardAccount)awardAccount).refreshReferenceObject("account");
+        }
     }
 
 }

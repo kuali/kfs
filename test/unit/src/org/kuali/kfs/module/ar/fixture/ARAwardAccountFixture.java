@@ -26,7 +26,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public enum ARAwardAccountFixture {
 
     AWD_ACCT_1(new Long(11), "BL", "2336320", false, null, null, new KualiDecimal(1), false),
-    AWD_ACCT_2(new Long(11), "IN", "1292016", false, null, null, new KualiDecimal(1), false);
+    AWD_ACCT_2(new Long(11), "IN", "1292016", false, null, null, new KualiDecimal(1), false),
+    AWD_ACCT_WITH_CCA_1(new Long(11), "BL", "1020087", false, null, null, new KualiDecimal(1), false),
+    AWD_ACCT_WITH_CCA_2(new Long(11), "BL", "1021887", false, null, null, new KualiDecimal(1), false),
+    AWD_ACCT_WITH_CCA_3(new Long(11), "BL", "2424704", false, null, null, new KualiDecimal(1), false);
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

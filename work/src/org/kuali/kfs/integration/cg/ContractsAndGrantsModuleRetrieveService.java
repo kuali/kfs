@@ -35,10 +35,4 @@ public interface ContractsAndGrantsModuleRetrieveService {
      */
     public List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded);
 
-    /**
-     * This method checks the Contract Control account set for Award Account based on award's invoicing option.
-     *
-     * @return errorString
-     */
-    public List<String> hasValidContractControlAccounts(Long proposalNumber);
 }

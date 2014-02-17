@@ -32,7 +32,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
-import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -520,8 +519,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     protected boolean checkInvoicingOptions() {
         boolean success = true;
-        AwardService awardService = SpringContext.getBean(AwardService.class);
-        List<String> errorString = awardService.hasValidContractControlAccounts(newAwardCopy);
+        List<String> errorString = SpringContext.getBean(AccountsReceivableModuleService.class).checkAwardContractControlAccounts(newAwardCopy);
         if (CollectionUtils.isNotEmpty(errorString) && errorString.size() > 1) {
             success = false;
             putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTIONS, errorString.get(0), errorString.get(1));

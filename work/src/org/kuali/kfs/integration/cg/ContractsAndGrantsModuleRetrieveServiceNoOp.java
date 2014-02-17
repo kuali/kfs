@@ -39,9 +39,4 @@ public class ContractsAndGrantsModuleRetrieveServiceNoOp implements ContractsAnd
         return new ArrayList();
     }
 
-    @Override
-    public List<String> hasValidContractControlAccounts(Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return new ArrayList<String>();
-    }
 }

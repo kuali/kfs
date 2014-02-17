@@ -362,4 +362,12 @@ public interface AccountsReceivableModuleService {
      */
     public Date getLastBilledDate(ContractsAndGrantsBillingAward award);
 
+    /**
+     * This method checks the Contract Control account set for Award Account based on award's invoicing option.
+     *
+     * @return errorString
+     */
+    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
+
+
 }

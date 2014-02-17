@@ -800,4 +800,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         this.financialSystemUserService = financialSystemUserService;
     }
 
+    @Override
+    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
+        return contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
+    }
+
 }

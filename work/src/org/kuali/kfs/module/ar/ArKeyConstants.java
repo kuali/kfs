@@ -329,4 +329,10 @@ public class ArKeyConstants {
      public static final String ERROR_STARTLETTER_AFTER_ENDLETTER = "error.startletter.after.endletter";
      public static final String ERROR_STARTLETTER_OR_ENDLETTER_NOTEMPTY_ALL_REQUIRED = "error.startletter.or.endletter.notempty.all.required";
 
+     // Award Constants and errors
+     public static class AwardConstants {
+         public static final String ERROR_NO_CTRL_ACCT = "error.cg.no.control.account";
+         public static final String ERROR_MULTIPLE_CTRL_ACCT = "error.cg.multiple.control.account";
+     }
+
 }

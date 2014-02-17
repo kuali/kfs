@@ -169,20 +169,15 @@
 						property="document.accountReviewDetails[${ctr}].claimOnCashBalance" readOnly="true" /></td>
 						
 				<c:choose>
-				<c:when test="${disableAmountToDraw != 'true' && disableAmountToDraw != 'TRUE'}">
-							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
-						property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="false" /></td>
-						
-				</c:when>
-				
-				<c:when test="${disableAmountToDraw}">
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
-						property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="true" /></td>
-						
-				</c:when>
-						</c:choose>
-		
-
+					<c:when test="${disableAmountToDraw}">
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
+								property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="true" /></td>
+					</c:when>
+					<c:otherwise>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
+								property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="false" /></td>
+					</c:otherwise>
+				</c:choose>
 				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}"
 						property="document.accountReviewDetails[${ctr}].fundsNotDrawn" readOnly="true" /></td>
 			</tr>

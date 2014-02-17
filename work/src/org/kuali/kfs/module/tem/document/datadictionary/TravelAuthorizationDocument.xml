@@ -354,11 +354,11 @@
             </entry>
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
-                <value>TravelModule-addActualExpenseLineValidation</value>
+                <value>TravelAuthorization-addActualExpenseLineValidation</value>
             </entry> 
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value></key>
-                <value>TravelModule-addActualExpenseDetailLineValidation</value>
+                <value>TravelAuthorization-addActualExpenseDetailLineValidation</value>
             </entry>
         </map>
     </property>

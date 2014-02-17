@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.document.validation.impl;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -27,29 +26,8 @@ import org.kuali.rice.krad.document.Document;
 /**
  * A generic validation which will only validate at specified notes
  */
-public class NodeSpecificValidation implements Validation {
-    protected static final String PRE_ROUTE = "PreRoute";
-
-    protected boolean quitOnFail;
+public class NodeSpecificValidation extends NodeAwareValidation {
     protected List<String> validationNodes;
-    protected Validation validation;
-
-    /**
-     * Gets the shouldQuitOnFail attribute.
-     * @return Returns the shouldQuitOnFail.
-     */
-    @Override
-    public boolean shouldQuitOnFail() {
-        return quitOnFail;
-    }
-
-    /**
-     * Sets the shouldQuitOnFail attribute value.
-     * @param shouldQuitOnFail The shouldQuitOnFail to set.
-     */
-    public void setQuitOnFail(boolean shouldQuitOnFail) {
-        this.quitOnFail = shouldQuitOnFail;
-    }
 
     /**
      * @return the List of node names where this validation should occur
@@ -67,36 +45,12 @@ public class NodeSpecificValidation implements Validation {
     }
 
     /**
-     * @return the validation being wrapped by this node specific logic
-     */
-    public Validation getValidation() {
-        return validation;
-    }
-
-    /**
-     * Sets a validation to be run at the given nodes
-     * @param validation the validation to be run at the given nodes
-     */
-    public void setValidation(Validation validation) {
-        this.validation = validation;
-    }
-
-    /**
-     * Only runs the validation at the given route nodes
-     * @see org.kuali.kfs.sys.document.validation.Validation#stageValidation(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     * Determines that something has been passed into the validationNodes property, or else the injected validation will never run
+     * @see org.kuali.kfs.sys.document.validation.impl.NodeAwareValidation#isNodesPropertyValid()
      */
     @Override
-    public boolean stageValidation(AttributedDocumentEvent event) {
-        if (getValidation() == null) {
-            throw new IllegalStateException("Attempting to run NodeSpecificValidation but no child validation was specified.");
-        }
-        if (getValidationNodes() == null || getValidationNodes().isEmpty()) {
-            throw new IllegalStateException("Attempting to run NodeSpecificValidation but validationNodes property is not set");
-        }
-        if (shouldRunValidation(event.getDocument())) {
-            return getValidation().stageValidation(event);
-        }
-        return true; // don't run the validation here - just run true
+    protected boolean isNodesPropertyValid() {
+        return getValidationNodes() != null && !getValidationNodes().isEmpty();
     }
 
     /**
@@ -104,6 +58,7 @@ public class NodeSpecificValidation implements Validation {
      * @param document the document which is being validated
      * @return true if one of the validation nodes is within the current nodes and the validation should run; false otherwise
      */
+    @Override
     protected boolean shouldRunValidation(Document document) {
         if (document == null) {
             throw new IllegalStateException("Attempting to run NodeSpecificValidation but the event didn't have a document associated with it");

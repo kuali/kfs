@@ -175,17 +175,15 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                 creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
 
                 List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
                 if(validateAndSetCreditCardAgency(creditCardData)){
 
                     if(creditCardData.getExpenseImport() == ExpenseImport.traveler){
-                        TemProfileAccount temProfileAccount  = findTraveler(creditCardData);
 
-                        if(ObjectUtils.isNull(temProfileAccount)){
-                            LOG.error("Invalid Traveler in Credit Card Data record.");
-                            creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CARD);
-                        }
-                        else{
-                            //Set Traveler Id for UCD
+                        TemProfileAccount temProfileAccount  = findTraveler(creditCardData);
+                        if(ObjectUtils.isNotNull(temProfileAccount)){
+
+                            //Set Traveler Id
                             if(ObjectUtils.isNull(creditCardData.getTravelerId()) || creditCardData.getTravelerId() == 0){
                                 Integer travelerId = new Integer(temProfileAccount.getProfile().getEmployeeId()).intValue();
                                 creditCardData.setTravelerId(travelerId);
@@ -197,32 +195,41 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                             if(creditCardData.getExpenseTypeCode() == null){
                                 creditCardData.setExpenseTypeCode(ExpenseTypes.OTHER);
                             }
+
                             // write an error if the expense type code is not valid
                             final ExpenseType expenseType = businessObjectService.findBySinglePrimaryKey(ExpenseType.class, creditCardData.getExpenseTypeCode());
-                            if (expenseType == null) {
+                            if (ObjectUtils.isNotNull(expenseType)) {
+
+                                //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number
+                                creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardOrAgencyCode()+ creditCardData.getCreditCardNumber());
+
+                                // need to do the duplicate check at this point, since the CC key is one of the fields being checked
+                                if (!isDuplicate(creditCardData, errorMessages)) {
+                                    creditCardData.setMoveToHistoryIndicator(true);
+                                    creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
+                                    validData.add(creditCardData);
+                                }
+                            }
+                            else {
                                 LOG.error("Invalid expense type code "+creditCardData.getExpenseTypeCode()+" in Credit Card Data record");
-                                creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_EXPENSE_TYPE_CODE);
+                                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_CREDIT_CARD_DATA_INVALID_EXPENSE_TYPE_CODE, creditCardData.getExpenseTypeCode()));
                             }
-
-                            //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number
-                            creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardOrAgencyCode()+ creditCardData.getCreditCardNumber());
-
-                            // need to do the duplicate check at this point, since the CC key is one of the fields being checked
-                            if (!isDuplicate(creditCardData, errorMessages)) {
-                                creditCardData.setMoveToHistoryIndicator(true);
-                                creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
-                                validData.add(creditCardData);
-                            }
+                        }
+                        else {
+                            LOG.error("No traveler found for credit card number: "+ creditCardData.getCreditCardNumber());
+                            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_CREDIT_CARD_DATA_NO_TRAVELER_FOUND, creditCardData.getCreditCardNumber()));
                         }
                     }
                     else if(creditCardData.getExpenseImport() == ExpenseImport.trip){
+
                         if (!isDuplicate(creditCardData, errorMessages)) {
                             creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
                             validData.add(creditCardData);
                         }
                     }
+
                 }else{
-                    errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+                    errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA, creditCardData.getCreditCardOrAgencyCode()));
                 }
 
                 //writer to error report

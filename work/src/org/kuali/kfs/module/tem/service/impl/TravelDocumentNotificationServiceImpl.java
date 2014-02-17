@@ -80,7 +80,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
                     return;
                 }
 
-                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTAFinal(), travelProfile.getNotifyTAStatusChange());
+                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTAFinal(), travelProfile.getNotifyTAStatusChange(), documentTypeCode);
             }
             else {
                 // TR/ENT/RELO
@@ -88,7 +88,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
                     return;
                 }
 
-                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTERFinal(), travelProfile.getNotifyTERStatusChange());
+                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTERFinal(), travelProfile.getNotifyTERStatusChange(), documentTypeCode);
             }
 
             this.sendNotificationByPreference(travelDocument, statusChangeDTO, preference);
@@ -103,13 +103,14 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
         return true;
     }
 
-    private NotificationPreference getEmailNotificationPreference(NotificationPreference preference, String newRouteStatus, boolean notifyOnFinal, boolean notifyOnStatusChange) {
+    private NotificationPreference getEmailNotificationPreference(NotificationPreference preference, String newRouteStatus, boolean notifyOnFinal, boolean notifyOnStatusChange, String documentTypeCode) {
         if (notifyOnFinal && (DocumentStatus.FINAL.getCode().equals(newRouteStatus) ||
                 DocumentStatus.PROCESSED.getCode().equals(newRouteStatus))) {
-            preference = NotificationPreference.TA_ON_FINAL;
+            preference = TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT.equals(documentTypeCode) ? NotificationPreference.TA_ON_FINAL : NotificationPreference.TER_ON_FINAL;
+
         }
         else if (notifyOnStatusChange && !this.getNoNotificationRouteStatusList().contains(newRouteStatus)) {
-            preference = NotificationPreference.TA_ON_CHANGE;
+            preference = TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT.equals(documentTypeCode) ? NotificationPreference.TA_ON_CHANGE : NotificationPreference.TER_ON_CHANGE;
         }
 
         return preference;
@@ -183,11 +184,9 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
      */
     protected String buildNotificationBody(TravelDocument travelDocument, DocumentRouteStatusChange statusChange, NotificationPreference preference) {
         Map<String, Object> notificationInformationHolder = new HashMap<String, Object>();
-
         notificationInformationHolder.put(TemConstants.NOTIFICATION_PREFERENCE, preference.getLabel());
         notificationInformationHolder.put(KFSPropertyConstants.DOCUMENT, travelDocument);
         notificationInformationHolder.put(TemConstants.STATUS_CHANGE_DTO, statusChange);
-
         String newStatusLabel = KewApiConstants.DOCUMENT_STATUSES.get(statusChange.getNewRouteStatus());
         notificationInformationHolder.put(TemPropertyConstants.NEW_ROUTE_STATUS, newStatusLabel);
 

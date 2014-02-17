@@ -34,6 +34,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -479,6 +480,22 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             if (getTravelPayment().isImmediatePaymentIndicator()) {
                 getPaymentSourceExtractionService().extractSingleImmediatePayment(this);
+            }
+            if (getImportedExpenses() != null && !getImportedExpenses().isEmpty()) {
+                for (ImportedExpense expense : getImportedExpenses()) {
+                    if (StringUtils.equals(TemConstants.TRAVEL_TYPE_CTS, expense.getCardType())) {
+                        if (expense.getHistoricalTravelExpenseId() != null) {
+                            if (ObjectUtils.isNull(expense.getHistoricalTravelExpense())) {
+                                expense.refreshReferenceObject(TemPropertyConstants.HISTORICAL_TRAVEL_EXPENSE);
+                            }
+                            if (!ObjectUtils.isNull(expense.getHistoricalTravelExpense())) {
+                                expense.getHistoricalTravelExpense().setReconciled(TemConstants.ReconciledCodes.RECONCILED);
+                                expense.getHistoricalTravelExpense().setReconciliationDate(getDateTimeService().getCurrentSqlDate());
+                                getBusinessObjectService().save(expense.getHistoricalTravelExpense());
+                            }
+                        }
+                    }
+                }
             }
         }
     }

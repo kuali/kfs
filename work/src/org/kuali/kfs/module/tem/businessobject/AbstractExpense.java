@@ -31,15 +31,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name="tem_trvl_exp_t")
@@ -448,15 +445,6 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * expenseTypeObjectCode; then it tries to pull back via the expenseTypeCode
      */
     public ExpenseType getExpenseType() {
-        if (ObjectUtils.isNull(expenseType) || !expenseType.getCode().equals(expenseTypeCode)) {
-            if (!ObjectUtils.isNull(expenseTypeObjectCode)) {
-                expenseType = expenseTypeObjectCode.getExpenseType();
-            } else if (!StringUtils.isBlank(expenseTypeCode)) {
-                expenseType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ExpenseType.class, expenseTypeCode);
-            } else {
-                expenseType = null;
-            }
-        }
         return expenseType;
     }
 

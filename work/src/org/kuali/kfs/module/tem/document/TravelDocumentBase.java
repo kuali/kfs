@@ -1882,7 +1882,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         List<HistoricalTravelExpense> allHistoricalExpenses = getHistoricalTravelExpenses();
         List<HistoricalTravelExpense> reconciledHistoricalExpenses = new ArrayList<HistoricalTravelExpense>();
         for (HistoricalTravelExpense historicalExpense : allHistoricalExpenses) {
-            if (!ObjectUtils.isNull(historicalExpense.getCreditCardStagingData()) && !ObjectUtils.isNull(historicalExpense.getAgencyStagingData())) {
+            if (StringUtils.equals(historicalExpense.getReconciled(), TemConstants.ReconciledCodes.RECONCILED)) {
                 reconciledHistoricalExpenses.add(historicalExpense);
             }
         }
@@ -2290,7 +2290,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             return false; // we don't have any expenses at all
         }
         for (ActualExpense expense : getActualExpenses()) {
-            if (!expense.getExpenseType().isPrepaidExpense()) {
+            if (!StringUtils.isBlank(expense.getExpenseTypeCode()) && ObjectUtils.isNull(expense.getExpenseType())) {
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
+            }
+            if (!ObjectUtils.isNull(expense.getExpenseType()) && !expense.getExpenseType().isPrepaidExpense()) {
                 return false;
             }
         }

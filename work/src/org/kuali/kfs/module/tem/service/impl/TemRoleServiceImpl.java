@@ -32,6 +32,7 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -157,7 +158,11 @@ public class TemRoleServiceImpl implements TemRoleService{
 
         //add the role qualification
         Map<String,String> qualification = new HashMap<String,String>();
-        qualification.put(TemProfileProperties.PROFILE_ID, profileId);
+        if (isProfileAlsoUser(user, profileId)) {
+            qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+        } else {
+            qualification.put(TemProfileProperties.PROFILE_ID, profileId);
+        }
         qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, documentType);
 
         boolean checkProfileAssignedRole = checkUserRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, qualification);
@@ -165,6 +170,32 @@ public class TemRoleServiceImpl implements TemRoleService{
 
         //user is an arranger if either check is successful
         return checkProfileAssignedRole || checkOrgRole;
+    }
+
+    /**
+     * Determines if the given profile id represents the profile of the given user
+     * @param user a user
+     * @param profileId a profile id
+     * @return true if the profile and the user represent the same entity; false otherwise
+     */
+    protected boolean isProfileAlsoUser(Person user, String profileId) {
+        final TemProfile profile = getProfile(profileId);
+        return (profile != null && StringUtils.equals(profile.getPrincipalId(), user.getPrincipalId()));
+    }
+
+    /**
+     * Looks up the active profile for the given profile id; null if nothing is found or the profile is not active
+     * @param profileId the profile id to look up
+     * @return
+     */
+    protected TemProfile getProfile(String profileId) {
+        if (!StringUtils.isBlank(profileId)) {
+            final TemProfile profile = businessObjectService.findBySinglePrimaryKey(TemProfile.class, profileId);
+            if (profile != null && profile.isActive()) {
+                return profile;
+            }
+        }
+        return null;
     }
 
     /**

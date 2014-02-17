@@ -36,14 +36,21 @@
 			readOnly="${!fullEntryMode}"/>
 			<html:image property="methodToCall.recalculate" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" alt="calculate" styleClass="tinybutton" styleId="refreshPage" style="display:none; visibility:hidden;"/>			
 		</td>
-		<th class="bord-l-b" width="25%">
-		<div align="right"><kul:htmlAttributeLabel
-			attributeEntry="${documentAttributes.blanketTravel}" /></div>
-		</th>
-		<td class="datacell" width="25%"><kul:htmlControlAttribute
-			attributeEntry="${documentAttributes.blanketTravel}"
-			property="document.blanketTravel" readOnly="${!blanketTravelMode}"/>
-		</td>
+		<c:choose>
+			<c:when test="${blanketTravelEntryMode || blanketTravelViewMode}">
+				<th class="bord-l-b" width="25%">
+				<div align="right"><kul:htmlAttributeLabel
+					attributeEntry="${documentAttributes.blanketTravel}" /></div>
+				</th>
+				<td class="datacell" width="25%"><kul:htmlControlAttribute
+					attributeEntry="${documentAttributes.blanketTravel}"
+					property="document.blanketTravel" readOnly="${blanketTravelViewMode}"/>
+				</td>
+			</c:when>
+			<c:otherwise>
+				<th class="bord-l-b" width="25%">&nbsp;</th><td class="datacell" width="25%">&nbsp;</td>
+			</c:otherwise>
+		</c:choose>
 	</tr>
 	<tr>
 		<th class="bord-l-b" width="25%">

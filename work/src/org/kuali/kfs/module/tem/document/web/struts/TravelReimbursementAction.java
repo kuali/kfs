@@ -266,45 +266,22 @@ public class TravelReimbursementAction extends TravelActionBase {
             return actionAfterPrimaryDestinationLookup;
         }
 
-        refreshAfterTravelerLookup(mapping, reimbForm, request);
-
         return super.refresh(mapping, form, request, response);
     }
 
-    /**
-     *
-     * This method is used to refresh the information on the form
-     * @param mapping
-     * @param reqForm
-     * @param request
-     * @return
-     */
-    protected ActionForward refreshAfterTravelerLookup(ActionMapping mapping, TravelReimbursementForm reqForm, HttpServletRequest request) {
-        String refreshCaller = reqForm.getRefreshCaller();
 
-        TravelReimbursementDocument document = reqForm.getTravelReimbursementDocument();
-
-        // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
-        // information
-        LOG.debug("Got refresh caller "+ refreshCaller);
-        if (refreshCaller == null) {
-            return null;
-        }
-
-        boolean isTravelerLookupable = TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller);
-        if (!isTravelerLookupable) {
-            return null;
-        }
-
+    @Override
+    protected void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request) {
         final String travelerTypeCode = request.getParameter("document.traveler.travelerTypeCode");
         if (StringUtils.isNotEmpty(travelerTypeCode)) {
             document.getTraveler().setTravelerTypeCode(travelerTypeCode);
         }
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
 
-        document.updatePayeeTypeForReimbursable();
-        return null;
+        ((TravelReimbursementDocument)document).updatePayeeTypeForReimbursable();
+        updateAccountsWithNewProfile(travelForm, document.getTemProfile());
     }
+
 
     protected Integer getPerDiemActionLineNumber(final HttpServletRequest request) {
         for (final String parameterKey : ((Map<String,String>) request.getParameterMap()).keySet()) {

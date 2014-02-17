@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -331,34 +330,21 @@ public class TravelEntertainmentAction extends TravelActionBase {
         }
     }
 
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
-
-        final String refreshCaller = entForm.getRefreshCaller();
-        if (!StringUtils.isBlank(refreshCaller)) {
-            final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
-
-            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
-                performRequesterRefresh(document);
-            }
-        }
-
-        return super.refresh(mapping, form, request, response);
-    }
-
     /**
      * Performs necessary updates after the requester on the relocation document was updated, such as updating the payee type
      * @param document the document to update
      */
-    protected void performRequesterRefresh(TravelEntertainmentDocument document) {
-        if(document.getHostAsPayee()) {
-            document.setHostName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
+    @Override
+    protected void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request) {
+        TravelEntertainmentDocument entDoc = (TravelEntertainmentDocument)document;
+        if(entDoc.getHostAsPayee()) {
+            entDoc.setHostName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
         }
         else {
-            document.setHostName(KFSConstants.EMPTY_STRING);
+            entDoc.setHostName(KFSConstants.EMPTY_STRING);
         }
-        document.updatePayeeTypeForReimbursable();
+        entDoc.updatePayeeTypeForReimbursable();
+        updateAccountsWithNewProfile(travelForm, document.getTemProfile());
     }
 
     public ActionForward printCoversheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

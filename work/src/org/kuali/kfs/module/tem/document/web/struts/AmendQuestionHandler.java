@@ -119,8 +119,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             document.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
-            final Note firstNote = getDocumentService().createNoteFromDocument(taaDocument, noteText.toString());
-            taaDocument.addNote(firstNote);
+
             Note secondNote = getDocumentService().createNoteFromDocument(document, getMessageFrom(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT));
             Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
             secondNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());

@@ -63,7 +63,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -121,6 +120,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -399,6 +399,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         // set wire charge message in form
         ((TravelFormBase)form).setWireChargeMessage(retrieveWireChargeMessage());
+
+        final String refreshCaller = ((KualiForm)form).getRefreshCaller();
+        if (!StringUtils.isBlank(refreshCaller)) {
+            final TravelDocument document = ((TravelFormBase)form).getTravelDocument();
+
+            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
+                performRequesterRefresh(document, (TravelFormBase)form, request);
+            }
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -828,17 +837,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 if (expense.getPrimaryDestinationId() != TemConstants.CUSTOM_PRIMARY_DESTINATION_ID && expense.getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
                     perDiem = getPerDiemService().getPerDiem(expense.getPrimaryDestinationId(), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 } else {
-                  perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
+                    perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate(), document.getEffectiveDateForPerDiem(expense.getMileageDate()));
                 }
 
                 // now copy info over to estimate
-                expense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
-                expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
-                expense.setCounty(perDiem.getPrimaryDestination().getCounty());
-                final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
-                getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
-                expense.setLodging(perDiem.getLodging());
+                if (perDiem != null) {
+                    expense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
+                    expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
+                    expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+                    expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+                    final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
+                    getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
+                    expense.setLodging(perDiem.getLodging());
+                }
                 return null;
             }
         }
@@ -1057,7 +1068,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
             List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
             for (RouteNodeInstance routeNode : nodes){
-                if (routeNode.getName().equals(TemWorkflowConstants.RouteNodeNames.ACCOUNT)){
+                if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
                     workflowCheck = true;
                 }
             }
@@ -1636,4 +1647,37 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
+    /**
+     * Performs necessary updates after the requester on the travel document was updated
+     * @param document the document to update
+     * @param request the current web request
+     */
+    protected abstract void performRequesterRefresh(TravelDocument document, TravelFormBase travelForm, HttpServletRequest request);
+
+    /**
+     * Updates new accounting lines on the document with default info from the profile if applicable
+     * @param form the form holding new accounting lines
+     * @param profile the profile to switch the lines over to the default accounting information of
+     */
+    protected void updateAccountsWithNewProfile(TravelFormBase form, TemProfile profile) {
+        if (profile != null) {
+            // update new source accounting line
+            if (form.getNewSourceLine() != null) {
+                TemSourceAccountingLine acctLine = (TemSourceAccountingLine)form.getNewSourceLine();
+                acctLine.setChartOfAccountsCode(profile.getDefaultChartCode());
+                acctLine.setAccountNumber(profile.getDefaultAccount());
+                acctLine.setSubAccountNumber(profile.getDefaultSubAccount());
+                acctLine.setProjectCode(profile.getDefaultProjectCode());
+            }
+
+            // update new distribution line
+            if (form.getAccountDistributionnewSourceLine() != null) {
+                TemDistributionAccountingLine acctLine = form.getAccountDistributionnewSourceLine();
+                acctLine.setChartOfAccountsCode(profile.getDefaultChartCode());
+                acctLine.setAccountNumber(profile.getDefaultAccount());
+                acctLine.setSubAccountNumber(profile.getDefaultSubAccount());
+                acctLine.setProjectCode(profile.getDefaultProjectCode());
+            }
+        }
+    }
 }

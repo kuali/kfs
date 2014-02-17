@@ -46,11 +46,12 @@
 				<bean parent="TravelModule-tripDetailEstimateGreaterThanZeroValidation" scope="prototype" />
    				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
     		    <bean parent="TravelModule-accountingLineEncumbranceObjectCodeValidation" scope="prototype" />	
-                <bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
                 <bean parent="TravelAuthorization-amendmentValidation" scope="prototype" />
     			<bean parent="TravelModule-blanketTripTypeValidation" scope="prototype" />
+    			<bean parent="TravelAuthorization-blanketTripExpenseValidation" scope="prototype"/>
     			<bean parent="TravelModule-tripDetailLodgingValidation" scope="prototype" />
     			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
+    			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     			<bean parent="TravelModule-travelerValidation" scope="prototype" />
     			<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
@@ -182,10 +183,10 @@
     </bean> 
     
     <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation" parent="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" />
-    <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthOneSidedRequiredAccountingLinesCountValidation" />
+    <bean id="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation-parent" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthOneSidedRequiredAccountingLinesCountValidation" />
     
     <bean id="TravelAuthorization-amendmentValidation" parent="TravelAuthorization-amendmentValidation-parent" />
-    <bean id="TravelAuthorization-amendmentValidation-parent" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAmendmentValidation">
+    <bean id="TravelAuthorization-amendmentValidation-parent" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAmendmentValidation">
         <property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
     </bean>
     
@@ -311,15 +312,57 @@
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
-				<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+                <bean parent="NodeSkippingValidation" scope="prototype">
+   					<property name="validation">		    			
+    					<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+							<property name="parameterProperties">
+								<list>
+									<bean parent="accountingDocumentFieldConversion" />
+								</list>
+							</property>
+						</bean>
+    				</property>
+    				<property name="validationSkipNodes">
+    					<list>
+    						<value>Travel</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="TravelAuthorization-addActualExpenseLineValidation" parent="TravelAuthorization-addActualExpenseLineValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorization-addActualExpenseLineValidation-parentBean" abstract="true" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="accountingDocumentFieldConversion" />
+								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
 						</list>
 					</property>
 				</bean>
-    		</list>
-    	</property>
-    </bean>  
+				<bean parent="TravelAuthorization-blanketTripExpenseValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="TravelAuthorization-addActualExpenseDetailLineValidation" parent="TravelAuthorization-addActualExpenseDetailLineValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorization-addActualExpenseDetailLineValidation-parentBean" abstract="true" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="actualExpenseDetail" p:targetValidationProperty="actualExpenseDetailForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelAuthorization-blanketTripExpenseValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
 
 </beans>

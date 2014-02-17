@@ -691,7 +691,7 @@
     </bean>
 
 	<bean id="importAttendeesEvent" parent="importAttendeesEvent-parentBean" />
-    <bean id="importAttendeesEvent-parentBean" class="org.kuali.kfs.module.tem.document.web.struts.ImportAttendeesEvent">
+    <bean id="importAttendeesEvent-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.web.struts.ImportAttendeesEvent">
         <property name="travelDocumentService"              ref="travelDocumentService" />        
         <property name="travelEntertainmentDocumentService" ref="temEntertainmentDocumentService" />
         <property name="ruleService"                        ref="kualiRuleService" />
@@ -796,7 +796,9 @@
 
 	<bean id="importedCTSExpenseService" parent="importedCTSExpenseService-parentBean" />
 	<bean id="importedCTSExpenseService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" >		
-        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />    
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
+        <property name="travelExpenseService" ref="travelExpenseService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
     </bean>
 
 	<bean id="importedCorporateCardExpenseService" parent="importedCorporateCardExpenseService-parentBean" />
@@ -1100,6 +1102,8 @@
       <property name="parameterService" ref="parameterService"/>
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
       <property name="travelDocumentService" ref="travelDocumentService" />
+      <property name="objectCodeService" ref="objectCodeService" />
+      <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 	<!-- End Agency Upload configuration -->
 
@@ -1153,7 +1157,7 @@
                 <entry key="creditCardKey" value="CREDIT CARD KEY" />
                 <entry key="creditCardNumber" value="CREDIT CARD NUMBER" />
                 <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
-                <entry key="referenceNumber" value="MERCHANT NAME" />
+                <entry key="referenceNumber" value="REFERENCE NUMBER" />
                 <entry key="merchantName" value="MERCHANT NAME" />                
                 <entry key="transactionAmount" value="TRANSACTION AMOUNT" />
                 <entry key="transactionDate" value="TRANSACTION DATE" />

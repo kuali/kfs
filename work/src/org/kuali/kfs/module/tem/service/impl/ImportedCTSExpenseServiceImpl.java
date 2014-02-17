@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
@@ -32,6 +34,8 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalExpenseAsTemExpenseWrapper;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -40,17 +44,21 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TemExpenseService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements TemExpenseService {
 
     private static Logger LOG = Logger.getLogger(ImportedCTSExpenseServiceImpl.class);
 
-    ImportedExpensePendingEntryService importedExpensePendingEntryService;
+    protected ImportedExpensePendingEntryService importedExpensePendingEntryService;
+    protected TravelExpenseService travelExpenseService;
+    protected DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.TemExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
@@ -139,7 +147,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     /**
      * Used to create GLPE's for CTS imports.
      *
-     * compares the entered accounting lines with what has been created in the trip acccount info table.
+     * compares the entered accounting lines with what has been created in the trip account info table.
      *
      * if there are differences, create a credit glpe for the original account and a debit for the new one.
      *
@@ -148,20 +156,14 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
 
-        String distributionIncomeAndExpenseDocumentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+        String distributionIncomeAndExpenseDocumentType = getDataDictionaryService().getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
 
         //build map of the accounting line info and amount
         List<TemSourceAccountingLine> lines = travelDocument.getSourceAccountingLines();
-        Map<String,KualiDecimal> accountingLineMap = new HashMap<String, KualiDecimal>();
+        Map<AccountingInfoKey,KualiDecimal> accountingLineMap = new HashMap<AccountingInfoKey, KualiDecimal>();
         for (TemSourceAccountingLine line : lines){
            if (line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
-               String key = line.getChartOfAccountsCode() + "_"
-                   + line.getAccountNumber() + "_"
-                   + line.getSubAccountNumber() + "_"
-                   + line.getFinancialObjectCode() + "_"
-                   + line.getFinancialSubObjectCode() + "_"
-                   + line.getProjectCode() + "_"
-                   + line.getOrganizationReferenceId();
+               AccountingInfoKey key = new AccountingInfoKey(line);
                KualiDecimal amount = line.getAmount();
                if (accountingLineMap.containsKey(key)){
                    amount = accountingLineMap.get(key).add(line.getAmount());
@@ -170,25 +172,22 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
            }
         }
         //build map of expected amounts from CTS expenses
-        Map<String,KualiDecimal> tripAccountMap = new HashMap<String, KualiDecimal>();
+        Map<AccountingInfoKey,KualiDecimal> tripAccountMap = new HashMap<AccountingInfoKey, KualiDecimal>();
         for (HistoricalTravelExpense historicalTravelExpense : travelDocument.getHistoricalTravelExpenses()){
             //get historical travel expenses that are CTS for this document.
             if (travelDocument.getDocumentNumber().equals(historicalTravelExpense.getDocumentNumber())
                     && historicalTravelExpense.getAgencyStagingData() != null
                     && historicalTravelExpense.getReconciled().equals(TemConstants.ReconciledCodes.UNRECONCILED)){
                 for (TripAccountingInformation tripAccountingInformation : historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation()){
-                    String key = tripAccountingInformation.getTripChartCode() + "_"
-                    + tripAccountingInformation.getTripAccountNumber() + "_"
-                    + tripAccountingInformation.getTripSubAccountNumber() + "_"
-                    + tripAccountingInformation.getObjectCode() + "_"
-                    + tripAccountingInformation.getSubObjectCode() + "_"
-                    + tripAccountingInformation.getProjectCode() + "_"
-                    + tripAccountingInformation.getOrganizationReference();
-                KualiDecimal amount = tripAccountingInformation.getAmount();
-                if (tripAccountMap.containsKey(key)){
-                    amount = tripAccountMap.get(key).add(amount);
-                }
-                tripAccountMap.put(key, amount);
+                    AccountingInfoKey key = new AccountingInfoKey(tripAccountingInformation, historicalTravelExpense);
+                    KualiDecimal amount = tripAccountingInformation.getAmount();
+                    if (amount == null) {
+                        amount = historicalTravelExpense.getAmount().divide(new KualiDecimal(historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation().size()));
+                    }
+                    if (tripAccountMap.containsKey(key)){
+                        amount = tripAccountMap.get(key).add(amount);
+                    }
+                    tripAccountMap.put(key, amount);
                 }
             }
         }
@@ -196,27 +195,22 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
          * Iterate through imported expense accounts and match them to accounting line accounts.
          * process any changes by creating a new credit glpe
          */
-        for (String key : tripAccountMap.keySet()) {
-            if (accountingLineMap.containsKey(key)
-                    && accountingLineMap.get(key).equals(tripAccountMap.get(key))){
-                //do nothing.  The accounting line(s) haven't made a change that warrants new glpe creation
-                accountingLineMap.remove(key);
-            }
-            else if (!accountingLineMap.containsKey(key)
-                    || accountingLineMap.get(key).isLessThan(tripAccountMap.get(key))){
+        for (AccountingInfoKey key : tripAccountMap.keySet()) {
+            if (!accountingLineMap.containsKey(key) || accountingLineMap.get(key).isLessThan(tripAccountMap.get(key))){
                 //There is a difference in the accounts used
                 //Either the account was completely switched, or was supplemented with another account.
 
                 //create the credit glpe
                 TemSourceAccountingLine creditLine = new TemSourceAccountingLine();
-                String[] accountInfo = key.split("_");
-                creditLine.setChartOfAccountsCode(accountInfo[0]);
-                creditLine.setAccountNumber(accountInfo[1]);
-                creditLine.setSubAccountNumber((accountInfo[2].toLowerCase().equals("null")?"":accountInfo[2]));
-                creditLine.setFinancialObjectCode(accountInfo[3]);
-                creditLine.setFinancialSubObjectCode((accountInfo[4].toLowerCase().equals("null")?"":accountInfo[4]));
-                creditLine.setProjectCode((accountInfo[5].toLowerCase().equals("null")?"":accountInfo[5]));
-                creditLine.setOrganizationReferenceId((accountInfo[6].toLowerCase().equals("null")?"":accountInfo[6]));
+                creditLine.setChartOfAccountsCode(key.getChartOfAccountsCode());
+                creditLine.setAccountNumber(key.getAccountNumber());
+                creditLine.setSubAccountNumber(key.getSubAccountNumber());
+
+                final ExpenseTypeObjectCode expenseTypeObjectCode = getExpenseTypeObjectCode(travelDocument, key.getHistoricalTravelExpense());
+                creditLine.setFinancialObjectCode(expenseTypeObjectCode.getFinancialObjectCode());
+
+                creditLine.setProjectCode(key.getProjectCode());
+                creditLine.setOrganizationReferenceId(key.getOrganizationReferenceId());
                 KualiDecimal amount = (accountingLineMap.get(key) == null?tripAccountMap.get(key):tripAccountMap.get(key).subtract(accountingLineMap.get(key)));
                 creditLine.setAmount(amount);
                 creditLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
@@ -230,19 +224,137 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
          * Iterate through the rest of the accounting lines.
          * Create normal debit glpe's.
          */
-        for (String key : accountingLineMap.keySet()){
+        for (AccountingInfoKey key : accountingLineMap.keySet()){
             TemSourceAccountingLine debitLine = new TemSourceAccountingLine();
-            String[] accountInfo = key.split("_");
-            debitLine.setChartOfAccountsCode(accountInfo[0]);
-            debitLine.setAccountNumber(accountInfo[1]);
-            debitLine.setSubAccountNumber((accountInfo[2].toLowerCase().equals("null")?"":accountInfo[2]));
-            debitLine.setFinancialObjectCode(accountInfo[3]);
-            debitLine.setFinancialSubObjectCode((accountInfo[4].toLowerCase().equals("null")?"":accountInfo[4]));
-            debitLine.setProjectCode((accountInfo[5].toLowerCase().equals("null")?"":accountInfo[5]));
-            debitLine.setOrganizationReferenceId((accountInfo[6].toLowerCase().equals("null")?"":accountInfo[6]));
+            debitLine.setChartOfAccountsCode(key.getChartOfAccountsCode());
+            debitLine.setAccountNumber(key.getAccountNumber());
+            debitLine.setSubAccountNumber(key.getSubAccountNumber());
+            debitLine.setFinancialObjectCode(key.getFinancialObjectCode());
+            debitLine.setFinancialSubObjectCode(key.getFinancialSubObjectCode());
+            debitLine.setProjectCode(key.getProjectCode());
+            debitLine.setOrganizationReferenceId(key.getOrganizationReferenceId());
             debitLine.setAmount(accountingLineMap.get(key));
             debitLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
             importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper, false, distributionIncomeAndExpenseDocumentType);
+        }
+    }
+
+    /**
+     * Looks up the expense type object for the given TravelDocument and HistoricalTravelExpense
+     * @param document the document to find an expense type object code for
+     * @param expense the historical travel expense, which has agency staging data that has an expense type
+     * @return the expense type object code
+     */
+    protected ExpenseTypeObjectCode getExpenseTypeObjectCode(TravelDocument document, HistoricalTravelExpense expense) {
+        final TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = expense.getAgencyStagingData().getExpenseTypeCategory();
+        final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseTypeCategory);
+        final String documentType = document.getDocumentTypeName();
+        final String tripType = StringUtils.isBlank(document.getTripTypeCode()) ? TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE : document.getTripTypeCode();
+        final String travelerType = ObjectUtils.isNull(document.getTraveler()) || StringUtils.isBlank(document.getTraveler().getTravelerTypeCode()) ? TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE : document.getTraveler().getTravelerTypeCode();
+        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseService().getExpenseType(expenseType.getCode(), documentType, tripType, travelerType);
+        return expenseTypeObjectCode;
+    }
+
+    /**
+     * Key which represents (and holds) fields of either a TripAccountingInformation or TemSourceAccountingLine, so that they can be matched against each other
+     */
+    class AccountingInfoKey {
+        protected String chartOfAccountsCode;
+        protected String accountNumber;
+        protected String subAccountNumber;
+        protected String financialObjectCode;
+        protected String financialSubObjectCode;
+        protected String projectCode;
+        protected String organizationReferenceId;
+        protected HistoricalTravelExpense historicalTravelExpense;
+
+        public AccountingInfoKey(TripAccountingInformation info, HistoricalTravelExpense expense) {
+            chartOfAccountsCode = info.getTripChartCode();
+            accountNumber = info.getTripAccountNumber();
+            subAccountNumber = info.getTripSubAccountNumber();
+            projectCode = info.getProjectCode();
+            organizationReferenceId = info.getOrganizationReference();
+            historicalTravelExpense = expense;
+        }
+
+        public AccountingInfoKey(TemSourceAccountingLine accountingLine) {
+            chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+            accountNumber = accountingLine.getAccountNumber();
+            subAccountNumber = accountingLine.getSubAccountNumber();
+            financialObjectCode = accountingLine.getFinancialObjectCode();
+            financialSubObjectCode = accountingLine.getFinancialSubObjectCode();
+            projectCode = accountingLine.getProjectCode();
+            organizationReferenceId = accountingLine.getOrganizationReferenceId();
+        }
+
+        public String getChartOfAccountsCode() {
+            return chartOfAccountsCode;
+        }
+
+        public String getAccountNumber() {
+            return accountNumber;
+        }
+
+        public String getSubAccountNumber() {
+            if (subAccountNumber == null) {
+                return KFSConstants.EMPTY_STRING;
+            }
+            return subAccountNumber;
+        }
+
+        public String getFinancialObjectCode() {
+            return financialObjectCode;
+        }
+
+        public String getFinancialSubObjectCode() {
+            if (financialSubObjectCode == null) {
+                return KFSConstants.EMPTY_STRING;
+            }
+            return financialSubObjectCode;
+        }
+
+        public String getProjectCode() {
+            if (projectCode == null) {
+                return KFSConstants.EMPTY_STRING;
+            }
+            return projectCode;
+        }
+
+        public String getOrganizationReferenceId() {
+            if (organizationReferenceId == null) {
+                return KFSConstants.EMPTY_STRING;
+            }
+            return organizationReferenceId;
+        }
+
+        public HistoricalTravelExpense getHistoricalTravelExpense() {
+            return historicalTravelExpense;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || !(o instanceof AccountingInfoKey)) {
+                return false;
+            }
+            AccountingInfoKey key = (AccountingInfoKey)o;
+            EqualsBuilder equalsBuilder = new EqualsBuilder();
+            equalsBuilder.append(getChartOfAccountsCode(), key.getChartOfAccountsCode());
+            equalsBuilder.append(getAccountNumber(), key.getAccountNumber());
+            equalsBuilder.append(getSubAccountNumber(), key.getSubAccountNumber());
+            equalsBuilder.append(getProjectCode(), key.getProjectCode());
+            equalsBuilder.append(getOrganizationReferenceId(), key.getOrganizationReferenceId());
+            return equalsBuilder.isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+            hashCodeBuilder.append(getChartOfAccountsCode());
+            hashCodeBuilder.append(getAccountNumber());
+            hashCodeBuilder.append(getSubAccountNumber());
+            hashCodeBuilder.append(getProjectCode());
+            hashCodeBuilder.append(getOrganizationReferenceId());
+            return hashCodeBuilder.toHashCode();
         }
     }
 
@@ -266,4 +378,19 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
         this.importedExpensePendingEntryService = importedExpensePendingEntryService;
     }
 
+    public TravelExpenseService getTravelExpenseService() {
+        return travelExpenseService;
+    }
+
+    public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
+        this.travelExpenseService = travelExpenseService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

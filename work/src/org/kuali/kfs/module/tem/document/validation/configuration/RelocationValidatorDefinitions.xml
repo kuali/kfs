@@ -22,9 +22,9 @@
    			<bean parent="TravelRelocation-relocationInformationRequiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-travelerValidation" scope="prototype" />  
    			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
+   			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
             <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
    			<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
-   			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />  	
    			<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
 				<property name="parameterProperties">
 					<list>
@@ -85,13 +85,22 @@
   	<bean id="TravelRelocation-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">
     		<list>
-                <bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="accountingDocumentFieldConversion" />
-						</list>
-					</property>
-				</bean>
+    			<bean parent="NodeSkippingValidation" scope="prototype">
+   					<property name="validation">		    			
+    					<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+							<property name="parameterProperties">
+								<list>
+									<bean parent="accountingDocumentFieldConversion" />
+								</list>
+							</property>
+						</bean>
+    				</property>
+    				<property name="validationSkipNodes">
+    					<list>
+    						<value>MovingAndRelocationManager</value>
+    					</list>
+    				</property>
+    			</bean>
     			<bean parent="NonTripTravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     		</list>

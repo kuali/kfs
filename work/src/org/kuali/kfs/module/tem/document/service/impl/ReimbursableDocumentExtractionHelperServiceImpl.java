@@ -153,6 +153,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
 
         PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), document.getAchCheckDocumentType());
         pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
+        pd.setOrganizationDocNbr(document.getTravelDocumentIdentifier());
         // Handle accounts
         List<TemSourceAccountingLine> paymentAccountingLines = getAccountingLinesForPayment(document);
         final List<PaymentAccountDetail> paymentAccounts = getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(paymentAccountingLines);

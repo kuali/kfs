@@ -47,9 +47,11 @@ public interface TravelDocumentDao {
 	 * @param perDiemDate the date of the per diem to find a PerDiem record for
 	 * @param effectiveDate the date we should use against the effective dates
 	 * @return
+	 *
+	 * deprecated because we're looking for a better way to do this
 	 */
 	@Deprecated
-	public PerDiem findPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate, java.sql.Date effectiveDate);
+	public List<PerDiem> findEffectivePerDiems(int primaryDestinationId, java.sql.Date effectiveDate);
 
     /**
      * get all outstanding travel advances by the given invoice document numbers. The advances must have not been used to generate

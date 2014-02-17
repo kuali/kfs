@@ -252,6 +252,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER = "message.batch.tem.creditcard.DataReportHeader";
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";
     public static final String MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA="message.batch.tem.agency.creditcard.data.InvalidCreditCardAgency";
+    public static final String MESSAGE_CREDIT_CARD_DATA_NO_TRAVELER_FOUND="message.batch.tem.creditcard.NoTravelerFoundForCardNumber";
+    public static final String MESSAGE_CREDIT_CARD_DATA_INVALID_EXPENSE_TYPE_CODE="message.batch.tem.creditcard.InvalidExpenseTypeCode";
 
     public static final String MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER = "message.batch.tem.agencydatareconciliation.reportHeader";
     public static final String MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION = "message.batch.tem.agencydatareconciliation.glpeCreation";
@@ -306,7 +308,7 @@ public class TemKeyConstants {
     public static final String ERROR_DOCUMENT_TOTAL_ESTIMATED = "error.document.tem.total.estimated";
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
     public static final String ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH = "error.document.tem.primary.destination.per.diem.location.no.match";
-
+    public static final String ERROR_TRAVEL_DOCUMENT_EXPENSES_ON_BLANKET_TRAVEL = "error.document.tem.expenses.on.blanket.travel";
 
     public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.cts.card.document.user.agreement";
     public static final String CORP_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.corp.card.document.user.agreement";

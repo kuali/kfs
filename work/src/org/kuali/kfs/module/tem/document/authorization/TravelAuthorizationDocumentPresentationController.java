@@ -21,6 +21,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -29,6 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Travel Reimbursement Document Presentation Controller
@@ -47,8 +49,11 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
-        if (document instanceof TravelAuthorizationDocument &&  (wfDocument.isInitiated() || wfDocument.isSaved())) {
+        if (shouldAllowBlanketTravelEntry(document)) {
             editModes.add(TemConstants.EditModes.BLANKET_TRAVEL_ENTRY);
+        }
+        if (!wfDocument.isInitiated() && !wfDocument.isSaved()) {
+            editModes.add(TemConstants.EditModes.BLANKET_TRAVEL_VIEW);
         }
 
         if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelerNode(wfDocument) || wfDocument.isInitiated() || wfDocument.isSaved()) {
@@ -68,6 +73,27 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         }
 
         return editModes;
+    }
+
+    /**
+     * Determines whether blanket travel selection will be given at all on the travel authorization document.  If a trip type is not
+     * selected, or the trip type does not allow blanket travel, then the blanket travel indicator will not be shown; otherwise, if
+     * there is a trip type and it allows blanket travel, the selection option will be shown
+     * @return true if the blanket travel selection should be shown, false otherwise
+     */
+    protected boolean shouldAllowBlanketTravelEntry(Document document) {
+        if (!(document instanceof TravelAuthorizationDocument)) {
+            return false; // also, you're using the wrong damn authorizer
+        }
+        final TravelAuthorizationDocument travelAuthorization = (TravelAuthorizationDocument)document;
+        if ((!travelAuthorization.getDocumentHeader().getWorkflowDocument().isInitiated() && !travelAuthorization.getDocumentHeader().getWorkflowDocument().isSaved()) || StringUtils.isBlank(travelAuthorization.getTripTypeCode())) {
+            return false;
+        }
+        if (ObjectUtils.isNull(travelAuthorization.getTripType())) {
+            travelAuthorization.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+        }
+        return !ObjectUtils.isNull(travelAuthorization.getTripType()) && travelAuthorization.getTripType().isBlanketTravel();
+
     }
 
     /**

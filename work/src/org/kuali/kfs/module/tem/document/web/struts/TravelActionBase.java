@@ -63,7 +63,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -1069,7 +1068,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
             List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
             for (RouteNodeInstance routeNode : nodes){
-                if (routeNode.getName().equals(TemWorkflowConstants.RouteNodeNames.ACCOUNT)){
+                if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
                     workflowCheck = true;
                 }
             }

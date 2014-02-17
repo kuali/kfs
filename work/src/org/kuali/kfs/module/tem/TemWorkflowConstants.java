@@ -23,7 +23,6 @@ public class TemWorkflowConstants {
     public static final String RISK_MANAGEMENT = "TravelNeedsRiskManagement";
     public static final String TRVL_ADV_REQUESTED = "TravelAdvanceRequested";
     public static final String DIVISION_APPROVAL_REQUIRED = "TravelRequiresDivisionApproval";
-    public static final String ACCOUNT_APPROVAL_REQUIRED = "TravelRequiresAccountApproval";
     public static final String SEPARATION_OF_DUTIES = "RequiresSeparationOfDuties";
     public static final String REQUIRES_SUB_FUND = "RequiresSubFund";
     public static final String REQUIRES_AWARD = "RequiresAward";
@@ -40,8 +39,6 @@ public class TemWorkflowConstants {
     public static class RouteNodeNames {
         public static final String AP_TRAVEL = "Travel";
         public static final String TRAVELER = "Traveler";
-        public static final String ACCOUNT = "Account";
-        public static final String ACCOUNTING_REVIEWER = "AccountingReviewer";
         public static final String DIVISION_REVIEWER = "DivisionReviewer";
         public static final String SPECIAL_REQUEST_REVIEWER = "SpecialRequestReviewer";
         public static final String INTERNATIONAL_TRAVEL_REVIEWER = "InternationalTravelReviewer";

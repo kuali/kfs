@@ -772,7 +772,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         final Note newNote = getDocumentService().createNoteFromDocument(document, noteText);
         document.addNote(newNote);
 
-        document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED);
+        document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
 
         addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 

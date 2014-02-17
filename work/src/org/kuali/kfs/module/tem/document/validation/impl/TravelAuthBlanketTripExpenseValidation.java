@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.util.List;
+
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent;
-import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
-import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
-import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -30,6 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * On Travel Authorization documents, gives a warning or error if the document is a blanket document
  */
 public class TravelAuthBlanketTripExpenseValidation extends GenericValidation {
+    protected List<Class<? extends AttributedDocumentEvent>> alwaysErrorEvents;
 
     /**
      * Checks if the event is a travel authorization and is set to blanket travel; then - if the event is adding an expense, then warns about it;
@@ -42,13 +41,9 @@ public class TravelAuthBlanketTripExpenseValidation extends GenericValidation {
         if (event.getDocument() instanceof TravelAuthorizationDocument) {
             final TravelAuthorizationDocument travelAuth = (TravelAuthorizationDocument)event.getDocument();
             if (travelAuth.getBlanketTravel().booleanValue()) {
-                if (isWarningEvent(event)) {
-                    GlobalVariables.getMessageMap().putWarning(event.getErrorPathPrefix()+"."+TemPropertyConstants.EXPENSE_TYPE_CODE, TemKeyConstants.ERROR_TRAVEL_DOCUMENT_EXPENSES_ON_BLANKET_TRAVEL);
-                } else {
-                    if ((travelAuth.getActualExpenses() != null && !travelAuth.getActualExpenses().isEmpty()) || (travelAuth.getImportedExpenses() != null && !travelAuth.getImportedExpenses().isEmpty())) {
-                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACTUAL_EXPENSES+"[0]."+TemPropertyConstants.EXPENSE_TYPE_CODE, TemKeyConstants.ERROR_TRAVEL_DOCUMENT_EXPENSES_ON_BLANKET_TRAVEL);
-                        return false;
-                    }
+                if (isAlwaysErrorEvent(event) || (travelAuth.getActualExpenses() != null && !travelAuth.getActualExpenses().isEmpty()) || (travelAuth.getImportedExpenses() != null && !travelAuth.getImportedExpenses().isEmpty())) {
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACTUAL_EXPENSES+"[0]."+TemPropertyConstants.EXPENSE_TYPE_CODE, TemKeyConstants.ERROR_TRAVEL_DOCUMENT_EXPENSES_ON_BLANKET_TRAVEL);
+                    return false;
                 }
             }
         }
@@ -56,13 +51,22 @@ public class TravelAuthBlanketTripExpenseValidation extends GenericValidation {
     }
 
     /**
-     * Determines if the given event should only lead to a warning
-     * @param event the event to check only to warn on
-     * @return true if only a warning should occur, false otherwise
+     * Determines if we should always error out on the given event
+     * @param event the event to error out on
+     * @return true if the event should always error out on, false otherwise
      */
-    protected boolean isWarningEvent(AttributedDocumentEvent event) {
-        // note: the imported expense line events should never occur but we're just being safe
-        return event instanceof AddActualExpenseLineEvent || event instanceof AddActualExpenseDetailLineEvent || event instanceof AddImportedExpenseLineEvent || event instanceof AddImportedExpenseDetailLineEvent;
+    protected boolean isAlwaysErrorEvent(AttributedDocumentEvent event) {
+        if (alwaysErrorEvents != null && !alwaysErrorEvents.isEmpty()) {
+            return alwaysErrorEvents.contains(event.getClass());
+        }
+        return false;
     }
 
+    public List<Class<? extends AttributedDocumentEvent>> getAlwaysErrorEvents() {
+        return alwaysErrorEvents;
+    }
+
+    public void setAlwaysErrorEvents(List<Class<? extends AttributedDocumentEvent>> alwaysErrorEvents) {
+        this.alwaysErrorEvents = alwaysErrorEvents;
+    }
 }

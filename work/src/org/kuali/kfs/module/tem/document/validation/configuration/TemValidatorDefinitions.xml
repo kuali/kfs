@@ -269,7 +269,16 @@
 	<bean id="TravelAuthorizationDocument-travelAdvanceBranchingValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceBranchingValidation" abstract="true"/>
 	
 	<bean id="TravelAuthorization-blanketTripExpenseValidation" parent="TravelAuthorization-blanketTripExpenseValidation-parentBean" scope="prototype"/>
-	<bean id="TravelAuthorization-blanketTripExpenseValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthBlanketTripExpenseValidation"/>
+	<bean id="TravelAuthorization-blanketTripExpenseValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthBlanketTripExpenseValidation">
+		<property name="alwaysErrorEvents">
+			<list>
+				<value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value>
+				<value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value>
+				<value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent</value>
+				<value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent</value>
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation" parent="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation-parentBean" scope="prototype"/>
 	<bean id="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation-parentBean" abstract="true" parent="CompositeValidation">

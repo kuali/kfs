@@ -734,6 +734,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         if (!ObjectUtils.isNull(expenseAccountingLines) && !expenseAccountingLines.isEmpty()) {
             final List<TemSourceAccountingLineTotalPercentage> expenseAccountingLinesTotalPercentages = getPercentagesForLines(expenseAccountingLines);
             final List<TemSourceAccountingLine> clearingLines = createAccountingLinesFromPercentages(expenseAccountingLinesTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
+            takeAPennyLeaveAPenny(clearingLines, paymentAmount);
 
             for (TemSourceAccountingLine clearingLine : clearingLines) {
                 // create clearing entry and offset
@@ -905,8 +906,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final BigDecimal total = calculateLinesTotal(accountingLines).bigDecimalValue();
         List<TemSourceAccountingLineTotalPercentage> linePercentages = new ArrayList<TemSourceAccountingLineTotalPercentage>();
         for (TemSourceAccountingLine accountingLine : accountingLines) {
-            BigDecimal percentage = accountingLine.getAmount().bigDecimalValue().divide(total, getDistributionScale(), BigDecimal.ROUND_HALF_UP);
-            TemSourceAccountingLineTotalPercentage linePercentage = new TemSourceAccountingLineTotalPercentage(accountingLine, percentage);
+            final BigDecimal accountingLineAmount = accountingLine.getAmount().bigDecimalValue();
+            final BigDecimal percentage = accountingLineAmount.divide(total, getDistributionScale(accountingLineAmount, total), BigDecimal.ROUND_HALF_UP);
+            final TemSourceAccountingLineTotalPercentage linePercentage = new TemSourceAccountingLineTotalPercentage(accountingLine, percentage);
             linePercentages.add(linePercentage);
         }
         return linePercentages;
@@ -929,7 +931,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @return the scale of the distribution division
      */
-    protected int getDistributionScale() {
+    protected int getDistributionScale(BigDecimal dividend, BigDecimal divisor) {
         return 5;
     }
 

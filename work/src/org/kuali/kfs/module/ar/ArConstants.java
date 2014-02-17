@@ -404,7 +404,7 @@ public class ArConstants{
     public static final String LOC_BY_AWARD = "LOC By Award";
     public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
     public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
-    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
+    public static final String CHECK_LIMIT_DAYS = "CHECK_LIMIT_DAYS";
 
     public static final String PRORATE_WARNING = "document.prorateWarning";
     public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
@@ -436,7 +436,7 @@ public class ArConstants{
 
     public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
-    static final public String AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT = "AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT";
+    static final public String REMINDER_EMAIL_SUBJECT = "REMINDER_EMAIL_SUBJECT";
 
     // Agency Collections Maitenance
     public static final String CHAPTER7_CODE = "C7";

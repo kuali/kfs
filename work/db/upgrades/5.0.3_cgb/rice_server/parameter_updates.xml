@@ -151,7 +151,7 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
-			<column name="PARM_NM" value="AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT" />
+			<column name="PARM_NM" value="REMINDER_EMAIL_SUBJECT" />
 			<column name="OBJ_ID" value="KFSAR10" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -167,7 +167,7 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
-			<column name="PARM_NM" value="AWARD_MILESTONE_CHECK_LIMIT_DAYS" />
+			<column name="PARM_NM" value="CHECK_LIMIT_DAYS" />
 			<column name="OBJ_ID" value="KFSAR11" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />

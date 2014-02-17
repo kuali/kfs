@@ -300,7 +300,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
-        message.setSubject(getEmailSubject(ArConstants.AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT));
+        message.setSubject(getEmailSubject(ArConstants.REMINDER_EMAIL_SUBJECT));
         message.getToAddresses().add(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
         StringBuffer body = new StringBuffer();
 

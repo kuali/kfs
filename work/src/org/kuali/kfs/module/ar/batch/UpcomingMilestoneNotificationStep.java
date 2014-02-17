@@ -75,7 +75,7 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
     public boolean execute(String jobName, java.util.Date jobRunDate) throws InterruptedException {
         LOG.debug("UpcomingMilestoneNotificationStep: execute() started");
         // Get the limit value to check for upcoming milestones
-        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.AWARD_MILESTONE_CHECK_LIMIT_DAYS));
+        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.CHECK_LIMIT_DAYS));
 
         // Get todays date for comparison.
         Timestamp ts = new Timestamp(new java.util.Date().getTime());

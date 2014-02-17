@@ -15,29 +15,6 @@
  */
 
 /**
- * Java script to reload the page and call getSections() - this will be used to manipulate the Award Schedule tabs
- */
-function onblur_preferredBillingFrequency(awardScheduleField) {
-
-	var fieldValue = getElementValue(awardScheduleField.name);
-	//to clear the values of Billing Schedule when the user toggles AwardSchedule
-
-	var elPrefix = findElPrefix(awardScheduleField.name);
-
-	var billNumber = elPrefix + ".add.bills.billNumber";
-	var billDate = elPrefix + ".add.bills.billDate";
-	var estimatedAmount = elPrefix + ".add.bills.estimatedAmount";
-	var bbilledIndicator = elPrefix + ".add.bills.billedIndicator";
-	clearRecipients(billNumber);
-	clearRecipients(billDate);
-	clearRecipients(estimatedAmount);
-	clearRecipients(bbilledIndicator);
-
-	//submitting the form to bring dynamic sections
-	document.forms[0].submit();
-}
-
-/**
  * Java script to fetch the Letter of Credit Fund Group for the appropriate Letter of Credit Fund
  */
 function onblur_letterOfCreditFundCode(letterOfCreditFundCodeField) {

@@ -375,9 +375,7 @@
 					p:name="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency"
-					p:webUILeaveFieldFunction="onblur_preferredBillingFrequency"
-					p:triggerOnChange="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency" />
 				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="suspendInvoicingIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="suspensionReason" />

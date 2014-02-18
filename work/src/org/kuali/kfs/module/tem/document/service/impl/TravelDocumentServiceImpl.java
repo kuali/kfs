@@ -50,6 +50,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -76,7 +78,6 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
-import org.kuali.kfs.module.tem.businessobject.SmooshLineKey;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
@@ -2701,6 +2702,55 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         line.setSubAccountNumber(key.getSubAccountNumber());
         line.setAmount(amount);
         return line;
+    }
+
+    /**
+     * Hash key of lines we want to smoosh
+     */
+    protected class SmooshLineKey {
+        protected String chartOfAccountsCode;
+        protected String accountNumber;
+        protected String subAccountNumber;
+
+        public SmooshLineKey(TemSourceAccountingLine accountingLine) {
+            this.chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+            this.accountNumber = accountingLine.getAccountNumber();
+            this.subAccountNumber = accountingLine.getSubAccountNumber();
+        }
+
+        public String getChartOfAccountsCode() {
+            return chartOfAccountsCode;
+        }
+
+        public String getAccountNumber() {
+            return accountNumber;
+        }
+
+        public String getSubAccountNumber() {
+            return subAccountNumber;
+        }
+
+        @Override
+        public int hashCode() {
+            HashCodeBuilder hcb = new HashCodeBuilder();
+            hcb.append(getChartOfAccountsCode());
+            hcb.append(getAccountNumber());
+            hcb.append(getSubAccountNumber());
+            return hcb.toHashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof SmooshLineKey) || obj == null) {
+                return false;
+            }
+            final SmooshLineKey golyadkin = (SmooshLineKey)obj;
+            EqualsBuilder eb = new EqualsBuilder();
+            eb.append(getChartOfAccountsCode(), golyadkin.getChartOfAccountsCode());
+            eb.append(getAccountNumber(), golyadkin.getAccountNumber());
+            eb.append(getSubAccountNumber(), golyadkin.getSubAccountNumber());
+            return eb.isEquals();
+        }
     }
 
     /**

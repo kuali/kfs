@@ -28,6 +28,7 @@ import static org.kuali.kfs.sys.KFSConstants.MAPPING_BASIC;
 import static org.kuali.kfs.sys.KFSConstants.NOTE_TEXT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,11 +36,13 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,6 +70,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     protected DataDictionaryService dataDictionaryService;
     protected TravelService travelService;
     protected TravelDocumentService travelDocumentService;
+    protected TravelExpenseService travelExpenseService;
     protected DocumentService documentService;
     protected DocumentDao documentDao;
     protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
@@ -132,6 +136,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
             form.setDocument(taaDocument);
+            addActualExpenseNewDetailLines(form);
 
             taaDocument.setApplicationDocumentStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
 
@@ -218,6 +223,18 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             }
         }
         return noteText;
+    }
+
+    /**
+     * Creates a new detail line for each actual expense on the document
+     * @param form the TravelAuthForm to copy expense detail lines on
+     */
+    protected void addActualExpenseNewDetailLines(TravelAuthorizationForm form) {
+        form.setNewActualExpenseLines(new ArrayList<ActualExpense>());
+        for (ActualExpense actualExpense : form.getTravelAuthorizationDocument().getActualExpenses()) {
+            ActualExpense detail = getTravelExpenseService().createNewDetailForActualExpense(actualExpense);
+            form.getNewActualExpenseLines().add(detail);
+        }
     }
 
     /**
@@ -321,5 +338,13 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
+    }
+
+    public TravelExpenseService getTravelExpenseService() {
+        return travelExpenseService;
+    }
+
+    public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
+        this.travelExpenseService = travelExpenseService;
     }
 }

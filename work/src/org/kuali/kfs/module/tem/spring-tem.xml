@@ -1274,6 +1274,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="noteService" ref="noteService"/>
+		<property name="travelExpenseService" ref="travelExpenseService"/>
 	</bean>
 
 	<bean id="HoldTa" parent="HoldTa-parentBean" />

@@ -145,4 +145,11 @@ public interface TravelExpenseService {
      * @return true if all values in the TripAccountingInformation record are empty, false otherwise
      */
     public boolean isTripAccountingInformationEmpty(TripAccountingInformation accountingInformation);
+
+    /**
+     * Creates a new detail line for the given parent actual expense
+     * @param parent an actual expense to create a detail for
+     * @return the new actual expense detail
+     */
+    public ActualExpense createNewDetailForActualExpense(ActualExpense parent);
 }

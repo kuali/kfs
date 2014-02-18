@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -545,4 +547,29 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
                 StringUtils.isEmpty(accountingInformation.getProjectCode()) &&
                 StringUtils.isEmpty(accountingInformation.getOrganizationReference());
     }
+
+    /**
+     * Copies the parent and nulls out unnecessary fields for a detail line
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#createNewDetailForActualExpense(org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public ActualExpense createNewDetailForActualExpense(ActualExpense parent) {
+        ActualExpense newExpense = new ActualExpense();
+        try {
+            BeanUtils.copyProperties(newExpense, parent);
+            newExpense.setConvertedAmount(null);
+            newExpense.setExpenseParentId(newExpense.getId());
+            newExpense.setId(null);
+            newExpense.setNotes(null);
+            newExpense.setExpenseLineTypeCode(null); // evidently, this should be nulled out on detail lines
+        }
+        catch (IllegalAccessException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        catch (InvocationTargetException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return newExpense;
+    }
+
 }

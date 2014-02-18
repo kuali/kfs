@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -24,6 +25,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -46,6 +48,7 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
         checkRate(mileageRate);
         checkDuplicateMileageRate(mileageRate);
         checkExpenseType(mileageRate);
+        checkActiveToDate(mileageRate);
 
         return true;
     }
@@ -61,6 +64,7 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
         final MileageRate mileageRate = (MileageRate)document.getNewMaintainableObject().getBusinessObject();
         result &= checkRate(mileageRate);
         result &= checkExpenseType(mileageRate);
+        result &= checkActiveToDate(mileageRate);
 
         return result;
     }
@@ -116,6 +120,27 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
              return false;
          }
 
+         return true;
+     }
+
+     /**
+      * Verifies that the effective to date on the mileage rate is not set to any day earlier than today
+      * @param mileageRate the mileage rate to check
+      * @return true if the effective date is null or set to today or in the future; false otherwise
+      */
+     protected boolean checkActiveToDate(MileageRate mileageRate) {
+         if (mileageRate.getActiveToDate() == null) {
+             return true;
+         }
+         final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+         final Calendar today = dateTimeService.getCurrentCalendar();
+         Calendar activeToDate = Calendar.getInstance();
+         activeToDate.setTimeInMillis(mileageRate.getActiveToDate().getTime());
+
+         if (!KfsDateUtils.isSameDay(today, activeToDate) && activeToDate.compareTo(today) < 0) {
+             putFieldError(TemPropertyConstants.ACTIVE_TO_DATE, TemKeyConstants.ERROR_DOCUMENT_MILEAGE_RATE_INVALID_ACTIVE_TO_DATE, new String[] {dateTimeService.toDateString(mileageRate.getActiveToDate())});
+             return false;
+         }
          return true;
      }
 }

@@ -91,7 +91,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Suspension Category Inquiry" />
+					<property name="title" value="Suspension Category" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>

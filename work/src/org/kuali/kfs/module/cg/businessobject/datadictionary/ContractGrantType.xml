@@ -46,7 +46,7 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contractGrantTypeCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Instrument Type" />
+		<property name="label" value="Instrument Type Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">

@@ -67,8 +67,8 @@
 	<bean
 		id="DunningLetterTemplateMaintenanceDocument-EditDunningLetterTemplate-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Letter Template" />
-		<property name="title" value="Edit Letter Template" />
+		<property name="id" value="Dunning Letter Template" />
+		<property name="title" value="Dunning Letter Template" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="letterTemplateCode"

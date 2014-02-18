@@ -76,7 +76,7 @@
 		</property>
 	</bean>
 
-	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode" parent="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
+	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode" parent="LetterOfCreditFund-letterOfCreditFundGroupCode" />
 	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="letterOfCreditFundGroupCode" />

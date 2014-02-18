@@ -98,7 +98,7 @@
 	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-lookupDefinition" parent="ContractsGrantsLOCAmountsNotDrawnReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsLOCAmountsNotDrawnReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsLOCAmountsNotDrawnReport Lookup" />
+		<property name="title" value="LOC Amounts Not Drawn Report" />
 		<property name="lookupableID" value="contractsGrantsLOCAmountsNotDrawnReportLookupResultLookupable" />
 
 

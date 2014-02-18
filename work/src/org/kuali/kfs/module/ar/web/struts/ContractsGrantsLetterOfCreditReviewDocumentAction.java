@@ -363,7 +363,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
      */
     protected String getUrlForPrintInvoice(String basePath, String docId, String methodToCall) {
         StringBuffer result = new StringBuffer(basePath);
-        result.append("/arContractsGrantsLOCReviewDocument.do?methodToCall=");
+        result.append("/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=");
         result.append(methodToCall);
         if (ObjectUtils.isNotNull(docId)) {
             result.append("&docId=");

@@ -723,7 +723,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     protected Calendar getSeasonBeginMonthDayCalendar(String seasonBegin, int year) {
         final String[] seasonBeginMonthDay = seasonBegin.split("/");
         Calendar seasonBeginCal = Calendar.getInstance();
-        seasonBeginCal.set(Calendar.MONTH, Integer.parseInt(seasonBeginMonthDay[0]));
+        seasonBeginCal.set(Calendar.MONTH, Integer.parseInt(seasonBeginMonthDay[0]) - 1);
         seasonBeginCal.set(Calendar.DATE, Integer.parseInt(seasonBeginMonthDay[1]));
         seasonBeginCal.set(Calendar.YEAR, year);
         return seasonBeginCal;

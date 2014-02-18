@@ -141,16 +141,6 @@
 	
 	<bean id="primaryDestinationLookupableHelperService" parent="primaryDestinationLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="primaryDestinationLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.PrimaryDestinationLookupableHelperServiceImpl" />
-	
-	<bean id="mileageRateLookupable" parent="mileageRateLookupable-parentBean" scope="prototype" />
-	<bean id="mileageRateLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-		<property name="lookupableHelperService" ref="mileageRateLookupableHelperService" />
-	</bean>
-	
-	<bean id="mileageRateLookupableHelperService" parent="mileageRateLookupableHelperService-parentBean" scope="prototype" />
-	<bean id="mileageRateLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.MileageRateLookupableHelperServiceImpl" parent="lookupableHelperService">
-		<property name="documentDictionaryService" ref="documentDictionaryService"/>
-	</bean>
 
 	<bean id="historicalTravelExpenseLookupable" parent="historicalTravelExpenseLookupable-parentBean" scope="prototype"  />
 	<bean id="historicalTravelExpenseLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

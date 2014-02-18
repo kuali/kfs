@@ -61,6 +61,8 @@
 	<bean id="PerDiemExpense-mileageRateExpenseTypeCode" parent="PerDiemExpense-mileageRateExpenseTypeCode-parentBean"/>
 	<bean id="PerDiemExpense-mileageRateExpenseTypeCode-parentBean" abstract="true" parent="ExpenseType-code">
 		<property name="name" value="mileageRateExpenseTypeCode"/>
+		<property name="label" value="Mileage Rate" />
+		<property name="shortLabel" value="Mlg Rate" />
 	</bean>
 	<bean id="PerDiemExpense-documentNumber" parent="PerDiemExpense-documentNumber-parentBean" />
 	<bean id="PerDiemExpense-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">

@@ -883,7 +883,8 @@ public class TemConstants {
 
     public class ImportedExpenseParameter{
         public static final String NOTIFICATION_SUBJECT_PARAM_NAME = "NOTIFICATION_SUBJECT";
-        public static final String NOTIFICATION_TEXT_PARAM_NAME = "NOTIFICATION_TEXT";
+        public static final String NOTIFICATION_TEXT_BY_TRIP_PARAM_NAME = "NOTIFICATION_TEXT_ BY_TRIP";
+        public static final String NOTIFICATION_TEXT_BY_TRV_PARAM_NAME = "NOTIFICATION_TEXT_BY_TRV";
     }
 
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";

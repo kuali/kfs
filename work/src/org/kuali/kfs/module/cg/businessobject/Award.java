@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -1842,28 +1841,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public void setFundingExpirationDate(Date fundingExpirationDate) {
         this.fundingExpirationDate = fundingExpirationDate;
-    }
-
-    /**
-     * gets Bills - only those that have a bill date
-     * @return bills with a bill date
-     */
-    public List<AccountsReceivableBill> getBills() {
-        // To get completed bills only - Bills that have a completion date filled
-        List<AccountsReceivableBill> bills = new ArrayList<AccountsReceivableBill>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
-
-        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
-
-        List<AccountsReceivableBill> billsCompleted = new ArrayList<AccountsReceivableBill>();
-        for (AccountsReceivableBill bill : bills) {
-            if (bill.getBillDate() != null) {
-                billsCompleted.add(bill);
-            }
-        }
-
-        return billsCompleted;
     }
 
     /**

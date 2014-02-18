@@ -120,8 +120,6 @@
 				<bean parent="CollectionDefinition" p:name="awardSubcontractors"
 					p:label="Award Subcontractors" p:shortLabel="Subcontractors"
 					p:elementLabel="Subcontractor" />
-				<bean parent="CollectionDefinition" p:name="bills" p:label="Bills"
-					p:shortLabel="Bills" p:elementLabel="Bill" />
 				<bean parent="CollectionDefinition" p:name="milestones"
 					p:label="Milestones" p:shortLabel="Milestones" p:elementLabel="Milestone" />
 
@@ -1075,6 +1073,7 @@
 	<bean id="Award-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="title" value="Award Inquiry" />
+		<property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.AwardInquirableImpl" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -1346,30 +1345,11 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Predetermined Billing Schedule">
+				<bean parent="InquirySectionDefinition" p:id="Predetermined Schedule" p:title="Predetermined Billing Schedule">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition"
 								p:attributeName="predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Bills - Completed">
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="bills"
-								p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill">
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="billNumber" />
-										<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
-										<bean parent="FieldDefinition" p:attributeName="billDescription" />
-										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
-										<bean parent="FieldDefinition" p:attributeName="billDate" />
-										<bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
-									</list>
-								</property>
-							</bean>
 						</list>
 					</property>
 				</bean>

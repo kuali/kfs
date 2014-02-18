@@ -549,7 +549,7 @@ public class TravelerServiceImpl implements TravelerService {
 
         profile.setTemProfileAddress(profileAddress);
 
-        profile.setEmailAddress(customer.getCustomerEmailAddress());
+        profile.setEmailAddress(address.getCustomerEmailAddress());
         profile.setPhoneNumber(customer.getCustomerPhoneNumber());
         profile.setEmployeeId("None");
     }

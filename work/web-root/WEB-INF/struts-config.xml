@@ -128,11 +128,11 @@
 		<form-bean name="ContractsGrantsLOCAmountsNotDrawnReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCAmountsNotDrawnReportLookupForm" />
 
-		<form-bean name="ContractsGrantsInvoiceSuspenseActivityReportLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSuspenseActivityReportLookupForm" />
+		<form-bean name="ContractsGrantsSuspendedInvoiceSummaryReportLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceSummaryReportLookupForm" />
 
-		<form-bean name="ContractsGrantsSuspendedInvoiceReportLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceReportLookupForm" />
+		<form-bean name="ContractsGrantsSuspendedInvoiceDetailReportLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceDetailReportLookupForm" />
 
 		<form-bean name="ContractsGrantsMilestoneReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsMilestoneReportLookupForm" />
@@ -990,18 +990,18 @@
 				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
-		<action path="/contractsGrantsInvoiceSuspenseActivityReport"
-			name="ContractsGrantsInvoiceSuspenseActivityReportLookupForm" input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSuspenseActivityReportLookupAction"
+		<action path="/contractsGrantsSuspendedInvoiceSummaryReport"
+			name="ContractsGrantsSuspendedInvoiceSummaryReportLookupForm" input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceSummaryReportLookupAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
-		<action path="/contractsGrantsSuspendedInvoiceReport" name="ContractsGrantsSuspendedInvoiceReportLookupForm"
+		<action path="/contractsGrantsSuspendedInvoiceDetailReport" name="ContractsGrantsSuspendedInvoiceDetailReportLookupForm"
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceReportLookupAction"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceDetailReportLookupAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"

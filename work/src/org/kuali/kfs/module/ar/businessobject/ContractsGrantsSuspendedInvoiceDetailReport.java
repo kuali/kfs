@@ -27,7 +27,7 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class ContractsGrantsSuspendedInvoiceReport extends TransientBusinessObjectBase {
+public class ContractsGrantsSuspendedInvoiceDetailReport extends TransientBusinessObjectBase {
 
     private String suspensionCategoryCode;
     private String documentNumber;

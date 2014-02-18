@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
@@ -52,14 +52,14 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Defines a lookupable helper class for Suspended Contracts and Grants Invoices Report.
+ * Defines a lookupable helper class for Suspended Invoice Detail Report.
  */
-public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
 
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -77,7 +77,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
-        List<ContractsGrantsSuspendedInvoiceReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceReport>();
+        List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceDetailReport>();
 
         Collection<InvoiceSuspensionCategory> invoiceSuspensionCategories = businessObjectService.findAll(InvoiceSuspensionCategory.class);
         for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
@@ -118,13 +118,13 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
                     continue;
                 }
 
-                ContractsGrantsSuspendedInvoiceReport cgSuspendedInvoiceReport = new ContractsGrantsSuspendedInvoiceReport();
-                cgSuspendedInvoiceReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
-                cgSuspendedInvoiceReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
-                cgSuspendedInvoiceReport.setLetterOfCreditFundGroupCode(null);
+                ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
+                cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
+                cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
+                cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
                 if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
                     if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
-                        cgSuspendedInvoiceReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                        cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
                     }
                 }
                 Person fundManager;
@@ -151,15 +151,15 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
                     projectDirector = null;
                     LOG.debug("Null Pointer Exception happened while retrives projectDirector.");
                 }
-                cgSuspendedInvoiceReport.setAwardFundManager(fundManager);
-                cgSuspendedInvoiceReport.setAwardProjectDirector(projectDirector);
-                cgSuspendedInvoiceReport.setFundManagerPrincipalName(fundManagerPrincipalName);
-                cgSuspendedInvoiceReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
+                cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
+                cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
+                cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
+                cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
 
-                cgSuspendedInvoiceReport.setAwardTotal(award.getAwardTotalAmount());
+                cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
 
-                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceReport, "ContractsGrantsSuspendedInvoiceReport")) {
-                    displayList.add(cgSuspendedInvoiceReport);
+                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceDetailReport, "ContractsGrantsSuspendedInvoiceDetailReport")) {
+                    displayList.add(cgSuspendedInvoiceDetailReport);
                 }
             }
         }
@@ -222,10 +222,12 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
 
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

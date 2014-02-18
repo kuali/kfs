@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="contractsGrantsPaymentHistoryReport"
+		 name="contractsGrantsSuspendedInvoiceSummaryReport"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
@@ -79,6 +79,21 @@
 		</title>
 		<pageHeader>
 			<band height="44"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="45"
+						y="15"
+						width="150"
+						height="25"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="6" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.categoryDescription}]]></textFieldExpression>
+				</textField>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
@@ -90,9 +105,9 @@
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="115"
+						x="0"
 						y="15"
-						width="80"
+						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -101,13 +116,13 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.fundManager}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.suspenseCategory}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="200"
 						y="15"
-						width="80"
+						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
@@ -116,67 +131,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.projectDirector}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="15"
-						width="40"
-						height="25"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="textField-19"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="6" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.suspenseCategory}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="285"
-						y="15"
-						width="60"
-						height="25"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="textField-20"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="6" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.cgTotalAmount}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="45"
-						y="15"
-						width="40"
-						height="25"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="textField-21"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="6" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.documentNumber}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="90"
-						y="15"
-						width="20"
-						height="25"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="textField-22"/>
-					<box></box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" size="6" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.letterOfCreditFundGroupCode}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.totalInvoicesSuspended}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>
@@ -197,7 +152,7 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{details})]]></dataSourceExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ContractsGrantsSuspendedInvoiceDetails.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ContractsGrantsSuspendedInvoiceSummaryDetails.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

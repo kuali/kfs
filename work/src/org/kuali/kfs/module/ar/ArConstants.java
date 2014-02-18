@@ -354,7 +354,7 @@ public class ArConstants{
 
         public static final List<String> cgLOCAmountsNotDrawnReportSubtotalFieldsList = new ArrayList<String>();
 
-        public static final List<String> cgSuspendedInvoiceReportSubtotalFieldsList = new ArrayList<String>();
+        public static final List<String> cgSuspendedInvoiceDetailReportSubtotalFieldsList = new ArrayList<String>();
 
         public static final String INVOICE_INDICATOR_OPEN = "Open";
         public static final String INVOICE_INDICATOR_CLOSE = "Close";

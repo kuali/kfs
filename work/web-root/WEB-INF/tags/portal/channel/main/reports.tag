@@ -40,10 +40,6 @@
 					title="Invoice Report Delivery"
 					url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Invoice Suspense Activity Report"
-					url="contractsGrantsInvoiceSuspenseActivityReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
-			<li><portal:portalLink displayTitle="true"
 					title="LOC Amounts Not Drawn Report"
 					url="contractsGrantsLOCAmountsNotDrawnReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
@@ -63,8 +59,12 @@
 					title="Referral To Collections Report"
 					url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Suspended Invoice Report"
-					url="contractsGrantsSuspendedInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+					title="Suspended Invoice Detail Report"
+					url="contractsGrantsSuspendedInvoiceDetailReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Suspended Invoice Summary Report"
+					url="contractsGrantsSuspendedInvoiceSummaryReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
 			<li><portal:portalLink displayTitle="true"
 					title="Tickler"

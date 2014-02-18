@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,28 +27,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceSuspenseActivityReportService;
+import org.kuali.kfs.module.ar.report.ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsSuspendedInvoiceSummaryReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Action class for for the Contracts and Grants Invoice Suspense Activity Report Lookup.
+ * Action class for for the Contracts and Grants Suspended Invoice Summary Report Lookup.
  */
-public class ContractsGrantsInvoiceSuspenseActivityReportLookupAction extends ContractsGrantsReportLookupAction {
+public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends ContractsGrantsReportLookupAction {
 
     /**
-     * This method implements the print functionality for the Contracts and Grants Invoice Suspense Activity Report Lookup.
-     * 
+     * This method implements the print functionality for the Contracts and Grants Suspended Invoice Summary Report Lookup.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -57,28 +57,28 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupAction extends Co
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsInvoiceSuspenseActivityReportLookupForm cgInvoiceSuspenseActivityReportLookupForm = (ContractsGrantsInvoiceSuspenseActivityReportLookupForm) form;
+        ContractsGrantsSuspendedInvoiceSummaryReportLookupForm cgSuspendedInvoiceSummaryReportLookupForm = (ContractsGrantsSuspendedInvoiceSummaryReportLookupForm) form;
 
         String methodToCall = findMethodToCall(form, request);
         if (methodToCall.equalsIgnoreCase("search")) {
             GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
         }
 
-        Lookupable kualiLookupable = cgInvoiceSuspenseActivityReportLookupForm.getLookupable();
+        Lookupable kualiLookupable = cgSuspendedInvoiceSummaryReportLookupForm.getLookupable();
         if (kualiLookupable == null) {
             throw new RuntimeException("Lookupable is null.");
         }
 
-        List<ContractsGrantsInvoiceSuspenseActivityReport> displayList = new ArrayList<ContractsGrantsInvoiceSuspenseActivityReport>();
+        List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceSummaryReport>();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
         // validate search parameters
-        kualiLookupable.validateSearchParameters(cgInvoiceSuspenseActivityReportLookupForm.getFields());
+        kualiLookupable.validateSearchParameters(cgSuspendedInvoiceSummaryReportLookupForm.getFields());
 
         // this is for 200 limit. turn it off for report.
         boolean bounded = false;
 
-        displayList = (List<ContractsGrantsInvoiceSuspenseActivityReport>) kualiLookupable.performLookup(cgInvoiceSuspenseActivityReportLookupForm, resultTable, bounded);
+        displayList = (List<ContractsGrantsSuspendedInvoiceSummaryReport>) kualiLookupable.performLookup(cgSuspendedInvoiceSummaryReportLookupForm, resultTable, bounded);
 
         Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
         // set default sort index as 0
@@ -86,7 +86,7 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupAction extends Co
             sortIndexObject = "0";
         }
         // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "ContractsGrantsInvoiceSuspenseActivityReport");
+        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "ContractsGrantsSuspendedInvoiceSummaryReport");
 
         // sort list
         sortReport(displayList, sortPropertyName);
@@ -97,42 +97,36 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupAction extends Co
         Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
 
         // build report
-        ContractsGrantsReportDataHolder cgInvoiceSuspenseActivityReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder> details = cgInvoiceSuspenseActivityReportDataHolder.getDetails();
+        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = new ContractsGrantsReportDataHolder();
+        List<ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder> details = cgSuspendedInvoiceSummaryReportDataHolder.getDetails();
 
-        for (ContractsGrantsInvoiceSuspenseActivityReport cgInvoiceSuspenseActivityReportEntry : displayList) {
-            ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder reportDetail = new ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder();
+        for (ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry : displayList) {
+            ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail = new ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder();
             // set report data
-            setReportDate(cgInvoiceSuspenseActivityReportEntry, reportDetail);
+            setReportDate(cgSuspendedInvoiceSummaryReportEntry, reportDetail);
 
             reportDetail.setDisplaySubtotalInd(false);
 
             details.add(reportDetail);
         }
-        cgInvoiceSuspenseActivityReportDataHolder.setDetails(details);
+        cgSuspendedInvoiceSummaryReportDataHolder.setDetails(details);
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgInvoiceSuspenseActivityReportDataHolder.getSearchCriteria(), cgInvoiceSuspenseActivityReportLookupForm.getFieldsForLookup());
+        buildReportForSearchCriteia(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), cgSuspendedInvoiceSummaryReportLookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(ContractsGrantsInvoiceSuspenseActivityReportService.class).generateReport(cgInvoiceSuspenseActivityReportDataHolder, baos);
+        String reportFileName = SpringContext.getBean(ContractsGrantsSuspendedInvoiceSummaryReportService.class).generateReport(cgSuspendedInvoiceSummaryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }
 
     /**
-     * @param cgInvoiceSuspenseActivityReportEntry
+     * @param cgSuspendedInvoiceSummaryReportEntry
      * @param reportDetail
      */
-    private void setReportDate(ContractsGrantsInvoiceSuspenseActivityReport cgInvoiceSuspenseActivityReportEntry, ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder reportDetail) {
-        // reportDetail.setFundManager(cgInvoiceSuspenseActivityReportEntry.getFundManager());
-
-
-        reportDetail.setSuspenseCategory(cgInvoiceSuspenseActivityReportEntry.getSuspensionCategoryCode());
-
-        reportDetail.setCategoryDescription(cgInvoiceSuspenseActivityReportEntry.getCategoryDescription());
-        reportDetail.setTotalInvoicesSuspended(cgInvoiceSuspenseActivityReportEntry.getTotalInvoicesSuspended());
-
-
+    private void setReportDate(ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry, ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail) {
+        reportDetail.setSuspenseCategory(cgSuspendedInvoiceSummaryReportEntry.getSuspensionCategoryCode());
+        reportDetail.setCategoryDescription(cgSuspendedInvoiceSummaryReportEntry.getCategoryDescription());
+        reportDetail.setTotalInvoicesSuspended(cgSuspendedInvoiceSummaryReportEntry.getTotalInvoicesSuspended());
     }
 }

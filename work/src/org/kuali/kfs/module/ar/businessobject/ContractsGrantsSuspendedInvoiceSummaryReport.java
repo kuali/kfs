@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
- * Represents an entry in the Suspense Activity report for Contracts and Grants Invoices.
+ * Represents an entry in the Suspended Invoice Summary Report for Contracts and Grants Invoices.
  */
-public class ContractsGrantsInvoiceSuspenseActivityReport extends TransientBusinessObjectBase {
+public class ContractsGrantsSuspendedInvoiceSummaryReport extends TransientBusinessObjectBase {
 
     private String fundManager;
     private String suspensionCategoryCode;

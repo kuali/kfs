@@ -19,17 +19,18 @@ package org.kuali.kfs.module.ar.report;
 import java.math.BigDecimal;
 
 /**
- * Defines a data holder class for Suspense Activity Reports. *
+ * Defines a data holder class for Contracts and Grants Suspended Invoice Detail Reports.
  */
-public class ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder {
-
+public class ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder {
     private String suspenseCategory;
-    private String categoryDescription;
-    private Long totalInvoicesSuspended;
+    private String documentNumber;
+    private String letterOfCreditFundGroupCode;
+    private String fundManager;
+    private String projectDirector;
+    private BigDecimal awardTotal;
     private String sortedFieldValue;
     private BigDecimal subTotal;
     public boolean displaySubtotalInd;
-
 
     /**
      * Gets the suspenseCategory attribute.
@@ -47,6 +48,96 @@ public class ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder {
      */
     public void setSuspenseCategory(String suspenseCategory) {
         this.suspenseCategory = suspenseCategory;
+    }
+
+    /**
+     * Gets the documentNumber attribute.
+     *
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     *
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the letterOfCreditFundGroupCode attribute.
+     *
+     * @return Returns the letterOfCreditFundGroupCode
+     */
+    public String getLetterOfCreditFundGroupCode() {
+        return letterOfCreditFundGroupCode;
+    }
+
+    /**
+     * Sets the letterOfCreditFundGroupCode attribute value.
+     *
+     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
+     */
+    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
+        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
+
+    /**
+     * Gets the fundManager attribute.
+     *
+     * @return Returns the fundManager
+     */
+    public String getFundManager() {
+        return fundManager;
+    }
+
+    /**
+     * Sets the fundManager attribute value.
+     *
+     * @param fundManager The fundManager to set.
+     */
+    public void setFundManager(String fundManager) {
+        this.fundManager = fundManager;
+    }
+
+    /**
+     * Gets the projectDirector attribute.
+     *
+     * @return Returns the projectDirector
+     */
+    public String getProjectDirector() {
+        return projectDirector;
+    }
+
+    /**
+     * Sets the projectDirector attribute value.
+     *
+     * @param projectDirector The projectDirector to set.
+     */
+    public void setProjectDirector(String projectDirector) {
+        this.projectDirector = projectDirector;
+    }
+
+    /**
+     * Gets the awardTotal attribute.
+     *
+     * @return Returns the awardTotal
+     */
+    public BigDecimal getAwardTotal() {
+        return awardTotal;
+    }
+
+    /**
+     * Sets the awardTotal attribute value.
+     *
+     * @param awardTotal The awardTotal to set.
+     */
+    public void setAwardTotal(BigDecimal awardTotal) {
+        this.awardTotal = awardTotal;
     }
 
     /**
@@ -101,42 +192,6 @@ public class ContractsGrantsInvoiceSuspenseActivityReportDetailDataHolder {
      */
     public void setDisplaySubtotalInd(boolean displaySubtotalInd) {
         this.displaySubtotalInd = displaySubtotalInd;
-    }
-
-    /**
-     * Gets the categoryDescription attribute.
-     *
-     * @return Returns the categoryDescription.
-     */
-    public String getCategoryDescription() {
-        return categoryDescription;
-    }
-
-    /**
-     * Gets the totalInvoicesSuspended attribute.
-     *
-     * @return Returns the totalInvoicesSuspended.
-     */
-    public Long getTotalInvoicesSuspended() {
-        return totalInvoicesSuspended;
-    }
-
-    /**
-     * Sets the categoryDescription attribute value.
-     *
-     * @param categoryDescription The categoryDescription to set.
-     */
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
-    }
-
-    /**
-     * Sets the totalInvoicesSuspended attribute value.
-     *
-     * @param totalInvoicesSuspended The totalInvoicesSuspended to set.
-     */
-    public void setTotalInvoicesSuspended(Long totalInvoicesSuspended) {
-        this.totalInvoicesSuspended = totalInvoicesSuspended;
     }
 
 }

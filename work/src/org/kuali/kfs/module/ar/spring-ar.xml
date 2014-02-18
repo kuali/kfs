@@ -726,13 +726,13 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="contractsGrantsInvoiceSuspenseActivityReportLookupableHelperService" />
+			<ref bean="contractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperServiceImpl"
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl"
 		scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -742,39 +742,39 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Invoice Suspense Activity Report" />
-		<property name="reportFileName" value="cg_invoice_suspense_activity_report" />
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Suspended Invoice Summary Report" />
+		<property name="reportFileName" value="cg_suspended_invoice_summary_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="reportTemplateName" value="ContractsGrantsInvoiceSuspenseActivityReport" />
+		<property name="reportTemplateName" value="ContractsGrantsSuspendedInvoiceSummaryReport" />
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="contractsGrantsInvoiceSuspenseActivityDetails" value="ContractsGrantsInvoiceSuspenseActivityDetails" />
+				<entry key="contractsGrantsSuspendedInvoiceSummaryDetails" value="ContractsGrantsSuspendedInvoiceSummaryDetails" />
 				<entry key="searchCriteria" value="SearchCriteria" />
 			</map>
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportService" parent="contractsGrantsInvoiceSuspenseActivityReportService-parentBean" />
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceSuspenseActivityReportServiceImpl" abstract="true">
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportService" parent="contractsGrantsSuspendedInvoiceSummaryReportService-parentBean" />
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceSummaryReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
-		<property name="contractsGrantsInvoiceSuspenseActivityReportInfo">
-			<ref bean="contractsGrantsInvoiceSuspenseActivityReportInfo" />
+		<property name="contractsGrantsSuspendedInvoiceSummaryReportInfo">
+			<ref bean="contractsGrantsSuspendedInvoiceSummaryReportInfo" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="contractsGrantsSuspendedInvoiceReportLookupableHelperService" />
+			<ref bean="contractsGrantsSuspendedInvoiceDetailReportLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl"
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl"
 		scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -784,29 +784,29 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Suspended Invoice Report" />
-		<property name="reportFileName" value="cg_suspended_invoice_report" />
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Suspended Invoice Detail Report" />
+		<property name="reportFileName" value="cg_suspended_invoice_detail_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="reportTemplateName" value="ContractsGrantsSuspendedInvoiceReport" />
+		<property name="reportTemplateName" value="ContractsGrantsSuspendedInvoiceDetailReport" />
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="contractsGrantsSuspendedInvoiceDetails" value="ContractsGrantsSuspendedInvoiceDetails" />
+				<entry key="contractsGrantsSuspendedInvoiceDetailDetails" value="ContractsGrantsSuspendedInvoiceDetailDetails" />
 				<entry key="searchCriteria" value="SearchCriteria" />
 			</map>
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceReportService" parent="contractsGrantsSuspendedInvoiceReportService-parentBean" />
-	<bean id="contractsGrantsSuspendedInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportServiceImpl" abstract="true">
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportService" parent="contractsGrantsSuspendedInvoiceDetailReportService-parentBean" />
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceDetailReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
-		<property name="contractsGrantsSuspendedInvoiceReportInfo">
-			<ref bean="contractsGrantsSuspendedInvoiceReportInfo" />
+		<property name="contractsGrantsSuspendedInvoiceDetailReportInfo">
+			<ref bean="contractsGrantsSuspendedInvoiceDetailReportInfo" />
 		</property>
 	</bean>
 

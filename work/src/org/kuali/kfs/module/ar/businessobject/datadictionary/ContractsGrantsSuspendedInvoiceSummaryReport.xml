@@ -11,23 +11,23 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport" parent="ContractsGrantsInvoiceSuspenseActivityReport-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport" parent="ContractsGrantsSuspendedInvoiceSummaryReport-parentBean" />
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-parentBean" abstract="true" parent="BusinessObjectEntry">
 
-		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport" />
 
 		<property name="lookupDefinition">
-			<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" />
+			<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="Invoice Suspense Activity Report" />
+		<property name="objectLabel" value="Suspended Invoice Summary Report" />
 
 		<property name="attributes">
 			<list>
-				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-fundManager" />
-				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode" />
-				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription" />
-				<ref bean="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended" />
+				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager" />
+				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode" />
+				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription" />
+				<ref bean="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended" />
 			</list>
 		</property>
 
@@ -45,8 +45,8 @@
 
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-fundManager" parent="ContractsGrantsInvoiceSuspenseActivityReport-fundManager-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-fundManager-parentBean" abstract="true" parent="PersonImpl-name">
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager" parent="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-fundManager-parentBean" abstract="true" parent="PersonImpl-name">
 		<property name="name" value="fundManager" />
 		<property name="label" value="Primary Fund Manager Name" />
 		<property name="shortLabel" value="Primary Fund Manager" />
@@ -55,13 +55,13 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode" parent="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode" parent="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
 		<property name="name" value="suspensionCategoryCode" />
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription" parent="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription" parent="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryDescription" />
 		<property name="label" value="Suspense Description" />
 		<property name="shortLabel" value="Description" />
@@ -71,8 +71,8 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended" parent="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended-parentBean" />
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-totalInvoicesSuspended-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended" parent="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-totalInvoicesSuspended-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="totalInvoicesSuspended" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Total Suspended" />
@@ -88,11 +88,11 @@
 
 	<!-- Business Object Lookup Definition -->
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition" parent="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-lookupDefinition" parent="ContractsGrantsSuspendedInvoiceSummaryReport-lookupDefinition-parentBean" />
 
-	<bean id="ContractsGrantsInvoiceSuspenseActivityReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Invoice Suspense Activity Report" />
-		<property name="lookupableID" value="contractsGrantsInvoiceSuspenseActivityReportLookupResultLookupable" />
+	<bean id="ContractsGrantsSuspendedInvoiceSummaryReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Suspended Invoice Summary Report" />
+		<property name="lookupableID" value="contractsGrantsSuspendedInvoiceSummaryReportLookupResultLookupable" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

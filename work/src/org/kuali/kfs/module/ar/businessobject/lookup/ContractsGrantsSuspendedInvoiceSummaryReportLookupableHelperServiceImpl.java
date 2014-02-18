@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,32 +24,32 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Defines a custom lookup for the Suspense Activity Report.
  */
-public class ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
 
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperServiceImpl.class);
+    private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -63,7 +63,7 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperService
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
-        Collection<ContractsGrantsInvoiceSuspenseActivityReport> displayList = new ArrayList<ContractsGrantsInvoiceSuspenseActivityReport>();
+        Collection<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceSummaryReport>();
 
         List<InvoiceSuspensionCategory> invoiceSuspensionCategories = (List<InvoiceSuspensionCategory>) businessObjectService.findAll(InvoiceSuspensionCategory.class);
         Map<String, String> suspensionCategoryMap = buildSuspensionCategoryMap();
@@ -115,14 +115,14 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperService
 
         for (String suspensionCategoryCode : documentNumbersByCategory.keySet()) {
 
-            ContractsGrantsInvoiceSuspenseActivityReport cgInvoiceSuspenseActivityReport = new ContractsGrantsInvoiceSuspenseActivityReport();
-            cgInvoiceSuspenseActivityReport.setSuspensionCategoryCode(suspensionCategoryCode);
+            ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReport = new ContractsGrantsSuspendedInvoiceSummaryReport();
+            cgSuspendedInvoiceSummaryReport.setSuspensionCategoryCode(suspensionCategoryCode);
 
-            cgInvoiceSuspenseActivityReport.setCategoryDescription(suspensionCategoryMap.get(suspensionCategoryCode));
-            cgInvoiceSuspenseActivityReport.setTotalInvoicesSuspended(new Long(documentNumbersByCategory.get(suspensionCategoryCode).size()));
+            cgSuspendedInvoiceSummaryReport.setCategoryDescription(suspensionCategoryMap.get(suspensionCategoryCode));
+            cgSuspendedInvoiceSummaryReport.setTotalInvoicesSuspended(new Long(documentNumbersByCategory.get(suspensionCategoryCode).size()));
 
-            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgInvoiceSuspenseActivityReport, "ContractsGrantsInvoiceSuspenseActivityReport")) {
-                displayList.add(cgInvoiceSuspenseActivityReport);
+            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceSummaryReport, "ContractsGrantsSuspendedInvoiceSummaryReport")) {
+                displayList.add(cgSuspendedInvoiceSummaryReport);
             }
 
         }
@@ -131,10 +131,12 @@ public class ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperService
         return displayList;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

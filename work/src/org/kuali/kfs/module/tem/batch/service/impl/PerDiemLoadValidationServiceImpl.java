@@ -80,11 +80,6 @@ public class PerDiemLoadValidationServiceImpl implements PerDiemLoadValidationSe
             messageMap.clearErrorMessages();
         }
 
-        if (this.getPerDiemService().hasExistingPerDiem(perDiem)) {
-            Message message = MessageBuilder.buildMessageWithPlaceHolder(TemKeyConstants.ERROR_PER_DIEM_EXISTS, perDiem.getPrimaryDestination().getRegion().getRegionName(), perDiem.getPrimaryDestination(), perDiem.getLineNumber());
-            meesageList.add(message);
-        }
-
         if(!isValidMealsAndIncidentals(perDiem)){
             Message message = MessageBuilder.buildMessageWithPlaceHolder(TemKeyConstants.ERROR_PER_DIEM_MEAL_INCIDENTAL_NON_POSITIVE_AMOUNT, perDiem.getPrimaryDestination().getRegion().getRegionName(), perDiem.getPrimaryDestination(), perDiem.getLineNumber(), perDiem.getMealsAndIncidentals());
             meesageList.add(message);

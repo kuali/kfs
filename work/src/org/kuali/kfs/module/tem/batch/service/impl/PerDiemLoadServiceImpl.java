@@ -98,6 +98,8 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(inputFileType);
 
             for (String dataFileName : inputFileNames) {
+                persistedRegions = businessObjectService.findAll(TemRegion.class);
+                persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
                 success &= this.loadPerDiem(dataFileName, inputFileType);
             }
         }
@@ -124,46 +126,51 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>) batchInputFileService.parse(inputFileType, fileByteContent);
             IOUtils.closeQuietly(fileContents);
 
-            persistedRegions = businessObjectService.findAll(TemRegion.class);
-            persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
+            List<PerDiemForLoad> perDiemLoadList = this.validatePerDiem(perDiemList, dataFileName);
 
-            List<PerDiemForLoad> validPerDiemList = this.validatePerDiem(perDiemList, dataFileName);
+            Map<String, TemRegion> newRegions = this.extractTemCountries(perDiemLoadList, true);
+            Map<String, PrimaryDestination> newPrimaryDestinations = this.extractPrimaryDestinations(perDiemLoadList, true);
+            Map<String, PrimaryDestination> allPrimaryDestinations = this.extractPrimaryDestinations(perDiemLoadList, false);
 
-            Map<String, TemRegion> regions = this.extractTemCountries(validPerDiemList);
-            Collection<PrimaryDestination> primaryDestinations = this.extractPrimaryDestinations(validPerDiemList);
 
-            boolean isAllValid = validPerDiemList.size() == perDiemList.size();
-            if (!isAllValid && this.isRejectAllWhenError()) {
-                String error = "The per diem records to be loaded are rejected due to data problem. Please check the per diem load report.";
-                return false;
-            }
-
-            for (TemRegion region : regions.values()) {
+            for (TemRegion region : newRegions.values()) {
                 businessObjectService.save(region);
             }
-            for (PrimaryDestination primaryDestination : primaryDestinations) {
+            for (PrimaryDestination primaryDestination : newPrimaryDestinations.values()) {
                 businessObjectService.save(primaryDestination);
             }
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            for (PerDiem perDiem : validPerDiemList) {
+
+            for (PerDiem perDiem : perDiemLoadList) {
                 if (perDiem.getPrimaryDestination().getId() == null) {
-                    fieldValues.put("primaryDestinationName", perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                    fieldValues.put("regionCode", perDiem.getPrimaryDestination().getRegionCode());
-                    if (perDiem.getPrimaryDestination().getCounty() != null) {
-                        fieldValues.put("county", perDiem.getPrimaryDestination().getCounty());
-                    }
-                    Collection<PrimaryDestination>dests = businessObjectService.findMatching(PrimaryDestination.class, fieldValues);
-                    for (PrimaryDestination pd : dests) {
-                        if (pd.equals(perDiem.getPrimaryDestination())) {
+
+                    StringBuilder keyBuilder = new StringBuilder();
+                    keyBuilder.append(perDiem.getPrimaryDestination().getRegionCode());
+                    keyBuilder.append(":");
+                    keyBuilder.append(perDiem.getPrimaryDestination().getCounty());
+                    keyBuilder.append(":");
+                    keyBuilder.append(perDiem.getPrimaryDestination().getPrimaryDestinationName());
+
+                    PrimaryDestination pd = allPrimaryDestinations.get(keyBuilder.toString());
+                    if (pd == null) {
+                        System.out.println(keyBuilder.toString());
+                        continue;
+                    } else if (pd.equals(perDiem.getPrimaryDestination())) {
                             perDiem.setPrimaryDestinationId(pd.getId());
-                        }
                     }
-                    fieldValues.clear();
                 } else {
                     perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
                 }
+
+                List<PerDiem> oldPerDiems = perDiemService.retrievePreviousPerDiem(perDiem);
+                for (PerDiem oldPerDiem : oldPerDiems) {
+                    if (ObjectUtils.isNull(oldPerDiem.getEffectiveToDate())) {
+                        oldPerDiem.setEffectiveToDate( new java.sql.Date(DateUtils.addDays(perDiem.getEffectiveFromDate(), -1).getTime()));
+                        businessObjectService.save(oldPerDiem);
+                    }
+                }
                 businessObjectService.save(perDiem);
             }
+
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
@@ -178,23 +185,27 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         return true;
     }
 
-    private Collection<PrimaryDestination> extractPrimaryDestinations(List<PerDiemForLoad> validPerDiemList) {
+    private Map<String,PrimaryDestination> extractPrimaryDestinations(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
         Map<String, PrimaryDestination> primaryDests = new HashMap<String, PrimaryDestination>();
         for (PerDiem perDiem : validPerDiemList) {
             PrimaryDestination primaryDest = perDiem.getPrimaryDestination();
             primaryDest.setRegionCode(primaryDest.getRegion().getRegionCode());
-            if (!persistedPrimaryDestinations.contains(primaryDest)) {
+            if (!persistedPrimaryDestinations.contains(primaryDest) && newOnly) {
+                primaryDests.put(primaryDest.getRegionCode()+":"+primaryDest.getCounty()+":"+primaryDest.getPrimaryDestinationName(), primaryDest);
+            } else if (!newOnly){
                 primaryDests.put(primaryDest.getRegionCode()+":"+primaryDest.getCounty()+":"+primaryDest.getPrimaryDestinationName(), primaryDest);
             }
         }
-        return primaryDests.values();
+        return primaryDests;
     }
 
-    private Map<String,TemRegion> extractTemCountries(List<PerDiemForLoad> validPerDiemList) {
+    private Map<String,TemRegion> extractTemCountries(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
         Map<String, TemRegion> regions = new HashMap<String,TemRegion>();
         for (PerDiem perDiem : validPerDiemList) {
             TemRegion region = perDiem.getPrimaryDestination().getRegion();
-            if (!persistedRegions.contains(region)) {
+            if (!persistedRegions.contains(region) && newOnly) {
+                regions.put(region.getRegionCode(), region);
+            } else if (!newOnly) {
                 regions.put(region.getRegionCode(), region);
             }
         }
@@ -418,6 +429,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             List<Message> errorMessage = this.getPerDiemLoadValidationService().validate(perDiem);
 
             if (ObjectUtils.isNotNull(errorMessage) && !errorMessage.isEmpty()) {
+
                 this.writeErrorToReport(reportDataStream, perDiem, errorMessage);
             }
             else{

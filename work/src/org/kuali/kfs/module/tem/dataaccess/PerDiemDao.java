@@ -23,4 +23,6 @@ public interface PerDiemDao {
 
     public Collection<PerDiem> findAllPerDiemsOrderedBySeasonAndDest();
 
+    public Collection<PerDiem> findSimilarPerDiems(PerDiem perdiem);
+
 }

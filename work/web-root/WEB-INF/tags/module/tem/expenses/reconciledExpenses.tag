@@ -24,9 +24,9 @@
 <h3>Reconciled Expenses</h3>
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Imported Expenses">
 	<tr>
-		<th align="center">Action</th>
+		<th align="center">&nbsp;</th>
 		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.reconciled}" hideRequiredAsterisk="true" />
-		<th align="center">Document Number</th>
+		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.documentNumber}" hideRequiredAsterisk="true" useShortLabel="false" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${travelCardTypeAttributes.code}" hideRequiredAsterisk="true" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${historicalTravelExpenseAttributes.transactionPostingDate}" useShortLabel="true" hideRequiredAsterisk="true" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${expenseTypeAttributes.name}" hideRequiredAsterisk="true" />

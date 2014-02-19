@@ -1208,7 +1208,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="500.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -1575,7 +1575,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5070"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="150.0"/>
 			<column name="TAXABLE_IND" value="Y"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -2011,7 +2011,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="4089"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="50.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -2027,7 +2027,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5070"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="50.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -2043,7 +2043,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6080"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="50.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -2059,7 +2059,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6180"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="50.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
@@ -2075,7 +2075,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6280"/>
 			<column name="NOTE_REQ_IND" value="N"/>
-			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_THRSH" value="50.0"/>
 			<column name="TAXABLE_IND" value="N"/>
 			<column name="SPCL_RQST_REQ_IND" value="N"/>

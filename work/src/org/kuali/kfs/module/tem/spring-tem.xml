@@ -141,7 +141,7 @@
 	
 	<bean id="primaryDestinationLookupableHelperService" parent="primaryDestinationLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="primaryDestinationLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.PrimaryDestinationLookupableHelperServiceImpl" />
-
+	
 	<bean id="historicalTravelExpenseLookupable" parent="historicalTravelExpenseLookupable-parentBean" scope="prototype"  />
 	<bean id="historicalTravelExpenseLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
 		<property name="lookupableHelperService" ref="historicalTravelExpenseLookupableHelperService" />
@@ -1540,6 +1540,7 @@
 	<bean id="mileageRateService" parent="mileageRateService-parentBean"/>
 	<bean id="mileageRateService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.MileageRateServiceImpl" abstract="true">
 		<property name="cachingMileageRateService" ref="cachingMileageRateService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 	
 	<bean id="cachingMileageRateService" parent="cachingMileageRateService-parentBean"/>

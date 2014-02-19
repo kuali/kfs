@@ -17,21 +17,28 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.document.service.CachingMileageRateService;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class MileageRateServiceImpl implements MileageRateService {
     private CachingMileageRateService cachingMileageRateService;
+    private BusinessObjectService businessObjectService;
 
     @Override
     public MileageRate getMileageRateByExpenseTypeCode(MileageRate mileageRate) {
            final Date fromDate = mileageRate.getActiveFromDate();
            final Date toDate = mileageRate.getActiveToDate();
-           for (MileageRate rate : cachingMileageRateService.findAllMileageRates()) {
-
+           Map<String,Object> criteria = new HashMap<String,Object>();
+           criteria.put("expenseTypeCode", mileageRate.getExpenseTypeCode());
+           List<MileageRate>  mileageRates = (List<MileageRate>) businessObjectService.findMatching(MileageRate.class, criteria);
+           for (MileageRate rate : mileageRates) {
                if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveToDate(), Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, rate.getActiveFromDate() , Calendar.DATE) >= 0)) {
                    return rate;
                }
@@ -57,4 +64,11 @@ public class MileageRateServiceImpl implements MileageRateService {
     public void setCachingMileageRateService(CachingMileageRateService cachingMileageRateService) {
         this.cachingMileageRateService = cachingMileageRateService;
     }
+
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+
 }

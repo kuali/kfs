@@ -63,6 +63,7 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
 
         final MileageRate mileageRate = (MileageRate)document.getNewMaintainableObject().getBusinessObject();
         result &= checkRate(mileageRate);
+        checkDuplicateMileageRate(mileageRate);
         result &= checkExpenseType(mileageRate);
         result &= checkActiveToDate(mileageRate);
 

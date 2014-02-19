@@ -38,7 +38,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
 
-        TemProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
+        TemProfileArranger profileArranger = fineProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNull(profileArranger)) {
            profileArranger = createNewTravelProfileArranger(arrangerDoc);
         } else {
@@ -95,6 +95,20 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         profileArranger.setTrInd(arrangerDoc.getTrInd());
 
         return profileArranger;
+    }
+
+    private TemProfileArranger fineProfileArranger(String principalId, Integer profileId) {
+        Map fieldValues = new HashMap();
+        fieldValues.put(TemProfileProperties.PRINCIPAL_ID, principalId);
+        fieldValues.put(TemProfileProperties.PROFILE_ID, profileId);
+
+        List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( businessObjectService.findMatching(TemProfileArranger.class, fieldValues));
+        if(profileArrangers.size() == 1) {
+            return profileArrangers.get(0);
+        } else if (profileArrangers.size() == 0) {
+            return null;
+        }
+        return null;
     }
 
     /**

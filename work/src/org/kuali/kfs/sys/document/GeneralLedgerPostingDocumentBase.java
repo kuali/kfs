@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,6 +53,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntries()
      */
+    @Override
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
         return generalLedgerPendingEntries;
     }
@@ -60,6 +61,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getGeneralLedgerPendingEntry(int)
      */
+    @Override
     public GeneralLedgerPendingEntry getGeneralLedgerPendingEntry(int index) {
         while (generalLedgerPendingEntries.size() <= index) {
             generalLedgerPendingEntries.add(new GeneralLedgerPendingEntry());
@@ -70,6 +72,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#setGeneralLedgerPendingEntries(java.util.List)
      */
+    @Override
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }
@@ -77,6 +80,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#checkSufficientFunds()
      */
+    @Override
     public List<SufficientFundsItem> checkSufficientFunds() {
         LOG.debug("checkSufficientFunds() started");
 
@@ -93,7 +97,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
      * This method checks to see if SF checking should be done for this document. This was originally part of
      * SufficientFundsService.checkSufficientFunds() but was externalized so documents that need to override any of the SF methods
      * can still explicitly check this
-     * 
+     *
      * @return
      */
     public boolean documentPerformsSufficientFundsCheck() {
@@ -104,13 +108,14 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#getPendingLedgerEntriesForSufficientFundsChecking()
      */
+    @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         return getGeneralLedgerPendingEntries();
     }
 
     /**
      * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
-     * 
+     *
      * @see Document#doRouteStatusChange()
      */
     @Override
@@ -134,7 +139,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     protected void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
         	//Do not want to set the approval code to 'A' if the approval code is the 'H' (Hold) code used in the TEM module
-        	if(glpe.getFinancialDocumentApprovedCode() != null && !glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD)) {
+        	if(glpe.getFinancialDocumentApprovedCode() != null) {
         		glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         	}
         }
@@ -181,7 +186,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
             }
         }
     }
-    
+
     /**
      * Adds a GeneralLedgerPendingEntry to this document's list of pending entries
      * @param pendingEntry a pending entry to add
@@ -190,7 +195,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
         pendingEntry.refreshReferenceObject("financialObject");
         generalLedgerPendingEntries.add(pendingEntry);
     }
-    
+
     /**
      * This resets this document's list of general ledger pending etnries, though it does not delete those entries (however, the GeneralLedgerPendingEntryService will in most cases when this method is called).
      */

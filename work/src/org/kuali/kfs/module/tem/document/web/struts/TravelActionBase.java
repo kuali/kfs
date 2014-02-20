@@ -103,7 +103,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -1407,19 +1406,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         recalculateTripDetailTotalOnly(mapping, form, request, response);
 
         ActionForward forward = super.approve(mapping, form, request, response);
-
-        TravelFormBase travelForm = (TravelFormBase) form;
-        TravelDocument document = travelForm.getTravelDocument();
-
-        if (getTravelDocumentService().checkHoldGLPEs(document)) {
-            TravelDocument travelDoc = travelForm.getTravelDocument();
-            for (GeneralLedgerPendingEntry entry : travelDoc.getGeneralLedgerPendingEntries()) {
-                entry.setUniversityFiscalYear(null);
-                entry.setUniversityFiscalPeriodCode(null);
-                entry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
-            }
-            getBusinessObjectService().save(travelDoc.getGeneralLedgerPendingEntries());
-        }
 
         return forward;
     }

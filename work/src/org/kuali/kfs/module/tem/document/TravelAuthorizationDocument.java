@@ -44,6 +44,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.HeldEncumbranceEntry;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
@@ -774,19 +775,33 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 //as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
                 if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
                     if(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
+                        List<GeneralLedgerPendingEntry> survivingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+                        List<HeldEncumbranceEntry> heldEntries = new ArrayList<HeldEncumbranceEntry>();
                         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                         java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-                        if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
-                            for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                                glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
+                        final Integer heldEncumbranceFiscalYear = universityDateService.getFiscalYear(new java.sql.Date(getTripEnd().getTime()));
+                        final boolean shouldHoldEncumbrance = ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate) && heldEncumbranceFiscalYear == null;
+                        final boolean shouldHoldAdvance = (shouldProcessAdvanceForDocument() && getTravelAdvance().getDueDate() != null && getTravelAdvance().getDueDate().after(endDate)) && universityDateService.getFiscalYear(getTravelAdvance().getDueDate()) == null;
+                        for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+                            if (((StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) && shouldHoldEncumbrance) || ((StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(),TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT)) && shouldHoldAdvance)) {
+                                HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
+                                heldEntries.add(hee);
+                                getBusinessObjectService().delete(glpe);
+                            } else {
+                                glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED); // we shouldn't hit this block but if for some weird reason we do, let's approve the glpe
+                                survivingEntries.add(glpe);
                             }
                         }
+
+                        getBusinessObjectService().save(heldEntries);
+                        setGeneralLedgerPendingEntries(survivingEntries);
+                        SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                     } else {
                         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
                             glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
                         }
+                        SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                     }
-                    SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
 
                 if (shouldProcessAdvanceForDocument() && this.getAdvanceTravelPayment().isImmediatePaymentIndicator()) {

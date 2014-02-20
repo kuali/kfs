@@ -552,6 +552,9 @@
       <property name="paymentMaintenanceService" ref="pdpPaymentMaintenanceService" />
       <property name="configurationService" ref="configurationService"/>
       <property name="balanceTypeService" ref="balanceTypService"/>
+      <property name="dateTimeService" ref="dateTimeService"/>
+      <property name="universityDateService" ref="universityDateService"/>
+      <property name="accountingPeriodService" ref="accountingPeriodService"/>
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
@@ -1449,8 +1452,7 @@
     
     <bean id="temReleaseHeldEncumbranceStep" parent="temReleaseHeldEncumbranceStep-parentBean" />
     <bean id="temReleaseHeldEncumbranceStep-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
-        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-        <property name="parameterService" ref="parameterService" />
+        <property name="travelEncumbranceService" ref="travelEncumbranceService" />
     </bean> 
 	
 	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />

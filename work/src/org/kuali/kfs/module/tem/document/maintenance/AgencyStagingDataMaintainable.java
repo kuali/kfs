@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
@@ -31,6 +32,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
@@ -54,6 +56,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Maintainable instance for the travel agency audit maintenance document
@@ -84,6 +87,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         agencyData.setImportBy(ExpenseImportTypes.IMPORT_BY_TRIP);
 
         agencyData.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
+        agencyData.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
         agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
     }
 
@@ -229,6 +233,72 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	}
 
 	/**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+
+        addProfileReferenceToRefresh(refreshCaller, fieldValues);
+
+        super.refresh(refreshCaller, fieldValues, document);
+
+        updateFieldsFromProfileRefresh(refreshCaller, fieldValues, document);
+    }
+
+    /**
+     * Refresh TemProfile reference if we've just looked it up
+     *
+     * @param refreshCaller
+     * @param fieldValues
+     */
+    protected void addProfileReferenceToRefresh(String refreshCaller, Map fieldValues) {
+
+        if (StringUtils.isNotEmpty(refreshCaller) && refreshCaller.equals(TemConstants.TEM_PROFILE_LOOKUPABLE)) {
+            String referencesToRefresh = ""+ fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH)+ KRADConstants.REFERENCES_TO_REFRESH_SEPARATOR + TemPropertyConstants.PROFILE;
+            fieldValues.put(KRADConstants.REFERENCES_TO_REFRESH, referencesToRefresh);
+        }
+    }
+
+    /**
+     * Update Traveler information (name, id, network id) after looking up the Profile
+     *
+     * @param refreshCaller
+     * @param fieldValues
+     * @param document
+     */
+    protected void updateFieldsFromProfileRefresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+
+        if (StringUtils.isNotEmpty(refreshCaller) &&
+                refreshCaller.equals(TemConstants.TEM_PROFILE_LOOKUPABLE)) {
+
+            AgencyStagingDataMaintainable newMaintainable = (AgencyStagingDataMaintainable)document.getNewMaintainableObject();
+            AgencyStagingData agencyData = (AgencyStagingData)newMaintainable.getBusinessObject();
+
+            TemProfile profile = agencyData.getProfile();
+            if (ObjectUtils.isNotNull(profile)) {
+                if (StringUtils.isNotEmpty(profile.getEmployeeId())) {
+                    agencyData.setTravelerId(profile.getEmployeeId());
+                }
+                else if (StringUtils.isNotEmpty(profile.getCustomerNumber())) {
+                    agencyData.setTravelerId(profile.getCustomerNumber());
+                }
+                else {
+                    agencyData.setTravelerId("");
+                }
+
+                agencyData.setTravelerName(profile.getFirstName() +" "+ profile.getLastName());
+
+                if (ObjectUtils.isNotNull(profile.getPrincipal())) {
+                    agencyData.setTravelerNetworkId(profile.getPrincipal().getPrincipalName());
+                }
+                else {
+                    agencyData.setTravelerNetworkId("");
+                }
+            }
+        }
+    }
+
+    /**
 	 *
 	 * This method trims the descriptionText to 40 characters.
 	 * @param descriptionText

@@ -1259,6 +1259,11 @@
             <foreignkey field-ref="tripAccountNumber" />
             <foreignkey field-ref="tripSubAccountNumber" />
         </reference-descriptor>
+        
+        <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        	<foreignkey field-ref="projectCode" />
+        </reference-descriptor>
+        
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" table="TEM_AGENCY_STAGING_T">
@@ -1345,7 +1350,7 @@
         <field-descriptor name="manualCreated" column="MANUAL_CRTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />     
 		<field-descriptor name="active" column="ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        	    
         	    
-		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="agencyStagingDataId"/>
 		</collection-descriptor>
         <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TemProfile" auto-retrieve="true" auto-update="none" auto-delete="none">

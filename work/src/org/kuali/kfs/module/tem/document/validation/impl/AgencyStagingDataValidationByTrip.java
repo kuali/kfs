@@ -21,16 +21,20 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ID;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the IU method of
@@ -40,8 +44,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValidationHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
-    public static final String DOCUMENT_ERROR_PREFIX = "document.";
-    public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
+    public static final String ADD_LINE_ERROR_PREFIX = KRADConstants.MAINTENANCE_ADD_PREFIX;
 
     protected ExpenseImportByTripService expenseImportByTripService;
 
@@ -76,7 +79,26 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        return true;
+        boolean result = true;
+
+        //validate accounting line before it's added to the document
+        if (collectionName.equals(TemPropertyConstants.TravelAgencyAuditReportFields.ACCOUNTING_INFO)) {
+            TripAccountingInformation accountingLine = (TripAccountingInformation)line;
+
+            Map<String, ErrorMessage> errors = getExpenseImportByTripService().validateAccountingInfoLine(accountingLine);
+
+            if (!errors.isEmpty()) {
+                for(String errorProperty : errors.keySet()) {
+                    ErrorMessage error = errors.get(errorProperty);
+                    if (ObjectUtils.isNotNull(error)) {
+                        putFieldError(ADD_LINE_ERROR_PREFIX + ACCOUNTING_INFO +"."+ errorProperty, error.getErrorKey(), error.getMessageParameters());
+                    }
+                }
+                result &= false;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -155,12 +177,22 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
                 result &= false;
             }
             else {
-                errors = getExpenseImportByTripService().validateAccountingInfo(data);
-                if (!errors.isEmpty()) {
-                    for(ErrorMessage error : errors) {
-                        putFieldError(ACCOUNTING_INFO, error.getErrorKey(), error.getMessageParameters());
+
+                int i = 0;
+                for(TripAccountingInformation account : data.getTripAccountingInformation()) {
+                    Map<String,ErrorMessage> errorMap = getExpenseImportByTripService().validateAccountingInfoLine(account);
+
+                    if (!errorMap.isEmpty()) {
+                        for(String errorProperty : errorMap.keySet()) {
+                            ErrorMessage error = errorMap.get(errorProperty);
+                            if (ObjectUtils.isNotNull(error)) {
+                                putFieldError(ACCOUNTING_INFO +"["+i+"]."+ errorProperty, error.getErrorKey(), error.getMessageParameters());
+                                result &= false;
+                            }
+                        }
                     }
-                    result &= false;
+
+                    i++;
                 }
             }
 

@@ -244,13 +244,17 @@ public class TemPropertyConstants {
         public static final String TRIP_ID = "tripId";
         public static final String LODGING_NUMBER = "lodgingItineraryNumber";
         public static final String TRAVELER_DATA = "travelerId";
-        public static final String TRIP_CHART_CODE = "tripChartCode";
-        public static final String TRIP_ACCOUNT_NUMBER = "tripAccountNumber";
         public static final String TRIP_EXPENSE_AMOUNT = "tripExpenseAmount";
         public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
         public static final String TRIP_INVOICE_NUMBER = "tripInvoiceNumber";
         public static final String CREDIT_CARD_OR_AGENCY_CODE = "creditCardOrAgencyCode";
         public static final String DI_CD = "distributionCode";
+        public static final String TRIP_CHART_CODE = "tripChartCode";
+        public static final String TRIP_ACCOUNT_NUMBER = "tripAccountNumber";
+        public static final String TRIP_SUBACCOUNT_NUMBER = "tripSubAccountNumber";
+        public static final String TRIP_OBJECT_CODE = "objectCode";
+        public static final String TRIP_SUBOBJECT_CODE = "subObjectCode";
+        public static final String TRIP_PROJECT_CODE = "projectCode";
     }
 
     @SuppressWarnings("rawtypes")

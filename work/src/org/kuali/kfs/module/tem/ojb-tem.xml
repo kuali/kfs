@@ -1350,15 +1350,18 @@
         <field-descriptor name="manualCreated" column="MANUAL_CRTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />     
 		<field-descriptor name="active" column="ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        	    
         	    
-		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.RemovalAwareList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="agencyStagingDataId"/>
 		</collection-descriptor>
+		
         <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TemProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
+        
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="creditCardAgencyId"/>
         </reference-descriptor>
+        
         <reference-descriptor name="searchChart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 	        <foreignkey field-ref="searchChartOfAccountsCode" />
 	    </reference-descriptor>

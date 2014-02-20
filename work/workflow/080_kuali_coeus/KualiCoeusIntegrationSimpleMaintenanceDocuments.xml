@@ -17,11 +17,21 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
+			<name>KCSM</name>
+			<label>Kuali Coeus Integration Simple Maintenance Documents</label>
+			<parent>FSSM</parent>
+		</documentType>
+		<documentType>
+			<name>AACD</name>
+			<label>Account Auto-Creation Defaults</label>
+			<parent>KCSM</parent>
+		</documentType>
+		<documentType>
 			<name>
-				KCBFM
+				BFM
 			</name>
 			<parent>
-				FSSM
+				KCSM
 			</parent>
 			<label>
 				Billing Frequency Mapping

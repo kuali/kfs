@@ -33,7 +33,7 @@
       </list>
     </property>
     
-    <property name="documentTypeName" value="KCBFM"/>
+    <property name="documentTypeName" value="BFM"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes" ref="BillingFrequencyMappingMaintenanceDocument-workflowAttributes"/>
   </bean>

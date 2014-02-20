@@ -1065,10 +1065,10 @@
 		</documentType>
 		<documentType>
 			<name>
-				KCBFM
+				BFM
 			</name>
 			<parent>
-				FSSM
+				KCSM
 			</parent>
 			<label>
 				Billing Frequency Mapping

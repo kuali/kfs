@@ -357,12 +357,10 @@ public class KFSConstants {
     public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
     public static final String JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION = "JournalVoucherRouteOutOfBalanceDocumentQuestion";
-    public static final String JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "R";
     public static final String JOURNAL_LINE_HELPER_PROPERTY_NAME = "journalLineHelper";
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
-    public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
     public static final String LOOKUP_ACTION = "kr/lookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";
@@ -374,7 +372,6 @@ public class KFSConstants {
     public static final String LOOKUPABLE_IMPL_ATTRIBUTE_NAME = "lookupableImplServiceName";
     public static final String LOOKUPABLE_SUFFIX = "Lookupable";
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
-    public static final String KUALI_CUSTOMER_LOOKUPABLE_IMPL = "customerLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
@@ -650,10 +647,6 @@ public class KFSConstants {
         }
     }
 
-    public static class AdvanceDepositConstants {
-        public static final String CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE = "R";
-    }
-
     public static class AuxiliaryVoucher {
         public static final String ADJUSTMENT_DOC_TYPE = "AVAD";
         public static final String ADJUSTMENT_DOC_TYPE_NAME = "Adjustment";
@@ -685,10 +678,6 @@ public class KFSConstants {
 
         public static final String DEPOSIT_WIZARD_CASHRECEIPT_ERROR = "cashReceiptErrors";
         public static final String DEPOSIT_WIZARD_DEPOSITHEADER_ERROR = "depositHeaderErrors";
-    }
-
-    public static class CreditCardReceiptConstants {
-        public static final String CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE = "R";
     }
 
     public static class BudgetAdjustmentDocumentConstants {
@@ -833,7 +822,6 @@ public class KFSConstants {
     public static class ObjectCodeConstants {
         public static final String INACTIVE_OBJECT_LEVEL_QUESTION_ID = "InactiveObjectLevelQuestion";
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
-        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
     }
 
     public static final String MONTH1 = "01";
@@ -1132,8 +1120,6 @@ public class KFSConstants {
     public static final class ContractsGrantsModuleDocumentTypeCodes {
         // contracts grants invoice
         public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
-        public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
-        public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
     }
 
 

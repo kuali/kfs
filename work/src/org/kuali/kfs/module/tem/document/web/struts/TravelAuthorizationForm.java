@@ -107,17 +107,17 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
     }
 
-    /**
-     * Display accounting line only if - Trip is encumbrance OR for non-emcumbrance trip, if there are any imported expenses
-     *
-     * @return
-     */
-    public boolean isDisplayAccountingLines(){
-        TravelAuthorizationDocument document = (TravelAuthorizationDocument) getTravelDocument();
-        boolean display = document.isTripGenerateEncumbrance(); // trips which do not generate encumbrances won't have accounting lines
-        return display;
-    }
 
+    @Override
+    public boolean isDisplayAccountingLines() {
+
+        boolean display = super.isDisplayAccountingLines();
+
+        TravelAuthorizationDocument document = (TravelAuthorizationDocument) getTravelDocument();
+        display = document.isTripGenerateEncumbrance()  ; // trips which do not generate encumbrances won't have accounting lines
+        return display;
+
+    }
     /**
      * Display imported expense related tab base on Travel Authorization document base on system parameter
      *

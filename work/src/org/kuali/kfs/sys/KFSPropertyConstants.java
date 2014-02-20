@@ -157,7 +157,6 @@ public class KFSPropertyConstants {
     public static final String AWARD_PERIOD_END_MONTH = "awardPeriodEndMonth";
     public static final String AWARD_PERIOD_END_YEAR = "awardPeriodEndYear";
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
-    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String AWARD_SUBCONTRACTORS = "awardSubcontractors";
     public static final String AWARD_THRESHOLD_AMOUNT = "awardThresholdAmount";
@@ -347,7 +346,6 @@ public class KFSPropertyConstants {
     public static final String CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT = "contractsGrantsBeginningBalanceAmount";
     public static final String CORRECTED_BY_DOCUMENT_ID = "correctedByDocumentId";
     public static final String CORRECTION_GROUPS = "correctionGroups";
-    public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS = "costShareChartOfAccount";
     public static final String COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE = "costShareChartOfAccountCode";
     public static final String COST_SHARE_SOURCE_ACCOUNT = "costShareAccount";
     public static final String COST_SHARE_SOURCE_ACCOUNT_NUMBER = "costShareSourceAccountNumber";

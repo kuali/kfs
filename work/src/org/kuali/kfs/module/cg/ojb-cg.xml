@@ -454,7 +454,7 @@
 			<foreignkey field-ref="awardStatusCode" />
 		</reference-descriptor>
 		<reference-descriptor name="letterOfCreditFund" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="letterOfCreditFundCode" />
 		</reference-descriptor>
 		<reference-descriptor name="grantDescription" class-ref="org.kuali.kfs.module.cg.businessobject.GrantDescription"

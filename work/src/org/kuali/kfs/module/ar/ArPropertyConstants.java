@@ -46,6 +46,7 @@ public class ArPropertyConstants{
 
         public static final String CUSTOMER = "customer";
         public static final String CUSTOMER_NUMBER = "accountsReceivableDocumentHeader.customerNumber";
+        public static final String CUSTOMER_TYPE_CODE = "accountsReceivableDocumentHeader.customer.customerTypeCode";
 
         public static final String INVOICE_DUE_DATE = "invoiceDueDate";
         public static final String BILLING_DATE = "billingDate";

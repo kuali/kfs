@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
@@ -25,16 +26,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class PurposeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<Purpose> purposes = (List<Purpose>) SpringContext.getBean(BusinessObjectService.class).findAll(Purpose.class);
+        Collection<Purpose> purposes = getKeyValuesService().findAll(Purpose.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (Purpose purpose : purposes) {
@@ -44,6 +46,13 @@ public class PurposeValuesFinder extends KeyValuesBase {
         }
 
         return labels;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 
 }

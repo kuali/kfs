@@ -25,9 +25,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class TravelerTypeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -37,7 +38,7 @@ public class TravelerTypeValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         keyValues.add(new ConcreteKeyValue(TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE, TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE));
-        final Collection<TravelerType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TravelerType.class);
+        final Collection<TravelerType> bos = getKeyValuesService().findAll(TravelerType.class);
 
         for (TravelerType typ : bos) {
             keyValues.add(new ConcreteKeyValue(typ.getCode(), typ.getName()));
@@ -46,4 +47,10 @@ public class TravelerTypeValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
+    }
 }

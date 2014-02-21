@@ -28,6 +28,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 public class TripTypeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -36,7 +37,7 @@ public class TripTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        Collection<TripType> bos = SpringContext.getBean(KeyValuesService.class).findAll(TripType.class);
+        Collection<TripType> bos = getKeyValuesService().findAll(TripType.class);
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (TripType typ : bos) {
@@ -44,6 +45,13 @@ public class TripTypeValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 
 }

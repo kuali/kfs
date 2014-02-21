@@ -25,9 +25,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AccommodationTypeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -36,7 +37,7 @@ public class AccommodationTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        Collection<AccommodationType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(AccommodationType.class);
+        Collection<AccommodationType> bos = getKeyValuesService().findAll(AccommodationType.class);
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (AccommodationType typ : bos) {
@@ -44,6 +45,13 @@ public class AccommodationTypeValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 
 }

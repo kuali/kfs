@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
@@ -24,9 +25,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class RelocationReasonCodeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
@@ -34,7 +36,7 @@ public class RelocationReasonCodeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
 
-        List<RelocationReason> codes = (List<RelocationReason>) SpringContext.getBean(BusinessObjectService.class).findAll(RelocationReason.class);
+        Collection<RelocationReason> codes = getKeyValuesService().findAll(RelocationReason.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (RelocationReason reason : codes) {
@@ -46,4 +48,10 @@ public class RelocationReasonCodeValuesFinder extends KeyValuesBase {
         return labels;
     }
 
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
+    }
 }

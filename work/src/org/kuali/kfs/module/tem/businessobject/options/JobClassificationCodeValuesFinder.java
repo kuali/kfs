@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
@@ -25,8 +26,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class JobClassificationCodeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     protected BusinessObjectService businessObjectService;
 
@@ -36,7 +39,7 @@ public class JobClassificationCodeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
 
-        List<JobClassification> codes = (List<JobClassification>) SpringContext.getBean(BusinessObjectService.class).findAll(JobClassification.class);
+        Collection<JobClassification> codes = getKeyValuesService().findAll(JobClassification.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (JobClassification reason : codes) {
@@ -46,6 +49,13 @@ public class JobClassificationCodeValuesFinder extends KeyValuesBase {
         }
 
         return labels;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 
 }

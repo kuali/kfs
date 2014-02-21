@@ -42,14 +42,14 @@
 		</property>
 				<property name="relationships">
 			<list>
-<!-- 				<bean parent="RelationshipDefinition" p:objectAttributeName="proposal">
+ 				<bean parent="RelationshipDefinition" p:objectAttributeName="proposal">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
 						</list>
 					</property>
 				</bean>
- -->				<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
+				<bean parent="RelationshipDefinition" p:objectAttributeName="agency">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
@@ -240,7 +240,7 @@
 		parent="ContractsGrantsAwardBalancesReport-lookupDefinition-parentBean" />
 	<bean id="ContractsGrantsAwardBalancesReport-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsAwardBalancesReport Lookup" />
+		<property name="title" value="Award Balances Report" />
 		<property name="lookupableID"
 			value="contractsGrantsAwardBalancesReportLookupResultLookupable" />
 		<property name="defaultSort">

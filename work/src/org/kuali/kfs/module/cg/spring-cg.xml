@@ -322,7 +322,7 @@
 	</bean>
 
 	<bean id="contractsGrantsAwardBalancesReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Grants Award Balances Report" />
+		<property name="reportTitle" value="Award Balances Report" />
 		<property name="reportFileName" value="award_balances_report" />
 		<property name="reportsDirectory" value="${reports.directory}/cg/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cg/report/messages" />

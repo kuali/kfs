@@ -165,7 +165,7 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.ar.document.CashControlDocument" table="AR_CSH_CTRL_T">
+	<class-descriptor class="org.kuali.kfs.module.ar.document.CashControlDocument" table="AR_CSH_CTRL_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -219,7 +219,7 @@
 		</collection-descriptor>
 	</class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CashControlDetail" table="AR_CSH_CTRL_DTL_T">
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CashControlDetail" table="AR_CSH_CTRL_DTL_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -236,7 +236,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" table="AR_INV_DOC_T">
+	<class-descriptor class="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" table="AR_INV_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -292,10 +292,11 @@
 		<field-descriptor name="shippingInternationalMailCode" column="SHIP_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"
-			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+		<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	    <field-descriptor name="agingReportSentTime" column="AGING_RPT_SENT_TM" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
+		
+	    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
 			<foreignkey field-ref="documentNumber" />
 		</reference-descriptor>
 		<reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"

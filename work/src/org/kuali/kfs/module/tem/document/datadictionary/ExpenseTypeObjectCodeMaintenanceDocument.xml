@@ -18,7 +18,7 @@
     <bean id="ExpenseTypeObjectCodeMaintenanceDocument" parent="ExpenseTypeObjectCodeMaintenanceDocument-parentBean"/>
     <bean id="ExpenseTypeObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" />
-        <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+        <property name="maintainableClass" value="org.kuali.kfs.module.tem.document.maintenance.ExpenseTypeObjectCodeMaintainable"/>
         <property name="documentTypeName" value="ETOC" />
         <property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.ExpenseTypeObjectCodeRule"/>
         <property name="maintainableSections">
@@ -43,8 +43,8 @@
             	<bean parent="MaintainableFieldDefinition" p:name="expenseTypeObjectCodeId" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.defaultvalue.NextExpenseTypeObjectCodeFinder" />
                 <bean parent="MaintainableFieldDefinition" p:name="expenseTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripTypeCode" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true" p:noLookup="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="maximumAmount" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="maximumAmountSummationCode" p:required="false" />

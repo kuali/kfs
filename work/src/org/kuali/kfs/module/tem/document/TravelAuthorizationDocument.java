@@ -782,7 +782,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                         final boolean shouldHoldAdvance = shouldHoldAdvance();
 
                         for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            if ((isEncumbrancePendingEntry(glpe) && shouldHoldEncumbrance) || (isAdvancePendingEntry(glpe) && shouldHoldAdvance)) {
+                            if ((shouldHoldEncumbrance && isEncumbrancePendingEntry(glpe)) || (shouldHoldAdvance && isAdvancePendingEntry(glpe))) {
                                 HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
                                 heldEntries.add(hee);
                                 getBusinessObjectService().delete(glpe);
@@ -792,7 +792,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                             }
                         }
 
-                        getBusinessObjectService().save(heldEntries);
+                        if (!heldEntries.isEmpty()) {
+                            getBusinessObjectService().save(heldEntries);
+                        }
                         setGeneralLedgerPendingEntries(survivingEntries);
                     } else {
                         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {

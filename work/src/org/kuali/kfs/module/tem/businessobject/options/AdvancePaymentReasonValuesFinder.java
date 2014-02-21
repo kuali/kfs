@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AdvancePaymentReason;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -37,6 +38,7 @@ public class AdvancePaymentReasonValuesFinder extends KeyValuesBase {
         List<KeyValue> list = new ArrayList<KeyValue>();
 
         Collection<AdvancePaymentReason> reasons = getKeyValuesService().findAll(AdvancePaymentReason.class);
+        list.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (AdvancePaymentReason reason : reasons){
             list.add(new ConcreteKeyValue(reason.getCode(), reason.getCode() + " - " + reason.getDescription()));
         }

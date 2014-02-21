@@ -122,6 +122,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     protected volatile static ConfigurationService configurationService;
     protected volatile static PaymentSourceHelperService paymentSourceHelperService;
     protected volatile static OptionsService optionsService;
+    protected volatile static UniversityDateService universityDateService;
 
     /**
      * Creates a new instance of the Travel Request Document. Initializes the empty arrays as well as the line tracking numbers
@@ -777,13 +778,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                     if(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
                         List<GeneralLedgerPendingEntry> survivingEntries = new ArrayList<GeneralLedgerPendingEntry>();
                         List<HeldEncumbranceEntry> heldEntries = new ArrayList<HeldEncumbranceEntry>();
-                        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                        java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-                        final Integer heldEncumbranceFiscalYear = universityDateService.getFiscalYear(new java.sql.Date(getTripEnd().getTime()));
-                        final boolean shouldHoldEncumbrance = ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate) && heldEncumbranceFiscalYear == null;
-                        final boolean shouldHoldAdvance = (shouldProcessAdvanceForDocument() && getTravelAdvance().getDueDate() != null && getTravelAdvance().getDueDate().after(endDate)) && universityDateService.getFiscalYear(getTravelAdvance().getDueDate()) == null;
+                        final boolean shouldHoldEncumbrance = shouldHoldEncumbrance();
+                        final boolean shouldHoldAdvance = shouldHoldAdvance();
+
                         for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            if (((StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) && shouldHoldEncumbrance) || ((StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT) || StringUtils.equals(glpe.getFinancialDocumentTypeCode(),TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT)) && shouldHoldAdvance)) {
+                            if ((isEncumbrancePendingEntry(glpe) && shouldHoldEncumbrance) || (isAdvancePendingEntry(glpe) && shouldHoldAdvance)) {
                                 HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
                                 heldEntries.add(hee);
                                 getBusinessObjectService().delete(glpe);
@@ -795,13 +794,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
                         getBusinessObjectService().save(heldEntries);
                         setGeneralLedgerPendingEntries(survivingEntries);
-                        SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                     } else {
                         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
                             glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
                         }
-                        SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                     }
+                    SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
 
                 if (shouldProcessAdvanceForDocument() && this.getAdvanceTravelPayment().isImmediatePaymentIndicator()) {
@@ -809,6 +807,53 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 }
             }
         }
+    }
+
+    /**
+     * Determines if this document should hold its encumbrances because the trip end date belongs to a fiscal year which does not yet exist
+     * @return true if we should hold encumbrances, false otherwise
+     */
+    protected boolean shouldHoldEncumbrance() {
+        if (getTripEnd() == null) {
+            return false; // we won't hold encumbrances if we don't know when the trip is ending
+        }
+        final Integer heldEncumbranceFiscalYear = getUniversityDateService().getFiscalYear(new java.sql.Date(getTripEnd().getTime()));
+        final boolean holdEncumbrance = heldEncumbranceFiscalYear == null;
+        return holdEncumbrance;
+    }
+
+    /**
+     * Determines if this document has an advance and the due date for the advance occurs in a non-existing fiscal year, in which case, the advance's glpes should be held
+     * @return true if we should hold advance entries, false otherwise
+     */
+    protected boolean shouldHoldAdvance() {
+        if (shouldProcessAdvanceForDocument() && getTravelAdvance().getDueDate() != null) {
+            final Integer heldAdvanceFiscalYear = getUniversityDateService().getFiscalYear(getTravelAdvance().getDueDate());
+            final boolean holdAdvance = heldAdvanceFiscalYear == null;
+            return holdAdvance;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if the given general ledger pending entry represents an encumbrance entry
+     * @param glpe pending entry to test
+     * @return true if the pending entry represents an encumbrance, false otherwise
+     */
+    protected boolean isEncumbrancePendingEntry(GeneralLedgerPendingEntry glpe) {
+        return StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT) ||
+                StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT) ||
+                StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+    }
+
+    /**
+     * Determines if the given pending entry represents an advance
+     * @param glpe the pending entry to test
+     * @return true if the pending entry represents an advance, false otherwise
+     */
+    protected boolean isAdvancePendingEntry(GeneralLedgerPendingEntry glpe) {
+        return StringUtils.equals(glpe.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT) ||
+                StringUtils.equals(glpe.getFinancialDocumentTypeCode(),TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT);
     }
 
     /**
@@ -1498,5 +1543,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             optionsService = SpringContext.getBean(OptionsService.class);
         }
         return optionsService;
+    }
+
+    protected static UniversityDateService getUniversityDateService() {
+        if (universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
     }
 }

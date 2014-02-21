@@ -328,7 +328,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
         Collection<TransportationMode> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TransportationMode.class);
         for (TransportationMode mode : bos) {
-            modesOfTrans.put(mode.getCode(), mode.getName());
+            if (mode.isActive()) {
+                modesOfTrans.put(mode.getCode(), mode.getName());
+            }
 
         }
 

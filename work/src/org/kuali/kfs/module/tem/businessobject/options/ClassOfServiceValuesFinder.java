@@ -28,12 +28,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ClassOfServiceValuesFinder extends KeyValuesBase {
 
     private String expenseTypeMetaCategoryCode;
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -44,12 +45,12 @@ public class ClassOfServiceValuesFinder extends KeyValuesBase {
 
         Collection<ClassOfService> bos = null;
         if(ObjectUtils.isNotNull(expenseTypeMetaCategoryCode)){
-            Map<String, String> searchMap = new HashMap<String, String>();
+            Map<String, Object> searchMap = new HashMap<String, Object>();
             searchMap.put(TemPropertyConstants.ClassOfService.EXPENSE_TYPE_META_CATEGORY_CODE, expenseTypeMetaCategoryCode);
-            bos = SpringContext.getBean(BusinessObjectService.class).findMatching(ClassOfService.class, searchMap);
+            bos = getKeyValuesService().findMatching(ClassOfService.class, searchMap);
         }
         else{
-            bos = SpringContext.getBean(BusinessObjectService.class).findAll(ClassOfService.class);
+            bos = getKeyValuesService().findAll(ClassOfService.class);
         }
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
@@ -68,6 +69,11 @@ public class ClassOfServiceValuesFinder extends KeyValuesBase {
         this.expenseTypeMetaCategoryCode = expenseTypeMetaCategoryCode;
     }
 
-
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
+    }
 
 }

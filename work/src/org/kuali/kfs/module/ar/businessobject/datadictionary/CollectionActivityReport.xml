@@ -26,9 +26,11 @@
 			<list>
 				<ref bean="CollectionActivityReport-principalId"/>
  				<ref bean="CollectionActivityReport-collector.principalName"/>
+ 				<ref bean="CollectionActivityReport-collector.name"/>
 				<ref bean="CollectionActivityReport-agencyNumber"/>
 				<ref bean="CollectionActivityReport-proposalNumber"/>
 				<ref bean="CollectionActivityReport-invoiceNumber"/>
+				<ref bean="CollectionActivityReport-chartOfAccountsCode"/>
  				<ref bean="CollectionActivityReport-accountNumber"/>
  				<ref bean="CollectionActivityReport-activityType"/>
  				<ref bean="CollectionActivityReport-activityComment"/>
@@ -52,6 +54,7 @@
           <property name="supportAttributes">
             <list>
               <bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="collector.name" p:targetName="name"/>
               <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode" p:targetName="lookupRoleNamespaceCode"/>
               <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName" p:targetName="lookupRoleName"/>                    
             </list>
@@ -72,12 +75,22 @@
 			</property>
 		</bean>
 		<bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="chart"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+            </list>
+          </property>
+        </bean>
+		<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="account" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber"
 								p:targetName="accountNumber" />
+								<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
 						</list>
+						
 					</property>
 					<property name="supportAttributes">
 						<list>
@@ -97,10 +110,24 @@
 
   <bean id="CollectionActivityReport-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="collector.principalName"/>
-    <property name="label" value="Collector"/>
+    <property name="label" value="Collector Principal Name"/>
     <property name="required" value="false"/>
+    <property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="collector.name"
+				p:universalIdAttributeName="principalId"
+				p:userIdAttributeName="collector.principalName" />
+		</property>
   </bean>
 
+	<bean id="CollectionActivityReport-collector.name" parent="CollectionActivityReport-collector.name-parentBean" />
+
+	<bean id="CollectionActivityReport-collector.name-parentBean" abstract="true"
+		parent="PersonImpl-name">
+		<property name="name" value="collector.name" />
+		<property name="label" value="Collector Name" />
+		<property name="required" value="false" />
+	</bean>
   <bean id="CollectionActivityReport-principalId" parent="CollectionActivityReport-principalId-parentBean"/>
 
   <bean id="CollectionActivityReport-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
@@ -151,6 +178,10 @@
 		</property>
 	</bean>
 	
+ <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />
+  <bean id="CollectionActivityReport-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode" />
+		
   <bean id="CollectionActivityReport-accountNumber" parent="CollectionActivityReport-accountNumber-parentBean" />
   <bean id="CollectionActivityReport-accountNumber-parentBean"
 		abstract="true" parent="Account-accountNumber" />
@@ -277,7 +308,7 @@
 		parent="CollectionActivityReport-lookupDefinition-parentBean" />
 	<bean id="CollectionActivityReport-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="title" value="CollectionActivityReport Lookup" />
+		<property name="title" value="Collection Activity Report" />
 		<property name="lookupableID"
 			value="collectionActivityReportLookupResultLookupable" /> 
 		<property name="defaultSort">
@@ -289,6 +320,7 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="collector.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

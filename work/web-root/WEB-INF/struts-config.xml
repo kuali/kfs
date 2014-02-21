@@ -498,7 +498,7 @@
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityReportAction">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+			<forward name="basic" path="/jsp/module/ar/CollectionActivityReportLookup.jsp" />
 		</action>
 		
 		<action path="/referralToCollectionsReportLookup" name="ReferralToCollectionsReportForm"

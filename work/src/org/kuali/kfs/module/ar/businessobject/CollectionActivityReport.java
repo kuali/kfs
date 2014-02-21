@@ -19,14 +19,15 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class is used to generate the collection activity report
@@ -61,6 +62,7 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;
+    private Chart chart;
 
     /**
      * Constructs a CollectionActivityReport
@@ -276,6 +278,28 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+
+    /**
+     * Gets the chart attribute.
+     *
+     * @return Returns the chart
+     */
+
+    public Chart getChart() {
+        return chart;
+    }
+
+
+    /**
+     * Sets the chart attribute.
+     *
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
 
     /**
      * Gets the activityType attribute.

@@ -26,9 +26,11 @@
 			<list>
 				<ref bean="ReferralToCollectionsReport-principalId"/>
  				<ref bean="ReferralToCollectionsReport-collector.principalName"/>
+ 				<ref bean="ReferralToCollectionsReport-collector.name"/>
 				<ref bean="ReferralToCollectionsReport-agencyNumber"/>
 				<ref bean="ReferralToCollectionsReport-proposalNumber"/>
 				<ref bean="ReferralToCollectionsReport-invoiceNumber"/>
+				<ref bean="ReferralToCollectionsReport-chartOfAccountsCode"/>
  				<ref bean="ReferralToCollectionsReport-accountNumber"/>
  				<ref bean="ReferralToCollectionsReport-documentNumber"/>
  				<ref bean="ReferralToCollectionsReport-documentDate"/>
@@ -52,6 +54,7 @@
           <property name="supportAttributes">
             <list>
               <bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="collector.name" p:targetName="name"/>
               <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode" p:targetName="lookupRoleNamespaceCode"/>
               <bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName" p:targetName="lookupRoleName"/>                    
             </list>
@@ -72,12 +75,22 @@
 			</property>
 		</bean>
 		<bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="chart"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+            </list>
+          </property>
+        </bean>
+		<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="account" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber"
 								p:targetName="accountNumber" />
+								<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
 						</list>
+						
 					</property>
 					<property name="supportAttributes">
 						<list>
@@ -97,10 +110,24 @@
 
   <bean id="ReferralToCollectionsReport-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="collector.principalName"/>
-    <property name="label" value="Collector"/>
+    <property name="label" value="Collector Principal Name"/>
     <property name="required" value="false"/>
+        <property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="collector.name"
+				p:universalIdAttributeName="principalId"
+				p:userIdAttributeName="collector.principalName" />
+		</property>
   </bean>
 
+	<bean id="ReferralToCollectionsReport-collector.name" parent="ReferralToCollectionsReport-collector.name-parentBean" />
+
+	<bean id="ReferralToCollectionsReport-collector.name-parentBean" abstract="true"
+		parent="PersonImpl-name">
+		<property name="name" value="collector.name" />
+		<property name="label" value="Collector Name" />
+		<property name="required" value="false" />
+	</bean>
   <bean id="ReferralToCollectionsReport-principalId" parent="ReferralToCollectionsReport-principalId-parentBean"/>
 
   <bean id="ReferralToCollectionsReport-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
@@ -150,6 +177,9 @@
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
+	 <bean id="ReferralToCollectionsReport-chartOfAccountsCode" parent="ReferralToCollectionsReport-chartOfAccountsCode-parentBean" />
+  <bean id="ReferralToCollectionsReport-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode" />
 	
   <bean id="ReferralToCollectionsReport-accountNumber" parent="ReferralToCollectionsReport-accountNumber-parentBean" />
   <bean id="ReferralToCollectionsReport-accountNumber-parentBean"
@@ -234,8 +264,8 @@
 	<bean id="ReferralToCollectionsReport-lookupDefinition"
 		parent="ReferralToCollectionsReport-lookupDefinition-parentBean" />
 	<bean id="ReferralToCollectionsReport-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="title" value="ReferralToCollectionsReport Lookup" />
+		abstract="true" parent="LookupDefinition"> 
+		<property name="title" value="Referral To Collections Report" />
 		<property name="lookupableID"
 			value="referralToCollectionsReportLookupResultLookupable" /> 
 		<property name="defaultSort">
@@ -247,6 +277,7 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber"/>
 				<bean parent="FieldDefinition" p:attributeName="collector.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />

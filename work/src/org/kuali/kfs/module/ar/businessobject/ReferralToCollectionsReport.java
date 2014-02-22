@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -38,6 +39,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     private String invoiceNumber;
     private String agencyName;
+    private String chartOfAccountsCode;
     private String accountNumber;
 
     private String documentNumber;
@@ -60,6 +62,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Account account;
+    private Chart chart;
 
     /**
      * Constructs a ReferralToCollectionsReport
@@ -68,7 +71,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
         super();
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);
@@ -82,7 +85,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Return the principal id of collector.
      */
     public String getPrincipalId() {
@@ -91,7 +94,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -100,7 +103,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Return the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -109,7 +112,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -118,7 +121,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Return the agencyNumber.
      */
     public String getAgencyNumber() {
@@ -127,7 +130,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -136,7 +139,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Return the invoiceNumber.
      */
     public String getInvoiceNumber() {
@@ -145,7 +148,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceNumber attribute.
-     * 
+     *
      * @param invoiceNumber to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -154,7 +157,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agencyName attribute.
-     * 
+     *
      * @return Return the agencyName of agency.
      */
     public String getAgencyName() {
@@ -163,7 +166,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agencyName attribute.
-     * 
+     *
      * @param agencyName to set.
      */
     public void setAgencyName(String agencyName) {
@@ -172,7 +175,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the collector attribute.
-     * 
+     *
      * @return Return the collector.
      */
     public Person getCollector() {
@@ -181,7 +184,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the collector attribute.
-     * 
+     *
      * @param collector The collector to set.
      */
     public void setCollector(Person collector) {
@@ -190,7 +193,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Return the award.
      */
     public ContractsAndGrantsAward getAward() {
@@ -199,7 +202,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the award attribute.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsAward award) {
@@ -208,7 +211,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agency attribute.
-     * 
+     *
      * @return Return the agency.
      */
     public ContractsAndGrantsAgency getAgency() {
@@ -217,7 +220,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agency attribute.
-     * 
+     *
      * @param agency The agency to set.
      */
     public void setAgency(ContractsAndGrantsAgency agency) {
@@ -226,7 +229,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Return the userLookupRoleNamespaceCode
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -235,7 +238,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Return the userLookupRoleName
      */
     public String getUserLookupRoleName() {
@@ -244,7 +247,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Return the accountNumber
      */
     public String getAccountNumber() {
@@ -253,7 +256,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -262,7 +265,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Return the account
      */
     public Account getAccount() {
@@ -271,7 +274,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -280,7 +283,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Return the accountNumber
      */
     public String getDocumentNumber() {
@@ -289,7 +292,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -298,7 +301,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the documentDate attribute.
-     * 
+     *
      * @return Return the documentDate
      */
     public Date getDocumentDate() {
@@ -307,7 +310,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the documentDate attribute.
-     * 
+     *
      * @param documentDate The documentDate to set.
      */
     public void setDocumentDate(Date documentDate) {
@@ -316,7 +319,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Return the customerNumber
      */
     public String getCustomerNumber() {
@@ -325,7 +328,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -334,7 +337,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerType attribute.
-     * 
+     *
      * @return Return the customerType
      */
     public String getCustomerType() {
@@ -343,7 +346,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerType attribute.
-     * 
+     *
      * @param customerType The customerType to set.
      */
     public void setCustomerType(String customerType) {
@@ -352,7 +355,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the referralType attribute.
-     * 
+     *
      * @return Return the referralType
      */
     public String getReferralType() {
@@ -361,7 +364,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the referralType attribute.
-     * 
+     *
      * @param referralType The referralType to set.
      */
     public void setReferralType(String referralType) {
@@ -370,7 +373,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the collectionStatus attribute.
-     * 
+     *
      * @return Return the collectionStatus
      */
     public String getCollectionStatus() {
@@ -379,7 +382,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the collectionStatus attribute.
-     * 
+     *
      * @param collectionStatus The collectionStatus to set.
      */
     public void setCollectionStatus(String collectionStatus) {
@@ -388,7 +391,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the billingDate attribute.
-     * 
+     *
      * @return Return the billingDate
      */
     public Date getBillingDate() {
@@ -397,7 +400,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the billingDate attribute.
-     * 
+     *
      * @param billingDate The billingDate to set.
      */
     public void setBillingDate(Date billingDate) {
@@ -406,7 +409,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceAmount attribute.
-     * 
+     *
      * @return Return the invoiceAmount
      */
     public BigDecimal getInvoiceAmount() {
@@ -415,7 +418,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceAmount attribute.
-     * 
+     *
      * @param invoiceAmount The invoiceAmount to set.
      */
     public void setInvoiceAmount(BigDecimal invoiceAmount) {
@@ -424,7 +427,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the openAmount attribute.
-     * 
+     *
      * @return Return the openAmount
      */
     public BigDecimal getOpenAmount() {
@@ -433,7 +436,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the openAmount attribute.
-     * 
+     *
      * @param openAmount The openAmount to set.
      */
     public void setOpenAmount(BigDecimal openAmount) {
@@ -442,7 +445,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the referredTo attribute.
-     * 
+     *
      * @return Return the referredTo
      */
     public String getReferredTo() {
@@ -451,7 +454,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the referredTo attribute.
-     * 
+     *
      * @param referredTo The referredTo to set.
      */
     public void setReferredTo(String referredTo) {
@@ -460,7 +463,7 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the finalDisposition attribute.
-     * 
+     *
      * @return Return the finalDisposition
      */
     public String getFinalDisposition() {
@@ -469,10 +472,54 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the finalDisposition attribute.
-     * 
+     *
      * @param finalDisposition The finalDisposition to set.
      */
     public void setFinalDisposition(String finalDisposition) {
         this.finalDisposition = finalDisposition;
     }
+
+
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     *
+     * @return Returns the chartOfAccountsCode
+     */
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     *
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    /**
+     * Gets the chart attribute.
+     *
+     * @return Returns the chart
+     */
+
+    public Chart getChart() {
+        return chart;
+    }
+
+
+    /**
+     * Sets the chart attribute.
+     *
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+
 }

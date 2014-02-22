@@ -159,16 +159,14 @@
 											value="clearValues"
 											src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif"
 											styleClass="tinybutton" alt="clear" title="clear" border="0" />
-									</c:if> <c:if test="${KualiForm.formKey!=''}">
-										<c:if test="${!empty KualiForm.backLocation}">
+									 
 											<a
 												href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'
 												title="cancel"><img
 												src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 												class="tinybutton" alt="cancel" title="cancel" border="0" />
 											</a>
-										</c:if>
-									</c:if> <!-- Optional extra buttons --> <c:set var="extraButtons"
+										</c:if> <!-- Optional extra buttons --> <c:set var="extraButtons"
 										value="${KualiForm.extraButtons}" />
 									<div id="globalbuttons" class="globalbuttons">
 										<c:if test="${!empty extraButtons}">

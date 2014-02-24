@@ -964,8 +964,8 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="AR_FINAL_INV_RVRSL_ENTRY_T_CREATE">
-		<createTable tableName="AR_FINAL_INV_RVRSL_ENTRY_T">
+	<changeSet author="KFSCGB" id="AR_FINAL_BILLED_IND_ENTRY_T_CREATE">
+		<createTable tableName="AR_FINAL_BILLED_IND_ENTRY_T">
 			<column name="ENTRY_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -974,7 +974,7 @@
 			</column>
 			<column name="INVOICE_NBR" type="VARCHAR(14)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_INV_RVRSL_ENTRY_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_BILLED_IND_ENTRY_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
@@ -988,17 +988,17 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Create Table FINAL_INV_RVRSL_ENTRY_SEQ to accommodate Invoice Entry 
+	<!-- Create Table FINAL_BILLED_IND_ENTRY_SEQ to accommodate Invoice Entry 
 		add/delete -->
 
-	<changeSet author="KFSCGB" id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_FINAL_BILLED_IND_ENTRY_SEQ_oracle"
 		dbms="oracle">
-		<createSequence sequenceName="FINAL_INV_RVRSL_ENTRY_SEQ" />
+		<createSequence sequenceName="FINAL_BILLED_IND_ENTRY_SEQ" />
 	</changeSet>
 
 	<changeSet author="KFSCGB"
-		id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_CREATE_mysql" dbms="mysql">
-		<createTable tableName="FINAL_INV_RVRSL_ENTRY_SEQ">
+		id="CGB_FINAL_BILLED_IND_ENTRY_SEQ_CREATE_mysql" dbms="mysql">
+		<createTable tableName="FINAL_BILLED_IND_ENTRY_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -1008,13 +1008,13 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="AR_FINAL_INV_RVRSL_DOC_T_CREATE">
-		<createTable tableName="AR_FINAL_INV_RVRSL_DOC_T">
+	<changeSet author="KFSCGB" id="AR_FINAL_BILLED_IND_DOC_T_CREATE">
+		<createTable tableName="AR_FINAL_BILLED_IND_DOC_T">
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_INV_RVRSL_DOC_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_BILLED_IND_DOC_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />

@@ -18,4 +18,23 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
+	<changeSet author="KFS50" id="KFSCNTRB-1771_JV_BB_TYPES">
+        <comment>Adds parameter for KFSCNTRB-1771 for BB types</comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-FP" />
+            <column name="CMPNT_CD" value="JournalVoucher" />
+            <column name="PARM_NM" value="ALLOWED_BUDGET_BALANCE_TYPES" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" valueNumeric="sys_guid() " />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="VALID" />
+            <column name="VAL" value="BB;CB;MB" />
+            <column name="PARM_DESC_TXT" value="Budget Type Codes allowed on a Journal Voucher" />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+        <modifySql dbms="mysql">
+          <replace replace="sys_guid()" with="uuid()" />
+        </modifySql>
+    </changeSet>
+    
 </databaseChangeLog>

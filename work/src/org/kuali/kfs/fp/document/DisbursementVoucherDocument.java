@@ -1636,14 +1636,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         if (sepOfDutiesRequired) {
             try {
-                Set<Person> priorApprovers = getAllPriorApprovers();
+            	List<Person> priorApprovers = new ArrayList<Person>(getAllPriorApprovers());
                 // The payee cannot be the only approver
                 String payeeEmployeeId = this.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
-                Person payee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeEmployeeId);
-                // If there is only one approver, and that approver is also the payee, then Separation of Duties is required.
-                boolean priorApproverIsPayee = priorApprovers.contains(payee);
-                boolean onlyOneApprover = (priorApprovers.size() == 1);
-                if ( priorApproverIsPayee && onlyOneApprover) {
+ 
+                if (priorApprovers.size() == 1 && 
+                        priorApprovers.get(0).getEmployeeId().equals(payeeEmployeeId)) {
                     return true;
                 }
 
@@ -1666,7 +1664,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         Set<Person> persons = new HashSet<Person>();
 
         for (ActionTaken actionTaken : actionsTaken) {
-            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken().getCode())) {
                 String principalId = actionTaken.getPrincipalId();
                 if (!principalIds.contains(principalId)) {
                     principalIds.add(principalId);

@@ -129,7 +129,7 @@ public class TravelReimbursementAction extends TravelActionBase {
      */
     protected void setButtonPermissions(TravelReimbursementForm form) {
         canSave(form);
-
+        setCanReturnToFisicalOfficer(form);
         setCanCertify(form);
         setCanCalculate(form);
     }

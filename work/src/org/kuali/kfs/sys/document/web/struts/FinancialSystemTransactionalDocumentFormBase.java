@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,21 +54,21 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
                 extendDocInfoToThreeColumns();
                 int insertIndex = 2;
                 getDocInfo().remove(insertIndex);
-                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", 
+                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber",
                         documentHeader.getFinancialDocumentInErrorNumber(), buildHtmlLink(getDocumentHandlerUrl(documentHeader.getFinancialDocumentInErrorNumber()), documentHeader.getFinancialDocumentInErrorNumber())));
             }
             if (StringUtils.isNotBlank(documentHeader.getCorrectedByDocumentId())) {
                 extendDocInfoToThreeColumns();
                 int insertIndex = getNumColumns() + 2;
                 getDocInfo().remove(insertIndex);
-                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", 
+                getDocInfo().add(insertIndex, new HeaderField("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId",
                         documentHeader.getCorrectedByDocumentId(), buildHtmlLink(getDocumentHandlerUrl(documentHeader.getCorrectedByDocumentId()), documentHeader.getCorrectedByDocumentId())));
-          
-            
+
+
             }
         }
     }
-    
+
     /**
      * Extends the DocInfo on the form to 3 columns if it currently has less than 3 columns.
      * If it has exactly 3 or more columns, no action will be taken.
@@ -98,7 +98,7 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
-     * 
+     *
      * KRAD Conversion: Customizing the addition of extra buttons
      */
     @Override
@@ -109,14 +109,14 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
         }
         return buttons;
     }
-    
+
     private ExtraButton errorCorrectionButton;
-    
+
     /**
      * Generates an ExtraButton which represents the error correction button
-     * 
+     *
      * @return an ExtraButton representing an ErrorCorrection button
-     * 
+     *
      *  KRAD Conversion: Customizing the error correction button
      */
     protected ExtraButton generateErrorCorrectionButton() {
@@ -129,4 +129,6 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
         }
         return errorCorrectionButton;
     }
+
+
 }

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
@@ -89,6 +90,8 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             if (!qualification.containsKey(KFSPropertyConstants.ACCOUNT_NUMBER)) { // FO permissions have precedence over accounting review permissions, so only overwrite if qualifiers for FO are missing
                 addAccountingReviewerQualification((TravelDocument)dataObject, qualification);
             }
+            addAwardReviewerQualification((TravelDocument)dataObject, qualification);
+            addSubFundReviewerQualification((TravelDocument)dataObject, qualification);
         }
     }
 
@@ -137,6 +140,110 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             if (userAccountingReviewQualifiers != null && !userAccountingReviewQualifiers.isEmpty()) {
                 // let's make sure that our given doc type actually matches - we've seen weird bugs with that
                 for (Map<String, String> qualifier : userAccountingReviewQualifiers) {
+                    if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+                        Set<String> possibleParentDocumentTypes = new HashSet<String>();
+                        possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+
+                        final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
+                        if (closestParent != null) {
+                            attributes.putAll(qualifier);
+                            return true;
+                        }
+                    } else {
+                        // no doc type.  That's weird, but whatever - it passes
+                        attributes.putAll(qualifier);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Goes through the given List of accounting lines and finds one line where the current user is responsible for the award; it uses that line to add
+     * c&g responsibility qualifications to the qualifier
+     * @param accountingLines a List of AccountingLines
+     * @param attributes a Map of role qualification attributes
+     */
+    protected void addAwardReviewerQualification(TravelDocument authorizationDoc, Map<String, String> attributes) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+
+        boolean foundQualification = false;
+        int count = 0;
+        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
+            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
+            foundQualification = addAwardReviewQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
+            count += 1;
+        }
+    }
+
+    /**
+     * If the given user is an award reviewer based on accounting line, then add that account as a qualification
+     * @param line the accounting line to check
+     * @param attributes the role qualification to fill
+     * @param currentUser the currently logged in user, whom we are doing permission checks for
+     * @return true if qualifications were added based on the line, false otherwise
+     */
+    protected boolean addAwardReviewQualificationForLine(TravelDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
+        if (ObjectUtils.isNull(line.getAccount())) {
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
+
+        if (!ObjectUtils.isNull(line.getAccount()) && line.getAccount().getContractsAndGrantsAccountResponsibilityId() != null) {
+            Map<String, String> testQualifier = new HashMap<String, String>();
+            testQualifier.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, line.getAccount().getContractsAndGrantsAccountResponsibilityId().toString());
+
+            final List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROCESSOR, testQualifier);
+
+            if (roleQualifiers != null && !roleQualifiers.isEmpty()) {
+                // we can chose any of these since they all work - so we'll just choose the first
+                attributes.putAll(roleQualifiers.get(0));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Goes through the given List of accounting lines and finds one line where the current user is responsible for the sub-fund; it uses that line to add
+     * sub-fund qualifications to the qualifier
+     * @param accountingLines a List of AccountingLines
+     * @param attributes a Map of role qualification attributes
+     */
+    protected void addSubFundReviewerQualification(TravelDocument authorizationDoc, Map<String, String> attributes) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+
+        boolean foundQualification = false;
+        int count = 0;
+        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
+            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
+            foundQualification = addSubFundQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
+            count += 1;
+        }
+    }
+
+    /**
+     * If the given user is an award reviewer based on accounting line, then add that account as a qualification
+     * @param line the accounting line to check
+     * @param attributes the role qualification to fill
+     * @param currentUser the currently logged in user, whom we are doing permission checks for
+     * @return true if qualifications were added based on the line, false otherwise
+     */
+    protected boolean addSubFundQualificationForLine(TravelDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
+        if (ObjectUtils.isNull(line.getAccount())) {
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
+
+        if (!ObjectUtils.isNull(line.getAccount()) && !StringUtils.isBlank(line.getAccount().getSubFundGroupCode())) {
+            Map<String, String> testQualifier = new HashMap<String, String>();
+            testQualifier.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, line.getAccount().getSubFundGroupCode());
+
+            final List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.SUB_FUND_REVIEWER, testQualifier);
+
+            if (roleQualifiers != null && !roleQualifiers.isEmpty()) {
+                // let's make sure that our given doc type actually matches - we've seen weird bugs with that
+                for (Map<String, String> qualifier : roleQualifiers) {
                     if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
                         Set<String> possibleParentDocumentTypes = new HashSet<String>();
                         possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));

@@ -1518,7 +1518,7 @@
 	
 	<!-- Final Billed Indicator Entries -->
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry" table="AR_FINAL_BILLED_IND_ENTRY_T">
-		<field-descriptor name="id" column="ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="FINAL_INV_RVRSL_ENTRY_SEQ" />
+		<field-descriptor name="id" column="ENTRY_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="FINAL_BILLED_IND_ENTRY_SEQ" />
 		<field-descriptor name="documentId" column="DOC_HDR_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="invoiceDocumentNumber" column="INVOICE_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

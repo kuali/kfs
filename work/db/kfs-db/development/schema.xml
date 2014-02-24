@@ -1229,7 +1229,7 @@
         <column name="DOC_HDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <unique name="AR_FINAL_INV_RVRSL_DOC_TC1">
+        <unique name="AR_FINAL_BILLED_IND_DOC_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1239,7 +1239,7 @@
         <column name="INVOICE_NBR" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <unique name="AR_FINAL_INV_RVRSL_ENTRY_TC1">
+        <unique name="AR_FINAL_BILLED_IND_ENTRY_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16897,7 +16897,7 @@
     <sequence name="END_TKLR_SEQ" nextval="1"/>
     <sequence name="EN_SERVICE_DEF_INTERFACE_SEQ" nextval="2000"/>
     <sequence name="EVENT_SEQ" nextval="1"/>
-    <sequence name="FINAL_INV_RVRSL_ENTRY_SEQ" nextval="1"/>
+    <sequence name="FINAL_BILLED_IND_ENTRY_SEQ" nextval="1"/>
     <sequence name="FP_CASHIER_ITM_IN_PROC_T_SEQ" nextval="1000"/>
     <sequence name="FP_PRCRMNT_CARD_TRN_MT_SEQ" nextval="2040"/>
     <sequence name="GL_ORIGIN_ENTRY_GRP_T_SEQ" nextval="12069"/>

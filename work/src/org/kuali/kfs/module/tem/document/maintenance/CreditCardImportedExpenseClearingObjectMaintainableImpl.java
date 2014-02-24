@@ -23,14 +23,14 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearing
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingObject;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global accounts
  */
-public class CreditCardImportedExpenseClearingObjectMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class CreditCardImportedExpenseClearingObjectMaintainableImpl extends FinancialSystemGlobalMaintainable {
     /**
      * This creates the particular locking representation for this global document.
      *

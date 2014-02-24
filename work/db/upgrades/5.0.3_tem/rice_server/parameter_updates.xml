@@ -1010,11 +1010,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT_BY_TRIP"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-127"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="You have newly imported expenses from corporate card, CTS, or pre-trip payments that need to be reconciled."/>
-			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses."/>
+			<column name="VAL" value="You have newly imported expenses that have been reconciled to your TEM documents."/>
+			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses that have been reconciled."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1314,7 +1314,6 @@
 			<column name="VAL" value="50M"/>
 			<where>nmspc_cd = 'KR-NS' and cmpnt_cd = 'All' and parm_nm = 'MAX_FILE_SIZE_DEFAULT_UPLOAD' and appl_id = 'KUALI'</where>
 		</update>
-		
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
@@ -1326,7 +1325,17 @@
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
-
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT_BY_TRV"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-163"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="You have newly imported expenses that need to be reconciled."/>
+			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses that need to be reconciled."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
 	</changeSet>
 	
 </databaseChangeLog>

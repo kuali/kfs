@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.tem.batch.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ErrorMessage;
 
@@ -68,6 +70,8 @@ public interface ExpenseImportByTripService {
      * @return
      */
     public List<ErrorMessage> validateAccountingInfo(AgencyStagingData agencyData);
+
+    public Map<String,ErrorMessage> validateAccountingInfoLine(TripAccountingInformation accountingLine);
 
     /**
      *

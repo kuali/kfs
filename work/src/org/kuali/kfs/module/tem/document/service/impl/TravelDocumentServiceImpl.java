@@ -50,6 +50,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -413,7 +415,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
                 final MileageRate mileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
                 if (mileageRate != null) {
-                    keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
+                    keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getName()+" - "+mileageRate.getRate().toString()));
                 }
             }
         }
@@ -2638,6 +2640,117 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     protected Class<? extends TravelDocument> getTravelDocumentForType(String documentType) {
         return (Class<TravelDocument>)getDataDictionaryService().getDocumentClassByTypeName(documentType);
+    }
+
+    /**
+     * This smooshes the accounting lines which will do advance clearing.  Here, since we're replacing the object code, we'll smooth together all accounting lines
+     * which have the same chart - account - sub-acount.
+     * @param originalAccountingLines the List of accounting lines to smoosh
+     * @return the smooshed accounting lines
+     */
+    @Override
+    public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines) {
+       final Map<SmooshLineKey, KualiDecimal> smooshLines =  smooshLinesToMap(originalAccountingLines);
+       final List<TemSourceAccountingLine> unsmooshedLines = raiseMapToLines(smooshLines);
+       return unsmooshedLines;
+    }
+
+    /**
+     * Smooshes the lines into a Map
+     * @param accountingLines the accounting lines to smoosh
+     * @return the Map of smooshed lines
+     */
+    protected Map<SmooshLineKey, KualiDecimal> smooshLinesToMap(List<TemSourceAccountingLine> accountingLines) {
+        Map<SmooshLineKey, KualiDecimal> smooshLines = new HashMap<SmooshLineKey, KualiDecimal>();
+        for (TemSourceAccountingLine line : accountingLines) {
+            final SmooshLineKey key = new SmooshLineKey(line);
+            if (smooshLines.containsKey(key)) {
+                KualiDecimal currAmount = smooshLines.get(key);
+                KualiDecimal newAmount = currAmount.add(line.getAmount());
+                smooshLines.put(key, newAmount);
+            } else {
+                smooshLines.put(key, line.getAmount());
+            }
+        }
+        return smooshLines;
+    }
+
+    /**
+     * According to thesaurus.com, "raise" is the antonym of "smoosh".  So this method takes our smooshed line information and turns them back into things which sort of resemble accounting lines
+     * @param smooshLineMap the Map to turn back into accounting lines
+     * @return the un-smooshed accounting lines.  Yeah, I like that verb better too
+     */
+    protected List<TemSourceAccountingLine> raiseMapToLines(Map<SmooshLineKey, KualiDecimal> smooshLineMap) {
+        List<TemSourceAccountingLine> raisedLines = new ArrayList<TemSourceAccountingLine>();
+        for (SmooshLineKey key : smooshLineMap.keySet()) {
+            final TemSourceAccountingLine line = convertKeyAndAmountToLine(key, smooshLineMap.get(key));
+            raisedLines.add(line);
+        }
+        return raisedLines;
+    }
+
+    /**
+     * Converts a SmooshLineKey and an amount into a real - though somewhat less informative - accounting line
+     * @param key the key
+     * @param amount the amount
+     * @return the reconstituted accounting line.  I like that verb too.
+     */
+    protected TemSourceAccountingLine convertKeyAndAmountToLine(SmooshLineKey key, KualiDecimal amount) {
+        TemSourceAccountingLine line = new TemSourceAccountingLine();
+        line.setChartOfAccountsCode(key.getChartOfAccountsCode());
+        line.setAccountNumber(key.getAccountNumber());
+        line.setSubAccountNumber(key.getSubAccountNumber());
+        line.setAmount(amount);
+        return line;
+    }
+
+    /**
+     * Hash key of lines we want to smoosh
+     */
+    protected class SmooshLineKey {
+        protected String chartOfAccountsCode;
+        protected String accountNumber;
+        protected String subAccountNumber;
+
+        public SmooshLineKey(TemSourceAccountingLine accountingLine) {
+            this.chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+            this.accountNumber = accountingLine.getAccountNumber();
+            this.subAccountNumber = accountingLine.getSubAccountNumber();
+        }
+
+        public String getChartOfAccountsCode() {
+            return chartOfAccountsCode;
+        }
+
+        public String getAccountNumber() {
+            return accountNumber;
+        }
+
+        public String getSubAccountNumber() {
+            return subAccountNumber;
+        }
+
+        @Override
+        public int hashCode() {
+            HashCodeBuilder hcb = new HashCodeBuilder();
+            hcb.append(getChartOfAccountsCode());
+            hcb.append(getAccountNumber());
+            hcb.append(getSubAccountNumber());
+            return hcb.toHashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof SmooshLineKey) || obj == null) {
+                return false;
+            }
+            final SmooshLineKey golyadkin = (SmooshLineKey)obj;
+            EqualsBuilder eb = new EqualsBuilder();
+            eb.append(getChartOfAccountsCode(), golyadkin.getChartOfAccountsCode());
+            eb.append(getAccountNumber(), golyadkin.getAccountNumber());
+            eb.append(getSubAccountNumber(), golyadkin.getSubAccountNumber());
+            return eb.isEquals();
+        }
     }
 
     /**

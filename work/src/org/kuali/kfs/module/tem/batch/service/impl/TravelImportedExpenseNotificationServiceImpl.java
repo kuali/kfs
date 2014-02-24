@@ -93,18 +93,30 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     @Transactional
     public void sendImportedExpenseNotification(Integer travelerProfileId, List<HistoricalTravelExpense> expensesOfTraveler) {
         Date notificationDate = this.getDateTimeService().getCurrentSqlDate();
+        List<HistoricalTravelExpense> expensesOfTravelerImportByTrip = new ArrayList<HistoricalTravelExpense>();
+        List<HistoricalTravelExpense> expensesOfTravelerImportByTraveler = new ArrayList<HistoricalTravelExpense>();
 
         for(HistoricalTravelExpense expense : expensesOfTraveler){
             expense.setExpenseNotificationDate(notificationDate);
+            String importBy = ObjectUtils.isNotNull(expense.getAgencyStagingData()) ? expense.getAgencyStagingData().getImportBy() : KFSConstants.EMPTY_STRING;
+            importBy = ObjectUtils.isNotNull(expense.getCreditCardStagingData()) ? expense.getCreditCardStagingData().getImportBy() : KFSConstants.EMPTY_STRING;
+            if(TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(importBy)) {
+                expensesOfTravelerImportByTrip.add(expense);
+            }
+            else {
+                expensesOfTravelerImportByTraveler.add(expense);
+            }
             this.getBusinessObjectService().save(expense);
         }
 
-        MailMessage mailMessage = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTraveler);
-        this.getKfsNotificationService().sendNotificationByMail(mailMessage);
+        MailMessage mailMessageByTrip = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTrip, TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP);
+        MailMessage mailMessageByTraveler = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTraveler, TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER);
+        this.getKfsNotificationService().sendNotificationByMail(mailMessageByTrip);
+        this.getKfsNotificationService().sendNotificationByMail(mailMessageByTraveler);
     }
 
 
-    protected MailMessage buildExpenseNotificationMailMessage(Integer travelerProfileId, List<HistoricalTravelExpense> expensesOfTraveler) {
+    protected MailMessage buildExpenseNotificationMailMessage(Integer travelerProfileId, List<HistoricalTravelExpense> expensesOfTraveler, String importBy) {
         MailMessage mailMessage = new MailMessage();
 
         String senderEmailAddress = this.getNotificationSender();
@@ -117,7 +129,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
         String notificationSubject = this.getNotificationSubject();
         mailMessage.setSubject(this.getNotificationSubject());
 
-        String notificationBody = this.buildNotificationBody(travelerProfile, expensesOfTraveler);
+        String notificationBody = this.buildNotificationBody(travelerProfile, expensesOfTraveler, importBy);
         mailMessage.setMessage(notificationBody);
 
         return mailMessage;
@@ -126,12 +138,12 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     /**
      * collect all the information from the given customer invoice document and build the notification body
      */
-    protected String buildNotificationBody(TemProfile travelerProfile, List<HistoricalTravelExpense> expensesOfTraveler) {
+    protected String buildNotificationBody(TemProfile travelerProfile, List<HistoricalTravelExpense> expensesOfTraveler, String importBy) {
         Map<String, Object> notificationInformationHolder = new HashMap<String, Object>();
 
         notificationInformationHolder.put(TemConstants.TRAVELER_PROFILE_KEY, travelerProfile);
         notificationInformationHolder.put(TemConstants.TRAVEL_EXPENSES_KEY, expensesOfTraveler);
-        notificationInformationHolder.put(KFSConstants.NOTIFICATION_TEXT_KEY, this.getNotificationText());
+        notificationInformationHolder.put(KFSConstants.NOTIFICATION_TEXT_KEY, this.getNotificationText(importBy));
 
         return this.getKfsNotificationService().generateNotificationContent(this.getNotificationTemplate(), notificationInformationHolder);
     }
@@ -214,8 +226,10 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     /**
      * get the notification text from an application parameter
      */
-    protected String getNotificationText() {
-        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_PARAM_NAME);
+    protected String getNotificationText(String importBy) {
+        String parameterName =   TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(importBy) ? TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRIP_PARAM_NAME :TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRV_PARAM_NAME;
+
+        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, parameterName );
     }
 
     /**

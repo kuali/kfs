@@ -31,6 +31,7 @@
 			<ref bean="HistoricalTravelExpense-profileId" />
 			<ref bean="HistoricalTravelExpense-tripId" />
 			<ref bean="HistoricalTravelExpense-creditCardOrAgencyCode" />
+			<ref bean="HistoricalTravelExpense-documentNumber"/>
 			<ref bean="HistoricalTravelExpense-expenseType.name" />
 			<ref bean="HistoricalTravelExpense-versionNumber" />
 		</list>
@@ -238,6 +239,8 @@
 		<property name="description" value="Credit Card or Agency Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
+	<bean id="HistoricalTravelExpense-documentNumber" parent="HistoricalTravelExpense-documentNumber-parentBean"/>
+	<bean id="HistoricalTravelExpense-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber"/>
 	<bean id="HistoricalTravelExpense-expenseType.name" parent="HistoricalTravelExpense-expenseType.name-parentBean" />
 	<bean id="HistoricalTravelExpense-expenseType.name-parentBean" abstract="true" parent="ExpenseType-name">
 		<property name="name" value="expenseType.name" />

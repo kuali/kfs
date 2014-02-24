@@ -30,6 +30,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -443,5 +444,13 @@ public interface TravelDocumentService {
      * @param property the property to restore
      */
     public void restorePerDiemProperty(TravelDocument document, String property);
+
+    /**
+     * This smooshes the accounting lines which will do advance clearing.  Here, since we're replacing the object code, we'll smooth together all accounting lines
+     * which have the same chart - account - sub-acount.
+     * @param originalAccountingLines the List of accounting lines to smoosh
+     * @return the smooshed accounting lines
+     */
+    public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines);
 
 }

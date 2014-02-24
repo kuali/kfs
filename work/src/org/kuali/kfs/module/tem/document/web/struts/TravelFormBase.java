@@ -153,6 +153,17 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     }
 
     /**
+     * Display accounting line only if - Trip is encumbrance OR for non-emcumbrance trip, if there are any imported expenses
+     *
+     * @return
+     */
+
+    public boolean isDisplayAccountingLines(){
+        TravelDocument document = getTravelDocument();
+        return !document.hasOnlyPrepaidExpenses() ? true : false ;
+    }
+
+    /**
      * Retrieve the Per Diem Expense Label for the form
      *
      * @return
@@ -317,7 +328,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
         Collection<TransportationMode> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TransportationMode.class);
         for (TransportationMode mode : bos) {
-            modesOfTrans.put(mode.getCode(), mode.getName());
+            if (mode.isActive()) {
+                modesOfTrans.put(mode.getCode(), mode.getName());
+            }
 
         }
 

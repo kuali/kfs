@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.module.tem.businessobject.options;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class GenderValuesFinder extends KeyValuesBase {
+    protected volatile TemProfileService temProfileService;
 
     /**
      *
@@ -30,12 +31,13 @@ public class GenderValuesFinder extends KeyValuesBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("M", "Male"));
-        keyValues.add(new ConcreteKeyValue("F", "Female"));
-        // TODO: we probably either shouldn't be asking this question or we should providing more options here
-
-        return keyValues;
+        return getTemProfileService().getGenderKeyValues();
     }
 
+    protected TemProfileService getTemProfileService() {
+        if (temProfileService == null) {
+            temProfileService = SpringContext.getBean(TemProfileService.class);
+        }
+        return temProfileService;
+    }
 }

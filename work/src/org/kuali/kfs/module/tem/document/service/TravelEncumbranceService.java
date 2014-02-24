@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.service;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.module.tem.businessobject.HeldEncumbranceEntry;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -187,5 +188,31 @@ public interface TravelEncumbranceService {
      * @return an Iterator of encumbrances
      */
     public List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber);
+
+    /**
+     * Creates a held encumbrance entry from a general ledger pending entry
+     * @param glpe the pending entry to convert
+     * @return the converted held encumbrance entry
+     */
+    public HeldEncumbranceEntry convertPendingEntryToHeldEncumbranceEntry(GeneralLedgerPendingEntry glpe);
+
+    /**
+     * Creates a pending entry from a held encumbrance entry
+     * @param hee the held encumbrance entry to convert
+     * @return the converted pending entry
+     */
+    public GeneralLedgerPendingEntry convertHeldEncumbranceEntryToPendingEntry(HeldEncumbranceEntry hee);
+
+    /**
+     * Finds any encumbrances which can be released (ie, the accounting periods for the fiscal period their documents have trip end dates in are set up) and turns them
+     * into approved GeneralLedgerPendingEntries
+     */
+    public void releaseHeldEncumbrances();
+
+    /**
+     * Removes, obliterates, destroys, forgets to the utter abyss, and otherwise deletes any held encumbrance entries associated with the given trip
+     * @param tripId the trip id who's been burned by its own held encumbrance entries one too many times and now has revenge on its mind
+     */
+    public void deleteHeldEncumbranceEntriesForTrip(String tripId);
 
 }

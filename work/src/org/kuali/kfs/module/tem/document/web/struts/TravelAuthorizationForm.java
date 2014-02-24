@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document.web.struts;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,6 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
@@ -51,7 +49,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -107,17 +104,17 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
     }
 
-    /**
-     * Display accounting line only if - Trip is encumbrance OR for non-emcumbrance trip, if there are any imported expenses
-     *
-     * @return
-     */
-    public boolean isDisplayAccountingLines(){
-        TravelAuthorizationDocument document = (TravelAuthorizationDocument) getTravelDocument();
-        boolean display = document.isTripGenerateEncumbrance(); // trips which do not generate encumbrances won't have accounting lines
-        return display;
-    }
 
+    @Override
+    public boolean isDisplayAccountingLines() {
+
+        boolean display = super.isDisplayAccountingLines();
+
+        TravelAuthorizationDocument document = (TravelAuthorizationDocument) getTravelDocument();
+        display = document.isTripGenerateEncumbrance()  ; // trips which do not generate encumbrances won't have accounting lines
+        return display;
+
+    }
     /**
      * Display imported expense related tab base on Travel Authorization document base on system parameter
      *
@@ -342,18 +339,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     @Override
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
-    }
-
-    @Override
-    public Map<String, String> getModesOfTransportation() {
-        Map<String, String> modesOfTrans = new HashMap<String, String>();
-
-        Collection<TransportationMode> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TransportationMode.class);
-        for (TransportationMode mode : bos) {
-            modesOfTrans.put(mode.getCode(), mode.getName());
-        }
-
-        return modesOfTrans;
     }
 
     protected TravelReimbursementService getTravelReimbursementService() {

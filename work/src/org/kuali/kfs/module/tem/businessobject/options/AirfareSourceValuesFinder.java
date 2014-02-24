@@ -17,20 +17,18 @@ package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AirfareSource;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AirfareSourceValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -39,9 +37,7 @@ public class AirfareSourceValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE.toString());
-        Collection<AirfareSource> bos = SpringContext.getBean(BusinessObjectService.class).findMatching(AirfareSource.class, criteria);
+        Collection<AirfareSource> bos = getKeyValuesService().findAll(AirfareSource.class);
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (AirfareSource typ : bos) {
@@ -49,6 +45,13 @@ public class AirfareSourceValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 
 }

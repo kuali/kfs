@@ -26,12 +26,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This values finder includes the "ALL" trip type among the trip type values
  */
 public class ExpenseTypeObjectCodeTripTypeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -40,7 +41,7 @@ public class ExpenseTypeObjectCodeTripTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        Collection<TripType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TripType.class);
+        Collection<TripType> bos = getKeyValuesService().findAll(TripType.class);
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         keyValues.add(new ConcreteKeyValue(TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE, TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE));
@@ -49,5 +50,12 @@ public class ExpenseTypeObjectCodeTripTypeValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 }

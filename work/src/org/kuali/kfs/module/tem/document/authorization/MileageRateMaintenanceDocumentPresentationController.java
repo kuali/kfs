@@ -15,57 +15,34 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.kfs.sys.util.KfsDateUtils;
-import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * Prevents records created in the past from being edited
+ * Prevents certain fields from being changed when editing the business object
  */
-public class MileageRateMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-    protected volatile static DateTimeService dateTimeService;
+public class MileageRateMaintenanceDocumentPresentationController extends MaintenanceDocumentPresentationControllerBase {
 
     /**
-     *
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#canMaintain(java.lang.Object)
+     * If the document is editing, then only the effective to date should be editable
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public boolean canMaintain(Object dataObject) {
-        if (dataObject instanceof MileageRate) {
-            final MileageRate mileageRate = (MileageRate)dataObject;
-            if (!canEditMileageRate(mileageRate)) {
-                return false;
-            }
+    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
+        if (StringUtils.equals(KRADConstants.MAINTENANCE_EDIT_ACTION, document.getNewMaintainableObject().getMaintenanceAction())) {
+            Set<String> ineditableUponEditProperties = new HashSet<String>();
+            ineditableUponEditProperties.add(TemPropertyConstants.EXPENSE_TYPE_CODE);
+            ineditableUponEditProperties.add(TemPropertyConstants.RATE);
+            ineditableUponEditProperties.add(TemPropertyConstants.ACTIVE_FROM_DATE);
+            return ineditableUponEditProperties;
         }
-        return super.canMaintain(dataObject);
+        return super.getConditionallyReadOnlyPropertyNames(document);
     }
 
-    /**
-     *
-     * @param mileageRate
-     * @return
-     */
-    protected boolean canEditMileageRate(MileageRate mileageRate) {
-        if (mileageRate.getActiveToDate() != null) {
-            Calendar now = Calendar.getInstance();
-            now.setTimeInMillis(KfsDateUtils.clearTimeFields(getDateTimeService().getCurrentDate()).getTime());
-            Calendar mileageRateEndDate = Calendar.getInstance();
-            mileageRateEndDate.setTimeInMillis(KfsDateUtils.clearTimeFields(mileageRate.getActiveToDate()).getTime());
-            if (mileageRateEndDate.before(now)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    protected DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return dateTimeService;
-    }
 }

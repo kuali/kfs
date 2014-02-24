@@ -93,9 +93,10 @@
         <property name="title" value="Traveler Data" />
         <property name="maintainableItems">
             <list>
+            	<bean parent="MaintainableFieldDefinition" p:name="temProfileId" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerName" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerId" />
-                <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId"  p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName" p:unconditionallyReadOnly="true"/>
                 
@@ -197,6 +198,7 @@
           <property name="name" value="tripAccountingInformation"/>
           <property name="summaryTitle" value="Account"/>
           <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation"/>
+          <property name="alwaysAllowCollectionDeletion" value="true"/>
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="tripChartCode" />

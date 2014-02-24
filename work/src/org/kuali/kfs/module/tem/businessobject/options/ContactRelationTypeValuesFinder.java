@@ -25,9 +25,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class ContactRelationTypeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -36,7 +37,7 @@ public class ContactRelationTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        Collection<ContactRelationType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(ContactRelationType.class);
+        Collection<ContactRelationType> bos = getKeyValuesService().findAll(ContactRelationType.class);
 
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (ContactRelationType typ : bos) {
@@ -46,4 +47,10 @@ public class ContactRelationTypeValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
+    }
 }

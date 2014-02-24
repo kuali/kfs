@@ -897,7 +897,6 @@ public class KFSConstants {
     public static class PENDING_ENTRY_APPROVED_STATUS_CODE {
         public static final String APPROVED = "A";
         public static final String PROCESSED = "X";
-        public static final String HOLD = "H";
     }
 
     public static class TableRenderConstants {

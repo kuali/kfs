@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PER_DIEM_OBJECT_CODE;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,7 +37,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
@@ -90,7 +88,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     protected TravelDocumentDao travelDocumentDao;
     protected TravelExpenseService travelExpenseService;
 
-    Collection<PerDiem> persistedPerDiems;
+    List<PerDiem> persistedPerDiems;
 
 
     /**
@@ -170,34 +168,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#retrievePreviousPerDiem(java.util.List)
-     */
-    @Override
-    public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(List<T> perDiemList) {
-        List<PerDiem> previousPerDiemList = new ArrayList<PerDiem>();
-
-        for (T perDiem : perDiemList) {
-            List<PerDiem> previousPerDiems = this.retrievePreviousPerDiem(perDiem);
-
-            if (ObjectUtils.isNotNull(previousPerDiems) && !previousPerDiems.isEmpty()) {
-                previousPerDiemList.addAll(previousPerDiems);
-            }
-        }
-
-        return previousPerDiemList;
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrievePreviousPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
     @Override
     public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(T perDiem) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, perDiem.getPrimaryDestinationId());
-        fieldValues.put(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, perDiem.getSeasonBeginMonthAndDay());
-        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
-        return (List<PerDiem>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
+        return (List<PerDiem>)  perDiemDao.findSimilarPerDiems(perDiem);
     }
 
 
@@ -210,8 +186,9 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     @Override
     public <T extends PerDiem> boolean hasExistingPerDiem(T perDiem) {
         if (ObjectUtils.isNull(persistedPerDiems)) {
-            persistedPerDiems = businessObjectService.findAll(PerDiem.class);
+            persistedPerDiems = (List<PerDiem>)businessObjectService.findAll(PerDiem.class);
         }
+
 
         boolean retval = persistedPerDiems.contains(perDiem);
 
@@ -746,7 +723,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     protected Calendar getSeasonBeginMonthDayCalendar(String seasonBegin, int year) {
         final String[] seasonBeginMonthDay = seasonBegin.split("/");
         Calendar seasonBeginCal = Calendar.getInstance();
-        seasonBeginCal.set(Calendar.MONTH, Integer.parseInt(seasonBeginMonthDay[0]));
+        seasonBeginCal.set(Calendar.MONTH, Integer.parseInt(seasonBeginMonthDay[0]) - 1);
         seasonBeginCal.set(Calendar.DATE, Integer.parseInt(seasonBeginMonthDay[1]));
         seasonBeginCal.set(Calendar.YEAR, year);
         return seasonBeginCal;

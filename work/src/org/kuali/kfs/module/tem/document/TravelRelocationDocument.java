@@ -315,27 +315,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
 
     /**
-     *
-     * This method return..
-     * @return
-     */
-    @Override
-    public KualiDecimal getTotalPaidAmountToVendor(){
-        KualiDecimal totalPaidAmountToVendor = KualiDecimal.ZERO;
-        return totalPaidAmountToVendor;
-    }
-    /**
-     *
-     * This method...
-     * @return
-     */
-    @Override
-    public KualiDecimal getTotalPaidAmountToRequests(){
-        KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
-        return totalPaidAmountToRequests;
-    }
-
-    /**
      * Given the <code>financialObjectCode</code>, determine the total of the
      * {@link SourceAccountingLine} instances with that <code>financialObjectCode</code>
      *

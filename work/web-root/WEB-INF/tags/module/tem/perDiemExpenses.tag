@@ -76,7 +76,7 @@
 						
 						<c:if test="${showMiles}">
 							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.miles}" />
-							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.mileageRateExpenseTypeCode}" />
+							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.mileageRateExpenseTypeCode}" useShortLabel="false" />
 							<th colspan="1" rowspan="1">&nbsp;Mileage Total</th>
 						</c:if>
 
@@ -242,6 +242,12 @@
 								</html:select> 
 								<c:if test="${fn:length(temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)) == 0}">
 									<div align="left">No Rates Available</div>
+								</c:if>
+								<c:if test="${fullEntryMode}">
+									<kul:lookup
+										boClassName="org.kuali.kfs.module.tem.businessobject.MileageRate"
+										fieldConversions="expenseTypeCode:document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode"
+										lookupParameters="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode:expenseTypeCode,document.perDiemExpenses[${perDiemIndex.count-1}].mileageDate:activeFromDate,document.perDiemExpenses[${perDiemIndex.count-1}].mileageDate:activeToDate" />
 								</c:if>
 							</td>
 							<td valign=top class="datacell">

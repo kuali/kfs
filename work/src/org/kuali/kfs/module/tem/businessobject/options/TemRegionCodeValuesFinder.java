@@ -32,9 +32,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class TemRegionCodeValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -49,22 +50,21 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         TravelService travelService = SpringContext.getBean(TravelService.class);
 
         List<TemRegion> usRegions = new ArrayList<TemRegion>();
 
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.IN_STATE)) {
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.IN_STATE);
-            List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+            List<TemRegion> inRegions = (List<TemRegion>) getKeyValuesService().findMatching(TemRegion.class, fieldValues);
             usRegions.addAll(inRegions);
         }
 
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.OUT_OF_STATE)) {
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.OUT_OF_STATE);
-            List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+            List<TemRegion> outRegions = (List<TemRegion>) getKeyValuesService().findMatching(TemRegion.class, fieldValues);
             Collections.sort(outRegions);
             usRegions.addAll(outRegions);
 
@@ -89,7 +89,7 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.INTERNATIONAL)) {
 
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.INTERNATIONAL);
-            List<TemRegion> intRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+            List<TemRegion> intRegions = (List<TemRegion>)getKeyValuesService().findMatching(TemRegion.class, fieldValues);
             Collections.sort(intRegions);
 
 
@@ -106,5 +106,12 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
         }
 
         return keyValues;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 }

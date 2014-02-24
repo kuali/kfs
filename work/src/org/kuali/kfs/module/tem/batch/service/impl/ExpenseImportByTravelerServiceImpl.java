@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.batch.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -207,48 +211,108 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         final List<TripAccountingInformation> accountingInfos = agencyData.getTripAccountingInformation();
 
+        // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
+        Collection<String> validationParameters = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
+        //don't need to validate any accounting information
+        if (ObjectUtils.isNull(validationParameters)) {
+            return errorMessages;
+        }
+
         for (final TripAccountingInformation account : accountingInfos) {
 
-            if (!isAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber())) {
-                LOG.error("Invalid Account in Tem Profile or Agency Data record. travelerId: " + agencyData.getTravelerId()+ " temProfileId: " + agencyData.getTemProfileId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
-                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, account.getTripChartCode(), account.getTripAccountNumber()));
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
-            }
-
-            // sub account is optional
-            if (StringUtils.isNotEmpty(account.getTripSubAccountNumber()) &&
-                !isSubAccountNumberValid(account.getTripChartCode(),account.getTripAccountNumber(), account.getTripSubAccountNumber())) {
-                LOG.error("Invalid SubAccount in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " account: "+ account.getTripAccountNumber()+ " subaccount: "+ account.getTripSubAccountNumber());
-                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, account.getTripSubAccountNumber()));
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
-            }
-
-            // project code is optional
-            if (StringUtils.isNotEmpty(account.getProjectCode()) &&
-                !isProjectCodeValid(account.getProjectCode())) {
-                LOG.error("Invalid Project in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " project code: "+ account.getProjectCode());
-                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, account.getProjectCode()));
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
-            }
-
-            // object code is optional
-            if (StringUtils.isNotEmpty(account.getObjectCode()) &&
-                !isObjectCodeValid(account.getTripChartCode(), account.getObjectCode())) {
-                LOG.error("Invalid Object Code in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " object code: "+ account.getObjectCode());
-                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, account.getTripChartCode(), account.getObjectCode()));
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
-            }
-
-            // sub object code is optional
-            if (StringUtils.isNotEmpty(account.getSubObjectCode()) &&
-                !isSubObjectCodeValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode())) {
-                LOG.error("Invalid SubObject Code in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " object code: "+ account.getObjectCode()+ " subobject code: "+ account.getSubObjectCode());
-                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode()));
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
-            }
+            errorMessages.addAll(validateAccountingInfoLine(agencyData, account, validationParameters).values());
         }
 
         return errorMessages;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validatAccountingInfoLine(org.kuali.kfs.module.tem.businessobject.TripAccountingInformation)
+     */
+    @Override
+    public Map<String,ErrorMessage> validateAccountingInfoLine(TripAccountingInformation accountingLine) {
+        return validateAccountingInfoLine(null, accountingLine, null);
+    }
+
+    protected Map<String,ErrorMessage> validateAccountingInfoLine(AgencyStagingData agencyData, TripAccountingInformation accountingLine, Collection<String> validationParameters) {
+        Map<String,ErrorMessage> errorMap = new HashMap<String,ErrorMessage>();
+
+        if (ObjectUtils.isNull(validationParameters)) {
+            // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
+            validationParameters = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
+            //don't need to validate any accounting information
+            if (ObjectUtils.isNull(validationParameters)) {
+                return errorMap;
+            }
+        }
+
+        boolean setAgencyDataErrorCode = false;
+
+        Integer profileId = null;
+        String travelerId = "";
+        if (ObjectUtils.isNotNull(agencyData)) {
+            setAgencyDataErrorCode = true;
+            travelerId = agencyData.getTravelerId();
+            profileId = agencyData.getTemProfileId();
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
+            if (!isAccountNumberValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber())) {
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid Account in Tem Profile or Agency Data record. travelerId: " + travelerId +" temProfileId: " + profileId +" chart code: " + accountingLine.getTripChartCode() + " account: " + accountingLine.getTripAccountNumber());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
+                }
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber()));
+            }
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBACCOUNT)) {
+            // sub account is optional
+            if (StringUtils.isNotEmpty(accountingLine.getTripSubAccountNumber()) &&
+                !isSubAccountNumberValid(accountingLine.getTripChartCode(),accountingLine.getTripAccountNumber(), accountingLine.getTripSubAccountNumber())) {
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid SubAccount in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" chart code: "+ accountingLine.getTripChartCode()+ " account: "+ accountingLine.getTripAccountNumber()+ " subaccount: "+ accountingLine.getTripSubAccountNumber());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
+                }
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBACCOUNT_NUMBER, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, accountingLine.getTripSubAccountNumber()));
+            }
+        }
+
+        // project code is optional
+        if (StringUtils.isNotEmpty(accountingLine.getProjectCode()) &&
+            !isProjectCodeValid(accountingLine.getProjectCode())) {
+            if (setAgencyDataErrorCode) {
+                LOG.error("Invalid Project in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" project code: "+ accountingLine.getProjectCode());
+                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
+            }
+            errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_PROJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, accountingLine.getProjectCode()));
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
+            // object code is optional
+            if (StringUtils.isNotEmpty(accountingLine.getObjectCode()) &&
+                !isObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getObjectCode())) {
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid Object Code in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" chart code: "+ accountingLine.getTripChartCode()+ " object code: "+ accountingLine.getObjectCode());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
+                }
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_OBJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getObjectCode()));
+            }
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
+            // sub object code is optional
+            if (StringUtils.isNotEmpty(accountingLine.getSubObjectCode()) &&
+                !isSubObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode())) {
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid SubObject Code in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" chart code: "+ accountingLine.getTripChartCode()+ " object code: "+ accountingLine.getObjectCode()+ " subobject code: "+ accountingLine.getSubObjectCode());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
+                }
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBOBJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode()));
+            }
+        }
+
+        return errorMap;
     }
 
     /**

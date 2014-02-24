@@ -26,6 +26,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -225,7 +226,13 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
         MessageMap message = GlobalVariables.getMessageMap();
 
         if (actualExpense.isAirfare() && StringUtils.isEmpty(actualExpense.getDescription())) {
-            if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
+            boolean justificationAdded = false;
+
+            for ( TemExpense expenseDetail : actualExpense.getExpenseDetails()) {
+                justificationAdded = StringUtils.isEmpty(expenseDetail.getDescription()) ? false : true;
+            }
+
+            if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE) && !justificationAdded){
                 if (isWarningOnly()) {
                     message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
                 } else {
@@ -270,7 +277,11 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
         // Check to see care rental needs special request approval
         if (ObjectUtils.isNotNull(expense.getExpenseTypeObjectCode()) && expense.getExpenseTypeObjectCode().isSpecialRequestRequired()) {
             if (StringUtils.isBlank(expense.getDescription())) {
-                if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
+                boolean justificationAdded = false;
+                for ( TemExpense expenseDetail : expense.getExpenseDetails()) {
+                    justificationAdded = StringUtils.isEmpty(expenseDetail.getDescription()) ? false : true;
+                }
+                if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE) && !justificationAdded){
                     if (isWarningOnly()) {
                         message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
                     } else {

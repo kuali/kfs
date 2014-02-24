@@ -16,19 +16,19 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AdvancePaymentReason;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AdvancePaymentReasonValuesFinder extends KeyValuesBase {
+    protected static volatile KeyValuesService keyValuesService;
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -37,14 +37,18 @@ public class AdvancePaymentReasonValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> list = new ArrayList<KeyValue>();
 
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
-        fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-
-        List<AdvancePaymentReason> reasons = (List<AdvancePaymentReason>) service.findMatching(AdvancePaymentReason.class, fieldValues);
+        Collection<AdvancePaymentReason> reasons = getKeyValuesService().findAll(AdvancePaymentReason.class);
+        list.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (AdvancePaymentReason reason : reasons){
             list.add(new ConcreteKeyValue(reason.getCode(), reason.getCode() + " - " + reason.getDescription()));
         }
         return list;
+    }
+
+    protected KeyValuesService getKeyValuesService() {
+        if (keyValuesService == null) {
+            keyValuesService = SpringContext.getBean(KeyValuesService.class);
+        }
+        return keyValuesService;
     }
 }

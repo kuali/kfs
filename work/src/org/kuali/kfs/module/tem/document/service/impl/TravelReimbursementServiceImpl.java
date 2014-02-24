@@ -728,14 +728,15 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param sequenceHelper the sequence helper to assign sequences to pending entries
      */
     protected void generatePendingEntriesForAdvanceClearing(TravelReimbursementDocument reimbursement, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        final List<TemSourceAccountingLine> expenseAccountingLines = reimbursement.getSourceAccountingLines();
+        final List<TemSourceAccountingLine> expenseAccountingLines = travelDocumentService.smooshAccountingLinesToSubAccount(reimbursement.getSourceAccountingLines());
         if (!ObjectUtils.isNull(expenseAccountingLines) && !expenseAccountingLines.isEmpty()) {
             final List<TemSourceAccountingLineTotalPercentage> expenseAccountingLinesTotalPercentages = getPercentagesForLines(expenseAccountingLines);
             final List<TemSourceAccountingLine> clearingLines = createAccountingLinesFromPercentages(expenseAccountingLinesTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
+            takeAPennyLeaveAPenny(clearingLines, paymentAmount);
 
             for (TemSourceAccountingLine clearingLine : clearingLines) {
                 // create clearing entry and offset
-                final OffsetDefinition offsetDefinition = this.getOffsetDefinitionForAdvanceClearing(reimbursement, clearingLine);
+                final OffsetDefinition offsetDefinition = getOffsetDefinitionForAdvanceClearing(reimbursement, clearingLine);
                 clearingLine.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
                 clearingLine.setFinancialSubObjectCode(null);
                 clearingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE); // set the line type code to a special value that will alert customize entry to change the credit/debit codes
@@ -753,7 +754,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param sequenceHelper the sequence helper to assign sequences to pending entries
      */
     protected void generatePendingEntriesForAdvanceCrediting(TravelReimbursementDocument reimbursement, TravelAdvance advance, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        final List<TemSourceAccountingLine> advanceAccountingLines = getAccountingLinesForAdvance(advance);
+        final List<TemSourceAccountingLine> advanceAccountingLines = travelDocumentService.smooshAccountingLinesToSubAccount(getAccountingLinesForAdvance(advance));
         if (!ObjectUtils.isNull(advanceAccountingLines) && !advanceAccountingLines.isEmpty()) {
             final List<TemSourceAccountingLineTotalPercentage> advanceAccountingLineTotalPercentages = getPercentagesForLines(advanceAccountingLines);
             final List<TemSourceAccountingLine> creditLines = createAccountingLinesFromPercentages(advanceAccountingLineTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
@@ -762,6 +763,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             for (TemSourceAccountingLine creditLine : creditLines) {
                 // credit advance
                 creditLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE);
+                creditLine.setFinancialObjectCode(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE, KFSConstants.EMPTY_STRING));
                 reimbursement.generateGeneralLedgerPendingEntries(creditLine, sequenceHelper);
                 sequenceHelper.increment();
             }
@@ -792,8 +794,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final BigDecimal total = calculateLinesTotal(accountingLines).bigDecimalValue();
         List<TemSourceAccountingLineTotalPercentage> linePercentages = new ArrayList<TemSourceAccountingLineTotalPercentage>();
         for (TemSourceAccountingLine accountingLine : accountingLines) {
-            BigDecimal percentage = accountingLine.getAmount().bigDecimalValue().divide(total, getDistributionScale(), BigDecimal.ROUND_HALF_UP);
-            TemSourceAccountingLineTotalPercentage linePercentage = new TemSourceAccountingLineTotalPercentage(accountingLine, percentage);
+            final BigDecimal accountingLineAmount = accountingLine.getAmount().bigDecimalValue();
+            final BigDecimal percentage = accountingLineAmount.divide(total, getDistributionScale(accountingLineAmount, total), BigDecimal.ROUND_HALF_UP);
+            final TemSourceAccountingLineTotalPercentage linePercentage = new TemSourceAccountingLineTotalPercentage(accountingLine, percentage);
             linePercentages.add(linePercentage);
         }
         return linePercentages;
@@ -816,7 +819,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @return the scale of the distribution division
      */
-    protected int getDistributionScale() {
+    protected int getDistributionScale(BigDecimal dividend, BigDecimal divisor) {
         return 5;
     }
 

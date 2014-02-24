@@ -1124,6 +1124,28 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
 	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
 		</createTable>
+		<createTable tableName="TEM_HELD_ENCUM_ENTRY_T">
+			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
+			<column name="TRN_ENTR_SEQ_NBR" type="DECIMAL(5,0)"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+			<column name="TRIP_ID" type="VARCHAR2(19)"/>
+			<column name="FIN_COA_CD" type="VARCHAR2(2)"/>
+			<column name="ACCOUNT_NBR" type="VARCHAR2(7)"/>
+			<column name="SUB_ACCT_NBR" type="VARCHAR2(5)"/>
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)"/>
+			<column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)"/>
+			<column name="FIN_BALANCE_TYP_CD" type="VARCHAR2(2)"/>
+			<column name="TRN_LDGR_ENTR_DESC" type="VARCHAR2(40)"/>
+			<column name="TRN_LDGR_ENTR_AMT" type="DECIMAL(19,2)"/>
+			<column name="TRN_DEBIT_CRDT_CD" type="VARCHAR2(1)"/>
+			<column name="PROJECT_CD" type="VARCHAR2(10)"/>
+			<column name="FDOC_TYP_CD" type="VARCHAR2(4)"/>
+			<column name="ORG_REFERENCE_ID" type="VARCHAR2(8)"/>
+			<column name="ACCT_SF_FINOBJ_CD" type="VARCHAR2(4)"/>
+			<column name="TRN_ENTR_OFST_CD" type="VARCHAR2(1)"/>
+			<column name="TRNENTR_PROCESS_TM" type="DATE"/>
+		</createTable>
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"

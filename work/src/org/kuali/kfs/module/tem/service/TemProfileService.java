@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 
 public interface TemProfileService {
@@ -111,4 +112,9 @@ public interface TemProfileService {
      * @return
      */
     public TemProfile findTemProfileByCustomerNumber(String customerNumber);
+
+    /**
+     * @return a List of KeyValue pairs which represent genders
+     */
+    public List<KeyValue> getGenderKeyValues();
 }

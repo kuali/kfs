@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,8 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -178,6 +181,18 @@ public class TemProfileServiceImpl implements TemProfileService {
         final Map<String,String> criteria = new HashMap<String,String>(1);
         criteria.put(TemProfileProperties.CUSTOMER_NUMBER, customerNumber);
         return findTemProfile(criteria);
+    }
+
+    /**
+     * Easily overridable to add more values
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#getGenderKeyValues()
+     */
+    @Override
+    public List<KeyValue> getGenderKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("M", "Male"));
+        keyValues.add(new ConcreteKeyValue("F", "Female"));
+        return keyValues;
     }
 
     /**

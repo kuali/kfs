@@ -17,11 +17,9 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_ACTUAL_EXPENSE_LINES;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -42,6 +40,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AddActualExpenseDetailEvent implements Observer {
 
     public static Logger LOG = Logger.getLogger(AddActualExpenseDetailEvent.class);
+
+    protected volatile TravelExpenseService travelExpenseService;
 
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
@@ -100,20 +100,7 @@ public class AddActualExpenseDetailEvent implements Observer {
 
             KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
 
-            ActualExpense newExpense = new ActualExpense();
-            try {
-                BeanUtils.copyProperties(newExpense, line);
-                newExpense.setConvertedAmount(null);
-                newExpense.setExpenseParentId(newExpense.getId());
-                newExpense.setId(null);
-                newExpense.setNotes(null);
-            }
-            catch (IllegalAccessException ex) {
-                LOG.error(ex.getMessage(), ex);
-            }
-            catch (InvocationTargetException ex) {
-                LOG.error(ex.getMessage(), ex);
-            }
+            ActualExpense newExpense = getTravelExpenseService().createNewDetailForActualExpense(line);
             if (detailTotal.isLessEqual(line.getExpenseAmount())){
                 KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);
                 KualiDecimal remainderConverted = line.getConvertedAmount().subtract(new KualiDecimal(detailTotal.bigDecimalValue().multiply(line.getCurrencyRate())));
@@ -150,4 +137,10 @@ public class AddActualExpenseDetailEvent implements Observer {
         return SpringContext.getBean(AccountingDistributionService.class);
     }
 
+    protected TravelExpenseService getTravelExpenseService() {
+        if (travelExpenseService == null) {
+            travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
+        }
+        return travelExpenseService;
+    }
 }

@@ -15,26 +15,15 @@
  */
 package org.kuali.kfs.module.tem.batch;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.util.StopWatch;
 
 public class TemReleaseHeldEncumbranceStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TemReleaseHeldEncumbranceStep.class);
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private ParameterService parameterService;
+    protected TravelEncumbranceService travelEncumbranceService;
 
     /**
      * This step looks for any gl pending entries that are currently in the 'H' (Hold) status
@@ -51,19 +40,7 @@ public class TemReleaseHeldEncumbranceStep extends AbstractStep {
 		StopWatch stopWatch = new StopWatch();
         stopWatch.start("TemReleaseHeldEncumbranceStep");
 
-        //If the hold new fiscal year encumbrance indicator is false then change all the help gl pending entries from 'H' (Hold) to 'A' (Approved)
-        if(!parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
-            Map fieldValues = new HashMap();
-            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
-            Collection glpes = generalLedgerPendingEntryService.findPendingEntries(fieldValues, false);
-            Iterator glpesIt = glpes.iterator();
-
-            while(glpesIt.hasNext()) {
-            	GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) glpesIt.next();
-            	pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-            	generalLedgerPendingEntryService.save(pendingEntry);
-            }
-        }
+        getTravelEncumbranceService().releaseHeldEncumbrances();
 
         stopWatch.stop();
         LOG.info("TemReleaseHeldEncumbranceStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
@@ -71,14 +48,11 @@ public class TemReleaseHeldEncumbranceStep extends AbstractStep {
         return true;
     }
 
-	public void setGeneralLedgerPendingEntryService(
-			GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
-		this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
-	}
-
-    @Override
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
+    public TravelEncumbranceService getTravelEncumbranceService() {
+        return travelEncumbranceService;
     }
 
+    public void setTravelEncumbranceService(TravelEncumbranceService travelEncumbranceService) {
+        this.travelEncumbranceService = travelEncumbranceService;
+    }
 }

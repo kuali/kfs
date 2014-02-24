@@ -22,6 +22,7 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class MockTemProfileServiceImpl implements TemProfileService {
@@ -128,4 +129,10 @@ public class MockTemProfileServiceImpl implements TemProfileService {
     public boolean isProfileNonEmploye(TemProfile profile) {
         return realTemProfileService.isProfileNonEmploye(profile);
     }
+
+    @Override
+    public List<KeyValue> getGenderKeyValues() {
+        return realTemProfileService.getGenderKeyValues();
+    }
+
 }

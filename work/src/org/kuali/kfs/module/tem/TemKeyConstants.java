@@ -148,6 +148,7 @@ public class TemKeyConstants {
     public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_RATE = "error.document.mileage.rate.invalid.rate";
     public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EXPENSE_TYPE = "error.document.mileage.rate.invalid.expense.type";
     public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EFFECTIVE_DATE = "error.document.mileage.rate.invalid.effective.date";
+    public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_ACTIVE_TO_DATE = "error.document.mileage.rate.invalid.active.to.date";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";
@@ -222,6 +223,7 @@ public class TemKeyConstants {
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
     public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";
+    public static final String ERROR_TR_ENROUTE_DURING_TR_INIT = "error.document.tem.reimbursement.init.enroute.tr";
 
     public static final String TEM_NON_EMPLOYEE_CERTIFICATION  = "tem.non.employee.certification";
 

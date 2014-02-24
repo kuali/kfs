@@ -24,7 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -34,6 +36,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.HeldEncumbranceEntry;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -57,7 +60,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -83,6 +88,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     protected PersonService personService;
     protected ConfigurationService configurationService;
     protected BalanceTypeService balanceTypeService;
+    protected DateTimeService dateTimeService;
+    protected UniversityDateService universityDateService;
+    protected AccountingPeriodService accountingPeriodService;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbranceForCancelTA(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
@@ -91,6 +99,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void liquidateEncumbranceForCancelTA(TravelAuthorizationDocument travelAuthDocument) {
         //perform base on trip type
         if (travelAuthDocument.getTripType().isGenerateEncumbrance()) {
+            // let's remove any associated held encumbrance entries
+            deleteHeldEncumbranceEntriesForTrip(travelAuthDocument.getTravelDocumentIdentifier());
+
             travelAuthDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
             //start GLPE sequence from the current GLPEs
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelAuthDocument.getGeneralLedgerPendingEntries().size() + 1);
@@ -204,6 +215,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         //Get rid of all pending entries relating to encumbrance.
         clearAuthorizationEncumbranceGLPE(document);
+        // let's remove any associated held encumbrance entries
+        deleteHeldEncumbranceEntriesForTrip(document.getTravelDocumentIdentifier());
 
         final List<Encumbrance> encumbrances = getEncumbrancesForTrip(document.getTravelDocumentIdentifier(), null);
 
@@ -250,7 +263,31 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             }
         }
 
+        List<GeneralLedgerPendingEntry> heldEncumbranceEntries = findHeldEncumbranceEntriesForTrip(travelDocumentIdentifier);
+        for (GeneralLedgerPendingEntry heldEntry : heldEncumbranceEntries) {
+            if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(heldEntry.getDocumentNumber())) {
+                applyEntryToEncumbrances(allEncumbrances, heldEntry);
+            }
+        }
+
         return allEncumbrances;
+    }
+
+    /**
+     * Retrieves all held encumbrance entries for the given trip, converting them to pending entries before sending them back
+     * @param tripId the travel document identifier to look up held encumbrance entries for
+     * @return a List of GLPEs created from held encumbrance entries
+     */
+    protected List<GeneralLedgerPendingEntry> findHeldEncumbranceEntriesForTrip(String tripId) {
+        Map<String, String> heeCriteria = new HashMap<String, String>();
+        heeCriteria.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, tripId);
+        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+        Collection<HeldEncumbranceEntry> retrievedEntries = businessObjectService.findMatching(HeldEncumbranceEntry.class, heeCriteria);
+        for (HeldEncumbranceEntry heeEntry : retrievedEntries) {
+            GeneralLedgerPendingEntry glpe = convertHeldEncumbranceEntryToPendingEntry(heeEntry);
+            entries.add(glpe);
+        }
+        return entries;
     }
 
     /**
@@ -489,7 +526,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     @Override
     public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<Encumbrance> tripEncumbrances = getEncumbrancesForTrip(travelReimbursementDocument.getTravelDocumentIdentifier(), null);
-        for (TemSourceAccountingLine accountingLine : ((List<TemSourceAccountingLine>)travelReimbursementDocument.getSourceAccountingLines())) {
+        final List<TemSourceAccountingLine> travelReimbursementLines =travelReimbursementDocument.getSourceAccountingLines();
+        final List<TemSourceAccountingLine> smooshedReimbursementLines = travelDocumentService.smooshAccountingLinesToSubAccount(travelReimbursementLines);
+        for (TemSourceAccountingLine accountingLine : smooshedReimbursementLines) {
             Encumbrance encumbrance = findMatchingEncumbrance(accountingLine, tripEncumbrances);
             if (encumbrance != null && encumbrance.getAccountLineEncumbranceOutstandingAmount().isPositive()) {
                 GeneralLedgerPendingEntry pendingEntry = setupPendingEntry(encumbrance, sequenceHelper, travelReimbursementDocument);
@@ -636,6 +675,154 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         }
     }
 
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#convertPendingEntryToHeldEncumbranceEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public HeldEncumbranceEntry convertPendingEntryToHeldEncumbranceEntry(GeneralLedgerPendingEntry glpe) {
+        HeldEncumbranceEntry hee = new HeldEncumbranceEntry();
+        hee.setDocumentNumber(glpe.getDocumentNumber());
+        hee.setTransactionLedgerEntrySequenceNumber(glpe.getTransactionLedgerEntrySequenceNumber());
+        hee.setTravelDocumentIdentifier(glpe.getReferenceFinancialDocumentNumber());
+        hee.setChartOfAccountsCode(glpe.getChartOfAccountsCode());
+        hee.setAccountNumber(glpe.getAccountNumber());
+        hee.setSubAccountNumber(glpe.getSubAccountNumber());
+        hee.setFinancialObjectCode(glpe.getFinancialObjectCode());
+        hee.setFinancialSubObjectCode(glpe.getFinancialSubObjectCode());
+        hee.setFinancialBalanceTypeCode(glpe.getFinancialBalanceTypeCode());
+        hee.setTransactionLedgerEntryDescription(glpe.getTransactionLedgerEntryDescription());
+        hee.setTransactionLedgerEntryAmount(glpe.getTransactionLedgerEntryAmount());
+        hee.setTransactionDebitCreditCode(glpe.getTransactionDebitCreditCode());
+        hee.setProjectCode(glpe.getProjectCode());
+        hee.setFinancialDocumentTypeCode(glpe.getFinancialDocumentTypeCode());
+        hee.setOrganizationReferenceId(glpe.getOrganizationReferenceId());
+        hee.setAcctSufficientFundsFinObjCd(glpe.getAcctSufficientFundsFinObjCd());
+        hee.setTransactionEntryOffsetIndicator(glpe.isTransactionEntryOffsetIndicator());
+        hee.setTransactionEntryProcessedTs(glpe.getTransactionEntryProcessedTs());
+        return hee;
+    }
+
+    /**
+     * Returns null if the accounting period to post to does not yet exist
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#convertHeldEncumbranceEntryToPendingEntry(org.kuali.kfs.module.tem.businessobject.HeldEncumbranceEntry)
+     */
+    @Override
+    public GeneralLedgerPendingEntry convertHeldEncumbranceEntryToPendingEntry(HeldEncumbranceEntry hee) {
+        final AccountingPeriod postingAccountingPeriod = getPostingAccountingPeriodForHeldEncumbrance(hee);
+        if (postingAccountingPeriod == null) {
+            return null;
+        }
+        GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
+        glpe.setFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
+        glpe.setDocumentNumber(hee.getDocumentNumber());
+        glpe.setTransactionLedgerEntrySequenceNumber(hee.getTransactionLedgerEntrySequenceNumber());
+        glpe.setChartOfAccountsCode(hee.getChartOfAccountsCode());
+        glpe.setAccountNumber(hee.getAccountNumber());
+        glpe.setSubAccountNumber(hee.getSubAccountNumber());
+        glpe.setFinancialObjectCode(hee.getFinancialObjectCode());
+        glpe.setFinancialSubObjectCode(hee.getFinancialSubObjectCode());
+        glpe.setFinancialBalanceTypeCode(hee.getFinancialBalanceTypeCode());
+        if (ObjectUtils.isNull(hee.getFinancialObject())) {
+            hee.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+        }
+        if (!ObjectUtils.isNull(hee.getFinancialObject())) {
+            glpe.setFinancialObjectTypeCode(hee.getFinancialObject().getFinancialObjectTypeCode());
+        }
+        glpe.setUniversityFiscalYear(postingAccountingPeriod.getUniversityFiscalYear());
+        glpe.setUniversityFiscalPeriodCode(postingAccountingPeriod.getUniversityFiscalPeriodCode());
+        glpe.setTransactionDate(getDateTimeService().getCurrentSqlDate());
+        glpe.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        glpe.setOrganizationDocumentNumber(hee.getTravelDocumentIdentifier());
+        glpe.setTransactionLedgerEntryDescription(hee.getTransactionLedgerEntryDescription());
+        glpe.setTransactionLedgerEntryAmount(hee.getTransactionLedgerEntryAmount());
+        glpe.setReferenceFinancialDocumentNumber(hee.getTravelDocumentIdentifier());
+        glpe.setReferenceFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        glpe.setReferenceFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
+        glpe.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+        glpe.setTransactionDebitCreditCode(hee.getTransactionDebitCreditCode());
+        glpe.setProjectCode(hee.getProjectCode());
+        glpe.setFinancialDocumentTypeCode(hee.getFinancialDocumentTypeCode());
+        glpe.setOrganizationReferenceId(hee.getOrganizationReferenceId());
+        glpe.setAcctSufficientFundsFinObjCd(hee.getAcctSufficientFundsFinObjCd());
+        glpe.setTransactionEntryOffsetIndicator(hee.isTransactionEntryOffsetIndicator());
+        glpe.setTransactionEntryProcessedTs(hee.getTransactionEntryProcessedTs());
+        return glpe;
+    }
+
+    /**
+     * The posting accounting period of the held encumbrance is the FIRST period of the fiscal year of the END DATE of the current TA related to the held encumbrance
+     * @return the AccountingPeriod of the posting account
+     */
+    protected AccountingPeriod getPostingAccountingPeriodForHeldEncumbrance(HeldEncumbranceEntry hee) {
+        final TravelAuthorizationDocument originalTravelAuthorization = getTravelAuthForTripId(hee.getTravelDocumentIdentifier());
+        if (originalTravelAuthorization == null) {
+            LOG.warn("Could not find travel authorization for trip id "+hee.getTravelDocumentIdentifier()+" which is strange because we're looking for the travel authorization which created a TEM held encumbrance entry");
+        } else {
+            final TravelAuthorizationDocument currentTravelAuthorization = travelDocumentService.findCurrentTravelAuthorization(originalTravelAuthorization);
+            final java.sql.Date tripEnd = new java.sql.Date(currentTravelAuthorization.getTripEnd().getTime());
+            final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
+            if (tripEndFiscalYear == null) {
+                LOG.info("Could not yet release TEM held encumbrance entry "+hee.getDocumentNumber()+" sequence: "+hee.getTransactionLedgerEntrySequenceNumber()+" because the fiscal year for the trip end does not yet exist.");
+            } else {
+                final java.sql.Date firstDateOfEncumbranceFiscalYear = new java.sql.Date(tripEndFiscalYear);
+                final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getAccountingPeriodService().getByDate(firstDateOfEncumbranceFiscalYear);
+                return firstAccountingPeriodOfEncumbranceFiscalYear;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the travel authorization associated with the given trip id
+     * @param tripId the trip id to find an authorization for
+     * @return the travel authorization document if found, null otherwise
+     */
+    protected TravelAuthorizationDocument getTravelAuthForTripId(String tripId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, tripId);
+        Collection<TravelAuthorizationDocument> travelAuthDocs = businessObjectService.findMatching(TravelAuthorizationDocument.class, fieldValues);
+        TravelAuthorizationDocument travelAuth = null;
+        for (TravelAuthorizationDocument currAuth : travelAuthDocs) {
+            travelAuth = currAuth; // we should only be in this loop once or never
+        }
+        return travelAuth;
+    }
+
+    /**
+     * Turns held encumbrances into glpes and approves and saves them if the glpe can be successfully converted (ie, the new fiscal year exists)
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#releaseHeldEncumbrances()
+     */
+    @Override
+    public void releaseHeldEncumbrances() {
+        Collection<HeldEncumbranceEntry> allHeldEntries = businessObjectService.findAll(HeldEncumbranceEntry.class);
+        List<HeldEncumbranceEntry> entriesToDelete = new ArrayList<HeldEncumbranceEntry>();
+        List<GeneralLedgerPendingEntry> entriesToSave = new ArrayList<GeneralLedgerPendingEntry>();
+
+        for (HeldEncumbranceEntry heldEntry : allHeldEntries) {
+            GeneralLedgerPendingEntry glpe = convertHeldEncumbranceEntryToPendingEntry(heldEntry);
+            if (glpe != null) {
+                glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+                entriesToSave.add(glpe);
+                entriesToDelete.add(heldEntry);
+            }
+        }
+        businessObjectService.save(entriesToSave);
+        businessObjectService.delete(entriesToDelete);
+    }
+
+    /**
+     * Uses the business object service to delete matching held encumbrances
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#deleteHeldEncumbranceEntriesForTrip(java.lang.String)
+     */
+    @Override
+    public void deleteHeldEncumbranceEntriesForTrip(String tripId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, tripId);
+        businessObjectService.deleteMatching(HeldEncumbranceEntry.class, fieldValues);
+    }
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -741,4 +928,27 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         this.balanceTypeService = balanceTypeService;
     }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    public AccountingPeriodService getAccountingPeriodService() {
+        return accountingPeriodService;
+    }
+
+    public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
+        this.accountingPeriodService = accountingPeriodService;
+    }
 }

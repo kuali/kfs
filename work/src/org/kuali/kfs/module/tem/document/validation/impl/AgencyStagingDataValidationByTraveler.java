@@ -20,16 +20,20 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRAVELER_DATA;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
@@ -39,8 +43,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataValidationHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
-    public static final String DOCUMENT_ERROR_PREFIX = "document.";
-    public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
+    public static final String ADD_LINE_ERROR_PREFIX = KRADConstants.MAINTENANCE_ADD_PREFIX;
 
     protected ExpenseImportByTravelerService expenseImportByTravelerService;
 
@@ -75,7 +78,26 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        return true;
+        boolean result = true;
+
+        //validate accounting line before it's added to the document
+        if (collectionName.equals(TemPropertyConstants.TravelAgencyAuditReportFields.ACCOUNTING_INFO)) {
+            TripAccountingInformation accountingLine = (TripAccountingInformation)line;
+
+            Map<String,ErrorMessage> errorMap = getExpenseImportByTravelerService().validateAccountingInfoLine(accountingLine);
+
+            if(!errorMap.isEmpty()) {
+                for(String errorProperty : errorMap.keySet()) {
+                    ErrorMessage error = errorMap.get(errorProperty);
+                    if (ObjectUtils.isNotNull(error)) {
+                        putFieldError(ADD_LINE_ERROR_PREFIX + ACCOUNTING_INFO +"."+ errorProperty, error.getErrorKey(), error.getMessageParameters());
+                    }
+                }
+                result &= false;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -147,12 +169,22 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
                 putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER, data.getTravelerId());
                 result &= false;
             }
-            else {
-                errorMessages = getExpenseImportByTravelerService().validateAccountingInfo(data);
-                if(!errorMessages.isEmpty()) {
-                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-                    result &= false;
+
+            int i = 0;
+            for(TripAccountingInformation account : data.getTripAccountingInformation()) {
+                Map<String,ErrorMessage> errorMap = getExpenseImportByTravelerService().validateAccountingInfoLine(account);
+
+                if(!errorMap.isEmpty()) {
+                    for(String errorProperty : errorMap.keySet()) {
+                        ErrorMessage error = errorMap.get(errorProperty);
+                        if (ObjectUtils.isNotNull(error)) {
+                            putFieldError(ACCOUNTING_INFO +"["+i+"]."+ errorProperty, error.getErrorKey(), error.getMessageParameters());
+                            result &= false;
+                        }
+                    }
                 }
+
+                i++;
             }
 
             if (getExpenseImportByTravelerService().isTripDataMissing(data)) {

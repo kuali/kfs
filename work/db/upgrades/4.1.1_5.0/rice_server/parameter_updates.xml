@@ -143,7 +143,7 @@
 			<column name="OBJ_ID" value="KFSPURAP6958" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="S" />
+			<column name="VAL" value="P" />
 			<column name="PARM_DESC_TXT"
 				value='Indicates the distribution method(s) an institution will support. The values will be S (Sequential), P (Proportional), S;P (both with Sequential as default), or P;S (both, with Proportional as default). With the Sequential method account segments will be expensed/disencumbered in the order in which they appear, up to the specified dollar amount. Percentages are used on account segments to indicate how "residual" amounts are to be funded. With the Proportional method account segments will be expensed/disencumbered proportionally. Dollar amounts are used on account segments only to assist in calculating a percent distribution. Residuals will also be funded proportionally.' />
 			<column name="EVAL_OPRTR_CD" value="A" />

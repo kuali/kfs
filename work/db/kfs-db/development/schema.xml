@@ -15967,6 +15967,50 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="TEM_HELD_ENCUM_ENTRY_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="TRN_ENTR_SEQ_NBR" primaryKey="true" size="5" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="TRIP_ID" size="19" type="VARCHAR"/>
+        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
+        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
+        <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
+        <column name="FIN_BALANCE_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="TRN_LDGR_ENTR_DESC" size="40" type="VARCHAR"/>
+        <column name="TRN_LDGR_ENTR_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TRN_DEBIT_CRDT_CD" size="1" type="VARCHAR"/>
+        <column name="PROJECT_CD" size="10" type="VARCHAR"/>
+        <column name="FDOC_TYP_CD" size="4" type="VARCHAR"/>
+        <column name="ORG_REFERENCE_ID" size="8" type="VARCHAR"/>
+        <column name="ACCT_SF_FINOBJ_CD" size="4" type="VARCHAR"/>
+        <column name="TRN_ENTR_OFST_CD" size="1" type="VARCHAR"/>
+        <column name="TRNENTR_PROCESS_TM" type="DATE"/>
+        <unique name="TEM_HELD_ENCUM_ENTRY_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+        <index name="TEM_HELD_ENCUM_ENTRY_TI2">
+            <index-column name="FIN_COA_CD"/>
+            <index-column name="ACCOUNT_NBR"/>
+            <index-column name="SUB_ACCT_NBR"/>
+            <index-column name="FIN_OBJECT_CD"/>
+            <index-column name="FIN_SUB_OBJ_CD"/>
+            <index-column name="FIN_BALANCE_TYP_CD"/>
+        </index>
+        <index name="TEM_HELD_ENCUM_ENTRY_TI3">
+            <index-column name="FDOC_NBR"/>
+        </index>
+        <index name="TEM_HELD_ENCUM_ENTRY_TI4">
+            <index-column name="FIN_COA_CD"/>
+            <index-column name="ACCOUNT_NBR"/>
+            <index-column name="FIN_OBJECT_CD"/>
+        </index>
+        <index name="TEM_HELD_ENCUM_ENTRY_TI5">
+            <index-column name="TRIP_ID"/>
+        </index>
+    </table>
     <table name="TEM_HIST_EXP_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="CC_AGENCY_ID" size="22" type="DECIMAL"/>
@@ -16113,6 +16157,11 @@
         <unique name="TEM_PER_DIEM_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="TEM_PER_DIEM_TI1">
+            <index-column name="SSN_BGN_MONTH_DAY"/>
+            <index-column name="EFFECT_FROM_DT"/>
+            <index-column name="PRI_DEST_ID"/>
+        </index>
     </table>
     <table name="TEM_PRI_DEST_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
@@ -16125,6 +16174,11 @@
         <unique name="TEM_PRI_DEST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="TEM_PRI_DEST_TI1">
+            <index-column name="PRI_DEST_NM"/>
+            <index-column name="REGION_CD"/>
+            <index-column name="COUNTY_CD"/>
+        </index>
     </table>
     <table name="TEM_PROFILE_ACCOUNT_T">
         <column name="ACCOUNT_ID" primaryKey="true" size="22" type="DECIMAL"/>

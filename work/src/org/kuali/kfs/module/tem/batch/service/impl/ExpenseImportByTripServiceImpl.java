@@ -42,7 +42,6 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -133,29 +132,15 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        boolean accountInfoMissing = false;
         List<TripAccountingInformation> accountingInfoList = agencyData.getTripAccountingInformation();
 
         if (accountingInfoList.isEmpty()) {
             ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO);
             errorMessages.add(error);
         }
-        else {
-            for (TripAccountingInformation account : accountingInfoList) {
-                if (StringUtils.isEmpty(account.getTripChartCode())) {
-                    ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_CHART_CODE);
-                    errorMessages.add(error);
-                }
-                if (StringUtils.isEmpty(account.getTripAccountNumber())) {
-                   ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER);
-                   errorMessages.add(error);
-                }
-            }
-        }
 
         return errorMessages;
     }
-
 
     /**
      *
@@ -225,101 +210,127 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        TravelDocument travelDocument = getTravelDocumentService().getParentTravelDocument(agencyData.getTripId());
-        if (ObjectUtils.isNull(travelDocument)) {
-            LOG.error("Unable to retrieve a travel document for the tripId: "+ agencyData.getTripId());
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
-            return errorMessages;
-        }
-
-        TemProfile profile = travelDocument.getTemProfile();
-        if (ObjectUtils.isNull(profile)) {
-            LOG.error("Found null profile on TravelDocument: "+ travelDocument.getDocumentNumber());
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE,travelDocument.getDocumentNumber()));
-            return errorMessages;
-        }
-
-        // will we have an expense type object code when we want to reconcile?
-        final ExpenseTypeObjectCode expenseTypeObjectCode = (agencyData.getExpenseTypeCategory() != null) ? getTravelExpenseType(agencyData.getExpenseTypeCategory(), travelDocument) : null;
-        if (expenseTypeObjectCode == null) {
-            LOG.error("Could not find an expense type object code record for trip id: "+agencyData.getTripId());
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE, agencyData.getTripId(), agencyData.getAgency(), agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString()));
-            setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_EXPENSE_TYPE_OBJECT_CODE);
-        }
-
         // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
-        Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
-        if (ObjectUtils.isNull(validationParams)) {
+        Collection<String> validationParameters = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
+        //don't need to validate any accounting information
+        if (ObjectUtils.isNull(validationParameters)) {
             return errorMessages;
         }
 
         List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
-        ErrorMessage error = null;
         for (TripAccountingInformation account : accountingInfo) {
 
-            if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
-                if (!isAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber())) {
-
-                    LOG.error("Invalid Account in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
-                    error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, account.getTripChartCode(), account.getTripAccountNumber());
-                    errorMessages.add(error);
-                }
-            }
-
-            if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_SUBACCOUNT)) {
-                // sub account is optional
-                if (StringUtils.isNotEmpty(account.getTripSubAccountNumber()) &&
-                    !isSubAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getTripSubAccountNumber())) {
-
-                    LOG.error("Invalid SubAccount in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber() + " subaccount: " + account.getTripSubAccountNumber());
-
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
-                    error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, account.getTripSubAccountNumber());
-                    errorMessages.add(error);
-                }
-            }
-
-            // project code is optional
-            if (StringUtils.isNotEmpty(account.getProjectCode()) &&
-                !isProjectCodeValid(account.getProjectCode())) {
-
-                LOG.error("Invalid Project in Agency Data record. tripId: "+ agencyData.getTripId()+ " project code: " + account.getProjectCode());
-
-                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
-                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, account.getProjectCode());
-                errorMessages.add(error);
-            }
-
-            if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
-                // object code is optional
-                if (StringUtils.isNotEmpty(account.getObjectCode()) &&
-                    !isObjectCodeValid(account.getTripChartCode(), account.getObjectCode())) {
-
-                    LOG.error("Invalid Object Code in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode());
-
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
-
-                    error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, account.getTripChartCode(), account.getObjectCode());
-                    errorMessages.add(error);
-                }
-            }
-
-            if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
-                // sub object code is optional
-                if (StringUtils.isNotEmpty(account.getSubObjectCode()) &&
-                    !isSubObjectCodeValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode())) {
-
-                    LOG.error("Invalid SubObject Code in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode() + " subobject code: " + account.getSubObjectCode());
-
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
-                    error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode());
-                    errorMessages.add(error);
-                }
-            }
+            errorMessages.addAll(validateAccountingInfoLine(agencyData, account, validationParameters).values());
         }
 
         return errorMessages;
+    }
+
+    /**
+     * This method is called by the AgencyStagingData maintainable for validating the new accounting line.
+     * It won't need to set the error codes on the agency staging data object
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TripAccountingInformation)
+     */
+    @Override
+    public Map<String,ErrorMessage> validateAccountingInfoLine(TripAccountingInformation accountingLine) {
+        return validateAccountingInfoLine(null, accountingLine, null);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TripAccountingInformation)
+     */
+    protected Map<String,ErrorMessage> validateAccountingInfoLine(AgencyStagingData agencyData, TripAccountingInformation accountingLine, Collection<String> validationParameters) {
+        Map<String,ErrorMessage> errorMap = new HashMap<String,ErrorMessage>();
+
+        if (ObjectUtils.isNull(validationParameters)) {
+            // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
+            validationParameters = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
+
+            //don't need to validate any accounting information
+            if (ObjectUtils.isNull(validationParameters)) {
+                return errorMap;
+            }
+        }
+
+        boolean setAgencyDataErrorCode = false;
+
+        String tripId = "";
+        if (ObjectUtils.isNotNull(agencyData)) {
+            setAgencyDataErrorCode = true;
+            tripId = agencyData.getTripId();
+        }
+
+        ErrorMessage error = null;
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
+            if (!isAccountNumberValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber())) {
+
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid Account in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " account: " + accountingLine.getTripAccountNumber());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
+                }
+
+                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber());
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER, error);
+            }
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBACCOUNT)) {
+            // sub account is optional
+            if (StringUtils.isNotEmpty(accountingLine.getTripSubAccountNumber()) &&
+                !isSubAccountNumberValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getTripSubAccountNumber())) {
+
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid SubAccount in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " account: " + accountingLine.getTripAccountNumber() + " subaccount: " + accountingLine.getTripSubAccountNumber());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
+                }
+                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, accountingLine.getTripSubAccountNumber());
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBACCOUNT_NUMBER, error);
+            }
+        }
+
+        // project code is optional
+        if (StringUtils.isNotEmpty(accountingLine.getProjectCode()) &&
+            !isProjectCodeValid(accountingLine.getProjectCode())) {
+
+            if (setAgencyDataErrorCode) {
+                LOG.error("Invalid Project in Agency Data record. tripId: "+ tripId + " project code: " + accountingLine.getProjectCode());
+                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
+            }
+            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, accountingLine.getProjectCode());
+            errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_PROJECT_CODE, error);
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
+            // object code is optional
+            if (StringUtils.isNotEmpty(accountingLine.getObjectCode()) &&
+                !isObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getObjectCode())) {
+
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid Object Code in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " object code: " + accountingLine.getObjectCode());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
+                }
+
+                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getObjectCode());
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_OBJECT_CODE, error);
+            }
+        }
+
+        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
+            // sub object code is optional
+            if (StringUtils.isNotEmpty(accountingLine.getSubObjectCode()) &&
+                !isSubObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode())) {
+
+                if (setAgencyDataErrorCode) {
+                    LOG.error("Invalid SubObject Code in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " object code: " + accountingLine.getObjectCode() + " subobject code: " + accountingLine.getSubObjectCode());
+                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
+                }
+                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode());
+                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBOBJECT_CODE, error);
+            }
+        }
+
+        return errorMap;
     }
 
     /**
@@ -560,7 +571,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                     }
                     else {
                         LOG.info("No expense type object code could be found for agency data: "+agencyData.getId()+" tripId: "+agencyData.getTripId());
-                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE));
+                        errors.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE, expenseTypeCategory.getCode(), travelDocument.getDocumentTypeName(), travelDocument.getTripTypeCode(), travelDocument.getTraveler().getTravelerTypeCode()));
                     }
                 }
                 else {

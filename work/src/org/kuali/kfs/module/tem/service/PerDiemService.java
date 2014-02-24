@@ -55,13 +55,6 @@ public interface PerDiemService {
      */
     public <T extends PerDiem> void updateTripType(T perDiem);
 
-    /**
-     * find the previous per diems for the given new per diems
-     *
-     * @param perDiemList the given list of per diems
-     * @return the previous per diems of the given new per diems
-     */
-    public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(List<T> perDiemList);
 
     /**
      * find the previous per diem for the given new per diem

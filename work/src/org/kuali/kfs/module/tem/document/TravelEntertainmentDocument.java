@@ -47,10 +47,8 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -319,27 +317,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
             catch (WorkflowException ex) {
                 // TODO Auto-generated catch block
                 ex.printStackTrace();
-            }
-
-            // If the hold new fiscal year encumbrance indicator is true and the trip end date
-            // is after the current fiscal year end date then mark all the gl pending entries
-            // as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
-            if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                if (getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
-                    UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                    java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-                    if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
-                        for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
-                        }
-                    }
-                }
-                else {
-                    for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                        glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-                    }
-                }
-                getBusinessObjectService().save(getGeneralLedgerPendingEntries());
             }
         }
     }

@@ -27,8 +27,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -146,32 +144,6 @@ public class ExpenseImportServiceBase {
             return true;
         }
         return false;
-    }
-
-    /**
-     *
-     * This method gets the objectCode based on the trip type.
-     * @param agencyData
-     * @return
-     */
-    public String getObjectCode(AgencyStagingData agencyData) {
-
-        String objectCodeParam = null;
-        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE;
-        }
-        else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE;
-        }
-        else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE;
-        }
-        else {
-            LOG.warn("No valid expenses.");
-            return null;
-        }
-
-        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, objectCodeParam);
     }
 
     /**

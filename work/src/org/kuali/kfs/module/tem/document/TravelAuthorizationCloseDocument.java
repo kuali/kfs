@@ -118,4 +118,13 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
 
     @Override
     public void setTripProgenitor(boolean tripProgenitor) {}
+
+    /**
+     * It's pointless to mask the trip identifier on the close - it's already known
+     * @see org.kuali.kfs.module.tem.document.TravelAuthorizationDocument#maskTravelDocumentIdentifierAndOrganizationDocNumber()
+     */
+    @Override
+    public boolean maskTravelDocumentIdentifierAndOrganizationDocNumber() {
+        return false;
+    }
 }

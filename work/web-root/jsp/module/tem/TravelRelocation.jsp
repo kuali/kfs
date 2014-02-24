@@ -72,7 +72,9 @@
     <tem-relo:expenseTotals/>
     <tem:summaryByObjectCode />
     <tem:assignAccounts />
-    <tem:accountingLines />
+     <c:if test="${KualiForm.displayAccountingLines}">
+    	<tem:accountingLines />
+    </c:if>
 	<tem:travelPayment/>
 	<tem:travelPaymentPDPStatus travelPaymentProperty="travelPayment" pdpPaymentDocumentType="${KualiForm.document.achCheckDocumentType}" displayCorporateCardExtraction="${KualiForm.document.corporateCardPayable}"/>
     <gl:generalLedgerPendingEntries />

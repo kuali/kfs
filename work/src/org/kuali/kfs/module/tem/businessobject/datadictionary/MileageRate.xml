@@ -104,7 +104,6 @@
 	<bean id="MileageRate-lookupDefinition" parent="MileageRate-lookupDefinition-parentBean" />
 	<bean id="MileageRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Mileage Rate Lookup" />
-		<property name="lookupableID" value="mileageRateLookupable" />
 		<property name="defaultSort">
 		<bean parent="SortDefinition">
 			<property name="attributeNames"><list>

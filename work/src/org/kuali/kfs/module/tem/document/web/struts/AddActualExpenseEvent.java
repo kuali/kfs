@@ -17,11 +17,9 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_ACTUAL_EXPENSE_LINE;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -30,6 +28,7 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.KualiRuleService;
 
@@ -37,6 +36,8 @@ import org.kuali.rice.krad.service.KualiRuleService;
 public class AddActualExpenseEvent implements Observer {
 
     public static Logger LOG = Logger.getLogger(AddActualExpenseDetailEvent.class);
+
+    protected volatile TravelExpenseService travelExpenseService;
 
     @Override
     public void update(Observable arg0, Object arg1) {
@@ -62,21 +63,7 @@ public class AddActualExpenseEvent implements Observer {
                 document.addExpense(newActualExpenseLine);
             }
 
-            ActualExpense newExpense = new ActualExpense();
-            try {
-                BeanUtils.copyProperties(newExpense, newActualExpenseLine);
-                newExpense.setConvertedAmount(null);
-                newExpense.setExpenseParentId(newExpense.getId());
-                newExpense.setId(null);
-                newExpense.setNotes(null);
-                newExpense.setExpenseLineTypeCode(null); // evidently, this should be nulled out on detail lines
-            }
-            catch (IllegalAccessException ex) {
-                LOG.error(ex.getMessage(), ex);
-            }
-            catch (InvocationTargetException ex) {
-                LOG.error(ex.getMessage(), ex);
-            }
+            ActualExpense newExpense = getTravelExpenseService().createNewDetailForActualExpense(newActualExpenseLine);
 
             wrapper.setNewActualExpenseLine(new ActualExpense());
             wrapper.getNewActualExpenseLines().add(newExpense);
@@ -99,5 +86,12 @@ public class AddActualExpenseEvent implements Observer {
 
     protected AccountingDistributionService getAccountingDistributionService() {
         return SpringContext.getBean(AccountingDistributionService.class);
+    }
+
+    protected TravelExpenseService getTravelExpenseService() {
+        if (travelExpenseService == null) {
+            travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
+        }
+        return travelExpenseService;
     }
 }

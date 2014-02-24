@@ -15,20 +15,31 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
+import org.kuali.kfs.module.tem.document.web.struts.TravelReimbursementForm;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -38,6 +49,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TravelReimbursementDocumentPresentationController extends TravelDocumentPresentationController {
 
     public static Logger LOG = Logger.getLogger(TravelReimbursementDocumentPresentationController.class);
+
+    protected volatile static BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
@@ -91,7 +104,39 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
             throw new DocumentInitiationException(TemKeyConstants.ERROR_TA_REQUIRED_FOR_TR_INIT,new String[] {},true);
         }
 
+        KualiForm form = KNSGlobalVariables.getKualiForm();
+        if (form instanceof TravelReimbursementForm) {
+            final TravelReimbursementForm reimbForm = (TravelReimbursementForm)form;
+            if (!StringUtils.isBlank(reimbForm.getTravelDocumentIdentifier())) {
+                // we're basing this document off of another document; let's look for any other TR's in the trip to verify they are not enroute
+                final List<TravelReimbursementDocument> trDocsInTrip = getTravelReimbursementsInTrip(reimbForm.getTravelDocumentIdentifier());
+                if (!trDocsInTrip.isEmpty()) {
+                    for (TravelReimbursementDocument trDoc : trDocsInTrip) {
+                        if (StringUtils.equals(trDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode(), KFSConstants.DocumentStatusCodes.ENROUTE)) {
+                            throw new DocumentInitiationException(TemKeyConstants.ERROR_TR_ENROUTE_DURING_TR_INIT, new String[] {reimbForm.getTravelDocumentIdentifier(), trDoc.getDocumentNumber()}, true);
+                        }
+                    }
+                }
+            }
+        }
+
         return super.canInitiate(documentTypeName);
+    }
+
+    /**
+     * Look up any TravelReimbursementDocuments associated with the given trip
+     * @param tripId the travel document identifier for the trip we're thinking about initiating a new TR for
+     * @return a List of any existing TravelReimbursementDocuments in that trip
+     */
+    protected List<TravelReimbursementDocument> getTravelReimbursementsInTrip(String tripId) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, tripId);
+        Collection<TravelReimbursementDocument> trDocs = getBusinessObjectService().findMatching(TravelReimbursementDocument.class, fieldValues);
+        List<TravelReimbursementDocument> trDocsList = new ArrayList<TravelReimbursementDocument>();
+        if (!trDocs.isEmpty()) {
+            trDocsList.addAll(trDocs);
+        }
+        return trDocsList;
     }
 
     /**
@@ -139,4 +184,10 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         return SpringContext.getBean(TravelReimbursementService.class);
     }
 
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
 }

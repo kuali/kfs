@@ -293,7 +293,7 @@
 		<property name="maxLength" value="19" />
 		<property name="summary" value="Tem Profile Id" />
 		<property name="description" value="Tem Profile Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
+		<property name="control"><bean parent="LookupHiddenControlDefinition" p:size="19"/></property>
 	</bean>
 	<bean id="AgencyStagingData-travelerNetworkId" parent="AgencyStagingData-travelerNetworkId-parentBean" />
 	<bean id="AgencyStagingData-travelerNetworkId-parentBean" abstract="true" parent="AttributeDefinition">

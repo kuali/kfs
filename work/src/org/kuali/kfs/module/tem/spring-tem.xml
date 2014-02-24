@@ -142,16 +142,6 @@
 	<bean id="primaryDestinationLookupableHelperService" parent="primaryDestinationLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="primaryDestinationLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.PrimaryDestinationLookupableHelperServiceImpl" />
 	
-	<bean id="mileageRateLookupable" parent="mileageRateLookupable-parentBean" scope="prototype" />
-	<bean id="mileageRateLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-		<property name="lookupableHelperService" ref="mileageRateLookupableHelperService" />
-	</bean>
-	
-	<bean id="mileageRateLookupableHelperService" parent="mileageRateLookupableHelperService-parentBean" scope="prototype" />
-	<bean id="mileageRateLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.MileageRateLookupableHelperServiceImpl" parent="lookupableHelperService">
-		<property name="documentDictionaryService" ref="documentDictionaryService"/>
-	</bean>
-
 	<bean id="historicalTravelExpenseLookupable" parent="historicalTravelExpenseLookupable-parentBean" scope="prototype"  />
 	<bean id="historicalTravelExpenseLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
 		<property name="lookupableHelperService" ref="historicalTravelExpenseLookupableHelperService" />
@@ -562,6 +552,9 @@
       <property name="paymentMaintenanceService" ref="pdpPaymentMaintenanceService" />
       <property name="configurationService" ref="configurationService"/>
       <property name="balanceTypeService" ref="balanceTypService"/>
+      <property name="dateTimeService" ref="dateTimeService"/>
+      <property name="universityDateService" ref="universityDateService"/>
+      <property name="accountingPeriodService" ref="accountingPeriodService"/>
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
@@ -1284,6 +1277,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="noteService" ref="noteService"/>
+		<property name="travelExpenseService" ref="travelExpenseService"/>
 	</bean>
 
 	<bean id="HoldTa" parent="HoldTa-parentBean" />
@@ -1458,8 +1452,7 @@
     
     <bean id="temReleaseHeldEncumbranceStep" parent="temReleaseHeldEncumbranceStep-parentBean" />
     <bean id="temReleaseHeldEncumbranceStep-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
-        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-        <property name="parameterService" ref="parameterService" />
+        <property name="travelEncumbranceService" ref="travelEncumbranceService" />
     </bean> 
 	
 	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />
@@ -1549,6 +1542,7 @@
 	<bean id="mileageRateService" parent="mileageRateService-parentBean"/>
 	<bean id="mileageRateService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.MileageRateServiceImpl" abstract="true">
 		<property name="cachingMileageRateService" ref="cachingMileageRateService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 	
 	<bean id="cachingMileageRateService" parent="cachingMileageRateService-parentBean"/>

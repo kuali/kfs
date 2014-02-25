@@ -1010,7 +1010,7 @@
         <column name="CUST_ADDR_END_DT" type="DATE"/>
         <column name="INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="COPIES_TO_PRINT_QTY" size="5" type="DECIMAL"/>
-        <column name="INV_IND_CD" size="10" type="VARCHAR"/>
+        <column name="INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
         <column name="PRNT_ENV_NBR" size="5" type="DECIMAL"/>
         <foreign-key foreignTable="AR_CUST_ADDR_TYP_T" name="AR_CUST_ADDR_TR1">
             <reference foreign="CUST_ADDR_TYPE_CD" local="CUST_ADDR_TYPE_CD"/>
@@ -1287,8 +1287,8 @@
         <column name="CUST_ADDR_NM" size="40" type="VARCHAR"/>
         <column name="CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="PREF_CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="INV_IND_CD" size="10" type="VARCHAR"/>
-        <column name="PREF_INV_IND_CD" size="10" type="VARCHAR"/>
+        <column name="INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
+        <column name="PREF_INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
@@ -1541,16 +1541,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_INV_IND_T">
-        <column name="INV_IND_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="INV_IND_DESC" size="45" type="VARCHAR"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="AR_INV_IND_TC1">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_INV_ITM_CODE_T">
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="ORG_CD" primaryKey="true" size="4" type="VARCHAR"/>
@@ -1666,6 +1656,16 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <unique name="AR_INV_SUSP_CTGRY_TC1">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_INV_TRNS_MTHD_T">
+        <column name="INV_TRNS_MTHD_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="INV_TRNS_MTHD_DESC" size="45" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="AR_INV_TRNS_MTHD_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

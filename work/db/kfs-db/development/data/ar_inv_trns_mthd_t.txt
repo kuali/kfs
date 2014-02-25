@@ -1,0 +1,3 @@
+inv_trns_mthd_cd|obj_id|ver_nbr|inv_trns_mthd_desc|actv_ind|
+EMAIL|EDC0BE4713F43031E040E00ABCD64EE1|1.0|Through Email|Y|
+MAIL|EDC0BE4713F53031E040E00ABCD64EE1|1.0|Through Mail|Y|

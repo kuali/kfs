@@ -102,7 +102,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
 
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
@@ -152,7 +152,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testCalculateDailyTotals_threeDays() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
-          public MileageRate getMileageRate() {
+          public MileageRate getMileageRate(java.sql.Date effectiveDate) {
               MileageRate rate = new MileageRate();
               rate.setRate(new BigDecimal(0.45));
               rate.setExpenseTypeCode("MP");
@@ -258,7 +258,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testUpdatePerDiemExpenses_addDay() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
@@ -368,7 +368,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testUpdatePerDiemExpenses_shiftAndAddADay() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
@@ -558,7 +558,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     private PerDiemExpense copyPerDiem(PerDiemExpense perDiemExpense) {
         PerDiemExpense currentPerDiemExpense = new PerDiemExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
@@ -584,7 +584,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     private List<PerDiemExpense> createAListOfPerDiems() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
@@ -643,7 +643,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testCalculateMileage_mileageRatePresent() {
         ActualExpense actualExpense = new ActualExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setId(1);
                 rate.setRate(new BigDecimal(0.45));
@@ -666,7 +666,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         ActualExpense actualExpense2 = new ActualExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setId(1);
                 rate.setRate(new BigDecimal(0.45));
@@ -765,7 +765,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public void testCalculatePerDiemPercentageFromTimestamp() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
-            public MileageRate getMileageRate() {
+            public MileageRate getMileageRate(java.sql.Date effectiveDate) {
                 MileageRate rate = new MileageRate();
                 rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");

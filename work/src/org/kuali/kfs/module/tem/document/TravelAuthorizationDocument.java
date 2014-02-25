@@ -1494,6 +1494,15 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
     /**
      * Returns the initiation date of the TA
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(PerDiemExpense expense) {
+        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+    }
+
+    /**
+     * Returns the initiation date of the TA
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
      */
     @Override

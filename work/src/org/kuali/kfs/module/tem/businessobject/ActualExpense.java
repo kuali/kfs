@@ -30,10 +30,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
+import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -120,8 +123,26 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      *
      * @return the value of mileageRate
      */
-    public MileageRate getMileageRate(){
-        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getExpenseTypeCode(), getExpenseDate());
+    public MileageRate getMileageRate(java.sql.Date effectiveDate){
+        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getExpenseTypeCode(), effectiveDate);
+    }
+
+    /**
+     * It's better to use the mileage rate which passes in the effective date, but when calling from the JSP, that's going to be hard.  Let's just grab the document from GlobalVariables for now
+     * @return the MileageRate
+     */
+    @Deprecated
+    public MileageRate getContextlessMileageRate() {
+        final TravelFormBase travelForm = (TravelFormBase)KNSGlobalVariables.getKualiForm();
+        if (travelForm == null) {
+            return null;
+        }
+        final TravelDocument travelDocument = travelForm.getTravelDocument();
+        if (travelDocument == null) {
+            return null;
+        }
+        final java.sql.Date effectiveDate = travelDocument.getEffectiveDateForMileageRate(this);
+        return getMileageRate(effectiveDate);
     }
 
     /**
@@ -304,6 +325,11 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         return !ObjectUtils.isNull(getExpenseType()) && getExpenseType().isHosted();
     }
 
+    /**
+     * This grabs the document from the KNSGlobalVariables currently; we'd love to avoid that in the future
+     *
+     * @return
+     */
     @Transient
     public KualiDecimal getMileageTotal(){
         KualiDecimal total = KualiDecimal.ZERO;
@@ -314,8 +340,18 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
             }
             else {
                 try{
-                    final MileageRate mileageRate = this.getMileageRate();
-                    total = new KualiDecimal(new BigDecimal(miles).multiply(getMileageRate().getRate()));
+                    final TravelFormBase travelForm = (TravelFormBase)KNSGlobalVariables.getKualiForm();
+                    if (travelForm == null) {
+                        return KualiDecimal.ZERO;
+                    }
+                    final TravelDocument travelDocument = travelForm.getTravelDocument();
+                    if (travelDocument == null) {
+                        return KualiDecimal.ZERO;
+                    }
+                    final java.sql.Date effectiveDate = travelDocument.getEffectiveDateForMileageRate(this);
+
+                    final MileageRate mileageRate = getMileageRate(effectiveDate);
+                    total = new KualiDecimal(new BigDecimal(miles).multiply(mileageRate.getRate()));
                 }
                 catch(Exception ex){
                     //This should never happen

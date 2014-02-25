@@ -61,7 +61,7 @@
 				attributeEntry="${otherExpenseAttributes.miles}"
 				property="${detail}.miles" readOnly="${!fullEntryMode}" onchange="updateMileage(this.id)" /></td>
 		<td valign="top" class="infoline" align="center">
-			<c:out value="${detailObject.mileageRate.rate}" />
+			<c:out value="${detailObject.contextlessMileageRate.rate}" />
 		</td>
 	</c:if>
 	<td valign="top" nowrap class="infoline">

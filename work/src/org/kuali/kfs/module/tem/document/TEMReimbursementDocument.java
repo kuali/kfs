@@ -589,6 +589,18 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * Returns the "mileage date" on the expense if it exists
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(PerDiemExpense expense) {
+        if (expense != null && expense.getMileageDate() != null) {
+            return new java.sql.Date(expense.getMileageDate().getTime());
+        }
+        return null;
+    }
+
+    /**
      * Returns the mileage expense date if it exists
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
      */

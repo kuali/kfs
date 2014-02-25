@@ -102,7 +102,8 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TemDocument
         boolean valid = true;
         if (getActualExpenseDetailForValidation().isMileage()) {
             // Check to see if miles & mileage rate/other mileage rate is entered
-            valid = (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMiles()) && getActualExpenseDetailForValidation().getMiles() > 0 && (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageRate()) || (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate()) && getActualExpenseDetailForValidation().getMileageOtherRate().compareTo(BigDecimal.ZERO) > 0)));
+            final java.sql.Date effectiveDate = document.getEffectiveDateForMileageRate(getActualExpenseDetailForValidation());
+            valid = (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMiles()) && getActualExpenseDetailForValidation().getMiles() > 0 && (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageRate(effectiveDate)) || (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate()) && getActualExpenseDetailForValidation().getMileageOtherRate().compareTo(BigDecimal.ZERO) > 0)));
             if (valid) {
                 if (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate())) {
                     BigDecimal maxMileageRate = getMaxMileageRate();

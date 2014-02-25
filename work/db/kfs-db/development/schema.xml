@@ -800,18 +800,16 @@
         </unique>
     </table>
     <table name="AR_BILL_T">
-        <column default="0" name="BILL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="BILL_NBR" size="12" type="DECIMAL"/>
         <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_PRDTRMND_BILL_SCHDL_T" name="AR_BILL_TR1">
-            <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>
-        </foreign-key>
+        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="AR_BILL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1298,18 +1296,15 @@
     </table>
     <table name="AR_INV_BILL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column default="0" name="BILL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="BILL_NBR" size="12" type="DECIMAL"/>
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
         <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_R1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
         <unique name="AR_INV_BILL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16946,7 +16941,6 @@
     <sequence name="FP_PRCRMNT_CARD_TRN_MT_SEQ" nextval="2040"/>
     <sequence name="GL_ORIGIN_ENTRY_GRP_T_SEQ" nextval="12069"/>
     <sequence name="GL_ORIGIN_ENTRY_T_SEQ" nextval="31905"/>
-    <sequence name="INV_BILL_ID_SEQ" nextval="1"/>
     <sequence name="INV_DTL_SEQ" nextval="1"/>
     <sequence name="INV_LOAD_SUM_ID" nextval="1002"/>
     <sequence name="INV_MLSTN_ID_SEQ" nextval="1"/>

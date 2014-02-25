@@ -614,6 +614,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (StringUtils.isNotEmpty(balanceType)) {
             explicitEntry.setFinancialBalanceTypeCode(balanceType);
         }
+        explicitEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
     }
 
     /**
@@ -674,6 +675,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             offsetEntry.setFinancialBalanceTypeCode(balanceType);
             customized = true;
         }
+
+        offsetEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
         return customized;
     }
 

@@ -1594,17 +1594,14 @@
     <table name="AR_INV_MLSTN_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="MLSTN_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column default="0" name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="MLSTN_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_R1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
         <unique name="AR_INV_MLSTN_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1754,18 +1751,16 @@
     </table>
     <table name="AR_MLSTN_T">
         <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="MLSTN_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column default="0" name="MLSTN_ID" size="12" type="DECIMAL"/>
+        <column name="MLSTN_NBR" size="12" type="DECIMAL"/>
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
-        <foreign-key foreignTable="AR_MLSTN_SCHDL_T" name="AR_MLSTN_TR1">
-            <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>
-        </foreign-key>
+        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="AR_MLSTN_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16943,7 +16938,6 @@
     <sequence name="GL_ORIGIN_ENTRY_T_SEQ" nextval="31905"/>
     <sequence name="INV_DTL_SEQ" nextval="1"/>
     <sequence name="INV_LOAD_SUM_ID" nextval="1002"/>
-    <sequence name="INV_MLSTN_ID_SEQ" nextval="1"/>
     <sequence name="INV_RJT_ITM_ID" nextval="1002"/>
     <sequence name="INV_RJT_REAS_ID" nextval="1002"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1580"/>

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 
@@ -95,13 +95,13 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     @Override
     public KualiDecimal getTotalAmountScheduled() {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (Iterator i = getMilestones().iterator(); i.hasNext();) {
-            Milestone m = (Milestone) i.next();
-            if (null != m.getMilestoneAmount()) {
-                total = total.add(m.getMilestoneAmount());
+        for (Milestone milestone: milestones) {
+            if (ObjectUtils.isNotNull(milestone.getMilestoneAmount()) && milestone.isActive()) {
+                total = total.add(milestone.getMilestoneAmount());
             }
         }
         return total;
+
     }
 
     /**

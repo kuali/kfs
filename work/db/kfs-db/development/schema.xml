@@ -16157,11 +16157,6 @@
         <unique name="TEM_PER_DIEM_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <index name="TEM_PER_DIEM_TI1">
-            <index-column name="SSN_BGN_MONTH_DAY"/>
-            <index-column name="EFFECT_FROM_DT"/>
-            <index-column name="PRI_DEST_ID"/>
-        </index>
     </table>
     <table name="TEM_PRI_DEST_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
@@ -16174,11 +16169,6 @@
         <unique name="TEM_PRI_DEST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <index name="TEM_PRI_DEST_TI1">
-            <index-column name="PRI_DEST_NM"/>
-            <index-column name="REGION_CD"/>
-            <index-column name="COUNTY_CD"/>
-        </index>
     </table>
     <table name="TEM_PROFILE_ACCOUNT_T">
         <column name="ACCOUNT_ID" primaryKey="true" size="22" type="DECIMAL"/>

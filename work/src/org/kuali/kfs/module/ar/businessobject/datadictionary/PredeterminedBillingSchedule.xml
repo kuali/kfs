@@ -265,6 +265,7 @@
 										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 										<bean parent="FieldDefinition" p:attributeName="billDate" />
 										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
 									</list>
 								</property>
 							</bean>

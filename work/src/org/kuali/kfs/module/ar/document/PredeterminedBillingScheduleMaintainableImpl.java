@@ -87,9 +87,9 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         }
     }
 
-    /**
-    * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
-    * copying
+   /**
+    * Not to copy over the Bills billedIndicators and billIdentifiers to prevent
+    * bad data and PK issues when saving new Bills.
     */
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -119,7 +119,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
 
 
     /**
-     * Gets the underlying Milestone Schedule.
+     * Gets the underlying Predetermined Billing Schedule.
      *
      * @return
      */
@@ -135,9 +135,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
-        PredeterminedBillingSchedule oldPredeterminedBillingSchedule = (PredeterminedBillingSchedule) document.getOldMaintainableObject().getBusinessObject();
-        PredeterminedBillingSchedule predeterminedBillingSchedule = (PredeterminedBillingSchedule) document.getNewMaintainableObject().getBusinessObject();
-        Long proposalNumber = predeterminedBillingSchedule.getProposalNumber();
+        Long proposalNumber = getPredeterminedBillingSchedule().getProposalNumber();
 
         for (Section section : sections) {
             String sectionId = section.getSectionId();

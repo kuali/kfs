@@ -356,6 +356,15 @@ public interface AccountsReceivableModuleService {
 
     /**
      * Checks to see if the award corresponding to the passed in proposalNumber has a
+     * MilestoneSchedule associated with it.
+     *
+     * @param proposalNumber proposalNumber for the Award use as key to look for MilestoneSchedule
+     * @return true if there is an active MilestoneSchedule for this proposalNumber, false otherwise
+     */
+    public boolean hasMilestoneSchedule(Long proposalNumber);
+
+    /**
+     * Checks to see if the award corresponding to the passed in proposalNumber has a
      * PredeterminedBillingSchedule associated with it.
      *
      * @param proposalNumber proposalNumber for the Award use as key to look for PredeterminedBillingSchedule

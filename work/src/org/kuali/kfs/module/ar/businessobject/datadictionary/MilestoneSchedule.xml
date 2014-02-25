@@ -43,6 +43,7 @@
 				<ref bean="MilestoneSchedule-milestones.milestoneExpectedCompletionDate" />
 				<ref bean="MilestoneSchedule-milestones.milestoneActualCompletionDate" />
 				<ref bean="MilestoneSchedule-milestones.billedIndicator" />
+				<ref bean="MilestoneSchedule-milestones.active" />
 			</list>
 		</property>
 		<property name="collections">
@@ -224,6 +225,12 @@
 		<property name="name" value="milestones.billedIndicator" />
 	</bean>
 
+	<bean id="MilestoneSchedule-milestones.active" parent="MilestoneSchedule-milestones.active-parentBean" />
+
+	<bean id="MilestoneSchedule-milestones.active-parentBean"
+		abstract="true" parent="Milestone-active">
+		<property name="name" value="milestones.active" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -269,6 +276,7 @@
 										<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
 										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+										<bean parent="FieldDefinition" p:attributeName="active" />
 									</list>
 								</property>
 							</bean>

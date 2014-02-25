@@ -221,7 +221,7 @@
 			<column name="PRPSL_NBR" type="decimal(12,0)" >
 				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
 			</column>
-			<column name="MLSTN_NBR" type="decimal(12,0)" >
+			<column name="MLSTN_ID" type="decimal(12,0)" >
 				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
@@ -230,12 +230,15 @@
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0" />
+			<column name="MLSTN_NBR" type="decimal(12,0)" />
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
 			<column name="BILLED_IND" type="varchar(1)" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -609,9 +612,6 @@
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
 			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -621,6 +621,7 @@
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="MLSTN_NBR" type="decimal(12,0)" />
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_AMT" type="decimal(7,0)" />
@@ -630,24 +631,6 @@
 			<replace replace="varchar" with="varchar2" />
 			<replace replace="decimal" with="number" />
 			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
-
-
-	<changeSet author="KFSCGB" id="CGB_INV_MLSTN_ID_SEQ_oracle"
-		dbms="oracle">
-		<createSequence sequenceName="INV_MLSTN_ID_SEQ" />
-	</changeSet>
-
-	<changeSet author="KFSCGB" id="CGB_INV_MLSTN_ID_SEQ_mysql"
-		dbms="mysql">
-		<createTable tableName="INV_MLSTN_ID_SEQ">
-			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-		</createTable>
-		<modifySql dbms="mysql">
-			<append value=" engine myisam" />
 		</modifySql>
 	</changeSet>
 

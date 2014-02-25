@@ -460,8 +460,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * Called to manipulate Billing Schedule and Milestone Schedule (hide/show) based on the value chosen in the Award Schedule drop
-     * down
+     * Called to manipulate which sections are shown on the Award Maintenance document
      *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument,
      *      org.kuali.rice.kns.maintenance.Maintainable)

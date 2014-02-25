@@ -60,6 +60,13 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
                         SpringContext.getBean(AccountsReceivableModuleService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
                             sectionsToReturn.add(section);
                     }
+                } else if (StringUtils.equals(sectionId, CGPropertyConstants.MILESTONE_SCHEDULE_SECTION)) {
+                    if (isContractsGrantsBillingEnhancementsActive() &&
+                        StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
+                        SpringContext.getBean(AccountsReceivableModuleService.class).hasMilestoneSchedule(award.getProposalNumber())) {
+                            sectionsToReturn.add(section);
+                    }
+
                 } else {
                     sectionsToReturn.add(section);
                 }

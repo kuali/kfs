@@ -1318,30 +1318,11 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Milestone Schedule">
+				<bean parent="InquirySectionDefinition" p:id="Milestone Schedule" p:title="Milestone Schedule">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition"
 								p:attributeName="milestoneSchedule.milestoneScheduleInquiryTitle" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Milestones - Completed">
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="milestones"
-								p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableMilestone">
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
-										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
-									</list>
-								</property>
-							</bean>
 						</list>
 					</property>
 				</bean>

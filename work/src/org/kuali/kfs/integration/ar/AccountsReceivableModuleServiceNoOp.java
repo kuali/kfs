@@ -365,4 +365,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return false;
     }
 
+    @Override
+    public boolean hasMilestoneSchedule(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
+
 }

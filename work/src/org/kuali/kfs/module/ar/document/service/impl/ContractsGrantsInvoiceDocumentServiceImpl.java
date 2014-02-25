@@ -2263,6 +2263,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+            map.put(KFSPropertyConstants.ACTIVE, true);
             milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
 
             // To retrieve the previous period end Date to check for milestones and billing schedule.
@@ -3831,8 +3832,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Bill> bills = new ArrayList<Bill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
         map.put(KFSPropertyConstants.ACTIVE, true);
+        milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
         bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
 
         if (ObjectUtils.isNotNull(award)) {
@@ -4703,6 +4704,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         invoiceBills = (List<InvoiceBill>) businessObjectService.findMatching(InvoiceBill.class, map);
 
         if (CollectionUtils.isNotEmpty(invoiceBills)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId) {
+        List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        if (StringUtils.isNotBlank(milestoneId)) {
+            map.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneId);
+        }
+        invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
+
+        if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
             return true;
         } else {
             return false;

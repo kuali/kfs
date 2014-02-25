@@ -291,6 +291,8 @@ public class ArPropertyConstants{
     public static final String BILLED_AT_TERM = "AT_TERM";
     public static final String BILLING_SCHEDULE_SECTION = "Predetermined Billing Schedule";
     public static final String BILL_SECTION = "Bills";
+    public static final String MILESTONE_SCHEDULE_SECTION = "Milestone Schedule";
+    public static final String MILESTONES_SECTION = "Milestones";
     public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
@@ -463,6 +465,11 @@ public class ArPropertyConstants{
     public static class BillFields {
         public static final String BILL_IDENTIFIER = "billIdentifier";
         public static final String BILL_NUMBER = "billNumber";
+    }
+
+    public static class MilestoneFields {
+        public static final String MILESTONE_IDENTIFIER = "milestoneIdentifier";
+        public static final String MILESTONE_NUMBER = "milestoneNumber";
     }
 
     public static final String INVOICE_NUMBER="invoiceItemNumber";

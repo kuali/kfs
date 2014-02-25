@@ -18,13 +18,14 @@ package org.kuali.kfs.integration.ar;
 import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for Milestone
  */
-public interface AccountsReceivableMilestone extends ExternalizableBusinessObject {
+public interface AccountsReceivableMilestone extends ExternalizableBusinessObject, Inactivatable {
 
 
     /**

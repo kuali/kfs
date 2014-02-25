@@ -22,17 +22,17 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Milestone to be used for Milestone Schedule under Contracts and Grants
  */
-public class Milestone extends PersistableBusinessObjectBase implements AccountsReceivableMilestone {
+public class Milestone extends PersistableBusinessObjectBase implements AccountsReceivableMilestone, MutableInactivatable {
 
     private Long proposalNumber;
     private Long milestoneNumber;
@@ -44,7 +44,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
     private boolean billedIndicator;
-
+    private boolean active;
 
     private ContractsAndGrantsBillingAward award;
 
@@ -133,6 +133,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
     }
 
 
+    @Override
     public boolean isBilledIndicator() {
         return billedIndicator;
     }
@@ -234,6 +235,16 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
         m.put("milestoneAmount", milestoneAmount);
         m.put("isBilledIndicator", billedIndicator);
         return m;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

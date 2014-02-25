@@ -577,7 +577,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      */
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
 
-
     /**
      * Has the Bill been copied to an Invoice Bill on an invoice doc?
      * @param proposalNumber proposal number to check
@@ -585,5 +584,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the Bill has been copied, false if otherwise
      */
     public boolean hasBillBeenCopiedToInvoice(Long proposalNumber, String billId);
+
+    /**
+     * Has the Milestone been copied to an Invoice Milestone on an invoice doc?
+     * @param proposalNumber proposal number to check
+     * @param milestoneId milestoneId to check
+     * @return true if the Milestone has been copied, false if otherwise
+     */
+    public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId);
 
 }

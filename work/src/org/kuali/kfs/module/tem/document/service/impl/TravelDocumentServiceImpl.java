@@ -213,7 +213,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         expense.setCounty(newPerDiem.getPrimaryDestination().getCounty());
 
         setPerDiemMealsAndIncidentals(expense, newPerDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
-        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? newPerDiem.getLodging() : KualiDecimal.ZERO;
+        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() && !KfsDateUtils.isSameDay(document.getTripEnd(), ts) ? newPerDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
         expense.setMileageRateExpenseTypeCode(mileageRateExpenseTypeCode);
         return expense;

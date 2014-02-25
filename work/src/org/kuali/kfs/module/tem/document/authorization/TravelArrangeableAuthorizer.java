@@ -198,7 +198,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
 
             if (roleQualifiers != null && !roleQualifiers.isEmpty()) {
                 // we can chose any of these since they all work - so we'll just choose the first
-                attributes.putAll(roleQualifiers.get(0));
+                attributes.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, roleQualifiers.get(0).get(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID));
                 return true;
             }
         }
@@ -251,12 +251,12 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
 
                         final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
                         if (closestParent != null) {
-                            attributes.putAll(qualifier);
+                            attributes.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, qualifier.get(KfsKimAttributes.SUB_FUND_GROUP_CODE));
                             return true;
                         }
                     } else {
                         // no doc type.  That's weird, but whatever - it passes
-                        attributes.putAll(qualifier);
+                        attributes.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, qualifier.get(KfsKimAttributes.SUB_FUND_GROUP_CODE));
                         return true;
                     }
                 }

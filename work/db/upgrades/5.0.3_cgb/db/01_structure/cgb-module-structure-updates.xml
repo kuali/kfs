@@ -430,8 +430,8 @@
 			<column name="CUST_ADDR_NM" type="varchar(40)" />
 			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="PREF_CUST_INV_TYP_CD" type="varchar(10)" />
-			<column name="INV_IND_CD" type="VARCHAR(10)" />
-			<column name="PREF_INV_IND_CD" type="VARCHAR(10)" />
+			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
+			<column name="PREF_INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
 			<column name="NOTE_ID" type="DECIMAL(14,0)" />
 		</createTable>
 		<modifySql dbms="oracle">
@@ -695,18 +695,18 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="AR_INV_IND_T">
-		<createTable tableName="AR_INV_IND_T">
-			<column name="INV_IND_CD" type="varchar(10)">
+	<changeSet author="KFSCGB" id="AR_INV_TRNS_MTHD_T">
+		<createTable tableName="AR_INV_TRNS_MTHD_T">
+			<column name="INV_TRNS_MTHD_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_IND_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_TRNS_MTHD_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INV_IND_DESC" type="varchar(45)" />
+			<column name="INV_TRNS_MTHD_DESC" type="varchar(45)" />
 			<column name="ACTV_IND" type="varchar(1)">
 				<constraints nullable="false" />
 			</column>
@@ -717,7 +717,6 @@
 			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
-
 
 	<!-- This document helps in creating InvoiceDetailAccountObjectCode table -->
 
@@ -1573,7 +1572,7 @@
 		<addColumn tableName="AR_CUST_ADDR_T">
 			<column name="INV_TYP_CD" type="varchar(10)" />
 			<column name="COPIES_TO_PRINT_QTY" type="decimal(5,0)" />
-			<column name="INV_IND_CD" type="VARCHAR(10)" />
+			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
 			<column name="PRNT_ENV_NBR" type="decimal(5,0)" />
 		</addColumn>
 

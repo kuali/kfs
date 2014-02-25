@@ -28,8 +28,8 @@
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.preferredCustomerInvoiceTemplateCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceIndicatorCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceIndicatorCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceTransmissionMethodCode}" useShortLabel="false" />
 				</tr>
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceAddressDetails" id="invoiceAddressDetail">
 					<tr>
@@ -41,10 +41,10 @@
 								property="document.invoiceAddressDetails[${ctr}].customerInvoiceTemplateCode" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.preferredCustomerInvoiceTemplateCode}"
 								property="document.invoiceAddressDetails[${ctr}].preferredCustomerInvoiceTemplateCode" readOnly="${readOnly}" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.invoiceIndicatorCode}"
-								property="document.invoiceAddressDetails[${ctr}].invoiceIndicatorCode" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceIndicatorCode}"
-								property="document.invoiceAddressDetails[${ctr}].preferredInvoiceIndicatorCode" readOnly="${readOnly}" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}"
+								property="document.invoiceAddressDetails[${ctr}].invoiceTransmissionMethodCode" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceTransmissionMethodCode}"
+								property="document.invoiceAddressDetails[${ctr}].preferredInvoiceTransmissionMethodCode" readOnly="${readOnly}" /></td>
 					</tr>
 				</logic:iterate>
 			</table>

@@ -13,47 +13,47 @@
 		and limitations under the License. -->
 
 
-	<bean id="InvoiceIndicatorMaintenanceDocument" parent="InvoiceIndicatorMaintenanceDocument-parentBean" />
+	<bean id="InvoiceTransmissionMethodMaintenanceDocument" parent="InvoiceTransmissionMethodMaintenanceDocument-parentBean" />
 
-	<bean id="InvoiceIndicatorMaintenanceDocument-parentBean"
+	<bean id="InvoiceTransmissionMethodMaintenanceDocument-parentBean"
 		abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceTransmissionMethod" />
 		<property name="maintainableClass"
 			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 		<property name="maintainableSections">
 			<list>
-				<ref bean="InvoiceIndicatorMaintenanceDocument-EditInvoiceIndicator" />
+				<ref bean="InvoiceTransmissionMethodMaintenanceDocument-EditInvoiceTransmissionMethod" />
 			</list>
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>invoiceIndicator</value>
+				<value>invoiceTransmissionMethodCode</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="INVI" />
+		<property name="documentTypeName" value="IMTM" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">
-			<ref bean="InvoiceIndicatorMaintenanceDocument-workflowAttributes" />
+			<ref bean="InvoiceTransmissionMethodMaintenanceDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean id="InvoiceIndicatorMaintenanceDocument-EditInvoiceIndicator"
-		parent="InvoiceIndicatorMaintenanceDocument-EditInvoiceIndicator-parentBean" />
+	<bean id="InvoiceTransmissionMethodMaintenanceDocument-EditInvoiceTransmissionMethod"
+		parent="InvoiceTransmissionMethodMaintenanceDocument-EditInvoiceTransmissionMethod-parentBean" />
 
 	<bean
-		id="InvoiceIndicatorMaintenanceDocument-EditInvoiceIndicator-parentBean"
+		id="InvoiceTransmissionMethodMaintenanceDocument-EditInvoiceTransmissionMethod-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Invoice Indicator" />
-		<property name="title" value="Edit Invoice Indicator" />
+		<property name="id" value="Edit Method of Invoice Transmission" />
+		<property name="title" value="Edit Method of Invoice Transmission" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="invoiceIndicator"
+				<bean parent="MaintainableFieldDefinition" p:name="invoiceTransmissionMethodCode"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="invoiceIndicatorDescription"
+				<bean parent="MaintainableFieldDefinition" p:name="invoiceTransmissionMethodDescription"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />
@@ -62,10 +62,10 @@
 	</bean>
 
 	<!-- workflow attributes -->
-	<bean id="InvoiceIndicatorMaintenanceDocument-workflowAttributes"
-		parent="InvoiceIndicatorMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean id="InvoiceTransmissionMethodMaintenanceDocument-workflowAttributes"
+		parent="InvoiceTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean" />
 
 	<bean
-		id="InvoiceIndicatorMaintenanceDocument-workflowAttributes-parentBean"
+		id="InvoiceTransmissionMethodMaintenanceDocument-workflowAttributes-parentBean"
 		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

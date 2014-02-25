@@ -24,10 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.businessobject.InvoiceIndicator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -68,12 +66,12 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     // Invoice Indicator link
 
-    private String invoiceIndicatorCode;
-    private InvoiceIndicator invoiceIndicator;
+    private String invoiceTransmissionMethodCode;
+    private InvoiceTransmissionMethod invoiceTransmissionMethod;
 
     private Integer customerCopiesToPrint;
     private Integer customerPrintEnvelopesNumber;
-    
+
     /**
      * Default constructor.
      */
@@ -403,23 +401,24 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     /**
-     * Gets the invoiceIndicatorCode attribute.
+     * Gets the invoiceTransmissionMethodCode attribute.
      *
-     * @return Returns the invoiceIndicatorCode.
+     * @return Returns the invoiceTransmissionMethodCode.
      */
-    public String getInvoiceIndicatorCode() {
-        return invoiceIndicatorCode;
+    @Override
+    public String getInvoiceTransmissionMethodCode() {
+        return invoiceTransmissionMethodCode;
     }
 
     /**
-     * Sets the invoiceIndicatorCode attribute value.
+     * Sets the invoiceTransmissionMethodCode attribute value.
      *
-     * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
+     * @param invoiceTransmissionMethodCode The invoiceTransmissionMethodCode to set.
      */
-    public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
-        this.invoiceIndicatorCode = invoiceIndicatorCode;
+    public void setInvoiceTransmissionMethodCode(String invoiceTransmissionMethodCode) {
+        this.invoiceTransmissionMethodCode = invoiceTransmissionMethodCode;
     }
     /**
      * Gets the customerCountry attribute.
@@ -553,6 +552,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         super.refresh();
     }
 
+    @Override
     public String getCustomerInvoiceTemplateCode() {
         return customerInvoiceTemplateCode;
     }
@@ -569,14 +569,15 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.customerInvoiceTemplate = customerInvoiceTemplate;
     }
 
-    public InvoiceIndicator getInvoiceIndicator() {
-        return invoiceIndicator;
+    public InvoiceTransmissionMethod getInvoiceTransmissionMethod() {
+        return invoiceTransmissionMethod;
     }
 
-    public void setInvoiceIndicator(InvoiceIndicator invoiceIndicator) {
-        this.invoiceIndicator = invoiceIndicator;
+    public void setInvoiceTransmissionMethod(InvoiceTransmissionMethod invoiceTransmissionMethod) {
+        this.invoiceTransmissionMethod = invoiceTransmissionMethod;
     }
 
+    @Override
     public Integer getCustomerCopiesToPrint() {
         return customerCopiesToPrint;
     }
@@ -585,6 +586,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.customerCopiesToPrint = customerCopiesToPrint;
     }
 
+    @Override
     public Integer getCustomerPrintEnvelopesNumber() {
         return customerPrintEnvelopesNumber;
     }

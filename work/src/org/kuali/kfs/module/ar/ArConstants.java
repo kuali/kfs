@@ -361,13 +361,9 @@ public class ArConstants{
 
     }
 
-    public static class InvoiceIndicator {
+    public static class InvoiceTransmissionMethod {
         static final public String MAIL = "MAIL";
         static final public String EMAIL = "EMAIL";
-        static final public String S2S = "S2S";
-        static final public String PAY_WEB = "PayWeb";
-        static final public String WAWF = "WAWF";
-        static final public String VIPERS = "Vipers";
     }
 
     public static class DunningLetters {

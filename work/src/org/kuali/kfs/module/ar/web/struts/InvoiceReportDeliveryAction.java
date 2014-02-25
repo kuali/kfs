@@ -178,13 +178,13 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         Collection<ContractsGrantsInvoiceDocument> list = this.getInvoicesByParametersFromRequest(irdForm);
 
         if (CollectionUtils.isNotEmpty(list)) {
-            if (ArConstants.InvoiceIndicator.MAIL.equals(deliveryType)) {
+            if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(deliveryType)) {
                 Collection<ContractsGrantsInvoiceDocument> mailList = new ArrayList<ContractsGrantsInvoiceDocument>();
                 Set<ContractsGrantsInvoiceDocument> mailSet = new HashSet<ContractsGrantsInvoiceDocument>();
                 for(ContractsGrantsInvoiceDocument invoice: list){
                     if(ObjectUtils.isNull(invoice.getDateReportProcessed())){
                         for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
-                            if(ArConstants.InvoiceIndicator.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceIndicatorCode())){
+                            if(ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())){
                                 mailSet.add(invoice);
                             }
                         }
@@ -218,13 +218,13 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
             }
-            else if (ArConstants.InvoiceIndicator.EMAIL.equals(deliveryType)){
+            else if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(deliveryType)){
                 Collection<ContractsGrantsInvoiceDocument> emailList = new ArrayList<ContractsGrantsInvoiceDocument>();
                 Set<ContractsGrantsInvoiceDocument> emailSet = new HashSet<ContractsGrantsInvoiceDocument>();
                 for(ContractsGrantsInvoiceDocument invoice: list){
                     if(ObjectUtils.isNull(invoice.getMarkedForProcessing())){
                         for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
-                            if(ArConstants.InvoiceIndicator.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceIndicatorCode())){
+                            if(ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())){
                                 emailSet.add(invoice);
                             }
                         }

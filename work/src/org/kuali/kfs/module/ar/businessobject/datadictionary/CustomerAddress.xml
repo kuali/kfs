@@ -46,7 +46,7 @@
 				<ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
 				
 				<ref bean="CustomerAddress-customerInvoiceTemplateCode" />
-				<ref bean="CustomerAddress-invoiceIndicatorCode" />
+				<ref bean="CustomerAddress-invoiceTransmissionMethodCode" />
 				<ref bean="CustomerAddress-customerCopiesToPrint" />
 				<ref bean="CustomerAddress-customerPrintEnvelopesNumber" />
 			</list>
@@ -297,13 +297,13 @@
 	</bean>
 
 	<!-- Invoice Indicator Link -->
-	<bean id="CustomerAddress-invoiceIndicatorCode" parent="CustomerAddress-invoiceIndicatorCode-parentBean" />
+	<bean id="CustomerAddress-invoiceTransmissionMethodCode" parent="CustomerAddress-invoiceTransmissionMethodCode-parentBean" />
 
-	<bean id="CustomerAddress-invoiceIndicatorCode-parentBean" abstract="true"
+	<bean id="CustomerAddress-invoiceTransmissionMethodCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="invoiceIndicatorCode" />
+		<property name="name" value="invoiceTransmissionMethodCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Print Invoice Indicator" />
+		<property name="label" value="Method of Invoice Transmission" />
 		<property name="shortLabel" value="InvInd" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -311,7 +311,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceIndicatorValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTransmissionMethodValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

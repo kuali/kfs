@@ -394,16 +394,16 @@
 		</documentType>
 		<documentType>
 			<name>
-				INVI
+				IMTM
 			</name>
 			<parent>
-				CGSM
+				ARSM
 			</parent>
 			<label>
-				Invoice Indicators
+				Method of Invoice Transmission
 			</label>
 			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Finvoiceindicators.htm
+				default.htm?turl=WordDocuments%2Fmethodofinvoicetransmission.htm
 			</helpDefinitionURL>
 			<active>
 				true

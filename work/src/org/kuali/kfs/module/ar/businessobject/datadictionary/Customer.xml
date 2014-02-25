@@ -58,7 +58,7 @@
 				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
 				<ref bean="Customer-customerAddresses.customerEmailAddress" />
 				<ref bean="Customer-customerAddresses.customerInvoiceTemplateCode" />
-				<ref bean="Customer-customerAddresses.invoiceIndicatorCode" />
+				<ref bean="Customer-customerAddresses.invoiceTransmissionMethodCode" />
 				<ref bean="Customer-customerAddresses.customerCopiesToPrint" />
 				<ref bean="Customer-customerAddresses.customerPrintEnvelopesNumber" />
 				<ref bean="Customer-customerTaxTypeCode" />
@@ -456,12 +456,12 @@
 		abstract="true" parent="CustomerAddress-customerInvoiceTemplateCode">
 		<property name="name" value="customerAddresses.customerInvoiceTemplateCode" />
 	</bean>
-		<bean id="Customer-customerAddresses.invoiceIndicatorCode"
-		parent="Customer-customerAddresses.invoiceIndicatorCode-parentBean" />
+		<bean id="Customer-customerAddresses.invoiceTransmissionMethodCode"
+		parent="Customer-customerAddresses.invoiceTransmissionMethodCode-parentBean" />
 
-	<bean id="Customer-customerAddresses.invoiceIndicatorCode-parentBean"
-		abstract="true" parent="CustomerAddress-invoiceIndicatorCode">
-		<property name="name" value="customerAddresses.invoiceIndicatorCode" />
+	<bean id="Customer-customerAddresses.invoiceTransmissionMethodCode-parentBean"
+		abstract="true" parent="CustomerAddress-invoiceTransmissionMethodCode">
+		<property name="name" value="customerAddresses.invoiceTransmissionMethodCode" />
 	</bean>
 		<bean id="Customer-customerAddresses.customerCopiesToPrint"
 		parent="Customer-customerAddresses.customerCopiesToPrint-parentBean" />
@@ -673,7 +673,7 @@
 				<bean parent="FieldDefinition" p:attributeName="customerEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="customerAddressEndDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerCopiesToPrint" />
 				<bean parent="FieldDefinition" p:attributeName="customerPrintEnvelopesNumber" />
 			</list>

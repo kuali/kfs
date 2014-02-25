@@ -31,8 +31,8 @@
 				<ref bean="InvoiceAddressDetail-customerAddressName" />
 				<ref bean="InvoiceAddressDetail-customerInvoiceTemplateCode" />
 				<ref bean="InvoiceAddressDetail-preferredCustomerInvoiceTemplateCode" />
-				<ref bean="InvoiceAddressDetail-invoiceIndicatorCode" />
-				<ref bean="InvoiceAddressDetail-preferredInvoiceIndicatorCode" />
+				<ref bean="InvoiceAddressDetail-invoiceTransmissionMethodCode" />
+				<ref bean="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -150,35 +150,35 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	<bean id="InvoiceAddressDetail-invoiceIndicatorCode" parent="InvoiceAddressDetail-invoiceIndicatorCode-parentBean" />
+	<bean id="InvoiceAddressDetail-invoiceTransmissionMethodCode" parent="InvoiceAddressDetail-invoiceTransmissionMethodCode-parentBean" />
 
-	<bean id="InvoiceAddressDetail-invoiceIndicatorCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="invoiceIndicatorCode" />
+	<bean id="InvoiceAddressDetail-invoiceTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceTransmissionMethodCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Print Invoice Indicator" />
-		<property name="shortLabel" value="InvInd" />
+		<property name="label" value="Method of Invoice Transmission" />
+		<property name="shortLabel" value="InvTrnsMthd" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceIndicatorValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTransmissionMethodValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	<bean id="InvoiceAddressDetail-preferredInvoiceIndicatorCode" parent="InvoiceAddressDetail-preferredInvoiceIndicatorCode-parentBean" />
+	<bean id="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode" parent="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode-parentBean" />
 
-	<bean id="InvoiceAddressDetail-preferredInvoiceIndicatorCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="preferredInvoiceIndicatorCode" />
+	<bean id="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="preferredInvoiceTransmissionMethodCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Print Invoice Indicator" />
-		<property name="shortLabel" value="PrfInvInd" />
+		<property name="label" value="Preferred Method of Invoice Transmission" />
+		<property name="shortLabel" value="PrfInvTrnsMthd" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceIndicatorValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTransmissionMethodValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -204,8 +204,8 @@
 							<bean parent="FieldDefinition" p:attributeName="customerAddressName" />
 							<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="preferredCustomerInvoiceTemplateCode" />
-							<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorCode" />
-							<bean parent="FieldDefinition" p:attributeName="preferredInvoiceIndicatorCode" />
+							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+							<bean parent="FieldDefinition" p:attributeName="preferredInvoiceTransmissionMethodCode" />
 						</list>
 					</property>
 				</bean>

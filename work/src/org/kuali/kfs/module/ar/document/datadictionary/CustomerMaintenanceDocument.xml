@@ -149,7 +149,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="customerAddressEndDate"/>
               
               <bean parent="MaintainableFieldDefinition" p:name="customerInvoiceTemplateCode"/>
-              <bean parent="MaintainableFieldDefinition" p:name="invoiceIndicatorCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="invoiceTransmissionMethodCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="customerCopiesToPrint"/>
               <bean parent="MaintainableFieldDefinition" p:name="customerPrintEnvelopesNumber"/>     
             </list>

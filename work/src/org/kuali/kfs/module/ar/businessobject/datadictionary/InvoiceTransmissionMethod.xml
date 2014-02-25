@@ -17,25 +17,25 @@
 		attribute and property definition for Invoice Indicators Created by Sudeep 
 		Aug 30 2011 Task - 809 -->
 		
-	<bean id="InvoiceIndicators" parent="InvoiceIndicators-parentBean" />
+	<bean id="InvoiceTransmissionMethod" parent="InvoiceTransmissionMethod-parentBean" />
 
-	<bean id="InvoiceIndicators-parentBean" abstract="true"
+	<bean id="InvoiceTransmissionMethod-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceTransmissionMethod" />
 		<property name="inquiryDefinition">
-			<ref bean="InvoiceIndicators-inquiryDefinition" />
+			<ref bean="InvoiceTransmissionMethod-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="InvoiceIndicators-lookupDefinition" />
+			<ref bean="InvoiceTransmissionMethod-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="invoiceIndicator" />
-		<property name="objectLabel" value="Invoice Indicator" />
+		<property name="titleAttribute" value="invoiceTransmissionMethodCode" />
+		<property name="objectLabel" value="Method of Invoice Transmission" />
 		<property name="attributes">
 			<list>
-				<ref bean="InvoiceIndicators-invoiceIndicator" />
-				<ref bean="InvoiceIndicators-invoiceIndicatorDescription" />
-				<ref bean="InvoiceIndicators-active" />
+				<ref bean="InvoiceTransmissionMethod-invoiceTransmissionMethodCode" />
+				<ref bean="InvoiceTransmissionMethod-invoiceTransmissionMethodDescription" />
+				<ref bean="InvoiceTransmissionMethod-active" />
 			</list>
 		</property>
 	</bean>
@@ -43,13 +43,13 @@
 	<!-- Attribute Definitions -->
 
 
-	<bean id="InvoiceIndicators-invoiceIndicator" parent="InvoiceIndicators-invoiceIndicator-parentBean" />
+	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodCode" parent="InvoiceTransmissionMethod-invoiceTransmissionMethodCode-parentBean" />
 
-	<bean id="InvoiceIndicators-invoiceIndicator-parentBean" abstract="true"
+	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="invoiceIndicator" />
+		<property name="name" value="invoiceTransmissionMethodCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Indicator Code" />
+		<property name="label" value="Method of Invoice Transmission Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -60,14 +60,14 @@
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
-	<bean id="InvoiceIndicators-invoiceIndicatorDescription"
-		parent="InvoiceIndicators-invoiceIndicatorDescription-parentBean" />
+	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodDescription"
+		parent="InvoiceTransmissionMethod-invoiceTransmissionMethodDescription-parentBean" />
 
-	<bean id="InvoiceIndicators-invoiceIndicatorDescription-parentBean"
+	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodDescription-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="invoiceIndicatorDescription" />
+		<property name="name" value="invoiceTransmissionMethodDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Invoice Indicator Description" />
+		<property name="label" value="Method of Invoice Transmission Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
@@ -79,9 +79,9 @@
 		</property>
 	</bean>
 
-	<bean id="InvoiceIndicators-active" parent="InvoiceIndicators-active-parentBean" />
+	<bean id="InvoiceTransmissionMethod-active" parent="InvoiceTransmissionMethod-active-parentBean" />
 
-	<bean id="InvoiceIndicators-active-parentBean" abstract="true"
+	<bean id="InvoiceTransmissionMethod-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
@@ -89,11 +89,11 @@
 	<!-- Business Object Inquiry Definition -->
 
 
-	<bean id="InvoiceIndicators-inquiryDefinition" parent="InvoiceIndicators-inquiryDefinition-parentBean" />
+	<bean id="InvoiceTransmissionMethod-inquiryDefinition" parent="InvoiceTransmissionMethod-inquiryDefinition-parentBean" />
 
-	<bean id="InvoiceIndicators-inquiryDefinition-parentBean"
+	<bean id="InvoiceTransmissionMethod-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Invoice Indicator Inquiry" />
+		<property name="title" value="Method of Invoice Transmission Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -101,8 +101,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="invoiceIndicator" />
-							<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorDescription" />
+							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -114,11 +114,11 @@
 	<!-- Business Object Lookup Definition -->
 
 
-	<bean id="InvoiceIndicators-lookupDefinition" parent="InvoiceIndicators-lookupDefinition-parentBean" />
+	<bean id="InvoiceTransmissionMethod-lookupDefinition" parent="InvoiceTransmissionMethod-lookupDefinition-parentBean" />
 
-	<bean id="InvoiceIndicators-lookupDefinition-parentBean" abstract="true"
+	<bean id="InvoiceTransmissionMethod-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Invoice Indicator Lookup" />
+		<property name="title" value="Method of Invoice Transmission Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
@@ -126,15 +126,15 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="invoiceIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorDescription" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="invoiceIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorDescription" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

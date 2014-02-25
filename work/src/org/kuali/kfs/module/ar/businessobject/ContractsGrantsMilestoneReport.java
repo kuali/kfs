@@ -38,6 +38,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     private KualiDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
     private String isItBilled;
+    private String active;
     private ContractsAndGrantsAward award;
     private Account account;
     private Chart chart;

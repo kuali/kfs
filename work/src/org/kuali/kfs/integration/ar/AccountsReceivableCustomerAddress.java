@@ -80,7 +80,7 @@ public interface AccountsReceivableCustomerAddress extends ExternalizableBusines
 
     public String getCustomerInvoiceTemplateCode();
     
-    public String getInvoiceIndicatorCode();
+    public String getInvoiceTransmissionMethodCode();
     
     public Integer getCustomerCopiesToPrint(); 
     

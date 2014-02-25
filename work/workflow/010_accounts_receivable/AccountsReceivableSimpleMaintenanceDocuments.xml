@@ -337,5 +337,25 @@
 				2
 			</routingVersion>
 		</documentType>
-			</documentTypes>
+		<documentType>
+			<name>
+				IMTM
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Method of Invoice Transmission
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fmethodofinvoicetransmission.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+	</documentTypes>
 </data>

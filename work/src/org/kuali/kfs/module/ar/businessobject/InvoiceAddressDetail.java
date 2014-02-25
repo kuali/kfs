@@ -33,8 +33,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private String customerAddressName;
     private String preferredCustomerInvoiceTemplateCode;
     private String customerInvoiceTemplateCode;
-    private String invoiceIndicatorCode;
-    private String preferredInvoiceIndicatorCode;
+    private String invoiceTransmissionMethodCode;
+    private String preferredInvoiceTransmissionMethodCode;
     private long noteId;
 
     private CustomerAddress customerAddress;
@@ -47,12 +47,12 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the invoiceIndicatorCode attribute.
+     * Gets the invoiceTransmissionMethodCode attribute.
      *
-     * @return Returns the invoiceIndicatorCode.
+     * @return Returns the invoiceTransmissionMethodCode.
      */
-    public String getInvoiceIndicatorCode() {
-        return invoiceIndicatorCode;
+    public String getInvoiceTransmissionMethodCode() {
+        return invoiceTransmissionMethodCode;
     }
 
     /**
@@ -74,30 +74,30 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the invoiceIndicatorCode attribute value.
+     * Sets the invoiceTransmissionMethodCode attribute value.
      *
-     * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
+     * @param invoiceTransmissionMethodCode The invoiceTransmissionMethodCode to set.
      */
-    public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
-        this.invoiceIndicatorCode = invoiceIndicatorCode;
+    public void setInvoiceTransmissionMethodCode(String invoiceTransmissionMethodCode) {
+        this.invoiceTransmissionMethodCode = invoiceTransmissionMethodCode;
     }
 
     /**
-     * Gets the preferredInvoiceIndicatorCode attribute.
+     * Gets the preferredInvoiceTransmissionMethodCode attribute.
      *
-     * @return Returns the preferredInvoiceIndicatorCode.
+     * @return Returns the preferredInvoiceTransmissionMethodCode.
      */
-    public String getPreferredInvoiceIndicatorCode() {
-        return preferredInvoiceIndicatorCode;
+    public String getPreferredInvoiceTransmissionMethodCode() {
+        return preferredInvoiceTransmissionMethodCode;
     }
 
     /**
-     * Sets the preferredInvoiceIndicatorCode attribute value.
+     * Sets the preferredInvoiceTransmissionMethodCode attribute value.
      *
-     * @param preferredInvoiceIndicatorCode The preferredInvoiceIndicatorCode to set.
+     * @param preferredInvoiceTransmissionMethodCode The preferredInvoiceTransmissionMethodCode to set.
      */
-    public void setPreferredInvoiceIndicatorCode(String preferredInvoiceIndicatorCode) {
-        this.preferredInvoiceIndicatorCode = preferredInvoiceIndicatorCode;
+    public void setPreferredInvoiceTransmissionMethodCode(String preferredInvoiceTransmissionMethodCode) {
+        this.preferredInvoiceTransmissionMethodCode = preferredInvoiceTransmissionMethodCode;
     }
 
     /**
@@ -237,8 +237,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
         m.put(customerAddressName, this.customerAddressName);
         m.put(preferredCustomerInvoiceTemplateCode, this.preferredCustomerInvoiceTemplateCode);
         m.put(customerInvoiceTemplateCode, this.customerInvoiceTemplateCode);
-        m.put(invoiceIndicatorCode, invoiceIndicatorCode);
-        m.put(preferredInvoiceIndicatorCode, this.preferredInvoiceIndicatorCode);
+        m.put(invoiceTransmissionMethodCode, invoiceTransmissionMethodCode);
+        m.put(preferredInvoiceTransmissionMethodCode, this.preferredInvoiceTransmissionMethodCode);
         return m;
     }
 

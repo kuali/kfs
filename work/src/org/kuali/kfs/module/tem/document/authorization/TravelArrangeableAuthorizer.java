@@ -238,6 +238,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
         if (!ObjectUtils.isNull(line.getAccount()) && !StringUtils.isBlank(line.getAccount().getSubFundGroupCode())) {
             Map<String, String> testQualifier = new HashMap<String, String>();
             testQualifier.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, line.getAccount().getSubFundGroupCode());
+            testQualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, travelAuth.getDocumentTypeName());
 
             final List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.SUB_FUND_REVIEWER, testQualifier);
 

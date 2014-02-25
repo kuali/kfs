@@ -21,10 +21,11 @@
 	<c:if test="${ConfigProperties.module.accounts.receivable.enabled == 'true'}">
 	 	<strong>Accounts Receivable</strong><br/>
 	    <ul class="chan">
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INV'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CRM'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INVW'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTRL'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Contracts & Grants Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CINV'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CRM'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INV'/></li>
+	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INVW'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Payment Applications' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=APP'/></li>
 	    </ul>
 	</c:if>

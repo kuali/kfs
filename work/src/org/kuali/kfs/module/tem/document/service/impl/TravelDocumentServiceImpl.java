@@ -778,6 +778,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 
+        document.getFinancialSystemDocumentHeader().setApplicationDocumentStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
+
         getDocumentService().saveDocument(document);
     }
 

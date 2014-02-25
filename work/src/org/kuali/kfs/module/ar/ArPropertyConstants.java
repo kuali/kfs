@@ -289,7 +289,8 @@ public class ArPropertyConstants{
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNUALLY";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
     public static final String BILLED_AT_TERM = "AT_TERM";
-    public static final String BILLING_SCHEDULE_SECTION = "Predetermined Schedule";
+    public static final String BILLING_SCHEDULE_SECTION = "Predetermined Billing Schedule";
+    public static final String BILL_SECTION = "Bills";
     public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
@@ -457,6 +458,11 @@ public class ArPropertyConstants{
     // ContractsAndGrantsAgencyAddress Fields
     public static class ContractsAndGrantsAgencyAddressFields {
         public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
+    }
+
+    public static class BillFields {
+        public static final String BILL_IDENTIFIER = "billIdentifier";
+        public static final String BILL_NUMBER = "billNumber";
     }
 
     public static final String INVOICE_NUMBER="invoiceItemNumber";

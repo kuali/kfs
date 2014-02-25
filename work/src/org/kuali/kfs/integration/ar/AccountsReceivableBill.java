@@ -17,13 +17,14 @@ package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
 
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for Bill
  */
-public interface AccountsReceivableBill extends ExternalizableBusinessObject {
+public interface AccountsReceivableBill extends ExternalizableBusinessObject, Inactivatable {
 
 
     /**

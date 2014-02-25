@@ -24,6 +24,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -31,18 +32,17 @@ import org.kuali.rice.krad.service.KualiModuleService;
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
  */
-public class Bill extends PersistableBusinessObjectBase implements AccountsReceivableBill {
-
+public class Bill extends PersistableBusinessObjectBase implements AccountsReceivableBill, MutableInactivatable {
 
     private Long proposalNumber;
+    private Long billIdentifier;
     private Long billNumber;
     private String billDescription;
-    private Long billIdentifier;
     private Date billDate;
 
     private KualiDecimal estimatedAmount = KualiDecimal.ZERO;
     private boolean billedIndicator;
-
+    private boolean active;
 
     private ContractsAndGrantsBillingAward award;
 
@@ -51,11 +51,6 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      */
     public Bill() {
         this.setBilledIndicator(false);
-    }
-
-    public Bill(ContractsAndGrantsBillingAward award){
-        this();
-        this.setProposalNumber(award.getProposalNumber());
     }
 
     /**
@@ -216,6 +211,16 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         m.put("estimatedAmount", this.estimatedAmount.toString());
         m.put("isBilledIndicator", this.billedIndicator);
         return m;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

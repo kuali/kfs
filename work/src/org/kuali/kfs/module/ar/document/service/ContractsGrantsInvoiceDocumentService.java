@@ -577,4 +577,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      */
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
 
+
+    /**
+     * Has the Bill been copied to an Invoice Bill on an invoice doc?
+     * @param proposalNumber proposal number to check
+     * @param billId billId to check
+     * @return true if the Bill has been copied, false if otherwise
+     */
+    public boolean hasBillBeenCopiedToInvoice(Long proposalNumber, String billId);
+
 }

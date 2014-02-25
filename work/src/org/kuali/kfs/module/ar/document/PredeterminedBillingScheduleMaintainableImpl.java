@@ -18,17 +18,27 @@ package org.kuali.kfs.module.ar.document;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PredeterminedBillingScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Methods for the Predetermined Billing Schedule maintenance document UI.
@@ -77,6 +87,24 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         }
     }
 
+    /**
+    * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
+    * copying
+    */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+
+        // clear out Bill IDs so new ones will get generated for these bills
+        // reset billed indicator in case bill we're copying from was already billed
+        List<Bill> bills = getPredeterminedBillingSchedule().getBills();
+        if (ObjectUtils.isNotNull(bills)) {
+            for (Bill bill:bills) {
+                bill.setBilledIndicator(false);
+                bill.setBillIdentifier(null);
+            }
+        }
+    }
 
     /**
      * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
@@ -99,5 +127,65 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
 
         return (PredeterminedBillingSchedule) getBusinessObject();
     }
+
+    /**
+     * Override the getSections method on this maintainable so that the active field can be set to read-only when
+     * a CINV doc has been created with this Predetermined Billing Schedule and Bills
+     */
+    @Override
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
+        PredeterminedBillingSchedule oldPredeterminedBillingSchedule = (PredeterminedBillingSchedule) document.getOldMaintainableObject().getBusinessObject();
+        PredeterminedBillingSchedule predeterminedBillingSchedule = (PredeterminedBillingSchedule) document.getNewMaintainableObject().getBusinessObject();
+        Long proposalNumber = predeterminedBillingSchedule.getProposalNumber();
+
+        for (Section section : sections) {
+            String sectionId = section.getSectionId();
+            if (sectionId.equalsIgnoreCase(ArPropertyConstants.BILL_SECTION)) {
+                prepareBillsTab(section, proposalNumber);
+            }
+        }
+
+        return sections;
+    }
+
+    /**
+     * Sets the Bill in the passed in section to be readonly if it has been copied to a CG Invoice doc.
+     *
+     * @param section Bill section to review and possibly set readonly
+     * @param proposalNumber used to look for CG Invoice docs
+     */
+    private void prepareBillsTab(Section section, Long proposalNumber) {
+        ContractsGrantsInvoiceDocumentService cgInvDocService  = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+
+        for (Row row : section.getRows()) {
+            for (Field field : row.getFields()) {
+                if (field.getCONTAINER().equalsIgnoreCase(field.getFieldType())) {
+                    for (Row containerRow : field.getContainerRows()) {
+                        for (Field containerRowfield : containerRow.getFields()) {
+                            // a record is no longer editable if the bill has been copied to a CINV doc
+                            if (ObjectUtils.getNestedAttributePrimitive(containerRowfield.getPropertyName()).matches(ArPropertyConstants.BillFields.BILL_IDENTIFIER)) {
+                                String billId = containerRowfield.getPropertyValue();
+                                if (StringUtils.isNotEmpty(billId)) {
+                                    if (cgInvDocService.hasBillBeenCopiedToInvoice(proposalNumber, billId)) {
+                                        for (Field rowfield : row.getFields()) {
+                                            if (rowfield.getCONTAINER().equalsIgnoreCase(rowfield.getFieldType())) {
+                                                for (Row fieldContainerRow : rowfield.getContainerRows()) {
+                                                    for (Field fieldContainerRowField : fieldContainerRow.getFields()) {
+                                                        fieldContainerRowField.setReadOnly(true);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 }

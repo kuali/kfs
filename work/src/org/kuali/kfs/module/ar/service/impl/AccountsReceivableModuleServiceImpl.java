@@ -805,4 +805,17 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
     }
 
+    @Override
+    public boolean hasPredeterminedBillingSchedule(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        PredeterminedBillingSchedule schedule = getBusinessObjectService().findByPrimaryKey(PredeterminedBillingSchedule.class, map);
+        if (ObjectUtils.isNotNull(schedule)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

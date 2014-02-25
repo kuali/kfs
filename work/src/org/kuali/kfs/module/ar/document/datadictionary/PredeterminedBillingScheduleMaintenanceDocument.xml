@@ -92,6 +92,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
 							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" />
 						</list>
 					</property>
 					<property name="maintainableFields">
@@ -107,6 +108,7 @@
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
 								p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
 						</list>
 					</property>
 				</bean>

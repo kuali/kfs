@@ -359,4 +359,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    @Override
+    public boolean hasPredeterminedBillingSchedule(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
+
 }

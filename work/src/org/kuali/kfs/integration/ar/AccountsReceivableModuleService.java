@@ -355,6 +355,15 @@ public interface AccountsReceivableModuleService {
     public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber);
 
     /**
+     * Checks to see if the award corresponding to the passed in proposalNumber has a
+     * PredeterminedBillingSchedule associated with it.
+     *
+     * @param proposalNumber proposalNumber for the Award use as key to look for PredeterminedBillingSchedule
+     * @return true if there is an active PredeterminedBillingSchedule for this proposalNumber, false otherwise
+     */
+    public boolean hasPredeterminedBillingSchedule(Long proposalNumber);
+
+    /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts
      *
      * @param award the Award used to calculate lastBilledDate

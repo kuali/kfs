@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -52,8 +55,10 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             for (Section section : sections) {
                 String sectionId = section.getSectionId();
                 if (StringUtils.equals(sectionId, CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
-                    if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-                        sectionsToReturn.add(section);
+                    if (isContractsGrantsBillingEnhancementsActive() &&
+                        StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
+                        SpringContext.getBean(AccountsReceivableModuleService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
+                            sectionsToReturn.add(section);
                     }
                 } else {
                     sectionsToReturn.add(section);
@@ -62,6 +67,16 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
         }
 
         return sectionsToReturn;
+    }
+
+    /**
+     * Checks ENABLE_CG_BILLING_ENHANCEMENTS_IND parameter to determine
+     * if enhancements are active.
+     *
+     * @return true if Contracts and Grants Billing enhancements are enabled
+     */
+    private boolean isContractsGrantsBillingEnhancementsActive() {
+        return SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
     }
 }
 

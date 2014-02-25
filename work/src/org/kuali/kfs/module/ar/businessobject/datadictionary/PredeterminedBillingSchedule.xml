@@ -42,6 +42,7 @@
 				<ref bean="PredeterminedBillingSchedule-bills.estimatedAmount" />
 				<ref bean="PredeterminedBillingSchedule-bills.billDate" />
 				<ref bean="PredeterminedBillingSchedule-bills.billedIndicator" />
+				<ref bean="PredeterminedBillingSchedule-bills.active" />
 			</list>
 		</property>
 		<property name="collections">
@@ -214,6 +215,12 @@
 		<property name="name" value="bills.billedIndicator" />
 	</bean>
 
+	<bean id="PredeterminedBillingSchedule-bills.active" parent="PredeterminedBillingSchedule-bills.active-parentBean" />
+
+	<bean id="PredeterminedBillingSchedule-bills.active-parentBean"
+		abstract="true" parent="Bill-active">
+		<property name="name" value="bills.active" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 

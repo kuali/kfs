@@ -35,6 +35,7 @@
 				<ref bean="Bill-estimatedAmount" />
 				<ref bean="Bill-billDate" />
 				<ref bean="Bill-billedIndicator" />
+				<ref bean="Bill-active" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -147,6 +148,12 @@
 		<property name="shortLabel" value="billedIndicator" />
  	</bean>
 
+	<bean id="Bill-active" parent="Bill-active-parentBean"/>
+
+  	<bean id="Bill-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    	<property name="name" value="active"/>
+  	</bean>
+
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -169,6 +176,7 @@
 							<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 							<bean parent="FieldDefinition" p:attributeName="billDate" />
 							<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+					        <bean parent="FieldDefinition" p:attributeName="active"/>
 						</list>
 					</property>
 				</bean>
@@ -198,6 +206,7 @@
 				<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 				<bean parent="FieldDefinition" p:attributeName="billDate" />
 				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -209,6 +218,7 @@
 				<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
 				<bean parent="FieldDefinition" p:attributeName="billDate" />
 				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+		        <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

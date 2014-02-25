@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 
@@ -95,10 +95,9 @@ public class PredeterminedBillingSchedule extends PersistableBusinessObjectBase 
     @Override
     public KualiDecimal getTotalAmountScheduled() {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (Iterator i = getBills().iterator(); i.hasNext();) {
-            Bill b = (Bill) i.next();
-            if (null != b.getEstimatedAmount()) {
-                total = total.add(b.getEstimatedAmount());
+        for (Bill bill: bills) {
+            if (ObjectUtils.isNotNull(bill.getEstimatedAmount()) && bill.isActive()) {
+                total = total.add(bill.getEstimatedAmount());
             }
         }
         return total;

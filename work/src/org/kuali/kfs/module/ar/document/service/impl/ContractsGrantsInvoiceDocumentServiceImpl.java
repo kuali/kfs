@@ -1905,15 +1905,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             tempFieldValues = new HashMap<String, String>();
 
             if (ObjectUtils.isNotNull(invoiceBill.getBillNumber())) {
-                tempFieldValues.put("billNumber", invoiceBill.getBillNumber().toString());
+                tempFieldValues.put(ArPropertyConstants.BillFields.BILL_NUMBER, invoiceBill.getBillNumber().toString());
             }
 
             if (ObjectUtils.isNotNull(invoiceBill.getBillIdentifier())) {
-                tempFieldValues.put("billIdentifier", invoiceBill.getBillIdentifier().toString());
+                tempFieldValues.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, invoiceBill.getBillIdentifier().toString());
             }
 
             if (ObjectUtils.isNotNull(invoiceBill.getProposalNumber())) {
-                tempFieldValues.put("proposalNumber", invoiceBill.getProposalNumber().toString());
+                tempFieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, invoiceBill.getProposalNumber().toString());
             }
 
             fieldValuesList.add(tempFieldValues);
@@ -2298,6 +2298,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             List<Bill> validBills = new ArrayList<Bill>();
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+            map.put(KFSPropertyConstants.ACTIVE, true);
 
             bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
             // To retrieve the previous period end Date to check for milestones and billing schedule.
@@ -3831,6 +3832,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
+        map.put(KFSPropertyConstants.ACTIVE, true);
         bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
 
         if (ObjectUtils.isNotNull(award)) {
@@ -4687,6 +4689,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         return isEqual;
+    }
+
+    @Override
+    public boolean hasBillBeenCopiedToInvoice(Long proposalNumber, String billId) {
+        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        if (StringUtils.isNotBlank(billId)) {
+            map.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billId);
+        }
+        invoiceBills = (List<InvoiceBill>) businessObjectService.findMatching(InvoiceBill.class, map);
+
+        if (CollectionUtils.isNotEmpty(invoiceBills)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

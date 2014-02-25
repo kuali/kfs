@@ -101,7 +101,6 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
             }
         }
         return total;
-
     }
 
     /**
@@ -122,7 +121,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     @Override
     public KualiDecimal getTotalAmountRemaining() {
         KualiDecimal total = KualiDecimal.ZERO;
-        if (award != null) {
+        if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(award.getAwardTotalAmount())) {
             total = award.getAwardTotalAmount().subtract(getTotalAmountScheduled());
         }
         return total;

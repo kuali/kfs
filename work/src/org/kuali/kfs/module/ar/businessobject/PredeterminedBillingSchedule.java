@@ -121,7 +121,7 @@ public class PredeterminedBillingSchedule extends PersistableBusinessObjectBase 
     @Override
     public KualiDecimal getTotalAmountRemaining() {
         KualiDecimal total = KualiDecimal.ZERO;
-        if (award != null) {
+        if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(award.getAwardTotalAmount())) {
             total = award.getAwardTotalAmount().subtract(getTotalAmountScheduled());
         }
         return total;

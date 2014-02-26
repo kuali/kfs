@@ -23,6 +23,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -37,7 +39,6 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     private KualiDecimal lunch;
     private KualiDecimal dinner;
     private KualiDecimal incidentals;
-    private KualiDecimal firstOrLastDayAmount;
 
     private Date lastUpdateDate;
 
@@ -93,23 +94,6 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
         this.incidentals = incidentals;
     }
 
-    /**
-     * Gets the firstOrLastDayAmount attribute.
-     * @return Returns the firstOrLastDayAmount.
-     */
-    @Column(name="FIRST_LAST_DAY_AMOUNT")
-    public KualiDecimal getFirstOrLastDayAmount() {
-        return firstOrLastDayAmount;
-    }
-
-    /**
-     * Sets the firstOrLastDayAmount attribute value.
-     * @param firstOrLastDayAmount The firstOrLastDayAmount to set.
-     */
-    public void setFirstOrLastDayAmount(KualiDecimal firstOrLastDayAmount) {
-        this.firstOrLastDayAmount = firstOrLastDayAmount;
-    }
-
     @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
     public boolean isActive() {
@@ -138,16 +122,34 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+
+        lastUpdateDate = getDateTimeService().getCurrentSqlDate();
+    }
+
+    @Override
+    protected void preUpdate() {
+        super.preUpdate();
+
+        lastUpdateDate = getDateTimeService().getCurrentSqlDate();
+    }
+
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
 
-        map.put(TemPropertyConstants.MEALS_AND_INCIDENTALS, this.getMealsAndIncidentals());
+        map.put(TemPropertyConstants.MEALS_AND_INCIDENTALS, this.mealsAndIncidentals);
         map.put(TemPropertyConstants.BREAKFAST, this.breakfast);
         map.put(TemPropertyConstants.LUNCH, this.lunch);
         map.put(TemPropertyConstants.DINNER, this.dinner);
         map.put(TemPropertyConstants.INCIDENTALS, this.incidentals);
 
         return map;
+    }
+
+    public DateTimeService getDateTimeService(){
+        return SpringContext.getBean(DateTimeService.class);
     }
 }

@@ -336,6 +336,9 @@ public class TemKeyConstants {
     public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
 
     public static final String ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY = "error.perdiem.invalid.date.seasonBeginMonthDay";
+    public static final String ERROR_PER_DIEM_MIB_INVALID_AMOUNTS_MUST_BE_POSITIVE = "error.perdiem.mib.invalid.amountsMustBePositive";
+    public static final String ERROR_PER_DIEM_MIB_INVALID_TOTAL_MEALS_AND_INCIDENTALS = "error.perdiem.mib.invalid.total.mealsAndIncidentals";
+    public static final String ERROR_PER_DIEM_MIB_INVALID_FIRST_OR_LAST_DAY_AMOUNT = "error.perdiem.mib.invalid.firstOrLastDayAmount";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
 
     //Configuration properties

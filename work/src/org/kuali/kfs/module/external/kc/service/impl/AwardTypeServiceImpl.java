@@ -27,7 +27,7 @@ import javax.xml.ws.WebServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.businessobject.ContractGrantType;
+import org.kuali.kfs.module.external.kc.businessobject.InstrumentType;
 import org.kuali.kfs.module.external.kc.dto.AwardTypeDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
@@ -70,7 +70,7 @@ public class AwardTypeServiceImpl implements ExternalizableBusinessObjectService
 
     @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        AwardTypeDTO dto  = this.getWebService().getAwardType((Integer)primaryKeys.get("contractGrantType"));
+        AwardTypeDTO dto  = this.getWebService().getAwardType((Integer)primaryKeys.get("instrumentTypeCode"));
         return typeFromDTO(dto);
     }
 
@@ -85,10 +85,10 @@ public class AwardTypeServiceImpl implements ExternalizableBusinessObjectService
             String val = (String) e.getValue();
 
             HashMapElement hashMapElement = new HashMapElement();
-            if (StringUtils.equals(key, "contractGrantTypeCode")) {
+            if (StringUtils.equals(key, "instrumentTypeCode")) {
                 hashMapElement.setKey("awardTypeCode");
                 hashMapElement.setValue(val);
-            } else if (StringUtils.equals(key, "contractGrantDescription")) {
+            } else if (StringUtils.equals(key, "instrumentTypeDescription")) {
                 hashMapElement.setKey("description");
                 hashMapElement.setValue(val);
             }
@@ -103,7 +103,7 @@ public class AwardTypeServiceImpl implements ExternalizableBusinessObjectService
         if (result == null) {
             return new ArrayList();
         } else {
-            List<ContractGrantType> types = new ArrayList<ContractGrantType>();
+            List<InstrumentType> types = new ArrayList<InstrumentType>();
             for (AwardTypeDTO dto : result) {
                 types.add(typeFromDTO(dto));
             }
@@ -111,10 +111,10 @@ public class AwardTypeServiceImpl implements ExternalizableBusinessObjectService
         }
     }
 
-    protected ContractGrantType typeFromDTO(AwardTypeDTO awardType) {
-        ContractGrantType type = new ContractGrantType();
-        type.setContractGrantTypeCode(awardType.getAwardTypeCode().toString());
-        type.setContractGrantTypeDescription(awardType.getDescription());
+    protected InstrumentType typeFromDTO(AwardTypeDTO awardType) {
+        InstrumentType type = new InstrumentType();
+        type.setInstrumentTypeCode(awardType.getAwardTypeCode().toString());
+        type.setInstrumentTypeDescription(awardType.getDescription());
         return type;
     }
 

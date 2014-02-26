@@ -360,11 +360,11 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getSuspensionReason();
 
     /**
-     * Gets the contractGrantType attribute.
+     * Gets the instrumentTypeCode attribute.
      *
-     * @return Returns the contractGrantType.
+     * @return Returns the instrumentTypeCode.
      */
-    public String getContractGrantType();
+    public String getInstrumentTypeCode();
 
     /**
      * Gets the invoicingOptions attribute.

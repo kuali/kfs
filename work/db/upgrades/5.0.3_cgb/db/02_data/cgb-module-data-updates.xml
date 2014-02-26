@@ -39,69 +39,69 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-			<update tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD">GFP</column>
-			<where>CNTRCT_GRNT_TYP_CD='FP'</where>
+			<update tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD">GFP</column>
+			<where>INSTRMNT_TYP_CD='FP'</where>
 		</update>
-		<update tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD">GRI</column>
-			<where>CNTRCT_GRNT_TYP_CD='RI'</where>
+		<update tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD">GRI</column>
+			<where>INSTRMNT_TYP_CD='RI'</where>
 		</update>
-		<update tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD">GSC</column>
-			<where>CNTRCT_GRNT_TYP_CD='SC'</where>
+		<update tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD">GSC</column>
+			<where>INSTRMNT_TYP_CD='SC'</where>
 		</update>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="CCS" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Cost Share" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CCS" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Cost Share" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="CMS" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Milestone" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CMS" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Milestone" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="CPB" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Predetermined Billing Schedule" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CPB" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Predetermined Billing Schedule" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="CPP" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Prepaid" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CPP" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Prepaid" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="CSC" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Subcontract" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CSC" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Subcontract" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="GCS" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Cost Share" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GCS" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Cost Share" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="GMS" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Milestone" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GMS" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Milestone" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="GPB" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Predetermined Billing Schedule" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GPB" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Predetermined Billing Schedule" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
-			<column name="CNTRCT_GRNT_TYP_CD" value="GPP" />
-			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Prepaid" />
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GPP" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Prepaid" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>

@@ -106,13 +106,13 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.contractGrantType.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}"
-							property="document.invoiceGeneralDetail.contractGrantType" readOnly="true" />
+					<div id="document.instrumentTypeCode.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.instrumentTypeCode}"
+							property="document.invoiceGeneralDetail.instrumentTypeCode" readOnly="true" />
 					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">

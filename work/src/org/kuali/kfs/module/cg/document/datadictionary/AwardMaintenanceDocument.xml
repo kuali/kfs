@@ -144,7 +144,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="awardAllocatedUniversityComputingServicesAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardAddendumNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber" />
-				<bean parent="MaintainableFieldDefinition" p:name="contractGrantType" />
+				<bean parent="MaintainableFieldDefinition" p:name="instrumentTypeCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyAnalystName" />
 				<bean parent="MaintainableFieldDefinition" p:name="analystTelephoneNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"

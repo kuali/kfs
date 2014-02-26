@@ -301,7 +301,7 @@ public class ArPropertyConstants{
     public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
     public static final String AWARD_FUND_TYPE = "fundsType";
-    public static final String AWARD_CONTRACT_GRANT_TYPE = "contractGrantType";
+    public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
     public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
     public static final String INCOME_OBJECT_TYPE = "IN";

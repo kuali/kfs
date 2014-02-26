@@ -27,7 +27,7 @@
 	</td>
 	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.preferredBillingFrequency}" property="${propertyName}.preferredBillingFrequency"
 			readOnly="true" /></td>
-	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.contractGrantType}" property="${propertyName}.contractGrantType" readOnly="true" />
+	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.instrumentTypeCode}" property="${propertyName}.instrumentTypeCode" readOnly="true" />
 	</td>
 	<td><kul:htmlControlAttribute attributeEntry="${awardAttributes.invoicingOptions}" property="${propertyName}.invoicingOptions" readOnly="true" />
 	</td>

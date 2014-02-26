@@ -19,21 +19,21 @@ import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
- * This interface defines all the necessary methods to define a contracts and grants grant type object.
+ * This interface defines all the necessary methods to define a contracts and grants instrument type object.
  */
-public interface ContractsAndGrantsContractGrantType extends ExternalizableBusinessObject, Inactivatable {
+public interface ContractsAndGrantsInstrumentType extends ExternalizableBusinessObject, Inactivatable {
 
     /**
-     * Gets the contractGrantTypeCode attribute.
+     * Gets the instrumentTypeCode attribute.
      *
-     * @return Returns the contractGrantTypeCode.
+     * @return Returns the instrumentTypeCode.
      */
-    public String getContractGrantTypeCode();
+    public String getInstrumentTypeCode();
 
     /**
-     * Gets the contractGrantTypeDescription attribute.
+     * Gets the instrumentTypeDescription attribute.
      *
-     * @return Returns the contractGrantTypeDescription.
+     * @return Returns the instrumentTypeDescription.
      */
-    public String getContractGrantTypeDescription();
+    public String getInstrumentTypeDescription();
 }

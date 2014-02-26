@@ -323,7 +323,7 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
         awardAttributesForDisplay.add(KFSPropertyConstants.AWARD_BEGINNING_DATE);
         awardAttributesForDisplay.add(KFSPropertyConstants.AWARD_ENDING_DATE);
         awardAttributesForDisplay.add(ArPropertyConstants.PREFERRED_BILLING_FREQUENCY);
-        awardAttributesForDisplay.add(ArPropertyConstants.AWARD_CONTRACT_GRANT_TYPE);
+        awardAttributesForDisplay.add(ArPropertyConstants.AWARD_INSTRUMENT_TYPE);
         awardAttributesForDisplay.add(ArPropertyConstants.AWARD_INVOICING_OPTIONS);
         awardAttributesForDisplay.add(KFSPropertyConstants.AWARD_TOTAL_AMOUNT);
 

@@ -14,25 +14,25 @@
 		and limitations under the License. -->
 
 
-	<bean id="ContractGrantType" parent="ContractGrantType-parentBean" />
+	<bean id="InstrumentType" parent="InstrumentType-parentBean" />
 
-	<bean id="ContractGrantType-parentBean" abstract="true"
+	<bean id="InstrumentType-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.cg.businessobject.ContractGrantType" />
+			value="org.kuali.kfs.module.cg.businessobject.InstrumentType" />
 		<property name="inquiryDefinition">
-			<ref bean="ContractGrantType-inquiryDefinition" />
+			<ref bean="InstrumentType-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="ContractGrantType-lookupDefinition" />
+			<ref bean="InstrumentType-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="contractGrantTypeCode" />
+		<property name="titleAttribute" value="instrumentTypeCode" />
 		<property name="objectLabel" value="Instrument Type" />
 		<property name="attributes">
 			<list>
-				<ref bean="ContractGrantType-contractGrantTypeCode" />
-				<ref bean="ContractGrantType-contractGrantTypeDescription" />
-				<ref bean="ContractGrantType-active" />
+				<ref bean="InstrumentType-instrumentTypeCode" />
+				<ref bean="InstrumentType-instrumentTypeDescription" />
+				<ref bean="InstrumentType-active" />
 			</list>
 		</property>
 	</bean>
@@ -40,11 +40,11 @@
 	<!-- Attribute Definitions -->
 
 
-	<bean id="ContractGrantType-contractGrantTypeCode" parent="ContractGrantType-contractGrantTypeCode-parentBean" />
+	<bean id="InstrumentType-instrumentTypeCode" parent="InstrumentType-instrumentTypeCode-parentBean" />
 
-	<bean id="ContractGrantType-contractGrantTypeCode-parentBean"
+	<bean id="InstrumentType-instrumentTypeCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="contractGrantTypeCode" />
+		<property name="name" value="instrumentTypeCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Instrument Type Code" />
 		<property name="shortLabel" value="Code" />
@@ -57,12 +57,12 @@
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
-	<bean id="ContractGrantType-contractGrantTypeDescription"
-		parent="ContractGrantType-contractGrantTypeDescription-parentBean" />
+	<bean id="InstrumentType-instrumentTypeDescription"
+		parent="InstrumentType-instrumentTypeDescription-parentBean" />
 
-	<bean id="ContractGrantType-contractGrantTypeDescription-parentBean"
+	<bean id="InstrumentType-instrumentTypeDescription-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="contractGrantTypeDescription" />
+		<property name="name" value="instrumentTypeDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Instrument Type Description" />
 		<property name="shortLabel" value="Description" />
@@ -76,9 +76,9 @@
 		</property>
 	</bean>
 
-	<bean id="ContractGrantType-active" parent="ContractGrantType-active-parentBean" />
+	<bean id="InstrumentType-active" parent="InstrumentType-active-parentBean" />
 
-	<bean id="ContractGrantType-active-parentBean" abstract="true"
+	<bean id="InstrumentType-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
@@ -86,9 +86,9 @@
 	<!-- Business Object Inquiry Definition -->
 
 
-	<bean id="ContractGrantType-inquiryDefinition" parent="ContractGrantType-inquiryDefinition-parentBean" />
+	<bean id="InstrumentType-inquiryDefinition" parent="InstrumentType-inquiryDefinition-parentBean" />
 
-	<bean id="ContractGrantType-inquiryDefinition-parentBean"
+	<bean id="InstrumentType-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Instrument Type Inquiry" />
 		<property name="inquirySections">
@@ -98,8 +98,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="contractGrantTypeCode" />
-							<bean parent="FieldDefinition" p:attributeName="contractGrantTypeDescription" />
+							<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="instrumentTypeDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -111,9 +111,9 @@
 	<!-- Business Object Lookup Definition -->
 
 
-	<bean id="ContractGrantType-lookupDefinition" parent="ContractGrantType-lookupDefinition-parentBean" />
+	<bean id="InstrumentType-lookupDefinition" parent="InstrumentType-lookupDefinition-parentBean" />
 
-	<bean id="ContractGrantType-lookupDefinition-parentBean" abstract="true"
+	<bean id="InstrumentType-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Instrument Type Lookup" />
 
@@ -123,15 +123,15 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="contractGrantTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="contractGrantTypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="instrumentTypeDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="contractGrantTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="contractGrantTypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="instrumentTypeDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

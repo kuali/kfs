@@ -91,7 +91,7 @@
 				<ref bean="Award-suspensionReason" />
 				<ref bean="Award-additionalFormsRequiredIndicator" />
 				<ref bean="Award-additionalFormsDescription" />
-				<ref bean="Award-contractGrantType" />
+				<ref bean="Award-instrumentTypeCode" />
 				<ref bean="Award-minInvoiceAmount" />
 				<ref bean="Award-invoicingOptions" />
 				<ref bean="Award-autoApproveIndicator" />
@@ -958,15 +958,15 @@
 		</property>
 	</bean>
 
-	<bean id="Award-contractGrantType" parent="Award-contractGrantType-parentBean" />
+	<bean id="Award-instrumentTypeCode" parent="Award-instrumentTypeCode-parentBean" />
 
-	<bean id="Award-contractGrantType-parentBean" abstract="true"
-		parent="ContractGrantType-contractGrantTypeCode">
-		<property name="name" value="contractGrantType" />
+	<bean id="Award-instrumentTypeCode-parentBean" abstract="true"
+		parent="InstrumentType-instrumentTypeCode">
+		<property name="name" value="instrumentTypeCode" />
 		<property name="label" value="Instrument Type" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ContractGrantTypeValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.InstrumentTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -1160,7 +1160,7 @@
 							<bean parent="FieldDefinition" p:attributeName="suspensionReason" />
 							<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
-							<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
+							<bean parent="FieldDefinition" p:attributeName="instrumentTypeCode" />
 							<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 							<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />

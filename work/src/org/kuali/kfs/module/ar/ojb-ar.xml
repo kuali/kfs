@@ -1609,7 +1609,7 @@
 		<field-descriptor name="billingFrequency" column="BILL_FREQ" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalBillIndicator" column="FINAL_BILL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="billingPeriod" column="BILLNG_PRD" jdbc-type="VARCHAR" />
-		<field-descriptor name="contractGrantType" column="CNTRCT_GRNT_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="instrumentTypeCode" column="INSTRMNT_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardTotal" column="AWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="newTotalBilled" column="NEW_TOT_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="amountRemainingToBill" column="AMT_RMNG_TO_BILL" jdbc-type="DECIMAL"

@@ -40,7 +40,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String billingFrequency;
     private boolean finalBillIndicator;
     private String billingPeriod;
-    private String contractGrantType;
+    private String instrumentTypeCode;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
     private KualiDecimal amountRemainingToBill = KualiDecimal.ZERO;
@@ -90,8 +90,8 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(award.getPreferredBillingFrequency())) {
             this.setBillingFrequency(award.getPreferredBillingFrequency());
         }
-        if (ObjectUtils.isNotNull(award.getContractGrantType())) {
-            this.setContractGrantType(award.getContractGrantType());
+        if (ObjectUtils.isNotNull(award.getInstrumentTypeCode())) {
+            this.setInstrumentTypeCode(award.getInstrumentTypeCode());
         }
         // To set Award Date range - this would be (Award Start Date to Award Stop Date)
         String awdDtRange = award.getAwardBeginningDate() + " to " + award.getAwardEndingDate();
@@ -209,22 +209,22 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the contractGrantType attribute.
+     * Gets the instrumentTypeCode attribute.
      *
-     * @return Returns the contractGrantType.
+     * @return Returns the instrumentTypeCode.
      */
-    public String getContractGrantType() {
-        return contractGrantType;
+    public String getInstrumentTypeCode() {
+        return instrumentTypeCode;
     }
 
 
     /**
-     * Sets the contractGrantType attribute value.
+     * Sets the instrumentTypeCode attribute value.
      *
-     * @param contractGrantType The contractGrantType to set.
+     * @param instrumentTypeCode The instrumentTypeCode to set.
      */
-    public void setContractGrantType(String contractGrantType) {
-        this.contractGrantType = contractGrantType;
+    public void setInstrumentTypeCode(String instrumentTypeCode) {
+        this.instrumentTypeCode = instrumentTypeCode;
     }
 
 
@@ -320,7 +320,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         m.put("awardDateRange", this.awardDateRange);
         m.put("billingFrequency", this.billingFrequency);
         m.put("billingPeriod", this.billingPeriod);
-        m.put("contractGrantType", this.contractGrantType);
+        m.put("instrumentTypeCode", this.instrumentTypeCode);
         if (ObjectUtils.isNotNull(this.awardTotal)) {
             m.put("awardTotal", this.awardTotal.toString());
         }

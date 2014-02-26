@@ -17,42 +17,42 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsInstrumentType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Contract Grant Types under Contracts and Grants section.
+ * Instrument Types under Contracts and Grants section.
  */
 
-public class ContractGrantType extends PersistableBusinessObjectBase implements ContractsAndGrantsContractGrantType, MutableInactivatable {
+public class InstrumentType extends PersistableBusinessObjectBase implements ContractsAndGrantsInstrumentType, MutableInactivatable {
 
-    private String contractGrantTypeCode;
-    private String contractGrantTypeDescription;
+    private String instrumentTypeCode;
+    private String instrumentTypeDescription;
     private boolean active;
 
     /**
      * Default constructor.
      */
-    public ContractGrantType() {
+    public InstrumentType() {
     }
 
     @Override
-    public String getContractGrantTypeCode() {
-        return contractGrantTypeCode;
+    public String getInstrumentTypeCode() {
+        return instrumentTypeCode;
     }
 
-    public void setContractGrantTypeCode(String contractGrantTypeCode) {
-        this.contractGrantTypeCode = contractGrantTypeCode;
+    public void setInstrumentTypeCode(String instrumentTypeCode) {
+        this.instrumentTypeCode = instrumentTypeCode;
     }
 
     @Override
-    public String getContractGrantTypeDescription() {
-        return contractGrantTypeDescription;
+    public String getInstrumentTypeDescription() {
+        return instrumentTypeDescription;
     }
 
-    public void setContractGrantTypeDescription(String contractGrantTypeDescription) {
-        this.contractGrantTypeDescription = contractGrantTypeDescription;
+    public void setInstrumentTypeDescription(String instrumentTypeDescription) {
+        this.instrumentTypeDescription = instrumentTypeDescription;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ContractGrantType extends PersistableBusinessObjectBase implements 
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("contractGrantTypeCode", this.contractGrantTypeCode);
+        m.put("instrumentTypeCode", this.instrumentTypeCode);
         return m;
     }
 }

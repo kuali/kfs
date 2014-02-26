@@ -436,7 +436,7 @@
 		<field-descriptor name="additionalFormsRequiredIndicator" column="ADDTNL_FRMS_RQRD" jdbc-type="VARCHAR"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="additionalFormsDescription" column="ADDTNL_FRM_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="contractGrantType" column="CNTRCT_GRNT_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="instrumentTypeCode" column="INSTRMNT_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="fundingExpirationDate" column="FUNDING_EXP_DT" jdbc-type="DATE" />
 		<field-descriptor name="commentText" column="COMMENT_TXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
@@ -693,13 +693,13 @@
 	</class-descriptor>
 
 
-	<!-- CONTRACT OR GRANT TYPE -->
+	<!-- INSTRUMENT TYPE -->
 
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ContractGrantType" table="CG_CNTRCT_GRNT_TYP_T">
-		<field-descriptor name="contractGrantTypeCode" column="CNTRCT_GRNT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.InstrumentType" table="CG_INSTRMNT_TYP_T">
+		<field-descriptor name="instrumentTypeCode" column="INSTRMNT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="contractGrantTypeDescription" column="CNTRCT_GRNT_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="instrumentTypeDescription" column="INSTRMNT_TYP_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 

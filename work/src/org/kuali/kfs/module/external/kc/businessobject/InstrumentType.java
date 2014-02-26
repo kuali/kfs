@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.external.kc.businessobject;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsInstrumentType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class ContractGrantType implements ContractsAndGrantsContractGrantType, MutableInactivatable {
+public class InstrumentType implements ContractsAndGrantsInstrumentType, MutableInactivatable {
 
-    private String contractGrantTypeCode;
-    private String contractGrantTypeDescription;
+    private String instrumentTypeCode;
+    private String instrumentTypeDescription;
 
     @Override
     public void refresh() { }
@@ -39,21 +39,21 @@ public class ContractGrantType implements ContractsAndGrantsContractGrantType, M
     }
 
     @Override
-    public String getContractGrantTypeCode() {
-        return contractGrantTypeCode;
+    public String getInstrumentTypeCode() {
+        return instrumentTypeCode;
     }
 
-    public void setContractGrantTypeCode(String contractGrantTypeCode) {
-        this.contractGrantTypeCode = contractGrantTypeCode;
+    public void setInstrumentTypeCode(String instrumentTypeCode) {
+        this.instrumentTypeCode = instrumentTypeCode;
     }
 
     @Override
-    public String getContractGrantTypeDescription() {
-        return contractGrantTypeDescription;
+    public String getInstrumentTypeDescription() {
+        return instrumentTypeDescription;
     }
 
-    public void setContractGrantTypeDescription(String contractGrantTypeDescription) {
-        this.contractGrantTypeDescription = contractGrantTypeDescription;
+    public void setInstrumentTypeDescription(String instrumentTypeDescription) {
+        this.instrumentTypeDescription = instrumentTypeDescription;
     }
 
 }

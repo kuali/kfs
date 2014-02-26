@@ -29,7 +29,7 @@
 				<ref bean="InvoiceGeneralDetail-billingFrequency" />
 				<ref bean="InvoiceGeneralDetail-finalBillIndicator" />
 				<ref bean="InvoiceGeneralDetail-billingPeriod" />
-				<ref bean="InvoiceGeneralDetail-contractGrantType" />
+				<ref bean="InvoiceGeneralDetail-instrumentTypeCode" />
 				<ref bean="InvoiceGeneralDetail-awardTotal" />
 				<ref bean="InvoiceGeneralDetail-newTotalBilled" />
 				<ref bean="InvoiceGeneralDetail-amountRemainingToBill" />
@@ -122,16 +122,16 @@
 	</bean>
 
 
-	<bean id="InvoiceGeneralDetail-contractGrantType" parent="InvoiceGeneralDetail-contractGrantType-parentBean" />
+	<bean id="InvoiceGeneralDetail-instrumentTypeCode" parent="InvoiceGeneralDetail-instrumentTypeCode-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-contractGrantType-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="contractGrantType" />
+	<bean id="InvoiceGeneralDetail-instrumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="instrumentTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Instrument Type" />
 		<property name="shortLabel" value="Instrument Type" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ContractGrantTypeValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InstrumentTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

@@ -95,7 +95,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private boolean additionalFormsRequiredIndicator;
     private String additionalFormsDescription;
     private String suspensionReason;
-    private String contractGrantType;
+    private String instrumentTypeCode;
     private String invoicingOptions;
     private KualiDecimal minInvoiceAmount;
     private boolean autoApproveIndicator;
@@ -621,12 +621,12 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getContractGrantType() {
-        return contractGrantType;
+    public String getInstrumentTypeCode() {
+        return instrumentTypeCode;
     }
 
-    public void setContractGrantType(String contractGrantType) {
-        this.contractGrantType = contractGrantType;
+    public void setInstrumentTypeCode(String instrumentTypeCode) {
+        this.instrumentTypeCode = instrumentTypeCode;
     }
 
     @Override

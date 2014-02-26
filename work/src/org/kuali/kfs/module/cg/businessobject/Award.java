@@ -122,7 +122,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private boolean additionalFormsRequiredIndicator;
     private String additionalFormsDescription;
     private String suspensionReason;
-    private String contractGrantType;
+    private String instrumentTypeCode;
     private String invoicingOptions;
 
     private KualiDecimal minInvoiceAmount = KualiDecimal.ZERO;
@@ -1542,23 +1542,23 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the contractGrantType attribute.
+     * Gets the instrumentTypeCode attribute.
      *
-     * @return Returns the contractGrantType.
+     * @return Returns the instrumentTypeCode.
      */
 
     @Override
-    public String getContractGrantType() {
-        return contractGrantType;
+    public String getInstrumentTypeCode() {
+        return instrumentTypeCode;
     }
 
     /**
-     * Sets the contractGrantType attribute value.
+     * Sets the instrumentTypeCode attribute value.
      *
-     * @param contractGrantType The contractGrantType to set.
+     * @param instrumentTypeCode The instrumentTypeCode to set.
      */
-    public void setContractGrantType(String contractGrantType) {
-        this.contractGrantType = contractGrantType;
+    public void setInstrumentTypeCode(String instrumentTypeCode) {
+        this.instrumentTypeCode = instrumentTypeCode;
     }
 
      /**

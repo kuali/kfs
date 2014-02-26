@@ -3361,7 +3361,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceGeneralDetail.finalInvoiceYesNo", "No");
             }
             parameterMap.put("invoiceGeneralDetail.billingPeriod", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingPeriod()));
-            parameterMap.put("invoiceGeneralDetail.contractGrantType", returnProperStringValue(document.getInvoiceGeneralDetail().getContractGrantType()));
+            parameterMap.put("invoiceGeneralDetail.instrumentTypeCode", returnProperStringValue(document.getInvoiceGeneralDetail().getInstrumentTypeCode()));
             parameterMap.put("invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
             parameterMap.put("invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
             parameterMap.put("invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
@@ -3452,7 +3452,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
             parameterMap.put("award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
             parameterMap.put("award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
-            parameterMap.put("award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
+            parameterMap.put("award.instrumentTypeCode", returnProperStringValue(award.getInstrumentTypeCode()));
             parameterMap.put("award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
             parameterMap.put("award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
             parameterMap.put("award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));

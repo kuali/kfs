@@ -29,7 +29,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.awardBeginningDate}" useShortLabel="false" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.awardEndingDate}" useShortLabel="false" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.preferredBillingFrequency}" useShortLabel="false" hideRequiredAsterisk="true" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.contractGrantType}" useShortLabel="false" hideRequiredAsterisk="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.instrumentTypeCode}" useShortLabel="false" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.invoicingOptions}" useShortLabel="false" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.awardTotalAmount}" useShortLabel="false" hideRequiredAsterisk="true" />
 			</tr>

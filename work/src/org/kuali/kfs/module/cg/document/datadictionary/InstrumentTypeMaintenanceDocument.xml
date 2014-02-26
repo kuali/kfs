@@ -12,50 +12,47 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="ContractGrantTypeMaintenanceDocument" parent="ContractGrantTypeMaintenanceDocument-parentBean" />
+	<bean id="InstrumentTypeMaintenanceDocument" parent="InstrumentTypeMaintenanceDocument-parentBean" />
 
-	<bean id="ContractGrantTypeMaintenanceDocument-parentBean"
+	<bean id="InstrumentTypeMaintenanceDocument-parentBean"
 		abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.cg.businessobject.ContractGrantType" />
+			value="org.kuali.kfs.module.cg.businessobject.InstrumentType" />
 		<property name="maintainableClass"
 			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 		<property name="maintainableSections">
 			<list>
-				<ref bean="ContractGrantTypeMaintenanceDocument-EditContractGrantType" />
+				<ref bean="InstrumentTypeMaintenanceDocument-EditInstrumentType" />
 			</list>
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>contractGrantTypeCode</value>
+				<value>instrumentTypeCode</value>
 			</list>
 		</property>
-
-
-
 		<property name="documentTypeName" value="INST" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">
-			<ref bean="ContractGrantTypeMaintenanceDocument-workflowAttributes" />
+			<ref bean="InstrumentTypeMaintenanceDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean id="ContractGrantTypeMaintenanceDocument-EditContractGrantType"
-		parent="ContractGrantTypeMaintenanceDocument-EditContractGrantType-parentBean" />
+	<bean id="InstrumentTypeMaintenanceDocument-EditInstrumentType"
+		parent="InstrumentTypeMaintenanceDocument-EditInstrumentType-parentBean" />
 
 	<bean
-		id="ContractGrantTypeMaintenanceDocument-EditContractGrantType-parentBean"
+		id="InstrumentTypeMaintenanceDocument-EditInstrumentType-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Instrument Type" />
 		<property name="title" value="Edit Instrument Type" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="contractGrantTypeCode"
+				<bean parent="MaintainableFieldDefinition" p:name="instrumentTypeCode"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="contractGrantTypeDescription"
+				<bean parent="MaintainableFieldDefinition" p:name="instrumentTypeDescription"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />
@@ -64,10 +61,10 @@
 	</bean>
 
 	<!-- workflow attributes -->
-	<bean id="ContractGrantTypeMaintenanceDocument-workflowAttributes"
-		parent="ContractGrantTypeMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean id="InstrumentTypeMaintenanceDocument-workflowAttributes"
+		parent="InstrumentTypeMaintenanceDocument-workflowAttributes-parentBean" />
 
 	<bean
-		id="ContractGrantTypeMaintenanceDocument-workflowAttributes-parentBean"
+		id="InstrumentTypeMaintenanceDocument-workflowAttributes-parentBean"
 		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
 </beans>

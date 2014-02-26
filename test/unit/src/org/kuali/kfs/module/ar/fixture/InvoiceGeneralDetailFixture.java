@@ -34,7 +34,7 @@ public enum InvoiceGeneralDetailFixture {
     private String billingFrequency;
     private boolean finalBillIndicator;
     private String billingPeriod;
-    private String contractGrantType;
+    private String instrumentTypeCode;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
     private KualiDecimal amountRemainingToBill = KualiDecimal.ZERO;
@@ -42,14 +42,14 @@ public enum InvoiceGeneralDetailFixture {
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
 
-    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDateAmount, KualiDecimal costShareAmount, Date lastBilledDate) {
+    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String instrumentTypeCode, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDateAmount, KualiDecimal costShareAmount, Date lastBilledDate) {
         this.documentNumber = documentNumber;
         this.comment = comment;
         this.awardDateRange = awardDateRange;
         this.billingFrequency = billingFrequency;
         this.finalBillIndicator = finalBillIndicator;
         this.billingPeriod = billingPeriod;
-        this.contractGrantType = contractGrantType;
+        this.instrumentTypeCode = instrumentTypeCode;
         this.awardTotal = awardTotal;
         this.newTotalBilled = newTotalBilled;
         this.amountRemainingToBill = amountRemainingToBill;
@@ -66,7 +66,7 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setBillingFrequency(billingFrequency);
         invoiceGeneralDetail.setFinalBillIndicator(finalBillIndicator);
         invoiceGeneralDetail.setBillingPeriod(billingPeriod);
-        invoiceGeneralDetail.setContractGrantType(contractGrantType);
+        invoiceGeneralDetail.setInstrumentTypeCode(instrumentTypeCode);
         invoiceGeneralDetail.setAwardTotal(awardTotal);
         invoiceGeneralDetail.setNewTotalBilled(newTotalBilled);
         invoiceGeneralDetail.setAmountRemainingToBill(amountRemainingToBill);

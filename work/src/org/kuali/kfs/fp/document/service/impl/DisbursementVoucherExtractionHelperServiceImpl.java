@@ -85,7 +85,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements PaymentSo
                 // set the canceled date
                 dv.setCancelDate(cancelDate);
                 dv.refreshReferenceObject("generalLedgerPendingEntries");
-                getPaymentSourceHelperService().handleEntryCancellation(dv);
+                getPaymentSourceHelperService().handleEntryCancellation(dv, this);
                 // set the financial document status to canceled
                 dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
@@ -97,6 +97,15 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements PaymentSo
             }
         }
 
+    }
+
+    /**
+     * Always returns true - on the DV, we roll back everything
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldRollBackPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean shouldRollBackPendingEntry(GeneralLedgerPendingEntry entry) {
+        return true;
     }
 
     /**

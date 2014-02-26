@@ -36,6 +36,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -108,7 +109,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         if (reimbursableDoc.getTravelPayment().getCancelDate() == null) {
             try {
                 reimbursableDoc.getTravelPayment().setCancelDate(cancelDate);
-                getPaymentSourceHelperService().handleEntryCancellation(reimbursableDoc);
+                getPaymentSourceHelperService().handleEntryCancellation(reimbursableDoc, this);
                 reimbursableDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 getDocumentService().saveDocument(reimbursableDoc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
@@ -118,6 +119,15 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
                 throw new RuntimeException(we);
             }
         }
+    }
+
+    /**
+     * True if the entry has a doc type of TRCA, TRWF, ENCA, ENWF, RECA, or REWF - the TR/ENT/RELO payment types
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldRollBackPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean shouldRollBackPendingEntry(GeneralLedgerPendingEntry entry) {
+        return StringUtils.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_CHECK_ACH_DOCUMENT, entry.getFinancialDocumentTypeCode()) || StringUtils.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT, entry.getFinancialDocumentTypeCode()) || StringUtils.equals(TemConstants.TravelDocTypes.ENTERTAINMENT_CHECK_ACH_DOCUMENT, entry.getFinancialDocumentTypeCode()) || StringUtils.equals(TemConstants.TravelDocTypes.ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT, entry.getFinancialDocumentTypeCode()) || StringUtils.equals(TemConstants.TravelDocTypes.RELOCATION_CHECK_ACH_DOCUMENT, entry.getFinancialDocumentTypeCode()) || StringUtils.equals(TemConstants.TravelDocTypes.RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT, entry.getFinancialDocumentTypeCode());
     }
 
     /**

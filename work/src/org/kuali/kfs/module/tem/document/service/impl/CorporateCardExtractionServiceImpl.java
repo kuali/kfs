@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -422,7 +423,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
         if (paymentSource.getCorporateCardPaymentCancelDate() == null) {
             try {
                 paymentSource.setCorporateCardPaymentCancelDate(cancelDate);
-                getPaymentSourceHelperService().handleEntryCancellation(paymentSource);
+                getPaymentSourceHelperService().handleEntryCancellation(paymentSource, this);
                 // save the document
                 getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
@@ -432,6 +433,15 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
             }
         }
 
+    }
+
+    /**
+     * True if the GLPE has a doc type of RCCA
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldRollBackPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean shouldRollBackPendingEntry(GeneralLedgerPendingEntry entry) {
+        return StringUtils.equals(TemConstants.TravelDocTypes.REIMBURSABLE_CORPORATE_CARD_CHECK_ACH_DOCUMENT, entry.getFinancialDocumentTypeCode());
     }
 
     /**

@@ -1489,7 +1489,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForMileageRate(ActualExpense expense) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**
@@ -1498,7 +1501,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForMileageRate(PerDiemExpense expense) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**
@@ -1507,7 +1513,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForPerDiem(PerDiemExpense expense) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**
@@ -1516,7 +1525,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**

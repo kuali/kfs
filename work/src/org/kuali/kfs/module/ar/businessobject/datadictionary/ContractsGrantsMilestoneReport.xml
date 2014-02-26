@@ -31,7 +31,7 @@
 				<ref bean="ContractsGrantsMilestoneReport-milestoneAmount" />
 				<ref bean="ContractsGrantsMilestoneReport-milestoneExpectedCompletionDate" />
 				<ref bean="ContractsGrantsMilestoneReport-isItBilled" />
-
+				<ref bean="ContractsGrantsMilestoneReport-active" />
 			</list>
 		</property>
 		    <property name="relationships">
@@ -144,6 +144,15 @@
 				
 	</bean>
 
+	<bean id="ContractsGrantsMilestoneReport-active" parent="ContractsGrantsMilestoneReport-active-parentBean" />
+
+	<bean id="ContractsGrantsMilestoneReport-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+				
+	</bean>
+
 
 	<!-- Business Object Lookup Definition -->
 
@@ -164,6 +173,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -174,6 +184,7 @@
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

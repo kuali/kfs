@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,11 +33,11 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsMilestoneReportServ
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Action class for Contracts Grants Milestone Report Lookup.
@@ -46,7 +46,7 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
 
     /**
      * implements the print service for Contracts Grants Milestone Report Lookup.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -125,5 +125,6 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
         reportDetail.setMilestoneAmount(milestoneAmount);
         reportDetail.setIsItBilled(cgInvoiceReportEntry.getIsItBilled());
+        reportDetail.setActive(cgInvoiceReportEntry.getActive());
     }
 }

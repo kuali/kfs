@@ -27,6 +27,7 @@
 	<field name="proposalNumber" class="java.lang.Long"/>
 	<field name="milestoneExpectedCompletionDate" class="java.util.Date"/>
 	<field name="isItBilled" class="java.lang.String"/>
+	<field name="active" class="java.lang.String"/>
 	<field name="milestoneAmount" class="java.math.BigDecimal"/>
 	<field name="sortedFieldValue" class="java.lang.String"/>
 	<field name="subTotal" class="java.math.BigDecimal"/>
@@ -130,6 +131,19 @@
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{isItBilled}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="270"
+						y="0"
+						width="20"
+						height="11"
+						key="textField-22"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{active}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

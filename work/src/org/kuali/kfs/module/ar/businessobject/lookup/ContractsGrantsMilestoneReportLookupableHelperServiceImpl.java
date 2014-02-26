@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -76,11 +77,19 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         Collection<ContractsGrantsMilestoneReport> displayList = new ArrayList<ContractsGrantsMilestoneReport>();
         Collection<Milestone> milestones;
 
+        String lookupFieldValue = (String) lookupFormFields.get(KFSPropertyConstants.ACTIVE);
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("billedIndicator", true);
+        if (StringUtils.isNotEmpty(lookupFieldValue)) {
+            map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
+        }
         milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         map.clear();
         map.put("billedIndicator", false);
+        if (StringUtils.isNotEmpty(lookupFieldValue)) {
+            map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
+        }
         Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);
@@ -106,6 +115,12 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
                 cgMilestoneReport.setIsItBilled(KFSConstants.ParameterValues.NO);
             }
 
+            if (milestone.isActive()) {
+                cgMilestoneReport.setActive(KFSConstants.ParameterValues.YES);
+            } else {
+                cgMilestoneReport.setActive(KFSConstants.ParameterValues.NO);
+
+            }
 
             // filter using lookupForm.getFieldsForLookup()
 

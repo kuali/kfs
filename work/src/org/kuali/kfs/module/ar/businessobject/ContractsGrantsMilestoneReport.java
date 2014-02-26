@@ -123,6 +123,14 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
         this.isItBilled = isItBilled;
     }
 
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
     /**
      * Gets the milestoneExpectedCompletionDate attribute.
      *

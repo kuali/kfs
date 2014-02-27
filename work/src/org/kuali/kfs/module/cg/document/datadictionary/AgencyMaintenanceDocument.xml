@@ -171,7 +171,6 @@
 							<bean parent="MaintainableFieldDefinition" p:name="agencyPhoneNumber" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyFaxNumber" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyContactEmailAddress" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceEmailAddress" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressEndDate" />
 						</list>
 					</property>

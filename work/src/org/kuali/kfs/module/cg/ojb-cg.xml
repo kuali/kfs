@@ -96,7 +96,6 @@
 		<field-descriptor name="agencyAddressInternationalProvinceName" column="CG_AGENCY_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyInternationalMailCode" column="CG_AGENCY_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyContactEmailAddress" column="AGENCY_CNTCT_EMAIL_ADDR" jdbc-type="VARCHAR" />
-		<field-descriptor name="agencyInvoiceEmailAddress" column="AGENCY_INV_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyAddressEndDate" column="CG_AGENCY_ADDR_END_DT" jdbc-type="DATE" />
 		<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none"

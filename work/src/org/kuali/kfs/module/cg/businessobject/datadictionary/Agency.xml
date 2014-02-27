@@ -54,7 +54,6 @@
 				<ref bean="Agency-agencyAddresses.agencyZipCode" />
 				<ref bean="Agency-agencyAddresses.agencyAddressInternationalProvinceName" />
 				<ref bean="Agency-agencyAddresses.agencyContactEmailAddress" />
-				<ref bean="Agency-agencyAddresses.agencyInvoiceEmailAddress" />
 				<ref bean="Agency-active" />
 				<ref bean="Agency-customerCreated" />
 				<ref bean="Agency-customerNumber" />
@@ -488,14 +487,6 @@
 		<property name="name" value="agencyAddresses.agencyContactEmailAddress" />
 	</bean>
 
-	<bean id="Agency-agencyAddresses.agencyInvoiceEmailAddress"
-		parent="Agency-agencyAddresses.agencyInvoiceEmailAddress-parentBean" />
-
-	<bean id="Agency-agencyAddresses.agencyInvoiceEmailAddress-parentBean"
-		abstract="true" parent="AgencyAddress-agencyInvoiceEmailAddress">
-		<property name="name" value="agencyAddresses.agencyInvoiceEmailAddress" />
-	</bean>
-
   <bean id="Agency-notes" parent="Agency-notes-parentBean"/>
 
   <bean id="Agency-notes-parentBean" abstract="true" parent="AttributeDefinition">
@@ -607,7 +598,6 @@
 										<bean parent="FieldDefinition" p:attributeName="agencyPhoneNumber" />
 										<bean parent="FieldDefinition" p:attributeName="agencyFaxNumber" />
 										<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
-										<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
 										<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
 									</list>
 								</property>
@@ -686,7 +676,6 @@
 				<bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active" />				
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactEmailAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceEmailAddress" />
 			</list>
 		</property>
 		<property name="resultFields">

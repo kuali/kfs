@@ -55,7 +55,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     private String agencyAddressInternationalProvinceName;
     private String agencyInternationalMailCode;
     private String agencyContactEmailAddress;
-    private String agencyInvoiceEmailAddress;
     private String customerAddressTypeCode;
     private Date agencyAddressEndDate;
 
@@ -343,25 +342,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
         this.agencyContactEmailAddress = agencyContactEmailAddress;
     }
 
-    /**
-     * Gets the agencyInvoiceEmailAddress attribute.
-     *
-     * @return Returns the agencyInvoiceEmailAddress.
-     */
-    @Override
-    public String getAgencyInvoiceEmailAddress() {
-        return agencyInvoiceEmailAddress;
-    }
-
-    /**
-     * Sets the agencyInvoiceEmailAddress attribute value.
-     *
-     * @param agencyInvoiceEmailAddress The agencyInvoiceEmailAddress to set.
-     */
-    public void setAgencyInvoiceEmailAddress(String agencyInvoiceEmailAddress) {
-        this.agencyInvoiceEmailAddress = agencyInvoiceEmailAddress;
-    }
-
     @Override
     public String getCustomerAddressTypeCode() {
         return customerAddressTypeCode;
@@ -574,9 +554,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
             return -1;
         }
         if (this.getAgencyContactEmailAddress() != null && address.getAgencyContactEmailAddress() != null && !this.getAgencyContactEmailAddress().equalsIgnoreCase(address.getAgencyContactEmailAddress()) || (this.getAgencyContactEmailAddress() == null && address.getAgencyContactEmailAddress() != null) || (this.getAgencyContactEmailAddress() != null && address.getAgencyContactEmailAddress() == null)) {
-            return -1;
-        }
-        if (this.getAgencyInvoiceEmailAddress() != null && address.getAgencyInvoiceEmailAddress() != null && !this.getAgencyInvoiceEmailAddress().equalsIgnoreCase(address.getAgencyInvoiceEmailAddress()) || (this.getAgencyInvoiceEmailAddress() == null && address.getAgencyInvoiceEmailAddress() != null) || (this.getAgencyInvoiceEmailAddress() != null && address.getAgencyInvoiceEmailAddress() == null)) {
             return -1;
         }
         if (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() != null && !this.getCustomerAddressTypeCode().equalsIgnoreCase(address.getCustomerAddressTypeCode()) || (this.getCustomerAddressTypeCode() == null && address.getCustomerAddressTypeCode() != null) || (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() == null)) {

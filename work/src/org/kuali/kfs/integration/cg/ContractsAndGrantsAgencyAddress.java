@@ -127,13 +127,6 @@ public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessO
     public String getAgencyContactEmailAddress();
 
     /**
-     * Gets the agencyInvoiceEmailAddress attribute.
-     *
-     * @return Returns the agencyInvoiceEmailAddress.
-     */
-    public String getAgencyInvoiceEmailAddress();
-
-    /**
      * Gets the customerAddressTypeCode attribute.
      *
      * @return Returns the customerAddressTypeCode

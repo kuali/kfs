@@ -87,7 +87,6 @@
 			<column name="PHN_NBR" type="varchar(40)" />
 			<column name="FAX_NBR" type="varchar(40)" />
 			<column name="AGENCY_CNTCT_EMAIL_ADDR" type="varchar(60)" />
-			<column name="AGENCY_INV_EMAIL_ADDR" type="varchar(60)" />
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />

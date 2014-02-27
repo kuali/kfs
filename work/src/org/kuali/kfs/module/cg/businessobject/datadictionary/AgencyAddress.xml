@@ -33,7 +33,6 @@
 				<ref bean="AgencyAddress-customerAddressTypeCode" />
 				<ref bean="AgencyAddress-agencyCityName" />
 				<ref bean="AgencyAddress-agencyContactEmailAddress" />
-				<ref bean="AgencyAddress-agencyInvoiceEmailAddress" />
 				<ref bean="AgencyAddress-agencyInternationalMailCode" />
 				<ref bean="AgencyAddress-agencyLine1StreetAddress" />
 				<ref bean="AgencyAddress-agencyLine2StreetAddress" />
@@ -146,23 +145,6 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Contact Email Address" />
 		<property name="shortLabel" value="Contact Email" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="EmailAddressValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="62" />
-		</property>
-	</bean>
-
-	<bean id="AgencyAddress-agencyInvoiceEmailAddress" parent="AgencyAddress-agencyInvoiceEmailAddress-parentBean" />
-
-	<bean id="AgencyAddress-agencyInvoiceEmailAddress-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyInvoiceEmailAddress" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Email Address" />
-		<property name="shortLabel" value="Invoice Email" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern">
 			<bean parent="EmailAddressValidationPattern" />
@@ -414,7 +396,6 @@
 							<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
-							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
 							<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
 						</list>
 					</property>
@@ -452,7 +433,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
 			</list>
 		</property>
@@ -471,7 +451,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
 			</list>
 		</property>

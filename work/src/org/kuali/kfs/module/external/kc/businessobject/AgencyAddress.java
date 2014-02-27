@@ -37,7 +37,6 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
     private String agencyCountryCode;
     private String agencyInternationalMailCode;
     private String agencyContactEmailAddress;
-    private String agencyInvoiceEmailAddress;
     private String customerAddressTypeCode;
     private Date agencyAddressEndDate;
     private String agencyContractName;
@@ -63,7 +62,6 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agencyCountryCode = kcAddress.getCountryCode();
         this.agencyInternationalMailCode = kcAddress.getPostalCode();
         this.agencyContactEmailAddress = kcAddress.getEmailAddress();
-        this.agencyInvoiceEmailAddress = kcAddress.getEmailAddress();
         this.agencyContactName = kcAddress.getFullName();
         this.agencyPhoneNumber = kcAddress.getPhoneNumber();
         this.agencyFaxNumber = kcAddress.getFaxNumber();
@@ -211,17 +209,6 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
 
     public void setAgencyContactEmailAddress(String agencyContactEmailAddress) {
         this.agencyContactEmailAddress = agencyContactEmailAddress;
-    }
-
-
-    @Override
-    public String getAgencyInvoiceEmailAddress() {
-        return agencyInvoiceEmailAddress;
-    }
-
-
-    public void setAgencyInvoiceEmailAddress(String agencyInvoiceEmailAddress) {
-        this.agencyInvoiceEmailAddress = agencyInvoiceEmailAddress;
     }
 
 

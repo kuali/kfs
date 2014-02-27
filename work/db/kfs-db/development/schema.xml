@@ -1045,18 +1045,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_CUST_CLCTR_T">
-        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
-        <column name="PRNCPL_ID" size="40" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <foreign-key foreignTable="AR_CUST_T" name="AR_CUST_CLCTR_FK1">
-            <reference foreign="CUST_NBR" local="CUST_NBR"/>
-        </foreign-key>
-        <unique name="AR_CUST_CLCTR_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_CUST_PRCS_TYP_T">
         <column name="CUST_SPCL_PRCS_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

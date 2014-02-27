@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -178,6 +179,10 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         this.canPrintHostCertification = canPrintHostCertification;
     }
 
+    public boolean isEventHostandEventNameReadonly() {
+       return !StringUtils.isBlank(getTravelDocumentIdentifier()) && !StringUtils.isBlank(getFromDocumentNumber()) ? true : false;
+    }
+
     public boolean isDisplayNonEmployeeCheckBox() {
         return getEntertainmentDocument().canDisplayNonEmployeeCheckbox();
     }
@@ -223,5 +228,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     public void setFromDocumentNumber(String fromDocumentNumber) {
         this.fromDocumentNumber = fromDocumentNumber;
     }
+
+
 
 }

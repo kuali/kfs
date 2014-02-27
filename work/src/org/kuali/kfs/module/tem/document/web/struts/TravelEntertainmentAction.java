@@ -33,7 +33,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -103,8 +102,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final String identifierStr = entForm.getTravelDocumentIdentifier();
         final String fromDocumentNumber = entForm.getFromDocumentNumber();
 
-        if (!StringUtils.isBlank(identifierStr)){
-            if (!StringUtils.isBlank(fromDocumentNumber)){
+        if (!StringUtils.isBlank(identifierStr) && !StringUtils.isBlank(fromDocumentNumber)){
+
                 LOG.debug("Creating reimbursement for document number "+ identifierStr);
                 document.setTravelDocumentIdentifier(identifierStr);
                 TravelEntertainmentDocument travelDocument = (TravelEntertainmentDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
@@ -118,6 +117,9 @@ public class TravelEntertainmentAction extends TravelActionBase {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
                 }
 
+                document.setHostProfileId(travelDocument.getHostProfileId());
+                document.setHostName(travelDocument.getHostName());
+                document.setEventTitle(travelDocument.getEventTitle());
                 document.setPurposeCode(travelDocument.getPurposeCode());
                 document.setTripBegin(travelDocument.getTripBegin());
                 document.setTripEnd(travelDocument.getTripEnd());
@@ -127,19 +129,14 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 document.setAttendee(travelDocument.getAttendee());
                 document.setNumberOfAttendees(travelDocument.getNumberOfAttendees());
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
+                document.setPaymentMethod(travelDocument.getPaymentMethod());
+                document.setNonEmployeeCertified(travelDocument.getNonEmployeeCertified());
 
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
                 document.configureTraveler(travelDocument.getTemProfileId(), travelDocument.getTraveler());
                 document.getDocumentHeader().setOrganizationDocumentNumber(travelDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
-                document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(travelDocument.getActualExpenses(), document.getDocumentNumber()));
 
-                // add new detail for the copied actualExpenses
-                if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
-                    for (int i = 0; i < document.getActualExpenses().size(); i++) {
-                        entForm.getNewActualExpenseLines().add(new ActualExpense());
-                    }
-                }
 
                 document.updatePayeeTypeForReimbursable();
 
@@ -148,11 +145,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
                 // we're not the progenitor so let's force a refresh of notes
                 final List<Note> notes = getNoteService().getByRemoteObjectId(travelDocument.getNoteTarget().getObjectId());
-                document.setNotes(notes);
-            }
-            else{
-                populateFromPreviousENTDoc(document, identifierStr);
-            }
+                 document.setNotes(notes);
+
         } else {
             document.setTripProgenitor(true); // this is the trip progenitor
         }

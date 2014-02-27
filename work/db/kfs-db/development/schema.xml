@@ -1522,7 +1522,7 @@
         <column name="AWD_DT_RNG" size="50" type="VARCHAR"/>
         <column name="BILL_FREQ" size="50" type="VARCHAR"/>
         <column name="FND_TYP" size="50" type="VARCHAR"/>
-        <column name="CNTRCT_GRNT_TYP" size="50" type="VARCHAR"/>
+        <column name="INSTRMNT_TYP_CD" size="50" type="VARCHAR"/>
         <column name="FINAL_BILL_IND" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -4320,7 +4320,7 @@
         <column name="SUSPND_INVCNG" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRMS_RQRD" size="1" type="VARCHAR"/>
         <column name="ADDTNL_FRM_DESC" size="255" type="VARCHAR"/>
-        <column name="CNTRCT_GRNT_TYP" size="10" type="VARCHAR"/>
+        <column name="INSTRMNT_TYP_CD" size="10" type="VARCHAR"/>
         <column name="AWRD_SRC_OF_FNDS" size="10" type="VARCHAR"/>
         <column name="CG_MIN_INV_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CG_LTRCR_FND_CD" size="15" type="VARCHAR"/>
@@ -4401,16 +4401,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="CG_CNTRCT_GRNT_TYP_T">
-        <column name="CNTRCT_GRNT_TYP_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CNTRCT_GRNT_TYP_DESC" size="45" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="CG_CNTRCT_GRNT_TYP_TC1">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="CG_GRANT_DESC_T">
         <column name="CG_GRANT_DESC_CD" primaryKey="true" size="3" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -4418,6 +4408,16 @@
         <column name="CG_GRANT_DESC" size="25" type="VARCHAR"/>
         <column name="CG_GRNT_DESC_ACTV_CD" size="1" type="VARCHAR"/>
         <unique name="CG_GRANT_DESC_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="CG_INSTRMNT_TYP_T">
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="INSTRMNT_TYP_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="INSTRMNT_TYP_DESC" size="45" type="VARCHAR"/>
+        <unique name="CG_INSTRMNT_TYP_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

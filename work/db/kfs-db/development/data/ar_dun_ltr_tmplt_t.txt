@@ -1,0 +1,7 @@
+dun_ltr_tmplt_cd|dun_ltr_tmplt_desc|filename|access_rstrctd_ind|actv_ind|upload_dt|bill_by_coa_cd|bill_by_org_cd|obj_id|ver_nbr|
+K121+|Kuali Univ 121+|Letter_Template_K121+.pdf|N|Y|2014-02-11 16:00:06|UA|VPIT|878ecede-b67b-4002-b29c-cb588287c79b|2.0|
+K3160|Kuali Univ 31-60|Letter_Template_K3160.pdf|N|Y|2014-02-11 16:00:32|UA|VPIT|33b0e737-691e-41e5-8e96-aa98a5a83c55|2.0|
+K6190|Kuali Univ 61-90|Letter_Template_K6190.pdf|N|Y|2014-02-11 16:00:52|UA|VPIT|3882fc85-ae4c-4ac7-a4b0-a6aca1a1e7d9|2.0|
+K91120|Kuali Univ 91-120|Letter_Template_K91120.pdf|N|Y|2014-02-11 16:01:15|UA|VPIT|56aced4e-0537-4ff1-8cae-54049bdfc9f4|2.0|
+KCURRENT|Kuali Univ CURRENT|Letter_Template_KCURRENT.pdf|N|Y|2014-02-11 16:01:33|UA|VPIT|80a91a93-24d7-4239-877a-c8cfdbed7c09|2.0|
+KFINAL|Kuali Univ FINAL|Letter_Template_KFINAL.pdf|N|Y|2014-02-11 16:01:58|UA|VPIT|0ed207ce-1265-4c6a-a3af-1a9102cbe0c5|2.0|

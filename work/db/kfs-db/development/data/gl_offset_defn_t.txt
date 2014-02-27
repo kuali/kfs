@@ -11816,6 +11816,7 @@ univ_fiscal_yr|fin_coa_cd|fdoc_typ_cd|fin_balance_typ_cd|obj_id|ver_nbr|fin_obje
 2014.0|BL|CHKC|AC|f33ffe16-7af7-465a-b71b-717f8387a4bf|2.0|8000|
 2014.0|BL|CHKD|AC|4af65806-4998-48d4-952f-0f4f46ecd952|2.0|8000|
 2014.0|BL|CHKR|AC|310f6892-18e0-42f2-9bcd-9365ff19face|2.0|8000|
+2014.0|BL|CINV|AC|4ab31fdb-35bf-4be5-a7ad-4c0fd4944f39|1.0|9899|
 2014.0|BL|CM|AC|ec6f383c-b021-469d-ae35-e2ce3c0bfc6e|2.0|9041|
 2014.0|BL|CM|CE|0d852190-c8ba-44bc-ac2b-f688c1f1fdfd|2.0|9893|
 2014.0|BL|CM|EX|4428f7fe-c2bf-43dc-82af-fd290dd82b44|2.0|9892|

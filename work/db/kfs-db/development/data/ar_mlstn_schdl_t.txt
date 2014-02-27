@@ -1,0 +1,2 @@
+prpsl_nbr|obj_id|ver_nbr|tot_amt_schdl|tot_awd_rmng|
+80075.0|d05ba0e7-cf0a-4f4f-bcd5-02c5e1c2d9a0|4.0|450.0|109550.0|

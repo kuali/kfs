@@ -1,0 +1,13 @@
+<Record name="ar_mlstn_t" type="delimited">
+  <Field name="prpsl_nbr"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mlstn_id"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mlstn_nbr"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mlstn_desc"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mlstn_amt"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="billed_ind"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mlstn_compltn_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="mlstn_expctd_compltn_dt"         type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

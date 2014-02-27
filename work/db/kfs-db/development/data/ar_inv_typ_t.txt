@@ -2,5 +2,6 @@ inv_typ_cd|obj_id|ver_nbr|inv_typ_desc|actv_ind|filename|access_rstrctd_ind|bill
 1034/1035|0D2EC7D0-7D89-5831-0FBD-AD2C80D93221|1.0|Federal 1034/1035|Y||||||
 270|43CEE067-D884-3048-DBFA-1C2E3B9668F2|1.0|Federal 270|Y||||||
 CMS|9C7CC060-33F8-160A-C0FE-DE25D7F1F9B5|1.0|Combined Milestone|Y||||||
+NEWSTD|0d6a5636-0283-4fbd-b50e-cd3e61458e4d|3.0|Kuali Univ Std Invoice Template|Y|Invoice_Template_NEWSTD.pdf|N|UA|VPIT|2014-02-11 15:42:23|
 SCHD|D4165C25-B7A8-AF03-9196-03852497103A|1.0|Scheduled|Y||||||
 STD|D4165C24-9C76-703D-41E2-F6B2D48CEA49|1.0|Standard|Y||||||

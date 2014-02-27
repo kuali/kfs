@@ -1,10 +1,10 @@
 ctgry_cd|ctgry_nm|ctgry_desc|obj_cds|actv_ind|obj_id|ver_nbr|ind_cst_ind|cons_cds|level_cds|
-EMPB|Employee Benefits||2408|Y|c75d07b0-a72b-11e0-8264-0800200c9a67|1.0||||
-EQIP|Equipment||5500|Y|c75d07b0-a72b-11e0-8264-0800200c9a73|1.0||||
-MSS|Materials, Supplies, Services||4000-4100|Y|c75d07b0-a72b-11e0-8264-0800200c9a69|1.0||||
-ODC|Other Direct Cost||1000|Y|c75d07b0-a72b-11e0-8264-0800200c9a74|1.0||||
-PROS|Professional Services||3500|Y|c75d07b0-a72b-11e0-8264-0800200c9a68|1.0||||
-SAL|Salaries and Wages||2008|Y|c75d07b0-a72b-11e0-8264-0800200c9a66|1.0||||
-SBCT|Subcontract||4420|Y|c75d07b0-a72b-11e0-8264-0800200c9a72|1.0||||
-TRVD|Travel - Domestic||1001|Y|c75d07b0-a72b-11e0-8264-0800200c9a70|1.0||||
-TRVF|Travel - Foreign||4105|Y|c75d07b0-a72b-11e0-8264-0800200c9a71|1.0||||
+EMPB|Employee Benefits||5600|Y|c75d07b0-a72b-11e0-8264-0800200c9a67|1.0|N|||
+EQIP|Equipment||5200|Y|c75d07b0-a72b-11e0-8264-0800200c9a73|1.0|N|||
+MSS|Materials, Supplies, Services||4000-4100|Y|c75d07b0-a72b-11e0-8264-0800200c9a69|1.0|N|||
+ODC|Other Direct Cost||4101-4400|Y|c75d07b0-a72b-11e0-8264-0800200c9a74|1.0|N|||
+PROS|Professional Services||4562|Y|c75d07b0-a72b-11e0-8264-0800200c9a68|1.0|N|||
+SAL|Salaries and Wages|||Y|c75d07b0-a72b-11e0-8264-0800200c9a66|1.0|N||ACSA|
+SBCT|Subcontract||4074|Y|c75d07b0-a72b-11e0-8264-0800200c9a72|1.0|N|||
+TRVD|Travel - Domestic||6100|Y|c75d07b0-a72b-11e0-8264-0800200c9a70|1.0|N|||
+TRVF|Travel - Foreign||6200|Y|c75d07b0-a72b-11e0-8264-0800200c9a71|1.0|N|||

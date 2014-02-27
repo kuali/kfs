@@ -1,0 +1,2 @@
+cmpgn_id|obj_id|ver_nbr|cmpgn_desc|actv_ind|
+KUAL|e5a8aeb3-eef5-4c57-9e68-00c7f964d38c|1.0|New Kuali Letters|Y|

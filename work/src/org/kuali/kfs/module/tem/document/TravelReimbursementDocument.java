@@ -705,7 +705,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      * @return the fitted String
      */
     protected String postpendPreTripToDescription(String description) {
-        final String postPendedDescription = description + " (PT)";
+        final String postPendedDescription = TemConstants.TRAVEL_REIMBURSEMENT_PRETRIP_DESCRIPTION_TEXT +  description  ;
         final int maxLength = getDataDictionaryService().getAttributeMaxLength(getDocumentHeader().getClass(), KFSPropertyConstants.DOCUMENT_DESCRIPTION);
         final String fittedDescription = (postPendedDescription.length() > maxLength) ? postPendedDescription.substring(0, maxLength) : postPendedDescription;
         return fittedDescription;

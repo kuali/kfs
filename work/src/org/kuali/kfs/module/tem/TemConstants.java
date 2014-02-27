@@ -889,6 +889,7 @@ public class TemConstants {
 
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
     public static final String TRAVELER_PROFILE_KEY = "travelerProfile";
+    public static final String TRAVEL_REIMBURSEMENT_PRETRIP_DESCRIPTION_TEXT = "PT:";
 
     public static final class ExpenseTypeReimbursementCodes {
         public static final String ALL = "A";

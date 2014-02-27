@@ -1132,34 +1132,6 @@
 	</changeSet>
 
 	<changeSet author="KFSCGB"
-		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_01">
-		<createTable tableName="AR_CUST_CLCTR_T">
-			<column name="CUST_NBR" type="varchar(9)">
-				<constraints primaryKey="true" primaryKeyName="AR_CUST_CLCTR_TP1" />
-			</column>
-			<column name="PRNCPL_ID" type="varchar(40)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false"
-					uniqueConstraintName="AR_CUST_CLCTR_TC0" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFSCGB"
-		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_02">
-		<addForeignKeyConstraint constraintName="AR_CUST_CLCTR_FK1"
-			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
-			baseTableName="AR_CUST_CLCTR_T" referencedColumnNames="CUST_NBR" />
-	</changeSet>
-
-	<changeSet author="KFSCGB"
 		id="KFSCNTRB885_COLLECTION_STATUS_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_CLCTN_STATUS_T">
 			<column name="AR_CLCTN_STATUS_CD" type="varchar(6)">

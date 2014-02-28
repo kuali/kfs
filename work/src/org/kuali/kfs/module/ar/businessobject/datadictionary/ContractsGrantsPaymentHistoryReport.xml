@@ -63,7 +63,7 @@
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentNumber" parent="ContractsGrantsPaymentHistoryReport-paymentNumber-parentBean" />
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="paymentNumber" />
-		<property name="label" value="Payment Number" />
+		<property name="label" value="Payment Application Document Number" />
 		<property name="shortLabel" value="Pmt nbr" />
 		<property name="required" value="false" />
 		<property name="validationPattern">

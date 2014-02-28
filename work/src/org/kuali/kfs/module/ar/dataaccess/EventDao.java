@@ -16,10 +16,8 @@
 package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.ar.businessobject.Event;
 
 /**
@@ -39,5 +37,4 @@ public interface EventDao {
      */
     public Collection<Event> getMatchingEventsByCollection(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude);
 
-    public Collection<ObjectCode> getObjectCodesByLevelCodes(List<String> levelCodes);
 }

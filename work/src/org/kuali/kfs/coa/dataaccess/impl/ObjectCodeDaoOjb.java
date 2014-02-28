@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -62,7 +61,7 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
 
         Criteria criteria = new Criteria();
         criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, levelCodes);
-        QueryByCriteria qbc = QueryFactory.newQuery(ObjectLevel.class, criteria);
+        QueryByCriteria qbc = QueryFactory.newQuery(ObjectCode.class, criteria);
         Collection<ObjectCode> objectCodes = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
 
         return objectCodes;

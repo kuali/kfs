@@ -16,20 +16,16 @@
 package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.KewApiConstants;
 
@@ -64,14 +60,4 @@ public class EventDaoOjb extends PlatformAwareDaoBaseOjb implements EventDao {
         return events;
     }
 
-    @Override
-    public Collection<ObjectCode> getObjectCodesByLevelCodes(List<String> levelCodes) {
-
-        Criteria criteria = new Criteria();
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, levelCodes);
-        QueryByCriteria qbc = QueryFactory.newQuery(ObjectLevel.class, criteria);
-        Collection<ObjectCode> objectCodes = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-
-        return objectCodes;
-    }
 }

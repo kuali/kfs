@@ -4016,7 +4016,6 @@
         <column name="PHN_NBR" size="40" type="VARCHAR"/>
         <column name="FAX_NBR" size="40" type="VARCHAR"/>
         <column name="AGENCY_CNTCT_EMAIL_ADDR" size="60" type="VARCHAR"/>
-        <column name="AGENCY_INV_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_R1">
             <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
         </foreign-key>

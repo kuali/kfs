@@ -19,6 +19,5 @@
   <Field name="cntct_nm"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="phn_nbr"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="fax_nbr"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="agency_cntct_email_addr"         type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="agency_inv_email_addr"           type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="agency_cntct_email_addr"         type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

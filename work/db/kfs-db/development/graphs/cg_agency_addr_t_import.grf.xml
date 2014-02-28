@@ -39,7 +39,6 @@
         $0.phn_nbr := replace(nvl($phn_nbr, ""), "~!~", "|" );
         $0.fax_nbr := replace(nvl($fax_nbr, ""), "~!~", "|" );
         $0.agency_cntct_email_addr := replace(nvl($agency_cntct_email_addr, ""), "~!~", "|" );
-        $0.agency_inv_email_addr := replace(nvl($agency_inv_email_addr, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

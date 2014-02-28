@@ -33,7 +33,7 @@
 					title="Federal Financial Report"
 					url="arFederalFinancialReport.do?methodToCall=start" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Invoice Report"
+					title="Outstanding Invoice Report"
 					url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
 			<li><portal:portalLink displayTitle="true"

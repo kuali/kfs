@@ -60,7 +60,14 @@ public class ContractsGrantsReportUtils {
 
             if (lookupResultFields.contains(propertyName.toString())) {
                 Object propertyValueObject = ObjectUtils.getPropertyValue(bo, propertyName.toString());
+
                 String lookupFieldValue = fieldsForLookup.get(propertyName).toString();
+                //To set lookupFieldValue if the propertyValueObject is date and has lower bound data available. Not needed if it already has a value
+                if(propertyValueObject instanceof Date && (ObjectUtils.isNull(lookupFieldValue) || lookupFieldValue.equals("")) && fieldsForLookup.containsKey(propertyName)){
+                     String full_propertyName = "rangeLowerBoundKeyPrefix_" + propertyName.toString();
+                    lookupFieldValue = fieldsForLookup.get(full_propertyName).toString();
+                }
+                //Now to check if the lookupField Value is actually null.
                 if (ObjectUtils.isNull(lookupFieldValue) || lookupFieldValue.equals("")) {
                     continue;
                 }

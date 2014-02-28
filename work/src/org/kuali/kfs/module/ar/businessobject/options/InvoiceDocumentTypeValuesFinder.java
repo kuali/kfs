@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
@@ -32,6 +33,7 @@ public class InvoiceDocumentTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
+        activeLabels.add(new ConcreteKeyValue("",""));
         activeLabels.add(new ConcreteKeyValue(ArConstants.INV_DOCUMENT_TYPE, ArConstants.INV_DOCUMENT_DESCRIPTION));
         activeLabels.add(new ConcreteKeyValue(ArConstants.CGIN_DOCUMENT_TYPE, ArConstants.CGIN_DOCUMENT_DESCRIPTION));
 

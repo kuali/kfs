@@ -56,7 +56,6 @@ public class CGConstants{
 
     public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
     public static final String DEFAULT_DUNNING_CAMPAIGN_PARAMETER = "DEFAULT_DUNNING_CAMPAIGN";
-    public static final String PARAMETER_DEFAULT_FUND_MANAGER_ID = "DEFAULT_FUND_MANAGER_ID";
 
     // Agency
     public static final String AGENCY_USE_EXISTING_CUSTOMER = "Use Existing Customer";
@@ -70,7 +69,6 @@ public class CGConstants{
     public static final String AGENCY_DETAIL_TYPE_CODE = "Agency";
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
-    public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";
 
     // Agency Collections Maitenance
     public static final String CHAPTER7_CODE = "C7";
@@ -90,7 +88,6 @@ public class CGConstants{
     public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
 
     // Award Invoice
-    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String DEFAULT_INVOICING_OPTION_PARAMETER = "DEFAULT_INVOICING_OPTION";
 

@@ -110,7 +110,6 @@ public class ArConstants{
     // Agency Address
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
-    public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";
 
     /* Start TEM REFUND Merge */
     public static class ArRefunding {
@@ -403,7 +402,6 @@ public class ArConstants{
     public static final String CHECK_LIMIT_DAYS = "CHECK_LIMIT_DAYS";
 
     public static final String PRORATE_WARNING = "document.prorateWarning";
-    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
 
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";

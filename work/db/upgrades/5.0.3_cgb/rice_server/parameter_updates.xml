@@ -20,22 +20,6 @@
 		</insert>
 	</changeSet>
 
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_MIN_INVOICE_AMOUNT">
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Award" />
-			<column name="PARM_NM" value="MINIMUM_INVOICE_AMOUNT" />
-			<column name="OBJ_ID" value="28A1B9C6-5FF2-1224-3B7F-7D0E67D984D1" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="60" />
-			<column name="PARM_DESC_TXT"
-				value="Minimum dollar amount required on an award for Contracts and Grants Invoicing." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-	</changeSet>
-
 	
 	<!-- Inserting Default processing chart code and org code to be used for 
 		Cash control in to the System Parameters table -->
@@ -86,41 +70,6 @@
 			<column name="VAL" value="STD" />
 			<column name="PARM_DESC_TXT"
 				value="Invoice templates can be configured at the Customer level or Customer Address level. Use this value to default the Invoice Template on the Customer and Customer Address." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-	</changeSet>
-
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_DEFAULT_FUND_MANAGER_ID">
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="Award" />
-			<column name="PARM_NM" value="DEFAULT_FUND_MANAGER_ID" />
-			<column name="OBJ_ID" value="CG-DEFAULT-FUND-MNGR-ID" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="khuntley" />
-			<column name="PARM_DESC_TXT"
-				value="The principal name of the default fund manager for awards." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-	</changeSet>
-
-	<!-- To insert values in to the System Parameters table to help in document 
-		validation of Invoice eDoc -->
-
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_02">
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="AgencyAddress" />
-			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_COPIES_TO_PRINT" />
-			<column name="OBJ_ID" value="KFSCG02" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="1" />
-			<column name="PARM_DESC_TXT"
-				value="The number of invoice copies to be printed can be configured for each Agency Address. This sets the default number of copies to print for a new Agency Address." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>

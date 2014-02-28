@@ -129,7 +129,7 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         cgInvoiceReportDataHolder.setDetails(details);
         // set report name using invoiceReportOption
         String invoiceReportOption = cgInvoiceReportLookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
-        cgInvoiceReportDataHolder.setReportTitle("Outstanding Invoice Report");
+        cgInvoiceReportDataHolder.setReportTitle(ArConstants.OUTSTANDING_INVOICE_REPORT);
 
         // build search criteria for report
         buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup());

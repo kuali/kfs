@@ -404,6 +404,7 @@ public class ArConstants{
     public static final String PRORATE_WARNING = "document.prorateWarning";
 
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
+    public static final String OUTSTANDING_INVOICE_REPORT = "Outstanding Invoice Report";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";

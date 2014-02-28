@@ -61,7 +61,7 @@
 	<bean id="SpecialCircumstancesQuestion-active" parent="SpecialCircumstancesQuestion-active-parentBean" />
 	<bean id="SpecialCircumstancesQuestion-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
-		<property name="label" value="Active" />
+		<property name="label" value="Active Indicator" />
 		<property name="shortLabel" value="Active" />
 		<property name="required" value="true" />
 		<property name="summary" value="Active" />

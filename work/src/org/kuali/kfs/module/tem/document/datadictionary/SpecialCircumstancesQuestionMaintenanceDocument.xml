@@ -27,13 +27,13 @@
 <bean id="SpecialCircumstancesQuestionMaintenanceDocument-Section" parent="SpecialCircumstancesQuestionMaintenanceDocument-Section-parentBean" />
 <bean id="SpecialCircumstancesQuestionMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="SpecialCircumstancesQuestion" />
-		<property name="title" value="Edit SpecialCircumstancesQuestion" />
+		<property name="title" value="Edit Special Circumstances Question" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false" />
 			<bean parent="MaintainableFieldDefinition" p:name="documentType" p:required="true" />
 			<bean parent="MaintainableFieldDefinition" p:name="text" p:required="true" />
-			<bean parent="MaintainableFieldDefinition" p:name="free" p:required="true" />			
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+			<bean parent="MaintainableFieldDefinition" p:name="free" p:required="false" />			
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false" />
 		</list></property>
 </bean>
 </beans>

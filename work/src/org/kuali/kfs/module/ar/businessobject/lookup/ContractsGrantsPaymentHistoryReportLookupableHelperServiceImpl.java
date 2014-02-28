@@ -121,7 +121,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, cgPaymentHistoryReport.getInvoiceNumber());
                         ContractsGrantsInvoiceDocument cgInvoiceDocument = businessObjectService.findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
 
-                        cgPaymentHistoryReport.setAwardNumber(cgInvoiceDocument.getProposalNumber().toString());
+                        cgPaymentHistoryReport.setAwardNumber(cgInvoiceDocument.getProposalNumber());
                         cgPaymentHistoryReport.setReversedIndicator(appliedPayment.getCustomerInvoiceDocument().isInvoiceReversal());
 
                         cgPaymentHistoryReport.setAppliedIndicator(true);

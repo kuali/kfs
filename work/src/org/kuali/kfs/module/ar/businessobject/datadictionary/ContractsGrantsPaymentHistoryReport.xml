@@ -39,6 +39,25 @@
 				<ref bean="ContractsGrantsPaymentHistoryReport-appliedIndicator" />
 			</list>
 		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="award">
+		<property name="primitiveAttributes">
+			<list>
+				<bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber" p:targetName="proposalNumber" />
+			</list>
+		</property>
+		</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentNumber" parent="ContractsGrantsPaymentHistoryReport-paymentNumber-parentBean" />
@@ -79,18 +98,8 @@
 	</bean>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-customerName" parent="ContractsGrantsPaymentHistoryReport-customerName-parentBean" />
-	<bean id="ContractsGrantsPaymentHistoryReport-customerName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerName" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Name" />
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="62" />
-		</property>
+	<bean id="ContractsGrantsPaymentHistoryReport-customerName-parentBean" abstract="true" parent="Customer-customerName">
+		
 	</bean>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-paymentAmount" parent="ContractsGrantsPaymentHistoryReport-paymentAmount-parentBean" />
@@ -124,7 +133,7 @@
 	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber" parent="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" />
 	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="awardNumber" />
-		<property name="label" value="Award Number" />
+		<property name="label" value="Proposal Number" />
 		<property name="shortLabel" value="Awd nbr" />
 		<property name="required" value="false" />
 		<property name="validationPattern">
@@ -157,7 +166,7 @@
 	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition" parent="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsPaymentHistoryReport Lookup" />
+		<property name="title" value="Payment History Report" />
 		<property name="lookupableID" value="contractsGrantsPaymentHistoryReportLookupResultLookupable" />
 
 
@@ -170,7 +179,6 @@
 				<bean parent="FieldDefinition" p:attributeName="paymentNumber" />
 				<bean parent="FieldDefinition" p:attributeName="paymentDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
-				<bean parent="FieldDefinition" p:attributeName="customerName" />
 				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
 				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
 				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />

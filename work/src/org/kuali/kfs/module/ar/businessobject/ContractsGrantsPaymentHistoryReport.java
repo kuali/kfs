@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,9 +18,10 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Defines an entry in the Contracts and Grants Invoice Payment History Report.
@@ -34,11 +35,13 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     private KualiDecimal paymentAmount;
     private String invoiceNumber;
     private KualiDecimal invoiceAmount;
-    private String awardNumber;
+    private Long awardNumber;
     private boolean reversedIndicator;
     private boolean appliedIndicator;
+    private Customer customer;
+    private ContractsAndGrantsBillingAward award;
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
 
@@ -56,7 +59,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
         m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber);
         m.put("customerName", this.customerName);
         m.put("invoiceNumber", this.invoiceNumber);
-        m.put("awardNumber", this.awardNumber);
+
 //        m.put("reversedIndicator", this.reversedIndicator);
 //        m.put("appliedIndicator", this.appliedIndicator);
 
@@ -66,7 +69,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the paymentNumber attribute.
      *
-     * @return Returns the paymentNumber 
+     * @return Returns the paymentNumber
      */
     public String getPaymentNumber() {
         return paymentNumber;
@@ -84,7 +87,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the paymentDate attribute.
      *
-     * @return Returns the paymentDate 
+     * @return Returns the paymentDate
      */
     public Date getPaymentDate() {
         return paymentDate;
@@ -102,7 +105,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the customerNumber attribute.
      *
-     * @return Returns the customerNumber 
+     * @return Returns the customerNumber
      */
     public String getCustomerNumber() {
         return customerNumber;
@@ -120,7 +123,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the customerName attribute.
      *
-     * @return Returns the customerName 
+     * @return Returns the customerName
      */
     public String getCustomerName() {
         return customerName;
@@ -138,7 +141,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the paymentAmount attribute.
      *
-     * @return Returns the paymentAmount 
+     * @return Returns the paymentAmount
      */
     public KualiDecimal getPaymentAmount() {
         return paymentAmount;
@@ -156,7 +159,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the invoiceNumber attribute.
      *
-     * @return Returns the invoiceNumber 
+     * @return Returns the invoiceNumber
      */
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -174,7 +177,7 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     /**
      * Gets the invoiceAmount attribute.
      *
-     * @return Returns the invoiceAmount 
+     * @return Returns the invoiceAmount
      */
     public KualiDecimal getInvoiceAmount() {
         return invoiceAmount;
@@ -189,21 +192,24 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
         this.invoiceAmount = invoiceAmount;
     }
 
+
+
     /**
      * Gets the awardNumber attribute.
      *
-     * @return Returns the awardNumber 
+     * @return Returns the awardNumber
      */
-    public String getAwardNumber() {
+
+    public Long getAwardNumber() {
         return awardNumber;
     }
 
     /**
-     * Sets the awardNumber attribute value.
+     * Sets the awardNumber attribute.
      *
      * @param awardNumber The awardNumber to set.
      */
-    public void setAwardNumber(String awardNumber) {
+    public void setAwardNumber(Long awardNumber) {
         this.awardNumber = awardNumber;
     }
 
@@ -239,5 +245,43 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
         this.appliedIndicator = appliedIndicator;
     }
 
-    
+    /**
+     * Gets the customer attribute.
+     *
+     * @return Returns the customer
+     */
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    /**
+     * Sets the customer attribute.
+     *
+     * @param customer The customer to set.
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * Gets the award attribute.
+     *
+     * @return Returns the award
+     */
+
+    public ContractsAndGrantsBillingAward getAward() {
+        return award;
+    }
+
+    /**
+     * Sets the award attribute.
+     *
+     * @param award The award to set.
+     */
+    public void setAward(ContractsAndGrantsBillingAward award) {
+        this.award = award;
+    }
+
+
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,13 +35,13 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsPaymentHistoryReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Contracts Grants Payment History Report Lookup.
@@ -50,7 +50,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
 
     /**
      * implementation of the print method for Contracts Grants Payment History Report Lookup.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -188,7 +188,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         reportDetail.setInvoiceAmount(invoiceAmount);
 
 
-        reportDetail.setAwardNumber(cgPaymentHistoryReportEntry.getAwardNumber());
+        reportDetail.setAwardNumber(cgPaymentHistoryReportEntry.getAwardNumber().toString());
         reportDetail.setReversedIndicator(cgPaymentHistoryReportEntry.isReversedIndicator() ? "Yes" : "No");
         reportDetail.setAppliedIndicator(cgPaymentHistoryReportEntry.isAppliedIndicator() ? "Yes" : "No");
 

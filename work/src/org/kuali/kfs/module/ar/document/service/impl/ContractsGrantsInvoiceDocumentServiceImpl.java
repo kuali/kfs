@@ -835,8 +835,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 invoiceDetailAccountObjectCode.setCurrentExpenditures(amount);
 
-                // add this single account object code item to the list in the Map
-                contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes();
+                if (invoiceDetailAccountObjectCodes.contains(invoiceDetailAccountObjectCode)) {
+                    // update existing code
+                    InvoiceDetailAccountObjectCode original = invoiceDetailAccountObjectCodes.get(invoiceDetailAccountObjectCodes.indexOf(invoiceDetailAccountObjectCode));
+                    original.setCurrentExpenditures(amount);
+                    original.setCategoryCode(categoryCode);
+                } else {
+                    // add this single account object code item to the list in the Map
+                    contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                }
             }
         }
         else {
@@ -4167,7 +4175,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                             invoiceDetailAccountObjectCode.setCategoryCode(category.getCategoryCode());
                             invoiceDetailAccountObjectCode.setAccountNumber(bal.getAccountNumber());
                             invoiceDetailAccountObjectCode.setChartOfAccountsCode(bal.getChartOfAccountsCode());
-                            document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                            if (!document.getInvoiceDetailAccountObjectCodes().contains(invoiceDetailAccountObjectCode)) {
+                                document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                            }
                         }
                         // Retrieve cumulative amounts based on the biling period.
 

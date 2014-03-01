@@ -1510,7 +1510,7 @@
         <column name="AWD_DT_RNG" size="50" type="VARCHAR"/>
         <column name="BILL_FREQ" size="50" type="VARCHAR"/>
         <column name="FND_TYP" size="50" type="VARCHAR"/>
-        <column name="INSTRMNT_TYP_CD" size="50" type="VARCHAR"/>
+        <column name="INSTRMNT_TYP_CD" size="10" type="VARCHAR"/>
         <column name="FINAL_BILL_IND" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -4399,11 +4399,11 @@
         </unique>
     </table>
     <table name="CG_INSTRMNT_TYP_T">
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="INSTRMNT_TYP_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="INSTRMNT_TYP_DESC" size="45" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="CG_INSTRMNT_TYP_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>

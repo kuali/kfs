@@ -48,6 +48,7 @@ public class HistoricalTravelExpenseDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = new Criteria();
         criteria.addEqualTo(TemPropertyConstants.TemProfileProperties.PROFILE_ID, travelerProfileId);
         criteria.addIsNull(TemPropertyConstants.EXPENSE_NOTIFICATION_DATE);
+        criteria.addEqualTo(TemPropertyConstants.HISTORICAL_TRAVEL_EXPENSE_ASSIGNED, "N");
 
         Query query = QueryFactory.newQuery(HistoricalTravelExpense.class, criteria);
 

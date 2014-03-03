@@ -391,6 +391,7 @@ public class TemPropertyConstants {
     public static final String OLD_ROUTE_STATUS = "oldRouteStatus";
 
     public static final String EXPENSE_NOTIFICATION_DATE = "expenseNotificationDate";
+    public static final String HISTORICAL_TRAVEL_EXPENSE_ASSIGNED = "assigned";
 
     public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
     public static final String EXPENSE_TYPE = "expenseType";

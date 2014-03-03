@@ -109,10 +109,15 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
             this.getBusinessObjectService().save(expense);
         }
 
-        MailMessage mailMessageByTrip = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTrip, TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP);
-        MailMessage mailMessageByTraveler = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTraveler, TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER);
-        this.getKfsNotificationService().sendNotificationByMail(mailMessageByTrip);
-        this.getKfsNotificationService().sendNotificationByMail(mailMessageByTraveler);
+        if(!expensesOfTravelerImportByTrip.isEmpty()) {
+            MailMessage mailMessageByTrip = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTrip, TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP);
+            this.getKfsNotificationService().sendNotificationByMail(mailMessageByTrip);
+        }
+
+        if(!expensesOfTravelerImportByTraveler.isEmpty()) {
+            MailMessage mailMessageByTraveler = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTravelerImportByTraveler, TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER);
+            this.getKfsNotificationService().sendNotificationByMail(mailMessageByTraveler);
+        }
     }
 
 
@@ -227,9 +232,10 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
      * get the notification text from an application parameter
      */
     protected String getNotificationText(String importBy) {
-        String parameterName =   TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(importBy) ? TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRIP_PARAM_NAME :TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRV_PARAM_NAME;
+        String parameterName = TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(importBy) ? TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRP_PARAM_NAME :TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_BY_TRV_PARAM_NAME;
 
-        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, parameterName );
+        String notificationText = this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, parameterName );
+        return notificationText;
     }
 
     /**

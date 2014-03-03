@@ -371,4 +371,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return false;
     }
 
+    @Override
+    public String getContractsGrantsInvoiceDocumentType() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
 }

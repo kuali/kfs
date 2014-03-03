@@ -19,6 +19,8 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
@@ -40,7 +42,8 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
     private boolean appliedIndicator;
     private Customer customer;
     private ContractsAndGrantsBillingAward award;
-
+    private ContractsGrantsInvoiceDocument invoiceDocument;
+    private PaymentApplicationDocument paymentApplicationDocument;
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
@@ -281,6 +284,22 @@ public class ContractsGrantsPaymentHistoryReport extends TransientBusinessObject
      */
     public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
+    }
+
+    public ContractsGrantsInvoiceDocument getInvoiceDocument() {
+        return invoiceDocument;
+    }
+
+    public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
+        this.invoiceDocument = invoiceDocument;
+    }
+
+    public PaymentApplicationDocument getPaymentApplicationDocument() {
+        return paymentApplicationDocument;
+    }
+
+    public void setPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) {
+        this.paymentApplicationDocument = paymentApplicationDocument;
     }
 
 

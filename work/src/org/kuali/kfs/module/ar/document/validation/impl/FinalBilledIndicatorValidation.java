@@ -18,12 +18,12 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -96,7 +96,7 @@ public class FinalBilledIndicatorValidation {
         try {
             if (SpringContext.getBean(DocumentService.class).documentExists(docNumber)) {
                 testDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docNumber);
-                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE))) {
+                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(ArConstants.CGIN_DOCUMENT_TYPE))) {
                     GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
                     return false;
                 }

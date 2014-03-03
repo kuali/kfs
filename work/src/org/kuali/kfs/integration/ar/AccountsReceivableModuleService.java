@@ -387,5 +387,10 @@ public interface AccountsReceivableModuleService {
      */
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
 
-
+    /**
+     * Gets the Contracts & Grants Invoice Document Type
+     *
+     * @return Contracts & Grants Invoice Document Type
+     */
+    public String getContractsGrantsInvoiceDocumentType();
 }

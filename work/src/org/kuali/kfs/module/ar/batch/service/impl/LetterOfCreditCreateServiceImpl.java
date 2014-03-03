@@ -346,7 +346,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
+        criteria.setDocumentTypeName(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
 
         DocumentSearchCriteria crit = criteria.build();

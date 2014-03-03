@@ -50,12 +50,26 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award">
-		<property name="primitiveAttributes">
-			<list>
-				<bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber" p:targetName="proposalNumber" />
-			</list>
-		</property>
-		</bean>
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber" p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="paymentApplicationDocument">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="paymentNumber" p:targetName="documentNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="invoiceDocument">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="invoiceNumber" p:targetName="documentNumber" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

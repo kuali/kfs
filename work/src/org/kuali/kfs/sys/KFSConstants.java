@@ -1061,7 +1061,6 @@ public class KFSConstants {
         public static final String NON_CHECK_DISBURSEMENT = "ND";
 
         // accounts receivable
-        public static final String PAYMENT_APPLICATION = "APP";
         public static final String CASH_CONTROL = "CTRL";
         public static final String CUSTOMER_CREDIT_MEMO = "CRM";
         public static final String CUSTOMER_INVOICE = "INV";
@@ -1113,14 +1112,6 @@ public class KFSConstants {
         public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
-
-
-    // contracts grants module document type codes
-    public static final class ContractsGrantsModuleDocumentTypeCodes {
-        // contracts grants invoice
-        public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
-    }
-
 
     public static final class TaxRegionConstants {
         public static final String TAX_REGION_RATES = "taxRegionRates";

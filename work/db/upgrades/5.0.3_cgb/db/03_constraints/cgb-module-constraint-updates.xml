@@ -3,10 +3,6 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
 	<changeSet author="KFSCGB" id="KFSMI">
-	
-	 	<addForeignKeyConstraint constraintName="CG_AGENCY_R1"
-			referencedTableName="CG_BILL_FREQ_T" baseColumnNames="CG_AGENCY_BILL_FREQ_CD"
-			baseTableName="CG_AGENCY_T" referencedColumnNames="BILL_FREQ_CD" />
 		<addForeignKeyConstraint constraintName="CG_AWD_R1"
 			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
 			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />

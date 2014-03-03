@@ -38,9 +38,6 @@
 				<ref bean="Agency-dodacNumber" />
 				<ref bean="Agency-dunAndBradstreetNumber" />
 				<ref bean="Agency-dunsPlusFourNumber" />
-				<ref bean="Agency-agencyFrequencyCode" />
-				<ref bean="Agency-agencyInvoiceTemplateCode" />
-				<ref bean="Agency-agencyExpirationDate" />
 				<ref bean="Agency-agencyAddresses.agencyAddressName" />
 				<ref bean="Agency-agencyAddresses.agencyLine1StreetAddress" />
 				<ref bean="Agency-agencyAddresses.agencyLine2StreetAddress" />
@@ -59,7 +56,6 @@
 				<ref bean="Agency-customerNumber" />
 				<ref bean="Agency-customerTypeCode" />
 				<ref bean="Agency-dunningCampaign" />
-				<ref bean="Agency-notes"/>
 				<ref bean="Agency-stateAgencyIndicator"/>
 			</list>
 		</property>
@@ -277,56 +273,6 @@
 		<property name="description" value="DUNS Plus Four Number" />
 	</bean>
 
-	<!-- Link to Billing Frequency -->
-	<bean id="Agency-agencyFrequencyCode" parent="Agency-agencyFrequencyCode-parentBean" />
-
-	<bean id="Agency-agencyFrequencyCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyFrequencyCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Billing Frequency" />
-		<property name="shortLabel" value="BillType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyBillingFrequencyValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<!-- Link to Invoice Template -->
-	<bean id="Agency-agencyInvoiceTemplateCode" parent="Agency-agencyInvoiceTemplateCode-parentBean" />
-
-	<bean id="Agency-agencyInvoiceTemplateCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyInvoiceTemplateCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Invoice Template" />
-		<property name="shortLabel" value="InvType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-
-	<bean id="Agency-agencyExpirationDate" parent="Agency-agencyExpirationDate-parentBean" />
-
-	<bean id="Agency-agencyExpirationDate-parentBean" abstract="true"
-		parent="GenericAttributes-genericDate">
-		<property name="name" value="agencyExpirationDate" />
-		<property name="label" value="Expiration Date" />
-		<property name="shortLabel" value="Expiry" />
-	</bean>
-
 	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
 
 	<bean id="Agency-customerNumber-parentBean" abstract="true"
@@ -487,24 +433,6 @@
 		<property name="name" value="agencyAddresses.agencyContactEmailAddress" />
 	</bean>
 
-  <bean id="Agency-notes" parent="Agency-notes-parentBean"/>
-
-  <bean id="Agency-notes-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false"/>
-    <property name="shortLabel" value="Notes"/>
-    <property name="maxLength" value="800"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
-    </property>
-    <property name="summary" value="&amp;nbsp;"/>
-    <property name="name" value="notes"/>
-    <property name="label" value="Notes"/>
-  </bean>
-  
   	<bean id="Agency-stateAgencyIndicator" parent="Agency-stateAgencyIndicator-parentBean" />
 
 	<bean id="Agency-stateAgencyIndicator-parentBean" abstract="true"
@@ -541,9 +469,6 @@
 							<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 							<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
-							<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
-							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
 						</list>
 					</property>
 				</bean>
@@ -617,7 +542,6 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="stateAgencyIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="dunningCampaign" />
-							<bean parent="FieldDefinition" p:attributeName="notes" />
 						</list>
 					</property>
 				</bean>	
@@ -670,8 +594,6 @@
 				<bean parent="FieldDefinition" p:attributeName="reportingName" />
 				<bean parent="FieldDefinition" p:attributeName="fullName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active" />				
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactName" />
@@ -688,7 +610,6 @@
 				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

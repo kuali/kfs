@@ -233,14 +233,11 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
         super.processAfterNew(document, parameters);
 
         Agency agency = getAgency();
-        String parameterAgencyFrequencyCode = "";
         String parameterDunningCampaignCode = "";
         // Default Billing Frequency
         try {
             // Retrieve default value from the corresponding default value parameter
             parameterDunningCampaignCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-            parameterAgencyFrequencyCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER);
-            agency.setAgencyFrequencyCode(parameterAgencyFrequencyCode);
             agency.setDunningCampaign(parameterDunningCampaignCode);
         }
         catch (Exception e) {

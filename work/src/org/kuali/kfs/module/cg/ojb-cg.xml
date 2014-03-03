@@ -27,18 +27,11 @@
 		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="agencyFrequencyCode" column="CG_AGENCY_BILL_FREQ_CD" jdbc-type="VARCHAR" /><!-- Billing Frequency Link -->
-		<field-descriptor name="agencyInvoiceTemplateCode" column="CG_AGENCY_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type 
-			Link -->
-		
-		<field-descriptor name="agencyExpirationDate" column="AGCY_EXP_DT" jdbc-type="DATE" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerCreated" column="CUST_CRTD" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
-		
 		<field-descriptor name="stateAgencyIndicator" column="STATE_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="notes" column="NTE_TXT" jdbc-type="VARCHAR" />
 		 
 		<reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
@@ -47,12 +40,6 @@
 		<reference-descriptor name="reportsToAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="reportsToAgencyNumber" />
-		</reference-descriptor>
-
-		<!-- Billing Frequency Link -->
-		<reference-descriptor name="agencybillingFrequency" class-ref="org.kuali.kfs.module.cg.businessobject.BillingFrequency"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="agencyFrequencyCode" />
 		</reference-descriptor>
 
 		<collection-descriptor name="agencyAddresses" element-class-ref="org.kuali.kfs.module.cg.businessobject.AgencyAddress"

@@ -85,11 +85,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="inStateIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="indirectAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="reportsToAgencyNumber" />
-				<bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceTemplateCode"
-					p:webUILeaveFieldFunction="setNewAddressInvoiceTemplate"
-					p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.defaultvalue.DefaultInvoiceTemplateFinder" />
-				<bean parent="MaintainableFieldDefinition" p:name="agencyFrequencyCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="agencyExpirationDate" />
 			</list>
 		</property>
 	</bean>
@@ -190,7 +185,6 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="stateAgencyIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign"/>
-				<bean parent="MaintainableFieldDefinition" p:name="notes" />
 			</list>
 		</property>
 	</bean>

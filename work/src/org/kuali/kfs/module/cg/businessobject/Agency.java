@@ -16,14 +16,12 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -57,23 +55,8 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private String dunAndBradstreetNumber;
     private String dunsPlusFourNumber;
 
-
-    // Billing Frequency link
-
-    private String agencyFrequencyCode;
-    private BillingFrequency agencybillingFrequency;
-
-    // Invoice Types link
-
-    private String agencyInvoiceTemplateCode;
-    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
-
-
-    private Date agencyExpirationDate;
-
     private List<AgencyAddress> agencyAddresses;
 
-    private String notes;
     private boolean stateAgencyIndicator;
 
     // Creating Customer from Agency
@@ -90,101 +73,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public Agency() {
         agencyAddresses = new ArrayList<AgencyAddress>();
-    }
-
-    // Getters and setters for Billing frequency
-    /**
-     * Gets the agencyFrequencyCode attribute.
-     *
-     * @return Returns the agencyFrequencyCode.
-     */
-    public String getAgencyFrequencyCode() {
-        return agencyFrequencyCode;
-    }
-
-    /**
-     * Sets the agencyFrequencyCode attribute value.
-     *
-     * @param agencyFrequencyCode The agencyFrequencyCode to set.
-     */
-    public void setAgencyFrequencyCode(String agencyFrequencyCode) {
-        this.agencyFrequencyCode = agencyFrequencyCode;
-    }
-
-    /**
-     * Gets the agencybillingFrequency attribute.
-     *
-     * @return Returns the agencybillingFrequency.
-     */
-    public BillingFrequency getAgencybillingFrequency() {
-        return agencybillingFrequency;
-    }
-
-    /**
-     * Sets the agencybillingFrequency attribute value.
-     *
-     * @param agencybillingFrequency The agencybillingFrequency to set.
-     */
-    public void setAgencybillingFrequency(BillingFrequency agencybillingFrequency) {
-        this.agencybillingFrequency = agencybillingFrequency;
-    }
-
-
-    // Getters and setters for Invoice Types
-    /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     *
-     * @return Returns the agencyInvoiceTemplateCode.
-     */
-    public String getAgencyInvoiceTemplateCode() {
-        return agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplateCode attribute value.
-     *
-     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
-     */
-    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
-
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Gets the agencyInvoiceTemplate attribute.
-     *
-     * @return Returns the agencyInvoiceTemplate.
-     */
-    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
-        return agencyInvoiceTemplate;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplate attribute value.
-     *
-     * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
-     */
-    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
-        this.agencyInvoiceTemplate = agencyInvoiceTemplate;
-    }
-
-
-    /**
-     * Gets the agencyExpirationDate attribute.
-     *
-     * @return Returns the agencyExpirationDate.
-     */
-    public Date getAgencyExpirationDate() {
-        return agencyExpirationDate;
-    }
-
-    /**
-     * Sets the agencyExpirationDate attribute value.
-     *
-     * @param agencyExpirationDate The agencyExpirationDate to set.
-     */
-    public void setAgencyExpirationDate(Date agencyExpirationDate) {
-        this.agencyExpirationDate = agencyExpirationDate;
     }
 
     /**
@@ -584,24 +472,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public void setDunningCampaign(String dunningCampaign) {
         this.dunningCampaign = dunningCampaign;
-    }
-
-    /**
-     * Gets the notes attribute.
-     *
-     * @return Returns the notes.
-     */
-    public String getNotes() {
-        return notes;
-    }
-
-    /**
-     * Sets the notes attribute value.
-     *
-     * @param notes The notes to set.
-     */
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     /**

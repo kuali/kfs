@@ -12,16 +12,12 @@
 			<column name="DODAC_NBR" type="varchar(20)" />
 			<column name="DUNS_NBR" type="varchar(20)" />
 			<column name="DUNS_PLUS_FOUR_NBR" type="varchar(20)" />
-			<column name="CG_AGENCY_BILL_FREQ_CD" type="varchar(10)" />
-			<column name="CG_AGENCY_INV_TYP_CD" type="varchar(10)" />
-			<column name="AGCY_EXP_DT" type="datetime" />
 			<column name="CUST_NBR" type="varchar(9)" />
 			<column name="CUST_TYP_CD" type="varchar(10)" />
 			<column name="CUST_CRTD" type="varchar(1)" />
 			<column name="CMPGN_ID" type="varchar(4)" />
 			<column name="STATE_AGENCY_IND" type="varchar(1)"
 				defaultValue="N" />
-			<column name="NTE_TXT" type="varchar(800)" />
 		</addColumn>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />

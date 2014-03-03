@@ -34,6 +34,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -108,7 +109,7 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
         if (authorizationDoc.getAdvanceTravelPayment().getCancelDate() == null) {
             try {
                 authorizationDoc.getAdvanceTravelPayment().setCancelDate(cancelDate);
-                getPaymentSourceHelperService().handleEntryCancellation(authorizationDoc);
+                getPaymentSourceHelperService().handleEntryCancellation(authorizationDoc, this);
                 authorizationDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 getDocumentService().saveDocument(authorizationDoc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
@@ -118,6 +119,15 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
                 throw new RuntimeException(we);
             }
         }
+    }
+
+    /**
+     * Returns true if the GLPE has a doc type of TACA or TAWF
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldRollBackPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean shouldRollBackPendingEntry(GeneralLedgerPendingEntry entry) {
+        return StringUtils.equals(entry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT) || StringUtils.equals(entry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT);
     }
 
     /**

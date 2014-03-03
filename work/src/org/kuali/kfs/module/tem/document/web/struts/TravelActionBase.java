@@ -316,7 +316,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             document.refreshExpenseTypeObjectCodesForExpenses();
         }
 
-        ExpenseUtils.calculateMileage(document.getActualExpenses());
+        ExpenseUtils.calculateMileage(document, document.getActualExpenses());
         updateActualExpenseConversionRates(document);
         populateForeignCurrencyUrl(travelFormBase);
 
@@ -347,7 +347,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelDocument travelDoc = ((TravelFormBase)kualiDocumentFormBase).getTravelDocument();
         if (travelDoc.getDocumentHeader().getWorkflowDocument().isEnroute() || travelDoc.getDocumentHeader().getWorkflowDocument().isCompletionRequested()) { // only update background rates if the document is still enroute
             if (travelDoc.getActualExpenses() != null && !travelDoc.getActualExpenses().isEmpty()) {
-                ExpenseUtils.calculateMileage(travelDoc.getActualExpenses());
+                ExpenseUtils.calculateMileage(travelDoc, travelDoc.getActualExpenses());
             }
         }
     }

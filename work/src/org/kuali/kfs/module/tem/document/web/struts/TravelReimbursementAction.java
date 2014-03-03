@@ -75,9 +75,9 @@ import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportSer
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
@@ -129,7 +129,7 @@ public class TravelReimbursementAction extends TravelActionBase {
      */
     protected void setButtonPermissions(TravelReimbursementForm form) {
         canSave(form);
-
+        setCanReturnToFisicalOfficer(form);
         setCanCertify(form);
         setCanCalculate(form);
     }
@@ -712,19 +712,8 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         if (!StringUtils.isBlank(forward.getPath()) && forward.getPath().indexOf(KRADConstants.QUESTION_ACTION) < 0 ) {
             addDateChangedNote(form);
+           addAccountingDocumentRelationship(form);
 
-            addAccountingDocumentRelationship(form);
-
-            if (GlobalVariables.getMessageMap().getErrorCount() == 0){
-                TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
-                TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
-
-                Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
-
-                if (value != null && value.booleanValue()){
-                    travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
-                }
-            }
         }
 
         return forward;
@@ -742,35 +731,14 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         if (!StringUtils.isBlank(forward.getPath()) && forward.getPath().indexOf(KRADConstants.QUESTION_ACTION) < 0 ) {
             addDateChangedNote(form);
-
             addAccountingDocumentRelationship(form);
 
-            if (GlobalVariables.getMessageMap().getErrorCount() == 0){
-                TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
-                TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
-
-                final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
-
-                if (preTrip){
-                    travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
-                }
-            }
         }
 
         return forward;
     }
 
-    /**
-     * Adds (Pre-Trip) to the end of the given String (presumably the document description), and then makes sure it will fit within the doc description's max length
-     * @param description the description to add (Pre-Trip) to
-     * @return the fitted String
-     */
-    protected String postpendPreTripToDescription(Class<?> documentDescriptionClass, String description) {
-        final String postPendedDescription = description + " (Pre-Trip)";
-        final int maxLength = getDataDictionaryService().getAttributeMaxLength(documentDescriptionClass, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
-        final String fittedDescription = (postPendedDescription.length() > maxLength) ? postPendedDescription.substring(0, maxLength) : postPendedDescription;
-        return fittedDescription;
-    }
+
 
     /**
      * This method calls addDateChangedNote() if this TR is created from a TA.
@@ -878,6 +846,10 @@ public class TravelReimbursementAction extends TravelActionBase {
     }
     protected NonEmployeeCertificationReportService getNonEmployeeCertificationReportService() {
         return SpringContext.getBean(NonEmployeeCertificationReportService.class);
+    }
+
+    protected DateTimeService getDateTimeService() {
+        return SpringContext.getBean(DateTimeService.class);
     }
 }
 

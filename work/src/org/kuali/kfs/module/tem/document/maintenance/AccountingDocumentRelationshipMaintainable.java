@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class AccountingDocumentRelationshipMaintainable extends KualiMaintainableImpl {
+public class AccountingDocumentRelationshipMaintainable extends FinancialSystemMaintainable {
 
     /**
      *

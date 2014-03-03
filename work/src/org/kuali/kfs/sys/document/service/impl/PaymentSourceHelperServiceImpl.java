@@ -31,6 +31,7 @@ import org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.WireCharge;
@@ -392,14 +393,16 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#handleEntryCancellation(org.kuali.kfs.sys.document.PaymentSource)
     */
    @Override
-   public void handleEntryCancellation(PaymentSource paymentSource) {
+   public void handleEntryCancellation(PaymentSource paymentSource, PaymentSourceToExtractService<?> extractionService) {
        if (ObjectUtils.isNull(paymentSource.getGeneralLedgerPendingEntries()) || paymentSource.getGeneralLedgerPendingEntries().size() == 0) {
            // generate all the pending entries for the document
            getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(paymentSource);
            // for each pending entry, opposite-ify it and reattach it to the document
            GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
-               oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+               if (extractionService.shouldRollBackPendingEntry(glpe)) {
+                   oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+               }
            }
        }
        else {
@@ -407,15 +410,19 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
            GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(paymentSource.getGeneralLedgerPendingEntries().size() + 1);
            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
                glpe.refresh();
-               if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
-                   // damn! it got processed! well, make a copy, oppositify, and save
-                   GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
-                   oppositifyAndSaveEntry(undoer, glpeSeqHelper);
-                   newGLPEs.add(undoer);
-               }
-               else {
-                   // just delete the GLPE before anything happens to it
-                   businessObjectService.delete(glpe);
+               if (extractionService.shouldRollBackPendingEntry(glpe)) {
+                   if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
+                       // damn! it got processed! well, make a copy, oppositify, and save
+                       GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
+                       oppositifyAndSaveEntry(undoer, glpeSeqHelper);
+                       newGLPEs.add(undoer);
+                   }
+                   else {
+                       // just delete the GLPE before anything happens to it
+                       businessObjectService.delete(glpe);
+                   }
+               } else {
+                   newGLPEs.add(glpe);
                }
            }
            paymentSource.setGeneralLedgerPendingEntries(newGLPEs);

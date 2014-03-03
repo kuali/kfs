@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -57,7 +58,7 @@ public class MileageRateValuesFinder extends KeyValuesBase {
        final KualiForm currentForm = KNSGlobalVariables.getKualiForm();
        if (currentForm instanceof KualiDocumentFormBase && ((KualiDocumentFormBase)currentForm).getDocument() instanceof TravelDocument) {
            final TravelDocument travelDoc = (TravelDocument)((KualiDocumentFormBase)currentForm).getDocument();
-           return travelDoc.getEffectiveDateForMileageRate(null);
+           return travelDoc.getEffectiveDateForMileageRate(new ActualExpense());
        }
        return null;
    }

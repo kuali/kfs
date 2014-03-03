@@ -28,7 +28,7 @@
 				<ref bean="ActualExpense-airfareSourceCode" />
 				<ref bean="ActualExpense-classOfServiceCode" />
 				<ref bean="ActualExpense-miles" />
-				<ref bean="ActualExpense-mileageRate.rate"/>
+				<ref bean="ActualExpense-contextlessMileageRate.rate"/>
 				<ref bean="ActualExpense-mileageOtherRate" />
 				<ref bean="ActualExpense-rentalCarInsurance" />			
 			</list>
@@ -239,9 +239,9 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="ActualExpense-mileageRate.rate" parent="ActualExpense-mileageRate.rate-parentBean" />
-	<bean id="ActualExpense-mileageRate.rate-parentBean" abstract="true" parent="MileageRate-rate">
-		<property name="name" value="mileageRate.rate"/>
+	<bean id="ActualExpense-contextlessMileageRate.rate" parent="ActualExpense-contextlessMileageRate.rate-parentBean" />
+	<bean id="ActualExpense-contextlessMileageRate.rate-parentBean" abstract="true" parent="MileageRate-rate">
+		<property name="name" value="contextlessMileageRate.rate"/>
 		<property name="label" value="Mileage Rate"/>
 	</bean>
 	<bean id="ActualExpense-mileageOtherRate" parent="ActualExpense-mileageOtherRate-parentBean" />

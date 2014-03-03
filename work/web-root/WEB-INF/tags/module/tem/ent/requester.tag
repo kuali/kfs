@@ -29,7 +29,7 @@
 			</div>
 		</th>
 		<td class="datacell" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.eventTitle}" property="document.eventTitle" readOnly="${!fullEntryMode}" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.eventTitle}" property="document.eventTitle" readOnly="${!fullEntryMode || KualiForm.eventHostandEventNameReadonly}" />
 		</td>
 	</tr>
 	<tr>
@@ -41,7 +41,7 @@
 
 		<td class="datacell" colspan="3">
 			<div align="left">
-				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="${!fullEntryMode}" />
+				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="${!fullEntryMode || KualiForm.eventHostandEventNameReadonly}" />
 			</div>
 		</td>
 	</tr>

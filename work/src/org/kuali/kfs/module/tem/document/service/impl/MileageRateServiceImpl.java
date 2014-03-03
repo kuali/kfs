@@ -25,6 +25,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.document.service.CachingMileageRateService;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class MileageRateServiceImpl implements MileageRateService {
@@ -53,7 +54,7 @@ public class MileageRateServiceImpl implements MileageRateService {
     public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
 
         for (MileageRate mileageRate : cachingMileageRateService.findAllMileageRates()) {
-            if (effectiveDate.after(mileageRate.getActiveFromDate()) && effectiveDate.before(mileageRate.getActiveToDate()) && mileageRate.getExpenseTypeCode().equals(expenseTypeCode)) {
+            if ((KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveFromDate()) || effectiveDate.after(mileageRate.getActiveFromDate())) && (KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveToDate()) || effectiveDate.before(mileageRate.getActiveToDate())) && mileageRate.getExpenseTypeCode().equals(expenseTypeCode)) {
                 return mileageRate;
             }
         }

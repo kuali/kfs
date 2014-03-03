@@ -476,6 +476,13 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public Date getEffectiveDateForMileageRate(ActualExpense expense);
 
     /**
+     * Finds an effective date to look up a mileage rate record
+     * @param expense the expense to find the effective date for
+     * @return the effective date for mileage rate records on the expense
+     */
+    public Date getEffectiveDateForMileageRate(PerDiemExpense expense);
+
+    /**
      * Finds an effective date to help us look up a per diem record
      * @param expense per diem expense to find an effective date for
      * @return the effective date to use to look up the right per diem record

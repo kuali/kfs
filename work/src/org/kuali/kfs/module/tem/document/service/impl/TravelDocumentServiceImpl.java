@@ -213,7 +213,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         expense.setCounty(newPerDiem.getPrimaryDestination().getCounty());
 
         setPerDiemMealsAndIncidentals(expense, newPerDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
-        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? newPerDiem.getLodging() : KualiDecimal.ZERO;
+        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() && !KfsDateUtils.isSameDay(document.getTripEnd(), ts) ? newPerDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
         expense.setMileageRateExpenseTypeCode(mileageRateExpenseTypeCode);
         return expense;
@@ -415,7 +415,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
                 final MileageRate mileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
                 if (mileageRate != null) {
-                    keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getName()+" - "+mileageRate.getRate().toString()));
+                    keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
                 }
             }
         }
@@ -777,6 +777,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, KFSConstants.RouteLevelNames.ACCOUNT);
 
         addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+
+        document.getFinancialSystemDocumentHeader().setApplicationDocumentStatus(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
 
         getDocumentService().saveDocument(document);
     }

@@ -95,9 +95,10 @@
 		<property name="name" value="advancePaymentReasonCode" />
 		<property name="label" value="Reason For Advance" />
 		<property name="shortLabel" value="Reason For Advance" />
-		<property name="maxLength" value="105" />
+		<property name="maxLength" value="2" />
 		<property name="summary" value="Reason For Advance" />
 		<property name="description" value="Reason For Advance" />
+		<property name="required" value="true"/>
 		<property name="control">
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.AdvancePaymentReasonValuesFinder"

@@ -1239,6 +1239,8 @@ public class KFSConstants {
         public static final String ORGANIZATION_REVIEWER_ROLE_NAME = "Organization Reviewer";
         public static final String ACCOUNTS_RECEIVABLE_COLLECTOR = "CGB Collector";
         public static final String KFS_USER_ROLE_NAME = "User";
+        public static final String CONTRACTS_AND_GRANTS_PROCESSOR = "Contracts & Grants Processor";
+        public static final String SUB_FUND_REVIEWER = "Sub-Fund Reviewer";
     }
 
     public enum PermissionAttributeValue {

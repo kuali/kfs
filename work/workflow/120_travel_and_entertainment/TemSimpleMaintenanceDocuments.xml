@@ -121,5 +121,10 @@
       <label>Credit Card Imported Expense Clearing Document</label>
       <parent>TTSM</parent>
     </documentType>
+    <documentType>
+      <name>TPDB</name>
+      <label>Per Diem Meals and Incidentals Breakdown</label>
+      <parent>TTSM</parent>
+    </documentType>
   </documentTypes>
 </data>

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -45,6 +47,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -52,6 +55,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -667,6 +671,44 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public Map<String, String> getDisapprovedAppDocStatusMap() {
         return TravelReimbursementStatusCodeKeys.getDisapprovedAppDocStatusMap();
+    }
+
+    @Override
+    protected String generateDescription() {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        String description = super.generateDescription();
+        boolean preTripReimbursement = false;
+        try {
+        Date tripEnd = dateTimeService.convertToSqlDate(getTripEnd());
+        Date tripBegin = dateTimeService.convertToSqlDate(getTripBegin());
+        Date currentDate = dateTimeService.getCurrentSqlDate();
+        preTripReimbursement =  tripBegin.compareTo(currentDate)>=0 && tripEnd.compareTo(currentDate) >= 0  ? true : false;
+        } catch (ParseException pe) {
+            LOG.error("Error while parsing dates ",pe);
+        }
+
+
+
+
+        final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
+
+        if (preTrip && preTripReimbursement){
+            return postpendPreTripToDescription(description);
+        }
+
+        return description;
+    }
+
+    /**
+     * Adds (Pre-Trip) to the end of the given String (presumably the document description), and then makes sure it will fit within the doc description's max length
+     * @param description the description to add (Pre-Trip) to
+     * @return the fitted String
+     */
+    protected String postpendPreTripToDescription(String description) {
+        final String postPendedDescription = TemConstants.TRAVEL_REIMBURSEMENT_PRETRIP_DESCRIPTION_TEXT +  description  ;
+        final int maxLength = getDataDictionaryService().getAttributeMaxLength(getDocumentHeader().getClass(), KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+        final String fittedDescription = (postPendedDescription.length() > maxLength) ? postPendedDescription.substring(0, maxLength) : postPendedDescription;
+        return fittedDescription;
     }
 
     /**

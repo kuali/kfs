@@ -1,0 +1,136 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="PerDiemMealIncidentalBreakDown" parent="PerDiemMealIncidentalBreakDown-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown" />
+		<property name="lookupDefinition" ref="PerDiemMealIncidentalBreakDown-lookupDefinition" />
+		<property name="inquiryDefinition" ref="PerDiemMealIncidentalBreakDown-inquiryDefinition" />
+		<property name="titleAttribute" value="mealsAndIncidentals" />
+		<property name="objectLabel" value="Per Diem Meals And Incidentals Breakdown" />
+		<property name="attributes">
+		<list>
+			<ref bean="PerDiemMealIncidentalBreakDown-mealsAndIncidentals" />
+			<ref bean="PerDiemMealIncidentalBreakDown-breakfast" />
+			<ref bean="PerDiemMealIncidentalBreakDown-lunch" />
+			<ref bean="PerDiemMealIncidentalBreakDown-dinner" />
+			<ref bean="PerDiemMealIncidentalBreakDown-incidentals" />
+			<ref bean="PerDiemMealIncidentalBreakDown-lastUpdateDate" />
+			<ref bean="PerDiemMealIncidentalBreakDown-active" />
+		</list>
+		</property>
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-mealsAndIncidentals" parent="PerDiemMealIncidentalBreakDown-mealsAndIncidentals-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-mealsAndIncidentals-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="mealsAndIncidentals" />
+		<property name="label" value="Meals And Incidentals" />
+		<property name="shortLabel" value="Meals And Incidentals" />
+		<property name="required" value="true" />
+		<property name="summary" value="Meals And Incidentals" />
+		<property name="description" value="Meals And Incidentals" />
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-breakfast" parent="PerDiemMealIncidentalBreakDown-breakfast-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-breakfast-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="breakfast" />
+		<property name="label" value="Breakfast" />
+		<property name="shortLabel" value="Breakfast" />
+		<property name="required" value="true" />
+		<property name="summary" value="Breakfast" />
+		<property name="description" value="Breakfast" />
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-lunch" parent="PerDiemMealIncidentalBreakDown-lunch-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-lunch-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="lunch" />
+		<property name="label" value="Lunch" />
+		<property name="shortLabel" value="Lunch" />
+		<property name="required" value="true" />
+		<property name="summary" value="Lunch" />
+		<property name="description" value="Lunch" />
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-dinner" parent="PerDiemMealIncidentalBreakDown-dinner-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-dinner-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="dinner" />
+		<property name="label" value="Dinner" />
+		<property name="shortLabel" value="Dinner" />
+		<property name="required" value="true" />
+		<property name="summary" value="Dinner" />
+		<property name="description" value="Dinner" />
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-incidentals" parent="PerDiemMealIncidentalBreakDown-incidentals-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-incidentals-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="incidentals" />
+		<property name="label" value="Incidentals" />
+		<property name="shortLabel" value="Incidentals" />
+		<property name="required" value="true" />
+		<property name="summary" value="Incidentals" />
+		<property name="description" value="Incidentals" />
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-lastUpdateDate" parent="PerDiemMealIncidentalBreakDown-lastUpdateDate-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-lastUpdateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="lastUpdateDate" />
+		<property name="label" value="Last Update Date" />
+		<property name="shortLabel" value="Last Update Date" />
+		<property name="summary" value="Last Update Date" />
+		<property name="description" value="Last Update Date" />
+	</bean>
+    <bean id="PerDiemMealIncidentalBreakDown-active" parent="PerDiemMealIncidentalBreakDown-active-parentBean" />
+    <bean id="PerDiemMealIncidentalBreakDown-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+    </bean>	
+	
+	<bean id="PerDiemMealIncidentalBreakDown-inquiryDefinition" parent="PerDiemMealIncidentalBreakDown-inquiryDefinition-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Per Diem Meals and Incidentals Breakdown Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Per Diem Meals and Incidentals Breakdown Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="mealsAndIncidentals" />
+					<bean parent="FieldDefinition" p:attributeName="breakfast" />
+					<bean parent="FieldDefinition" p:attributeName="lunch" />
+					<bean parent="FieldDefinition" p:attributeName="dinner" />
+					<bean parent="FieldDefinition" p:attributeName="incidentals" />
+					<bean parent="FieldDefinition" p:attributeName="lastUpdateDate" />
+					<bean parent="FieldDefinition" p:attributeName="active" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="PerDiemMealIncidentalBreakDown-lookupDefinition" parent="PerDiemMealIncidentalBreakDown-lookupDefinition-parentBean" />
+	<bean id="PerDiemMealIncidentalBreakDown-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Per Diem Meals and Incidentals Breakdown Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="mealsAndIncidentals" />
+			<bean parent="FieldDefinition" p:attributeName="breakfast" />
+			<bean parent="FieldDefinition" p:attributeName="lunch" />
+			<bean parent="FieldDefinition" p:attributeName="dinner" />
+			<bean parent="FieldDefinition" p:attributeName="incidentals" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="mealsAndIncidentals" />
+			<bean parent="FieldDefinition" p:attributeName="breakfast" />
+			<bean parent="FieldDefinition" p:attributeName="lunch" />
+			<bean parent="FieldDefinition" p:attributeName="dinner" />
+			<bean parent="FieldDefinition" p:attributeName="incidentals" />
+			<bean parent="FieldDefinition" p:attributeName="lastUpdateDate" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+	</bean>
+</beans>

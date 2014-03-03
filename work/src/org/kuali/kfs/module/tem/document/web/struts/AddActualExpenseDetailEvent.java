@@ -113,7 +113,7 @@ public class AddActualExpenseDetailEvent implements Observer {
             wrapper.getNewActualExpenseLines().add(index,newExpense);
             wrapper.getNewActualExpenseLines().remove(index+1);
 
-            ExpenseUtils.calculateMileage(document.getActualExpenses());
+            ExpenseUtils.calculateMileage(document, document.getActualExpenses());
 
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
         }

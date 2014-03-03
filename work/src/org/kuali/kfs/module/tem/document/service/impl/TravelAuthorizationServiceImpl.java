@@ -642,8 +642,11 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public List<String> findMatchingTrips(TravelAuthorizationDocument authorization) {
         List<String> duplicateTrips = new ArrayList<String>();
 
-        Date tripBeginBufferDate = getTripBeginDate(authorization.getTripBegin());
-        Date tripEndBufferDate = getTripEndDate(authorization.getTripEnd());
+        Date tripBeginBufferDate = authorization.getTripBegin() == null ? null : getTripBeginDate(authorization.getTripBegin());
+        Date tripEndBufferDate = authorization.getTripEnd() == null ? null : getTripEndDate(authorization.getTripEnd());
+        if (tripBeginBufferDate == null || tripEndBufferDate == null) {
+            return duplicateTrips; // return the empty list.  don't worry though - without a trip begin or end, they're certainly coming back
+        }
 
         List<TravelAuthorizationDocument> authorizationDocuments = travelAuthorizationDao.findTravelAuthorizationByTraveler(authorization.getTemProfileId());
 

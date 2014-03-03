@@ -1553,6 +1553,11 @@
 	<bean id="travelAuthorizationDao" parent="travelAuthorizationDao-parentBean" />
 	<bean id="travelAuthorizationDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelAuthorizationDaoOjb"/>
 
+	<bean id="perDiemMealIncidentalBreakDownRule" parent="perDiemMealIncidentalBreakDownRule-parentBean" />
+	<bean id="perDiemMealIncidentalBreakDownRule-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.PerDiemMealIncidentalBreakDownRule">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
     <import resource="spring-tem-bus-exports.xml"/>
     <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
 	

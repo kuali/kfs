@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.service;
 
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.WireCharge;
@@ -90,8 +91,9 @@ public interface PaymentSourceHelperService {
     /**
      * When a payment source is cancelled, its entries need to be reversed under certain circumstances.  This method will reverse those entries
      * @param paymentSource the cancelled payment source to reverse entries for
+     * @param extractionService the service which will tell this service whether or not to cancel a given pending entry
      */
-    public abstract void handleEntryCancellation(PaymentSource paymentSource);
+    public abstract void handleEntryCancellation(PaymentSource paymentSource, PaymentSourceToExtractService<?> extractionService);
 
     /**
      * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,

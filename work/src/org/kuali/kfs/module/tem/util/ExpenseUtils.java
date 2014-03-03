@@ -109,14 +109,14 @@ public class ExpenseUtils {
         service.save(historicalTravelExpense);
     }
 
-    public static void calculateMileage(List<ActualExpense> actualExpenses){
+    public static void calculateMileage(TravelDocument travelDocument, List<ActualExpense> actualExpenses){
         for (ActualExpense actualExpense : actualExpenses){
             if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()){
                 KualiDecimal total = KualiDecimal.ZERO;
                 for (TemExpense detail : actualExpense.getExpenseDetails()){
                     ActualExpense detailExpense = (ActualExpense) detail;
-                    if (detailExpense.getMileageRate() != null) {
-                        KualiDecimal mileage = new KualiDecimal(new BigDecimal(detailExpense.getMiles()).multiply(detailExpense.getMileageRate().getRate()));
+                    if (detailExpense.getMileageRate(travelDocument.getEffectiveDateForMileageRate(detailExpense)) != null) {
+                        KualiDecimal mileage = new KualiDecimal(new BigDecimal(detailExpense.getMiles()).multiply(detailExpense.getMileageRate(travelDocument.getEffectiveDateForMileageRate(detailExpense)).getRate()));
                         detailExpense.setExpenseAmount(mileage);
                         detailExpense.setConvertedAmount(mileage);
                         total = total.add(detailExpense.getExpenseAmount());

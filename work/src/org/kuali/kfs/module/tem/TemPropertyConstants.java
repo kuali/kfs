@@ -64,6 +64,9 @@ public class TemPropertyConstants {
     // TODO: damn straight, it should have been....  Also, it probably _should_ have been a java.sql.Date, not a java.sql.Timestamp...
     public static final String MILEAGE_DATE = "mileageDate";
     public static final String UNFILTERED_INCIDENTALS_VALUE = "unfilteredIncidentalsValue";
+    public static final String UNFILTERED_BREAKFAST_VALUE = "unfilteredBreakfastValue";
+    public static final String UNFILTERED_LUNCH_VALUE = "unfilteredLunchValue";
+    public static final String UNFILTERED_DINNER_VALUE = "unfilteredDinnerValue";
 
     public static final String TRAVEL_DOCUMENT_IDENTIFIER = "travelDocumentIdentifier";
     public static final String ORGANIZATION_DOCUMENT_NUMBER = "organizationDocumentNumber";
@@ -412,4 +415,6 @@ public class TemPropertyConstants {
     public class ClassOfService {
         public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseType.expenseTypeMetaCategoryCode";
     }
+
+    public static final String SPECIAL_CIRCUMTANCES_QUESTION_TEXT = "text";
 }

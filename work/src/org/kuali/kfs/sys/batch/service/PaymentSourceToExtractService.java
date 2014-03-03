@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -78,6 +79,13 @@ public interface PaymentSourceToExtractService<PS extends PaymentSource> {
      * @param cancelDate the date when the payment source was canceled
      */
     public abstract void cancelPayment(PS paymentSource, java.sql.Date cancelDate);
+
+    /**
+     * Determines if the given pending entry should be rolled back as part of the payment cancellation
+     * @param entry the entry to roll back
+     * @return true if the entry should be rolled back, false if it should be preserved
+     */
+    public abstract boolean shouldRollBackPendingEntry(GeneralLedgerPendingEntry entry);
 
     /**
      * Resets the given PaymentSource so that it seems as if it was not extracted according to values on the document

@@ -614,6 +614,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (StringUtils.isNotEmpty(balanceType)) {
             explicitEntry.setFinancialBalanceTypeCode(balanceType);
         }
+        explicitEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
     }
 
     /**
@@ -674,6 +675,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             offsetEntry.setFinancialBalanceTypeCode(balanceType);
             customized = true;
         }
+
+        offsetEntry.setOrganizationDocumentNumber(getTravelDocumentIdentifier());
         return customized;
     }
 
@@ -1486,7 +1489,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForMileageRate(ActualExpense expense) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
+    }
+
+    /**
+     * Returns the initiation date of the TA
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getEffectiveDateForMileageRate(org.kuali.kfs.module.tem.businessobject.PerDiemExpense)
+     */
+    @Override
+    public Date getEffectiveDateForMileageRate(PerDiemExpense expense) {
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**
@@ -1495,7 +1513,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForPerDiem(PerDiemExpense expense) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**
@@ -1504,7 +1525,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public Date getEffectiveDateForPerDiem(java.sql.Timestamp expenseDate) {
-        return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        if (getTripBegin() == null) {
+            return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        return new java.sql.Date(getTripBegin().getTime());
     }
 
     /**

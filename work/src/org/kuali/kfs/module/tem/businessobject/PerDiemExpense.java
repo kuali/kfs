@@ -32,11 +32,14 @@ import javax.persistence.Table;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.MileageRateService;
+import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -464,8 +467,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         this.mileageRateExpenseTypeCode = mileageRateExpenseTypeCode;
     }
 
-    public MileageRate getMileageRate() {
-        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
+    public MileageRate getMileageRate(java.sql.Date effectiveDate) {
+        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getMileageRateExpenseTypeCode(), effectiveDate);
     }
 
     /**
@@ -483,8 +486,19 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     public KualiDecimal getMileageTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         if (!personal) {
-            if (ObjectUtils.isNotNull(getMileageRate()) && ObjectUtils.isNotNull(this.miles) && this.miles > 0) {
-                total = new KualiDecimal(new BigDecimal(miles).multiply(getMileageRate().getRate()));
+            final TravelFormBase travelForm = (TravelFormBase)KNSGlobalVariables.getKualiForm();
+            if (travelForm == null) {
+                return KualiDecimal.ZERO;
+            }
+            final TravelDocument travelDocument = travelForm.getTravelDocument();
+            if (travelDocument == null) {
+                return KualiDecimal.ZERO;
+            }
+            final java.sql.Date effectiveDate = travelDocument.getEffectiveDateForMileageRate(this);
+
+            final MileageRate rate = getMileageRate(effectiveDate);
+            if (ObjectUtils.isNotNull(rate) && ObjectUtils.isNotNull(this.miles) && this.miles > 0) {
+                total = new KualiDecimal(new BigDecimal(miles).multiply(rate.getRate()));
             }
         }
 

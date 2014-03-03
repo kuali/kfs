@@ -24,8 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
@@ -155,7 +153,6 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
             }
         }
         getBusinessObjectService().save(historicalTravelExpenses);
-        boolean spawnDV = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_PAYMENT_IND);
     }
 
     public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {

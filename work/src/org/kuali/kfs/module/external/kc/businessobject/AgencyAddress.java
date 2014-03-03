@@ -20,6 +20,8 @@ import java.sql.Date;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.external.kc.dto.RolodexDTO;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
 public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
 
@@ -59,7 +61,12 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agencyCityName = kcAddress.getCity();
         this.agencyZipCode = kcAddress.getPostalCode();
         this.agencyAddressInternationalProvinceName = kcAddress.getState();
-        this.agencyCountryCode = kcAddress.getCountryCode();
+        Country country = LocationApiServiceLocator.getCountryService().getCountryByAlternateCode(kcAddress.getCountryCode());
+        if (country != null) {
+            this.agencyCountryCode = country.getCode();
+        } else {
+            this.agencyCountryCode = kcAddress.getCountryCode();
+        }
         this.agencyInternationalMailCode = kcAddress.getPostalCode();
         this.agencyContactEmailAddress = kcAddress.getEmailAddress();
         this.agencyContactName = kcAddress.getFullName();

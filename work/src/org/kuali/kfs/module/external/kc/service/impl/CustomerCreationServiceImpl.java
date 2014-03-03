@@ -52,23 +52,20 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
     @Override
     public CustomerCreationStatusDto createCustomer(SponsorDTO sponsor, String initiatedByPrincipalName) {
         CustomerCreationStatusDto result = new CustomerCreationStatusDto();
+        UserSession oldSession = GlobalVariables.getUserSession();
         try {
-            if (GlobalVariables.getUserSession() == null) {
-                GlobalVariables.setUserSession(new UserSession(initiatedByPrincipalName));
-            } else {
-                GlobalVariables.getUserSession().setBackdoorUser(initiatedByPrincipalName);
-            }
+            GlobalVariables.setUserSession(new UserSession("kfs"));
             Agency agency = new Agency(sponsor);
             String description = configurationService.getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
             String customerNumber = accountsReceivableModuleService.createAndSaveCustomer(description, agency);
             result.setCustomerNumber(customerNumber);
-            GlobalVariables.getUserSession().clearBackdoorUser();
         } catch (Exception e) {
             result.setErrors(new ArrayList<String>());
             result.getErrors().add(e.getMessage());
             LOG.error("Unable to create customer.", e);
+        } finally {
+            GlobalVariables.setUserSession(oldSession);
         }
-
         return result;
     }
 
@@ -124,5 +121,4 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
     public void setKeyValuesService(KeyValuesService keyValuesService) {
         this.keyValuesService = keyValuesService;
     }
-
 }

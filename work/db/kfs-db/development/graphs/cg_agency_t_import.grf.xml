@@ -32,15 +32,11 @@
         $0.dodac_nbr := replace(nvl($dodac_nbr, ""), "~!~", "|" );
         $0.duns_nbr := replace(nvl($duns_nbr, ""), "~!~", "|" );
         $0.duns_plus_four_nbr := replace(nvl($duns_plus_four_nbr, ""), "~!~", "|" );
-        $0.cg_agency_bill_freq_cd := replace(nvl($cg_agency_bill_freq_cd, ""), "~!~", "|" );
-        $0.cg_agency_inv_typ_cd := replace(nvl($cg_agency_inv_typ_cd, ""), "~!~", "|" );
-        $0.agcy_exp_dt := $agcy_exp_dt;
         $0.cust_nbr := replace(nvl($cust_nbr, ""), "~!~", "|" );
         $0.cust_typ_cd := replace(nvl($cust_typ_cd, ""), "~!~", "|" );
         $0.cust_crtd := replace(nvl($cust_crtd, ""), "~!~", "|" );
         $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );
         $0.state_agency_ind := replace(nvl($state_agency_ind, ""), "~!~", "|" );
-        $0.nte_txt := replace(nvl($nte_txt, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

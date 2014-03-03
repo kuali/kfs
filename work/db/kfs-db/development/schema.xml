@@ -4051,18 +4051,11 @@
         <column name="DODAC_NBR" size="20" type="VARCHAR"/>
         <column name="DUNS_NBR" size="20" type="VARCHAR"/>
         <column name="DUNS_PLUS_FOUR_NBR" size="20" type="VARCHAR"/>
-        <column name="CG_AGENCY_BILL_FREQ_CD" size="10" type="VARCHAR"/>
-        <column name="CG_AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="AGCY_EXP_DT" type="TIMESTAMP"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_TYP_CD" size="10" type="VARCHAR"/>
         <column name="CUST_CRTD" size="1" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STATE_AGENCY_IND" size="1" type="VARCHAR"/>
-        <column name="NTE_TXT" size="800" type="VARCHAR"/>
-        <foreign-key foreignTable="CG_BILL_FREQ_T" name="CG_AGENCY_R1">
-            <reference foreign="BILL_FREQ_CD" local="CG_AGENCY_BILL_FREQ_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="CG_AGENCY_TYP_T" name="CG_AGENCY_TR1">
             <reference foreign="CG_AGENCY_TYP_CD" local="CG_AGENCY_TYP_CD"/>
         </foreign-key>

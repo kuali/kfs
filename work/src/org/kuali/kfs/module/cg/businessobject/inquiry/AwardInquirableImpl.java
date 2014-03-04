@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.ui.Section;
@@ -77,13 +76,12 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
     }
 
     /**
-     * Checks ENABLE_CG_BILLING_ENHANCEMENTS_IND parameter to determine
-     * if enhancements are active.
+     * Checks to see if the Contracts and Grants Billing enhancement is enabled (controlled by KFS-AR/CG_BILLING_IND parameter).
      *
-     * @return true if Contracts and Grants Billing enhancements are enabled
+     * @return true if Contracts and Grants Billing enhancement is enabled
      */
     private boolean isContractsGrantsBillingEnhancementsActive() {
-        return SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
+        return SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
     }
 }
 

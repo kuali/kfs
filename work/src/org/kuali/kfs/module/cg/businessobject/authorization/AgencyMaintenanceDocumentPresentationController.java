@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg.businessobject.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -41,9 +41,6 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
 
         Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
 
-        // Determine if CG and Billing enhancements are ON from system parameters
-        boolean billingEnhacementsInd = SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
-
         return requiredPropertyNames;
     }
 
@@ -55,7 +52,7 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
     public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
         Set<String> hiddenSectionIds = super.getConditionallyHiddenSectionIds(businessObject);
 
-        if(!isContractsGrantsBillingEnhancementsActive()){
+        if(!isContractsGrantsBillingEnhancementActive()){
             // Hide the Customer tab when Contracts and
             // Grants Billing enhancements are disabled
             hiddenSectionIds.add(CGConstants.SectionId.AGENCY_CUSTOMER_SECTION_ID);
@@ -65,14 +62,12 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
     }
 
     /**
-     * Checks ENABLE_CG_BILLING_ENHANCEMENTS_IND parameter to determine
-     * if enhancements are active.
+     * Checks to see if the Contracts and Grants Billing enhancement is enabled (controlled by KFS-AR/CG_BILLING_IND parameter).
      *
-     * @return true if Contracts and Grants Billing enhancements are enabled
+     * @return true if Contracts and Grants Billing enhancement is enabled
      */
-    private boolean isContractsGrantsBillingEnhancementsActive() {
-
-        return SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
+    private boolean isContractsGrantsBillingEnhancementActive() {
+        return SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
     }
 
 }

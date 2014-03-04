@@ -53,7 +53,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
             addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
         }
         // add Prorate Button
-        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.CG_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.ENABLE_CG_PRORATE_BILL_IND))
+        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.CG_PRORATE_BILL_IND))
                 && !presoController.isBillingFrequencyMilestone(cgInvoiceDocument) && !presoController.isBillingFrequencyPredeterminedBillingSchedule(cgInvoiceDocument) && !cgInvoiceDocument.isCorrectionDocument()) {
             addExtraButton("methodToCall.prorateBill", buttonUrl + "buttonsmall_prorate.gif", "Prorate Bill");
         }

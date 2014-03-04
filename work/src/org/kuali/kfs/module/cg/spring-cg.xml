@@ -141,11 +141,6 @@
 		</property>	
 	</bean>
 
-	<bean id="contractsGrantsBillingService" parent="contractsGrantsBillingService-parentBean" scope="prototype"/>
-	<bean id="contractsGrantsBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsGrantsBillingServiceImpl" abstract="true" >
-		<property name="parameterService" ref="parameterService" />
-	</bean>
-
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />
 

@@ -32,7 +32,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
-import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,7 +57,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     public AwardRule() {
         super();
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
+        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**

@@ -72,6 +72,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -834,6 +835,11 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public String getContractsGrantsInvoiceDocumentType() {
         return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE;
+    }
+
+    @Override
+    public boolean isContractsGrantsBillingEnhancementActive() {
+        return parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND);
     }
 
 }

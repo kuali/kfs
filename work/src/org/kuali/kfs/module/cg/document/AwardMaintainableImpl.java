@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
-import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
@@ -133,7 +132,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
 
             // Retrieving Default Billing Schedule
-            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER);
+            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_BILLING_FREQUENCY_PARAMETER);
 
             // Set Invoicing Option
 

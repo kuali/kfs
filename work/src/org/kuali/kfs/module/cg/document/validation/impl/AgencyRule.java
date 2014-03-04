@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -30,7 +31,6 @@ import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
-import org.kuali.kfs.module.cg.service.ContractsGrantsBillingService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,7 +59,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public AgencyRule() {
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(ContractsGrantsBillingService.class).isContractsGrantsBillingEnhancementsActive();
+        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**

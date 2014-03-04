@@ -393,4 +393,11 @@ public interface AccountsReceivableModuleService {
      * @return Contracts & Grants Invoice Document Type
      */
     public String getContractsGrantsInvoiceDocumentType();
+
+    /**
+     * Determines whether the CG and Billing Enhancements are on from the system parameters
+     *
+     * @return true if Contracts and Grants Billing enhancement is enabled
+     */
+    public boolean isContractsGrantsBillingEnhancementActive();
 }

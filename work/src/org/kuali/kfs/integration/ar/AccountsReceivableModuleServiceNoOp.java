@@ -377,4 +377,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    @Override
+    public boolean isContractsGrantsBillingEnhancementActive() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
+
 }

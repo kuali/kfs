@@ -24,7 +24,10 @@ public class ArConstants{
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
-    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
+
+    // Parameter name for the CG Billing Enhancements Indicator
+    public static final String CG_BILLING_IND = "CG_BILLING_IND";
+    public static final String CG_PRORATE_BILL_IND = "CG_PRORATE_BILL_IND";
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String INVOICE_DOC_TYPE = "Invoice";
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
@@ -435,7 +438,7 @@ public class ArConstants{
 
     static final public String REMINDER_EMAIL_SUBJECT = "REMINDER_EMAIL_SUBJECT";
 
-    // Agency Collections Maitenance
+    // Agency Collections Maintenance
     public static final String CHAPTER7_CODE = "C7";
     public static final String CHAPTER11_CODE = "C11";
     public static final String CHAPTER13_CODE = "C13";

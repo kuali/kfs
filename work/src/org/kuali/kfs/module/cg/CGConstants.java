@@ -41,8 +41,6 @@ public class CGConstants{
     public static final String DROPDOWN_LIST_SELECT = "select:";
 
     // System Parameters
-    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
-
     public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
 
     public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
@@ -52,9 +50,8 @@ public class CGConstants{
 
     public static final String ORG_REVIEW_NODE_NAME = "Org Review";
     public static final String ORG_REVIEW_TEMPLATE_NAME = "KualiResearchOrgReviewTemplate";
-    public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
 
-    public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
+    public static final String DEFAULT_BILLING_FREQUENCY_PARAMETER = "DEFAULT_BILLING_FREQUENCY";
     public static final String DEFAULT_DUNNING_CAMPAIGN_PARAMETER = "DEFAULT_DUNNING_CAMPAIGN";
 
     // Agency
@@ -118,8 +115,6 @@ public class CGConstants{
 
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 
-    // Parameter name for the CG and Billing Enhancements Indicator
-    public static final String ENABLE_CG_BILLING_ENHANCEMENTS_IND = "ENABLE_CG_BILLING_ENHANCEMENTS_IND";
     public static final String AWARD = "AWRD";
     public static final String CG_MILESTONE_SCHEDULE = "MILE";
 

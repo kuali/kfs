@@ -839,7 +839,16 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public boolean isContractsGrantsBillingEnhancementActive() {
-        return parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND);
+        boolean isContractsGrantsBillingEnhancementActive = false;
+
+        //make sure the parameter exists
+        if(parameterService.parameterExists(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND)){
+            isContractsGrantsBillingEnhancementActive = parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND);
+            LOG.debug("System Parameter retrieved: " + isContractsGrantsBillingEnhancementActive);
+        }
+
+        return isContractsGrantsBillingEnhancementActive;
+
     }
 
 }

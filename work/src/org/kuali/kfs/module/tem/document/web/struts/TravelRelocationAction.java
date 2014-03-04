@@ -18,8 +18,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
-import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
-import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +36,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
@@ -336,7 +335,7 @@ public class TravelRelocationAction extends TravelActionBase {
         report.setReportTitle("Moving and Relocation");
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
-        WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "ExpenseSummary" + PDF_FILE_EXTENSION);
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(TemConstants.EXPENSE_SUMMARY_REPORT_TITLE, relocation.getTravelDocumentIdentifier()));
 
         return null;
     }
@@ -351,7 +350,7 @@ public class TravelRelocationAction extends TravelActionBase {
         final SummaryByDayReport report = getSummaryByDayReportService().buildReport(relocation);
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
-        WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "SummaryByDay" + PDF_FILE_EXTENSION);
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(TemConstants.SUMMARY_BY_DAY_TITLE, relocation.getTravelDocumentIdentifier()));
 
         return null;
     }
@@ -368,7 +367,7 @@ public class TravelRelocationAction extends TravelActionBase {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         cover.print(stream);
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", stream, String.format(COVERSHEET_FILENAME_FORMAT, relocation.getDocumentNumber()));
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", stream, String.format(COVERSHEET_FILENAME_FORMAT, relocation.getTravelDocumentIdentifier()));
 
         return null;
     }
@@ -386,7 +385,8 @@ public class TravelRelocationAction extends TravelActionBase {
         File reportFile = getNonEmployeeCertificationReportService().generateReport(report);
 
         StringBuilder fileName = new StringBuilder();
-        fileName.append(reloForm.getDocument().getDocumentNumber());
+        fileName.append(relocation.getTravelDocumentIdentifier());
+        fileName.append(TemConstants.NON_EMPLOYEE_CERTIFICATION_REPORT_TITLE);
         fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
         if (reportFile.length() == 0) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

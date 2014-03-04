@@ -52,6 +52,10 @@ public class TemConstants {
     public static final String DISPLAY_EMERGENCY_CONTACT_TAB = "displayEmergencyContactTab";
     public static final String AR_INVOICE_DOC_TYPE_NAME = "INV";
     public static final String COVERSHEET_FILENAME_FORMAT = "%s_cover_sheet.pdf";
+    public static final String EXPENSE_SUMMARY_REPORT_TITLE = "%s_Expense_Summary";
+    public static final String SUMMARY_BY_DAY_TITLE = "%s_Summary_By_Day";
+    public static final String ENTERTAINMENT_CERTIFICATION_REPORT_TITLE = "_Entertainment_Certification";
+    public static final String NON_EMPLOYEE_CERTIFICATION_REPORT_TITLE = "_Non_Employee_Certification";
     public static final String SHOW_REPORTS_ATTRIBUTE = "showReports";
     public static final String ALLOW_TRAVELER_ADDRESS_CHANGE_ATTRIBUTE = "allowTravelerAddressChange";
     public static final String TRAVEL_ARRANGER_TEST_ATTRIBUTE = "travelArranger";

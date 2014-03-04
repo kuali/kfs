@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -352,7 +353,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         cover.print(stream);
 
-        WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, stream, String.format(COVERSHEET_FILENAME_FORMAT, document.getDocumentNumber()));
+        WebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, stream, String.format(COVERSHEET_FILENAME_FORMAT, document.getTravelDocumentIdentifier()));
 
         return null;
     }
@@ -367,7 +368,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
         File reportFile = getNonEmployeeCertificationReportService().generateReport(report);
 
         StringBuilder fileName = new StringBuilder();
-        fileName.append(entForm.getDocument().getDocumentNumber());
+        fileName.append(entertainment.getTravelDocumentIdentifier());
+        fileName.append(TemConstants.NON_EMPLOYEE_CERTIFICATION_REPORT_TITLE);
         fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
         if (reportFile.length() == 0) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -392,7 +394,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
         File reportFile = getEntertainmentHostCertificationService().generateEntertainmentHostCertReport(report);
 
         StringBuilder fileName = new StringBuilder();
-        fileName.append(document.getDocumentNumber());
+        fileName.append(document.getTravelDocumentIdentifier());
+        fileName.append(TemConstants.ENTERTAINMENT_CERTIFICATION_REPORT_TITLE);
         fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
         if (reportFile.length() == 0) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

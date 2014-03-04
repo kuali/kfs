@@ -16880,7 +16880,7 @@
     <view name="PUR_PO_ITM_TOT_ENC_V" viewdefinition="(SELECT A.FDOC_NBR AS FDOC_NBR,         SUM(A.ITM_OSTND_ENC_AMT) AS TOTAL_ENCUMBRANCE FROM PUR_PO_ITM_T A GROUP BY A.FDOC_NBR)      &#xa;"/>
     <view name="PUR_PO_V" viewdefinition="SELECT P.AP_PUR_DOC_LNK_ID,             P.PO_ID,             P.PO_CUR_IND,             P.FDOC_NBR,             P.OBJ_ID,             P.PO_STAT_CD,             P.RECUR_PMT_TYP_CD,             P.PO_VNDR_CHC_CD,             P.PO_END_DT,             E.TOTAL_ENCUMBRANCE,             SUMMATION.TOTAL_AMOUNT   FROM PUR_PO_T P,            PUR_PO_ITM_TOT_ENC_V E,            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR    AND P.FDOC_NBR = SUMMATION.FDOC_NBR       &#xa;"/>
     <sequence name="A21_LBR_BLD_NBR_SEQ" nextval="2000"/>
-    <sequence name="AGENCY_ADDR_ID_SEQ" nextval="1"/>
+    <sequence name="AGENCY_ADDR_ID_SEQ" nextval="41"/>
     <sequence name="AP_CRDT_MEMO_ACCT_CHG_SEQ" nextval="2000"/>
     <sequence name="AP_CRDT_MEMO_ACCT_HIST_SEQ" nextval="1000"/>
     <sequence name="AP_CRDT_MEM_ITM_USE_TAX_ID_SEQ" nextval="1000"/>
@@ -16893,15 +16893,15 @@
     <sequence name="AP_PUR_DOC_LNK_ID" nextval="21"/>
     <sequence name="AP_SUM_ACCT_T_SEQ" nextval="1"/>
     <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
-    <sequence name="BILL_ID_SEQ" nextval="1"/>
+    <sequence name="BILL_ID_SEQ" nextval="21"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
     <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
     <sequence name="CA_ACCT_AUTO_CREATE_DFLT_SEQ" nextval="1"/>
     <sequence name="CA_ICR_ACCT_SEQ" nextval="12280"/>
     <sequence name="CB_ACTN_ID_SEQ" nextval="2000"/>
     <sequence name="CB_GL_ACCT_ID_SEQ" nextval="2000"/>
-    <sequence name="CGPRPSL_NBR_SEQ" nextval="80059"/>
-    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55061"/>
+    <sequence name="CGPRPSL_NBR_SEQ" nextval="80080"/>
+    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55118"/>
     <sequence name="CG_PRPSL_CLOSE_NBR_SEQ" nextval="2040"/>
     <sequence name="CG_PRPSL_CRT_DFLT_SEQ" nextval="1"/>
     <sequence name="CG_SUBCNR_NBR_SEQ" nextval="2080"/>
@@ -16914,7 +16914,7 @@
     <sequence name="CUST_ADDR_ID_SEQ" nextval="2000"/>
     <sequence name="CUST_NBR_SEQ" nextval="2000"/>
     <sequence name="DIRTY_CACHE_SEQ" nextval="2000"/>
-    <sequence name="DUN_LTR_DIST_SEQ" nextval="1"/>
+    <sequence name="DUN_LTR_DIST_SEQ" nextval="21"/>
     <sequence name="DV_PAYEE_ID_NBR_SEQ" nextval="178184"/>
     <sequence name="END_ACI_SEQ" nextval="1"/>
     <sequence name="END_CASH_SWEEP_SEQ" nextval="1"/>
@@ -16942,7 +16942,7 @@
     <sequence name="KRSB_BAM_S" nextval="30000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="30000"/>
     <sequence name="LTRCR_RVW_DTL_ID_SEQ" nextval="1"/>
-    <sequence name="MLSTN_ID_SEQ" nextval="1"/>
+    <sequence name="MLSTN_ID_SEQ" nextval="41"/>
     <sequence name="ORIGIN_ENTRY_ID_SEQ" nextval="2060"/>
     <sequence name="PDP_ACH_ACCT_GNRTD_ID_SEQ" nextval="10000000"/>
     <sequence name="PDP_BNK_ID_SEQ" nextval="11000001"/>

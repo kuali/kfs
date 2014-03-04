@@ -21,23 +21,23 @@
 	<bean id="TransportationMode-code" parent="TransportationMode-code-parentBean" />
 	<bean id="TransportationMode-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Transportation Mode Code" />
+		<property name="shortLabel" value="Transportation Mode Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Transportation Mode Code" />
+		<property name="description" value="Transportation Mode Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="TransportationMode-name" parent="TransportationMode-name-parentBean" />
 	<bean id="TransportationMode-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Transportation Mode Name" />
+		<property name="shortLabel" value="Transportation Mode Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="summary" value="Transportation Mode Name" />
+		<property name="description" value="Transportation Mode Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TransportationMode-active" parent="TransportationMode-active-parentBean" />
@@ -45,7 +45,6 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
-		<property name="required" value="true" />
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
 	</bean>

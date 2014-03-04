@@ -2447,7 +2447,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Map<String, Object> sysCriteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
             criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.CGIN_DOCUMENT_TYPE);
+            criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
             // 1. To get the chart code and org code for invoicing depending on the invoicing options.
             if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
@@ -3635,7 +3635,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param string
      */
     protected void updateMilestonesIsItBilled(String string, List<InvoiceMilestone> invoiceMilestones) {
-        // Get a list of invoiceMilestones from the CGIN document. Then search for the actual Milestone object in this list through
+        // Get a list of invoiceMilestones from the Contracts Grants Invoice document. Then search for the actual Milestone object in this list through
         // dao
         // Finally, set these milestones to billed
 

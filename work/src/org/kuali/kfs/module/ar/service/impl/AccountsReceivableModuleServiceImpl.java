@@ -833,7 +833,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public String getContractsGrantsInvoiceDocumentType() {
-        return ArConstants.CGIN_DOCUMENT_TYPE;
+        return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE;
     }
 
 }

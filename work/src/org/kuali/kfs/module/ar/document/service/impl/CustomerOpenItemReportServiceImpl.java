@@ -122,7 +122,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentNumber(documentNumber);
 
             // KFSMI-8356 Adding CINV to the invoice list
-            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE) || documentType.equals(ArConstants.CGIN_DOCUMENT_TYPE)) {
+            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE) || documentType.equals(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
                 invoiceIds.add(documentNumber);
             }
             else {

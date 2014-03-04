@@ -74,16 +74,16 @@ public class FinalBilledIndicatorValidation {
             return false;
         }
 
-        return validCGINValidation(entry);
+        return validContractsGrantsInvoiceValidation(entry);
     }
 
     /**
-     * Validates if each entry is a valid CGIN document
+     * Validates if each entry is a valid Contracts Grants Invoice document
      *
      * @param entry
      * @return
      */
-    public static boolean validCGINValidation(FinalBilledIndicatorEntry entry) {
+    public static boolean validContractsGrantsInvoiceValidation(FinalBilledIndicatorEntry entry) {
         String docNumber = entry.getInvoiceDocumentNumber();
 
         // KFSMI-7919: invalid document number if not numeric
@@ -96,7 +96,7 @@ public class FinalBilledIndicatorValidation {
         try {
             if (SpringContext.getBean(DocumentService.class).documentExists(docNumber)) {
                 testDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docNumber);
-                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(ArConstants.CGIN_DOCUMENT_TYPE))) {
+                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE))) {
                     GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
                     return false;
                 }
@@ -108,7 +108,7 @@ public class FinalBilledIndicatorValidation {
             }
         }
         catch (WorkflowException ex) {
-            LOG.error("problem during FinalBilledIndicatorValidation.validCGINValidation()", ex);
+            LOG.error("problem during FinalBilledIndicatorValidation.validContractsGrantsInvoiceValidation()", ex);
         }
         return true;
     }

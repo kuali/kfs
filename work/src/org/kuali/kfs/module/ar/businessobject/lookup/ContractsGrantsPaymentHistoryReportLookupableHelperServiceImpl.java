@@ -68,7 +68,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
         Collection<ContractsGrantsPaymentHistoryReport> displayList = new ArrayList<ContractsGrantsPaymentHistoryReport>();
 
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("invoiceDocumentType", ArConstants.CGIN_DOCUMENT_TYPE);
+        criteria.put("invoiceDocumentType", ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
 
         Collection<CashControlDocument> cgCashControlDocs = businessObjectService.findMatching(CashControlDocument.class, criteria);
 
@@ -140,12 +140,14 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
 
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
 
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

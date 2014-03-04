@@ -109,7 +109,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             for (ContractsAndGrantsBillingAward awd : awards) {
                 String invOpt = awd.getInvoicingOptions();
 
-                // case 1: create CGIN by accounts
+                // case 1: create Contracts Grants Invoice by accounts
                 if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) {
 
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
@@ -141,7 +141,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     }
                 }
 
-                // case 2: create CGINs by contractControlAccounts
+                // case 2: create Contracts Grants Invoices by contractControlAccounts
                 else if (invOpt.equals(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
 
                     List<Account> controlAccounts = new ArrayList<Account>();
@@ -222,7 +222,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     }
                 }
 
-                // case 3: create CGIN by award
+                // case 3: create Contracts Grants Invoice by award
                 else if (invOpt.equals(ArPropertyConstants.INV_AWARD)) {
                     // Check if awardaccounts has the same control account
                     int accountNum = awd.getActiveAwardAccounts().size();
@@ -704,7 +704,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 if (cgInvoicDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
 
                     if (LOG.isInfoEnabled()) {
-                        LOG.info("Routing CGIN document # " + cgInvoiceDocId + ".");
+                        LOG.info("Routing Contracts Grants Invoice document # " + cgInvoiceDocId + ".");
                     }
                     documentService.prepareWorkflowDocument(cgInvoicDoc);
 
@@ -731,7 +731,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(ArConstants.CGIN_DOCUMENT_TYPE);
+        criteria.setDocumentTypeName(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
         DocumentSearchCriteria crit = criteria.build();
 

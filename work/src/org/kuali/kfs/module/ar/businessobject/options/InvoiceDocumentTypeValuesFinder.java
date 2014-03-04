@@ -31,11 +31,12 @@ public class InvoiceDocumentTypeValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
         activeLabels.add(new ConcreteKeyValue("",""));
         activeLabels.add(new ConcreteKeyValue(ArConstants.INV_DOCUMENT_TYPE, ArConstants.INV_DOCUMENT_DESCRIPTION));
-        activeLabels.add(new ConcreteKeyValue(ArConstants.CGIN_DOCUMENT_TYPE, ArConstants.CGIN_DOCUMENT_DESCRIPTION));
+        activeLabels.add(new ConcreteKeyValue(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE, ArConstants.CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION));
 
         return activeLabels;
     }

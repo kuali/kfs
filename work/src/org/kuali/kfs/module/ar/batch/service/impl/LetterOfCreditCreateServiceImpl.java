@@ -127,7 +127,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
             cashControlDoc.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.LOC_WIRE);
             // To set invoice document type to CG Invoice as we would be dealing only with CG Invoices.
-            cashControlDoc.setInvoiceDocumentType(ArConstants.CGIN_DOCUMENT_TYPE);
+            cashControlDoc.setInvoiceDocumentType(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
 
             // To create cash-control detail for the cash control document
             CashControlDetail cashControlDetail = new CashControlDetail();

@@ -290,7 +290,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         }
         for (ContractsGrantsInvoiceDocument item : list) {
             Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(item.getDocumentNumber());
-            if (ArConstants.CGIN_DOCUMENT_TYPE.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
+            if (ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
                 ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) document;
                 if (invoice.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     if (StringUtils.isNotEmpty(user)) {

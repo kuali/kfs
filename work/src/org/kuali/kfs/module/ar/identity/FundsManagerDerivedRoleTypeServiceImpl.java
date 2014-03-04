@@ -70,7 +70,7 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
     }
 
     /**
-     * This method retrieves the CGIN document given the document number.
+     * This method retrieves the Contracts Grants Invoice document given the document number.
      *
      * @param String documentNumber
      * @return Document

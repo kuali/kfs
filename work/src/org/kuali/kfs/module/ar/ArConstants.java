@@ -418,11 +418,13 @@ public class ArConstants{
     public static final String FINAL = "F";
     public static final String ZERO = "0";
 
+    public static class ArDocumentTypeCodes {
+        public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
+    }
+
     // CG Invoice Document
     public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
-
-    public static final String CGIN_DOCUMENT_TYPE = "CINV";
-    public static final String CGIN_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
+    public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";

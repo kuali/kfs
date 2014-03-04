@@ -351,7 +351,7 @@
 	</changeSet>
 
 	<!-- Adding the permissions to the role -->
-	<changeSet author="kfs" id="KRIM_ROLE_PERM_T_ADD_CGIN_PERM_TO_KFS">
+	<changeSet author="kfs" id="KRIM_ROLE_PERM_T_ADD_CINV_PERM_TO_KFS">
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCG08" />

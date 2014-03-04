@@ -21,22 +21,23 @@
 	<bean id="ContactRelationType-code" parent="ContactRelationType-code-parentBean" />
 	<bean id="ContactRelationType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Contact Relationship Type Code" />
+		<property name="shortLabel" value="Contact Relationship Type Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Contact Relationship Type Code" />
+		<property name="description" value="Contact Relationship Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="ContactRelationType-name" parent="ContactRelationType-name-parentBean" />
 	<bean id="ContactRelationType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Contact Relationship Type Name" />
+		<property name="shortLabel" value="Contact Relationship Type Name" />
 		<property name="maxLength" value="40" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="required" value="true" />
+		<property name="summary" value="Contact Relationship Type Name" />
+		<property name="description" value="Contact Relationship Type Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="ContactRelationType-active" parent="ContactRelationType-active-parentBean" />
@@ -58,11 +59,11 @@
 	</bean>
 	<bean id="ContactRelationType-inquiryDefinition" parent="ContactRelationType-inquiryDefinition-parentBean" />
 	<bean id="ContactRelationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Contact Relation Type Inquiry"/>
+		<property name="title" value="Contact Relationship Type Inquiry"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">
-				<property name="title" value="Contact Relation Type Inquiry"/>
+				<property name="title" value="Contact Relationship Type Inquiry"/>
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
@@ -77,7 +78,7 @@
 	</bean>
 	<bean id="ContactRelationType-lookupDefinition" parent="ContactRelationType-lookupDefinition-parentBean" />
 	<bean id="ContactRelationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Contact Relation Type Lookup" />
+		<property name="title" value="Contact Relationship Type Lookup" />
 		<property name="defaultSort">
 		<bean parent="SortDefinition">
 			<property name="attributeNames"><list>
@@ -86,6 +87,7 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>

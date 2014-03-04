@@ -34,6 +34,7 @@ public class HistoricalTravelExpenseDaoOjb extends PlatformAwareDaoBaseOjb imple
     public List<HistoricalTravelExpense> getImportedExpesnesToBeNotified() {
         Criteria criteria = new Criteria();
         criteria.addIsNull(TemPropertyConstants.EXPENSE_NOTIFICATION_DATE);
+        criteria.addEqualTo(TemPropertyConstants.HISTORICAL_TRAVEL_EXPENSE_ASSIGNED, "N");
 
         Query query = QueryFactory.newQuery(HistoricalTravelExpense.class, criteria);
 

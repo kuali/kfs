@@ -93,7 +93,7 @@
     </documentType>
     <documentType>
       <name>TCCA</name>
-      <label>Credit Card Agency</label>
+      <label>Credit Card or Agency</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>

@@ -21,23 +21,23 @@
 	<bean id="AccommodationType-code" parent="AccommodationType-code-parentBean" />
 	<bean id="AccommodationType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Accommodation Type Code" />
+		<property name="shortLabel" value="Accommodation Type Code" />
 		<property name="maxLength" value="4" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Accommodation Type Code" />
+		<property name="description" value="Accommodation Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="AccommodationType-name" parent="AccommodationType-name-parentBean" />
 	<bean id="AccommodationType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Accommodation Type Name" />
+		<property name="shortLabel" value="Accommodation Type Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="summary" value="Accommodation Type Name" />
+		<property name="description" value="Accommodation Type Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="AccommodationType-active" parent="AccommodationType-active-parentBean" />
@@ -45,7 +45,6 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
-		<property name="required" value="true" />
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
 	</bean>

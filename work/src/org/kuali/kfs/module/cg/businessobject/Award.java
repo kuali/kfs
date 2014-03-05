@@ -108,7 +108,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
     private AwardStatus awardStatus;
-    private LetterOfCreditFund letterOfCreditFund;
+    protected LetterOfCreditFund letterOfCreditFund;
     private GrantDescription grantDescription;
     private Agency agency;
     private Agency federalPassThroughAgency;

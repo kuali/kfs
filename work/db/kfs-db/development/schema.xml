@@ -14860,7 +14860,7 @@
         <column name="STAGING_FILE_NM" size="60" type="VARCHAR"/>
         <column name="MERCH_NM" size="40" type="VARCHAR"/>
         <column name="BILLING_CYCLE_DT" type="DATE"/>
-        <column name="TRIP_ID" size="12" type="VARCHAR"/>
+        <column name="TRIP_ID" size="19" type="VARCHAR"/>
         <column name="TRIP_INV_NBR" size="20" type="VARCHAR"/>
         <column name="TRIP_TRV_TYP_ID" size="1" type="VARCHAR"/>
         <column name="OTHER_AMT" scale="2" size="8" type="DECIMAL"/>
@@ -15306,7 +15306,7 @@
         <column name="DOC_NBR" size="14" type="VARCHAR"/>
         <column name="DOC_TYPE" size="10" type="VARCHAR"/>
         <column name="EXP_NTF_DT" type="DATE"/>
-        <column name="TRIP_ID" size="12" type="VARCHAR"/>
+        <column name="TRIP_ID" size="19" type="VARCHAR"/>
         <column name="CCA_CD" size="4" type="VARCHAR"/>
         <column name="TRAVEL_EXP_NM" size="25" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>

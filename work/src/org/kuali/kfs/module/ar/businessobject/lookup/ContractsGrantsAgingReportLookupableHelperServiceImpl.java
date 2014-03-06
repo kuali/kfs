@@ -165,7 +165,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         totalWriteOffs = KualiDecimal.ZERO;
         totalCredits = KualiDecimal.ZERO;
 
-        reportOption = ArConstants.CustomerAgingReportFields.BILLING_ORG;
 
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         Map<String, ContractsAndGrantsAgingReport> knownCustomers = new HashMap<String, ContractsAndGrantsAgingReport>();
@@ -589,8 +588,10 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         parameters.put(KFSPropertyConstants.CUSTOMER_NAME, detail.getCustomerName());
 
         // Report Option
-        parameters.put(ArPropertyConstants.ContractsGrantsAgingReportFields.REPORT_OPTION, reportOption);
+        if(ObjectUtils.isNotNull(reportOption)){
 
+        parameters.put(ArPropertyConstants.ContractsGrantsAgingReportFields.REPORT_OPTION, reportOption);
+        }
         // Report Run Date
         DateFormatter dateFormatter = new DateFormatter();
         parameters.put(ArPropertyConstants.ContractsGrantsAgingReportFields.REPORT_RUN_DATE, dateFormatter.format(reportRunDate).toString());

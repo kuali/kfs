@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -141,11 +142,9 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date begin, java.sql.Date end) throws ParseException {
         Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = null;
 
-        String processingOrgCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_ORGANIZATION_CODE);
-        String processingChartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_CHART_OF_ACCOUNT_CODE);
-
+        String reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         String orgCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_ORGANIZATION_CODE);
-        String chartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.FORM_CHART_CODE);
+        String chartCode = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE);
         String customerNumber = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER);
         String customerName = (String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME);
         String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
@@ -181,20 +180,13 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
         Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
         fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
-
-        if (ObjectUtils.isNotNull(processingOrgCode) && StringUtils.isNotEmpty(processingOrgCode)) {
-            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
+//Now to involve reportOption and handle chart and org
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, orgCode);
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, chartCode);
         }
-
-        if (ObjectUtils.isNotNull(processingChartCode) && StringUtils.isNotEmpty(processingChartCode)) {
-            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, processingChartCode);
-        }
-
-        if (ObjectUtils.isNotNull(orgCode) && StringUtils.isNotEmpty(orgCode)) {
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, orgCode);
-        }
-
-        if (ObjectUtils.isNotNull(chartCode) && StringUtils.isNotEmpty(chartCode)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartCode);
         }
 

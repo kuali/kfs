@@ -19,26 +19,30 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is an empty derived class
  */
 public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
-
+    private String reportOption = ArConstants.CustomerAgingReportFields.PROCESSING_ORG;
     private String organizationCode;
-    private String billingChartCode;
+    private String processingOrBillingChartCode;
 
     private String customerName;
     private String customerNumber;
     private String accountChartOfAccountsCode;
     private String accountNumber;
     private String fundManager;
-    private String proposalNumber;
+    private Long proposalNumber;
     private String awardDocumentNumber;
     private boolean markedAsFinalInd;
     private Date awardEndDate;
@@ -50,8 +54,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private String agencyNumber;
     private Date invoiceDate;
     private String contractsAndGrantsAccountResponsibilityId;
-    private String processingOrganizationCode;
-    private String processingChartOfAccountCode;
+
 
 
     private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
@@ -73,6 +76,9 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private Person lookupFundMgrPerson;
     private Customer customer;
     private Account account;
+    private Chart chart;
+    private ContractsAndGrantsBillingAward award;
+    private Organization organization;
     private boolean finalInvoiceInd;
 
     /**
@@ -184,21 +190,23 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
         this.fundManager = fundManager;
     }
 
+
     /**
      * Gets the proposalNumber attribute.
      *
-     * @return Returns the proposalNumber.
+     * @return Returns the proposalNumber
      */
-    public String getProposalNumber() {
+
+    public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
-     * Sets the proposalNumber attribute value.
+     * Sets the proposalNumber attribute.
      *
      * @param proposalNumber The proposalNumber to set.
      */
-    public void setProposalNumber(String proposalNumber) {
+    public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
@@ -581,23 +589,6 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
         this.organizationCode = organizationCode;
     }
 
-    /**
-     * Gets the billingChartCode attribute.
-     *
-     * @return Returns the billingChartCode.
-     */
-    public String getBillingChartCode() {
-        return billingChartCode;
-    }
-
-    /**
-     * Sets the billingChartCode attribute value.
-     *
-     * @param billingChartCode The billingChartCode to set.
-     */
-    public void setBillingChartCode(String billingChartCode) {
-        this.billingChartCode = billingChartCode;
-    }
 
     /**
      * Gets the lookupFundMgrPerson attribute.
@@ -691,39 +682,118 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the processingOrganizationCode attribute.
+     * Gets the reportOption attribute.
      *
-     * @return Returns the processingOrganizationCode.
+     * @return Returns the reportOption
      */
-    public String getProcessingOrganizationCode() {
-        return processingOrganizationCode;
+
+    public String getReportOption() {
+        return reportOption;
     }
 
     /**
-     * Sets the processingOrganizationCode attribute value.
+     * Sets the reportOption attribute.
      *
-     * @param processingOrganizationCode The processingOrganizationCode to set.
+     * @param reportOption The reportOption to set.
      */
-    public void setProcessingOrganizationCode(String processingOrganizationCode) {
-        this.processingOrganizationCode = processingOrganizationCode;
+    public void setReportOption(String reportOption) {
+        this.reportOption = reportOption;
     }
 
     /**
-     * Gets the processingChartOfAccountCode attribute.
+     * Gets the processingOrBillingChartCode attribute.
      *
-     * @return Returns the processingChartOfAccountCode.
+     * @return Returns the processingOrBillingChartCode
      */
-    public String getProcessingChartOfAccountCode() {
-        return processingChartOfAccountCode;
+
+    public String getProcessingOrBillingChartCode() {
+        return processingOrBillingChartCode;
     }
 
     /**
-     * Sets the processingChartOfAccountCode attribute value.
+     * Sets the processingOrBillingChartCode attribute.
      *
-     * @param processingChartOfAccountCode The processingChartOfAccountCode to set.
+     * @param processingOrBillingChartCode The processingOrBillingChartCode to set.
      */
-    public void setProcessingChartOfAccountCode(String processingChartOfAccountCode) {
-        this.processingChartOfAccountCode = processingChartOfAccountCode;
+    public void setProcessingOrBillingChartCode(String processingOrBillingChartCode) {
+        this.processingOrBillingChartCode = processingOrBillingChartCode;
     }
+
+    /**
+     * Gets the finalInvoiceInd attribute.
+     *
+     * @return Returns the finalInvoiceInd
+     */
+
+    public boolean isFinalInvoiceInd() {
+        return finalInvoiceInd;
+    }
+
+    /**
+     * Sets the finalInvoiceInd attribute.
+     *
+     * @param finalInvoiceInd The finalInvoiceInd to set.
+     */
+    public void setFinalInvoiceInd(boolean finalInvoiceInd) {
+        this.finalInvoiceInd = finalInvoiceInd;
+    }
+
+    /**
+     * Gets the chart attribute.
+     *
+     * @return Returns the chart
+     */
+
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute.
+     *
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * Gets the organization attribute.
+     *
+     * @return Returns the organization
+     */
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute.
+     *
+     * @param organization The organization to set.
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    /**
+     * Gets the award attribute.
+     *
+     * @return Returns the award
+     */
+
+    public ContractsAndGrantsBillingAward getAward() {
+        return award;
+    }
+
+    /**
+     * Sets the award attribute.
+     *
+     * @param award The award to set.
+     */
+    public void setAward(ContractsAndGrantsBillingAward award) {
+        this.award = award;
+    }
+
 
 }

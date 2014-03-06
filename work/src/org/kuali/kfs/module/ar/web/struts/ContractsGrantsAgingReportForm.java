@@ -87,13 +87,6 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
         printButton.setExtraButtonAltText("Print");
         buttons.add(printButton);
 
-        // Export button
-        ExtraButton exportButton = new ExtraButton();
-        exportButton.setExtraButtonProperty("methodToCall.export");
-        exportButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_export.gif");
-        exportButton.setExtraButtonAltText("Export");
-        exportButton.setExtraButtonOnclick("excludeSubmitRestriction=true");
-        buttons.add(exportButton);
         return buttons;
     }
 

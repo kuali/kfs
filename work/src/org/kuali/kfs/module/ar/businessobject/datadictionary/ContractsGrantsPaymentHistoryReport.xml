@@ -112,8 +112,8 @@
 	<bean id="ContractsGrantsPaymentHistoryReport-invoiceNumber" parent="ContractsGrantsPaymentHistoryReport-invoiceNumber-parentBean" />
 	<bean id="ContractsGrantsPaymentHistoryReport-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="invoiceNumber" />
-		<property name="label" value="Invoice Number" />
-		<property name="shortLabel" value="Inv nbr" />
+		<property name="label" value="Invoice Document Number" />
+		<property name="shortLabel" value="Inv Doc nbr" />
 		<property name="required" value="false" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />

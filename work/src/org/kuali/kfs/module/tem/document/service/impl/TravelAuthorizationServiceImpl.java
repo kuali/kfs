@@ -546,10 +546,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             String note = MessageUtils.getMessage(TA_MESSAGE_CLOSE_DOCUMENT_TEXT, user);
             Principal kfsSystemUser = getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
 
-            final Note newNote = documentService.createNoteFromDocument(authorization, note);
-            newNote.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
-            authorization.addNote(newNote);
-            getNoteService().save(newNote); // documentDao doesn't seem to save notes
             authorization.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
             documentDao.save(authorization);
 
@@ -558,7 +554,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             authorizationClose = authorization.toCopyTAC();
             final Note newNoteTAC = documentService.createNoteFromDocument(authorizationClose, note);
             newNoteTAC.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
-            authorizationClose.addNote(newNoteTAC);
+           authorizationClose.addNote(newNoteTAC);
             authorizationClose.setTravelReimbursementDocumentNumber(reimbursementDocNum);
 
             // add relationship

@@ -26,6 +26,7 @@
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelAdvanceValidation">
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="documentDictionaryService" ref="documentDictionaryService"/>
+		<property name="travelDocumentService" ref="travelDocumentService" />
 	</bean>
 
     <bean id="TravelModule-accommodationInfoRequiredValidation" parent="TravelModule-accommodationInfoRequiredValidation-parentBean" />

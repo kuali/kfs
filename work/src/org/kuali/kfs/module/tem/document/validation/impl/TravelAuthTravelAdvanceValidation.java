@@ -34,6 +34,8 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,10 +58,12 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     protected TemProfileService temProfileService;
     protected DocumentDictionaryService documentDictionaryService;
+    protected TravelDocumentService travelDocumentService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
+
         TravelAuthorizationDocument document = (TravelAuthorizationDocument)event.getDocument();
 
         if (document.getTraveler() == null){
@@ -72,6 +76,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
                 || event instanceof AttributedBlanketApproveDocumentEvent){
             if (document.shouldProcessAdvanceForDocument()) {
                 success = isTravelAdvanceValid(document, document.getTravelAdvance());
+                success = success && validateAdvanceAmount((TravelDocument)event.getDocument());
             }
         }
 
@@ -179,6 +184,24 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         return success;
     }
 
+    protected boolean validateAdvanceAmount(TravelDocument  document ) {
+        GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT+"."+TravelAuthorizationFields.TRVL_ADV + ".");
+        boolean success = true;
+       KualiDecimal totalAdvance = travelDocumentService.getAdvancesTotalFor(document);
+       TravelAuthorizationDocument travelAuthorizationDocument = (TravelAuthorizationDocument)document;
+       totalAdvance = totalAdvance.add(travelAuthorizationDocument.getAdvanceTotal());
+       KualiDecimal totalTripAmount = travelAuthorizationDocument.getEncumbranceTotal();
+       if(totalAdvance.isGreaterThan(totalTripAmount)) {
+           GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV, TemKeyConstants.ERROR_TA_TRVL_ADV_EXCCED_TOTAL_TRIP_AMOUNT);
+           success = false;
+       }
+
+
+
+       return success;
+
+    }
+
     /**
      * Uses the presentation controller and the authorizer for the travel auth doc to determine if the current user can edit the doc and if they have full edit edit mode
      * @return true if the doc is editable for the current user, false otherwise
@@ -215,4 +238,10 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
         this.documentDictionaryService = documentDictionaryService;
     }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
+    }
+
+
 }

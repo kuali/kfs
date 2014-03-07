@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -33,6 +32,14 @@ public class InvoiceReportDeliveryForm extends KualiForm {
     private String invoiceAmount;
     private String documentNumber;
     private String chartCode;
+    /**
+     *
+     */
+    public InvoiceReportDeliveryForm() {
+        super();
+        setDeliveryType(ArConstants.InvoiceTransmissionMethod.BOTH);
+    }
+
     private String orgCode;
     private String toDate;
     private String fromDate;
@@ -42,7 +49,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the message attribute.
-     * 
+     *
      * @return Returns the message.
      */
     public String getMessage() {
@@ -51,7 +58,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the message attribute value.
-     * 
+     *
      * @param message The message to set.
      */
     public void setMessage(String message) {
@@ -60,7 +67,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public String getProposalNumber() {
@@ -69,7 +76,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(String proposalNumber) {
@@ -110,7 +117,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the invoiceAmount attribute.
-     * 
+     *
      * @return Returns the invoiceAmount.
      */
     public String getInvoiceAmount() {
@@ -119,7 +126,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the invoiceAmount attribute value.
-     * 
+     *
      * @param invoiceAmount The invoiceAmount to set.
      */
     public void setInvoiceAmount(String invoiceAmount) {
@@ -128,7 +135,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -137,7 +144,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -146,7 +153,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the chartCode attribute.
-     * 
+     *
      * @return Returns the chartCode.
      */
     public String getChartCode() {
@@ -155,7 +162,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the chartCode attribute value.
-     * 
+     *
      * @param chartCode The chartCode to set.
      */
     public void setChartCode(String chartCode) {
@@ -164,7 +171,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the orgCode attribute.
-     * 
+     *
      * @return Returns the orgCode.
      */
     public String getOrgCode() {
@@ -173,7 +180,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the orgCode attribute value.
-     * 
+     *
      * @param orgCode The orgCode to set.
      */
     public void setOrgCode(String orgCode) {
@@ -182,7 +189,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the toDate attribute.
-     * 
+     *
      * @return Returns the toDate.
      */
     public String getToDate() {
@@ -191,7 +198,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the toDate attribute value.
-     * 
+     *
      * @param toDate The toDate to set.
      */
     public void setToDate(String toDate) {
@@ -200,7 +207,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the fromDate attribute.
-     * 
+     *
      * @return Returns the fromDate.
      */
     public String getFromDate() {
@@ -209,7 +216,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the fromDate attribute value.
-     * 
+     *
      * @param fromDate The fromDate to set.
      */
     public void setFromDate(String fromDate) {
@@ -218,7 +225,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the userId attribute.
-     * 
+     *
      * @return Returns the userId.
      */
     public String getUserId() {
@@ -227,7 +234,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the userId attribute value.
-     * 
+     *
      * @param userId The userId to set.
      */
     public void setUserId(String userId) {
@@ -236,7 +243,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Gets the deliveryType attribute.
-     * 
+     *
      * @return Returns the deliveryType.
      */
     public String getDeliveryType() {
@@ -245,7 +252,7 @@ public class InvoiceReportDeliveryForm extends KualiForm {
 
     /**
      * Sets the deliveryType attribute value.
-     * 
+     *
      * @param deliveryType The deliveryType to set.
      */
     public void setDeliveryType(String deliveryType) {

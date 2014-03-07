@@ -64,13 +64,10 @@
 
 		<tr>
 			<th align=right valign=middle class="grid">
-				<div align="right">
-					<kul:htmlAttributeLabel
-						attributeEntry="${DataDictionary.PersonImpl.attributes.principalName}" readOnly="true"/>
-				</div>
+				<div align="right">Invoice Initiator Principal Name:</div>
 			</th>
 			<td align=left valign=middle class="grid">
-			<kul:htmlControlAttribute attributeEntry="${DataDictionary.PersonImpl.attributes.principalName}" property="userId" readOnly="true" />
+			<kul:htmlControlAttribute attributeEntry="${DataDictionary.PersonImpl.attributes.principalName}" property="userId" readOnly="false" />
 			<kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person" fieldConversions="principalName:userId" />
 			</td>
 		</tr>
@@ -95,11 +92,12 @@
 
 		<tr>
 			<th align=right valign=middle class="grid">
-				<div align="right">Delivery Type *:</div>
+				<div align="right">Method of Invoice Transmission *:</div>
 			</th>
 			<td align=left valign=middle class="grid"><html-el:radio
 					property="deliveryType" value="MAIL" />Mail <html-el:radio
-					property="deliveryType" value="EMAIL" />Email</td>
+					property="deliveryType" value="EMAIL" />Email<html-el:radio
+					property="deliveryType" value="BOTH" />Both</td>
 		</tr>
 
 		<tr>
@@ -110,7 +108,7 @@
 				</div>
 			</th>
 			<td align=left valign=middle class="grid" style="width: 25%;"><kul:htmlControlAttribute
-					attributeEntry="${award.proposalNumber}" property="proposalNumber" readOnly="true" />
+					attributeEntry="${award.proposalNumber}" property="proposalNumber" />
 				<kul:lookup
 					boClassName="org.kuali.kfs.module.cg.businessobject.Award" />
 			</td>

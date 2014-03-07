@@ -366,6 +366,7 @@ public class ArConstants{
     public static class InvoiceTransmissionMethod {
         static final public String MAIL = "MAIL";
         static final public String EMAIL = "EMAIL";
+        static final public String BOTH = "BOTH";
     }
 
     public static class DunningLetters {

@@ -64,7 +64,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class InvoiceReportDeliveryAction extends KualiAction {
 
     private static final String NO_DELIVERY_TYPE_SELECTED = "No delivery type selected. Please try again.";
+    private static final String NO_PRINCIPAL_NAME_FOUND = "The Invoice Initiator Principal Name not found. Please try again.";
     private static final String NO_MATCHING_INVOICE = "No CG Invoice Documents match your search.";
+    private static final String NO_MATCHING_INVOICE_FOR_EMAIL_DELIVERY = "No CG Invoice Documents match your search for EMAIL delivery.";
+    private static final String NO_MATCHING_INVOICE_FOR_MAIL_DELIVERY = "No CG Invoice Documents match your search for MAIL delivery.";
     private static final String MARKED_FOR_PROCESSING_BY_BATCH_JOB = "Invoices successfully marked for processing for email delivery.";
     private static final String INVOICES_PRINT_SUCCESSFULL = "Invoices successfully generated for mail delivery.";
     private static final String INVOICES_PRINT_UNSUCCESSFULL = "No Invoices were generated.";
@@ -117,7 +120,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         irdForm.setUserId(null);
         irdForm.setToDate(null);
         irdForm.setFromDate(null);
-        irdForm.setDeliveryType(null);
+        irdForm.setDeliveryType(ArConstants.InvoiceTransmissionMethod.BOTH);
         irdForm.setInvoiceAmount(null);
         irdForm.setProposalNumber(null);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -137,14 +140,14 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         InvoiceReportDeliveryForm irdForm = (InvoiceReportDeliveryForm) form;
         String basePath = getApplicationBaseUrl();
         String deliveryType = irdForm.getDeliveryType();
-        //To validate the input fields before fetching invoices.
+        // To validate the input fields before fetching invoices.
         if (ObjectUtils.isNotNull(irdForm.getFromDate())) {
             SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
             Date testDate = null;
-            try{
+            try {
                 testDate = sdf.parse(irdForm.getFromDate());
             }
-            catch(Exception e){
+            catch (Exception e) {
                 irdForm.setMessage(NO_MATCHING_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -152,19 +155,19 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         if (ObjectUtils.isNotNull(irdForm.getToDate())) {
             SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
             Date testDate = null;
-            try{
+            try {
                 testDate = sdf.parse(irdForm.getToDate());
             }
-            catch(Exception e){
+            catch (Exception e) {
                 irdForm.setMessage(NO_MATCHING_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
         if (ObjectUtils.isNotNull(irdForm.getInvoiceAmount())) {
-            try{
-                KualiDecimal invoiceAmount =  new KualiDecimal(irdForm.getInvoiceAmount());
+            try {
+                KualiDecimal invoiceAmount = new KualiDecimal(irdForm.getInvoiceAmount());
             }
-            catch(Exception e){
+            catch (Exception e) {
                 irdForm.setMessage(NO_MATCHING_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -173,75 +176,111 @@ public class InvoiceReportDeliveryAction extends KualiAction {
             irdForm.setMessage(NO_DELIVERY_TYPE_SELECTED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        // Check principal name if entered
+        String principalName = irdForm.getUserId();
+        if (StringUtils.isNotEmpty(principalName)) {
+            Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(principalName);
+            if (ObjectUtils.isNull(person)) {
+                irdForm.setMessage(NO_PRINCIPAL_NAME_FOUND);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
 
         // Fetch the invoices with the input parameters
         Collection<ContractsGrantsInvoiceDocument> list = this.getInvoicesByParametersFromRequest(irdForm);
 
         if (CollectionUtils.isNotEmpty(list)) {
-            if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(deliveryType)) {
-                Collection<ContractsGrantsInvoiceDocument> mailList = new ArrayList<ContractsGrantsInvoiceDocument>();
-                Set<ContractsGrantsInvoiceDocument> mailSet = new HashSet<ContractsGrantsInvoiceDocument>();
-                for(ContractsGrantsInvoiceDocument invoice: list){
-                    if(ObjectUtils.isNull(invoice.getDateReportProcessed())){
-                        for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
-                            if(ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())){
-                                mailSet.add(invoice);
-                            }
-                        }
+            // mapping to return to once delivery method is processed
+            ActionForward forward = new ActionForward();
+            // Buffer for message to display on the form
+            StringBuffer statusMessage = new StringBuffer();
 
+            // Check delivery type for EMAIL (or BOTH)
+            if (ArConstants.InvoiceTransmissionMethod.EMAIL.equalsIgnoreCase(deliveryType)
+                    || ArConstants.InvoiceTransmissionMethod.BOTH.equalsIgnoreCase(deliveryType)) {
 
-                    }
-                }
-                mailList.addAll(mailSet);
-                if(CollectionUtils.isNotEmpty(mailList)) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                if (this.printInvoicesAndEnvelopesZip(mapping, irdForm, mailList, baos)) {
-                    response.setContentType("application/zip");
-                    response.setHeader("Content-disposition", "attachment; filename=Invoice-report" + FILE_NAME_TIMESTAMP.format(new Date()) + ".zip");
-                    response.setHeader("Expires", "0");
-                    response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-                    response.setHeader("Pragma", "public");
-                    response.setContentLength(baos.size());
-                    ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-                    IOUtils.copy(bais, response.getOutputStream());
-                    response.getOutputStream().flush();
-                    irdForm.setMessage(INVOICES_PRINT_SUCCESSFULL);
-                    return null;
-                }
-                else {
-                    irdForm.setMessage(INVOICES_PRINT_UNSUCCESSFULL);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                }
-                }
-                else{
-                    irdForm.setMessage(NO_MATCHING_INVOICE);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
-                }
-            }
-            else if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(deliveryType)){
                 Collection<ContractsGrantsInvoiceDocument> emailList = new ArrayList<ContractsGrantsInvoiceDocument>();
                 Set<ContractsGrantsInvoiceDocument> emailSet = new HashSet<ContractsGrantsInvoiceDocument>();
-                for(ContractsGrantsInvoiceDocument invoice: list){
-                    if(ObjectUtils.isNull(invoice.getMarkedForProcessing())){
-                        for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
-                            if(ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())){
+
+                // Get all email-able invoices
+                for (ContractsGrantsInvoiceDocument invoice : list) {
+                    if (ObjectUtils.isNull(invoice.getMarkedForProcessing())) {
+                        for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
+                            if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())) {
                                 emailSet.add(invoice);
                             }
                         }
-
-
                     }
                 }
                 emailList.addAll(emailSet);
-                if(CollectionUtils.isNotEmpty(emailList)) {
-                return emailInvoicePDF(mapping, irdForm, emailList);
+
+                // mark invoices to be emailed for processing
+                if (CollectionUtils.isNotEmpty(emailList)) {
+                    forward = emailInvoicePDF(mapping, irdForm, emailList);
+                    statusMessage.append(MARKED_FOR_PROCESSING_BY_BATCH_JOB);
+                    statusMessage.append("\n");
                 }
-                else{
-                    irdForm.setMessage(NO_MATCHING_INVOICE);
-                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                else {
+                    forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    statusMessage.append(NO_MATCHING_INVOICE_FOR_EMAIL_DELIVERY);
+                    statusMessage.append("\n");
                 }
             }
+
+            // Check delivery type for MAIL (or BOTH)
+            if (ArConstants.InvoiceTransmissionMethod.MAIL.equalsIgnoreCase(deliveryType)
+                    || ArConstants.InvoiceTransmissionMethod.BOTH.equalsIgnoreCase(deliveryType)) {
+
+                // Get all mail-able invoices
+                Collection<ContractsGrantsInvoiceDocument> mailList = new ArrayList<ContractsGrantsInvoiceDocument>();
+                Set<ContractsGrantsInvoiceDocument> mailSet = new HashSet<ContractsGrantsInvoiceDocument>();
+                for (ContractsGrantsInvoiceDocument invoice : list) {
+                    if (ObjectUtils.isNull(invoice.getDateReportProcessed())) {
+                        for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
+                            if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())) {
+                                mailSet.add(invoice);
+                            }
+                        }
+                    }
+                }
+                mailList.addAll(mailSet);
+
+                // Process mailable invoices found
+                if (CollectionUtils.isNotEmpty(mailList)) {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    if (this.printInvoicesAndEnvelopesZip(mapping, irdForm, mailList, baos)) {
+                        response.setContentType("application/zip");
+                        response.setHeader("Content-disposition", "attachment; filename=Invoice-report" + FILE_NAME_TIMESTAMP.format(new Date()) + ".zip");
+                        response.setHeader("Expires", "0");
+                        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+                        response.setHeader("Pragma", "public");
+                        response.setContentLength(baos.size());
+                        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                        IOUtils.copy(bais, response.getOutputStream());
+                        response.getOutputStream().flush();
+                        statusMessage.append(INVOICES_PRINT_SUCCESSFULL);
+                        statusMessage.append("\n");
+                        irdForm.setMessage(statusMessage.toString());
+
+                        return null;
+                    }
+                    else {
+                        statusMessage.append(INVOICES_PRINT_UNSUCCESSFULL);
+                        statusMessage.append("\n");
+                        forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                    }
+                }
+                else {
+                    statusMessage.append(NO_MATCHING_INVOICE_FOR_MAIL_DELIVERY);
+                    statusMessage.append("\n");
+                    forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+            }
+
+            irdForm.setMessage(statusMessage.toString());
+            return forward;
         }
+        // Catch all
         irdForm.setMessage(NO_MATCHING_INVOICE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -258,16 +297,16 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
         SimpleDateFormat reqDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         Timestamp fromDate = null;
-        Timestamp toDate  = null;
-        if(StringUtils.isNotEmpty(form.getToDate())){
-        toDate = Timestamp.valueOf(reqDateFormat.format(dateFormat.parse(form.getToDate())));
+        Timestamp toDate = null;
+        if (StringUtils.isNotEmpty(form.getToDate())) {
+            toDate = Timestamp.valueOf(reqDateFormat.format(dateFormat.parse(form.getToDate())));
         }
-        if(StringUtils.isNotEmpty(form.getFromDate())){
+        if (StringUtils.isNotEmpty(form.getFromDate())) {
             fromDate = Timestamp.valueOf(reqDateFormat.format(dateFormat.parse(form.getFromDate())));
         }
         String user = form.getUserId();
         ContractsGrantsInvoiceDocumentService invoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        Map<String,String> fieldValues = new HashMap<String,String>();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(form.getProposalNumber())) {
             fieldValues.put("proposalNumber", form.getProposalNumber());
         }
@@ -298,19 +337,19 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                         if (person == null) {
                             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + user + "] passed in does not map to a person.");
                         }
-                        if(StringUtils.equalsIgnoreCase( invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), person.getPrincipalId())){
-//                        if (invoice.getDocumentHeader().getWorkflowDocument().userIsInitiator(person)){
+                        if (StringUtils.equalsIgnoreCase(invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), person.getPrincipalId())) {
+                            // if (invoice.getDocumentHeader().getWorkflowDocument().userIsInitiator(person)){
                         }
-                        if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(person.getPrincipalId())){
+                        if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(person.getPrincipalId())) {
                             if (this.isInvoiceBetween(invoice, fromDate, toDate)) {
-                                if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())){
+                                if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())) {
                                     finalList.add(invoice);
-                            }
+                                }
                             }
                         }
                     }
-                    else if (this.isInvoiceBetween(invoice, fromDate, toDate)){
-                        if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())){
+                    else if (this.isInvoiceBetween(invoice, fromDate, toDate)) {
+                        if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())) {
                             finalList.add(invoice);
                         }
                     }
@@ -329,13 +368,13 @@ public class InvoiceReportDeliveryAction extends KualiAction {
      * @return
      */
     private boolean isInvoiceBetween(ContractsGrantsInvoiceDocument invoice, Timestamp fromDate, Timestamp toDate) {
-        if (ObjectUtils.isNotNull(fromDate)){
-            if (fromDate.after(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))){
+        if (ObjectUtils.isNotNull(fromDate)) {
+            if (fromDate.after(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))) {
                 return false;
             }
         }
-        if (ObjectUtils.isNotNull(toDate)){
-            if (toDate.before(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))){
+        if (ObjectUtils.isNotNull(toDate)) {
+            if (toDate.before(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))) {
                 return false;
             }
         }

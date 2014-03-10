@@ -127,7 +127,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         cgPaymentHistoryReportDataHolder.setDetails(details);
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgPaymentHistoryReportDataHolder.getSearchCriteria(), cgPaymentHistoryReportLookupForm.getFieldsForLookup());
+        buildReportForSearchCriteia(cgPaymentHistoryReportDataHolder.getSearchCriteria(), cgPaymentHistoryReportLookupForm.getFieldsForLookup(),ContractsGrantsPaymentHistoryReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsPaymentHistoryReportService.class).generateReport(cgPaymentHistoryReportDataHolder, baos);

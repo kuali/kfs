@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
@@ -33,10 +32,9 @@ import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.springframework.util.StringUtils;
 
 /**
@@ -106,7 +104,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
      * @param searchCriteria
      * @param fieldsForLookup
      */
-    protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
+    protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
 
@@ -115,7 +113,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
                 ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(ContractsAndGrantsBillingAward.class, fieldString);
+                String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
                 criteriaData.setSearchFieldLabel(label);
                 criteriaData.setSearchFieldValue(valueString);
                 searchCriteria.add(criteriaData);

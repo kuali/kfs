@@ -430,6 +430,16 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public ContractsAndGrantsLetterOfCreditFund getLetterOfCreditFund();
 
     /**
+     * Sets the letterOfCreditFund attribute.
+     *
+     * We normally wouldn't put a setter in an interface, but we are struggling with an NPE
+     * when doing an Award inquiry related to the fact that the code can't find a setter
+     * for this attribute.
+     *
+     */
+    public void setLetterOfCreditFund(ContractsAndGrantsLetterOfCreditFund letterOfCreditFund);
+
+    /**
      * Gets the userLookupRoleName attribute.
      *
      * @return Returns the userLookupRoleName.
@@ -498,4 +508,5 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
      * @return Returns the stopWork.
      */
     public boolean isStopWorkIndicator();
+
 }

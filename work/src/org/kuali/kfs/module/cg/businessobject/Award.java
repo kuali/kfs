@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -108,7 +109,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
     private AwardStatus awardStatus;
-    protected LetterOfCreditFund letterOfCreditFund;
+    protected ContractsAndGrantsLetterOfCreditFund letterOfCreditFund;
     private GrantDescription grantDescription;
     private Agency agency;
     private Agency federalPassThroughAgency;
@@ -1073,7 +1074,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
 
     @Override
-    public LetterOfCreditFund getLetterOfCreditFund() {
+    public ContractsAndGrantsLetterOfCreditFund getLetterOfCreditFund() {
         return letterOfCreditFund;
     }
 
@@ -1085,7 +1086,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *             creation of the object and should not be changed.
      */
     @Deprecated
-    public void setLetterOfCreditFund(LetterOfCreditFund letterOfCreditFund) {
+    @Override
+    public void setLetterOfCreditFund(ContractsAndGrantsLetterOfCreditFund letterOfCreditFund) {
         this.letterOfCreditFund = letterOfCreditFund;
     }
 
@@ -1940,4 +1942,5 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
         return m;
     }
+
 }

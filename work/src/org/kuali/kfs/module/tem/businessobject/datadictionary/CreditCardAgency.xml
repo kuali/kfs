@@ -69,7 +69,6 @@
 		<property name="name" value="paymentIndicator" />
 		<property name="label" value="Payment Indicator" />
 		<property name="shortLabel" value="Payment Indicator" />
-		<property name="required" value="true" />
 		<property name="summary" value="Payment Indicator" />
 		<property name="description" value="Payment Indicator" />
 	</bean>
@@ -210,7 +209,6 @@
 		<property name="name" value="foreignCompany" />
 		<property name="label" value="Foreign Company" />
 		<property name="shortLabel" value="Foreign Company" />
-		<property name="required" value="true" />
 		<property name="summary" value="Foreign Company" />
 		<property name="description" value="Foreign Company" />
 	</bean>
@@ -231,7 +229,6 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
-		<property name="required" value="true" />
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
 	</bean>
@@ -245,11 +242,11 @@
 	</bean>
 	<bean id="CreditCardAgency-inquiryDefinition" parent="CreditCardAgency-inquiryDefinition-parentBean" />
 	<bean id="CreditCardAgency-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Credit Card Agency Inquiry"/>
+		<property name="title" value="Credit Card or Agency Inquiry"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">
-				<property name="title" value="Credit Card Agency Inquiry"/>
+				<property name="title" value="Credit Card or Agency Inquiry"/>
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
@@ -280,7 +277,7 @@
 	</bean>
 	<bean id="CreditCardAgency-lookupDefinition" parent="CreditCardAgency-lookupDefinition-parentBean" />
 	<bean id="CreditCardAgency-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Credit Card Agency Lookup" />
+		<property name="title" value="Credit Card or Agency Lookup" />
 		<property name="defaultSort">
 		<bean parent="SortDefinition">
 			<property name="attributeNames"><list>

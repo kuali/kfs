@@ -363,7 +363,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
      * Gets the tripId attribute.
      * @return Returns the tripId.
      */
-    @Column(name = "TRIP_ID", length = 12, nullable = true)
+    @Column(name = "TRIP_ID", length = 19, nullable = true)
     public String getTripId() {
         return tripId;
     }

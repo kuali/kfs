@@ -27,11 +27,11 @@
 <bean id="AccommodationTypeMaintenanceDocument-Section" parent="AccommodationTypeMaintenanceDocument-Section-parentBean" />
 <bean id="AccommodationTypeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="AccommodationType" />
-		<property name="title" value="Edit AccommodationType" />
+		<property name="title" value="Edit Accommodation Type" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

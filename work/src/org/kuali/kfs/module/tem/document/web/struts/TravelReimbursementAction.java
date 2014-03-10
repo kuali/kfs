@@ -20,16 +20,16 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
+import static org.kuali.kfs.module.tem.TemConstants.EXPENSE_SUMMARY_REPORT_TITLE;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ENCUMBRANCE_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
+import static org.kuali.kfs.module.tem.TemConstants.SUMMARY_BY_DAY_TITLE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
-import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
-import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 
 import java.io.ByteArrayOutputStream;
@@ -82,7 +82,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -183,7 +182,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         cover.print(stream);
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", stream, String.format(COVERSHEET_FILENAME_FORMAT, reimbursement.getDocumentNumber()));
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", stream, String.format(COVERSHEET_FILENAME_FORMAT, reimbursement.getTravelDocumentIdentifier()));
 
         return null;
     }
@@ -198,7 +197,9 @@ public class TravelReimbursementAction extends TravelActionBase {
         final ExpenseSummaryReport report = getExpenseSummaryReportService().buildReport(reimbursement);
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
-        WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "ExpenseSummary" + PDF_FILE_EXTENSION);
+
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(EXPENSE_SUMMARY_REPORT_TITLE, reimbursement.getTravelDocumentIdentifier()));
+     //  WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "ExpenseSummary" + PDF_FILE_EXTENSION);
         return null;
     }
 
@@ -212,7 +213,9 @@ public class TravelReimbursementAction extends TravelActionBase {
         final SummaryByDayReport report = getSummaryByDayReportService().buildReport(reimbursement);
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
-        WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "SummaryByDay" + PDF_FILE_EXTENSION);
+
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(SUMMARY_BY_DAY_TITLE, reimbursement.getTravelDocumentIdentifier()));
+        //WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "SummaryByDay" + PDF_FILE_EXTENSION);
         return null;
     }
 
@@ -229,7 +232,8 @@ public class TravelReimbursementAction extends TravelActionBase {
         File reportFile = getNonEmployeeCertificationReportService().generateReport(report);
 
         StringBuilder fileName = new StringBuilder();
-        fileName.append(reimbForm.getDocument().getDocumentNumber());
+        fileName.append(reimbursement.getTravelDocumentIdentifier());
+        fileName.append(TemConstants.NON_EMPLOYEE_CERTIFICATION_REPORT_TITLE);
         fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
         if (reportFile.length() == 0) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -462,9 +466,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(rootDocument, document);
             getBusinessObjectService().save(relationship);
 
-            // we're not the progenitor so let's force a refresh of notes
-            final List<Note> notes = getNoteService().getByRemoteObjectId(rootDocument.getNoteTarget().getObjectId());
-            document.setNotes(notes);
+
 
         } else {
             // we have no parent document; blank out the trip begin and end dates

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -766,9 +767,13 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             if (tripEndFiscalYear == null) {
                 LOG.info("Could not yet release TEM held encumbrance entry "+hee.getDocumentNumber()+" sequence: "+hee.getTransactionLedgerEntrySequenceNumber()+" because the fiscal year for the trip end does not yet exist.");
             } else {
-                final java.sql.Date firstDateOfEncumbranceFiscalYear = new java.sql.Date(tripEndFiscalYear);
-                final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getAccountingPeriodService().getByDate(firstDateOfEncumbranceFiscalYear);
+                try {
+                final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
+                final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
                 return firstAccountingPeriodOfEncumbranceFiscalYear;
+                } catch (ParseException pe) {
+                    LOG.error("Error while parsing date" + pe);
+                }
             }
         }
         return null;

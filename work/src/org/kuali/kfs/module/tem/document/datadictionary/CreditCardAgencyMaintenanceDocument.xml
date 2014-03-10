@@ -27,11 +27,11 @@
 <bean id="CreditCardAgencyMaintenanceDocument-Section" parent="CreditCardAgencyMaintenanceDocument-Section-parentBean" />
 <bean id="CreditCardAgencyMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="CreditCardAgency" />
-		<property name="title" value="Edit CreditCardAgency" />
+		<property name="title" value="Edit Credit Card or Agency" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="travelCardTypeCode" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="paymentIndicator" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="paymentIndicator" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyName" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="address1" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="address2" p:required="false"/>
@@ -45,9 +45,9 @@
 			<bean parent="MaintainableFieldDefinition" p:name="preReconciled" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="enableNonReimbursable" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="foreignCompany" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="foreignCompany" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="bankCode" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

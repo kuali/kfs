@@ -224,10 +224,10 @@
 		<property name="name" value="tripId" />
 		<property name="label" value="Trip Id" />
 		<property name="shortLabel" value="Trip Id" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="19" />
 		<property name="summary" value="Trip Id" />
 		<property name="description" value="Trip Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
 	</bean>
 	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode" parent="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" />
 	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">

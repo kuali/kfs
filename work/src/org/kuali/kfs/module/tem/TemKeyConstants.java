@@ -116,6 +116,7 @@ public class TemKeyConstants {
     public static final String ERROR_TA_TRVL_ADV_DUE_DATE_INVALID = "error.document.tem.travel.advance.due.date.invalid";
     public static final String ERROR_TA_TRVL_ADV_POLICY = "error.document.tem.travel.advance.policy";
     public static final String ERROR_TA_TRVL_ADV_ADD_JUST = "error.document.tem.travel.advance.additional.justification";
+    public static final String ERROR_TA_TRVL_ADV_EXCCED_TOTAL_TRIP_AMOUNT ="error.document.tem.travel.advance.exceed.total.trip.amount";
     public static final String ERROR_TA_TRIP_BEGIN_EMPTY = "error.document.tem.tripBeginEmpty";
     public static final String ERROR_TA_TRIP_END_EMPTY= "error.document.tem.tripEndEmpty";
     public static final String ERROR_TA_TRIP_TYPE_CD_EMPTY = "error.document.tem.tripTypeCodeEmpty";

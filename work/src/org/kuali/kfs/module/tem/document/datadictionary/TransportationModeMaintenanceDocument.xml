@@ -27,11 +27,11 @@
 <bean id="TransportationModeMaintenanceDocument-Section" parent="TransportationModeMaintenanceDocument-Section-parentBean" />
 <bean id="TransportationModeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="TransportationMode" />
-		<property name="title" value="Edit TransportationMode" />
+		<property name="title" value="Edit Transportation Mode" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

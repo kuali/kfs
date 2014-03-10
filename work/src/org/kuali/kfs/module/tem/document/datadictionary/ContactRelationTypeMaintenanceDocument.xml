@@ -27,11 +27,11 @@
 <bean id="ContactRelationTypeMaintenanceDocument-Section" parent="ContactRelationTypeMaintenanceDocument-Section-parentBean" />
 <bean id="ContactRelationTypeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="ContactRelationType" />
-		<property name="title" value="Edit Contact Relation Type" />
+		<property name="title" value="Edit Contact Relationship Type" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

@@ -1010,7 +1010,7 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT_BY_TRIP"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT_BY_TRP"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-127"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="You have newly imported expenses that have been reconciled to your TEM documents."/>

@@ -37,12 +37,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 
 /**
@@ -121,7 +121,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         cgInvoiceReportDataHolder.setReportTitle("Collection Activity Report");
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), collActReportLookupForm.getFieldsForLookup(), CollectionActivityReportAction.class);
+        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), collActReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(CollectionActivityReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
@@ -143,10 +143,10 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(CollectionActivityReport.class, fieldString);
+                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(dataObjectClass, fieldString);
                 if (!(controldef instanceof HiddenControlDefinition)) {
                     ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(CollectionActivityReport.class, fieldString);
+                    String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
                     criteriaData.setSearchFieldLabel(label);
                     criteriaData.setSearchFieldValue(valueString);
                     searchCriteria.add(criteriaData);

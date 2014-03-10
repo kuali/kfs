@@ -164,7 +164,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         cgInvoiceReportDataHolder.setReportTitle("Referral to Collections Report");
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), refToCollReportLookupForm.getFieldsForLookup(), ReferralToCollectionsReportAction.class);
+        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), refToCollReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ReferralToCollectionsReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
@@ -186,10 +186,10 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(CollectionActivityReport.class, fieldString);
+                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(dataObjectClass, fieldString);
                 if (!(controldef instanceof HiddenControlDefinition)) {
                     ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(CollectionActivityReport.class, fieldString);
+                    String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
                     criteriaData.setSearchFieldLabel(label);
                     criteriaData.setSearchFieldValue(valueString);
                     searchCriteria.add(criteriaData);

@@ -120,6 +120,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
                 document.setHostProfileId(travelDocument.getHostProfileId());
                 document.setHostName(travelDocument.getHostName());
+                document.setHostAsPayee(travelDocument.getHostAsPayee());
                 document.setEventTitle(travelDocument.getEventTitle());
                 document.setPurposeCode(travelDocument.getPurposeCode());
                 document.setTripBegin(travelDocument.getTripBegin());
@@ -144,9 +145,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(travelDocument, document);
                 getBusinessObjectService().save(relationship);
 
-                // we're not the progenitor so let's force a refresh of notes
-                final List<Note> notes = getNoteService().getByRemoteObjectId(travelDocument.getNoteTarget().getObjectId());
-                 document.setNotes(notes);
+
 
         } else {
             document.setTripProgenitor(true); // this is the trip progenitor

@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.Set;
+
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -38,4 +41,16 @@ public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer i
         }
         return canCertify;
     }
+
+    /**
+     * Overridden to add awaiting special request review status, since that happens before FO on TR's
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer#getNonReturnToFiscalOfficerDocumentStatuses()
+     */
+    @Override
+    protected Set<String> getNonReturnToFiscalOfficerDocumentStatuses() {
+        Set<String> appDocStatuses = super.getNonReturnToFiscalOfficerDocumentStatuses();
+        appDocStatuses.add(TemConstants.TravelStatusCodeKeys.AWAIT_SPCL);
+        return appDocStatuses;
+    }
+
 }

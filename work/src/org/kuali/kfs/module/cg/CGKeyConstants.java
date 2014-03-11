@@ -34,6 +34,7 @@ public class CGKeyConstants {
     public static class AwardConstants {
         public static final String ERROR_ONE_AR_INV_ACCT_REQD = "error.cg.one.ar.account.required";
         public static final String ERROR_MULTIPLE_INV_ACCT = "error.cg.multiple.inv.account";
+        public static final String ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT = "error.cg.award.milestone.and.predetermined.billingFrequency.must.have.one.account";
     }
 
 

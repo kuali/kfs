@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
+import org.kuali.kfs.module.cg.businessobject.BillingFrequency;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -99,6 +100,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         success &= checkInvoicingOptions();
         success &= checkAwardInvoiceAccounts();
+        success &= checkNumberOfAccountsForBillingFrequency();
         LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
@@ -579,5 +581,39 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         }
         return success;
     }
-
+    
+    /**
+     * This method checks the number of accounts set for the Award based on the billing frequency.
+     * Awards with Predetermine or Milestone billing frequencies must have only one Award Account.
+     *
+     * @return true if the award has the correct number of accounts for the selected billing frequency
+     */
+    protected boolean checkNumberOfAccountsForBillingFrequency() {
+        boolean success = true;
+        int numberOfAccounts = 0;
+        
+        // Determine billing frequency
+        BillingFrequency billingFrequency = newAwardCopy.getBillingFrequency();
+        String billingFrequencyCode = billingFrequency.getFrequency();
+        
+        // Check for Predetermined and Milestone billing schedules
+        if (ObjectUtils.isNotNull(billingFrequencyCode) && 
+                (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
+                 CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
+            
+            // Get count of accounts on Award
+            Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
+            if (CollectionUtils.isNotEmpty(awardAccounts)){
+                numberOfAccounts = awardAccounts.size();
+            }
+           
+            // if more than one account, add error
+            if (numberOfAccounts > 1){
+                putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT);
+                success = false;
+            }            
+        }
+        
+        return success;
+    }
 }

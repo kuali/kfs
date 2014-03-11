@@ -382,8 +382,10 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
        else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
            glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
        }
-       glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
-       glpeSeqHelper.increment();
+       if (glpeSeqHelper != null) {
+           glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
+           glpeSeqHelper.increment();
+       }
        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
        businessObjectService.save(glpe);
    }
@@ -398,10 +400,9 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
            // generate all the pending entries for the document
            getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(paymentSource);
            // for each pending entry, opposite-ify it and reattach it to the document
-           GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
                if (extractionService.shouldRollBackPendingEntry(glpe)) {
-                   oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+                   oppositifyAndSaveEntry(glpe, null);
                }
            }
        }

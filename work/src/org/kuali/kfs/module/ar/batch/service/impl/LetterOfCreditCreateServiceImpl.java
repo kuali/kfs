@@ -500,10 +500,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    @NonTransactional
     public FinancialSystemDocumentService getFinancialSystemDocumentService() {
         return financialSystemDocumentService;
     }
 
+    @NonTransactional
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
     }

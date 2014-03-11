@@ -44,6 +44,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation class for Collection Activity Document.
@@ -62,6 +63,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *
      * @return Returns the documentService.
      */
+    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -71,10 +73,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *
      * @param documentService The documentService to set.
      */
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -83,6 +87,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * This method gets the business object service
      * @return the business object service
      */
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -91,10 +96,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * This method sets the business object service
      * @param businessObjectService
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @NonTransactional
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
@@ -114,6 +121,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
      */
     @Override
+    @Transactional
     public void addNewEvent(String description, CollectionActivityDocument colActDoc, Event newEvent) throws WorkflowException {
 
         final Timestamp now = dateTimeService.getCurrentTimestamp();
@@ -138,9 +146,9 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
-      DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
-      DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
-      queue.indexDocument(colActDoc.getDocumentNumber());
+        DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
+        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
+        queue.indexDocument(colActDoc.getDocumentNumber());
     }
 
     /**
@@ -148,6 +156,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
      */
     @Override
+    @Transactional
     public void editEvent(String description, CollectionActivityDocument colActDoc, Event event) throws WorkflowException {
         event.setEventRouteStatus(KewApiConstants.ROUTE_HEADER_SAVED_CD);
         event.setDocumentNumber(colActDoc.getDocumentNumber());
@@ -174,6 +183,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
      */
     @Override
+    @Transactional
     public void loadAwardInformationForCollectionActivityDocument(CollectionActivityDocument colActDoc) {
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
@@ -199,6 +209,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
      */
     @Override
+    @Transactional
     public Collection<Event> retrieveEvents(Map fieldValues, boolean isSavedRouteStatus, String documentNumberToExclude) {
         return eventDao.getMatchingEventsByCollection(fieldValues, isSavedRouteStatus, documentNumberToExclude);
     }
@@ -207,6 +218,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
      */
     @Override
+    @Transactional
     public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber) {
         ContractsAndGrantsBillingAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
@@ -222,6 +234,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      *      java.lang.String)
      */
     @Override
+    @Transactional
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
         boolean resultInd = true;
         Map<String,String> fieldValues = new HashMap<String,String>();
@@ -234,10 +247,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         return resultInd;
     }
 
+    @NonTransactional
     public EventDao getEventDao() {
         return eventDao;
     }
 
+    @NonTransactional
     public void setEventDao(EventDao eventDao) {
         this.eventDao = eventDao;
     }

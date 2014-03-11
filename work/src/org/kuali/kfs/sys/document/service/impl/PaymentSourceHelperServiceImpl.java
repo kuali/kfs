@@ -89,6 +89,24 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     }
 
     /**
+     * Retrieves the wire charge for fiscal year based on the given date or null if one cannot be found
+     * @param date the date to find a wire charge for
+     * @return the wire charge for the fiscal year of the given date, or null if the wire charge cannot be found
+     */
+    @Override
+    public WireCharge retrieveWireChargeForDate(java.sql.Date date) {
+        final Integer dateFiscalYear = getUniversityDateService().getFiscalYear(date);
+        if (dateFiscalYear == null) {
+            return null;
+        }
+
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(dateFiscalYear);
+        wireCharge = (WireCharge)getBusinessObjectService().retrieve(wireCharge);
+        return wireCharge;
+    }
+
+    /**
      * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
      *
@@ -122,6 +140,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         }
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
+        explicitEntry.setFinancialBalanceTypeCode(wireCharge.getFiscalYear().getActualFinancialBalanceTypeCd());
 
         paymentSource.addPendingEntry(explicitEntry);
         sequenceHelper.increment();
@@ -167,6 +186,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
+        explicitEntry.setFinancialBalanceTypeCode(wireCharge.getFiscalYear().getActualFinancialBalanceTypeCd());
 
         paymentSource.addPendingEntry(explicitEntry);
         sequenceHelper.increment();

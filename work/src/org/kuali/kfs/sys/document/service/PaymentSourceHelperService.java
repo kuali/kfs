@@ -34,6 +34,13 @@ public interface PaymentSourceHelperService {
     public WireCharge retrieveCurrentYearWireCharge();
 
     /**
+     * Retrieves the wire charge for fiscal year based on the given date or null if one cannot be found
+     * @param date the date to find a wire charge for
+     * @return the wire charge for the fiscal year of the given date, or null if the wire charge cannot be found
+     */
+    public WireCharge retrieveWireChargeForDate(java.sql.Date date);
+
+    /**
      * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
      * @param paymentSource the payment source to generate bank offset entries for

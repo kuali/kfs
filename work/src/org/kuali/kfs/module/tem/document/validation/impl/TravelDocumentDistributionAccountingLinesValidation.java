@@ -107,7 +107,7 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
                 success = false;
             }
 
-            if (wrapper.getDistribution() != null && !wrapper.getDistribution().isEmpty() && wrapper.getTravelDocument().getExpenseLimit() != null && wrapper.getTravelDocument().getExpenseLimit().isGreaterThan(KualiDecimal.ZERO)) {
+            if (wrapper.getDistribution() != null && !wrapper.getDistribution().isEmpty() && wrapper.getTravelDocument().getExpenseLimit() != null && wrapper.getTravelDocument().getExpenseLimit().isLessThan(wrapper.getDistributionRemainingAmount(true))) {
                 // we have an expense limit...do we have more than one selected distribution targets
                 int distributionTargetCount = 0;
                 for (AccountingDistribution distribution : wrapper.getDistribution()) {

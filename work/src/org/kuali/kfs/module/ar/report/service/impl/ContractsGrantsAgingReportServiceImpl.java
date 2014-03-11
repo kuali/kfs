@@ -181,6 +181,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
         Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
         fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
 //Now to involve reportOption and handle chart and org
+        if(ObjectUtils.isNotNull(reportOption)){
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, orgCode);
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, chartCode);
@@ -189,7 +190,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, orgCode);
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartCode);
         }
-
+        }
         if (StringUtils.isNotEmpty(customerNumber)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }

@@ -640,7 +640,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelDocument document = reqForm.getTravelDocument();
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
 
-        if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument())) && getPerDiemService().canCreatePerDiem(document)) {
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument()))) {
             getTravelDocumentService().updatePerDiemItemsFor(document, document.getPerDiemExpenses(), document.getPrimaryDestinationId(), document.getTripBegin(), document.getTripEnd());
         }
         reqForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(reqForm));

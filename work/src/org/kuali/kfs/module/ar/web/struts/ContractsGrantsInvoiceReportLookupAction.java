@@ -25,14 +25,17 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsInvoiceReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -134,10 +137,19 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         // build search criteria for report
         buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsGrantsInvoiceReport.class);
 
+        //To avoid opening pdf if search results = none.
+        if(CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
+            GlobalVariables.getMessageMap().putInfo(KFSConstants.DOCUMENT_ERRORS, ArKeyConstants.NO_VALUES_RETURNED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsInvoiceReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+
+
+
+
     }
 
     /**

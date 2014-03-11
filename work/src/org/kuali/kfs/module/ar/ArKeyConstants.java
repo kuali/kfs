@@ -335,4 +335,6 @@ public class ArKeyConstants {
          public static final String ERROR_MULTIPLE_CTRL_ACCT = "error.cg.multiple.control.account";
      }
 
+     public static final String NO_VALUES_RETURNED = "message.no.values.returned";
+
 }

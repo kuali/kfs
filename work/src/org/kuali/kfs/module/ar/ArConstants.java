@@ -91,7 +91,7 @@ public class ArConstants{
     public static int ITEM_QUANTITY_SCALE = 10;
 
     public static final String INV_DOCUMENT_TYPE = "INV";
-    public static final String INV_DOCUMENT_DESCRIPTION = "Customer Invoice Document";
+    public static final String INV_DOCUMENT_DESCRIPTION = "Customer Invoice";
     public static final String DEFAULT_PROCESSING_CHART = "DEFAULT_PROCESSING_CHART";
     public static final String DEFAULT_PROCESSING_ORG = "DEFAULT_PROCESSING_ORG";
 
@@ -428,7 +428,7 @@ public class ArConstants{
 
     // CG Invoice Document
     public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
-    public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
+    public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts and Grants Invoice";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";

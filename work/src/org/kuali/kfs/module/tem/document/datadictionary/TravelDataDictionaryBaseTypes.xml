@@ -53,9 +53,9 @@
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Source" />
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer" />
-		<property name="importedLinePropertyPrefix" value="source" />
 		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 		<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+		<property name="importingAllowed" value="false"/> <!--  we can't import account lines on TR/ENT/RELO --> 
 	</bean>
 	
 	<bean id="TravelAuthorizationDocument-sourceAccountingLineGroup" parent="TravelAuthorizationDocument-sourceAccountingLineGroup-parentBean" />
@@ -64,9 +64,9 @@
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Source" />
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer" />
-		<property name="importedLinePropertyPrefix" value="source" />
 		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 		<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+		<property name="importingAllowed" value="false"/> <!--  we can't import account lines on TA's and kids --> 
 	</bean>
 	
 	<bean id="TravelDocument-accountDistributionSourceAccountingLineGroup" parent="TravelDocument-accountDistributionSourceAccountingLineGroup-parentBean"/>  
@@ -75,9 +75,8 @@
 	    <property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine"/>
     	<property name="groupLabel" value="Assign Accounts"/>
         <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer"/>
-	    <property name="importedLinePropertyPrefix" value="accountDistribution"/>	  
 	    <property name="errorKey" value="accountDistributionsourceAccountingLines*,accountDistributionnewSourceLine,accountDistribution*"/> 
-	    <property name="importingAllowed" value="true"/> 
+	    <property name="importingAllowed" value="false"/> <!--  we can't import assign account lines --> 
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
     </bean>
     
@@ -88,9 +87,9 @@
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Travel Advance Accounting Lines" />
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAdvanceAccountingLineAuthorizer" />
-		<property name="importedLinePropertyPrefix" value="advanceAccounting" />
 		<property name="totals" ref="TravelDocument-advanceGroupTotals" />
 		<property name="errorKey" value="document.travelAdvance.accounting*,travelAdvance.accountingLines,newTravelAdvanceAccountingLine*" />
+		<property name="importingAllowed" value="false"/> <!--  we can't import advance accounting lines --> 
 	</bean>
     
 	<bean id="TravelDocument-accountingLineView" parent="TravelDocument-accountingLineView-parent" />

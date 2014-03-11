@@ -115,12 +115,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
                 cgMilestoneReport.setIsItBilled(KFSConstants.ParameterValues.NO);
             }
 
-            if (milestone.isActive()) {
-                cgMilestoneReport.setActive(KFSConstants.ParameterValues.YES);
-            } else {
-                cgMilestoneReport.setActive(KFSConstants.ParameterValues.NO);
-
-            }
+            cgMilestoneReport.setActive(milestone.isActive());
 
             // filter using lookupForm.getFieldsForLookup()
 

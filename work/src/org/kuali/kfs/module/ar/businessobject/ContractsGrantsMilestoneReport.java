@@ -23,13 +23,14 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Milestone Report
  */
-public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase {
+public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase implements MutableInactivatable {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -38,7 +39,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     private KualiDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
     private String isItBilled;
-    private String active;
+    private boolean active;
     private ContractsAndGrantsAward award;
     private Account account;
     private Chart chart;
@@ -123,11 +124,13 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
         this.isItBilled = isItBilled;
     }
 
-    public String getActive() {
+    @Override
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(String active) {
+    @Override
+    public void setActive(boolean active) {
         this.active = active;
     }
 

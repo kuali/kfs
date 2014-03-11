@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsMilestoneReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsMilestoneReportService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.Lookupable;
@@ -125,6 +126,11 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
         reportDetail.setMilestoneAmount(milestoneAmount);
         reportDetail.setIsItBilled(cgInvoiceReportEntry.getIsItBilled());
-        reportDetail.setActive(cgInvoiceReportEntry.getActive());
+        if (cgInvoiceReportEntry.isActive()) {
+            reportDetail.setActive(KFSConstants.ParameterValues.YES);
+        } else {
+            reportDetail.setActive(KFSConstants.ParameterValues.NO);
+        }
+
     }
 }

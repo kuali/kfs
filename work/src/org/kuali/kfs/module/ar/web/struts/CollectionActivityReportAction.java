@@ -23,15 +23,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.CollectionActivityReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
@@ -116,6 +119,12 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         }
 
         cgInvoiceReportDataHolder.setDetails(details);
+
+        // Avoid generating pdf if there were no search results were returned
+        if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
+            GlobalVariables.getMessageMap().putInfo(KFSConstants.DOCUMENT_ERRORS, ArKeyConstants.NO_VALUES_RETURNED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         // set report name using invoiceReportOption
         cgInvoiceReportDataHolder.setReportTitle("Collection Activity Report");

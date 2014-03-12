@@ -616,7 +616,7 @@
 	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Grants Payment History Report" />
+		<property name="reportTitle" value="Payment History Report" />
 		<property name="reportFileName" value="cg_payment_history_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />

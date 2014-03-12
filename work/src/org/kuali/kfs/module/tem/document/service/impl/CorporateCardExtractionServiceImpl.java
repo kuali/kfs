@@ -188,7 +188,15 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
 
         PaymentGroup pg = new PaymentGroup();
         final CreditCardAgency creditCardAgency = getCorporateCreditCardAgency(document);
+        if (creditCardAgency == null) {
+            LOG.error("Skipping corporate card payment for "+document.getDocumentNumber()+" because no credit card agency could be found.");
+            return null;
+        }
         final VendorDetail vendor = getCorporateCardVendor(creditCardAgency);
+        if (vendor == null) {
+            LOG.error("Skipping corporate card payment for "+document.getDocumentNumber()+" because no vendor could be found.");
+            return null;
+        }
         final VendorAddress vendorAddress = getVendorService().getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
 
         pg.setCombineGroups(Boolean.TRUE);

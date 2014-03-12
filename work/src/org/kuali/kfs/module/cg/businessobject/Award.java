@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -40,9 +41,11 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -137,6 +140,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String commentText;
     private String dunningCampaign;
     private boolean stopWorkIndicator;
+
+    private List<Note> boNotes;
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
@@ -1941,6 +1946,32 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         }
 
         return m;
+    }
+
+    /**
+     * Gets the boNotes attribute.
+     *
+     * @return Returns the boNotes
+     */
+
+    public List<Note> getBoNotes() {
+        List<Note> boNotes = new ArrayList<Note>();
+
+        if (StringUtils.isNotBlank(getObjectId())) {
+            boNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(getObjectId());
+        }
+
+        return boNotes;
+
+    }
+
+    /**
+     * Sets the boNotes attribute.
+     *
+     * @param boNotes The boNotes to set.
+     */
+    public void setBoNotes(List boNotes) {
+        this.boNotes = boNotes;
     }
 
 }

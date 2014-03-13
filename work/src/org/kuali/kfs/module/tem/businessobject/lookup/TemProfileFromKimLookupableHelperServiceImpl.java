@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
@@ -81,7 +82,9 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         final List<? extends Person> persons = personService.findPeople(kimFieldsForLookup);
 
         for (Person personDetail : persons) {
-            searchResults.add(travelerService.convertToTemProfileFromKim(personDetail));
+            if (!StringUtils.isBlank(personDetail.getPrincipalId())) {
+                searchResults.add(travelerService.convertToTemProfileFromKim(personDetail));
+            }
         }
 
         CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));

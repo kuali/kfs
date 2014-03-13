@@ -25,14 +25,17 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsSuspendedInvoiceDetailReportService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -124,6 +127,12 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
             details.add(reportDetail);
         }
         cgPaymentHistoryReportDataHolder.setDetails(details);
+
+        // Avoid generating pdf if there were no search results were returned
+        if (CollectionUtils.isEmpty(cgPaymentHistoryReportDataHolder.getDetails())){
+            GlobalVariables.getMessageMap().putInfo(KFSConstants.DOCUMENT_ERRORS, ArKeyConstants.NO_VALUES_RETURNED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
 
         // build search criteria for report
         buildReportForSearchCriteia(cgPaymentHistoryReportDataHolder.getSearchCriteria(), cgSuspendedInvoiceDetailReportLookupForm.getFieldsForLookup(), ContractsGrantsSuspendedInvoiceDetailReport.class);

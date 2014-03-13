@@ -307,7 +307,7 @@
 		id="KFSMI-11376_DO_NOT_INVOICE_STATUS_CODES">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="InvoiceIndicator" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
 			<column name="PARM_NM" value="AWARD_STATUS_CODES" />
 			<column name="OBJ_ID" value="KFSAR009" />
 			<column name="VER_NBR" value="1" />

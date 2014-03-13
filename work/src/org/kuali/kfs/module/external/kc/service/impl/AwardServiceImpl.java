@@ -218,7 +218,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     }
 
     protected Collection<String> getDoNotInvoiceStatuses() {
-        Collection<String> statuses = getParameterService().getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.CONTRACTS_AND_GRANTS, "Award",
+        Collection<String> statuses = getParameterService().getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.CONTRACTS_AND_GRANTS, KcConstants.Award.PARAMETER_COMPONENT_CONTRACTS_GRANTS_INVOICE,
                 KcConstants.Award.PARAMETER_KC_DO_NOT_INVOICE_AWARD_STATUS_CODES);
         return statuses;
     }

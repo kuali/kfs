@@ -661,7 +661,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelDocument document = reqForm.getTravelDocument();
 
         int copyIndex = getSelectedLine(request);
-        getTravelDocumentService().copyDownPerDiemExpense(copyIndex, document.getPerDiemExpenses());
+        getTravelDocumentService().copyDownPerDiemExpense(document, copyIndex, document.getPerDiemExpenses());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

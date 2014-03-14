@@ -199,8 +199,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public void copyDownPerDiemExpense(int copyIndex, List<PerDiemExpense> perDiemExpenses) {
-        realTravelDocumentService.copyDownPerDiemExpense(copyIndex, perDiemExpenses);
+    public void copyDownPerDiemExpense(TravelDocument travelDocument, int copyIndex, List<PerDiemExpense> perDiemExpenses) {
+        realTravelDocumentService.copyDownPerDiemExpense(travelDocument, copyIndex, perDiemExpenses);
     }
 
     @Override

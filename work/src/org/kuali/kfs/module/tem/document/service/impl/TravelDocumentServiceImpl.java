@@ -381,7 +381,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             for (final Timestamp someDate : dateRange(start, end)) {
                 // Check if a per diem entry exists for this date
                 if (!perDiemMapped.containsKey(someDate)) {
-                    final boolean prorated = !KfsDateUtils.isSameDay(start, end) && (KfsDateUtils.isSameDay(someDate, start) || KfsDateUtils.isSameDay(someDate, end));
+                    final boolean prorated = shouldProrate(someDate, start, end);
                     PerDiemExpense perDiemExpense = createPerDiemItem(document,perDiemList.get(counter), someDate, prorated, mileageRateExpenseTypeCode);
                     perDiemExpense.setDocumentNumber(document.getDocumentNumber());
                     perDiemMapped.put(someDate, perDiemExpense);
@@ -396,6 +396,18 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             LOG.debug("Adding "+ perDiemMapped.get(someDate)+ " to perdiem list");
             perDiemExpenseList.add(perDiemMapped.get(someDate));
         }
+    }
+
+    /**
+     * Determines if per diem expenses on the given date should be prorated
+     * @param perDiemDate the timestamp of the per diem
+     * @param tripBegin the begin timestamp of the trip
+     * @param tripEnd the end timestamp of the trip
+     * @return true if the per diem expense should be prorated, false otherwise
+     */
+    protected boolean shouldProrate(Timestamp perDiemDate, Timestamp tripBegin, Timestamp tripEnd) {
+        final boolean prorated = !KfsDateUtils.isSameDay(tripBegin, tripEnd) && (KfsDateUtils.isSameDay(perDiemDate, tripBegin) || KfsDateUtils.isSameDay(perDiemDate, tripEnd));
+        return prorated;
     }
 
     /**
@@ -437,9 +449,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyDownPerDiemExpense(int, java.util.List)
      */
     @Override
-    public void copyDownPerDiemExpense(int copyIndex, List<PerDiemExpense> perDiemExpenses) {
+    public void copyDownPerDiemExpense(TravelDocument travelDocument, int copyIndex, List<PerDiemExpense> perDiemExpenses) {
 
         PerDiemExpense lineToCopy = perDiemExpenses.get(copyIndex);
+        PerDiemExpense restoredLine = getRestoredPerDiemForCopying(travelDocument, lineToCopy);
+
         List<PerDiemExpense> tempPerDiemExpenses = new ArrayList<PerDiemExpense>();
 
         if (copyIndex < perDiemExpenses.size()) {
@@ -450,10 +464,33 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     perDiemExpense = perDiemExpenses.get(i);
                 }
                 else if (i > copyIndex) {
-                    perDiemExpense = this.copyPerDiemExpense(lineToCopy);
+                    perDiemExpense = copyPerDiemExpense(restoredLine);
                     perDiemExpense.setMileageDate(perDiemExpenses.get(i).getMileageDate());
+                    if (shouldProrate(perDiemExpense.getMileageDate(), travelDocument.getTripBegin(), travelDocument.getTripEnd())) {
+                        // prorate
+                        perDiemExpense.setProrated(true);
+                        if (perDiemExpense.getPrimaryDestinationId() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID) {
+                            // prorate the restored line to create new per diem
+                            final PerDiem perDiem = copyIntoPerDiem(restoredLine);
+                            final Integer perDiemPercent = lookupProratePercentage(perDiemExpense, travelDocument.getTripType().getPerDiemCalcMethod(), travelDocument.getTripEnd());
+                            perDiemExpense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getDinnerValue(), perDiemPercent));
+                            perDiemExpense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getLunchValue(), perDiemPercent));
+                            perDiemExpense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getBreakfastValue(), perDiemPercent));
+                            perDiemExpense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getIncidentalsValue(), perDiemPercent));
+                        } else {
+                            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+                            setPerDiemMealsAndIncidentals(perDiemExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), true);
+                        }
+                    }
+                    if (travelDocument.getTripEnd() != null && KfsDateUtils.isSameDay(travelDocument.getTripEnd(), perDiemExpense.getMileageDate())) {
+                        // set lodging to 0
+                        perDiemExpense.setLodging(KualiDecimal.ZERO);
+                    }
                 }
                 else {
+                    // are we copying a prorated line to a non-prorated spot?
+
+                    // then let's restore all values before copying
                     perDiemExpense = lineToCopy;
                 }
 
@@ -464,6 +501,47 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         perDiemExpenses.clear();
         perDiemExpenses.addAll(tempPerDiemExpenses);
+    }
+
+    /**
+     * If the given perDiemExpense was prorated, restores the original values
+     * @param travelDocument the travel document the expense is on
+     * @param perDiemExpense the per diem expense to restore
+     * @return a PerDiemExpense with all values restored
+     */
+    protected PerDiemExpense getRestoredPerDiemForCopying(TravelDocument travelDocument, PerDiemExpense perDiemExpense) {
+        PerDiemExpense restoredExpense = copyPerDiemExpense(perDiemExpense);
+        if (travelDocument.getPrimaryDestinationId() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID && shouldProrate(perDiemExpense.getMileageDate(), travelDocument.getTripBegin(), travelDocument.getTripEnd())) {
+            final Integer perDiemPercentage = lookupProratePercentage(perDiemExpense, travelDocument.getTripType().getPerDiemCalcMethod(), travelDocument.getTripEnd());
+            if (perDiemPercentage != null) {
+                final KualiDecimal perDiemPercentageDecimal = new KualiDecimal((double)perDiemPercentage*0.01);
+                restoredExpense.setBreakfastValue(perDiemExpense.getBreakfastValue().divide(perDiemPercentageDecimal));
+                restoredExpense.setLunchValue(perDiemExpense.getLunchValue().divide(perDiemPercentageDecimal));
+                restoredExpense.setDinnerValue(perDiemExpense.getDinnerValue().divide(perDiemPercentageDecimal));
+                restoredExpense.setIncidentalsValue(perDiemExpense.getIncidentalsValue().divide(perDiemPercentageDecimal));
+            }
+            perDiemExpense.setProrated(false);
+        } else {
+            // look up per diem
+            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+            setPerDiemMealsAndIncidentals(restoredExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), false);
+        }
+        return restoredExpense;
+    }
+
+    /**
+     * Takes the values from the given per diem expense and copies them into a per diem
+     * @param perDiemExpense the per diem expense to copy values from
+     * @return a fake PerDiem record copied from those values
+     */
+    protected PerDiem copyIntoPerDiem(PerDiemExpense perDiemExpense) {
+        PerDiem perDiem = new PerDiem();
+        perDiem.setPrimaryDestinationId(perDiemExpense.getPrimaryDestinationId());
+        perDiem.setBreakfast(perDiemExpense.getBreakfastValue());
+        perDiem.setLunch(perDiemExpense.getLunchValue());
+        perDiem.setDinner(perDiemExpense.getDinnerValue());
+        perDiem.setIncidentals(perDiemExpense.getIncidentalsValue());
+        return perDiem;
     }
 
     /**
@@ -793,23 +871,35 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public Integer calculateProratePercentage(PerDiemExpense perDiemExpense, String perDiemCalcMethod, Timestamp tripEnd) {
         Integer perDiemPercent = 100;
-        String perDiemPercentage = null;
 
         if (perDiemExpense.isProrated()) {
-            if (perDiemCalcMethod != null && perDiemCalcMethod.equals(TemConstants.PERCENTAGE)) {
-                try {
-                    perDiemPercentage = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
-                    perDiemPercent = Integer.parseInt(perDiemPercentage);
-                }
-                catch (Exception e1) {
-                    LOG.error("Failed to process prorate percentage for FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE parameter.", e1);
-                }
-            }
-            else {
-                perDiemPercent = calculatePerDiemPercentageFromTimestamp(perDiemExpense, tripEnd);
-            }
+            perDiemPercent = lookupProratePercentage(perDiemExpense, perDiemCalcMethod, tripEnd);
         }
         return perDiemPercent;
+    }
+
+    /**
+     * Looks up the prorate percentage, even if the per diem doesn't think it's prorated
+     * @param perDiemExpense the per diem expense to find a percentage for (if the quarterly method is used)
+     * @param perDiemCalcMethod the per diem calculation method
+     * @param tripEnd the last day of the trip (used for the quarterly method)
+     * @return a prorate percentage, or 100 if nothing could be found
+     */
+    protected Integer lookupProratePercentage(PerDiemExpense perDiemExpense, String perDiemCalcMethod, Timestamp tripEnd) {
+        if (perDiemCalcMethod != null && perDiemCalcMethod.equals(TemConstants.PERCENTAGE)) {
+            try {
+                final String perDiemPercentage = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE, "100");
+                final Integer perDiemPercent = Integer.parseInt(perDiemPercentage);
+                return perDiemPercent;
+            }
+            catch (Exception e1) {
+                LOG.error("Failed to process prorate percentage for FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE parameter.", e1);
+            }
+        }
+        else {
+            return calculatePerDiemPercentageFromTimestamp(perDiemExpense, tripEnd);
+        }
+        return 100;
     }
 
     @Override

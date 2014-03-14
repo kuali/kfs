@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.identity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,19 +44,16 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
     protected DocumentService documentService;
     protected KualiModuleService kualiModuleService;
 
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getRoleMembersFromApplicationRole for " + namespaceCode + ", " + roleName);
-        }
-//      NOTE :   List<RoleMembership> roleMembers = super.getRoleMembersFromApplicationRole(namespaceCode, roleName, qualification);
-        List<RoleMembership> roleMembers = super.getRoleMembersFromDerivedRole(namespaceCode, roleName, qualification);
+    @Override
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) {
+        List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
 
         if (ObjectUtils.isNotNull(qualification) && !qualification.isEmpty()) {
             String documentNumber = qualification.get("documentNumber");
             if (StringUtils.isNotBlank(documentNumber)) {
                 ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument(documentNumber);
                 ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
+            
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.ACTIVE, true);
                 map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
@@ -65,8 +63,17 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
                 }
             }
         }
-
+        
         return roleMembers;
+    }
+    
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getRoleMembersFromApplicationRole for " + namespaceCode + ", " + roleName);
+        }
+        
+        return getRoleMembersFromDerivedRole(namespaceCode, roleName, qualification);
     }
 
     /**

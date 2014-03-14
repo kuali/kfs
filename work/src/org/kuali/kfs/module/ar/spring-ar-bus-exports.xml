@@ -32,5 +32,8 @@
 		
 	<bean parent="roleTypeServiceCallback" 
 		p:callbackService-ref="invoiceRecurrenceDerivedRoleTypeService" p:localServiceName="invoiceRecurrenceDerivedRoleTypeService" />
+	
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="fundsManagerDerivedRoleTypeService" p:localServiceName="fundsManagerDerivedRoleTypeService" />
 		  	 
 </beans>

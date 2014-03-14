@@ -583,14 +583,14 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
     
     /**
-     * This method checks the number of accounts set for the Award based on the billing frequency.
+     * This method checks the number of active accounts set for the Award based on the billing frequency.
      * Awards with Predetermine or Milestone billing frequencies must have only one Award Account.
      *
      * @return true if the award has the correct number of accounts for the selected billing frequency
      */
     protected boolean checkNumberOfAccountsForBillingFrequency() {
         boolean success = true;
-        int numberOfAccounts = 0;
+        int numberOfActiveAccounts = 0;
         
         // Determine billing frequency
         BillingFrequency billingFrequency = newAwardCopy.getBillingFrequency();
@@ -601,17 +601,19 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
                  CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
             
-            // Get count of accounts on Award
+            // Get count of active accounts on Award
             Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
-            if (CollectionUtils.isNotEmpty(awardAccounts)){
-                numberOfAccounts = awardAccounts.size();
+            for (AwardAccount account : awardAccounts) {
+                if (account.isActive()) {
+                    numberOfActiveAccounts++;
+                }
+
+                // if more than one account, add error and return out
+                if (numberOfActiveAccounts > 1) {
+                    putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT);
+                    return false;
+                }
             }
-           
-            // if more than one account, add error
-            if (numberOfAccounts > 1){
-                putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MILESTONE_AND_PREDETERMINED_BILLING_FREQUENCY_MUST_HAVE_ONLY_ONE_AWARD_ACCOUNT);
-                success = false;
-            }            
         }
         
         return success;

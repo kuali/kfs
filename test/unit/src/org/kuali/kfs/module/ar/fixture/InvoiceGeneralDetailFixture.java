@@ -25,8 +25,11 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceGeneralDetailFixture {
 
-    INV_GNRL_DTL1("5678", "comment", "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL2("5680", "comment", "2011-05-02 - 2012-04-30", "ANNUALLY", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(13.00), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL3("5678", "comment", "2011-05-02 - 2012-04-30", "MON", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL4("5678", "comment", "2011-05-02 - 2012-04-30", "PDBS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL5("5678", "comment",
-            "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), KualiDecimal.ZERO, new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null);
+    INV_GNRL_DTL1("5678", "comment", "2011-05-02 - 2012-04-30", "MILE", false, null, "GTMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null),
+    INV_GNRL_DTL2("5680", "comment", "2011-05-02 - 2012-04-30", "ANNU", false, null, "GTMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(13.00), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null),
+    INV_GNRL_DTL3("5678", "comment", "2011-05-02 - 2012-04-30", "MNTH", false, null, "GTMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null),
+    INV_GNRL_DTL4("5678", "comment", "2011-05-02 - 2012-04-30", "PDBS", false, null, "GTMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null),
+    INV_GNRL_DTL5("5678", "comment", "2011-05-02 - 2012-04-30", "MILE", false, null, "GTMS - Grant - Milestone", new KualiDecimal(100000.00), KualiDecimal.ZERO, new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null);
 
     private String documentNumber;
     private String comment;

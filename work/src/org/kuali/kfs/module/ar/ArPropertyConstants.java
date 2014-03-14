@@ -281,12 +281,11 @@ public class ArPropertyConstants{
     // Contracts and Grants Invoicing
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
-    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MS";
-    public static final String WEEKLY_BILLING_SCHEDULE_CODE = "WEEKLY";
-    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MON";
+    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MILE";
+    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MNTH";
     public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
-    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI-ANN";
-    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNUALLY";
+    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
+    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
     public static final String BILLED_AT_TERM = "AT_TERM";
     public static final String BILLING_SCHEDULE_SECTION = "Predetermined Billing Schedule";
@@ -339,9 +338,6 @@ public class ArPropertyConstants{
     public static final String REFER_TO_OUTSIDE_COLLECTIONS_AGENCY_CODE = "ROCA";
     public static final String ROUTE_TO_RESEARCH_ADMIN = "Route To Research Admin";
     public static final String ROUTE_TO_RESEARCH_ADMIN_CODE = "RRA";
-
-    // Collection Activity Types
-    public static final String COLLECTION_ACTIVITY_TYPE_REFERRAL_TO_COLLECTIONS_CODE = "RTC";
 
     // Dunning Campaign & Templates
     public static class DunningCampaignFields {

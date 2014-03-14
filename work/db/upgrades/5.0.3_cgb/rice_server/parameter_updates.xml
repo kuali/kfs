@@ -242,7 +242,7 @@
 			<column name="OBJ_ID" value="KFSCG100" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="MON" />
+			<column name="VAL" value="MNTH" />
 			<column name="PARM_DESC_TXT"
 				value="The default value for the preferred billing frequency code for Awards." />
 			<column name="EVAL_OPRTR_CD" value="A" />

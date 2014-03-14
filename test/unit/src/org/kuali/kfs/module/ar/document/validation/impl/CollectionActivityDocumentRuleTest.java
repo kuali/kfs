@@ -37,7 +37,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
     private CollectionActivityDocumentRule collectionActivityDocumentRule;
     private CollectionActivityDocument collectionActivityDocument;
 
-    private final static String ACTIVITY_CODE = "LTSS";
+    private final static String ACTIVITY_CODE = "LSTS";
 
     /**
      *

@@ -19,14 +19,13 @@ import org.kuali.kfs.module.cg.businessobject.BillingFrequency;
 
 public enum BillingFrequencyFixture {
 
-    BILL_FREQ_ANNUALLY("ANNUALLY", "Annually", "0", true),
-    BILL_FREQ_BILL("BILL","Billing", "0", true),
+    BILL_FREQ_ANNUALLY("ANNU", "Annually", "0", true),
     BILL_FREQ_LOCB("LOCB","LOC Billing", "0", true),
-    BILL_FREQ_MON("MON","Monthly", "0", true),
-    BILL_FREQ_MS("MS","Milestone", "0", true),
+    BILL_FREQ_MON("MNTH","Monthly", "0", true),
+    BILL_FREQ_MS("MILE","Milestone", "0", true),
     BILL_FREQ_PDBS("PDBS","Predetermined Billing Schedule", "0", true),
     BILL_FREQ_QUAR("QUAR","Quarterly", "0", true),
-    BILL_FREQ_SEMI_ANN("SEMI-ANN","Semi Annually", "0", true);
+    BILL_FREQ_SEMI_ANN("SEMI","Semi Annually", "0", true);
 
     private String frequency;
     private String frequencyDescription;

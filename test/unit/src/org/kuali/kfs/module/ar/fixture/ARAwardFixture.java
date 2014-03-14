@@ -117,6 +117,9 @@ public enum ARAwardFixture {
         award.setAwardAccounts(awardAccounts);
 
         BillingFrequencyFixture.BILL_FREQ_LOCB.createBillingFrequency();
+        
+        // Set auto approve to true
+        award.setAutoApproveIndicator(true);
 
         return award;
     }

@@ -24,7 +24,7 @@
 		</property>
 		<property name="documentTypeName" value="TTP" />
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer"/>
-		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TemProfileValidation" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TemProfileRule" />
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileDocumentPresentationController" />
 		<property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TemProfileAttachmentTypeValuesFinder"/>
 		<property name="workflowAttributes" ref="TemProfileMaintenanceDocument-workflowAttributes"/>

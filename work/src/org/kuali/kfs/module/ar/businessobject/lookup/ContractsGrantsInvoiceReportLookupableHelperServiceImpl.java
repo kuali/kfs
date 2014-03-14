@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,7 +88,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 cgInvoiceReport.setProposalNumber(openCGInvoiceDoc.getProposalNumber());
                 cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
 
-                Date docCreateDate = (Date) workflowDocument.getDateCreated().toDate();
+                Date docCreateDate = workflowDocument.getDateCreated().toDate();
                 cgInvoiceReport.setInvoiceDate(new java.sql.Date(docCreateDate.getTime()));
                 cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
                 if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {
@@ -124,7 +124,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 }
             }
             catch (NullPointerException e) {
-                throw new RuntimeException("There should be data issues. Failed to get necessary data.", e);
+                LOG.error("There should be data issues. Failed to get necessary data.", e);
             }
         }
 

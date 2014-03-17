@@ -170,11 +170,12 @@ public interface TravelDocumentService {
     /**
      * This method copies from one per diem mileage down the rest of the list
      *
+     * @param travelDocument the travel document (with begin or end dates) to help determine how much of the per diem expense to copy down
      * @param copyIndex
      * @param perDiemExpenses
      * @return the modified list of perDiemExpenses back
      */
-    void copyDownPerDiemExpense(int copyIndex, List<PerDiemExpense> perDiemExpenses);
+    void copyDownPerDiemExpense(TravelDocument travelDocument, int copyIndex, List<PerDiemExpense> perDiemExpenses);
 
     /**
      * Determines if an object with an expense type is that of a "hosted" meal. In TEM a hosted meal is a meal that has been

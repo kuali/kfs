@@ -775,8 +775,8 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      * @param form the form with the document on it, which may help in making such a decision
      */
     @Override
-    public boolean canCreatePerDiem(TravelDocument doc) {
-        final String defaultPerDiemMileageRate = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
+    public boolean isMileageRateAvailableForAllPerDiem(TravelDocument doc) {
+        final String defaultPerDiemMileageRate = getDefaultPerDiemMileageRateExpenseType();
         if (StringUtils.isBlank(defaultPerDiemMileageRate)) {
             return false;
         }
@@ -801,6 +801,15 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         return true;
     }
 
+    /**
+     * Does the parameter look-up so that validations don't have to
+     * @see org.kuali.kfs.module.tem.service.PerDiemService#getDefaultPerDiemMileageRateExpenseType()
+     */
+    @Override
+    public String getDefaultPerDiemMileageRateExpenseType() {
+        final String defaultPerDiemMileageRate = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
+        return defaultPerDiemMileageRate;
+    }
 
     public TravelDocumentDao getTravelDocumentDao() {
         return travelDocumentDao;

@@ -113,5 +113,11 @@ public interface PerDiemService {
      * </ul>
      * @param form the form with the document on it, which may help in making such a decision
      */
-    public boolean canCreatePerDiem(TravelDocument doc);
+    public boolean isMileageRateAvailableForAllPerDiem(TravelDocument doc);
+
+    /**
+     * Looks up, from the parameter KFS-TEM / Document / PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE what the default per diem mileage expense type is
+     * @return the default mileage rate expense type code to use on per diem
+     */
+    public String getDefaultPerDiemMileageRateExpenseType();
 }

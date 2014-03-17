@@ -122,6 +122,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype" p:quitOnFail="true" />
+				<bean parent="TravelModule-milegeRateAvailableForPerDiemValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean> 

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,14 +44,16 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TemProfileValidation extends MaintenanceDocumentRuleBase{
-    protected static final String TRAVEL_ARRANGERS_SECTION_ID = "TEMProfileArrangers";
+public class TemProfileRule extends MaintenanceDocumentRuleBase{
+    protected static final String TRAVEL_ARRANGERS_SECTION_ID = "TemProfileArrangers";
     protected volatile static TemProfileService temProfileService;
+    protected volatile static DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#dataDictionaryValidate(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -186,14 +187,11 @@ public class TemProfileValidation extends MaintenanceDocumentRuleBase{
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+        TemProfile profile = (TemProfile)document.getNewMaintainableObject().getBusinessObject();
 
         //set other arranger as primary false if the new arranger is the primary
         if (line instanceof TemProfileArranger){
-
-            TemProfile profile = (TemProfile)document.getNewMaintainableObject().getBusinessObject();
             TemProfileArranger arranger = (TemProfileArranger)line;
-
-
 
             //check that the arranger's org is under the initiator's
             if (TemConstants.NONEMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode())) {
@@ -225,28 +223,61 @@ public class TemProfileValidation extends MaintenanceDocumentRuleBase{
         // check for CreditCardAgency accounts
         else if (line instanceof TemProfileAccount){
             TemProfileAccount account = (TemProfileAccount) line;
-            //minimum length
-            if (StringUtils.isNotEmpty(account.getAccountNumber()) && account.getAccountNumber().length() < 4){
-            	String errorMessage[] = null;
-                errorMessage = new String[] { "Account Number", "4" };
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MIN_LENGTH, errorMessage);
-                return false;
-            }
-
-            //not duplicate an existing account in the system
-            if (StringUtils.isNotEmpty(account.getAccountNumber())){
-                Map<String,Object> criteria = new HashMap<String,Object>();
-                criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-                criteria.put(TemPropertyConstants.CREDIT_CARD_AGENCY_ID, account.getCreditCardAgencyId());
-                Collection<TemProfileAccount> profileAccounts = getBusinessObjectService().findMatching(TemProfileAccount.class, criteria);
-                if (!profileAccounts.isEmpty()){
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, TemKeyConstants.ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE, account.getAccountNumber());
-                    return false;
-                }
-            }
+            return checkNewTemProfileAccount(profile, account);
         }
 
         return super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
+    }
+
+    /**
+     * Performs rules against a new TEM Profile account
+     *
+     * @param account
+     * @return
+     */
+    protected boolean checkNewTemProfileAccount(TemProfile temProfile, TemProfileAccount account) {
+        boolean success = true;
+        //minimum length
+        if (!StringUtils.isBlank(account.getAccountNumber())){
+            final Integer minLength = getDataDictionaryService().getAttributeMaxLength(TemProfile.class, TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER);
+            if (minLength != null && account.getAccountNumber().length() < minLength.intValue()) {
+                final String label = getDataDictionaryService().getAttributeLabel(TemProfile.class, TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER);
+
+                String errorMessage[] = null;
+                errorMessage = new String[] { label, minLength.toString() };
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MIN_LENGTH, errorMessage);
+                success = false;
+            }
+
+            //do not duplicate an existing account in the system
+            if (doesProfileAccountMatchExisting(temProfile, account)){
+                if (account.getCreditCardAgencyId() != null) {
+                    account.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
+                }
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, TemKeyConstants.ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE, new String[] { account.getCreditCardAgency().getCreditCardOrAgencyName(), account.getAccountNumber() });
+                success = false;
+            }
+        }
+
+        return success;
+    }
+
+    /**
+     * Checks if the given newAccount matches - by account number and credit card agency - an already existing profile account on the profile
+     * @param profile the profile with existing profile accounts
+     * @param newAccount the account to see if it exists among the existing accounts
+     * @return true if the newAccount is already on the profile; false otherwise
+     */
+    protected boolean doesProfileAccountMatchExisting(TemProfile profile, TemProfileAccount newAccount) {
+        if (profile.getAccounts() == null || profile.getAccounts().isEmpty()) {
+            return false;
+        }
+        for (TemProfileAccount existingAccount : profile.getAccounts()) {
+            if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && org.apache.commons.lang.ObjectUtils.equals(existingAccount.getCreditCardAgencyId(), newAccount.getCreditCardAgencyId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -307,6 +338,14 @@ public class TemProfileValidation extends MaintenanceDocumentRuleBase{
             temProfileService = SpringContext.getBean(TemProfileService.class);
         }
         return temProfileService;
+    }
+
+    @Override
+    protected DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
     }
 
 }

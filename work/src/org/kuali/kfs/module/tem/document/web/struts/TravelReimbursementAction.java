@@ -832,6 +832,19 @@ public class TravelReimbursementAction extends TravelActionBase {
         return true;
     }
 
+    /**
+     * Guarantee trip id on form is cleared out before copy - this will guarantee we can initiate the copied document (as there are no restrictions on copies)
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelReimbursementForm reimbForm = (TravelReimbursementForm)form;
+        reimbForm.setTravelDocumentIdentifier(null);
+        reimbForm.setHistory(new ArrayList<Serializable>());
+        return super.copy(mapping, form, request, response);
+    }
+
+
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);
     }

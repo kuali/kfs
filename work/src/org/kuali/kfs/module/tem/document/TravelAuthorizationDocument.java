@@ -726,7 +726,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                     LOG.debug("generating wire charge gl pending entries.");
 
                     // retrieve wire charge
-                    WireCharge wireCharge = getPaymentSourceHelperService().retrieveCurrentYearWireCharge();
+                    WireCharge wireCharge = getPaymentSourceHelperService().retrieveWireChargeForDate(getTravelAdvance().getDueDate());
+                    if (wireCharge == null) {
+                        wireCharge = getPaymentSourceHelperService().retrieveCurrentYearWireCharge();
+                    }
 
                     // generate debits
                     GeneralLedgerPendingEntry chargeEntry = getPaymentSourceHelperService().processWireChargeDebitEntries(this, sequenceHelper, wireCharge);

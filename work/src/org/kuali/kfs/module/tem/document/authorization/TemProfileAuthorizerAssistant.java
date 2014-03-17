@@ -59,7 +59,8 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
                 }
             }
         } else if (dataObject instanceof TemProfile) {
-            addRoleQualificationsFromProfile((TemProfile)dataObject, attributes);
+            final TemProfile profile = (TemProfile)dataObject;
+            addRoleQualificationsFromProfile(profile, attributes);
         } else if (dataObject instanceof TemProfileEmergencyContact) {
             final TemProfileEmergencyContact emergencyContact = (TemProfileEmergencyContact)dataObject;
             if (ObjectUtils.isNull(emergencyContact.getProfile())) {

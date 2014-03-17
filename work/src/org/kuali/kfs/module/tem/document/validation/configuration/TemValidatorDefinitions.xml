@@ -12,8 +12,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelUpdateTripDetailsValidation" />
+	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation" parent="TravelModule-tripInfoUpdateTripDetailsValidation-parentBean"/>
+	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelUpdateTripDetailsValidation" />
+	
+	<bean id="TravelModule-milegeRateAvailableForPerDiemValidation" parent="TravelModule-milegeRateAvailableForPerDiemValidation-parentBean"/>
+	<bean id="TravelModule-milegeRateAvailableForPerDiemValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentMileageRateAvailableForPerDiemValidation">
+		<property name="perDiemService" ref="perDiemService"/>
+	</bean>
 
 	<bean id="TravelModule-perDiemExpenseValidation" parent="TravelModule-perDiemExpenseValidation-parentBean" />
     <bean id="TravelModule-perDiemExpenseValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.PerDiemExpenseValidation">

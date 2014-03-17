@@ -89,6 +89,24 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     }
 
     /**
+     * Retrieves the wire charge for fiscal year based on the given date or null if one cannot be found
+     * @param date the date to find a wire charge for
+     * @return the wire charge for the fiscal year of the given date, or null if the wire charge cannot be found
+     */
+    @Override
+    public WireCharge retrieveWireChargeForDate(java.sql.Date date) {
+        final Integer dateFiscalYear = getUniversityDateService().getFiscalYear(date);
+        if (dateFiscalYear == null) {
+            return null;
+        }
+
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(dateFiscalYear);
+        wireCharge = (WireCharge)getBusinessObjectService().retrieve(wireCharge);
+        return wireCharge;
+    }
+
+    /**
      * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
      *
@@ -122,6 +140,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         }
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
+        explicitEntry.setFinancialBalanceTypeCode(wireCharge.getFiscalYear().getActualFinancialBalanceTypeCd());
 
         paymentSource.addPendingEntry(explicitEntry);
         sequenceHelper.increment();
@@ -167,6 +186,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
+        explicitEntry.setFinancialBalanceTypeCode(wireCharge.getFiscalYear().getActualFinancialBalanceTypeCd());
 
         paymentSource.addPendingEntry(explicitEntry);
         sequenceHelper.increment();
@@ -382,8 +402,10 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
        else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
            glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
        }
-       glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
-       glpeSeqHelper.increment();
+       if (glpeSeqHelper != null) {
+           glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
+           glpeSeqHelper.increment();
+       }
        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
        businessObjectService.save(glpe);
    }
@@ -398,10 +420,9 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
            // generate all the pending entries for the document
            getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(paymentSource);
            // for each pending entry, opposite-ify it and reattach it to the document
-           GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
                if (extractionService.shouldRollBackPendingEntry(glpe)) {
-                   oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+                   oppositifyAndSaveEntry(glpe, null);
                }
            }
        }

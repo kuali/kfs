@@ -1699,6 +1699,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     public boolean isMealsWithoutLodging() {
         Set<java.sql.Date> daysWithMeals = getDaysWithMeals(getPerDiemExpenses(), getActualExpenses());
+        if (KfsDateUtils.isSameDay(getTripBegin(), getTripEnd()) && !daysWithMeals.isEmpty()) {
+            return true;
+        }
         for (java.sql.Date dayWithMeal : daysWithMeals) {
             if (!hasLodgingExpenseOnDay(dayWithMeal, getPerDiemExpenses(), getActualExpenses())) {
                 if (getTripEnd() == null || (getTripEnd() != null && !KfsDateUtils.isSameDay(getTripEnd(), dayWithMeal))) {

@@ -1408,7 +1408,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 else {
                     // Validate New Asset information
-                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument);
+                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument, index);
                     if (valid) {
                         valid = validateNewCapitalAssetFields(capitalAssetInformation, index, accountingDocument);
                     }
@@ -1557,7 +1557,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation the fields of add asset to be checked
      * @return boolean false if a required field is missing
      */
-    protected boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
+    protected boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument, int caLineIndex) {
         boolean valid = true;
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
@@ -1606,7 +1606,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         int index = 0;
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "["+ caLineIndex+"]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
             if (StringUtils.isBlank(dtl.getCampusCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);

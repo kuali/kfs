@@ -16267,7 +16267,7 @@
         <column name="PROFILE_ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="PRNCPL_ID" size="40" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
-        <column name="DRIVE_LIC_NUM" size="20" type="VARCHAR"/>
+        <column name="DRIVE_LIC_NUM" size="255" type="VARCHAR"/>
         <column name="DRIVE_LIC_STATE" size="2" type="VARCHAR"/>
         <column name="DRIVE_LIC_EXP_DT" type="DATE"/>
         <column name="CITIZENSHIP" size="40" type="VARCHAR"/>
@@ -16685,7 +16685,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <unique name="TEM_TRVL_AUTH_CLOSE_DOC_TC0">

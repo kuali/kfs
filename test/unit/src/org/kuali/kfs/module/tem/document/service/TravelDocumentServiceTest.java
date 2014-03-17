@@ -491,7 +491,11 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         mileages.get(0).setLodging(new KualiDecimal(25));
 
-        travelDocumentService.copyDownPerDiemExpense(0, mileages);
+        TravelDocument ta = new TravelAuthorizationDocument();
+        ta.setTripBegin(mileages.get(0).getMileageDate());
+        ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+
+        travelDocumentService.copyDownPerDiemExpense(ta, 0, mileages);
 
         assertEquals(3, mileages.size());
         assertEquals(new KualiDecimal(25), mileages.get(1).getLodging());
@@ -513,7 +517,12 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         mileages.get(1).setLodging(new KualiDecimal(50));
         mileages.get(1).setMiles(20);
-        travelDocumentService.copyDownPerDiemExpense(1, mileages);
+
+        TravelDocument ta = new TravelAuthorizationDocument();
+        ta.setTripBegin(mileages.get(0).getMileageDate());
+        ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+
+        travelDocumentService.copyDownPerDiemExpense(ta, 1, mileages);
 
         assertEquals(3, mileages.size());
         assertEquals(new KualiDecimal(50), mileages.get(1).getLodging());
@@ -539,7 +548,12 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         mileages.get(2).setLodging(new KualiDecimal(30));
         mileages.get(2).setMiles(10);
-        travelDocumentService.copyDownPerDiemExpense(2, mileages);
+
+        TravelDocument ta = new TravelAuthorizationDocument();
+        ta.setTripBegin(mileages.get(0).getMileageDate());
+        ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+
+        travelDocumentService.copyDownPerDiemExpense(ta, 2, mileages);
 
         assertEquals(3, mileages.size());
         assertEquals(new KualiDecimal(50), mileages.get(1).getLodging());

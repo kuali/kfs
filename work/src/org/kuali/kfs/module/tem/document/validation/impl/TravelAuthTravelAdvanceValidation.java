@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -185,13 +186,23 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     }
 
     protected boolean validateAdvanceAmount(TravelDocument  document ) {
-        GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT+"."+TravelAuthorizationFields.TRVL_ADV + ".");
         boolean success = true;
-       KualiDecimal totalAdvance = travelDocumentService.getAdvancesTotalFor(document);
-       TravelAuthorizationDocument travelAuthorizationDocument = (TravelAuthorizationDocument)document;
-       totalAdvance = totalAdvance.add(travelAuthorizationDocument.getAdvanceTotal());
+        TravelAuthorizationDocument travelAuthorizationDocument = (TravelAuthorizationDocument)document;
+        KualiDecimal totalAdvanceRequested = KualiDecimal.ZERO;
+        GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT+"."+TravelAuthorizationFields.TRVL_ADV + ".");
+
+        totalAdvanceRequested = totalAdvanceRequested.add(travelAuthorizationDocument.getAdvanceTotal());
+
+        // get total advance requested on TAA and TAC
+        List<TravelAdvance> advances = travelDocumentService.getTravelAdvancesForTrip(document.getTravelDocumentIdentifier());
+       for (TravelAdvance advance : advances) {
+           totalAdvanceRequested = totalAdvanceRequested.add(advance.getTravelAdvanceRequested());
+       }
+
+
+
        KualiDecimal totalTripAmount = travelAuthorizationDocument.getEncumbranceTotal();
-       if(totalAdvance.isGreaterThan(totalTripAmount)) {
+       if(totalAdvanceRequested.isGreaterThan(totalTripAmount)) {
            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV, TemKeyConstants.ERROR_TA_TRVL_ADV_EXCCED_TOTAL_TRIP_AMOUNT);
            success = false;
        }

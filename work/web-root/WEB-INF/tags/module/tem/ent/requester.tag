@@ -69,7 +69,7 @@
 	           	</div>
             </th>
             <td class="datacell">
-            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostAsPayee}" property="document.hostAsPayee" readOnly="${!fullEntryMode}" onclick="javascript: copy_payeeToHostName('${KualiForm.document.traveler.firstName}', '${KualiForm.document.traveler.lastName}');" />                 
+            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostAsPayee}" property="document.hostAsPayee" readOnly="${!fullEntryMode || KualiForm.eventHostandEventNameReadonly}" onclick="javascript: copy_payeeToHostName('${KualiForm.document.traveler.firstName}', '${KualiForm.document.traveler.lastName}');" />                 
             </td>
 		</tr>
 	</c:if>

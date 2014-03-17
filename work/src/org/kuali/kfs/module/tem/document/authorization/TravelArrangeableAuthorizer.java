@@ -21,11 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
-import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -36,18 +34,13 @@ import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -87,182 +80,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             if (ObjectUtils.isNotNull(document.getTraveler())) {
                 qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, document.getTraveler().getPrincipalId());
             }
-            if (!qualification.containsKey(KFSPropertyConstants.ACCOUNT_NUMBER)) { // FO permissions have precedence over accounting review permissions, so only overwrite if qualifiers for FO are missing
-                addAccountingReviewerQualification((TravelDocument)dataObject, qualification);
-            }
-            addAwardReviewerQualification((TravelDocument)dataObject, qualification);
-            addSubFundReviewerQualification((TravelDocument)dataObject, qualification);
         }
-    }
-
-    /**
-     * Goes through the given List of accounting lines and finds one line where the current user is the accounting reviewer; it uses that line to add
-     * accounting review qualifications to the qualifier
-     * @param accountingLines a List of AccountingLines
-     * @param attributes a Map of role qualification attributes
-     */
-    protected void addAccountingReviewerQualification(TravelDocument authorizationDoc, Map<String, String> attributes) {
-        final Person currentUser = GlobalVariables.getUserSession().getPerson();
-
-        boolean foundQualification = false;
-        int count = 0;
-        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
-            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
-            foundQualification = addAccountingReviewQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
-            count += 1;
-        }
-    }
-
-    /**
-     * If the given user is an accounting reviewer based on accounting line, then add that account as a qualification
-     * @param line the accounting line to check
-     * @param attributes the role qualification to fill
-     * @param currentUser the currently logged in user, whom we are doing permission checks for
-     * @return true if qualifications were added based on the line, false otherwise
-     */
-    protected boolean addAccountingReviewQualificationForLine(TravelDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
-        if (ObjectUtils.isNull(line.getAccount())) {
-            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        }
-
-        if (!ObjectUtils.isNull(line.getAccount())) {
-            Map<String, String> testQualifier = new HashMap<String, String>();
-            testQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());
-            testQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, line.getAccount().getOrganizationCode());
-            if (travelAuth instanceof AmountTotaling) {
-                testQualifier.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, ((AmountTotaling)travelAuth).getTotalDollarAmount().toString());
-            }
-            testQualifier.put(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, line.getOverrideCode());
-            testQualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, travelAuth.getDocumentTypeName());
-
-            final List<Map<String,String>> userAccountingReviewQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME, testQualifier);
-
-            if (userAccountingReviewQualifiers != null && !userAccountingReviewQualifiers.isEmpty()) {
-                // let's make sure that our given doc type actually matches - we've seen weird bugs with that
-                for (Map<String, String> qualifier : userAccountingReviewQualifiers) {
-                    if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
-                        Set<String> possibleParentDocumentTypes = new HashSet<String>();
-                        possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
-
-                        final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
-                        if (closestParent != null) {
-                            attributes.putAll(qualifier);
-                            return true;
-                        }
-                    } else {
-                        // no doc type.  That's weird, but whatever - it passes
-                        attributes.putAll(qualifier);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Goes through the given List of accounting lines and finds one line where the current user is responsible for the award; it uses that line to add
-     * c&g responsibility qualifications to the qualifier
-     * @param accountingLines a List of AccountingLines
-     * @param attributes a Map of role qualification attributes
-     */
-    protected void addAwardReviewerQualification(TravelDocument authorizationDoc, Map<String, String> attributes) {
-        final Person currentUser = GlobalVariables.getUserSession().getPerson();
-
-        boolean foundQualification = false;
-        int count = 0;
-        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
-            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
-            foundQualification = addAwardReviewQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
-            count += 1;
-        }
-    }
-
-    /**
-     * If the given user is an award reviewer based on accounting line, then add that account as a qualification
-     * @param line the accounting line to check
-     * @param attributes the role qualification to fill
-     * @param currentUser the currently logged in user, whom we are doing permission checks for
-     * @return true if qualifications were added based on the line, false otherwise
-     */
-    protected boolean addAwardReviewQualificationForLine(TravelDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
-        if (ObjectUtils.isNull(line.getAccount())) {
-            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        }
-
-        if (!ObjectUtils.isNull(line.getAccount()) && line.getAccount().getContractsAndGrantsAccountResponsibilityId() != null) {
-            Map<String, String> testQualifier = new HashMap<String, String>();
-            testQualifier.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, line.getAccount().getContractsAndGrantsAccountResponsibilityId().toString());
-
-            final List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROCESSOR, testQualifier);
-
-            if (roleQualifiers != null && !roleQualifiers.isEmpty()) {
-                // we can chose any of these since they all work - so we'll just choose the first
-                attributes.put(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID, roleQualifiers.get(0).get(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Goes through the given List of accounting lines and finds one line where the current user is responsible for the sub-fund; it uses that line to add
-     * sub-fund qualifications to the qualifier
-     * @param accountingLines a List of AccountingLines
-     * @param attributes a Map of role qualification attributes
-     */
-    protected void addSubFundReviewerQualification(TravelDocument authorizationDoc, Map<String, String> attributes) {
-        final Person currentUser = GlobalVariables.getUserSession().getPerson();
-
-        boolean foundQualification = false;
-        int count = 0;
-        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
-            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
-            foundQualification = addSubFundQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
-            count += 1;
-        }
-    }
-
-    /**
-     * If the given user is an award reviewer based on accounting line, then add that account as a qualification
-     * @param line the accounting line to check
-     * @param attributes the role qualification to fill
-     * @param currentUser the currently logged in user, whom we are doing permission checks for
-     * @return true if qualifications were added based on the line, false otherwise
-     */
-    protected boolean addSubFundQualificationForLine(TravelDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
-        if (ObjectUtils.isNull(line.getAccount())) {
-            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        }
-
-        if (!ObjectUtils.isNull(line.getAccount()) && !StringUtils.isBlank(line.getAccount().getSubFundGroupCode())) {
-            Map<String, String> testQualifier = new HashMap<String, String>();
-            testQualifier.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, line.getAccount().getSubFundGroupCode());
-            testQualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, travelAuth.getDocumentTypeName());
-
-            final List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.SUB_FUND_REVIEWER, testQualifier);
-
-            if (roleQualifiers != null && !roleQualifiers.isEmpty()) {
-                // let's make sure that our given doc type actually matches - we've seen weird bugs with that
-                for (Map<String, String> qualifier : roleQualifiers) {
-                    if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
-                        Set<String> possibleParentDocumentTypes = new HashSet<String>();
-                        possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
-
-                        final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
-                        if (closestParent != null) {
-                            attributes.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, qualifier.get(KfsKimAttributes.SUB_FUND_GROUP_CODE));
-                            return true;
-                        }
-                    } else {
-                        // no doc type.  That's weird, but whatever - it passes
-                        attributes.put(KfsKimAttributes.SUB_FUND_GROUP_CODE, qualifier.get(KfsKimAttributes.SUB_FUND_GROUP_CODE));
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -321,13 +139,13 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             return false;
         }
 
-        //now check to see if they are a Fiscal Officer
-        if (getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId())) {
+        if (!workflowDocument.isEnroute()) {
             return false;
         }
 
-        //check if the doc can be routed
-        if(workflowDocument.isFinal() || workflowDocument.isProcessed() || !workflowDocument.isApprovalRequested()){
+        //now check to see if they are a Fiscal Officer
+        final Set<String> appDocStatuses = getNonReturnToFiscalOfficerDocumentStatuses();
+        if (appDocStatuses.contains(travelDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
             return false;
         }
 
@@ -336,7 +154,17 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
         addRoleQualification(travelDocument, roleQualifications);
 
         return getPermissionService().isAuthorized(user.getPrincipalId(), nameSpaceCode, TemConstants.Permission.RETURN_TO_FO, roleQualifications);
+    }
 
+    /**
+     * @return the generic Set of names of application document statuses where returning to Fiscal Officer is impossible (either because we're at fiscal officer or because we're before it)
+     */
+    protected Set<String> getNonReturnToFiscalOfficerDocumentStatuses() {
+        Set<String> appDocStatuses = new HashSet<String>();
+        appDocStatuses.add(TemConstants.TravelStatusCodeKeys.IN_PROCESS);
+        appDocStatuses.add(TemConstants.TravelStatusCodeKeys.AWAIT_TRVLR);
+        appDocStatuses.add(TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL);
+        return appDocStatuses;
     }
 
     /**

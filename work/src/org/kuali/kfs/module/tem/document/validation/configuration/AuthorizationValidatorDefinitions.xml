@@ -32,6 +32,7 @@
 				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="TravelModule-milegeRateAvailableForPerDiemValidation" scope="prototype"/>
 			</list>
 		</property>
 	</bean>

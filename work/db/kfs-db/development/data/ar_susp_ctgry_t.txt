@@ -10,5 +10,5 @@ susp_ctgry_cd|susp_ctgry_desc|obj_id|ver_nbr|actv_ind|
 5|Agency Primary address not complete|CGB-SC5|1.0|Y|
 6|Agency Alternate address not complete|CGB-SC6|1.0|Y|
 7|Final Invoice Expiration Date Reached|CGB-SC7|1.0|Y|
-8|Object Code for the award has not been assigned to a CGB Category Code|CGB-SC8|1.0|Y|
+8|CGB Cost Category codes are setup incorrectly. An object code might not be assigned or could be assigned to more than one Cost Category.|CGB-SC8|1.0|Y|
 9|LOC remaining amount is not sufficient|CGB-SC9|1.0|Y|

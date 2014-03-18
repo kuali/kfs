@@ -1,5 +1,5 @@
 ar_clctn_actvty_typ_cd|actvty_desc|rfrl_ind|dun_prcs_ind|obj_id|ver_nbr|actv_ind|
-CFPI|Call From PI|N|N|EDC0BE4713E53031E040E00ABCD64EE1|1.0|Y|
+CFPI|Call From Project Director|N|N|EDC0BE4713E53031E040E00ABCD64EE1|1.0|Y|
 CFSR|Call From Sponsor|N|N|EDC0BE4713E63031E040E00ABCD64EE1|1.0|Y|
 CMTS|Call Made to Sponsor|N|N|EDC0BE4713E73031E040E00ABCD64EE1|1.0|Y|
 ERFS|Email Received From Sponsor|N|N|EDC0BE4713E83031E040E00ABCD64EE1|1.0|Y|

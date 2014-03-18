@@ -1432,13 +1432,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED);
         }
 
-        // validation suspension code - Check to see if object codes are included in a category. one way to check is to compare
-        // total current expenditure to the sum of account current expenditure
+        // validation suspension code - Check to see if cost category codes are setup correctly. An object code might not
+        // be assigned or could be assigned to more than one Cost Category. Check by comparing total current expenditure
+        // to the sum of account current expenditure
         if (!isAwardIBillingFrequencyIsPredetermined(award) && !isAwardBillingFrequencyIsMilestone(award) && !isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(contractsGrantsInvoiceDocument)) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.OBJECT_CODE_FOR_AN_ACCOUNT_MAY_BE_MISSING_FROM_CGB_CATEGORY_CODE);
+            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CGB_CATEGORY_CODE_SETUP_INCORRECTLY);
         }
         else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.OBJECT_CODE_FOR_AN_ACCOUNT_MAY_BE_MISSING_FROM_CGB_CATEGORY_CODE);
+            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CGB_CATEGORY_CODE_SETUP_INCORRECTLY);
         }
 
         // validation suspension code - Check to see if Loc Amount is sufficient

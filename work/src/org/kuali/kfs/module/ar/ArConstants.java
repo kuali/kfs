@@ -131,7 +131,7 @@ public class ArConstants{
         public static final String AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
         public static final String AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
         public static final String INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED = "7";
-        public static final String OBJECT_CODE_FOR_AN_ACCOUNT_MAY_BE_MISSING_FROM_CGB_CATEGORY_CODE = "8";
+        public static final String CGB_CATEGORY_CODE_SETUP_INCORRECTLY = "8";
         public static final String LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT = "9";
 
         public static final String AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT = "10";

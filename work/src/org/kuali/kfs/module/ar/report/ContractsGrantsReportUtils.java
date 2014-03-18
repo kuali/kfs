@@ -336,6 +336,11 @@ public class ContractsGrantsReportUtils {
 
     private static boolean checkNumericRange(String propertyName, Object propertyValue, String lookupFieldValue, boolean treatWildcardsAndOperatorsAsLiteral) {
 
+        //To prevent any null values being handled with compareTo
+        if(ObjectUtils.isNull(cleanNumeric(lookupFieldValue))){
+            return false;
+        }
+        //Otherwise
         if (StringUtils.contains(lookupFieldValue, "..")) {
             if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
@@ -371,12 +376,9 @@ public class ContractsGrantsReportUtils {
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) < 0;
         }
         else {
-            if(ObjectUtils.isNotNull(cleanNumeric(lookupFieldValue))){
+
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) == 0;
-            }
-            else {
-                return false;
-            }
+
         }
     }
 

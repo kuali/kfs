@@ -478,7 +478,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                             perDiemExpense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getBreakfastValue(), perDiemPercent));
                             perDiemExpense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getIncidentalsValue(), perDiemPercent));
                         } else {
-                            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+                            final PerDiem perDiem = getPerDiemService().getPerDiem(restoredLine.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
                             setPerDiemMealsAndIncidentals(perDiemExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), true);
                         }
                     }
@@ -523,7 +523,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             perDiemExpense.setProrated(false);
         } else {
             // look up per diem
-            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+            final PerDiem perDiem = getPerDiemService().getPerDiem(perDiemExpense.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
             setPerDiemMealsAndIncidentals(restoredExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), false);
         }
         return restoredExpense;

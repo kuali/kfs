@@ -123,8 +123,12 @@
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentImportedExpenseDetailLineValidation"/>
 
 	<bean id="TravelDocument-actualExpenseLineValidation" parent="TravelDocument-actualExpenseLineValidation-parentBean"/>
-	<bean id="TravelDocument-actualExpenseLineValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseLineValidation"/>
+	<bean id="TravelDocument-actualExpenseLineValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseLineValidation"/>
+	
+	<bean id="TravelDocument-actualExpenseMileageRateExistsValidation" parent="TravelDocument-actualExpenseMileageRateExistsValidation-parentBean"/>
+	<bean id="TravelDocument-actualExpenseMileageRateExistsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseMileageRateExistsValidation">
+		<property name="mileageRateService" ref="mileageRateService"/>
+	</bean>
 		
 	<bean id="TravelDocument-actualExpenseDetailLineValidation" parent="TravelDocument-actualExpenseDetailLineValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseDetailLineValidation-parentBean" abstract="true"
@@ -162,6 +166,8 @@
 	
 	<bean id="TEMReimbursement-requiredAccountingLinesCountValidation" parent="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" />
     <bean id="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TEMReimbursementRequiredAccountingLinesCountValidation" />
+    
+    <bean id="ActualExpenseValidationFieldConversion" parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
 
 	<!-- Add Accounting Line Event -->
 	<bean id="TravelModule-addAccountingLine-failFastValidation" parent="TravelModule-addAccountingLine-failFastValidation-parentBean" scope="prototype"/>
@@ -351,7 +357,14 @@
 				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 						</list>
 					</property>
 				</bean>
@@ -366,7 +379,7 @@
 				<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 								<bean parent="validationFieldConversion" p:sourceEventProperty="actualExpenseDetail" p:targetValidationProperty="actualExpenseDetailForValidation"/>
 						</list>
 					</property>
@@ -391,6 +404,13 @@
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
 						</list>
 					</property>
 				</bean>
@@ -436,6 +456,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
 				<bean parent="TravelModule-ActualExpense-genericDetailValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -459,14 +486,21 @@
 				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 						</list>
 					</property>
 				</bean>
 				<bean parent="TravelDocument-actualExpenseDatesValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 						</list>
 					</property>
 				</bean>
@@ -489,6 +523,15 @@
 				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype" p:warningOnly="false">
 					<property name="parameterProperties">
 						<list>
+							
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								
 							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
 						</list>
 					</property>

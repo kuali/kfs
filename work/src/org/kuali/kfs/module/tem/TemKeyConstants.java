@@ -70,6 +70,7 @@ public class TemKeyConstants {
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
     public static final String ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE = "error.tem.document.perdiemexpense.missing.mileage.rate";
+    public static final String ERROR_ACTUAL_EXPENSE_MISSING_MILEAGE_RATE = "error.actual.expense.missing.mileage.rate";
 
     public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
 

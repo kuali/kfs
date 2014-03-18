@@ -21,6 +21,6 @@ public interface MileageRateService {
 
     MileageRate getMileageRateByExpenseTypeCode(MileageRate mileageRate);
 
-    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, java.sql.Date effectiveDate);
+    public MileageRate findMileageRateByExpenseTypeCodeAndDate(String expenseTypeCode, java.sql.Date effectiveDate);
 
 }

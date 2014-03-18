@@ -124,7 +124,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * @return the value of mileageRate
      */
     public MileageRate getMileageRate(java.sql.Date effectiveDate){
-        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getExpenseTypeCode(), effectiveDate);
+        return SpringContext.getBean(MileageRateService.class).findMileageRateByExpenseTypeCodeAndDate(getExpenseTypeCode(), effectiveDate);
     }
 
     /**

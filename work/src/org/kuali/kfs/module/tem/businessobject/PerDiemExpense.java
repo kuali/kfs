@@ -468,7 +468,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     public MileageRate getMileageRate(java.sql.Date effectiveDate) {
-        return SpringContext.getBean(MileageRateService.class).findMileageRatesByExpenseTypeCodeAndDate(getMileageRateExpenseTypeCode(), effectiveDate);
+        return SpringContext.getBean(MileageRateService.class).findMileageRateByExpenseTypeCodeAndDate(getMileageRateExpenseTypeCode(), effectiveDate);
     }
 
     /**

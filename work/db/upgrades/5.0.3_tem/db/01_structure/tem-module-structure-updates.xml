@@ -383,7 +383,6 @@
 			<column name="EXP_NTF_DT" type="DATE" />
 			<column name="TRIP_ID" type="VARCHAR2(19)" />
 			<column name="CCA_CD" type="VARCHAR2(4)" />
-			<column name="TRAVEL_EXP_NM" type="VARCHAR2(25)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>

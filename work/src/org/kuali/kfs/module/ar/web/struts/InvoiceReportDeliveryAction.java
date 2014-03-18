@@ -65,9 +65,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     private static final String NO_DELIVERY_TYPE_SELECTED = "No delivery type selected. Please try again.";
     private static final String NO_PRINCIPAL_NAME_FOUND = "The Invoice Initiator Principal Name not found. Please try again.";
-    private static final String NO_MATCHING_INVOICE = "No CG Invoice Documents match your search.";
-    private static final String NO_MATCHING_INVOICE_FOR_EMAIL_DELIVERY = "No CG Invoice Documents match your search for EMAIL delivery.";
-    private static final String NO_MATCHING_INVOICE_FOR_MAIL_DELIVERY = "No CG Invoice Documents match your search for MAIL delivery.";
+    private static final String NO_MATCHING_INVOICE = "No values match this search.";
     private static final String MARKED_FOR_PROCESSING_BY_BATCH_JOB = "Invoices successfully marked for processing for email delivery.";
     private static final String INVOICES_PRINT_SUCCESSFULL = "Invoices successfully generated for mail delivery.";
     private static final String INVOICES_PRINT_UNSUCCESSFULL = "No Invoices were generated.";
@@ -220,10 +218,14 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     statusMessage.append(MARKED_FOR_PROCESSING_BY_BATCH_JOB);
                     statusMessage.append("\n");
                 }
-                else {
+                else {                    
+                    // if no invoices to be emailed were found and EMAIL was the option, add status message
+                    if(ArConstants.InvoiceTransmissionMethod.EMAIL.equalsIgnoreCase(deliveryType)){
+                        statusMessage.append(NO_MATCHING_INVOICE);
+                        statusMessage.append("\n");
+                    }
+                    // set forward to basic path
                     forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
-                    statusMessage.append(NO_MATCHING_INVOICE_FOR_EMAIL_DELIVERY);
-                    statusMessage.append("\n");
                 }
             }
 
@@ -271,7 +273,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     }
                 }
                 else {
-                    statusMessage.append(NO_MATCHING_INVOICE_FOR_MAIL_DELIVERY);
+                    statusMessage.append(NO_MATCHING_INVOICE);
                     statusMessage.append("\n");
                     forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }

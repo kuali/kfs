@@ -98,8 +98,6 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(inputFileType);
 
             for (String dataFileName : inputFileNames) {
-                persistedRegions = businessObjectService.findAll(TemRegion.class);
-                persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
                 success &= this.loadPerDiem(dataFileName, inputFileType);
             }
         }
@@ -120,7 +118,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
         try {
             FileInputStream fileContents = new FileInputStream(dataFileName);
-            LOG.info("Process Per Diem file [" + dataFileName + "]");
+            LOG.info("Processing Per Diem file [" + dataFileName + "]");
 
             byte[] fileByteContent = IOUtils.toByteArray(fileContents);
             List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>) batchInputFileService.parse(inputFileType, fileByteContent);
@@ -128,16 +126,22 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
             List<PerDiemForLoad> perDiemLoadList = this.validatePerDiem(perDiemList, dataFileName);
 
+            persistedRegions = businessObjectService.findAll(TemRegion.class);
             Map<String, TemRegion> newRegions = this.extractTemCountries(perDiemLoadList, true);
-            Map<String, PrimaryDestination> newPrimaryDestinations = this.extractPrimaryDestinations(perDiemLoadList, true);
-            Map<String, PrimaryDestination> allPrimaryDestinations = this.extractPrimaryDestinations(perDiemLoadList, false);
-
-
             for (TemRegion region : newRegions.values()) {
                 businessObjectService.save(region);
             }
+
+            persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
+            Map<String, PrimaryDestination> newPrimaryDestinations = this.extractPrimaryDestinations(perDiemLoadList, true);
             for (PrimaryDestination primaryDestination : newPrimaryDestinations.values()) {
                 businessObjectService.save(primaryDestination);
+            }
+
+            persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
+            Map<String, PrimaryDestination> allPrimaryDestinations = new HashMap<String, PrimaryDestination>();
+            for (PrimaryDestination pd: persistedPrimaryDestinations) {
+                allPrimaryDestinations.put(pd.getRegionCode()+":"+pd.getCounty()+":"+pd.getPrimaryDestinationName(), pd);
             }
 
             for (PerDiem perDiem : perDiemLoadList) {
@@ -152,10 +156,10 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
                     PrimaryDestination pd = allPrimaryDestinations.get(keyBuilder.toString());
                     if (pd == null) {
-                        System.out.println(keyBuilder.toString());
                         continue;
+
                     } else if (pd.equals(perDiem.getPrimaryDestination())) {
-                            perDiem.setPrimaryDestinationId(pd.getId());
+                        perDiem.setPrimaryDestinationId(pd.getId());
                     }
                 } else {
                     perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
@@ -185,7 +189,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         return true;
     }
 
-    private Map<String,PrimaryDestination> extractPrimaryDestinations(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
+    protected Map<String,PrimaryDestination> extractPrimaryDestinations(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
         Map<String, PrimaryDestination> primaryDests = new HashMap<String, PrimaryDestination>();
         for (PerDiem perDiem : validPerDiemList) {
             PrimaryDestination primaryDest = perDiem.getPrimaryDestination();
@@ -199,7 +203,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         return primaryDests;
     }
 
-    private Map<String,TemRegion> extractTemCountries(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
+    protected Map<String,TemRegion> extractTemCountries(List<PerDiemForLoad> validPerDiemList, boolean newOnly) {
         Map<String, TemRegion> regions = new HashMap<String,TemRegion>();
         for (PerDiem perDiem : validPerDiemList) {
             TemRegion region = perDiem.getPrimaryDestination().getRegion();

@@ -865,6 +865,7 @@
 		abstract="true" parent="WorkflowAttributes">
 		<property name="searchingTypeDefinitions">
 			<list>
+	   			<ref bean="SearchingType-AccountsReceivableDocument-createDate-resultsOnly"/>
 				<ref bean="SearchingType-ContractsGrantsInvoiceDocument-proposalNumber" />
 				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
 			</list>

@@ -161,6 +161,11 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                                 }
                                 else if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_TYPE_CODE)) {
                                     field.setReadOnly(true);
+                                    if (ObjectUtils.isNotNull(agency.getCustomer())) {
+                                        agency.setCustomerTypeCode(agency.getCustomer().getCustomerTypeCode());
+                                    } else {
+                                        agency.setCustomerTypeCode(null);
+                                    }
                                 }
                             }
                             else if (agency.getCustomerCreated().equals(CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE)) {
@@ -170,7 +175,6 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                                 }
                                 else if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_TYPE_CODE)) {
                                     field.setReadOnly(false);
-                                    agency.setCustomerTypeCode(null);
                                 }
                             }
                             else if (agency.getCustomerCreated().equals(CGConstants.AGENCY_NO_CUSTOMER_CODE)) {

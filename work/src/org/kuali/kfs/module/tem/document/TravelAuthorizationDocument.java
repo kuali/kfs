@@ -19,6 +19,7 @@ import java.beans.PropertyChangeEvent;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -579,6 +581,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+      try {
+            final java.sql.Date tripEnd = new java.sql.Date(getTripEnd().getTime());
+            final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
+            if (tripEndFiscalYear == null) {
+                LOG.info("Could not set fiscal year for  "+ getDocumentNumber() + " because the fiscal year for the trip end does not yet exist.");
+            } else {
+
+                final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
+                final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
+                explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
+                explicitEntry.setUniversityFiscalPeriodCode(firstAccountingPeriodOfEncumbranceFiscalYear.getUniversityFiscalPeriodCode());
+
+            }
+      }catch (ParseException pe) {
+          LOG.error("parse exception while converting date" + pe );
+      }
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
         if (postable instanceof AccountingLine) {
             final AccountingLine accountingLine = (AccountingLine)postable;

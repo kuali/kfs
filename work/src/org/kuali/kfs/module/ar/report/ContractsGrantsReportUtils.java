@@ -371,11 +371,17 @@ public class ContractsGrantsReportUtils {
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) < 0;
         }
         else {
+            if(ObjectUtils.isNotNull(cleanNumeric(lookupFieldValue))){
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) == 0;
+            }
+            else {
+                return false;
+            }
         }
     }
 
     private static BigDecimal cleanNumeric(String value) {
+
         String cleanedValue = value.replaceAll("[^-0-9.]", "");
         // ensure only one "minus" at the beginning, if any
         if (cleanedValue.lastIndexOf('-') > 0) {

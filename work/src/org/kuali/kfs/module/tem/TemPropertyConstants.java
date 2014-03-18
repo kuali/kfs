@@ -418,4 +418,5 @@ public class TemPropertyConstants {
     }
 
     public static final String SPECIAL_CIRCUMTANCES_QUESTION_TEXT = "text";
+    public static final String PAYMENT_INDICATOR = "paymentIndicator";
 }

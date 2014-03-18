@@ -342,6 +342,7 @@ public class TemKeyConstants {
     public static final String ERROR_PER_DIEM_MIB_INVALID_TOTAL_MEALS_AND_INCIDENTALS = "error.perdiem.mib.invalid.total.mealsAndIncidentals";
     public static final String ERROR_PER_DIEM_MIB_INVALID_FIRST_OR_LAST_DAY_AMOUNT = "error.perdiem.mib.invalid.firstOrLastDayAmount";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
+    public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED = "error.creditCardAgency.corporate.card.agency.vendor.number.required";
 
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";

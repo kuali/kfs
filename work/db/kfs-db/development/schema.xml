@@ -15308,7 +15308,6 @@
         <column name="EXP_NTF_DT" type="DATE"/>
         <column name="TRIP_ID" size="19" type="VARCHAR"/>
         <column name="CCA_CD" size="4" type="VARCHAR"/>
-        <column name="TRAVEL_EXP_NM" size="25" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_HIST_EXP_TR1">

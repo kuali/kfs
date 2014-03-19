@@ -106,6 +106,8 @@
 	</c:if>
     <gl:generalLedgerPendingEntries />
 	<tem:relatedDocuments />
+	<tem:agencyLinks/>
+	
     <kul:notes attachmentTypesValuesFinderClass="${DataDictionary.TravelEntertainmentDocument.attachmentTypesValuesFinderClass}" />
     <kul:adHocRecipients />
 

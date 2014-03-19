@@ -345,6 +345,8 @@ public class TemKeyConstants {
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED = "error.creditCardAgency.corporate.card.agency.vendor.number.required";
 
+    public static final String TAB_NAME_AGENCY_LINKS = "tab.name.agency.links";
+
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
 

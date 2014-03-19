@@ -40,6 +40,7 @@ import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -189,6 +190,18 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         }
 
         return htmlDataList;
+    }
+
+    /**
+     * This is a hack.  This is called by Lookup's execute and it's just our way of making sure that maint links are turned on, even for an otherwise
+     * erstwhile non-maintainable object
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#applyConditionalLogicForFieldDisplay()
+     */
+    @Override
+    public void applyConditionalLogicForFieldDisplay() {
+        super.applyConditionalLogicForFieldDisplay();
+        LookupForm lookupForm = (LookupForm)KNSGlobalVariables.getKualiForm();
+        lookupForm.setShowMaintenanceLinks(true);
     }
 
     /**

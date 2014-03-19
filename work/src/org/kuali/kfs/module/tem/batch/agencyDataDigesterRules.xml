@@ -93,7 +93,7 @@
 			<call-method-rule pattern="lodgingPrepayDate" methodname="setLodgingPrepayDate" paramcount="0" paramtypes="java.sql.Date" />
 			<call-method-rule pattern="lodgingAmount" methodname="setLodgingAmount" paramcount="0" />
 			<call-method-rule pattern="lodgingPrepayDaysNumber" methodname="setLodgingPrepayDaysNumber" paramcount="0" />
-			<call-method-rule pattern="lodgingPropName" methodname="setLodgingPropertyName" paramcount="0" />
+			<call-method-rule pattern="lodgingPropertyName" methodname="setLodgingPropertyName" paramcount="0" />
 			<call-method-rule pattern="tripLodgingArrivalDate" methodname="setTripLodgingArrivalDate" paramcount="0" paramtypes="java.sql.Date" />
 			<call-method-rule pattern="lodgingDepartureDate" methodname="setLodgingDepartureDate" paramcount="0" paramtypes="java.sql.Date" />
 			<call-method-rule pattern="lodgingBookingDate" methodname="setLodgingBookingDate" paramcount="0" paramtypes="java.sql.Date" />
@@ -113,7 +113,7 @@
 			<call-method-rule pattern="rentalCarTaxAmount" methodname="setRentalCarTaxAmount" paramcount="0" />
 			<call-method-rule pattern="rentalCarSurchargeAmount" methodname="setRentalCarSurchargeAmount" paramcount="0" />
 			<call-method-rule pattern="rentalCarGovernmentSurchargeAmount" methodname="setRentalCarGovernmentSurchargeAmount" paramcount="0" />
-			<call-method-rule pattern="rentalCarBillingAmount" methodname="setRentalCarBillAmount" paramcount="0" />
+			<call-method-rule pattern="rentalCarBillAmount" methodname="setRentalCarBillAmount" paramcount="0" />
 			<call-method-rule pattern="rentalCarDetailText" methodname="setRentalCarDetailText" paramcount="0" />
 			
 			<!-- Conference Registration -->

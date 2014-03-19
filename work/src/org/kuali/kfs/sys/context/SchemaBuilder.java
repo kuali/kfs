@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import static org.kuali.kfs.sys.KFSConstants.SchemaBuilder.XSD_VALIDATION_PREFIX
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,20 +44,20 @@ public class SchemaBuilder {
 
     /**
      * <pre>
-     * Performs schema build process. 
-     * 
+     * Performs schema build process.
+     *
      * Build directory path containing the schema files, static directory that schema files will be
-     * outputted to, and flag for whether to use data dictionary validation all must given as arguments. 
-     * 
+     * outputted to, and flag for whether to use data dictionary validation all must given as arguments.
+     *
      * Schema files in build directory should contain place-holders for which the validation will be substituted. The place-holder begin symbol is ${,
      * and the end symbol is }. Then the place-holder should contain two parts, first the xsd type to use if data dictionary
      * validation is not on. The second is the data dictionary entry (businessObjectEntry.attributeName) prefixed with 'dd:' that
      * will be pulled for dd validation. The parts should be separated with a comma. Any type values without a place-holder will
-     * not be modified. 
-     * 
+     * not be modified.
+     *
      * Program also fills in externalizable.static.content.url place-holder. Value to set should be passed as the fourth program argument
      * </pre>
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -136,7 +137,7 @@ public class SchemaBuilder {
 
     /**
      * Returns Collection of File objects for all .xsd files found in given directory (including sub-directories)
-     * 
+     *
      * @param buildDirectoryPath Directory to look for schema files
      * @return Collection of File objects
      */
@@ -149,7 +150,7 @@ public class SchemaBuilder {
     /**
      * Iterates through build schema files processing validation place-holders and outputting to static directory. Include file
      * for referenced schema types is also written out
-     * 
+     *
      * @param buildSchemaFiles collection of File objects for build schema files
      * @param staticDirectoryPath path that processed schema files will be written to
      * @param buildDirectoryPath path of build schema files
@@ -194,7 +195,7 @@ public class SchemaBuilder {
     /**
      * Process a single schema file (setting validation and externalizable token) and outputs to static directory. Any new data
      * dictionary types encountered are added to the given Collection for later writing to the types include file
-     * 
+     *
      * @param buildSchemFile build schema file that should be processed
      * @param outSchemaFilePathName full file path name for the outputted schema
      * @param useDataDictionaryValidation indicates whether data dictionary validation should be used, if false the general xsd
@@ -251,12 +252,12 @@ public class SchemaBuilder {
      * place-holder (general xsd type and data dictionary attribute). If use data dictionary validation is set to false, then the
      * place-holder will be set to the xsd type. If data dictionary validation is set to true, the general xsd type will be
      * removed, and the corresponding the data dictionary will be consulted to build the dd type
-     * 
+     *
      * <pre>
      * ex. type="${xsd:token,dd:Chart.chartOfAccountsCode}" with useDataDictionaryValidation=false becomes type="xsd:token"
      *    type="${xsd:token,dd:Chart.chartOfAccountsCode}" with useDataDictionaryValidation=true becomes type="dd:Chart.chartOfAccountsCode" and XML lines created for dd Types file
      * </pre>
-     * 
+     *
      * @param validationPlaceholder the parsed place-holder contents
      * @param buildLine the complete line being read
      * @param fileName the name for the file being processed
@@ -309,7 +310,7 @@ public class SchemaBuilder {
     /**
      * Constructs new AttributeSchemaValidationBuilder for the given attribute name to build the type XML lines which are added to
      * the given collection
-     * 
+     *
      * @param ddAttributeName attribute entry name (business object class and attribute name) with dd: namespace prefix
      * @param typesSchemaLines collection of type XML lines to add to for any new types
      * @param builtTypes - Set of attribute names for which a schema validation type has been built
@@ -334,7 +335,7 @@ public class SchemaBuilder {
 
     /**
      * Builds header XML lines for the data dictionary types include
-     * 
+     *
      * @return Collection containing the XML lines
      */
     protected static Collection initalizeDataDictionaryTypesSchema() {
@@ -342,6 +343,24 @@ public class SchemaBuilder {
         Collection typesSchemaLines = new ArrayList();
 
         typesSchemaLines.add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        typesSchemaLines.add("<!--");
+        typesSchemaLines.add(" Copyright 2007-"+ Calendar.getInstance().get(Calendar.YEAR) +" The Kuali Foundation");
+        typesSchemaLines.add(" ");
+        typesSchemaLines.add(" Licensed under the Educational Community License, Version 2.0 (the \"License\");");
+        typesSchemaLines.add(" you may not use this file except in compliance with the License.");
+        typesSchemaLines.add(" You may obtain a copy of the License at");
+        typesSchemaLines.add(" ");
+        typesSchemaLines.add(" http://www.opensource.org/licenses/ecl2.php");
+        typesSchemaLines.add(" ");
+        typesSchemaLines.add(" Unless required by applicable law or agreed to in writing, software");
+        typesSchemaLines.add(" distributed under the License is distributed on an \"AS IS\" BASIS,");
+        typesSchemaLines.add(" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
+        typesSchemaLines.add(" See the License for the specific language governing permissions and");
+        typesSchemaLines.add(" limitations under the License.");
+        typesSchemaLines.add("");
+        typesSchemaLines.add(" This file is automatically generated by org.kuali.kfs.sys.context.SchemaBuilder. ");
+        typesSchemaLines.add(" Use ant target 'rebuild-xsd-from-datadictionary' to regenerate. ");
+        typesSchemaLines.add("-->");
         typesSchemaLines.add("<xsd:schema elementFormDefault=\"qualified\"");
         typesSchemaLines.add("    targetNamespace=\"http://www.kuali.org/kfs/sys/ddTypes\"");
         typesSchemaLines.add("    xmlns:dd=\"http://www.kuali.org/kfs/sys/ddTypes\"");
@@ -353,7 +372,7 @@ public class SchemaBuilder {
 
     /**
      * Builds footer XML lines for the data dictionary types include .
-     * 
+     *
      * @return Collection containing the XML lines
      */
     protected static Collection finalizeDataDictionaryTypesSchema() {
@@ -368,11 +387,11 @@ public class SchemaBuilder {
     /**
      * Determines what the relative path of the given file is relative to the given parent path. Since parentPath is configured
      * string method checks for / or \\ path separators .
-     * 
+     *
      * <pre>
      * eg. File path - /build/project/xsd/gl/collector.xsd, Parent Path - /build/project/xsd returns gl/collector.xsd
      * </pre>
-     * 
+     *
      * @param file File for which we want to find the relative path
      * @param parentPath Path to parent directory
      * @return String the relative path of the file
@@ -400,7 +419,7 @@ public class SchemaBuilder {
 
     /**
      * Helper method for logging an error and throwing a new RuntimeException
-     * 
+     *
      * @param msg message for logging and exception
      */
     protected static void logAndThrowException(String msg) {

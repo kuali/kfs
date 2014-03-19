@@ -13,7 +13,7 @@
 		<list>
 			<ref bean="TripAccountingInformation-id" />
 			<ref bean="TripAccountingInformation-agencyStagingDataId" />
-	        <ref bean="TripAccountingInformation-tripChartNumber" />
+	        <ref bean="TripAccountingInformation-tripChartCode" />
     		<ref bean="TripAccountingInformation-tripAccountNumber" />
 			<ref bean="TripAccountingInformation-tripSubAccountNumber" />
 			<ref bean="TripAccountingInformation-objectCode" />
@@ -48,8 +48,8 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-    <bean id="TripAccountingInformation-tripChartNumber" parent="TripAccountingInformation-tripChartNumber-parentBean" />
-    <bean id="TripAccountingInformation-tripChartNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="TripAccountingInformation-tripChartCode" parent="TripAccountingInformation-tripChartCode-parentBean" />
+    <bean id="TripAccountingInformation-tripChartCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="tripChartCode" />
         <property name="label" value="Chart Code" />
         <property name="shortLabel" value="Chart Code" />

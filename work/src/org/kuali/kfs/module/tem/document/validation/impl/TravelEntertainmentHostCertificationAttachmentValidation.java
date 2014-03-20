@@ -37,8 +37,7 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
         boolean valid = true;
 
         GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-
+        
         TravelEntertainmentDocument document = (TravelEntertainmentDocument) event.getDocument();
         boolean entertainmentHostAttached = false;
         List<Note> notes = document.getNotes();
@@ -68,10 +67,10 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
     protected boolean addError() {
         boolean success = true;
         if (warningOnly) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
+            GlobalVariables.getMessageMap().putWarning(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
         } else {
             success = false;
-            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
             final String matchingErrorPath = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".") + "." + TemPropertyConstants.EntertainmentFields.HOST_NAME;
             GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(matchingErrorPath);
         }

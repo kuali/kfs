@@ -17,8 +17,10 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +30,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
+import org.kuali.kfs.module.tem.businessobject.HistoricalExpenseAsTemExpenseWrapper;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
@@ -53,47 +56,50 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     @Override
     public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
+        for (TemExpense temExpense : (List<TemExpense>) expenses) {
 
-            if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
-                //update the expense detail's card type (if null) to the expense's card type
-                for (ImportedExpense imported : (List<ImportedExpense>)expense.getExpenseDetails()){
-                    if (imported.getExpenseParentId() != null && imported.getCardType() == null){
-                        imported.setCardType(expense.getCardType());
-                    }
-                }
-                calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
-            }
-            else {
-                if (expense.getCardType() != null
-                        && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)
-                        && !expense.getNonReimbursable()){
-                    expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
-                    ExpenseTypeObjectCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getExpenseTypeCode(),
-                            document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
-
-                    expense.setTravelExpenseTypeCode(code);
-                    String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
-
-                    LOG.debug("Refreshed importedExpense with expense type code " + expense.getExpenseTypeObjectCode() +
-                            " and financialObjectCode " + financialObjectCode);
-
-                    final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
-                    if (objCode != null && code != null && !code.getExpenseType().isPrepaidExpense()){
-                        AccountingDistribution distribution = null;
-                        String key = objCode.getCode() + "-" + expense.getCardType();
-                        if (distributionMap.containsKey(key)){
-                            distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
-                            distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
+            if (temExpense instanceof ImportedExpense) {
+                ImportedExpense expense = (ImportedExpense)temExpense;
+                if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                    //update the expense detail's card type (if null) to the expense's card type
+                    for (ImportedExpense imported : (List<ImportedExpense>)expense.getExpenseDetails()){
+                        if (imported.getExpenseParentId() != null && imported.getCardType() == null){
+                            imported.setCardType(expense.getCardType());
                         }
-                        else{
-                            distribution = new AccountingDistribution();
-                            distribution.setObjectCode(objCode.getCode());
-                            distribution.setObjectCodeName(objCode.getName());
-                            distribution.setCardType(expense.getCardType());
-                            distribution.setRemainingAmount(expense.getConvertedAmount());
-                            distribution.setSubTotal(expense.getConvertedAmount());
-                            distributionMap.put(key, distribution);
+                    }
+                    calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
+                }
+                else {
+                    if (expense.getCardType() != null
+                            && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)
+                            && !expense.getNonReimbursable()){
+                        expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                        ExpenseTypeObjectCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getExpenseTypeCode(),
+                                document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
+
+                        expense.setTravelExpenseTypeCode(code);
+                        String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
+
+                        LOG.debug("Refreshed importedExpense with expense type code " + expense.getExpenseTypeObjectCode() +
+                                " and financialObjectCode " + financialObjectCode);
+
+                        final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
+                        if (objCode != null && code != null && !code.getExpenseType().isPrepaidExpense()){
+                            AccountingDistribution distribution = null;
+                            String key = objCode.getCode() + "-" + expense.getCardType();
+                            if (distributionMap.containsKey(key)){
+                                distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
+                                distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
+                            }
+                            else{
+                                distribution = new AccountingDistribution();
+                                distribution.setObjectCode(objCode.getCode());
+                                distribution.setObjectCodeName(objCode.getName());
+                                distribution.setCardType(expense.getCardType());
+                                distribution.setRemainingAmount(expense.getConvertedAmount());
+                                distribution.setSubTotal(expense.getConvertedAmount());
+                                distributionMap.put(key, distribution);
+                            }
                         }
                     }
                 }
@@ -107,12 +113,23 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     @Override
     public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
         final List<ImportedExpense> importedExpenses = document.getImportedExpenses();
-        List<ImportedExpense> corporateCardExpenses = new ArrayList<ImportedExpense>();
+        Set<Long> importedHistoricalExpenseIds = new HashSet<Long>();
+        List<TemExpense> corporateCardExpenses = new ArrayList<TemExpense>();
         for (ImportedExpense expense : importedExpenses) {
             if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CORP)) {
                 corporateCardExpenses.add(expense);
+                importedHistoricalExpenseIds.add(expense.getHistoricalTravelExpenseId());
             }
         }
+
+        // now include all HistoricalExpenses hung on the document
+        final List<HistoricalTravelExpense> hungExpenses = document.getHistoricalTravelExpenses();
+        for (HistoricalTravelExpense expense : hungExpenses) {
+            if (StringUtils.equals(expense.getCreditCardAgency().getTravelCardTypeCode(), TemConstants.TRAVEL_TYPE_CORP) && !importedHistoricalExpenseIds.contains(expense.getId())) {
+                corporateCardExpenses.add(new HistoricalExpenseAsTemExpenseWrapper(expense));
+            }
+        }
+
         return corporateCardExpenses;
     }
 
@@ -121,9 +138,10 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
      */
     @Override
     public boolean validateExpenseCalculation(TemExpense expense){
-        return (expense instanceof ImportedExpense)
+        return ((expense instanceof ImportedExpense)
                 && ((ImportedExpense)expense).getCardType() != null
-                && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS);
+                && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS))
+                || (expense instanceof HistoricalExpenseAsTemExpenseWrapper && !StringUtils.equals(((HistoricalExpenseAsTemExpenseWrapper)expense).getCardType(), TemConstants.TRAVEL_TYPE_CTS));
     }
 
     /**
@@ -146,7 +164,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            if (historicalTravelExpense.isCreditCardTravelExpense() && historicalTravelExpense.getReconciliationDate() == null){ // don't reset reconciled if we've already reconciled
+            if (historicalTravelExpense.isCreditCardTravelExpense() && (StringUtils.isBlank(historicalTravelExpense.getReconciled()) || StringUtils.equals(historicalTravelExpense.getReconciled(), TemConstants.ReconciledCodes.UNRECONCILED))) {
                 long time = (new java.util.Date()).getTime();
                 historicalTravelExpense.setReconciliationDate(new Date(time));
                 historicalTravelExpense.setReconciled(TemConstants.ReconciledCodes.RECONCILED);

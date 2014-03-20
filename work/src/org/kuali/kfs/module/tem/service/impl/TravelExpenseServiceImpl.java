@@ -272,7 +272,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setProfileId(agency.getTemProfileId());
 
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
-        expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
 
         return expense;
     }
@@ -318,7 +317,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setLocation(creditCard.getLocation());
 
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
-        expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
 
         return expense;
     }

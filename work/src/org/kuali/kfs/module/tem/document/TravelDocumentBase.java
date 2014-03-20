@@ -1963,24 +1963,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         SpringContext.getBean(TravelDocumentNotificationService.class).sendNotificationOnChange(this, statusChangeEvent);
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus()) || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-            //Some docs come here twice.  if the imported expenses for this doc are reconciled, don't process again.
-            boolean processImports = true;
-            if (this.getHistoricalTravelExpenses() != null
-                    && this.getHistoricalTravelExpenses().size() > 0){
-                for (HistoricalTravelExpense historicalTravelExpense : this.getHistoricalTravelExpenses()){
-                    if (historicalTravelExpense.getDocumentNumber() != null
-                            && historicalTravelExpense.getDocumentNumber().equals(this.getDocumentNumber())
-                            && historicalTravelExpense.getReconciled().equals(TemConstants.ReconciledCodes.RECONCILED)){
-                        processImports = false;
-                        break;
-                    }
-                }
-            }
-            if (processImports){
-                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
-                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
-            }
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
+            getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
         }
 
         LOG.debug("Handling Route Status changing to [" + statusChangeEvent.getNewRouteStatus() + "]");

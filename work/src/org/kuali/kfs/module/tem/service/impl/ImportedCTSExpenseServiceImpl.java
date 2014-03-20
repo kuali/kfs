@@ -141,7 +141,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public boolean validateExpenseCalculation(TemExpense expense){
         return (expense instanceof ImportedExpense)
-                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS) || expense instanceof HistoricalExpenseAsTemExpenseWrapper;
+                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS) || (expense instanceof HistoricalExpenseAsTemExpenseWrapper && StringUtils.equals(((HistoricalExpenseAsTemExpenseWrapper)expense).getCardType(), TemConstants.TRAVEL_TYPE_CTS));
     }
 
     /**
@@ -365,7 +365,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            if (historicalTravelExpense.getAgencyStagingDataId() != null && historicalTravelExpense.getReconciliationDate() == null){ // don't reset reconciled if we've already reconciled
+            if (historicalTravelExpense.getAgencyStagingDataId() != null && (StringUtils.isBlank(historicalTravelExpense.getReconciled()) || StringUtils.equals(historicalTravelExpense.getReconciled(), TemConstants.ReconciledCodes.UNRECONCILED))) {
                 long time = (new java.util.Date()).getTime();
                 historicalTravelExpense.setReconciliationDate(new Date(time));
                 historicalTravelExpense.setReconciled(TemConstants.ReconciledCodes.RECONCILED);

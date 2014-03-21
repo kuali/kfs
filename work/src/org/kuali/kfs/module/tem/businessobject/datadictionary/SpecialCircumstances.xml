@@ -11,6 +11,7 @@
 		<property name="objectLabel" value="SpecialCircumstances" />
 		<property name="attributes">
 		<list>
+			<ref bean="SpecialCircumstances-id"/>
 			<ref bean="SpecialCircumstances-questionId" />
 			<ref bean="SpecialCircumstances-documentNumber" />
             <ref bean="SpecialCircumstances-response" />
@@ -18,6 +19,18 @@
 			<ref bean="SpecialCircumstances-versionNumber" />
 		</list>
 		</property>
+	</bean>
+	<bean id="SpecialCircumstances-id" parent="SpecialCircumstances-id-parentBean" />
+	<bean id="SpecialCircumstances-id-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="id" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+		<property name="control"><bean parent="HiddenControlDefinition" /></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="SpecialCircumstances-questionId" parent="SpecialCircumstances-questionId-parentBean" />
 	<bean id="SpecialCircumstances-questionId-parentBean" abstract="true" parent="AttributeDefinition">

@@ -188,13 +188,13 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         if (documentHeader.getWorkflowDocument().isProcessed()){
             TemProfile temProfile = (TemProfile) super.getBusinessObject();
             if(NONEMP_TRAVELER_TYP_CD.equals(temProfile.getTravelerTypeCode())) {
-                updateCustomerPrimaryAddress(temProfile);
+                updateCustomerContactInformation(temProfile);
 
             }
         }
     }
 
-    protected void updateCustomerPrimaryAddress(TemProfile temProfile) {
+    protected void updateCustomerContactInformation(TemProfile temProfile) {
         AccountsReceivableCustomer customer = temProfile.getCustomer();
         if (!ObjectUtils.isNull(customer) && !ObjectUtils.isNull(customer.getAccountsReceivableCustomerAddresses()) && !customer.getAccountsReceivableCustomerAddresses().isEmpty()) {
             for(AccountsReceivableCustomerAddress customerAddress : customer.getAccountsReceivableCustomerAddresses()) {
@@ -209,6 +209,9 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
                     getAccountsReceivableModuleService().saveCustomer(temProfile.getCustomer());
                 }
             }
+            customer.setCustomerPhoneNumber(temProfile.getPhoneNumber());
+            customer.setCustomerEmailAddress(temProfile.getEmailAddress());
+            getAccountsReceivableModuleService().saveCustomer(temProfile.getCustomer());
         }
     }
 

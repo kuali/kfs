@@ -31,8 +31,8 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
+import org.kuali.kfs.module.tem.businessobject.datadictionary.TravelDetailLookupMappedFieldProxy;
 import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
-import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -122,8 +122,8 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         for (final FieldDefinition lookupField : getLookupFieldsFor(lookupClassName)) {
             String attrName = lookupField.getAttributeName();
 
-            if (lookupField instanceof MappedDefinition) {
-                final MappedDefinition mappedField = (MappedDefinition) lookupField;
+            if (lookupField instanceof TravelDetailLookupMappedFieldProxy) {
+                final TravelDetailLookupMappedFieldProxy mappedField = (TravelDetailLookupMappedFieldProxy) lookupField;
                 final String key = mappedField.getAttributeMap().get(boClass.getSimpleName());
                 String value = fieldValues.get(attrName);
 

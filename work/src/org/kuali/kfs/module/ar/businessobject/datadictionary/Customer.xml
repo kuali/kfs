@@ -301,7 +301,7 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Customer Number" />
 		<property name="shortLabel" value="Number" />
-		<property name="maxLength" value="40" />
+		<property name="maxLength" value="9" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>

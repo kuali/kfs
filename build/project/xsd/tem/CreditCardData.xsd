@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-	Copyright 2007-2008 The Kuali Foundation Licensed under the
+	Copyright 2007-2014 The Kuali Foundation Licensed under the
 	Educational Community License, Version 2.0 (the "License"); you may
 	not use this file except in compliance with the License. You may
 	obtain a copy of the License at
@@ -12,151 +12,39 @@
 	the specific language governing permissions and limitations under the
 	License.
 -->
+<xsd:schema elementFormDefault="qualified" 
+    targetNamespace="http://www.kuali.org/kfs/tem/CreditCardData"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
+    xmlns="http://www.kuali.org/kfs/tem/CreditCardData" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="@externalizable.static.content.url@/xsd/sys/ddTypes.xsd" />
 
-	<xsd:element name="importBy" type="importBy" />
-    <xsd:element name="airNumber" type="airNumber" />
-    <xsd:element name="billingCycleDate" type="xsd:date" />
-    <xsd:element name="creditCardOrAgencyCode" type="creditCardOrAgencyCode" />    
-    <xsd:element name="creationDate" type="xsd:date" />
-    <xsd:element name="creationTimestamp" type="xsd:dateTime" /> 
-    <xsd:element name="creditCardNumber" type="creditCardNumber" />
-    <xsd:element name="departureDate" type="xsd:date" />
-    <xsd:element name="identifier" type="identifier" />
-    <xsd:element name="reconciliationDate" type="xsd:date" />
-    <xsd:element name="referenceNumber" type="referenceNumber" />
-    <xsd:element name="sequenceNumber" type="sequenceNumber" />
-    <xsd:element name="ticketNumber" type="ticketNumber" />
-    <xsd:element name="transactionAmount" type="transactionAmount" />
-    <xsd:element name="transactionCode" type="transactionCode" />
-    <xsd:element name="transactionDate" type="xsd:date" />
-    <xsd:element name="travelerName" type="travelerName" />
-    <xsd:element name="typeCode" type="typeCode" />
-    <xsd:element name="expenseTypeCode" type="expenseTypeCode" />
-	<xsd:element name="merchantName" type="merchantName" />
-    <xsd:element name="bankPostDate" type="xsd:date" />
-    <xsd:element name="serviceFeeNumber" type="serviceFeeNumber" />
-    <xsd:element name="itineraryNumber" type="itineraryNumber" />
-    <xsd:element name="location" type="location" />
-    
-    <xsd:simpleType name="importBy">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="3" />
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-
-    <xsd:simpleType name="airNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="3"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-   <xsd:simpleType name="creditCardOrAgencyCode">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="4"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="creditCardNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="16"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-     <xsd:simpleType name="transactionAmount">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="16"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="identifier">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="1"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="referenceNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="23"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="ticketNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="16"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="sequenceNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="3"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="transactionCode">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="1"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="travelerName">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="40"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="typeCode">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="1"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="expenseTypeCode">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="2"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="merchantName">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="40"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="serviceFeeNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="20"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    
-    <xsd:simpleType name="itineraryNumber">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="20"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-   
-    <xsd:simpleType name="location">
-        <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="40"/>
-            <xsd:whiteSpace value="replace"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+	<xsd:element name="importBy" type="${xsd:normalizedString,dd:CreditCardStagingData.importBy}" />
+    <xsd:element name="airNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.airNumber}" />
+    <xsd:element name="billingCycleDate" type="${xsd:date,dd:CreditCardStagingData.billingCycleDate}" />
+    <xsd:element name="creditCardOrAgencyCode" type="${xsd:normalizedString,dd:CreditCardStagingData.creditCardOrAgencyCode}" />    
+    <xsd:element name="creationDate" type="${xsd:date,dd:CreditCardStagingData.creationDate}" />
+    <xsd:element name="creationTimestamp" type="${xsd:dateTime,dd:CreditCardStagingData.creationTimestamp}" /> 
+    <xsd:element name="creditCardNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.creditCardNumber}" />
+    <xsd:element name="departureDate" type="${xsd:date,dd:CreditCardStagingData.departureDate}" />
+    <xsd:element name="identifier" type="${xsd:normalizedString,dd:CreditCardStagingData.identifier}" />
+    <xsd:element name="reconciliationDate" type="${xsd:date,dd:CreditCardStagingData.reconciliationDate}" />
+    <xsd:element name="referenceNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.referenceNumber}" />
+    <xsd:element name="sequenceNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.sequenceNumber}" />
+    <xsd:element name="ticketNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.ticketNumber}" />
+    <xsd:element name="transactionAmount" type="${xsd:decimal,dd:CreditCardStagingData.transactionAmount}" />
+    <xsd:element name="transactionCode" type="${xsd:normalizedString,dd:CreditCardStagingData.transactionCode}" />
+    <xsd:element name="transactionDate" type="${xsd:date,dd:CreditCardStagingData.transactionDate}" />
+    <xsd:element name="travelerName" type="${xsd:normalizedString,dd:CreditCardStagingData.travelerName}" />
+    <xsd:element name="typeCode" type="${xsd:normalizedString,dd:CreditCardStagingData.typeCode}" />
+    <xsd:element name="expenseTypeCode" type="${xsd:normalizedString,dd:CreditCardStagingData.expenseTypeCode}" />
+	<xsd:element name="merchantName" type="${xsd:normalizedString,dd:CreditCardStagingData.merchantName}" />
+    <xsd:element name="bankPostDate" type="${xsd:date,dd:CreditCardStagingData.bankPostDate}" />
+    <xsd:element name="serviceFeeNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.serviceFeeNumber}" />
+    <xsd:element name="itineraryNumber" type="${xsd:normalizedString,dd:CreditCardStagingData.itineraryNumber}" />
+    <xsd:element name="location" type="${xsd:normalizedString,dd:CreditCardStagingData.location}" />
    
     <xsd:complexType name="creditCardDataType">
 		<xsd:sequence>
@@ -168,29 +56,29 @@
 	<xsd:complexType name="creditCardDataRecordType">
 		<xsd:sequence>
     
-		    <xsd:element ref="airNumber" minOccurs="1" maxOccurs="1" />
-		    <xsd:element ref="billingCycleDate" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="creditCardOrAgencyCode" minOccurs="1" maxOccurs="1" />    
-		    <xsd:element ref="creationDate" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="creationTimestamp" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="creditCardNumber" minOccurs="1" maxOccurs="1" />
-		    <xsd:element ref="departureDate" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="identifier" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="reconciliationDate" minOccurs="0" maxOccurs="1" />    
-		    <xsd:element ref="referenceNumber" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="sequenceNumber" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="ticketNumber" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="transactionAmount" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="transactionCode" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="transactionDate" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="travelerName" minOccurs="0" maxOccurs="1" />    
-		    <xsd:element ref="typeCode" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="expenseTypeCode" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="merchantName" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="bankPostDate" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="serviceFeeNumber" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="itineraryNumber" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="location" minOccurs="0" maxOccurs="1" />
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="airNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="billingCycleDate" />
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="creditCardOrAgencyCode" />    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="creationDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="creationTimestamp" />
+		    <xsd:element minOccurs="1" maxOccurs="1" ref="creditCardNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="departureDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="identifier" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="reconciliationDate" />    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="referenceNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="sequenceNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="ticketNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="transactionAmount" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="transactionCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="transactionDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="travelerName" />    
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="typeCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="expenseTypeCode" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="merchantName" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="bankPostDate" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="serviceFeeNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="itineraryNumber" />
+		    <xsd:element minOccurs="0" maxOccurs="1" ref="location" />
 		
 		</xsd:sequence>
 	</xsd:complexType>

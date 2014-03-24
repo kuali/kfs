@@ -677,6 +677,7 @@
 		<path id="run.source.classpath">
 			<pathelement location="${classes.directory}" />
 			<path refid="compile.source.classpath" />
+			<path refid="database.drivers.classpath" />
 		</path>
 		
 		<condition property="rebuild.dd.schema" value='false'><not><isset property="rebuild.dd.schema"/></not></condition>

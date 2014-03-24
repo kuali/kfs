@@ -375,6 +375,10 @@ public class HistoricalExpenseAsTemExpenseWrapper implements TemExpense {
     @Override
     public void setExpenseTypeObjectCode(ExpenseTypeObjectCode expenseTypeObjectCode) {}
 
+    public String getCardType() {
+        return baseExpense.getCreditCardAgency().getTravelCardTypeCode();
+    }
+
     /**
      * Does nothing
      */

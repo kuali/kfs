@@ -47,6 +47,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.uif.field.LinkField;
 
 
 /**
@@ -438,4 +439,15 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines) {
         return realTravelDocumentService.smooshAccountingLinesToSubAccount(originalAccountingLines);
     }
+
+    @Override
+    public List<LinkField> getAgencyLinks(TravelDocument travelDocument) {
+        return realTravelDocumentService.getAgencyLinks(travelDocument);
+    }
+
+    @Override
+    public String customizeAgencyLink(TravelDocument travelDocument, String agencyName, String link) {
+        return realTravelDocumentService.customizeAgencyLink(travelDocument, agencyName, link);
+    }
+
 }

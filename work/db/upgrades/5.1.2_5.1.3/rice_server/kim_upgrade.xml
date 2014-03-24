@@ -18,4 +18,62 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 	
+	<changeSet author="KFS513" id="KFSCNTRB-1650">
+		<comment>KFSCNTRB-1650 Create permission to edit capital asset info and grant to KFS-SYS Fiscal Officer and KR-NS Document Editor</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB1650-PRM1" />
+			<column name="OBJ_ID" value="KFSCNTRB1650-PERM1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd='KR-NS' and nm='Use Transactional Document') " />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Edit Capital Asset Info" />
+			<column name="DESC_TXT" value="Users who can edit capital asset information" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB1650-PRMATTR1" />
+			<column name="OBJ_ID" value="KFSCNTRB1650-PERMATTR1-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB1650-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where srvc_nm='documentTypeAndEditModePermissionTypeService') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm='documentTypeName') " />
+			<column name="ATTR_VAL" value="REQS" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB1650-PRMATTR2" />
+			<column name="OBJ_ID" value="KFSCNTRB1650-PERMATTR1-2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB1650-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where srvc_nm='documentTypeAndEditModePermissionTypeService') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm='editMode') " />
+			<column name="ATTR_VAL" value="allowCapitalAssetEdit" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB1650-RLPRM1-1" />
+			<column name="OBJ_ID" value="KFSCNTRB1650-ROLEPERM1-1" />
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Fiscal Officer') " />
+			<column name="PERM_ID" value="KFSCNTRB1650-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+ 		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB1650-RLPRM1-2" />
+			<column name="OBJ_ID" value="KFSCNTRB1650-ROLEPERM1-2" />
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-NS' and role_nm = 'Document Editor') " />
+			<column name="PERM_ID" value="KFSCNTRB1650-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<rollback>
+			<delete tableName="KRIM_ROLE_PERM_T"><where>PERM_ID='KFSCNTRB1650-PRM1'</where></delete>
+			<delete tableName="KRIM_PERM_ATTR_DATA_T"><where>PERM_ID='KFSCNTRB1650-PRM1'</where></delete>
+			<delete tableName="KRIM_PERM_T"><where>PERM_ID='KFSCNTRB1650-PRM1'</where></delete>			
+		</rollback>
+	</changeSet>
+	
 </databaseChangeLog>

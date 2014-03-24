@@ -144,7 +144,7 @@
 		<property name="description" value="Creation Date" />
 	</bean>
 	<bean id="CreditCardStagingData-creationTimestamp" parent="CreditCardStagingData-creationTimestamp-parentBean" />
-	<bean id="CreditCardStagingData-creationTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-creationTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="creationTimestamp" />
 		<property name="label" value="Creation Timestamp" />
 		<property name="shortLabel" value="Creation Timestamp" />

@@ -40,6 +40,7 @@ import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -160,33 +161,47 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 
         String principalId = ((TemProfileFromKimPerson) businessObject).getPrincipalId();
 
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TemProfile.class.getName());
-        parameters.put(KFSConstants.OVERRIDE_KEYS, "principalId");
-        parameters.put(KFSConstants.REFRESH_CALLER, "principalId" + "::" + principalId);
-        parameters.put("principalId", principalId);
+        if (!StringUtils.isBlank(principalId)) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TemProfile.class.getName());
+            parameters.put(KFSConstants.OVERRIDE_KEYS, "principalId");
+            parameters.put(KFSConstants.REFRESH_CALLER, "principalId" + "::" + principalId);
+            parameters.put("principalId", principalId);
 
-        Map<String,String> criteria = new HashMap<String,String>(2);
-        criteria.put("principalId", principalId);
+            Map<String,String> criteria = new HashMap<String,String>(2);
+            criteria.put("principalId", principalId);
 
-        // If a TEM Profile doesn't exist, display a create link
-        if (temProfileService.findTemProfile(criteria) == null) {
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+            // If a TEM Profile doesn't exist, display a create link
+            if (temProfileService.findTemProfile(criteria) == null) {
+                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 
-            String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-            AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "create new profile");
-            htmlDataList.add(anchorHtmlData);
-        }
-        else {
-            // An active TEM Profile exists, display an edit link
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+                String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "create new profile");
+                htmlDataList.add(anchorHtmlData);
+            }
+            else {
+                // An active TEM Profile exists, display an edit link
+                parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
 
-            String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
-            AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "edit profile");
-            htmlDataList.add(anchorHtmlData);
+                String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "edit profile");
+                htmlDataList.add(anchorHtmlData);
+            }
         }
 
         return htmlDataList;
+    }
+
+    /**
+     * This is a hack.  This is called by Lookup's execute and it's just our way of making sure that maint links are turned on, even for an otherwise
+     * erstwhile non-maintainable object
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#applyConditionalLogicForFieldDisplay()
+     */
+    @Override
+    public void applyConditionalLogicForFieldDisplay() {
+        super.applyConditionalLogicForFieldDisplay();
+        LookupForm lookupForm = (LookupForm)KNSGlobalVariables.getKualiForm();
+        lookupForm.setShowMaintenanceLinks(true);
     }
 
     /**

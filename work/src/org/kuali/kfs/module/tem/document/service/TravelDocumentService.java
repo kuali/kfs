@@ -42,6 +42,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.uif.field.LinkField;
 
 /**
  * Travel Document Service
@@ -454,4 +455,22 @@ public interface TravelDocumentService {
      */
     public List<TemSourceAccountingLine> smooshAccountingLinesToSubAccount(List<TemSourceAccountingLine> originalAccountingLines);
 
+    /**
+     * Generates a list of agency links for the document.  If property config.document.travelRelocation.agencySites.enable is false,
+     * then an empty list will be returned; otherwise uses values from the url.document.travelRelocation.agencySites, customized by
+     * the customizeAgencyLink method
+     * @param travelDocument the travel document we're currently building a link for
+     * @return a List of links to external agencies
+     */
+    public List<LinkField> getAgencyLinks(TravelDocument travelDocument);
+
+    /**
+     * A hook which allows implementers to customize an agency link.  Currently, it will just see if the config.document.travelRelocation.agencySites.include.tripId
+     * is set to true; if so, it will append ?tripId= the trip id
+     * @param travelDocument the travel document we are creating agency links for
+     * @param agencyName the name of the agency
+     * @param link the current link text
+     * @return the customized link text
+     */
+    public String customizeAgencyLink(TravelDocument travelDocument, String agencyName, String link);
 }

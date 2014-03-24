@@ -125,6 +125,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -327,6 +328,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         request.setAttribute(TRAVEL_MANAGER_TEST_ATTRIBUTE, setTravelManager((TravelFormBase) form));
         request.setAttribute(FISCAL_OFFICER_TEST_ATTRIBUTE, setFiscalOfficer((TravelFormBase) form));
         request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
+
+        populateAgencyLinks(travelFormBase);
 
         if (!StringUtils.isBlank(document.getDocumentNumber())) {
             final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document); //we don't have a doc number yet...there's no related documents
@@ -1586,6 +1589,17 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected void populateForeignCurrencyUrl(TravelFormBase form) {
         final String currencyUrl = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, FOREIGN_CURRENCY_URL);
         form.setForeignCurrencyUrl(currencyUrl);
+    }
+
+    /**
+     * Populates the agency links on the form
+     * @param form the form to populate links on
+     */
+    protected void populateAgencyLinks(TravelFormBase form) {
+        final List<LinkField> agencyLinks = getTravelDocumentService().getAgencyLinks(form.getTravelDocument());
+        form.setAgencyLinks(agencyLinks);
+        final boolean shouldDisplay = getKualiConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.ENABLE_AGENCY_SITES_URL);
+        form.setShouldDisplayAgencyLinks(shouldDisplay);
     }
 
     /**

@@ -214,9 +214,11 @@ public class ExpenseTypeObjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Determines if the expenseTypeObjectCode from the document is sufficiently more
-     * @param expenseTypeObjectCode
-     * @return
+     * Determines if the expenseTypeObjectCode from the document can be chosen.  Right now, we assume the object code may always be chosen, but
+     * an institution may wish to override this method to prevent an object code from being chosen if it does not exist on every chart (or
+     * at least, every chart that a TA may be created from).
+     * @param expenseTypeObjectCode the expense type object code to check
+     * @return true if the expense type object code's object code is valid; false otherwise
      */
     protected boolean canExpenseTypeObjectCodeBeChosen(ExpenseTypeObjectCode expenseTypeObjectCode) {
         return true;

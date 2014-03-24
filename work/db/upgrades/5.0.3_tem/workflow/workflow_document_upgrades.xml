@@ -160,7 +160,7 @@
 		</documentType>
 		<documentType>
 			<name>TCCA</name>
-			<label>Credit Card Agency</label>
+			<label>Credit Card or Agency</label>
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
@@ -188,6 +188,11 @@
 			<label>Credit Card Imported Expense Clearing Document</label>
 			<parent>TTSM</parent>
 		</documentType>
+		<documentType>
+	      <name>TPDB</name>
+	      <label>Per Diem Meals and Incidentals Breakdown</label>
+	      <parent>TTSM</parent>
+	    </documentType>
 		<documentType>
       <name>TTP</name>
       <label>TEM Profile</label>

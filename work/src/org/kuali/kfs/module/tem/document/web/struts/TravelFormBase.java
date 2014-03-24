@@ -65,6 +65,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -113,6 +114,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     protected Integer accountDistributionnextSourceLineNumber;
     protected TemDistributionAccountingLine accountDistributionnewSourceLine;
     protected List<TemDistributionAccountingLine> accountDistributionsourceAccountingLines = new ArrayList<TemDistributionAccountingLine>();
+
+    protected List<LinkField> agencyLinks;
+    protected boolean shouldDisplayAgencyLinks;
 
     protected FormFile accountDistributionFile;
 
@@ -1114,6 +1118,22 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      */
     public void setPerDiemCreatable(boolean perDiemCreatable) {
         this.perDiemCreatable = perDiemCreatable;
+    }
+
+    public List<LinkField> getAgencyLinks() {
+        return agencyLinks;
+    }
+
+    public void setAgencyLinks(List<LinkField> agencyLinks) {
+        this.agencyLinks = agencyLinks;
+    }
+
+    public boolean isShouldDisplayAgencyLinks() {
+        return shouldDisplayAgencyLinks;
+    }
+
+    public void setShouldDisplayAgencyLinks(boolean shouldDisplayAgencyLinks) {
+        this.shouldDisplayAgencyLinks = shouldDisplayAgencyLinks;
     }
 
 }

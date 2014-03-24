@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -131,29 +130,6 @@ public abstract class DocumentActionBuilderBase {
 
     /**
      *
-     * @param tripId
-     * @return
-     */
-    public String createAgencySitesLinks(String tripId) {
-        String links = "";
-        if (getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.ENABLE_AGENCY_SITES_URL)){
-            String agencySitesURL = getConfigurationService().getPropertyValueAsString(TemKeyConstants.AGENCY_SITES_URL);
-            String linkPopup = "target=\"_blank\"";
-            boolean passTripID = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES);
-            if(!StringUtils.isEmpty(agencySitesURL)){
-                String[] sites = agencySitesURL.split(";");
-                for (String site : sites){
-                    String[] siteInfo = site.split("=");
-                    String URL = siteInfo[1] + (passTripID?tripId:"");
-                    links += (StringUtils.isEmpty(links)?"":"<br />") + String.format("<a href=\"http://%s\" %s>%s</a>", URL,linkPopup, siteInfo[0]);
-                }
-            }
-        }
-        return links;
-    }
-
-    /**
-     *
      * @param documentSearchResult
      * @param tripID
      * @return
@@ -164,7 +140,6 @@ public abstract class DocumentActionBuilderBase {
         paymentHTML.setNewLineText("<br/>");
 
         paymentHTML.appendln(createVendorPaymentLink(documentSearchResult));
-        paymentHTML.appendln(createAgencySitesLinks(tripId));
         return paymentHTML.toString();
     }
 

@@ -248,6 +248,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         Criteria expenseCriteria = new Criteria();
         expenseCriteria.addEqualTo(TemPropertyConstants.CARD_TYPE, TemConstants.TRAVEL_TYPE_CORP);
         expenseCriteria.addEqualTo(TemPropertyConstants.EXPENSE_LINE_TYPE_CODE, TemConstants.EXPENSE_IMPORTED);
+        expenseCriteria.addEqualTo(TemPropertyConstants.HISTORICAL_TRAVEL_EXPENSE+"."+TemPropertyConstants.CREDIT_CARD_AGENCY+"."+TemPropertyConstants.PAYMENT_INDICATOR, Boolean.TRUE);
         ReportQueryByCriteria expensesSubQuery = QueryFactory.newReportQuery(ImportedExpense.class, expenseCriteria);
         expensesSubQuery.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
         criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, expensesSubQuery);

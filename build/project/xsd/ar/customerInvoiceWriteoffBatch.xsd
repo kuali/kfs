@@ -28,7 +28,7 @@
 	<xsd:element name="invoiceNumbers"         type="invoiceNumbersType" />
 	<xsd:element name="invoiceNumber"          type="${xsd:normalizedString,dd:CustomerInvoiceDocument.documentNumber}" />
 	<xsd:element name="submittedByPrincipalId" type="${xsd:normalizedString,dd:PersonImpl.principalName}" />
-	<xsd:element name="submittedOn"            type="${xsd:normalizedString,dd:GenericAttributes.genericTimestamp}" />
+	<xsd:element name="submittedOn"            type="xsd:datetime" /><!--no DD replacement b/c there is no BO.attribute to match against -->
 	<xsd:element name="note"                   type="oneToOneThousandCharType" />
 	
     <!-- simple data types -->
@@ -44,6 +44,8 @@
             <xsd:maxLength value="1000"/>
         </xsd:restriction>
     </xsd:simpleType>
+    
+    
     
     <!-- definition of complex type elements -->
     <xsd:complexType name="invoiceNumbersType">

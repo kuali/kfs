@@ -1482,7 +1482,6 @@
 		<field-descriptor name="documentType" column="DOC_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripId" column="TRIP_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creditCardOrAgencyCode" column="CCA_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="travelExpenseTypeString" column="TRAVEL_EXP_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="expenseNotificationDate" column="EXP_NTF_DT" jdbc-type="DATE"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>

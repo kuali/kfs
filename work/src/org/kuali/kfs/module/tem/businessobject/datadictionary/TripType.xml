@@ -30,8 +30,8 @@
 	<bean id="TripType-code" parent="TripType-code-parentBean" />
 	<bean id="TripType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Trip Type Code" />
-		<property name="shortLabel" value="Trip Type Code" />
+		<property name="label" value="Code" />
+		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
 		<property name="summary" value="Code" />
@@ -41,8 +41,8 @@
 	<bean id="TripType-name" parent="TripType-name-parentBean" />
 	<bean id="TripType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Trip Type Name" />
-		<property name="shortLabel" value="Trip Type Name" />
+		<property name="label" value="Name" />
+		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
 		<property name="summary" value="Name" />
@@ -72,11 +72,11 @@
 	<bean id="TripType-encumbranceObjCode" parent="TripType-encumbranceObjCode-parentBean" />
 	<bean id="TripType-encumbranceObjCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="encumbranceObjCode" />
-		<property name="label" value="Encumbrance Obj Code" />
-		<property name="shortLabel" value="Encumbrance Obj Code" />
+		<property name="label" value="Encumbrance Object Code" />
+		<property name="shortLabel" value="Encumbrance Object Code" />
 		<property name="maxLength" value="4" />
-		<property name="summary" value="Encumbrance Obj Code" />
-		<property name="description" value="Encumbrance Obj Code" />
+		<property name="summary" value="Encumbrance Object Code" />
+		<property name="description" value="Encumbrance Object Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="TripType-contactInfoRequired" parent="TripType-contactInfoRequired-parentBean" />
@@ -129,11 +129,11 @@
 	<bean id="TripType-perDiemCalcMethod-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="perDiemCalcMethod" />
 		<property name="label" value="Per Diem Calculation Method" />
-		<property name="shortLabel" value="Per Diem Calc Method" />
+		<property name="shortLabel" value="Per Diem Calculation Method" />
 		<property name="maxLength" value="1" />
 		<property name="required" value="true" />
-		<property name="summary" value="Per Diem Calculate Method" />
-		<property name="description" value="Per Diem Calculate Method" />
+		<property name="summary" value="Per Diem Calculation Method" />
+		<property name="description" value="Per Diem Calculation Method" />
 		<property name="control">
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PerDiemCalculateMethodValuesFinder"

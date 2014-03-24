@@ -28,7 +28,6 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-    			<value>org/kuali/kfs/module/tem/datadictionary</value>
     			<value>org/kuali/kfs/module/tem/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/batch/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/document/datadictionary</value>

@@ -43,7 +43,7 @@
   <xsd:element name="attachmentIndicator" type="${xsd:normalizedString,dd:PaymentGroup.pymtAttachment"/>
   <xsd:element name="specialHandlingIndicator" type="${xsd:normalizedString,dd:PaymentGroup.pymtSpecialHandling}"/>
   <xsd:element name="immediatePaymentIndicator" type="${xsd:normalizedString,dd:PaymentGroup.processImmediate}"/>
-  <xsd:element name="customerUnivNbr" type="${xsd:integer,dd:PaymentGroup.customerInstitutionNumber}"/>  
+  <xsd:element name="customerUnivNbr" type="${xsd:integer,dd:PaymentDetail.customerInstitutionNumber}"/>  
   <xsd:element name="paymentDate" type="${xsd:normalizedString,dd:PaymentGroup.paymentDate}"/>  
   <xsd:element name="custPaymentDocNbr" type="${xsd:normalizedString,dd:PaymentDetail.custPaymentDocNbr}"/>
   <xsd:element name="invoiceNbr" type="${xsd:normalizedString,dd:PaymentDetail.invoiceNbr}"/>

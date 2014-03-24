@@ -70,6 +70,7 @@ public class TemKeyConstants {
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
     public static final String ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE = "error.tem.document.perdiemexpense.missing.mileage.rate";
+    public static final String ERROR_ACTUAL_EXPENSE_MISSING_MILEAGE_RATE = "error.actual.expense.missing.mileage.rate";
 
     public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
 
@@ -342,8 +343,14 @@ public class TemKeyConstants {
     public static final String ERROR_PER_DIEM_MIB_INVALID_TOTAL_MEALS_AND_INCIDENTALS = "error.perdiem.mib.invalid.total.mealsAndIncidentals";
     public static final String ERROR_PER_DIEM_MIB_INVALID_FIRST_OR_LAST_DAY_AMOUNT = "error.perdiem.mib.invalid.firstOrLastDayAmount";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
+    public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED = "error.creditCardAgency.corporate.card.agency.vendor.number.required";
+
+    public static final String TAB_NAME_AGENCY_LINKS = "tab.name.agency.links";
 
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
 
+    public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "error.triptype.encumbrance.balanceType";
+    public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "error.triptype.encumbrance.objectCode";
+    public static final String ERROR_TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "error.triptype.autoTravelReimbursementLimit";
 }

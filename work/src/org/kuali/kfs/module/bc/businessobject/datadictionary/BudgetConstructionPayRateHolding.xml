@@ -31,6 +31,7 @@
 			<list>
 				<ref bean="BudgetConstructionPayRateHolding-appointmentRequestedPayRate" />
 				<ref bean="BudgetConstructionPayRateHolding-emplid" />
+				<ref bean="BudgetConstructionPayRateHolding-principalId"/>
 				<ref bean="BudgetConstructionPayRateHolding-grade" />
 				<ref bean="BudgetConstructionPayRateHolding-name" />
 				<ref bean="BudgetConstructionPayRateHolding-positionNumber" />
@@ -81,6 +82,10 @@
 
 
 	</bean>
+	<bean id="BudgetConstructionPayRateHolding-principalId" parent="BudgetConstructionPayRateHolding-principalId-parentBean" />
+
+	<bean id="BudgetConstructionPayRateHolding-principalId-parentBean"
+		abstract="true" parent="PersonImpl-principalId"/>
 	<bean id="BudgetConstructionPayRateHolding-grade" parent="BudgetConstructionPayRateHolding-grade-parentBean" />
 
 	<bean id="BudgetConstructionPayRateHolding-grade-parentBean"

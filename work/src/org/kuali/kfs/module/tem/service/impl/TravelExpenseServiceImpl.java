@@ -272,15 +272,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setProfileId(agency.getTemProfileId());
 
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
-        expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
-
-        // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode.
-        if (agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseTypeCode());
-            if (ObjectUtils.isNotNull(travelExpense)) {
-                expense.setTravelExpenseTypeString(travelExpense.getName());
-            }
-        }
 
         return expense;
     }
@@ -326,15 +317,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setLocation(creditCard.getLocation());
 
         expense.setReconciled(ReconciledCodes.UNRECONCILED);
-        expense.setReconciliationDate(dateTimeService.getCurrentSqlDate());
-
-        // Imports by Traveler don't have access to TemTravelExpenseType due to not having a doc type or trip type, so use TravelExpenseTypeCode.
-        if (creditCard.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-            TravelExpenseTypeCode travelExpense = getTravelExpenseTypeCode(expense.getTravelExpenseTypeCode());
-            if (ObjectUtils.isNotNull(travelExpense)) {
-                expense.setTravelExpenseTypeString(travelExpense.getName());
-            }
-        }
 
         return expense;
     }
@@ -346,7 +328,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setCreditCardStagingDataId(creditCard.getId());
         expense.setReconciled(ReconciledCodes.RECONCILED);
         expense.setReconciliationDate(getDateTimeService().getCurrentSqlDate());
-        expense.setTravelExpenseTypeString(travelExpenseType.getExpenseType().getName());
         return expense;
     }
 

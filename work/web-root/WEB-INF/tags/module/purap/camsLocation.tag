@@ -21,7 +21,7 @@
 <%@ attribute name="availability" required="true" description="Determines if this is a capture once tag or for each"%>
 <%@ attribute name="poItemInactive" required="false" description="True if the PO item this is a part of is inactive"%>
 
-<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && not empty KualiForm.editingMode['allowCapitalAssetEdit']}" />
 
 <c:if test="${empty availability}">
     <c:set var="availability" value="${PurapConstants.CapitalAssetAvailability.EACH}"/>

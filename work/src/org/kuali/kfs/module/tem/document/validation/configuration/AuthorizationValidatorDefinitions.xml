@@ -340,7 +340,14 @@
 				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseMileageRateExistsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 						</list>
 					</property>
 				</bean>
@@ -356,7 +363,7 @@
 				<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+								<bean parent="ActualExpenseValidationFieldConversion"/>
 								<bean parent="validationFieldConversion" p:sourceEventProperty="actualExpenseDetail" p:targetValidationProperty="actualExpenseDetailForValidation"/>
 						</list>
 					</property>

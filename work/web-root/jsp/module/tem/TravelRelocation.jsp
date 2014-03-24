@@ -79,6 +79,7 @@
 	<tem:travelPaymentPDPStatus travelPaymentProperty="travelPayment" pdpPaymentDocumentType="${KualiForm.document.achCheckDocumentType}" displayCorporateCardExtraction="${KualiForm.document.corporateCardPayable}"/>
     <gl:generalLedgerPendingEntries />
     <tem:relatedDocuments />
+	<tem:agencyLinks/>
     
     <kul:notes attachmentTypesValuesFinderClass="${DataDictionary.TravelRelocationDocument.attachmentTypesValuesFinderClass}" />
 

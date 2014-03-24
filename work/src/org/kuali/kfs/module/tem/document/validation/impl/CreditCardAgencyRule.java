@@ -21,17 +21,18 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  *
  */
 public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
-    protected static volatile DataDictionaryService dataDictionaryService;
+    protected static volatile VendorService vendorService;
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -39,6 +40,7 @@ public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
 
         final CreditCardAgency creditCardAgency = (CreditCardAgency)document.getNewMaintainableObject().getBusinessObject();
         checkCorporateCardAgencyGotBank(creditCardAgency);
+        checkCorporateCardAgencyHasVendor(creditCardAgency);
 
         return true;
     }
@@ -49,6 +51,7 @@ public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
 
         final CreditCardAgency creditCardAgency = (CreditCardAgency)document.getNewMaintainableObject().getBusinessObject();
         result &= checkCorporateCardAgencyGotBank(creditCardAgency);
+        result &= checkCorporateCardAgencyHasVendor(creditCardAgency);
 
         return result;
     }
@@ -68,7 +71,7 @@ public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
      * @return true if the rule passed, false otherwise
      */
     protected boolean checkCorporateCardAgencyGotBank(CreditCardAgency creditCardAgency) {
-        if (isCorporateCardAgency(creditCardAgency)) {
+        if (isCorporateCardAgency(creditCardAgency) && creditCardAgency.isPaymentIndicator()) {
             final String bankCodeLabel = getDataDictionaryService().getAttributeErrorLabel(CreditCardAgency.class, KFSPropertyConstants.BANK_CODE);
             if (StringUtils.isBlank(creditCardAgency.getBankCode())) {
                 putFieldError(KFSPropertyConstants.BANK_CODE, TemKeyConstants.ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED, new String[] { bankCodeLabel });
@@ -83,11 +86,32 @@ public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    @Override
-    protected DataDictionaryService getDataDictionaryService() {
-        if (dataDictionaryService == null) {
-            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    /**
+     * Verifies that if the given credit card agency represents a corporate card vendor responsible for payments, that a vendor is associated
+     * @param creditCardAgency the credit card agency to check
+     * @return true if rule passes, false otherwise
+     */
+    protected boolean checkCorporateCardAgencyHasVendor(CreditCardAgency creditCardAgency) {
+        if (isCorporateCardAgency(creditCardAgency) && creditCardAgency.isPaymentIndicator()) {
+            final String vendorNumberLabel = getDataDictionaryService().getAttributeErrorLabel(CreditCardAgency.class, KFSPropertyConstants.VENDOR_NUMBER);
+            if (StringUtils.isBlank(creditCardAgency.getVendorNumber())) {
+                putFieldError(KFSPropertyConstants.VENDOR_NUMBER, TemKeyConstants.ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED, new String[] { vendorNumberLabel });
+                return false;
+            }
+
+            final VendorDetail vendorDetail = getVendorService().getVendorDetail(creditCardAgency.getVendorNumber());
+            if (vendorDetail == null || !vendorDetail.isActiveIndicator()) {
+                putFieldError(KFSPropertyConstants.VENDOR_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, new String[] { vendorNumberLabel });
+                return false;
+            }
         }
-        return dataDictionaryService;
+        return true;
+    }
+
+    protected VendorService getVendorService() {
+        if (vendorService == null) {
+            vendorService = SpringContext.getBean(VendorService.class);
+        }
+        return vendorService;
     }
 }

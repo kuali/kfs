@@ -16,7 +16,10 @@
 	            <ref bean="GroupTravelerForLookup-person.principalName" />
 	            <ref bean="GroupTravelerForLookup-firstName" />
 	            <ref bean="GroupTravelerForLookup-lastName" />
+	            <ref bean="GroupTravelerForLookup-name"/>
+	            <ref bean="GroupTravelerForLookup-groupTravelerId"/>
 	            <ref bean="GroupTravelerForLookup-employeeId" />
+	            <ref bean="GroupTravelerForLookup-groupTravelerTypeCode.code"/>
 	            <ref bean="GroupTravelerForLookup-active"/>
 	        </list>
         </property>
@@ -101,8 +104,34 @@
         <property name="label" value="Person Last Name"/>
         <property name="shortLabel" value="Last Name"/>
     </bean>
+    <bean id="GroupTravelerForLookup-name" parent="GroupTravelerForLookup-name-parentBean" />
+    <bean id="GroupTravelerForLookup-name-parentBean" parent="PersonImpl-name" abstract="true">
+        <property name="name" value="name"/>
+        <property name="label" value="Person Name"/>
+        <property name="shortLabel" value="Name"/>
+    </bean>
+    <bean id="GroupTravelerForLookup-groupTravelerId" parent="GroupTravelerForLookup-groupTravelerId-parentBean" />
+    <bean id="GroupTravelerForLookup-groupTravelerId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="groupTravelerId" />
+		<property name="label" value="Generic Group Traveler Id" />
+		<property name="shortLabel" value="Grp Trvl Id" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+    </bean>
     <bean id="GroupTravelerForLookup-employeeId" parent="GroupTravelerForLookup-employeeId-parentBean" />
     <bean id="GroupTravelerForLookup-employeeId-parentBean" parent="PersonImpl-employeeId" abstract="true"/>
+    <bean id="GroupTravelerForLookup-groupTravelerTypeCode.code" parent="GroupTravelerForLookup-groupTravelerTypeCode.code-parentBean" />
+    <bean id="GroupTravelerForLookup-groupTravelerTypeCode.code-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="groupTravelerTypeCode.code" />
+		<property name="label" value="Group Traveler Type Code" />
+		<property name="shortLabel" value="Grp Trvl Typ Cd" />
+		<property name="maxLength" value="3" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.GroupTravelerTypeValuesFinder"/>
+		</property>
+    </bean>
     <bean id="GroupTravelerForLookup-active" parent="GroupTravelerForLookup-active-parentBean" />
     <bean id="GroupTravelerForLookup-active-parentBean" parent="GenericAttributes-activeIndicator" abstract="true">
     	<property name="name" value="active"/>

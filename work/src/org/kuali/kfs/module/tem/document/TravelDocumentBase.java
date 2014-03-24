@@ -99,7 +99,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.comparator.StringValueComparator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -1964,24 +1963,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         SpringContext.getBean(TravelDocumentNotificationService.class).sendNotificationOnChange(this, statusChangeEvent);
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus()) || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-            //Some docs come here twice.  if the imported expenses for this doc are reconciled, don't process again.
-            boolean processImports = true;
-            if (this.getHistoricalTravelExpenses() != null
-                    && this.getHistoricalTravelExpenses().size() > 0){
-                for (HistoricalTravelExpense historicalTravelExpense : this.getHistoricalTravelExpenses()){
-                    if (historicalTravelExpense.getDocumentNumber() != null
-                            && historicalTravelExpense.getDocumentNumber().equals(this.getDocumentNumber())
-                            && historicalTravelExpense.getReconciled().equals(TemConstants.ReconciledCodes.RECONCILED)){
-                        processImports = false;
-                        break;
-                    }
-                }
-            }
-            if (processImports){
-                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
-                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
-            }
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
+            getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
         }
 
         LOG.debug("Handling Route Status changing to [" + statusChangeEvent.getNewRouteStatus() + "]");
@@ -2305,20 +2289,5 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return true;
     }
 
-    /**
-     * The note target for the big travel docs are the progenitor of the trip
-     * @see org.kuali.rice.krad.document.DocumentBase#getNoteTarget()
-     */
-    @Override
-    public PersistableBusinessObject getNoteTarget() {
-        if (StringUtils.isBlank(getTravelDocumentIdentifier()) || isTripProgenitor()) {
-            // I may not even have a travel doc identifier yet, or else, I call myself the progentitor!  I must be the progenitor!
-            return getDocumentHeader();
-        }
-        final TravelDocument rootDocument = getTravelDocumentService().getRootTravelDocumentWithoutWorkflowDocument(getTravelDocumentIdentifier());
-        if (rootDocument == null) {
-            return getDocumentHeader(); // I couldn't find a root, so once again, chances are that I am the progenitor, even though I don't believe it entirely myself
-        }
-        return rootDocument.getDocumentHeader();
-    }
+
 }

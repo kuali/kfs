@@ -150,6 +150,7 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -425,7 +426,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         for (final ExpenseType expenseType : expenseTypes) {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
-                final MileageRate mileageRate = getMileageRateService().findMileageRatesByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
+                final MileageRate mileageRate = getMileageRateService().findMileageRateByExpenseTypeCodeAndDate(expenseType.getCode(), searchDate);
                 if (mileageRate != null) {
                     keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
                 }
@@ -478,7 +479,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                             perDiemExpense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getBreakfastValue(), perDiemPercent));
                             perDiemExpense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiemExpense.getIncidentalsValue(), perDiemPercent));
                         } else {
-                            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+                            final PerDiem perDiem = getPerDiemService().getPerDiem(restoredLine.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
                             setPerDiemMealsAndIncidentals(perDiemExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), true);
                         }
                     }
@@ -523,7 +524,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             perDiemExpense.setProrated(false);
         } else {
             // look up per diem
-            final PerDiem perDiem = getPerDiemService().getPerDiem(travelDocument.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
+            final PerDiem perDiem = getPerDiemService().getPerDiem(perDiemExpense.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), travelDocument.getEffectiveDateForPerDiem(perDiemExpense));
             setPerDiemMealsAndIncidentals(restoredExpense, perDiem, travelDocument.getTripType(), travelDocument.getTripEnd(), false);
         }
         return restoredExpense;
@@ -2843,6 +2844,61 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             eb.append(getSubAccountNumber(), golyadkin.getSubAccountNumber());
             return eb.isEquals();
         }
+    }
+
+    /**
+     * Parses the value of url.document.travelRelocation.agencySites and turns those into links
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getAgencyLinks(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
+    @Override
+    public List<LinkField> getAgencyLinks(TravelDocument travelDocument) {
+        List<LinkField> agencyLinks = new ArrayList<LinkField>();
+        if (getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.ENABLE_AGENCY_SITES_URL)) {
+            final String agencySitesURL = getConfigurationService().getPropertyValueAsString(TemKeyConstants.AGENCY_SITES_URL);
+            final String target = "_blank";
+            if(!StringUtils.isEmpty(agencySitesURL)){
+                String[] sites = agencySitesURL.split(";");
+                for (String site : sites){
+                    String[] siteInfo = site.split("=");
+                    String url = customizeAgencyLink(travelDocument, siteInfo[0], siteInfo[1]);
+                    final String prefixedUrl = prefixUrl(url);
+                    LinkField link = new LinkField();
+                    link.setHrefText(prefixedUrl);
+                    link.setTarget(target);
+                    link.setLinkLabel(siteInfo[0]);
+                    agencyLinks.add(link);
+                }
+            }
+        }
+        return agencyLinks;
+    }
+
+    /**
+     * In the default version, checks if the "config.document.travelRelocation.agencySites.include.tripId" property is true and if it is, just dumbly
+     * appends the tripId= doc's trip id to the link.  Really, out of the box, this isn't all that smart.
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#customizeAgencyLink(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String, java.lang.String)
+     */
+    @Override
+    public String customizeAgencyLink(TravelDocument travelDocument, String agencyName, String link) {
+        final boolean passTrip = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES);
+        if (!passTrip || StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
+            return link; // nothing to add
+        }
+        final String linkWithTripId = link+"?tripId="+travelDocument.getTravelDocumentIdentifier();
+        return linkWithTripId;
+    }
+
+    /**
+     * Makes sure that url starts with https
+     * @param url the url to prefix as needed
+     * @return the url prefixed by protocol
+     */
+    protected String prefixUrl(String url) {
+        String prefixedUrl = url;
+        if (!prefixedUrl.startsWith("http")) {
+            prefixedUrl = "http://"+prefixedUrl;
+        }
+        return prefixedUrl;
     }
 
     /**

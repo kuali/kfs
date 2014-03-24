@@ -34,7 +34,6 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     private String tripId;
     private String documentType;
     private String creditCardOrAgencyCode;
-    private String travelExpenseTypeString;
 
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
@@ -193,22 +192,6 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
      */
     public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
         this.creditCardOrAgencyCode = creditCardOrAgencyCode;
-    }
-
-    /**
-     * Gets the travelExpenseTypeString attribute.
-     * @return Returns the travelExpenseTypeString.
-     */
-    public String getTravelExpenseTypeString() {
-        return travelExpenseTypeString;
-    }
-
-    /**
-     * Sets the travelExpenseTypeString attribute value.
-     * @param travelExpenseTypeString The travelExpenseTypeString to set.
-     */
-    public void setTravelExpenseTypeString(String travelExpenseTypeString) {
-        this.travelExpenseTypeString = travelExpenseTypeString;
     }
 
     public ExpenseType getExpenseType() {

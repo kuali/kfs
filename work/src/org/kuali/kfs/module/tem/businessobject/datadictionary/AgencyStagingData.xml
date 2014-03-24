@@ -766,7 +766,7 @@
 		<property name="description" value="Transaction Posting Date" />
 	</bean>
 	<bean id="AgencyStagingData-creationTimestamp" parent="AgencyStagingData-creationTimestamp-parentBean" />
-	<bean id="AgencyStagingData-creationTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+	<bean id="AgencyStagingData-creationTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="creationTimestamp" />
 		<property name="label" value="Creation Timestamp" />
 		<property name="shortLabel" value="Creation Timestamp" />

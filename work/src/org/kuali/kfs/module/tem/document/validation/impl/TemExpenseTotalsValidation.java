@@ -81,6 +81,8 @@ public class TemExpenseTotalsValidation extends GenericValidation {
             counter++;
         }
 
+        GlobalVariables.getMessageMap().clearErrorPath();
+
         return rulePassed;
     }
 

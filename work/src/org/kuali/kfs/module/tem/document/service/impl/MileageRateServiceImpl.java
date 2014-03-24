@@ -51,7 +51,7 @@ public class MileageRateServiceImpl implements MileageRateService {
 
 
     @Override
-    public MileageRate findMileageRatesByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
+    public MileageRate findMileageRateByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
 
         for (MileageRate mileageRate : cachingMileageRateService.findAllMileageRates()) {
             if ((KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveFromDate()) || effectiveDate.after(mileageRate.getActiveFromDate())) && (KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveToDate()) || effectiveDate.before(mileageRate.getActiveToDate())) && mileageRate.getExpenseTypeCode().equals(expenseTypeCode)) {

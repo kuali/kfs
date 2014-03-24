@@ -353,6 +353,10 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<!-- utility bean to display certain fields whether TravelerDetail is Customer or Principal -->
+	<bean id="TravelDetailLookupMappedFieldProxy" class="org.kuali.kfs.module.tem.businessobject.datadictionary.TravelDetailLookupMappedFieldProxy" abstract="true" />
 	<bean id="TravelerDetail-lookupDefinition" parent="TravelerDetail-lookupDefinition-parentBean" />
 	<bean id="TravelerDetail-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
@@ -370,7 +374,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalName" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="MappedDefinition" p:attributeName="firstName">
+				<bean parent="TravelDetailLookupMappedFieldProxy" p:attributeName="firstName">
 					<property name="attributeMap">
 						<map>
 							<entry key="Customer" value="customerName" />
@@ -378,7 +382,7 @@
 						</map>
 					</property>
 				</bean>
-				<bean parent="MappedDefinition" p:attributeName="lastName">
+				<bean parent="TravelDetailLookupMappedFieldProxy" p:attributeName="lastName">
 					<property name="attributeMap">
 						<map>
 							<entry key="Customer" value="customerName" />
@@ -386,7 +390,7 @@
 						</map>
 					</property>
 				</bean>
-				<bean parent="MappedDefinition" p:attributeName="streetAddressLine1">
+				<bean parent="TravelDetailLookupMappedFieldProxy" p:attributeName="streetAddressLine1">
 					<property name="attributeMap">
 						<map>
 							<entry key="Customer" value="customerAddresses.customerLine1StreetAddress" />
@@ -394,7 +398,7 @@
 						</map>
 					</property>
 				</bean>
-				<bean parent="MappedDefinition" p:attributeName="stateCode">
+				<bean parent="TravelDetailLookupMappedFieldProxy" p:attributeName="stateCode">
 					<property name="attributeMap">
 						<map>
 							<entry key="Customer" value="customerAddresses.customerStateCode" />
@@ -402,7 +406,7 @@
 						</map>
 					</property>
 				</bean>
-				<bean parent="MappedDefinition" p:attributeName="zipCode">
+				<bean parent="TravelDetailLookupMappedFieldProxy" p:attributeName="zipCode">
 					<property name="attributeMap">
 						<map>
 							<entry key="Customer" value="customerAddresses.customerPostalCode" />

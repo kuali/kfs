@@ -32,6 +32,8 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="MILE" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.module.ar.document.validation.MilestoneScheduleRule" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

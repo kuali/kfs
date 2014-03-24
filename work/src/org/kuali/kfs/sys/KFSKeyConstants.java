@@ -623,9 +623,6 @@ public class KFSKeyConstants {
 
     public static final String CFDA_UPDATE_EMAIL_SUBJECT_LINE = "cfda.updateEmail.subject";
 
-    public static final String ERROR_AWARD_MILESTONE_SCHEDULE_EXISTS = "error.cg.award.milestone.schedule.exists";
-    public static final String ERROR_AWARD_PREDETERMINED_BILLING_SCHEDULE_EXISTS = "error.cg.award.predetermined.billing.schedule.exists";
-
     // batch upload
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDO = "message.batchUpload.title.procurementCard";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR = "message.batchUpload.title.collector";

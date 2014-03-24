@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.MilestoneScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -77,7 +77,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
             if (isMilestonesExist) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_MILESTONE_SCHEDULE_EXISTS, new String[] { getMilestoneSchedule().getProposalNumber().toString() });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, ArKeyConstants.ERROR_AWARD_MILESTONE_SCHEDULE_EXISTS, new String[] { getMilestoneSchedule().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
 
             }

@@ -216,10 +216,12 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      */
     @Override
     public ContractsAndGrantsBillingAward getAward() {
-        if (award == null && proposalNumber != null) {
-            Map<String, Object> map = new HashMap<String, Object> ();
-            map.put("proposalNumber", this.proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        if (ObjectUtils.isNotNull(proposalNumber)) {
+            if (ObjectUtils.isNull(award) || award.getProposalNumber() != proposalNumber) {
+                Map<String, Object> map = new HashMap<String, Object> ();
+                map.put("proposalNumber", this.proposalNumber);
+                award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+            }
         }
         return award;
     }

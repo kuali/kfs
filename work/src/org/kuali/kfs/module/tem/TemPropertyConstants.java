@@ -419,4 +419,8 @@ public class TemPropertyConstants {
 
     public static final String SPECIAL_CIRCUMTANCES_QUESTION_TEXT = "text";
     public static final String PAYMENT_INDICATOR = "paymentIndicator";
+
+    public static final String TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "encumbranceBalanceType";
+    public static final String TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "encumbranceObjCode";
+    public static final String TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "autoTravelReimbursementLimit";
 }

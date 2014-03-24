@@ -22,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.KualiCodeBase;
@@ -42,8 +42,9 @@ public class TripType extends KualiCodeBase implements MutableInactivatable {
     private KualiDecimal autoTravelReimbursementLimit;
     private Boolean usePerDiem = Boolean.FALSE;
     private Boolean travelAuthorizationRequired = Boolean.FALSE;
-    private String perDiemCalcMethod = TemConstants.PERCENTAGE;
+    private String perDiemCalcMethod;
     private BalanceType balanceType;
+    private ObjectCode objectCode;
 
     @Column(name="gen_enc_ind",nullable=false,length=1)
     public boolean isGenerateEncumbrance() {
@@ -164,6 +165,14 @@ public class TripType extends KualiCodeBase implements MutableInactivatable {
 
     public void setBalanceType(BalanceType balanceType) {
         this.balanceType = balanceType;
+    }
+
+    public ObjectCode getObjectCode() {
+        return objectCode;
+    }
+
+    public void setObjectCode(ObjectCode objectCode) {
+        this.objectCode = objectCode;
     }
 
     @SuppressWarnings("rawtypes")

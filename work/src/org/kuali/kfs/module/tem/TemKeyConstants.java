@@ -350,4 +350,7 @@ public class TemKeyConstants {
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
 
+    public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "error.triptype.encumbrance.balanceType";
+    public static final String ERROR_TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "error.triptype.encumbrance.objectCode";
+    public static final String ERROR_TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "error.triptype.autoTravelReimbursementLimit";
 }

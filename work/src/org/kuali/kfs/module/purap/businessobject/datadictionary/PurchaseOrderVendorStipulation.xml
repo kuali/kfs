@@ -28,6 +28,7 @@
     </property>
     <property name="attributes">
       <list>
+      	<ref bean="PurchaseOrderVendorStipulation-documentNumber"/>
         <ref bean="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier"/>
         <ref bean="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier"/>
         <ref bean="PurchaseOrderVendorStipulation-vendorStipulationCreateDate"/>
@@ -38,6 +39,20 @@
 
 <!-- Attribute Definitions -->
 
+  <bean id="PurchaseOrderVendorStipulation-documentNumber" parent="PurchaseOrderVendorStipulation-documentNumber-parentBean"/>
+  <bean id="PurchaseOrderVendorStipulation-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+  </bean>
 
   <bean id="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier" parent="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier-parentBean"/>
 

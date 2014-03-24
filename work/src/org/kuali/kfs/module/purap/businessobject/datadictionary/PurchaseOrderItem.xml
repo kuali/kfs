@@ -29,6 +29,7 @@
     <property name="attributes">
       <list>
         <ref bean="PurchaseOrderItem-itemIdentifier"/>
+        <ref bean="PurchaseOrderItem-documentNumber"/>
         <ref bean="PurchaseOrderItem-itemLineNumber"/>
         <ref bean="PurchaseOrderItem-itemUnitOfMeasureCode"/>
         <ref bean="PurchaseOrderItem-purapDocumentIdentifier"/>
@@ -66,6 +67,20 @@
   <bean id="PurchaseOrderItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
     <property name="name" value="itemIdentifier"/>
     <property name="label" value="Item Identifier"/>
+  </bean>
+  <bean id="PurchaseOrderItem-documentNumber" parent="PurchaseOrderItem-documentNumber-parentBean"/>
+  <bean id="PurchaseOrderItem-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
   </bean>
   <bean id="PurchaseOrderItem-itemLineNumber" parent="PurchaseOrderItem-itemLineNumber-parentBean"/>
 

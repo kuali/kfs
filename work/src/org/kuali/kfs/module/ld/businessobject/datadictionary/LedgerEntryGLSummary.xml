@@ -33,6 +33,7 @@
         <ref bean="LedgerEntryGLSummary-financialObjectTypeCode"/>
         <ref bean="LedgerEntryGLSummary-financialDocumentTypeCode"/>
         <ref bean="LedgerEntryGLSummary-documentNumber"/>
+        <ref bean="LedgerEntryGLSummary-transactionLedgerEntrySequenceNumber"/>
         <ref bean="LedgerEntryGLSummary-emplid"/>
         <ref bean="LedgerEntryGLSummary-positionNumber"/>
         <ref bean="LedgerEntryGLSummary-earnCode"/>
@@ -107,6 +108,11 @@
 
   <bean id="LedgerEntryGLSummary-documentNumber" parent="LedgerEntryGLSummary-documentNumber-parentBean"/>
   <bean id="LedgerEntryGLSummary-documentNumber-parentBean" abstract="true" parent="LedgerEntry-documentNumber"/>
+  
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntrySequenceNumber" parent="LedgerEntryGLSummary-transactionLedgerEntrySequenceNumber-parentBean"/>
+  <bean id="LedgerEntryGLSummary-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+  	<property name="name" value="transactionLedgerEntrySequenceNumber" />
+  </bean>
 
   <bean id="LedgerEntryGLSummary-financialDocumentTypeCode" parent="LedgerEntryGLSummary-financialDocumentTypeCode-parentBean"/>
   <bean id="LedgerEntryGLSummary-financialDocumentTypeCode-parentBean" abstract="true" parent="LedgerEntry-financialDocumentTypeCode"/>

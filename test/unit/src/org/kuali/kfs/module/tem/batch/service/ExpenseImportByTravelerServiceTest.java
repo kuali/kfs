@@ -89,45 +89,6 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         assertTrue(StringUtils.equals(accountingInfo.getTripAccountNumber(), profile.getDefaultAccount()));
         assertTrue(StringUtils.equals(accountingInfo.getTripSubAccountNumber(), profile.getDefaultSubAccount()));
         assertTrue(StringUtils.equals(accountingInfo.getProjectCode(), profile.getDefaultProjectCode()));
-
-/** -not passing the profile into ExpenseImportByTravelerService.validateAccountingInfo() anymore- so not sure how to test the
- *  invalid account cases when the data is set on the profile
-
-        // test with an invalid account
-        profile.setDefaultAccount("1234567");
-        expenseImportByTravelerService.validateAccountingInfo(agency);
-        assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT));
-
-        // test with an invalid sub-account
-        profile = createTemProfile();
-        profile.setDefaultSubAccount("9");
-        agency.setTripAccountingInformation(new ArrayList<TripAccountingInformation>());
-        agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        expenseImportByTravelerService.validateAccountingInfo(profile, agency);
-        assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT));
-
-        // test with an invalid project code
-        profile = createTemProfile();
-        profile.setDefaultProjectCode("x");
-        agency.setTripAccountingInformation(new ArrayList<TripAccountingInformation>());
-        agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        expenseImportByTravelerService.validateAccountingInfo(profile, agency);
-        assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT));
-
-        // test with an invalid object code
-        profile = createTemProfile();
-        builder.setValue("1");
-        parameterService.updateParameter(builder.build());
-        agency.setTripAccountingInformation(new ArrayList<TripAccountingInformation>());
-        agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        expenseImportByTravelerService.validateAccountingInfo(profile, agency);
-        assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT));
-**/
-
-        // not possible to test at the moment
-//        profile = createTemProfile();
-//        agency = expenseImportByTravelerService.validateAccountingInfo(profile, agency);
-//        assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT));
     }
 
     /**

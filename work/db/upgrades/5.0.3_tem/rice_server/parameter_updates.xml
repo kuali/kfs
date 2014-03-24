@@ -1314,6 +1314,10 @@
 			<column name="VAL" value="50M"/>
 			<where>nmspc_cd = 'KR-NS' and cmpnt_cd = 'All' and parm_nm = 'MAX_FILE_SIZE_DEFAULT_UPLOAD' and appl_id = 'KUALI'</where>
 		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="CONCAT(VAL,';CLEAR=')"/>
+			<where>nmspc_cd = 'KFS-AR' and cmpnt_cd = 'CustomerInvoice' and parm_nm = 'GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND' and appl_id = 'KFS'</where>
+		</update>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>

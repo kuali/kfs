@@ -24,8 +24,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -36,10 +38,17 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
+import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
+import org.kuali.kfs.module.tem.document.web.struts.TravelReimbursementForm;
+import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -49,6 +58,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -99,6 +109,11 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      * This method tests calculateDailyTotal using a single per diem expense.
      */
     public final void testCalculateDailyTotal_oneDay() {
+        TravelReimbursementDocument trDoc = new TravelReimbursementDocument();
+        TravelFormBase form = new TravelReimbursementForm();
+        form.setDocument(trDoc);
+        KNSGlobalVariables.setKualiForm(form);
+
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
 
             @Override
@@ -135,7 +150,6 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense.setDinnerValue(new KualiDecimal(25));
         perDiemExpense.setIncidentalsValue(new KualiDecimal(10));
 
-
         dailyTotal = travelDocumentService.calculateDailyTotal(perDiemExpense);
         assertEquals(new KualiDecimal(9), dailyTotal.get(MILEAGE_TOTAL_ATTRIBUTE));
         assertEquals(new KualiDecimal(575.00), dailyTotal.get(LODGING_TOTAL_ATTRIBUTE));
@@ -150,6 +164,11 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      * This method tests calculateDailyTotals using multiple (3) per diem expenses.
      */
     public final void testCalculateDailyTotals_threeDays() {
+        TravelReimbursementDocument trDoc = new TravelReimbursementDocument();
+        TravelFormBase form = new TravelReimbursementForm();
+        form.setDocument(trDoc);
+        KNSGlobalVariables.setKualiForm(form);
+
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
           public MileageRate getMileageRate(java.sql.Date effectiveDate) {
@@ -494,13 +513,14 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         TravelDocument ta = new TravelAuthorizationDocument();
         ta.setTripBegin(mileages.get(0).getMileageDate());
         ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+        ta.setPrimaryDestinationId(5);
 
         travelDocumentService.copyDownPerDiemExpense(ta, 0, mileages);
 
         assertEquals(3, mileages.size());
         assertEquals(new KualiDecimal(25), mileages.get(1).getLodging());
         assertEquals(testDate1, mileages.get(1).getMileageDate());
-        assertEquals(new KualiDecimal(25), mileages.get(2).getLodging());
+        assertEquals(new KualiDecimal(0), mileages.get(2).getLodging()); // last day lodging is always 0
         assertEquals(testDate2, mileages.get(2).getMileageDate());
     }
 
@@ -521,13 +541,14 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         TravelDocument ta = new TravelAuthorizationDocument();
         ta.setTripBegin(mileages.get(0).getMileageDate());
         ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+        ta.setPrimaryDestinationId(mileages.get(0).getPrimaryDestinationId());
 
         travelDocumentService.copyDownPerDiemExpense(ta, 1, mileages);
 
         assertEquals(3, mileages.size());
         assertEquals(new KualiDecimal(50), mileages.get(1).getLodging());
         assertEquals(testDate1, mileages.get(1).getMileageDate());
-        assertEquals(new KualiDecimal(50), mileages.get(2).getLodging());
+        assertEquals(KualiDecimal.ZERO, mileages.get(2).getLodging());
         assertEquals(new Integer(20), mileages.get(2).getMiles());
         assertEquals(testDate2, mileages.get(2).getMileageDate());
     }
@@ -552,6 +573,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         TravelDocument ta = new TravelAuthorizationDocument();
         ta.setTripBegin(mileages.get(0).getMileageDate());
         ta.setTripEnd(mileages.get(mileages.size() - 1).getMileageDate());
+        ta.setPrimaryDestinationId(5);
 
         travelDocumentService.copyDownPerDiemExpense(ta, 2, mileages);
 
@@ -611,7 +633,11 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         perDiemExpense.setMiles(20);
-        perDiemExpense.setLodging(new KualiDecimal(75.00));
+
+        final PerDiem perDiem = findSomePerDiem(new java.sql.Date(cal.getTimeInMillis()));
+
+        perDiemExpense.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
+        perDiemExpense.setLodging(perDiem.getLodging());
         perDiemExpense.setMileageDate(new Timestamp(today.getTime()));
 
         perDiemExpense.setBreakfast(true);
@@ -620,11 +646,12 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         PerDiemExpense perDiemExpense2 = this.copyPerDiem(perDiemExpense);
 
-        cal.add(Calendar.DAY_OF_MONTH, 1);
+        cal.add(Calendar.DATE, 1);
         perDiemExpense2.setMileageDate(new Timestamp(cal.getTimeInMillis()));
+        perDiemExpense2.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
 
         perDiemExpense2.setMiles(30);
-        perDiemExpense2.setLodging(new KualiDecimal(75.00));
+        perDiemExpense2.setLodging(perDiem.getLodging());
 
         perDiemExpense2.setBreakfast(true);
         perDiemExpense2.setLunch(true);
@@ -632,11 +659,12 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         PerDiemExpense perDiemExpense3 = this.copyPerDiem(perDiemExpense2);
 
-        cal.add(Calendar.DAY_OF_MONTH, 1);
+        cal.add(Calendar.DATE, 1);
         perDiemExpense3.setMileageDate(new Timestamp(cal.getTimeInMillis()));
+        perDiemExpense3.setPrimaryDestinationId(perDiem.getPrimaryDestinationId());
 
         perDiemExpense3.setMiles(40);
-        perDiemExpense3.setLodging(new KualiDecimal(55.00));
+        perDiemExpense3.setLodging(perDiem.getLodging());
 
         perDiemExpense3.setBreakfast(true);
         perDiemExpense3.setLunch(true);
@@ -651,10 +679,37 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     }
 
     /**
+     * Find a PerDiem to use for the unit test
+     * @param date a date for the unit test
+     * @return a PerDiem
+     */
+    private PerDiem findSomePerDiem(java.sql.Date date) {
+        final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        final PerDiemService perDiemService = SpringContext.getBean(PerDiemService.class);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        final List<PrimaryDestination> dests = new ArrayList<PrimaryDestination>();
+        dests.addAll(boService.findMatching(PrimaryDestination.class, fieldValues));
+        Random r = new Random();
+        int priDestIndex = r.nextInt(dests.size());
+        PerDiem perDiem = perDiemService.getPerDiem(dests.get(priDestIndex).getId(), new java.sql.Timestamp(date.getTime()), date);
+        while (perDiem == null || org.apache.commons.lang.ObjectUtils.equals(perDiem.getPrimaryDestinationId(), TemConstants.CUSTOM_PRIMARY_DESTINATION_ID)) {
+            priDestIndex = r.nextInt(dests.size());
+            perDiem = perDiemService.getPerDiem(dests.get(priDestIndex).getId(), new java.sql.Timestamp(date.getTime()), date);
+        }
+        return perDiem;
+    }
+
+    /**
      *
      * This method tests calculateMileage.
      */
     public final void testCalculateMileage_mileageRatePresent() {
+        TravelReimbursementDocument trDoc = new TravelReimbursementDocument();
+        TravelFormBase form = new TravelReimbursementForm();
+        form.setDocument(trDoc);
+        KNSGlobalVariables.setKualiForm(form);
+
         ActualExpense actualExpense = new ActualExpense() {
             @Override
             public MileageRate getMileageRate(java.sql.Date effectiveDate) {

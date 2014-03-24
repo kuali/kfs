@@ -56,11 +56,11 @@
 	<bean id="ClassOfService-approvalRequired" parent="ClassOfService-approvalRequired-parentBean" />
 	<bean id="ClassOfService-approvalRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="approvalRequired" />
-		<property name="label" value="Approval Required" />
-		<property name="shortLabel" value="Approval Required" />
+		<property name="label" value="Special Request Review Required" />
+		<property name="shortLabel" value="Special Request Review Required" />
 		<property name="required" value="false" />
-		<property name="summary" value="Approval Required" />
-		<property name="description" value="Approval Required" />
+		<property name="summary" value="Special Request Review Required" />
+		<property name="description" value="Special Request Review Required" />
 	</bean>
 	<bean id="ClassOfService-active" parent="ClassOfService-active-parentBean" />
 	<bean id="ClassOfService-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">

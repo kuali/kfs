@@ -4126,7 +4126,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // of fiscal year change)
             // 1. If award is billed for the first time.
 
-
+            fiscalYears.clear();
             Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
 
             for (Integer i = fiscalYear; i <= currentYear; i++) {

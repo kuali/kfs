@@ -866,6 +866,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense.setMiles(20);
         perDiemExpense.setLodging(new KualiDecimal(75.00));
         Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, 12); // set our hour to noon, to prevent this test from failing in the last quadrant
         perDiemExpense.setMileageDate(new Timestamp(cal.getTimeInMillis()));
 
         perDiemExpense.setBreakfast(true);

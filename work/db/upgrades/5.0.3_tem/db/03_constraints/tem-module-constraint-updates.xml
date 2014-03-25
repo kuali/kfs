@@ -72,13 +72,13 @@
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
-			columnName="DI_CD" columnDataType="VARCHAR2(3)" />
+			columnName="DIST_CD" columnDataType="VARCHAR2(3)" />
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
 			columnName="CHART_CD" columnDataType="VARCHAR2(2)" />
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
 			columnName="ACCT_NBR" columnDataType="VARCHAR2(7)" />
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
-			columnName="OBJ_CD" columnDataType="VARCHAR2(36)" />
+			columnName="FIN_OBJECT_CD" columnDataType="VARCHAR2(4)" />
 		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addUniqueConstraint tableName="TEM_AGENCY_STAGING_T"

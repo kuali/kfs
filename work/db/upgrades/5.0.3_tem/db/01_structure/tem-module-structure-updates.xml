@@ -99,7 +99,7 @@
 			<column name="OTHER_AMT" type="NUMBER(8,2)" />
 			<column name="TRAVELER_NM" type="VARCHAR2(50)" />
 			<column name="TRAVELER_ID" type="VARCHAR2(40)" />
-			<column name="TRAVELER_NTWK_ID" type="VARCHAR2(9)" />
+			<column name="TRAVELER_NTWK_ID" type="VARCHAR2(10)" />
 			<column name="TRP_EXP_AMT" type="NUMBER(8,2)" />
 			<column name="ALT_TRP_ID" type="VARCHAR2(20)" />
 			<column name="TRP_ARR_NM" type="VARCHAR2(50)" />

@@ -210,7 +210,7 @@
 		<property name="maxLength" value="40" />
 		<property name="summary" value="Purpose" />
 		<property name="description" value="Purpose" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PurposeValuesFinder" p:includeKeyInLabel="false"/></property>
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.EntertainmentPurposeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	
     <bean id="TravelEntertainmentDocument-paymentMethod" parent="TravelEntertainmentDocument-paymentMethod-parentBean" />

@@ -39,7 +39,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
-import org.kuali.kfs.module.tem.businessobject.Purpose;
+import org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
@@ -72,7 +72,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     protected Boolean spouseIncluded;
     private String description;
     private String purposeCode;
-    private Purpose purpose;
+    private EntertainmentPurpose purpose;
 
     private Boolean attendeeListAttached;
     private Integer numberOfAttendees;
@@ -154,11 +154,11 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     }
 
     @JoinColumn(name = "PURPOSE_CODE", nullable = true)
-    public Purpose getPurpose() {
+    public EntertainmentPurpose getPurpose() {
         return purpose;
     }
 
-    public void setPurpose(Purpose purpose) {
+    public void setPurpose(EntertainmentPurpose purpose) {
         this.purpose = purpose;
     }
 

@@ -6,7 +6,7 @@
 <bean id="PurposeMaintenanceDocument" parent="PurposeMaintenanceDocument-parentBean" />
 
 <bean id="PurposeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-	<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.Purpose" />
+	<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" />
 	<property name="maintainableClass"   value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 	<property name="maintainableSections" >
 	<list>
@@ -28,12 +28,11 @@
 		<property name="id"    value="Purpose" />
 		<property name="title" value="Edit Purpose" />
 		<property name="maintainableItems"><list>
-			<bean parent="MaintainableFieldDefinition" p:name="documentType" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="purposeCode" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="purposeName" p:required="false"/>
+			<bean parent="MaintainableFieldDefinition" p:name="purposeName" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="purposeDescription" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="reviewRequiredIndicator" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

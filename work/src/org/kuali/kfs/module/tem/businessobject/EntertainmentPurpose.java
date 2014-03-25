@@ -25,26 +25,18 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Relocation Reason
+ * Entertainment Purpose
  *
  */
 @Entity
 @Table(name="TEM_PURPOSE_T")
-public class Purpose extends PersistableBusinessObjectBase implements MutableInactivatable{
-    private String documentType;
+public class EntertainmentPurpose extends PersistableBusinessObjectBase implements MutableInactivatable{
     private String purposeCode;
     private String purposeName;
     private String purposeDescription;
     private Boolean reviewRequiredIndicator;
     private Boolean active = Boolean.TRUE;
 
-    @Column(name="DOCUMENT_TYPE",length=4,nullable=false)
-    public String getDocumentType() {
-        return documentType;
-    }
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
-    }
     @Column(name="PURPOSE_CODE",length=4,nullable=false)
     public String getPurposeCode() {
         return purposeCode;

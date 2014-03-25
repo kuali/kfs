@@ -649,7 +649,7 @@
 		<collection-descriptor name="attendee" element-class-ref="org.kuali.kfs.module.tem.businessobject.Attendee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 		<inverse-foreignkey field-ref="documentNumber"/>
 		</collection-descriptor>
-		<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.tem.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="purposeCode"/>
         </reference-descriptor>
         <reference-descriptor name="travelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -712,8 +712,7 @@
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.Purpose" table="TEM_PURPOSE_T">
-		<field-descriptor name="documentType" column="DOCUMENT_TYPE" jdbc-type="VARCHAR"/>
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" table="TEM_PURPOSE_T">
 		<field-descriptor name="purposeCode" primarykey="true" column="PURPOSE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="purposeName" column="PURPOSE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="purposeDescription" column="PURPOSE_DESCRIPTION" jdbc-type="VARCHAR"/>

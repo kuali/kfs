@@ -734,7 +734,7 @@
 		<addPrimaryKey tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TR1" columnNames="FDOC_NBR,TRN_ENTR_SEQ_NBR"/>
 		<addNotNullConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" columnName="OJB_ID" columnDataType="VARCHAR2(36)"/>
 		<addNotNullConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" columnName="VER_NBR" columnDataType="NUMBER(8,0)"/>
-		<addUniqueConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TC0" columnName="OBJ_ID"/>
+		<addUniqueConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TC0" columnNames="OBJ_ID"/>
 		<createIndex indexName="TEM_HELD_ENCUM_ENTRY_TI2" tableName="TEM_HELD_ENCUM_ENTRY_T">
 			<column name="FIN_COA_CD" type="VARCHAR2(2)"/>
 			<column name="ACCOUNT_NBR" type="VARCHAR2(7)"/>

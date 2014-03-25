@@ -174,7 +174,7 @@
 			constraintName="TEM_CREDIT_CARD_STAGING_TC0" columnNames="OBJ_ID" />
 		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_STAGING_TR1"
 			baseTableName="TEM_CREDIT_CARD_STAGING_T" baseColumnNames="PMT_GRP_ID"
-			referencedTableName="PDP_PMT_GRP_T" referencedColumnNames="ID" />
+			referencedTableName="PDP_PMT_GRP_T" referencedColumnNames="PMT_GRP_ID" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
@@ -234,20 +234,20 @@
 			constraintName="TEM_EXP_TYP_TC0" columnNames="OBJ_ID" />
 		<addUniqueConstraint tableName="TEM_EXP_TYP_FIN_OBJ_CD_T"
 			constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TC0" columnNames="OBJ_ID" />
-		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
-			constraintName="TEM_EXP_TYP_TC1" columnNames="TEM_EXP_TYP_ID" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
-			columnName="TEM_EXP_TYP_ID" columnDataType="NUMBER(22,0)" />
+			columnName="EXP_TYP_NM" columnDataType="VARCHAR2(25)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
-			columnName="TRAVEL_EXP_NM" columnDataType="VARCHAR2(25)" />
-		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
-			columnName="TRAVEL_EXP_PRPY_IND" columnDataType="VARCHAR2(1)" />
+			columnName="EXP_PRPY_IND" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="HOSTED_IND" columnDataType="VARCHAR2(1)" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="CTGRY_DFLT_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_GRP_TRVLR_TR1"
 			baseTableName="TEM_GRP_TRVLR_T" baseColumnNames="TRAVELER_TYP_CD"
 			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
@@ -295,8 +295,8 @@
 			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR2"
-			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="PER_DIEM_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="PRI_DEST_ID"
+			referencedTableName="TEM_PRI_DEST_T" referencedColumnNames="ID" />
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR3"
 			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="ACCOM_TYP_CD"
 			referencedTableName="TEM_ACCOMM_TYP_T" referencedColumnNames="CODE" />
@@ -308,21 +308,12 @@
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
-			columnName="MILEAGE_RT_ID" columnDataType="NUMBER(22,0)" />
-		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_TR1"
-			baseTableName="TEM_PER_DIEM_T" baseColumnNames="TRIP_TYP_CD"
-			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addUniqueConstraint tableName="TEM_PER_DIEM_T"
 			constraintName="TEM_PER_DIEM_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
-			columnName="TRIP_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_PROFILE_ACCOUNT_TR1"
 			baseTableName="TEM_PROFILE_ACCOUNT_T" baseColumnNames="PROFILE_ID"
 			referencedTableName="TEM_PROFILE_T" referencedColumnNames="PROFILE_ID" />
@@ -661,7 +652,7 @@
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR3"
 			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
-			referencedTableName="TEM_PRI_DEST_T" referencedColumnNames="D" />
+			referencedTableName="TEM_PRI_DEST_T" referencedColumnNames="ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR4"
 			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="FDOC_BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
@@ -695,8 +686,6 @@
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
-		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
-			columnName="TEM_EXP_TYP_ID" columnDataType="NUMBER(22,0)" />
 		<addPrimaryKey tableName="TEM_TRVL_REIMB_DOC_T"
 			constraintName="TEM_TRVL_REIMB_DOC_TP1" columnNames="FDOC_NBR" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR1"
@@ -732,7 +721,7 @@
 		<addNotNullConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addUniqueConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" constraintName="TEM_CC_IMP_EXP_CLR_DTL_TC0" columnNames="OBJ_ID" />
 		<addPrimaryKey tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TR1" columnNames="FDOC_NBR,TRN_ENTR_SEQ_NBR"/>
-		<addNotNullConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" columnName="OJB_ID" columnDataType="VARCHAR2(36)"/>
+		<addNotNullConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)"/>
 		<addNotNullConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" columnName="VER_NBR" columnDataType="NUMBER(8,0)"/>
 		<addUniqueConstraint tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TC0" columnNames="OBJ_ID"/>
 		<createIndex indexName="TEM_HELD_ENCUM_ENTRY_TI2" tableName="TEM_HELD_ENCUM_ENTRY_T">

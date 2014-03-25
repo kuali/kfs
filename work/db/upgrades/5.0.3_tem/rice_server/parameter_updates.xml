@@ -453,7 +453,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-051"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the new fiscal year encumbrances will be held and will be posted by the year-end encumbrance forwards job."/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the new fiscal year encumbrances will be held and will be released by the &quot;temReleaseHeldEncumbranceJob&quot; job."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

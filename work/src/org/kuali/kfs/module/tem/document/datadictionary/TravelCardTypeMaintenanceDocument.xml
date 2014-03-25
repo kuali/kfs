@@ -27,11 +27,11 @@
   <bean id="TravelCardTypeMaintenanceDocument-Section" parent="TravelCardTypeMaintenanceDocument-Section-parentBean" />
   <bean id="TravelCardTypeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="TravelCardType" />
-		<property name="title" value="Edit TravelCardType" />
+		<property name="title" value="Edit Travel Card Type" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
   </bean>
 </beans>

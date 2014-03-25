@@ -151,7 +151,7 @@
 			referencedTableName="TEM_TRVL_CARD_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_AGENCY_TR2"
 			baseTableName="TEM_CREDIT_CARD_AGENCY_T" baseColumnNames="BNK_CD"
-			referencedTableName="FP_BANK_CD" referencedColumnNames="BNK_CD" />
+			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
 		<addUniqueConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"

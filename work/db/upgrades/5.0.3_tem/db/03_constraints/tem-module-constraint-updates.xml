@@ -115,7 +115,7 @@
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
-			columnName="DV_EXP_CD" columnDataType="VARCHAR2(2)" />
+			columnName="EXP_TYP_CD" columnDataType="VARCHAR2(2)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="CLASS_SVC_NAME" columnDataType="VARCHAR2(40)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"

@@ -4121,17 +4121,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category, document));
 
         }
+        // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case
+        // of fiscal year change)
+        Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
+
+        for (Integer i = fiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
+        }
+
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case
-            // of fiscal year change)
-            // 1. If award is billed for the first time.
-
-            fiscalYears.clear();
-            Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
-
-            for (Integer i = fiscalYear; i <= currentYear; i++) {
-                fiscalYears.add(i);
-            }
             List<String> objCodes = new ArrayList<String>();
             objCodes.addAll(getObjectCodeArrayFromContractsAndGrantsCategories(document));
             for (Integer eachFiscalYr : fiscalYears) {

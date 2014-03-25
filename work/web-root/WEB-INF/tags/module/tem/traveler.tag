@@ -147,12 +147,10 @@
             </th>
             <td class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelerAttributes.zipCode}" property="document.traveler.zipCode" readOnly="true"/>
-                <%--
 				<c:if test="${!readOnly  && fullEntryMode}">
-              		<kul:lookup boClassName="org.kuali.rice.kns.bo.PostalCode" fieldConversions="postalCode:document.traveler.zipCode,postalCountryCode:document.traveler.countryCode,postalStateCode:document.traveler.stateCode,postalCityName:document.traveler.cityName" 
-              		lookupParameters="document.traveler.countryCode:postalCountryCode,document.traveler.zipCode:postalCode,document.traveler.stateCode:postalStateCode,document.traveler.cityName:postalCityName" />
+              		<kul:lookup boClassName="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" fieldConversions="code:document.traveler.zipCode,countryCode:document.traveler.countryCode,stateCode:document.traveler.stateCode,cityName:document.traveler.cityName" 
+              		lookupParameters="document.traveler.countryCode:countryCode,document.traveler.zipCode:code,document.traveler.stateCode:stateCode,document.traveler.cityName:cityName" />
               	</c:if>
-              	--%>
             </td>
         </tr>
         <tr>

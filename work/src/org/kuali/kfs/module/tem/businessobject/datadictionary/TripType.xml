@@ -30,23 +30,23 @@
 	<bean id="TripType-code" parent="TripType-code-parentBean" />
 	<bean id="TripType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Trip Type Code" />
+		<property name="shortLabel" value="Trip Type Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Trip Type Code" />
+		<property name="description" value="Trip Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="TripType-name" parent="TripType-name-parentBean" />
 	<bean id="TripType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Trip Type Name" />
+		<property name="shortLabel" value="Trip Type Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="summary" value="Trip Type Name" />
+		<property name="description" value="Trip Type Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TripType-generateEncumbrance" parent="TripType-generateEncumbrance-parentBean" />

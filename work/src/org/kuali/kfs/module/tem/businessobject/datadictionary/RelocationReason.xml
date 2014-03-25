@@ -8,6 +8,7 @@
 		<property name="lookupDefinition" ref="RelocationReason-lookupDefinition" />
 		<property name="inquiryDefinition" ref="RelocationReason-inquiryDefinition" />
 		<property name="objectLabel" value="RelocationReason" />
+		<property name="titleAttribute" value="reloReasonCode" />
 		<property name="attributes">
 		<list>
 			<ref bean="RelocationReason-reloReasonCode" />
@@ -21,34 +22,33 @@
 	<bean id="RelocationReason-reloReasonCode" parent="RelocationReason-reloReasonCode-parentBean" />
 	<bean id="RelocationReason-reloReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reloReasonCode" />
-		<property name="label" value="Relo Reason Code" />
-		<property name="shortLabel" value="Relo Reason Code" />
+		<property name="label" value="Relocation Reason Code" />
+		<property name="shortLabel" value="Relocation Reason Code" />
 		<property name="maxLength" value="2" />
 		<property name="required" value="true" />
-		<property name="summary" value="Relo Reason Code" />
-		<property name="description" value="Relo Reason Code" />
+		<property name="summary" value="Relocation Reason Code" />
+		<property name="description" value="Relocation Reason Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="RelocationReason-reloReasonName" parent="RelocationReason-reloReasonName-parentBean" />
 	<bean id="RelocationReason-reloReasonName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reloReasonName" />
-		<property name="label" value="Relo Reason Name" />
-		<property name="shortLabel" value="Relo Reason Name" />
+		<property name="label" value="Relocation Reason Name" />
+		<property name="shortLabel" value="Relocation Reason Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Relo Reason Name" />
-		<property name="description" value="Relo Reason Name" />
+		<property name="summary" value="Relocation Reason Name" />
+		<property name="description" value="Relocation Reason Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="RelocationReason-reloReasonDescription" parent="RelocationReason-reloReasonDescription-parentBean" />
-	<bean id="RelocationReason-reloReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="RelocationReason-reloReasonDescription-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
 		<property name="name" value="reloReasonDescription" />
-		<property name="label" value="Relo Reason Description" />
-		<property name="shortLabel" value="Relo Reason Description" />
+		<property name="label" value="Relocation Reason Description" />
+		<property name="shortLabel" value="Relocation Reason Description" />
 		<property name="maxLength" value="200" />
-		<property name="summary" value="Relo Reason Description" />
-		<property name="description" value="Relo Reason Description" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="200"/></property>
+		<property name="summary" value="Relocation Reason Description" />
+		<property name="description" value="Relocation Reason Description" />
 	</bean>
 	<bean id="RelocationReason-active" parent="RelocationReason-active-parentBean" />
 	<bean id="RelocationReason-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
@@ -106,7 +106,6 @@
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="reloReasonCode" />
 			<bean parent="FieldDefinition" p:attributeName="reloReasonName" />
-			<bean parent="FieldDefinition" p:attributeName="reloReasonDescription" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>

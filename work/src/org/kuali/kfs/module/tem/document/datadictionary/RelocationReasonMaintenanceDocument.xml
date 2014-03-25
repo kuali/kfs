@@ -26,12 +26,12 @@
 <bean id="RelocationReasonMaintenanceDocument-Section" parent="RelocationReasonMaintenanceDocument-Section-parentBean" />
 <bean id="RelocationReasonMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="RelocationReason" />
-		<property name="title" value="Edit RelocationReason" />
+		<property name="title" value="Edit Relocation Reason" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="reloReasonCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="reloReasonName" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="reloReasonDescription" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

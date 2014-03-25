@@ -23,33 +23,33 @@
 	<bean id="TravelerType-code" parent="TravelerType-code-parentBean" />
 	<bean id="TravelerType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Traveler Type Code" />
+		<property name="shortLabel" value="Traveler Type Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Traveler Type Code" />
+		<property name="description" value="Traveler Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="TravelerType-sourceCode" parent="TravelerType-sourceCode-parentBean" />
 	<bean id="TravelerType-sourceCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sourceCode" />
-		<property name="label" value="Source Code" />
-		<property name="shortLabel" value="Source Code" />
+		<property name="label" value="Traveler Type Source" />
+		<property name="shortLabel" value="Traveler Type Source" />
 		<property name="maxLength" value="10" />
-		<property name="summary" value="Source Code" />
-		<property name="description" value="Source Code" />
+		<property name="summary" value="Traveler Type Source" />
+		<property name="description" value="Traveler Type Source" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
 	<bean id="TravelerType-name" parent="TravelerType-name-parentBean" />
 	<bean id="TravelerType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Traveler Type Name" />
+		<property name="shortLabel" value="Traveler Type Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="summary" value="Traveler Type Name" />
+		<property name="description" value="Traveler Type Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TravelerType-advances" parent="TravelerType-advances-parentBean" />

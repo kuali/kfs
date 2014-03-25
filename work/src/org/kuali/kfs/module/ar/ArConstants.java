@@ -73,6 +73,10 @@ public class ArConstants {
     // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
     public static int ITEM_QUANTITY_SCALE = 10;
 
+    public static class PermissionNames {
+        public static final String REPORT = "Report";
+    }
+
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
         public static final String CHECK = "CK";

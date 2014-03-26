@@ -614,10 +614,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                     final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
                     accountingPeriod = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
                 }
+                if (accountingPeriod != null) {
+                    explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
+                    explicitEntry.setUniversityFiscalPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+                }
             }
-
-            explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
-            explicitEntry.setUniversityFiscalPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
         } catch(ParseException pe) {
             LOG.error("Error while parsing date" + pe);
         }

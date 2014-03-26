@@ -611,8 +611,7 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_PROFILE_T" constraintName="TEM_PROFILE_TP1"
 			columnNames="PROFILE_ID" />
-		<createTable tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" type="VARCHAR2(4)" />
+		<createTable tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" type="VARCHAR2(4)" />
 			<column name="PURPOSE_NAME" type="VARCHAR2(40)" />
 			<column name="PURPOSE_DESCRIPTION" type="VARCHAR2(100)" />
@@ -621,7 +620,7 @@
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
-		<addPrimaryKey tableName="TEM_PURPOSE_T" constraintName="TEM_PURPOSE_TP1"
+		<addPrimaryKey tableName="TEM_ENT_PURPOSE_T" constraintName="TEM_ENT_PURPOSE_TP1"
 			columnNames="PURPOSE_CODE" />
 		<createTable tableName="TEM_RELO_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />

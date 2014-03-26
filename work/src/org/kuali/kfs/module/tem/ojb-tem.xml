@@ -707,7 +707,7 @@
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" table="TEM_PURPOSE_T">
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" table="TEM_ENT_PURPOSE_T">
 		<field-descriptor name="purposeCode" primarykey="true" column="PURPOSE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="purposeName" column="PURPOSE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="purposeDescription" column="PURPOSE_DESCRIPTION" jdbc-type="VARCHAR"/>

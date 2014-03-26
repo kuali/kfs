@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  */
 @Entity
-@Table(name="TEM_PURPOSE_T")
+@Table(name="TEM_ENT_PURPOSE_T")
 public class EntertainmentPurpose extends PersistableBusinessObjectBase implements MutableInactivatable{
     private String purposeCode;
     private String purposeName;

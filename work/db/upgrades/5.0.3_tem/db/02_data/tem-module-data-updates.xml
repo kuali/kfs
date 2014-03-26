@@ -2620,18 +2620,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="PURPOSE_CODE" value="NH"/>
-			<column name="PURPOSE_NAME" value="New Hire"/>
-			<column name="PURPOSE_DESCRIPTION" value="New Hire"/>
-			<column name="REVIEW_REQUIRED_IND" value="Y"/>
-			<column name="ROW_ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="PD"/>
 			<column name="PURPOSE_NAME" value="Prospective Donor Events"/>
 			<column name="PURPOSE_DESCRIPTION" value="Prospective Donor Events"/>
@@ -2640,8 +2629,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="RC"/>
 			<column name="PURPOSE_NAME" value="Recruitment"/>
 			<column name="PURPOSE_DESCRIPTION" value="Recruitment"/>
@@ -2650,8 +2638,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="RR"/>
 			<column name="PURPOSE_NAME" value="Reception or Retirement"/>
 			<column name="PURPOSE_DESCRIPTION" value="Reception or retirement"/>
@@ -2660,8 +2647,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="SA"/>
 			<column name="PURPOSE_NAME" value="Student or Administrative Meetings"/>
 			<column name="PURPOSE_DESCRIPTION" value="Student or Administrative Meetings"/>

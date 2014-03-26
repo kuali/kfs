@@ -26,7 +26,7 @@
 <bean id="PurposeMaintenanceDocument-Section" parent="PurposeMaintenanceDocument-Section-parentBean" />
 <bean id="PurposeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="Purpose" />
-		<property name="title" value="Edit Purpose" />
+		<property name="title" value="Edit Entertainment Purpose" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="purposeCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="purposeName" p:required="true"/>

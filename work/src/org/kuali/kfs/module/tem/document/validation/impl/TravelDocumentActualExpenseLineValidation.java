@@ -16,12 +16,16 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -31,6 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpenseLineValidation {
     protected ActualExpense actualExpenseForValidation;
+    protected boolean currentExpenseInCollection = true;
 
     /**
      *
@@ -163,20 +168,56 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      */
     public boolean validateMaximumAmountRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
-        ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
+        ExpenseTypeObjectCode expenseTypeObjectCode = actualExpense.getExpenseTypeObjectCode();
 
-        KualiDecimal maxAmount = getMaximumAmount(actualExpense, document);
-        if (maxAmount.isNonZero() && maxAmount.isLessThan(actualExpense.getConvertedAmount())) {
-            if (expenseTypeCode.isPerDaily()) {
-                success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeCode.getMaximumAmount().toString());
+        KualiDecimal maxAmount = getMaximumAmount(actualExpense, document, expenseTypeObjectCode);
+        if (maxAmount.isNonZero())  {
+            if (expenseTypeObjectCode.isPerDaily()) {
+                if (maxAmount.isLessThan(actualExpense.getConvertedAmount())) { // per daily - check that just this actual expense is greater than max amount
+                    success = false;
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY, expenseTypeObjectCode.getMaximumAmount().toString());
+                }
             }
-            else if (expenseTypeCode.isPerOccurrence()) {
-                success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeCode.getMaximumAmount().toString());
+            else if (expenseTypeObjectCode.isPerOccurrence()) {
+                KualiDecimal totalPerExpenseType = getTotalDocumentAmountForExpenseType(document, actualExpense.getExpenseType());
+                if (!isCurrentExpenseInCollection()) {
+                    totalPerExpenseType = totalPerExpenseType.add(actualExpense.getConvertedAmount());
+                }
+                if (maxAmount.isLessThan(totalPerExpenseType)) {
+                    success = false;
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU, expenseTypeObjectCode.getMaximumAmount().toString());
+                }
             }
         }
         return success;
+    }
+
+    /**
+     * Calculates the total of all actual and imported expenses on the document with the given expense type
+     * @param document the document to find the total of expenses of the given expense type for
+     * @param expenseType the expense type to find a total for
+     * @return the total of the converted values of all expenses on the document of that expense type
+     */
+    protected KualiDecimal getTotalDocumentAmountForExpenseType(TravelDocument document, ExpenseType expenseType) {
+        final KualiDecimal total = getTotalForExpenseType(document.getActualExpenses(), expenseType).add(getTotalForExpenseType(document.getImportedExpenses(), expenseType));
+        return total;
+
+    }
+
+    /**
+     * Given a list of expenses, calculates the total of those expenses where the expense type of the expense is that of the given expense type
+     * @param expenses the expenses to total
+     * @param expenseType the expense type to total for
+     * @return the total of the expenses for the given expense type
+     */
+    protected KualiDecimal getTotalForExpenseType(List<? extends TemExpense> expenses, ExpenseType expenseType) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (TemExpense expense : expenses) {
+            if (StringUtils.equals(expense.getExpenseTypeCode(), expenseType.getCode())) {
+                total = total.add(expense.getConvertedAmount());
+            }
+        }
+        return total;
     }
 
     /**
@@ -319,12 +360,11 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    protected KualiDecimal getMaximumAmount(ActualExpense actualExpense, TravelDocument document) {
+    protected KualiDecimal getMaximumAmount(ActualExpense actualExpense, TravelDocument document, ExpenseTypeObjectCode expenseTypeObjectCode) {
         KualiDecimal maxAmount = KualiDecimal.ZERO;
-        final ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
-        if (expenseTypeCode != null && expenseTypeCode.getMaximumAmount() != null) {
-            maxAmount = expenseTypeCode.getMaximumAmount();
+        if (expenseTypeObjectCode != null && expenseTypeObjectCode.getMaximumAmount() != null) {
+            maxAmount = expenseTypeObjectCode.getMaximumAmount();
         }
         //add the group traveler list + self (1)
         if (actualExpense.getExpenseType().isGroupTravel()) {
@@ -359,4 +399,11 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         this.actualExpenseForValidation = actualExpenseForValidation;
     }
 
+    public boolean isCurrentExpenseInCollection() {
+        return currentExpenseInCollection;
+    }
+
+    public void setCurrentExpenseInCollection(boolean currentExpenseInCollection) {
+        this.currentExpenseInCollection = currentExpenseInCollection;
+    }
 }

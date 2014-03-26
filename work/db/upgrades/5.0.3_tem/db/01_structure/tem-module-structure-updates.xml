@@ -430,7 +430,7 @@
 			<column name="ACCOM_PH" type="VARCHAR2(20)" />
 			<column name="ACCOM_ADDRESS" type="VARCHAR2(255)" />
 			<column name="MLG_DT" type="DATE" />
-			<column name="PER_DIEM_ID" type="NUMBER(22,0)" />
+			<column name="PRI_DEST_ID" type="NUMBER(22,0)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="MILEAGE_RT_EXP_TYP_CD" type="VARCHAR2(2)" />

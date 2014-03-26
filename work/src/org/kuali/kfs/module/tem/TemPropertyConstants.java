@@ -414,7 +414,7 @@ public class TemPropertyConstants {
     }
 
     public class ClassOfService {
-        public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseType.expenseTypeMetaCategoryCode";
+        public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseTypeMetaCategoryCode";
     }
 
     public static final String SPECIAL_CIRCUMTANCES_QUESTION_TEXT = "text";

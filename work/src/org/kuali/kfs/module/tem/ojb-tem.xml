@@ -18,16 +18,12 @@
 
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.ClassOfService" table="TEM_CLASS_SVC_T">
         <field-descriptor name="code" primarykey="true" column="CODE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="expenseTypeCode" column="EXP_TYP_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="expenseTypeMetaCategoryCode" column="EXP_TYP_META_CTGRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="classOfServiceName" column="CLASS_SVC_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="approvalRequired" column="APRVL_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-        
-        <reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-            <foreignkey field-ref="expenseTypeCode"/>
-        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.ContactRelationType" table="TEM_CONT_REL_TYP_T">

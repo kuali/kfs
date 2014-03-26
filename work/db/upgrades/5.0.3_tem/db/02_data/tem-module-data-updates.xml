@@ -143,7 +143,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="BUSINS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -152,7 +152,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="COACH"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -161,7 +161,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECNPLUS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -170,7 +170,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PBUSINS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -179,7 +179,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PCOACH"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -188,7 +188,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PECNPLUS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -197,7 +197,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECONMY"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Economy, Intermediate"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -206,7 +206,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="GPS"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="GPS"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="N"/>
@@ -215,7 +215,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PRIVLIMO"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Private Limo"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -224,7 +224,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="SHRRIDE"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Shared Ride"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -233,7 +233,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="UPGRDE"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Upgrade (Mid-Size, Van, Other)"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>

@@ -107,15 +107,10 @@
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_ATTENDEE_T"
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
-		<addForeignKeyConstraint constraintName="TEM_CLASS_SVC_TR1"
-			baseTableName="TEM_CLASS_SVC_T" baseColumnNames="EXP_TYP_CD"
-			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addUniqueConstraint tableName="TEM_CLASS_SVC_T"
 			constraintName="TEM_CLASS_SVC_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
-			columnName="EXP_TYP_CD" columnDataType="VARCHAR2(2)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="CLASS_SVC_NAME" columnDataType="VARCHAR2(40)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"

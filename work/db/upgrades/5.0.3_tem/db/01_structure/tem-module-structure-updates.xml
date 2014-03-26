@@ -185,7 +185,7 @@
 			constraintName="TEM_ATTENDEE_TP1" columnNames="ID" />
 		<createTable tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" type="VARCHAR2(10)" />
-			<column name="EXP_TYP_CD" type="VARCHAR2(2)" />
+			<column name="EXP_TYP_META_CTGRY_CD" type="VARCHAR2(2)" />
 			<column name="CLASS_SVC_NAME" type="VARCHAR2(40)" />
 			<column name="APRVL_REQ_IND" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />

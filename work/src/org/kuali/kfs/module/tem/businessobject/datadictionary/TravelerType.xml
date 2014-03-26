@@ -12,7 +12,6 @@
 		<property name="attributes">
 		<list>
 			<ref bean="TravelerType-code" />
-			<ref bean="TravelerType-sourceCode" />
 			<ref bean="TravelerType-name" />
 			<ref bean="TravelerType-advances" />
 			<ref bean="TravelerType-active" />
@@ -30,16 +29,6 @@
 		<property name="summary" value="Traveler Type Code" />
 		<property name="description" value="Traveler Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
-	</bean>
-	<bean id="TravelerType-sourceCode" parent="TravelerType-sourceCode-parentBean" />
-	<bean id="TravelerType-sourceCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="sourceCode" />
-		<property name="label" value="Traveler Type Source" />
-		<property name="shortLabel" value="Traveler Type Source" />
-		<property name="maxLength" value="10" />
-		<property name="summary" value="Traveler Type Source" />
-		<property name="description" value="Traveler Type Source" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
 	<bean id="TravelerType-name" parent="TravelerType-name-parentBean" />
 	<bean id="TravelerType-name-parentBean" abstract="true" parent="AttributeDefinition">
@@ -89,7 +78,6 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="code" />
-					<bean parent="FieldDefinition" p:attributeName="sourceCode" />
 					<bean parent="FieldDefinition" p:attributeName="name" />
 					<bean parent="FieldDefinition" p:attributeName="advances" />
 					<bean parent="FieldDefinition" p:attributeName="active" />
@@ -118,7 +106,6 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="code" />
-			<bean parent="FieldDefinition" p:attributeName="sourceCode" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="advances" />
 			<bean parent="FieldDefinition" p:attributeName="active" />

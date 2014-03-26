@@ -30,7 +30,6 @@
 		<property name="title" value="Edit Traveler Type" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="sourceCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="advances" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>

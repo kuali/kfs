@@ -2833,7 +2833,6 @@
 		</insert>
 		<insert tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" value="EMP"/>
-			<column name="SRC_CODE" value="KIM"/>
 			<column name="NM" value="Employee"/>
 			<column name="ADVANCES_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -2842,7 +2841,6 @@
 		</insert>
 		<insert tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" value="NON"/>
-			<column name="SRC_CODE" value="MANUAL"/>
 			<column name="NM" value="Non-Employee"/>
 			<column name="ADVANCES_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>

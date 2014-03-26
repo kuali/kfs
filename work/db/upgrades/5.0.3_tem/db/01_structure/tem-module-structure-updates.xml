@@ -772,7 +772,6 @@
 			constraintName="TEM_TRAVELER_PROF_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" type="VARCHAR2(3)" />
-			<column name="SRC_CODE" type="VARCHAR2(10)" />
 			<column name="NM" type="VARCHAR2(40)" />
 			<column name="ADVANCES_IND" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />

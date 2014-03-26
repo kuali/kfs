@@ -186,7 +186,6 @@
 
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TravelerType" table="TEM_TRAVELER_TYP_T">
         <field-descriptor name="code" primarykey="true" column="CODE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="sourceCode" column="SRC_CODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="advances" column="ADVANCES_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

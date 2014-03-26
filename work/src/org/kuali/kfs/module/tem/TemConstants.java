@@ -703,8 +703,6 @@ public class TemConstants {
         public static final String AGENCY_DATA_VALIDATION_DTL = "AgencyDataValidation";
         public static final String VALIDATE_ACCOUNT = "Account";
         public static final String VALIDATE_SUBACCOUNT = "Sub-Account";
-        public static final String VALIDATE_OBJECT_CODE = "Object Code";
-        public static final String VALIDATE_SUBOBJECT_CODE = "Sub-Object Code";
     }
 
     public static class CreditCardStagingDataErrorCodes {

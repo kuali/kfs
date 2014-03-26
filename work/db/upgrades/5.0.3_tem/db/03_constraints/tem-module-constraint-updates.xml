@@ -290,7 +290,7 @@
 			columnName="ACTV_TO_DT" columnDataType="DATE" />
 		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RT_TR1"
 			baseTableName="TEM_MILEAGE_RT_T" baseColumnNames="EXP_TYP_CD"
-			referencedTableName="TEM_EXP_TYP_CD" referencedColumnNames="EXP_TYP_CD"/>
+			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD"/>
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR1"
 			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />

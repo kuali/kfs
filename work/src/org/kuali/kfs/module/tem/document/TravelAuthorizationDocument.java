@@ -35,6 +35,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -89,7 +91,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -126,6 +127,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     protected volatile static PaymentSourceHelperService paymentSourceHelperService;
     protected volatile static OptionsService optionsService;
     protected volatile static UniversityDateService universityDateService;
+    protected volatile static OffsetDefinitionService offsetDefinitionService;
 
     /**
      * Creates a new instance of the Travel Request Document. Initializes the empty arrays as well as the line tracking numbers
@@ -598,7 +600,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
     private void setGLPEFiscalYearAndFiscalPeriod(GeneralLedgerPendingEntry explicitEntry) {
         try {
-             AccountingPeriod accountingPeriod = null;
+            AccountingPeriod accountingPeriod = null;
             final java.sql.Date tripEnd = new java.sql.Date(getTripEnd().getTime());
             final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
             final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
@@ -615,8 +617,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                     accountingPeriod = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
                 }
                 if (accountingPeriod != null) {
-                    explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
-                    explicitEntry.setUniversityFiscalPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+                    final OffsetDefinition offsetDefinition = getOffsetDefinitionService().getByPrimaryId(tripEndFiscalYear, explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
+                    if (offsetDefinition != null) {
+                        explicitEntry.setUniversityFiscalYear(tripEndFiscalYear);
+                        explicitEntry.setUniversityFiscalPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+                    }
                 }
             }
         } catch(ParseException pe) {
@@ -1025,8 +1030,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             accountingLine.setFinancialObjectCode(this.getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE, KFSConstants.EMPTY_STRING));
             return accountingLine;
         }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to create a new source accounting line", e);
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("unable to create a new source accounting line for advances", iae);
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("unable to create a new source accounting line for advances", ie);
         }
     }
 
@@ -1630,5 +1638,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             universityDateService = SpringContext.getBean(UniversityDateService.class);
         }
         return universityDateService;
+    }
+
+    protected static OffsetDefinitionService getOffsetDefinitionService() {
+        if (offsetDefinitionService == null) {
+            offsetDefinitionService = SpringContext.getBean(OffsetDefinitionService.class);
+        }
+        return offsetDefinitionService;
     }
 }

@@ -730,6 +730,19 @@
 		<createIndex indexName="TEM_HELD_ENCUM_ENTRY_TI5" tableName="TEM_HELD_ENCUM_ENTRY_T">
 			<column name="TRIP_ID" type="VARCHAR2(19)"/>
 		</createIndex>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="TRIP_TYP_CD" columnDataType="VARCHAR2(3)"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="ACTV_IND" columnDataType="VARCHAR2(1)"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="VER_NBR" columnDataType="NUMBER(22)"/>
+		<addUniqueConstraint tableName="TEM_PER_DIEM_REGION_T" constraintName="TEM_PER_DIEM_REGION_TC0" columnNames="OBJ_ID"/>
+		<addNotNullConstraint tableName="TEM_PRI_DEST_T" columnName="ACTV_IND" columnDataType="VARCHAR2(1)"/>
+		<addNotNullConstraint tableName="TEM_PRI_DEST_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)"/>
+		<addNotNullConstraint tableName="TEM_PRI_DEST_T" columnName="VER_NBR" columnDataType="NUMBER(22)"/>
+		<addUniqueConstraint tableName="TEM_PRI_DEST_T" constraintName="TEM_PRI_DEST_TC0" columnNames="OBJ_ID"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T" columnName="ACTV_IND" columnDataType="VARCHAR2(1)"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T" columnName="VER_NBR" columnDataType="NUMBER(22)"/>
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)"/>
+		<addUniqueConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T" constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TC0" columnNames="OBJ_ID"/>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />

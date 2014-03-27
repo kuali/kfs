@@ -478,6 +478,20 @@
    		</createTable>	
 		<addPrimaryKey tableName="TEM_PER_DIEM_REGION_T"
 			constraintName="TEM_PER_DIEM_REGION_TP1" columnNames="REGION_CD" />
+		<createTable name="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
+	        <column name="MEALS_INC" type="DECIMAL(19,2)"/>	        
+	        <column name="BKFST" type="NUMBER(22,0)"/>
+	        <column name="LUNCH" type="NUMBER(22,0)"/>
+	        <column name="DIN" type="NUMBER(22,0)"/>
+	        <column name="INC" type="DECIMAL(19,2)" defaultValueNumeric="0"/>
+	        <column name="FIRST_LAST_DAY_AMOUNT" type="DECIMAL(19,2)" defaultValueNumeric="0"/>
+	        <column name="LAST_UPD_DT" type="DATE"/>
+	        <column name="ACTV_IND" type="VARCHAR2(1)"/>
+	        <column default="1" name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1"/>
+	        <column name="OBJ_ID" required="true" type="VARCHAR2(36)"/>
+	    </createTable>
+	    <addPrimaryKey tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
+			constraintName="TEM_PER_DIEM_MIE_BREAK_DOWN_TP1" columnNames="MEALS_INC" />
 		<createTable tableName="TEM_PROFILE_ACCOUNT_T">
 			<column name="ACCOUNT_ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />

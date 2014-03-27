@@ -96,8 +96,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.beans.BeanUtils;
 
 @Entity
@@ -111,8 +109,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     // Emergency contact info section
     private String cellPhoneNumber;
     private String regionFamiliarity;
-    private String citizenshipCountryCode;
-    private Country citizenshipCountry;
     private List<TransportationModeDetail> transportationModes = new ArrayList<TransportationModeDetail>();
     private TravelAdvance travelAdvance;
     private TravelPayment advanceTravelPayment;
@@ -328,54 +324,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     public void setRegionFamiliarity(String regionFamiliarity) {
         this.regionFamiliarity = regionFamiliarity;
-    }
-
-    /**
-     * This method returns the citizenship country code for the traveler
-     *
-     * @return the traveler's citizenship
-     */
-    @Column(name = "CTZN_CNTRY_CD")
-    public String getCitizenshipCountryCode() {
-        return citizenshipCountryCode;
-    }
-
-    /**
-     * This method sets the traveler's citizenship country
-     *
-     * @param citizenshipCountryCode
-     */
-    public void setCitizenshipCountryCode(String citizenshipCountryCode) {
-        this.citizenshipCountryCode = citizenshipCountryCode;
-    }
-
-    /**
-     * This method returns the country that the traveler is a citizen of
-     *
-     * @return country the traveler is a citizen of
-     */
-    @Transient
-    public Country getCitizenshipCountry() {
-        if (StringUtils.isBlank(citizenshipCountryCode)) {
-            return null;
-        }
-        if (citizenshipCountry != null){
-            if (StringUtils.equals(citizenshipCountryCode, citizenshipCountry.getCode())) {
-                return citizenshipCountry;
-            }
-        }
-        //re-update by the country code
-        citizenshipCountry = SpringContext.getBean(CountryService.class).getCountry(citizenshipCountryCode);
-        return citizenshipCountry;
-    }
-
-    /**
-     * This method sets the country the traveler is a citizen of Should only be used during OJB population
-     *
-     * @param citizenshipCountry
-     */
-    public void setCitizenshipCountry(Country citizenshipCountry) {
-        this.citizenshipCountry = citizenshipCountry;
     }
 
     @Override

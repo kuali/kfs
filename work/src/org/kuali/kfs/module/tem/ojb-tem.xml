@@ -230,7 +230,8 @@
         <field-descriptor name="taxRamificationNotificationDate" column="TAX_RAM_NTF_DT" jdbc-type="DATE"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-        <reference-descriptor name="advancePaymentReason" class-ref="org.kuali.kfs.module.tem.businessobject.AdvancePaymentReason" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="advancePaymentReason" class-ref="org.kuali.kfs.module.tem.businessobject.AdvancePaymentReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        	<foreignkey field-ref="advancePaymentReasonCode"/>
         </reference-descriptor>
     </class-descriptor>
     
@@ -258,7 +259,6 @@
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
         <field-descriptor name="holdRequestorprincipalId" column="HOLD_RQSTR_PRNCPL_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
@@ -360,7 +360,6 @@
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
-        <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
@@ -463,7 +462,6 @@
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
-        <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="travelReimbursementDocumentNumber" column="TR_FDOC_NBR" jdbc-type="VARCHAR"/>
@@ -1160,25 +1158,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson" table="TEM_PROFILE_KIM_PERSON_T">
-        <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true"/>
-        <field-descriptor name="employeeId" column="EMP_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="principalName" column="PRNCPL_NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="entityId" column="ENTITY_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="firstName" column="FIRST_NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="middleName" column="MIDDLE_NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="lastName" column="LAST_NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="emailAddress" column="EMAIL_ADDR" jdbc-type="VARCHAR"/>
-        <field-descriptor name="phoneNumber" column="PHONE_NUM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="employeeStatusCode" column="EMP_STATUS_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="employeeTypeCode" column="EMP_TYP_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="primaryDepartmentCode" column="DEPT_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-    </class-descriptor>
     
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown" table="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
 		<field-descriptor name="mealsAndIncidentals" column="MEALS_INC" jdbc-type="DECIMAL" primarykey="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>		

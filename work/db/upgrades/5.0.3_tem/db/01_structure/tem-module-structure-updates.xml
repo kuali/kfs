@@ -554,26 +554,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_PROFILE_EM_CONT_T"
 			constraintName="TEM_PROFILE_EM_CONT_TP1" columnNames="ID" />
-		<createTable tableName="TEM_PROFILE_KIM_PERSON_T">
-			<column name="PRNCPL_ID" type="VARCHAR2(40)" />
-			<column name="ENTITY_ID" type="VARCHAR2(40)" />
-			<column name="EMP_ID" type="VARCHAR2(40)" />
-			<column name="PRNCPL_NM" type="VARCHAR2(40)" />
-			<column name="FIRST_NM" type="VARCHAR2(40)" />
-			<column name="MIDDLE_NM" type="VARCHAR2(40)" />
-			<column name="LAST_NM" type="VARCHAR2(40)" />
-			<column name="EMAIL_ADDR" type="VARCHAR2(40)" />
-			<column name="PHONE_NUM" type="VARCHAR2(40)" />
-			<column name="EMP_STATUS_CD" type="VARCHAR2(40)" />
-			<column name="EMP_TYP_CD" type="VARCHAR2(40)" />
-			<column name="DEPT_CD" type="VARCHAR2(40)" />
-			<column name="CAMPUS_CD" type="VARCHAR2(40)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_PROFILE_KIM_PERSON_T"
-			constraintName="TEM_PROFILE_KIM_PERSON_TP1" columnNames="PRNCPL_ID" />
 		<createTable tableName="TEM_PROFILE_T">
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
 			<column name="PRNCPL_ID" type="VARCHAR2(40)" />
@@ -890,7 +870,6 @@
 				defaultValueNumeric="0" />
 			<column name="CELL_PH_NUM" type="VARCHAR2(20)" />
 			<column name="RGN_FAMIL" type="VARCHAR2(255)" />
-			<column name="CTZN_CNTRY_CD" type="VARCHAR2(255)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
@@ -921,7 +900,6 @@
 				defaultValueNumeric="0" />
 			<column name="CELL_PH_NUM" type="VARCHAR2(20)" />
 			<column name="RGN_FAMIL" type="VARCHAR2(255)" />
-			<column name="CTZN_CNTRY_CD" type="VARCHAR2(255)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
 			<column name="TR_FDOC_NBR" type="VARCHAR2(14)"/>
@@ -953,7 +931,6 @@
 				defaultValueNumeric="0" />
 			<column name="CELL_PH_NUM" type="VARCHAR2(20)" />
 			<column name="RGN_FAMIL" type="VARCHAR2(255)" />
-			<column name="CTZN_CNTRY_CD" type="VARCHAR2(255)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />

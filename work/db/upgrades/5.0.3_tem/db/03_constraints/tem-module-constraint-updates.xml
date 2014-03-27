@@ -375,12 +375,6 @@
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_PROFILE_EM_CONT_T"
 			columnName="CONT_REL_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_PROFILE_TR1"
 			baseTableName="TEM_PROFILE_T" baseColumnNames="TRAVELER_TYP_CD"
 			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />

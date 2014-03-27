@@ -14979,15 +14979,12 @@
     </table>
     <table name="TEM_CLASS_SVC_T">
         <column name="CODE" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="EXP_TYP_CD" required="true" size="2" type="VARCHAR"/>
+        <column name="EXP_TYP_META_CTGRY_CD" required="true" size="2" type="VARCHAR"/>
         <column name="CLASS_SVC_NAME" required="true" size="40" type="VARCHAR"/>
         <column name="APRVL_REQ_IND" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_CLASS_SVC_TR1">
-            <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
-        </foreign-key>
         <unique name="TEM_CLASS_SVC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15166,7 +15163,7 @@
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
+        <foreign-key foreignTable="TEM_ENT_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_TR4">
@@ -15176,6 +15173,18 @@
             <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
         </foreign-key>
         <unique name="TEM_ENT_DOC_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_ENT_PURPOSE_T">
+        <column name="PURPOSE_CODE" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="PURPOSE_NAME" size="40" type="VARCHAR"/>
+        <column name="PURPOSE_DESCRIPTION" size="100" type="VARCHAR"/>
+        <column name="REVIEW_REQUIRED_IND" size="1" type="VARCHAR"/>
+        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="TEM_ENT_PURPOSE_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -15603,19 +15612,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="TEM_PURPOSE_T">
-        <column name="DOCUMENT_TYPE" required="true" size="4" type="VARCHAR"/>
-        <column name="PURPOSE_CODE" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="PURPOSE_NAME" size="40" type="VARCHAR"/>
-        <column name="PURPOSE_DESCRIPTION" size="100" type="VARCHAR"/>
-        <column name="REVIEW_REQUIRED_IND" size="1" type="VARCHAR"/>
-        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <unique name="TEM_PURPOSE_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="TEM_RELO_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="TRVL_ID" size="19" type="VARCHAR"/>
@@ -15797,7 +15793,6 @@
     </table>
     <table name="TEM_TRAVELER_TYP_T">
         <column name="CODE" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="SRC_CODE" size="10" type="VARCHAR"/>
         <column name="NM" required="true" size="40" type="VARCHAR"/>
         <column name="ADVANCES_IND" required="true" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>

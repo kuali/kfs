@@ -1,5 +1,4 @@
-<Record name="tem_purpose_t" type="delimited">
-  <Field name="document_type"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+<Record name="tem_ent_purpose_t" type="delimited">
   <Field name="purpose_code"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="purpose_name"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="purpose_description"             type="string"     nullable="true"  trim="false" delimiter="|"  />

@@ -1,6 +1,5 @@
 <Record name="tem_traveler_typ_t" type="delimited">
   <Field name="code"                            type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="src_code"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="nm"                              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="advances_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|"  />

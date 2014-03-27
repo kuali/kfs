@@ -19,7 +19,6 @@
 //#TL
     function transform() {
         $0.code := replace(nvl($code, ""), "~!~", "|" );
-        $0.src_code := replace(nvl($src_code, ""), "~!~", "|" );
         $0.nm := replace(nvl($nm, ""), "~!~", "|" );
         $0.advances_ind := replace(nvl($advances_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );

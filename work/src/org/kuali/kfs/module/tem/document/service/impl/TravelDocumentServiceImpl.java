@@ -2643,14 +2643,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final String[] perDiemPropertyParts = splitPerDiemProperty(property);
             PerDiemExpense perDiemExpense = (PerDiemExpense)ObjectUtils.getPropertyValue(document, perDiemPropertyParts[0]);
             final String mealName = perDiemPropertyParts[1];
-            final String mealSuffix = (mealProperty(mealName)) ? "Value" : "";
+            final boolean mealProperty = isMealProperty(mealName);
+            final String mealSuffix = (mealProperty) ? "Value" : "";
             final String mealValueName = mealName+mealSuffix;
 
             KualiDecimal currentMealValue = (KualiDecimal)ObjectUtils.getPropertyValue(perDiemExpense, mealValueName);
             if (currentMealValue != null && currentMealValue.equals(KualiDecimal.ZERO)) {
                 final PerDiem perDiem = getPerDiemService().getPerDiem(perDiemExpense.getPrimaryDestinationId(), perDiemExpense.getMileageDate(), document.getEffectiveDateForPerDiem(perDiemExpense));
                 final KualiDecimal mealAmount = (KualiDecimal)ObjectUtils.getPropertyValue(perDiem, mealName);
-                final boolean prorated = mealProperty(mealName) && !KfsDateUtils.isSameDay(document.getTripBegin(), document.getTripEnd()) && (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripBegin()) || KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripEnd()));
+                final boolean prorated = mealProperty && !KfsDateUtils.isSameDay(document.getTripBegin(), document.getTripEnd()) && (KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripBegin()) || KfsDateUtils.isSameDay(perDiemExpense.getMileageDate(), document.getTripEnd()));
                 if (prorated && !ObjectUtils.isNull(document.getTripType())) {
                     perDiemExpense.setProrated(true);
                     final String perDiemCalcMethod = document.getTripType().getPerDiemCalcMethod();
@@ -2660,7 +2661,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 } else {
                     ObjectUtils.setObjectProperty(perDiemExpense, mealValueName, mealAmount);
                 }
-                if (mealProperty(mealName)) {
+                if (mealProperty) {
                     ObjectUtils.setObjectProperty(perDiemExpense, mealName, Boolean.TRUE);
                 }
             }
@@ -2684,7 +2685,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param property the property to check
      * @return true if the property represents a field with an extra "Value" field, false otherwise
      */
-    protected boolean mealProperty(String property) {
+    protected boolean isMealProperty(String property) {
         return StringUtils.equals(property, TemPropertyConstants.BREAKFAST) || StringUtils.equals(property, TemPropertyConstants.LUNCH) || StringUtils.equals(property, TemPropertyConstants.DINNER) || StringUtils.equals(property, TemPropertyConstants.INCIDENTALS);
     }
 

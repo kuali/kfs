@@ -423,4 +423,5 @@ public class TemPropertyConstants {
     public static final String TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "encumbranceBalanceType";
     public static final String TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "encumbranceObjCode";
     public static final String TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "autoTravelReimbursementLimit";
+    public static final String LODGING = "lodging";
 }

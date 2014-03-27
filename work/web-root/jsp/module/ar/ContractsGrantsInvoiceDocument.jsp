@@ -39,21 +39,21 @@
 		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
 		readOnly="${readOnly}" />
 	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == 'MS'}">
+		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
 
 		<ar:invoiceMilestones />
 	</c:if>
 
 	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == 'PDBS'}">
+		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
 
 		<ar:invoiceBills />
 	</c:if>
 
 	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != 'MS'}">
+		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
 		<c:if
-			test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != 'PDBS'}">
+			test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
 
 			<ar:invoiceDetails readOnly="${readOnly}"/>
 			<ar:invoiceAccountDetails />

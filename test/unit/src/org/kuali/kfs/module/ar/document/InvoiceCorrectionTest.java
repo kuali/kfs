@@ -26,7 +26,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -88,7 +87,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedMilestones() throws WorkflowException {
-        document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE);
+        document.getInvoiceGeneralDetail().setBillingFrequency(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE);
 
         documentService.saveDocument(document);
 
@@ -129,7 +128,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedBills() throws WorkflowException {
-        document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
+        document.getInvoiceGeneralDetail().setBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
         documentService.saveDocument(document);
 
         String documentNumber = document.getDocumentNumber();

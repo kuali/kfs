@@ -175,7 +175,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         // To do a recalculate of current expenditures in invoice details section so that the totals get affected properly.
 
         // To be performed whenever the document is saved only for awards without Milestones, Bills or LOC Billing
-        if (!this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+        if (!this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !this.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
             contractsGrantsInvoiceDocumentService.recalculateNewTotalBilled(this);
@@ -213,10 +213,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoice.getAccountDetails(),invoice.getProposalNumber());
                         getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
 
-                        if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+                        if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
                             contractsGrantsInvoiceDocumentService.correctMilestones(invoice.getInvoiceMilestones());
                         }
-                        else if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+                        else if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
                             contractsGrantsInvoiceDocumentService.correctBills(invoice.getInvoiceBills());
                         }
                     }

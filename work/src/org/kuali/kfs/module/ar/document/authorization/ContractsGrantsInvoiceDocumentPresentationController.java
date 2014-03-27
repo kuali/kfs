@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ar.document.authorization;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,7 +51,7 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
      * @return
      */
     public boolean isBillingFrequencyMilestone(ContractsGrantsInvoiceDocument document) {
-        String milestone = ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE;
+        String milestone = ArConstants.MILESTONE_BILLING_SCHEDULE_CODE;
         if (milestone.equals(document.getInvoiceGeneralDetail().getBillingFrequency())) {
             return true;
         }
@@ -67,7 +67,7 @@ public class ContractsGrantsInvoiceDocumentPresentationController extends Custom
      * @return
      */
     public boolean isBillingFrequencyPredeterminedBillingSchedule(ContractsGrantsInvoiceDocument document) {
-        String predetermined = ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE;
+        String predetermined = ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE;
         if (predetermined.equals(document.getInvoiceGeneralDetail().getBillingFrequency())) {
             return true;
         }

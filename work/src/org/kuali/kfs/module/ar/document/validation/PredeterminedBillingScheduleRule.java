@@ -17,8 +17,8 @@ package org.kuali.kfs.module.ar.document.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
@@ -65,7 +65,7 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
         boolean success = false;
 
         if (ObjectUtils.isNotNull(newPredeterminedBillingScheduleCopy.getAward().getBillingFrequency())) {
-            if (StringUtils.equals(newPredeterminedBillingScheduleCopy.getAward().getBillingFrequency().getFrequency(), ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            if (StringUtils.equals(newPredeterminedBillingScheduleCopy.getAward().getBillingFrequency().getFrequency(), ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
                 success = true;
             }
         }

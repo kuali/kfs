@@ -271,7 +271,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             criteria.put("letterOfCreditFundCode", this.getLetterOfCreditFundCode());
         }
         // To exclude awards with milestones and predetermined schedule.
-        criteria.put(ArPropertyConstants.PREFERRED_BILLING_FREQUENCY, ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
+        criteria.put(ArPropertyConstants.PREFERRED_BILLING_FREQUENCY, ArConstants.LOC_BILLING_SCHEDULE_CODE);
 
         List<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceDocumentService.getActiveAwardsByCriteria(criteria);
 

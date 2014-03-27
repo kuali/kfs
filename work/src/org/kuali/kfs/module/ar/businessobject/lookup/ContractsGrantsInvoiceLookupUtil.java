@@ -27,6 +27,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceResultRow;
@@ -99,7 +100,7 @@ public class ContractsGrantsInvoiceLookupUtil {
         Map<String, List<ContractsAndGrantsBillingAward>> awardsByAgency = new HashMap<String, List<ContractsAndGrantsBillingAward>>();
         for (ContractsAndGrantsBillingAward award : awards) {// To display awards only if their preferred Billing frequency is not LOC
                                                          // Billing
-            if (StringUtils.isNotEmpty(award.getPreferredBillingFrequency()) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+            if (StringUtils.isNotEmpty(award.getPreferredBillingFrequency()) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 String agencyNumber = award.getAgencyNumber();
                 if (awardsByAgency.containsKey(agencyNumber)) {
                     awardsByAgency.get(agencyNumber).add(award);

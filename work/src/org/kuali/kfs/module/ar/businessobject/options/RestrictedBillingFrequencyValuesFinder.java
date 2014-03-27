@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -41,7 +41,7 @@ public class RestrictedBillingFrequencyValuesFinder extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue("", ""));
         for (ContractsAndGrantsBillingFrequency element : boList) {
             if (element.isActive()) {
-                if (!element.getFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                if (!element.getFrequency().equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
                     String displayValue = element.getFrequencyDescription();
                     keyValues.add(new ConcreteKeyValue(element.getFrequency(), displayValue));
                 }

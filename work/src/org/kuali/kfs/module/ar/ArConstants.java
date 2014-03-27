@@ -457,4 +457,12 @@ public class ArConstants{
     public static final String INVR = "INVR";
     public static final String LETTER_OF_CREDIT_CREATION_TYPE ="letterOfCreditCreationType" ;
     public static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String PREDETERMINED_BILLING_SCHEDULE_CODE = "PDBS";
+    public static final String MILESTONE_BILLING_SCHEDULE_CODE = "MILE";
+    public static final String MONTHLY_BILLING_SCHEDULE_CODE = "MNTH";
+    public static final String QUATERLY_BILLING_SCHEDULE_CODE = "QUAR";
+    public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
+    public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
+    public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
+    public static final String BILLED_AT_TERM = "AT_TERM";
 }

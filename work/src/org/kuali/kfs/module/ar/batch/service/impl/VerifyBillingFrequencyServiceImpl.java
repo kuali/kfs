@@ -26,7 +26,7 @@ import java.util.TreeSet;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
@@ -127,7 +127,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         }
 
         // 2.billed monthly. ( Milestone and Predetermined Scheduled billing frequencies will also be invoiced as monthly.)
-        if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+        if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             // 2.1 find end date
             if (lastBilledDate != null) {
                 // if the current month is the first fiscal month of the current year, then get the last day of the previous fiscal
@@ -226,7 +226,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         }
 
         // 3.billed quarterly
-        if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE)) {
+        if (billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE)) {
             // 3.1 find end date
             if (lastBilledDate != null) {
                 // if the current month is in the first fiscal quarter of the current year,
@@ -317,7 +317,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         }
 
         // 4.billed semi-annually
-        if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE)) {
+        if (billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE)) {
             // 4.1 find end date
             if (lastBilledDate != null) {
                 // if the current month is in the first fiscal semi-year of the current year,
@@ -410,7 +410,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         }
 
         // 5.billed annually
-        if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+        if (billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
             // 5.1 find end date
             if (lastBilledDate != null) {
                 previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime()); // assume the calendar date, discussion needed
@@ -441,7 +441,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         }
 
         // 6.billed for LOC Review - A Random billing period
-        if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+        if (billingFrequency.equalsIgnoreCase(ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
 
             // This would be previous day.
             // Get today as a Calendar

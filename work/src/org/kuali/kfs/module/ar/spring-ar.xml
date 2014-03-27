@@ -171,6 +171,18 @@
 		</property>
     </bean>
 
+	<bean id="ArConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.ar.ArConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="ArConstants" value-ref="ArConstants" />
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="letterTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterTemplateLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
 		<property name="kualiModuleService">

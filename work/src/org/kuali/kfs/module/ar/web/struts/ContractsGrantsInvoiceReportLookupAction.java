@@ -30,13 +30,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsInvoiceReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.lookup.Lookupable;
@@ -139,7 +139,8 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
 
         //To avoid opening pdf if search results = none.
         if(CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
-            GlobalVariables.getMessageMap().putInfo(KFSConstants.DOCUMENT_ERRORS, ArKeyConstants.NO_VALUES_RETURNED);
+            // this is so the message about no search results shows up in the same place as when doing a search
+            request.setAttribute(KFSPropertyConstants.REQUEST_SEARCH_RESULTS_ACTUAL_SIZE, 0 );
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

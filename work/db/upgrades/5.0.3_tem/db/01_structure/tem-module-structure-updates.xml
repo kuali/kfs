@@ -473,7 +473,7 @@
    		</createTable>	
 		<addPrimaryKey tableName="TEM_PER_DIEM_REGION_T"
 			constraintName="TEM_PER_DIEM_REGION_TP1" columnNames="REGION_CD" />
-		<createTable name="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
+		<createTable tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
 	        <column name="MEALS_INC" type="DECIMAL(19,2)"/>	        
 	        <column name="BKFST" type="NUMBER(22,0)"/>
 	        <column name="LUNCH" type="NUMBER(22,0)"/>

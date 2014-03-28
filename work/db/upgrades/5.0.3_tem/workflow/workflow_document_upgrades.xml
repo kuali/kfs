@@ -338,6 +338,7 @@
 				<status>Awaiting Risk Management Review</status>
 				<status>Awaiting Sub-Fund Review</status>
 				<status>Awaiting Award Review</status>
+				<status>Awaiting Budget Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
                 <status>Awaiting Disbursement Method Review</status>
 				<status>Awaiting Travel Manager Review</status>
@@ -353,6 +354,7 @@
 				<status>Disapproved - Risk Management</status>
 				<status>Disapproved - Sub-Fund</status>
 				<status>Disapproved - Award</status>
+				<status>Disapproved - Budget</status>
                 <status>Disapproved - Separation Of Duties</status>
                 <status>Disapproved - Disbursement Method</status>
 				<status>Disapproved - Travel</status>
@@ -412,7 +414,16 @@
                         <join name="JoinTravelIsInternational"/>
                     </split>
 					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
+					<role name="Award" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Review"/>
+					<split name="RequiresBudgetReview" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Budget Review">
+						<branch name="True">
+							<role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<join name="JoinRequiresBudgetReview"/>
+					</split>
 	     			<split name="RequiresSeparationOfDuties" nextNode="TravelAdvanceRequested" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
 			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
@@ -539,6 +550,18 @@
 						P
           			</activationType>
 				</role>
+				
+				<role name="Budget">
+					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<split name="RequiresBudgetReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+				</split>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinRequiresBudgetReview" />
                 
 				<split name="TravelAdvanceRequested">
                     <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
@@ -628,6 +651,7 @@
                 <status>Awaiting International Travel Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
+                <status>Awaiting Budget Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
                 <status>Awaiting Disbursement Method Review</status>
@@ -641,6 +665,7 @@
                 <status>Disapproved - International Travel</status>
                 <status>Disapproved - Sub-Fund</status>
                 <status>Disapproved - Award</status>
+                <status>Disapproved - Budget</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
                 <status>Disapproved - Disbursement Method</status>
@@ -698,14 +723,23 @@
 						</branch>
 						<join name="JoinRequiresSubFund" />
 					</split>
-					<split name="RequiresAward" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Award Review">
+					<split name="RequiresAward" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Award Review">
 						<branch name="True">
-							<role name="Award" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+							<role name="Award" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Budget Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAward" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+							<simple name="NoOpAward" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Budget Review" />
 						</branch>
 						<join name="JoinRequiresAward" />
+					</split>
+					<split name="RequiresBudgetReview" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Budget Review">
+						<branch name="True">
+							<role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<join name="JoinRequiresBudgetReview"/>
 					</split>
 	     			<split name="RequiresSeparationOfDuties" nextNode="Travel" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
@@ -816,6 +850,18 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
+                
+                <role name="Budget">
+					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<split name="RequiresBudgetReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+				</split>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinRequiresBudgetReview" />
                 
                 <join name="JoinTaxManager" />
 				<simple name="NoOpTaxManager">
@@ -929,6 +975,7 @@
                 <status>Awaiting Executive Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
+                <status>Awaiting Budget Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
                 <status>Awaiting Disbursement Method Review</status>
@@ -941,6 +988,7 @@
                 <status>Disapproved - Executive</status>
                 <status>Disapproved - Sub-Fund</status>
                 <status>Disapproved - Award</status>
+                <status>Disapproved - Budget</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
                 <status>Disapproved - Disbursement Method</status>
@@ -984,7 +1032,16 @@
 					<role name="ExecutiveApproval" nextNode="SubFund" nextAppDocStatus="Awaiting Sub-Fund Review" />				
                     
                     <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-                    <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+                    <role name="Award" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Review" />
+                    <split name="RequiresBudgetReview" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Budget Review">
+						<branch name="True">
+							<role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<join name="JoinRequiresBudgetReview"/>
+					</split>
                     <split name="RequiresSeparationOfDuties" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
@@ -1071,6 +1128,18 @@
                         P
                     </activationType>
                 </role>
+                
+                <role name="Budget">
+					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<split name="RequiresBudgetReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+				</split>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinRequiresBudgetReview" />
                 
                 <join name="JoinTaxManagerApproval" />
                 <split name="TaxManagerApproval">
@@ -1198,6 +1267,7 @@
                 <status>Awaiting Special Request Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
+                <status>Awaiting Budget Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
                 <status>Awaiting Disbursement Payment Review</status>
@@ -1209,6 +1279,7 @@
                 <status>Disapproved - Special Request</status>
                 <status>Disapproved - Sub-Fund</status>
                 <status>Disapproved - Award</status>
+                <status>Disapproved - Budget</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
                 <status>Disapproved - Disbursement Method</status>
@@ -1250,7 +1321,16 @@
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
            	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-            	    <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+            	    <role name="Award" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Review" />
+            	    <split name="RequiresBudgetReview" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Budget Review">
+						<branch name="True">
+							<role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						</branch>
+						<join name="JoinRequiresBudgetReview"/>
+					</split>
                     <split name="RequiresSeparationOfDuties" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
@@ -1325,6 +1405,18 @@
 					</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
+				
+				<role name="Budget">
+					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<split name="RequiresBudgetReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+				</split>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinRequiresBudgetReview" />
 				
 				<join name="JoinTaxManager" />
                 <simple name="NoOpTaxManager">

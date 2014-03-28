@@ -240,6 +240,9 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER)) {
             return requiresTaxManagerApprovalRouting();
         }
+        if (StringUtils.equals(TemWorkflowConstants.REQUIRES_BUDGET_REVIEW, nodeName)) {
+            return isBudgetReviewRequired();
+        }
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting();
         }

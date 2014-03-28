@@ -318,6 +318,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER_APPROVAL_REQUIRED)) {
             return requiresTaxManagerApprovalRouting() && isNotAutomaticReimbursement();
         }
+        if (StringUtils.equals(TemWorkflowConstants.REQUIRES_BUDGET_REVIEW, nodeName)) {
+            return isBudgetReviewRequired();
+        }
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting() && isNotAutomaticReimbursement();
         }

@@ -1046,6 +1046,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
         }
+        if (StringUtils.equals(TemWorkflowConstants.REQUIRES_BUDGET_REVIEW, nodeName)) {
+            return isBudgetReviewRequired();
+        }
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting();
         }

@@ -48,7 +48,7 @@
 			<column name="nm" value="Review KFST Budget"/>
 			<where>rsp_id = '76'</where>
 		</update>
-		<update tableName="krim_rsp_attr_data_">
+		<update tableName="krim_rsp_attr_data_t">
 			<column name="attr_val" value="KFST"/>
 			<where>attr_data_id = 'KFS266'</where>
 		</update>

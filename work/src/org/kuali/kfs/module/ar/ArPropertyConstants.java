@@ -450,6 +450,10 @@ public class ArPropertyConstants{
         public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
     }
 
+    public static class PredeterminedBillingScheduleFields {
+        public static final String BILLS = "bills";
+    }
+
     public static class BillFields {
         public static final String BILL_IDENTIFIER = "billIdentifier";
         public static final String BILL_NUMBER = "billNumber";

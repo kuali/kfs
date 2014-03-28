@@ -80,12 +80,10 @@ public class AddImportedExpenseEvent implements Observer {
                 newExpense.setExpenseLineTypeCode(null);
             }
             catch (IllegalAccessException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not copy properties to imported line detail", ex);
             }
             catch (InvocationTargetException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not copy properties to imported line detail", ex);
             }
 
             //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);

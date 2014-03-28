@@ -1977,8 +1977,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(currStatus);
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not update application document status", ex);
             }
         }
 
@@ -1988,8 +1987,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not update application document status on document disapproval", ex);
             }
         }
 
@@ -1999,7 +1997,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.CANCELLED);
             }
             catch (WorkflowException we) {
-                throw new RuntimeException("Could not update document type", we);
+                throw new RuntimeException("Could not update application document status on document disapproval", we);
             }
         }
     }

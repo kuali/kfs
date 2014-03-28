@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -102,4 +103,12 @@ public interface ImportedExpensePendingEntryService {
      */
     public boolean generateDocumentImportedExpenseGeneralLedgerPendingEntries(TravelDocument travelDocument, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isCredit, String docType);
 
+    /**
+     * Generate GLPEs to credit CTS expenses on TEM documents and the debiting offset
+     * @param expense the historical travel expense to build a GLPE for
+     * @param sequenceHelper the sequence number helper for the glpe's
+     * @param travelDocumentIdentifier the trip id which will act as the organization document number
+     * @return a List of pending entries
+     */
+    public List<GeneralLedgerPendingEntry> buildDistributionEntriesForCTSExpense(ImportedExpense expense, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String travelDocumentIdentifier);
 }

@@ -47,6 +47,7 @@ import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -236,6 +237,16 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
             debitLine.setAmount(accountingLineMap.get(key));
             debitLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
             importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper, false, distributionIncomeAndExpenseDocumentType);
+        }
+
+        // now, add the credit lines for each CTS
+        for (ImportedExpense importedExpense : travelDocument.getImportedExpenses()) {
+            if (StringUtils.equals(importedExpense.getCardType(), TemConstants.TRAVEL_TYPE_CTS)) {
+                final List<GeneralLedgerPendingEntry> creditEntries = importedExpensePendingEntryService.buildDistributionEntriesForCTSExpense(importedExpense, sequenceHelper, travelDocument.getTravelDocumentIdentifier());
+                for (GeneralLedgerPendingEntry glpe : creditEntries) {
+                    travelDocument.addPendingEntry(glpe);
+                }
+            }
         }
     }
 

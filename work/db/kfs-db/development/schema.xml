@@ -15553,24 +15553,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="TEM_PROFILE_KIM_PERSON_T">
-        <column name="PRNCPL_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="ENTITY_ID" size="40" type="VARCHAR"/>
-        <column name="EMP_ID" size="40" type="VARCHAR"/>
-        <column name="PRNCPL_NM" size="40" type="VARCHAR"/>
-        <column name="FIRST_NM" size="40" type="VARCHAR"/>
-        <column name="MIDDLE_NM" size="40" type="VARCHAR"/>
-        <column name="LAST_NM" size="40" type="VARCHAR"/>
-        <column name="EMAIL_ADDR" size="40" type="VARCHAR"/>
-        <column name="PHONE_NUM" size="40" type="VARCHAR"/>
-        <column name="EMP_STATUS_CD" size="40" type="VARCHAR"/>
-        <column name="EMP_TYP_CD" size="40" type="VARCHAR"/>
-        <column name="DEPT_CD" size="40" type="VARCHAR"/>
-        <column name="CAMPUS_CD" size="40" type="VARCHAR"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-    </table>
     <table name="TEM_PROFILE_T">
         <column name="PROFILE_ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="PRNCPL_ID" size="40" type="VARCHAR"/>
@@ -15925,7 +15907,6 @@
         <column default="0" name="PER_DIEM_ADJ" scale="2" size="19" type="DECIMAL"/>
         <column name="CELL_PH_NUM" size="20" type="VARCHAR"/>
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
-        <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -15964,7 +15945,6 @@
         <column default="0" name="PER_DIEM_ADJ" scale="2" size="19" type="DECIMAL"/>
         <column name="CELL_PH_NUM" size="20" type="VARCHAR"/>
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
-        <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -16004,7 +15984,6 @@
         <column default="0" name="PER_DIEM_ADJ" scale="2" size="19" type="DECIMAL"/>
         <column name="CELL_PH_NUM" size="20" type="VARCHAR"/>
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
-        <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>

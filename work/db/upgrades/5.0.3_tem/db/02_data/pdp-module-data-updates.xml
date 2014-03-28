@@ -7,7 +7,7 @@
 			<column name="TRANS_TYP" value="TEM"/>
 			<column name="OBJ_ID" value="KFS-ACH-TRANS-TYP-002"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="TRANS_TYPE_DESC" value="Travel and Entertainment Transaction Type"/>
+			<column name="TRANS_TYP_DESC" value="Travel and Entertainment Transaction Type"/>
 		</insert>
 		<insert tableName="PDP_CUST_PRFL_T">
 			<column name="CUST_ID" value="10000033"/>

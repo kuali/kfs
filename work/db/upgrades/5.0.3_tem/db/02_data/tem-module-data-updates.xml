@@ -311,7 +311,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="1"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="ORBT"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -324,7 +323,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -333,7 +331,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="2"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="HOTL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -346,7 +343,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="L"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -355,7 +351,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="3"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="MPOL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -368,7 +363,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="R"/>
 			<column name="PRE_RECONCILED" value="Y"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -377,7 +371,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="4"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="GHST"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -398,7 +391,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="5"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="USBC"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CORP"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -421,7 +413,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="6"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CNXS"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -434,7 +425,6 @@
 			<column name="EMAIL" value="kaosborne@ucdavis.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Karen Osborne"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -443,7 +433,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="7"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CTSC"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -456,7 +445,6 @@
 			<column name="EMAIL" value="email@email.edu"/>
 			<column name="PHONE" value="800-123-1234"/>
 			<column name="CONTACT_NAME" value="Test User"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>

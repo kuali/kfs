@@ -11,7 +11,6 @@
 		<property name="objectLabel" value="CreditCardAgency" />
 		<property name="attributes">
 		<list>
-			<ref bean="CreditCardAgency-id" />
 			<ref bean="CreditCardAgency-creditCardOrAgencyCode" />
 			<ref bean="CreditCardAgency-travelCardTypeCode" />
 			<ref bean="CreditCardAgency-paymentIndicator" />
@@ -24,7 +23,6 @@
 			<ref bean="CreditCardAgency-email" />
 			<ref bean="CreditCardAgency-phone" />
 			<ref bean="CreditCardAgency-contactName" />
-			<ref bean="CreditCardAgency-typeCode" />
 			<ref bean="CreditCardAgency-preReconciled" />
 			<ref bean="CreditCardAgency-enableNonReimbursable" />
 			<ref bean="CreditCardAgency-vendorNumber" />
@@ -36,24 +34,12 @@
 		</list>
 		</property>
 	</bean>
-	<bean id="CreditCardAgency-id" parent="CreditCardAgency-id-parentBean" />
-	<bean id="CreditCardAgency-id-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="id" />
-		<property name="label" value="Id" />
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="32" />
-		<property name="required" value="true" />
-		<property name="summary" value="Id" />
-		<property name="description" value="Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>
 	<bean id="CreditCardAgency-creditCardOrAgencyCode" parent="CreditCardAgency-creditCardOrAgencyCode-parentBean" />
 	<bean id="CreditCardAgency-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="creditCardOrAgencyCode" />
 		<property name="label" value="Credit Card Or Agency Code" />
 		<property name="shortLabel" value="Credit Card Or Agency Code" />
-		<property name="maxLength" value="32" />
+		<property name="maxLength" value="4" />
 		<property name="required" value="true" />
 		<property name="summary" value="Credit Card Or Agency Code" />
 		<property name="description" value="Credit Card Or Agency Code" />
@@ -168,16 +154,6 @@
 		<property name="description" value="Contact Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="45"/></property>
 	</bean>
-	<bean id="CreditCardAgency-typeCode" parent="CreditCardAgency-typeCode-parentBean" />
-	<bean id="CreditCardAgency-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="typeCode" />
-		<property name="label" value="Type Code" />
-		<property name="shortLabel" value="Type Code" />
-		<property name="maxLength" value="1" />
-		<property name="summary" value="Type Code" />
-		<property name="description" value="Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="1"/></property>
-	</bean>
 	<bean id="CreditCardAgency-preReconciled" parent="CreditCardAgency-preReconciled-parentBean" />
 	<bean id="CreditCardAgency-preReconciled-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="preReconciled" />
@@ -262,7 +238,6 @@
 					<bean parent="FieldDefinition" p:attributeName="email" />
 					<bean parent="FieldDefinition" p:attributeName="phone" />
 					<bean parent="FieldDefinition" p:attributeName="contactName" />
-					<bean parent="FieldDefinition" p:attributeName="typeCode" />
 					<bean parent="FieldDefinition" p:attributeName="preReconciled" />
 					<bean parent="FieldDefinition" p:attributeName="enableNonReimbursable" />
 					<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
@@ -285,7 +260,6 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="travelCardTypeCode" />
 			<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
@@ -297,7 +271,6 @@
 		</property>
 		<property name="resultFields">
 		<list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="travelCardTypeCode" />
 			<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
@@ -310,7 +283,6 @@
 			<bean parent="FieldDefinition" p:attributeName="email" />
 			<bean parent="FieldDefinition" p:attributeName="phone" />
 			<bean parent="FieldDefinition" p:attributeName="contactName" />
-			<bean parent="FieldDefinition" p:attributeName="typeCode" />
 			<bean parent="FieldDefinition" p:attributeName="preReconciled" />
 			<bean parent="FieldDefinition" p:attributeName="enableNonReimbursable" />
 			<bean parent="FieldDefinition" p:attributeName="vendorNumber" />

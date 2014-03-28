@@ -32,9 +32,7 @@ public class TemProfileAccount extends PersistableBusinessObjectBase implements 
 
     private Integer profileId;
     private TemProfile profile;
-    private CreditCardAgency creditCardAgency;
-    private String creditCardOrAgencyName;
-    private Integer creditCardAgencyId;
+    private String creditCardOrAgencyCode;
     private Integer accountId;
     private String name;
     private String accountNumber;
@@ -42,6 +40,9 @@ public class TemProfileAccount extends PersistableBusinessObjectBase implements 
     private Date effectiveDate;
     private String note;
     private Boolean active = Boolean.TRUE;
+
+    private CreditCardAgency creditCardAgency;
+    private String creditCardOrAgencyName;
 
     /**
      * Gets the accountId attribute.
@@ -217,22 +218,22 @@ public class TemProfileAccount extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the creditCardAgencyId attribute.
+     * Gets the creditCardOrAgencyCode attribute.
      *
-     * @return Returns the cardId.
+     * @return Returns the creditCardAgencyCode.
      */
-    @Column(name = "card_id", nullable = false, length = 19)
-    public Integer getCreditCardAgencyId() {
-        return creditCardAgencyId;
+    @Column(name = "credit_card_agency_code", nullable = false, length = 19)
+    public String getCreditCardOrAgencyCode() {
+        return creditCardOrAgencyCode;
     }
 
     /**
-     * Sets the creditCardAgencyId attribute value.
+     * Sets the creditCardOrAgencyCode attribute value.
      *
-     * @param creditCardAgencyId The creditCardAgencyId to set.
+     * @param creditCardOrAgencyCode The creditCardOrAgencyCode to set.
      */
-    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
-        this.creditCardAgencyId = creditCardAgencyId;
+    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
+        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
     }
 
     /**
@@ -240,7 +241,7 @@ public class TemProfileAccount extends PersistableBusinessObjectBase implements 
      *
      * @return Returns the creditCardAgency.
      */
-    @JoinColumn(name = "card_id")
+    @JoinColumn(name = "credit_card_agency_code")
     public CreditCardAgency getCreditCardAgency() {
         return creditCardAgency;
     }

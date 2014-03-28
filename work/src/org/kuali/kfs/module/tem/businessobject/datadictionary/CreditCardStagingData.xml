@@ -126,15 +126,12 @@
 		<property name="description" value="Billing Cycle Date" />
 	</bean>
 	<bean id="CreditCardStagingData-creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardOrAgencyCode-parentBean" />
-	<bean id="CreditCardStagingData-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode">
 		<property name="name" value="creditCardOrAgencyCode" />
-		<property name="label" value="Credit Card or Agency Code" />
-		<property name="shortLabel" value="Credit Card or Agency Code" />
-		<property name="maxLength" value="4" />
-		<property name="summary" value="Credit Card or Agency Code" />
-		<property name="description" value="Credit Card or Agency Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
-	</bean>
+		<property name="control">
+	       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CreditCardAgencyTypeValuesFinder" p:includeKeyInLabel="false"  p:includeBlankRow="true" p:keyAttribute="creditCardOrAgencyCode" p:labelAttribute="creditCardOrAgencyName"/>
+	    </property>
+	</bean>	
 	<bean id="CreditCardStagingData-creationDate" parent="CreditCardStagingData-creationDate-parentBean" />
 	<bean id="CreditCardStagingData-creationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="creationDate" />
@@ -463,7 +460,7 @@
   		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" p:noLookup="true"/>
 			<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
 		    <bean parent="FieldDefinition" p:attributeName="errorCode" />	
             <bean parent="FieldDefinition" p:attributeName="temProfileId" />
@@ -483,7 +480,7 @@
 		<property name="resultFields">
 		<list>
 			<!-- suppress the ID displayed so it will not be used for viewing info -->
-            <bean parent="FieldDefinition" p:attributeName="creditCardAgency.creditCardOrAgencyCode" />
+            <bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
 		    <bean parent="FieldDefinition" p:attributeName="errorCode" />	
             <bean parent="FieldDefinition" p:attributeName="profile.employeeId" />

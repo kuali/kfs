@@ -42,7 +42,6 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private String airNumber;
     private Date billingCycleDate;
     private String creditCardOrAgencyCode;
-    private Integer creditCardAgencyId;
     private Date creationDate;
     private Timestamp creationTimestamp;
     private Date departureDate;
@@ -529,16 +528,6 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
     public void setCreditCardAgency(CreditCardAgency creditCardAgency) {
         this.creditCardAgency = creditCardAgency;
-    }
-
-
-    public Integer getCreditCardAgencyId() {
-        return creditCardAgencyId;
-    }
-
-
-    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
-        this.creditCardAgencyId = creditCardAgencyId;
     }
 
 

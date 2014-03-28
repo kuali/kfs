@@ -25,6 +25,7 @@ import java.util.Observer;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
@@ -95,14 +96,14 @@ public class AddImportedExpenseEvent implements Observer {
             //Add the appropriate source accounting line
             if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                 HistoricalTravelExpense historicalTravelExpense = getBusinessObjectService().findBySinglePrimaryKey(HistoricalTravelExpense.class, newImportedExpenseLine.getHistoricalTravelExpenseId());
-                historicalTravelExpense.refreshReferenceObject("agencyStagingData");
-                List<TripAccountingInformation> tripAccountinfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();
+                historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.AGENCY_STAGING_DATA);
+                List<TripAccountingInformation> tripAccountInfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();
                 final ExpenseTypeObjectCode expenseTypeObjectCode = findExpenseTypeObjectCodeForAgencyStagingData(document, historicalTravelExpense.getAgencyStagingData());
 
-                for (TripAccountingInformation tripAccountingInformation : tripAccountinfoList){
+                for (TripAccountingInformation tripAccountingInformation : tripAccountInfoList){
                     TemSourceAccountingLine importedLine = new TemSourceAccountingLine();
                     importedLine.setAmount(ObjectUtils.isNotNull(tripAccountingInformation.getAmount()) ? tripAccountingInformation.getAmount() :
-                        historicalTravelExpense.getAmount().divide(new KualiDecimal(tripAccountinfoList.size())));
+                        historicalTravelExpense.getAmount().divide(new KualiDecimal(tripAccountInfoList.size())));
                     importedLine.setChartOfAccountsCode(tripAccountingInformation.getTripChartCode());
                     importedLine.setAccountNumber(tripAccountingInformation.getTripAccountNumber());
                     importedLine.setSubAccountNumber(tripAccountingInformation.getTripSubAccountNumber());

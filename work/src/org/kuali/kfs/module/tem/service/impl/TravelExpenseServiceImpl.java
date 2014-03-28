@@ -32,12 +32,12 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -257,7 +257,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         }
 
         CreditCardAgency ccAgency =agency.getCreditCardAgency();
-        expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardAgency(ccAgency);
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
         final ExpenseType expenseType = getDefaultExpenseTypeForCategory(agency.getExpenseTypeCategory());
@@ -303,7 +302,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         }
 
         CreditCardAgency ccAgency = creditCard.getCreditCardAgency();
-        expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
 
         expense.setTravelExpenseTypeCode(creditCard.getExpenseTypeCode());

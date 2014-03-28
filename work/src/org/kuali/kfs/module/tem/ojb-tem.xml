@@ -1122,7 +1122,7 @@
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfileAccount" table="TEM_PROFILE_ACCOUNT_T">
 		<field-descriptor name="accountId" primarykey="true" sequence-name="TEM_PROFILE_ACCOUNT_ID_SEQ" autoincrement="true" column="ACCOUNT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="profileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="creditCardAgencyId" column="CARD_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_CARD_AGENCY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="expirationDate" column="EXP_DATE" jdbc-type="DATE"/>
@@ -1135,7 +1135,7 @@
 			<foreignkey field-ref="profileId"/>
 		</reference-descriptor>
 		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="creditCardAgencyId"/>
+			<foreignkey field-ref="creditCardOrAgencyCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 
@@ -1246,7 +1246,6 @@
 		<field-descriptor name="importBy" column="IMPORT_BY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="temProfileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="agencyDataId" column="AGENCY_DATA_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="creditCardAgencyId" column="CARD_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_AGENCY_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="otherCompanyName" column="OTHER_CO_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="agencyFileName" column="AGENCY_FL_NM" jdbc-type="VARCHAR"/>
@@ -1331,7 +1330,7 @@
         </reference-descriptor>
         
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="creditCardAgencyId"/>
+            <foreignkey field-ref="creditCardOrAgencyCode"/>
         </reference-descriptor>
         
         <reference-descriptor name="searchChart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1355,8 +1354,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" table="TEM_CREDIT_CARD_AGENCY_T">
-		<field-descriptor name="id" primarykey="true" sequence-name="TEM_CREDIT_CARD_AGENCY_ID_SEQ" autoincrement="true" column="ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_CARD_AGENCY_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="creditCardOrAgencyCode" primarykey="true" column="CREDIT_CARD_AGENCY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="travelCardTypeCode" column="TRAVEL_CARD_TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="paymentIndicator" column="PAYMENT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="creditCardOrAgencyName" column="CREDIT_CARD_AGENCY_NAME" jdbc-type="VARCHAR"/>
@@ -1368,7 +1366,6 @@
 		<field-descriptor name="email" column="EMAIL" jdbc-type="VARCHAR"/>
 		<field-descriptor name="phone" column="PHONE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="typeCode" column="TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="preReconciled" column="PRE_RECONCILED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="enableNonReimbursable" column="ENABLE_NON_REIMBURSABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="vendorNumber" column="VENDOR_NUMBER" jdbc-type="VARCHAR"/>
@@ -1420,20 +1417,18 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 		<field-descriptor name="temProfileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="creditCardAgencyId" column="CC_AGENCY_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="stagingFileName" column="STAGING_FILE_NM" jdbc-type="VARCHAR"/>
     
         <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TemProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="creditCardAgencyId"/>
+            <foreignkey field-ref="creditCardOrAgencyCode"/>
         </reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense" table="TEM_HIST_EXP_T">
 		<field-descriptor name="id" primarykey="true" sequence-name="TEM_HIST_EXP_ID_SEQ" autoincrement="true" column="ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="creditCardAgencyId" column="CC_AGENCY_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="importDate" column="IMPORT_DT" jdbc-type="DATE"/>
 		<field-descriptor name="travelCompany" column="COMPANY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR"/>
@@ -1459,7 +1454,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="creditCardAgencyId"/>
+			<foreignkey field-ref="creditCardOrAgencyCode"/>
 		</reference-descriptor>
 		<reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="travelExpenseTypeCode"/>

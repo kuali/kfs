@@ -33,7 +33,6 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
 
     private String tripId;
     private String documentType;
-    private String creditCardOrAgencyCode;
 
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
@@ -176,22 +175,6 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
-    }
-
-    /**
-     * Gets the creditCardOrAgencyCode attribute.
-     * @return Returns the creditCardOrAgencyCode.
-     */
-    public String getCreditCardOrAgencyCode() {
-        return creditCardOrAgencyCode;
-    }
-
-    /**
-     * Sets the creditCardOrAgencyCode attribute value.
-     * @param creditCardOrAgencyCode The creditCardOrAgencyCode to set.
-     */
-    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
-        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
     }
 
     public ExpenseType getExpenseType() {

@@ -82,7 +82,6 @@
 			<column name="IMPORT_BY" type="VARCHAR2(3)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
 			<column name="AGENCY_DATA_ID" type="NUMBER(22,0)" />
-			<column name="CARD_ID" type="NUMBER(22,0)" />
 			<column name="SRCH_FIN_COA_CD" type="VARCHAR2(2)" />
 			<column name="SRCH_ACCT_NBR" type="VARCHAR2(7)" />
 			<column name="SRCH_SUB_ACCT_NBR" type="VARCHAR2(5)" />
@@ -222,7 +221,6 @@
 		<addPrimaryKey tableName="TEM_CORP_CARD_PSEUDO_NUM_T"
 			constraintName="TEM_CORP_CARD_PSEUDO_NUM_TP1" columnNames="NUM" />
 		<createTable tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" type="NUMBER(22,0)" />
 			<column name="CREDIT_CARD_AGENCY_CODE" type="VARCHAR2(4)" />
 			<column name="TRAVEL_CARD_TYPE_CD" type="VARCHAR2(4)" />
 			<column name="PAYMENT_IND" type="VARCHAR2(1)" />
@@ -235,7 +233,6 @@
 			<column name="EMAIL" type="VARCHAR2(90)" />
 			<column name="PHONE" type="VARCHAR2(40)" />
 			<column name="CONTACT_NAME" type="VARCHAR2(45)" />
-			<column name="TYPE_CODE" type="VARCHAR2(1)" />
 			<column name="PRE_RECONCILED" type="VARCHAR2(1)" />
 			<column name="ENABLE_NON_REIMBURSABLE" type="VARCHAR2(1)" />
 			<column name="VENDOR_NUMBER" type="VARCHAR2(20)" />
@@ -246,7 +243,7 @@
 			<column name="BNK_CD" type="VARCHAR2(4)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_AGENCY_T"
-			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="ID" />
+			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="CREDIT_CARD_AGENCY_CODE" />
 		<createTable tableName="TEM_CREDIT_CARD_STAGING_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
@@ -255,7 +252,6 @@
 			<column name="IMPORT_BY" type="VARCHAR2(3)" />
 			<column name="STAGING_FILE_NM" type="VARCHAR2(60)" />
 			<column name="CREDIT_AGENCY_CD" type="VARCHAR2(4)" />
-			<column name="CC_AGENCY_ID" type="NUMBER(22,0)" />
 			<column name="CREDIT_CARD_KEY" type="VARCHAR2(38)" />
 			<column name="AIR_NUMBER" type="VARCHAR2(3)" />
 			<column name="TICKET_NBR" type="VARCHAR2(16)" />
@@ -360,7 +356,6 @@
 			constraintName="TEM_GRP_TRVLR_TP1" columnNames="ID" />
 		<createTable tableName="TEM_HIST_EXP_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="CC_AGENCY_ID" type="NUMBER(22,0)" />
 			<column name="IMPORT_DT" type="DATE" />
 			<column name="COMPANY" type="VARCHAR2(40)" />
 			<column name="LOCATION" type="VARCHAR2(40)" />
@@ -495,7 +490,7 @@
 		<createTable tableName="TEM_PROFILE_ACCOUNT_T">
 			<column name="ACCOUNT_ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
-			<column name="CARD_ID" type="NUMBER(22,0)" />
+			<column name="CREDIT_CARD_AGENCY_CODE" type="VARCHAR2(4)" />
 			<column name="NAME" type="VARCHAR2(50)" />
 			<column name="ACCOUNT_NBR" type="VARCHAR2(50)" />
 			<column name="EXP_DATE" type="DATE" />

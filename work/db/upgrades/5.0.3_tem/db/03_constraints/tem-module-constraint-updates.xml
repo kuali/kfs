@@ -321,7 +321,7 @@
 		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
 			columnName="PROFILE_ID" columnDataType="NUMBER(22,0)" />
 		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
-			columnName="CARD_ID" columnDataType="NUMBER(22,0)" />
+			columnName="CREDIT_CARD_AGENCY_CODE" columnDataType="VARCHAR2(4)" />
 		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
 			columnName="NAME" columnDataType="VARCHAR2(50)" />
 		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"

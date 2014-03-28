@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
@@ -40,6 +39,7 @@ import org.kuali.kfs.module.ar.report.ReferralToCollectionsReportDetailDataHolde
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
@@ -157,7 +157,8 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
-            GlobalVariables.getMessageMap().putInfo(KFSConstants.DOCUMENT_ERRORS, ArKeyConstants.NO_VALUES_RETURNED);
+            // this is so the message about no search results shows up in the same place as when doing a search
+            request.setAttribute(KFSPropertyConstants.REQUEST_SEARCH_RESULTS_ACTUAL_SIZE, 0 );
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

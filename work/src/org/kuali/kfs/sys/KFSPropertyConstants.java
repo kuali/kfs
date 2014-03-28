@@ -1065,6 +1065,7 @@ public class KFSPropertyConstants {
     public static final String REFERENCE_ORIGIN_CODE = "referenceOriginCode";
     public static final String REFERENCE_TYPE = "referenceType";
     public static final String REFERENCE_TYPE_CODE = "referenceTypeCode";
+    public static final String REQUEST_SEARCH_RESULTS_ACTUAL_SIZE = "reqSearchResultsActualSize";
     public static final String REPORTING_CODE = "reportingCode";
     public static final String REPORTING_NAME = "reportingName";
     public static final String REPORTS_TO_ACCOUNT = "reportsToAccount";

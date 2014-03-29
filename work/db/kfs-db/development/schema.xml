@@ -14849,7 +14849,6 @@
         <column name="IMPORT_BY" size="3" type="VARCHAR"/>
         <column name="PROFILE_ID" size="22" type="DECIMAL"/>
         <column name="AGENCY_DATA_ID" size="22" type="DECIMAL"/>
-        <column name="CARD_ID" size="22" type="DECIMAL"/>
         <column name="SRCH_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="SRCH_ACCT_NBR" size="7" type="VARCHAR"/>
         <column name="SRCH_SUB_ACCT_NBR" size="5" type="VARCHAR"/>
@@ -15020,8 +15019,7 @@
         </unique>
     </table>
     <table name="TEM_CREDIT_CARD_AGENCY_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="CREDIT_CARD_AGENCY_CODE" required="true" size="4" type="VARCHAR"/>
+        <column name="CREDIT_CARD_AGENCY_CODE" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="TRAVEL_CARD_TYPE_CD" required="true" size="4" type="VARCHAR"/>
         <column name="PAYMENT_IND" required="true" size="1" type="VARCHAR"/>
         <column name="CREDIT_CARD_AGENCY_NAME" required="true" size="45" type="VARCHAR"/>
@@ -15033,7 +15031,6 @@
         <column name="EMAIL" size="90" type="VARCHAR"/>
         <column name="PHONE" size="40" type="VARCHAR"/>
         <column name="CONTACT_NAME" size="45" type="VARCHAR"/>
-        <column name="TYPE_CODE" size="1" type="VARCHAR"/>
         <column name="PRE_RECONCILED" size="1" type="VARCHAR"/>
         <column name="ENABLE_NON_REIMBURSABLE" size="1" type="VARCHAR"/>
         <column name="VENDOR_NUMBER" size="20" type="VARCHAR"/>
@@ -15060,7 +15057,6 @@
         <column name="IMPORT_BY" size="3" type="VARCHAR"/>
         <column name="STAGING_FILE_NM" size="60" type="VARCHAR"/>
         <column name="CREDIT_AGENCY_CD" size="4" type="VARCHAR"/>
-        <column name="CC_AGENCY_ID" size="22" type="DECIMAL"/>
         <column name="CREDIT_CARD_KEY" size="38" type="VARCHAR"/>
         <column name="AIR_NUMBER" size="3" type="VARCHAR"/>
         <column name="TICKET_NBR" size="16" type="VARCHAR"/>
@@ -15294,7 +15290,6 @@
     </table>
     <table name="TEM_HIST_EXP_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="CC_AGENCY_ID" size="22" type="DECIMAL"/>
         <column name="IMPORT_DT" type="DATE"/>
         <column name="COMPANY" size="40" type="VARCHAR"/>
         <column name="LOCATION" size="40" type="VARCHAR"/>
@@ -15463,7 +15458,6 @@
     <table name="TEM_PROFILE_ACCOUNT_T">
         <column name="ACCOUNT_ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="PROFILE_ID" required="true" size="22" type="DECIMAL"/>
-        <column name="CARD_ID" required="true" size="22" type="DECIMAL"/>
         <column name="NAME" required="true" size="50" type="VARCHAR"/>
         <column name="ACCOUNT_NBR" required="true" size="50" type="VARCHAR"/>
         <column name="EXP_DATE" type="DATE"/>
@@ -15472,6 +15466,7 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="CREDIT_CARD_AGENCY_CODE" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_PROFILE_T" name="TEM_PROFILE_ACCOUNT_TR1">
             <reference foreign="PROFILE_ID" local="PROFILE_ID"/>
         </foreign-key>

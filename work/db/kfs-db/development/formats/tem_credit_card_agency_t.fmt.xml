@@ -1,5 +1,4 @@
 <Record name="tem_credit_card_agency_t" type="delimited">
-  <Field name="id"                              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
   <Field name="credit_card_agency_code"         type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="travel_card_type_cd"             type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="payment_ind"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
@@ -12,7 +11,6 @@
   <Field name="email"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="phone"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="contact_name"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="type_code"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="pre_reconciled"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="enable_non_reimbursable"         type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="vendor_number"                   type="string"     nullable="true"  trim="false" delimiter="|"  />

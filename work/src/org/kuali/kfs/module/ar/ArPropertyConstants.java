@@ -459,6 +459,10 @@ public class ArPropertyConstants{
         public static final String BILL_NUMBER = "billNumber";
     }
 
+    public static class MilestoneScheduleFields {
+        public static final String MILESTONES = "milestones";
+    }
+
     public static class MilestoneFields {
         public static final String MILESTONE_IDENTIFIER = "milestoneIdentifier";
         public static final String MILESTONE_NUMBER = "milestoneNumber";

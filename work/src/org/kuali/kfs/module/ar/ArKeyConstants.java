@@ -340,5 +340,6 @@ public class ArKeyConstants {
      public static final String ERROR_AWARD_PREDETERMINED_BILLING_SCHEDULE_EXISTS = "error.cg.award.predetermined.billing.schedule.exists";
      public static final String ERROR_AWARD_PREDETERMINED_BILLING_SCHEDULE_INCORRECT_BILLING_FREQUENCY = "error.cg.award.predetermined.billing.schedule.incorrect.billing.frequency";
      public static final String ERROR_DUPLICATE_BILL_NUMBER = "error.duplicate.bill.number";
+     public static final String ERROR_DUPLICATE_MILESTONE_NUMBER = "error.duplicate.milestone.number";
 
 }

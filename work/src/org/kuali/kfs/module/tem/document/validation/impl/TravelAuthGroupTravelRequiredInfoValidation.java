@@ -78,7 +78,7 @@ public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidati
             TravelDocument document = (TravelDocument)event.getDocument();
             List<GroupTraveler> groupTravelers = document.getGroupTravelers();
             for (GroupTraveler gt : groupTravelers) {
-                if (StringUtils.equalsIgnoreCase(gt.getName(), groupTraveler.getName()) || gt.getGroupTravelerEmpId() == groupTraveler.getGroupTravelerEmpId()) {
+                if (StringUtils.equalsIgnoreCase(gt.getName(), groupTraveler.getName()) || StringUtils.equalsIgnoreCase(gt.getGroupTravelerEmpId(), groupTraveler.getGroupTravelerEmpId())) {
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.GROUP_TRAVELER_NAME, TemKeyConstants.ERROR_TRVL_GROUP_TRVL_DUPLICATE, "Name");
                     valid = false;
                 }

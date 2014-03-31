@@ -938,6 +938,9 @@ public class TemConstants {
         public static final String CAN_REMOVE_HOLD = "canRemoveHold";
         public static final String CAN_CLOSE_TA = "canCloseTA";
         public static final String CAN_CANCEL_TA = "canCancelTA";
+        public static final String CAN_NEW_ENTERTAINMENT = "canNewEntertainment";
+        public static final String CAN_NEW_RELOCATION = "canNewRelocation";
+        public static final String CAN_NEW_REIMBURSEMENT = "canNewReimbursement";
         public static final String CAN_PAY_VENDOR = "canPayVendor";
     }
 

@@ -58,6 +58,8 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.bo.Note;
@@ -68,7 +70,6 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
-
 
 /**
  * Base class for travel documents
@@ -668,6 +669,29 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         payDVToVendorButton.setExtraButtonOnclick("javascript: window.open('" + TravelCustomSearchLinks.DV_URL + getDocument().getDocumentNumber() + "');");
 
         result.put(payDVToVendorButton.getExtraButtonProperty(), payDVToVendorButton);
+        return result;
+    }
+
+    /**
+     *
+     * @return newReimbursementButtonMap with appropriately named buttonsmall and javascript onclick to open the reimbursement document in a new window
+     */
+    protected Map<String, ExtraButton> createNewReimbursementButtonMap() {
+        final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
+
+        // New Reimbursement button
+        ExtraButton newReimbursementButton = new ExtraButton();
+        newReimbursementButton.setExtraButtonProperty("methodToCall.newReimbursement");
+        newReimbursementButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_newreimbursement.png");
+        newReimbursementButton.setExtraButtonAltText("New Reimbursement");
+        final DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        String newReimbursementJavascript = String.format("javascript: window.open('%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s');",
+                docType.getResolvedDocumentHandlerUrl(),
+                ((TravelDocumentBase) getDocument()).getTravelDocumentIdentifier(),
+                TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        newReimbursementButton.setExtraButtonOnclick(newReimbursementJavascript);
+
+        result.put(newReimbursementButton.getExtraButtonProperty(), newReimbursementButton);
         return result;
     }
 

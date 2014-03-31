@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
@@ -29,7 +30,9 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -138,6 +141,9 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         if (canCancelAuthorization(travelAuth)) {
             actions.add(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA);
         }
+        if (canNewReimbursement(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_NEW_REIMBURSEMENT);
+        }
         if (canPayVendor(travelAuth)) {
             actions.add(TemConstants.TravelAuthorizationActions.CAN_PAY_VENDOR);
         }
@@ -205,6 +211,63 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
             }
         }
         return can;
+    }
+
+    /**
+     * Determines if a reimbursement can be initiated for this document. This is done for {@link TravelAuthorizationDocument} instances
+     * that have a workflow document status of FINAL or PROCESSED and on documents that do not have a workflow
+     * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION. Also checks if the person has permission to
+     * initiate the target documents. Will not show the new Reimbursement link if a TA already has a TR enroute.
+     *
+     * If the document is a TAC, the workflow document status must be FINAL and the App Doc Status must be CLOSED.
+     *
+     * check status of document and don't create if the status is not final or processed
+     *
+     * @param document
+     * @return
+     */
+    public boolean canNewReimbursement(TravelAuthorizationDocument document) {
+        final String documentType = document.getDocumentTypeName();
+
+        boolean documentStatusCheck = isFinalOrProcessed(document);
+
+        final String appDocStatus = document.getApplicationDocumentStatus();
+        boolean appDocStatusCheck = (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
+
+        boolean statusCheck = documentStatusCheck && appDocStatusCheck;
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+        boolean hasInitAccess = false;
+        if (getTemRoleService().canAccessTravelDocument(document, user) && !ObjectUtils.isNull(document.getTraveler()) && document.getTemProfileId() != null && !ObjectUtils.isNull(document.getTemProfile())){
+            //check if user also can init other docs
+            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
+        }
+
+        boolean checkRelatedDocs = true;
+        if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+
+            //check whether there is already an ENROUTE TR
+            List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
+            for (Document doc : docs) {
+                TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
+                if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                    checkRelatedDocs &= false;
+                }
+            }
+
+            //a TR document can be processed against a closed TA. If the TAC is Final/Closed display the TR link.
+            if (document.getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) {
+                documentStatusCheck = document.getDocumentHeader().getWorkflowDocument().isFinal();
+                appDocStatusCheck = appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED);
+                statusCheck = documentStatusCheck && appDocStatusCheck;
+            }
+        }
+
+        return statusCheck && hasInitAccess && checkRelatedDocs;
     }
 
     /**

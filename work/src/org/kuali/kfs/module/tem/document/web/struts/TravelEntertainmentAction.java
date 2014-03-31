@@ -453,6 +453,20 @@ public class TravelEntertainmentAction extends TravelActionBase {
     }
 
     /**
+     * Forward to MAPPING_BASIC. The newEntertainment button is assumed to have java script
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward newEntertainment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
      * This method sets all the boolean properties on the form to determine what buttons can be displayed depending on what is going
      * on
      */

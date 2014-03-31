@@ -106,6 +106,8 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
 
         result.putAll(createDVExtraButtonMap());
+        result.putAll(createNewReimbursementButtonMap());
+
         return result;
     }
 
@@ -119,6 +121,10 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
             if (getTravelReimbursementDocument().canPayDVToVendor()) {
                 extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
             }
+        }
+
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_NEW_REIMBURSEMENT)) {
+            extraButtons.add(buttonsMap.get("methodToCall.newReimbursement"));
         }
 
         return extraButtons;

@@ -20,6 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.rice.krad.document.Document;
 
 
@@ -52,6 +53,29 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         }
 
         return editModes;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        TravelRelocationDocument travelRelocationDocument = (TravelRelocationDocument) document;
+        Set<String> actions = super.getDocumentActions(document);
+        if (canNewRelocation(travelRelocationDocument)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_NEW_RELOCATION);
+        }
+
+        return actions;
+    }
+
+    /**
+     * Determines if a relocation can be initiated for this document.
+     * @param document
+     * @return
+     */
+    public boolean canNewRelocation(TravelRelocationDocument document) {
+        return document.isTripProgenitor() && !document.getDocumentHeader().getWorkflowDocument().isInitiated();
     }
 
     /**

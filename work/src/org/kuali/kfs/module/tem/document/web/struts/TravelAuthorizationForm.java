@@ -46,6 +46,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -299,8 +301,10 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         result.put(removeHoldButton.getExtraButtonProperty(), removeHoldButton);
         result.put(cancelTravelButton.getExtraButtonProperty(), cancelTravelButton);
         result.put(closeTAButton.getExtraButtonProperty(), closeTAButton);
-
+        
+        result.putAll(createNewReimbursementButtonMap());
         result.putAll(createPaymentExtraButtonMap());
+        
         return result;
     }
 
@@ -323,6 +327,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
         if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA)) {
             extraButtons.add(buttonsMap.get("methodToCall.cancelTa"));
+        }
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_NEW_REIMBURSEMENT)) {
+            extraButtons.add(buttonsMap.get("methodToCall.newReimbursement"));
         }
         if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_PAY_VENDOR)) {
             extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));

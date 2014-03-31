@@ -41,7 +41,6 @@ public class PerDiemDaoOjb extends PlatformAwareDaoBaseOjb implements PerDiemDao
     @Override
     public Collection<PerDiem> findSimilarPerDiems(PerDiem perdiem) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("seasonBeginMonthAndDay", perdiem.getSeasonBeginMonthAndDay());
         criteria.addLessOrEqualThan("effectiveFromDate", perdiem.getEffectiveFromDate());
         criteria.addEqualTo("primaryDestinationId", perdiem.getPrimaryDestinationId());
         QueryByCriteria query = QueryFactory.newQuery(PerDiem.class, criteria);

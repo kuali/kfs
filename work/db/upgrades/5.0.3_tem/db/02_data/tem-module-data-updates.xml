@@ -2825,7 +2825,7 @@
 			<column name="CODE" value="IN"/>
 			<column name="NM" value="In-State"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="TE"/>
+			<column name="ENC_BAL_TYP" value="EX"/>
 			<column name="ENC_OBJ_CD" value="6000"/>
 			<column name="CONT_INFO_REQ_IND" value="N"/>
 			<column name="BLANKET_IND" value="Y"/>
@@ -2841,7 +2841,7 @@
 			<column name="CODE" value="INT"/>
 			<column name="NM" value="International"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="TE"/>
+			<column name="ENC_BAL_TYP" value="EX"/>
 			<column name="ENC_OBJ_CD" value="6200"/>
 			<column name="CONT_INFO_REQ_IND" value="Y"/>
 			<column name="BLANKET_IND" value="N"/>
@@ -2857,7 +2857,7 @@
 			<column name="CODE" value="OUT"/>
 			<column name="NM" value="Out of State"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="TE"/>
+			<column name="ENC_BAL_TYP" value="EX"/>
 			<column name="ENC_OBJ_CD" value="6100"/>
 			<column name="CONT_INFO_REQ_IND" value="N"/>
 			<column name="BLANKET_IND" value="N"/>

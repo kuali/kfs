@@ -109,12 +109,11 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_AGENCY_SRVC_FEE_T">
-			<column name="ID" valueNumeric="1"/>
-			<column name="DI_CD" value="VC"/>
-			<column name="DI_DESC" value="VC Service Fee"/>
+			<column name="DIST_CD" value="VC"/>
+			<column name="DIST_DESC" value="VC Service Fee"/>
 			<column name="CHART_CD" value="BL"/>
 			<column name="ACCT_NBR" value="1031400"/>
-			<column name="OBJ_CD" value="5000"/>
+			<column name="FIN_OBJECT_CD" value="5000"/>
 			<column name="SRVC_FEE" valueNumeric="25.0"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>

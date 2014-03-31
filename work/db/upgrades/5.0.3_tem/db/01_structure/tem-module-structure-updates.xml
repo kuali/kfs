@@ -485,7 +485,7 @@
 	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
 	    </createTable>
 	    <addPrimaryKey tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			constraintName="TEM_PER_DIEM_MIE_BREAK_DOWN_TP1" columnNames="MEALS_INC" />
+			constraintName="TEM_PER_DIEM_MIE_BREAK_DOWNP1" columnNames="MEALS_INC" />
 		<createTable tableName="TEM_PROFILE_ACCOUNT_T">
 			<column name="ACCOUNT_ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />

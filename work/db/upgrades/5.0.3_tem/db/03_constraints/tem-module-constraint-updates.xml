@@ -114,6 +114,8 @@
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="CLASS_SVC_NAME" columnDataType="VARCHAR2(40)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="EXP_TYP_META_CTGRY_CD" columnDataType="VARCHAR2(40)" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />

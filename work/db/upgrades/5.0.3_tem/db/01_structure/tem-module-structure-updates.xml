@@ -479,7 +479,6 @@
 	        <column name="LUNCH" type="NUMBER(22,0)"/>
 	        <column name="DIN" type="NUMBER(22,0)"/>
 	        <column name="INC" type="DECIMAL(19,2)" defaultValueNumeric="0"/>
-	        <column name="FIRST_LAST_DAY_AMOUNT" type="DECIMAL(19,2)" defaultValueNumeric="0"/>
 	        <column name="LAST_UPD_DT" type="DATE"/>
 	        <column name="ACTV_IND" type="VARCHAR2(1)"/>
 	        <column default="1" name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1"/>

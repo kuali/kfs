@@ -2119,7 +2119,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00272F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2134,7 +2134,7 @@
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00372F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
 			<column name="MAX_AMT" valueNumeric="64.0"/>
@@ -2152,7 +2152,7 @@
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00472F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2167,7 +2167,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00572F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2182,7 +2182,7 @@
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00672F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
 			<column name="MAX_AMT" valueNumeric="64.0"/>
@@ -2200,7 +2200,7 @@
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00772F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2215,7 +2215,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00872F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2230,7 +2230,7 @@
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00972F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
 			<column name="MAX_AMT" valueNumeric="64.0"/>
@@ -2248,7 +2248,7 @@
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="EF7E48F8C00A72F9E040E00ABCD6705F"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="NOTE_REQ_IND" value="N"/>
@@ -2263,7 +2263,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="ENT"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E36E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2280,7 +2280,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="RELO"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E46E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5070"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2297,7 +2297,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="EMP"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E56E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2314,7 +2314,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="NON"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E66E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="4089"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2331,7 +2331,7 @@
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="EMP"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E76E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2348,7 +2348,7 @@
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="EMP"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
-			<column name="OBJ_ID" valueComputed="EFF2B17051E86E0EE040E00ABCD63D99"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
 			<column name="MAX_AMT" valueNumeric="100.0"/>
@@ -2365,7 +2365,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TT"/>
-			<column name="OBJ_ID" valueComputed="F02DC273A981821EE040E00ABCD64DA3"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
@@ -2380,7 +2380,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TT"/>
-			<column name="OBJ_ID" valueComputed="F02DC273A982821EE040E00ABCD64DA3"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
@@ -2395,7 +2395,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TT"/>
-			<column name="OBJ_ID" valueComputed="F02DC273A983821EE040E00ABCD64DA3"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
@@ -2410,7 +2410,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="F02E48CA9D18371EE040E00ABCD651F6"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
@@ -2425,7 +2425,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="F02E48CA9D19371EE040E00ABCD651F6"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
@@ -2440,7 +2440,7 @@
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TA"/>
-			<column name="OBJ_ID" valueComputed="F02E48CA9D1A371EE040E00ABCD651F6"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="5073"/>
 			<column name="NOTE_REQ_IND" value="Y"/>

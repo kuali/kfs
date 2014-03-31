@@ -87,7 +87,6 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.debug("Entering PredeterminedBillingScheduleRule.processCustomSaveDocumentBusinessRules");
         processCustomRouteDocumentBusinessRules(document);
-        checkForDuplicateBillNumbers();
         LOG.info("Leaving PredeterminedBillingScheduleRule.processCustomSaveDocumentBusinessRules");
         return true; // save despite error messages
     }

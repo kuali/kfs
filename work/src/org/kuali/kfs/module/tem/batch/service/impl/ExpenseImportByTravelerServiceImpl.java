@@ -28,11 +28,11 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -288,30 +288,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_PROJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, accountingLine.getProjectCode()));
         }
 
-        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
-            // object code is optional
-            if (StringUtils.isNotEmpty(accountingLine.getObjectCode()) &&
-                !isObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getObjectCode())) {
-                if (setAgencyDataErrorCode) {
-                    LOG.error("Invalid Object Code in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" chart code: "+ accountingLine.getTripChartCode()+ " object code: "+ accountingLine.getObjectCode());
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
-                }
-                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_OBJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getObjectCode()));
-            }
-        }
-
-        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
-            // sub object code is optional
-            if (StringUtils.isNotEmpty(accountingLine.getSubObjectCode()) &&
-                !isSubObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode())) {
-                if (setAgencyDataErrorCode) {
-                    LOG.error("Invalid SubObject Code in Tem Profile or Agency Data record. travelerId: "+ travelerId +" temProfileId: "+ profileId +" chart code: "+ accountingLine.getTripChartCode()+ " object code: "+ accountingLine.getObjectCode()+ " subobject code: "+ accountingLine.getSubObjectCode());
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
-                }
-                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBOBJECT_CODE, new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode()));
-            }
-        }
-
         return errorMap;
     }
 
@@ -390,6 +366,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         return agencyDataList;
     }
 
+    @Override
     public List<ErrorMessage> validateCreditCardAgency(AgencyStagingData agencyData) {
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 

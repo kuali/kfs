@@ -397,6 +397,19 @@ public class TravelRelocationAction extends TravelActionBase {
         return null;
     }
 
+    /**
+     * Forward to MAPPING_BASIC. The newRelocation button is assumed to have java script
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward newRelocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 
     protected NonEmployeeCertificationReportService getNonEmployeeCertificationReportService() {
         return SpringContext.getBean(NonEmployeeCertificationReportService.class);

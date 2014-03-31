@@ -20,23 +20,23 @@
 	<bean id="AdvancePaymentReason-code" parent="AdvancePaymentReason-code-parentBean" />
 	<bean id="AdvancePaymentReason-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Advance Payment Reason Code" />
+		<property name="shortLabel" value="Advance Payment Reason Code" />
 		<property name="maxLength" value="2" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Advance Payment Reason Code" />
+		<property name="description" value="Advance Payment Reason Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="AdvancePaymentReason-description" parent="AdvancePaymentReason-description-parentBean" />
 	<bean id="AdvancePaymentReason-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="description" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
+		<property name="label" value="Advance Payment Reason Name" />
+		<property name="shortLabel" value="Advance Payment Reason Name" />
 		<property name="maxLength" value="100" />
 		<property name="required" value="false" />
-		<property name="summary" value="Description" />
-		<property name="description" value="Description" />
+		<property name="summary" value="Advance Payment Reason Name" />
+		<property name="description" value="Advance Payment Reason Name" />
 		<property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="25" />
 		</property>

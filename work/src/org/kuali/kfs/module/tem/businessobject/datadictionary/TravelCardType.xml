@@ -14,7 +14,7 @@
   	<property name="attributes">
   	<list>
       <ref bean="TravelCardType-code" />
-      <ref bean="TravelCardType-description" />
+      <ref bean="TravelCardType-name" />
       <ref bean="TravelCardType-codeAndDescription" />
       <ref bean="TravelCardType-active" />
   	</list>
@@ -34,11 +34,11 @@
     </property>
   </bean>
   
-  <bean id="TravelCardType-description" parent="TravelCardType-description-parentBean" />
-  <bean id="TravelCardType-description-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="TravelCardType-name" parent="TravelCardType-name-parentBean" />
+  <bean id="TravelCardType-name-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
-    <property name="label" value="Travel Card Type Description" />
-	<property name="shortLabel" value="Card Type Desc" />
+    <property name="label" value="Travel Card Type Name" />
+	<property name="shortLabel" value="Travel Card Type Name" />
 	<property name="maxLength" value="40" />
 	<property name="required" value="true" />
     <property name="validationPattern" >
@@ -52,7 +52,7 @@
   <bean id="TravelCardType-codeAndDescription" parent="TravelCardType-codeAndDescription-parentBean"/>
   <bean id="TravelCardType-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="codeAndDescription" />
-    <property name="label" value="Code and Description" />
+    <property name="label" value="Travel Card Type Code and Description" />
     <property name="maxLength" value="100" />
     <property name="required" value="false" />
     <property name="control" >
@@ -67,7 +67,7 @@
 
   <bean id="TravelCardType-inquiryDefinition" parent="TravelCardType-inquiryDefinition-parentBean" />
   <bean id="TravelCardType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Traveler Type Inquiry"/>
+    <property name="title" value="Travel Card Type Inquiry"/>
   	<property name="inquirySections">
     <list>
       <bean parent="InquirySectionDefinition">
@@ -87,7 +87,7 @@
   
   <bean id="TravelCardType-lookupDefinition" parent="TravelCardType-lookupDefinition-parentBean" />
   <bean id="TravelCardType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Traveler Type Lookup" />
+    <property name="title" value="Travel Card Type Lookup" />
 	<property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">

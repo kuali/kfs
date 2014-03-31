@@ -27,11 +27,11 @@
 <bean id="AdvancePaymentReasonMaintenanceDocument-Section" parent="AdvancePaymentReasonMaintenanceDocument-Section-parentBean" />
 <bean id="AdvancePaymentReasonMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="AdvancePaymentReason" />
-		<property name="title" value="Edit AdvancePaymentReason" />
+		<property name="title" value="Edit Advance Payment Reason" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

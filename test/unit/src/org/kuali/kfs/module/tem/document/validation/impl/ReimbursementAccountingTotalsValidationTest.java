@@ -74,6 +74,8 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
         //setup tr
         tr = new TravelReimbursementDocument();
         TravelerDetail traveler = new TravelerDetail();
+        traveler.setId(1); // use KHUNTLEY's profile
+        tr.setTemProfileId(1); // use KHUNTLEY's profile
         TripType tripType = new TripType();
 
         //Out of state TripType
@@ -101,6 +103,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
                 // do nothing;
             }
         };
+        actualExpense.setExpenseTypeCode("O");
         actualExpense.setExpenseAmount(new KualiDecimal(EXPENSE_AMOUNT));
 
         //setup actualExpense
@@ -118,7 +121,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
         TemSourceAccountingLine sal = new TemSourceAccountingLine();
         sal.setAmount(new KualiDecimal(ACCOUNTING_LINE_AMOUNT));
         sal.setFinancialObjectCode(perDiemObjCode.getFinancialObjectCode());
-        sal.setCardType("CTS");
+        sal.setCardType(TemConstants.ACTUAL_EXPENSE);
         //sal.setObjectCode(perDiemObjCode);
         sal.setSequenceNumber(1);
         sourceLines.add(sal);

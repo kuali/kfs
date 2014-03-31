@@ -337,7 +337,7 @@
 	<bean id="TravelAuthorization-addActualExpenseLineValidation-parentBean" abstract="true" parent="CompositeValidation">
 		<property name="validations">
 			<list>
-				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
+				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype" p:currentExpenseInCollection="false">
 					<property name="parameterProperties">
 						<list>
 								<bean parent="ActualExpenseValidationFieldConversion"/>

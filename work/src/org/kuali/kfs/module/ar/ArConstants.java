@@ -90,6 +90,10 @@ public class ArConstants{
     // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
     public static int ITEM_QUANTITY_SCALE = 10;
 
+    public static class PermissionNames {
+        public static final String REPORT = "Report";
+    }
+
     public static final String INV_DOCUMENT_TYPE = "INV";
     public static final String INV_DOCUMENT_DESCRIPTION = "Customer Invoice";
     public static final String DEFAULT_PROCESSING_CHART = "DEFAULT_PROCESSING_CHART";

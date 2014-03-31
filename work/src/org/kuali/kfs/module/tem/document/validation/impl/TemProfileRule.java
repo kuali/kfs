@@ -251,7 +251,7 @@ public class TemProfileRule extends MaintenanceDocumentRuleBase{
 
             //do not duplicate an existing account in the system
             if (doesProfileAccountMatchExisting(temProfile, account)){
-                if (account.getCreditCardAgencyId() != null) {
+                if (account.getCreditCardOrAgencyCode() != null) {
                     account.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
                 }
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, TemKeyConstants.ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE, new String[] { account.getCreditCardAgency().getCreditCardOrAgencyName(), account.getAccountNumber() });
@@ -273,7 +273,7 @@ public class TemProfileRule extends MaintenanceDocumentRuleBase{
             return false;
         }
         for (TemProfileAccount existingAccount : profile.getAccounts()) {
-            if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && org.apache.commons.lang.ObjectUtils.equals(existingAccount.getCreditCardAgencyId(), newAccount.getCreditCardAgencyId())) {
+            if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && org.apache.commons.lang.ObjectUtils.equals(existingAccount.getCreditCardOrAgencyCode(), newAccount.getCreditCardOrAgencyCode())) {
                 return true;
             }
         }

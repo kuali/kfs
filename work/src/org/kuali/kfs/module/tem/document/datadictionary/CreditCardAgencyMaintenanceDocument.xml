@@ -17,7 +17,7 @@
 	<property name="allowsNewOrCopy" value="true" />
 	<property name="lockingKeys">
 	<list>
-		<value>id</value>
+		<value>creditCardOrAgencyCode</value>
 	</list>
 	</property>
 	<property name="documentTypeName"        value="TCCA" />
@@ -41,7 +41,6 @@
 			<bean parent="MaintainableFieldDefinition" p:name="email" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="phone" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="contactName" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="typeCode" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="preReconciled" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="enableNonReimbursable" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:required="false"/>

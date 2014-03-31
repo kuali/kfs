@@ -25,14 +25,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -299,35 +299,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             }
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, accountingLine.getProjectCode());
             errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_PROJECT_CODE, error);
-        }
-
-        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
-            // object code is optional
-            if (StringUtils.isNotEmpty(accountingLine.getObjectCode()) &&
-                !isObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getObjectCode())) {
-
-                if (setAgencyDataErrorCode) {
-                    LOG.error("Invalid Object Code in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " object code: " + accountingLine.getObjectCode());
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
-                }
-
-                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getObjectCode());
-                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_OBJECT_CODE, error);
-            }
-        }
-
-        if (validationParameters.contains(AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
-            // sub object code is optional
-            if (StringUtils.isNotEmpty(accountingLine.getSubObjectCode()) &&
-                !isSubObjectCodeValid(accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode())) {
-
-                if (setAgencyDataErrorCode) {
-                    LOG.error("Invalid SubObject Code in Agency Data record. tripId: "+ tripId + " chart code: " + accountingLine.getTripChartCode() + " object code: " + accountingLine.getObjectCode() + " subobject code: " + accountingLine.getSubObjectCode());
-                    setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
-                }
-                error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, accountingLine.getTripChartCode(), accountingLine.getTripAccountNumber(), accountingLine.getObjectCode(), accountingLine.getSubObjectCode());
-                errorMap.put(TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_SUBOBJECT_CODE, error);
-            }
         }
 
         return errorMap;
@@ -648,22 +619,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                     if ( !StringUtils.equals(agencySubAccountNumber, sourceSubAccountNumber) ) {
                         subaccount = false;
-                    }
-                }
-                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
-                    String agencyObjectCode = StringUtils.trimToEmpty(agencyAccount.getObjectCode());
-                    String sourceObjectCode = StringUtils.trimToEmpty(sourceAccountingLine.getFinancialObjectCode());
-
-                    if( !StringUtils.equals(agencyObjectCode, sourceObjectCode)) {
-                        objectcode = false;
-                    }
-                }
-                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
-                    String agencySubObjectCode = StringUtils.trimToEmpty(agencyAccount.getSubObjectCode());
-                    String sourceSubObjectCode = StringUtils.trimToEmpty(sourceAccountingLine.getFinancialSubObjectCode());
-
-                    if ( !StringUtils.equals(agencySubObjectCode, sourceSubObjectCode) ) {
-                        subobjectcode = false;
                     }
                 }
 

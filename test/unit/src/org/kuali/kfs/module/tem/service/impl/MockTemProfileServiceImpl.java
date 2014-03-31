@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -34,11 +35,17 @@ public class MockTemProfileServiceImpl implements TemProfileService {
 
     @Override
     public TemProfile findTemProfileByEmployeeId(String employeeId) {
+        if (StringUtils.equals(employeeId, "987654321") || StringUtils.equals(employeeId, "ABC1234")) { // skip the values used by ExpenseImportByTravelerServiceTest#testValidateTraveler
+            return null;
+        }
         return createTemProfileForEmployee(employeeId);
     }
 
     @Override
     public TemProfile findTemProfileByCustomerNumber(String customerNumber) {
+        if (StringUtils.equals(customerNumber, "987654321")) {
+            return null;
+        }
         return createTemProfileForCustomer(customerNumber);
     }
 

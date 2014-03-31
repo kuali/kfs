@@ -35,64 +35,23 @@
 			</map>
 		</property>
 		<property name="attributes">
-		<list>
-			<ref bean="TravelAuthorizationDocument-travelDocumentNumber" />
-			<ref bean="TravelAuthorizationDocument-temProfileId" />
-			<ref bean="TravelAuthorizationDocument-tripTypeCode" />
-			<ref bean="TravelAuthorizationDocument-tripBegin" />
-			<ref bean="TravelAuthorizationDocument-tripEnd" />
-			<ref bean="TravelAuthorizationDocument-primaryDestinationId" />
-            <ref bean="TravelAuthorizationDocument-primaryDestinationName" />
-            <ref bean="TravelAuthorizationDocument-primaryDestinationCountryState" />
-            <ref bean="TravelAuthorizationDocument-primaryDestinationCounty" />
-            <ref bean="TravelAuthorizationDocument-tripDescription" />
-            <ref bean="TravelAuthorizationDocument-perDiemAdjustment" />
-			<ref bean="TravelAuthorizationDocument-cellPhoneNumber" />
-			<ref bean="TravelAuthorizationDocument-regionFamiliarity" />
-			<ref bean="TravelAuthorizationDocument-citizenshipCountryCode" />
-			<ref bean="TravelAuthorizationDocument-expenseLimit" />
-			<ref bean="TravelAuthorizationDocument-mealWithoutLodgingReason" />
-			<ref bean="TravelAuthorizationAmendmentDocument-appDocStatus" />
-		</list>
-		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="temProfile" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="temProfileId" p:targetName="profileId" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="tripType" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tripTypeCode" p:targetName="code" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="primaryDestination" />
-                <property name="primitiveAttributes">
-                <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryDestinationId" p:targetName="id" />
-                </list>
-                </property>
-                <property name="supportAttributes">
-                <list>
-                </list>
-                </property>
-            </bean>
+			<list>
+				<ref bean="TravelAuthorizationDocument-travelDocumentNumber" />
+				<ref bean="TravelAuthorizationDocument-temProfileId" />
+				<ref bean="TravelAuthorizationDocument-tripTypeCode" />
+				<ref bean="TravelAuthorizationDocument-tripBegin" />
+				<ref bean="TravelAuthorizationDocument-tripEnd" />
+				<ref bean="TravelAuthorizationDocument-primaryDestinationId" />
+	            <ref bean="TravelAuthorizationDocument-primaryDestinationName" />
+	            <ref bean="TravelAuthorizationDocument-primaryDestinationCountryState" />
+	            <ref bean="TravelAuthorizationDocument-primaryDestinationCounty" />
+	            <ref bean="TravelAuthorizationDocument-tripDescription" />
+	            <ref bean="TravelAuthorizationDocument-perDiemAdjustment" />
+				<ref bean="TravelAuthorizationDocument-cellPhoneNumber" />
+				<ref bean="TravelAuthorizationDocument-regionFamiliarity" />
+				<ref bean="TravelAuthorizationDocument-expenseLimit" />
+				<ref bean="TravelAuthorizationDocument-mealWithoutLodgingReason" />
+				<ref bean="TravelAuthorizationAmendmentDocument-appDocStatus" />
 			</list>
 		</property>
 	</bean>

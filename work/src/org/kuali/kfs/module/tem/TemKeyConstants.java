@@ -72,8 +72,6 @@ public class TemKeyConstants {
     public static final String ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE = "error.tem.document.perdiemexpense.missing.mileage.rate";
     public static final String ERROR_ACTUAL_EXPENSE_MISSING_MILEAGE_RATE = "error.actual.expense.missing.mileage.rate";
 
-    public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
-
     // errors
     public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*";
     public static final String TRVL_AUTH_ADV_ACCT_LINES_ERRORS = "advanceAccountingLines*,document.advanceAccountingLines*,newAdvanceAccountingLine*";

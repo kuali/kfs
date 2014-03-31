@@ -56,7 +56,6 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     // Agency Information
     private Integer agencyDataId;
     private String creditCardOrAgencyCode;
-    private Integer creditCardAgencyId;
     private String agency;
     private String otherCompanyName;
     private String agencyFileName;
@@ -1548,25 +1547,9 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     public void setCreditCardAgency(CreditCardAgency creditCardAgency) {
         this.creditCardAgency = creditCardAgency;
         if (creditCardAgency != null){
-            setCreditCardAgencyId(creditCardAgency.getId());
+            setCreditCardOrAgencyCode(creditCardAgency.getCreditCardOrAgencyCode());
             setAgency(creditCardAgency.getCreditCardOrAgencyName());
         }
-    }
-
-    /**
-     * Gets the creditCardAgencyId attribute.
-     * @return Returns the creditCardAgencyId.
-     */
-    public Integer getCreditCardAgencyId() {
-        return creditCardAgencyId;
-    }
-
-    /**
-     * Sets the cardId attribute value.
-     * @param cardId The cardId to set.
-     */
-    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
-        this.creditCardAgencyId = creditCardAgencyId;
     }
 
     /**

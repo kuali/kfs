@@ -825,6 +825,20 @@ public class TravelAuthorizationAction extends TravelActionBase {
     }
 
     /**
+     * Forward to MAPPING_BASIC. The newReimbursement button is assumed to have java script
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward newReimbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
      *
      * @param mapping
      * @param form

@@ -24,13 +24,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -89,44 +89,52 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper,
             String chartCode, String objectCode, KualiDecimal amount, String glCredtiDebitCode){
 
-        GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
         ObjectCode objectCd = getObjectCodeService().getByPrimaryIdForCurrentYear(chartCode, objectCode);
         if (ObjectUtils.isNull(objectCd)) {
             LOG.error("ERROR: Could not get an ObjectCode for chart code: " + chartCode + " object code: " + objectCode);
-            //set glpe as null
-            glpe = null;
+            return null;
         }
-        else{
 
-            final String DIST_INCOME_DOC_TYPE = getDataDictionaryService().getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+        GeneralLedgerPendingEntry glpe = buildBasicDistributionPendingEntry(sequenceHelper);
+        //setup document number by agency data
+        glpe.setDocumentNumber(getImportExpenseDocumentNumber(agencyData));
+        // customizations for glpe
+        glpe.setChartOfAccountsCode(chartCode);
+        glpe.setFinancialObjectCode(objectCode);
+        glpe.setFinancialSubObjectCode(StringUtils.defaultIfEmpty(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
+        glpe.setFinancialObjectTypeCode(objectCd.getFinancialObjectTypeCode());
+        glpe.setProjectCode(StringUtils.defaultIfEmpty(info.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
+        glpe.setTransactionLedgerEntryAmount(amount);
+        glpe.setTransactionDebitCreditCode(glCredtiDebitCode);
+        glpe.setTransactionDate(agencyData.getTransactionPostingDate());
+        glpe.setOrganizationDocumentNumber(StringUtils.isNotEmpty(agencyData.getTravelerId())? agencyData.getTravelerId() : agencyData.getTripId());
+        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
 
-            //setup document number by agency data
-            glpe.setDocumentNumber(getImportExpenseDocumentNumber(agencyData));
-            glpe.setVersionNumber(new Long(1));
-            glpe.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
-            glpe.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
-            glpe.setFinancialDocumentTypeCode(DIST_INCOME_DOC_TYPE);
-            glpe.setFinancialSystemOriginationCode(TemConstants.TEM_IMPORTED_SYS_ORIG_CD);
-            glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
-            glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-            glpe.setTransactionDate(agencyData.getTransactionPostingDate());
-            glpe.setOrganizationReferenceId(DIST_INCOME_DOC_TYPE +TemConstants.IMPORTED_FLAG);
-
-            sequenceHelper.increment();
-
-            //set org document number to travelerId (for traveler) or tripId (on trip)
-            glpe.setOrganizationDocumentNumber(StringUtils.isNotEmpty(agencyData.getTravelerId())? agencyData.getTravelerId() : agencyData.getTripId());
-            glpe.setChartOfAccountsCode(chartCode);
-            glpe.setFinancialObjectCode(objectCode);
-            glpe.setFinancialSubObjectCode(StringUtils.defaultIfEmpty(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
-            glpe.setFinancialObjectTypeCode(objectCd.getFinancialObjectTypeCode());
-            glpe.setProjectCode(StringUtils.defaultIfEmpty(info.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
-            glpe.setTransactionLedgerEntryAmount(amount);
-            glpe.setTransactionDebitCreditCode(glCredtiDebitCode);
-            glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-        }
         return glpe;
+    }
 
+    /**
+     * Builds a really basic distribution pending entry from a sequence helper; this can be used as the basis for other customizations by different methods
+     * @param sequenceHelper the sequence helper to help us set a sequence number on the GLPE
+     * @return the beginnings of a GLPE
+     */
+    protected GeneralLedgerPendingEntry buildBasicDistributionPendingEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
+        final String DIST_INCOME_DOC_TYPE = KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE;
+
+
+        glpe.setVersionNumber(new Long(1));
+        glpe.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+        glpe.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
+        glpe.setFinancialDocumentTypeCode(DIST_INCOME_DOC_TYPE);
+        glpe.setFinancialSystemOriginationCode(TemConstants.TEM_IMPORTED_SYS_ORIG_CD);
+        glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
+        glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        glpe.setOrganizationReferenceId(DIST_INCOME_DOC_TYPE +TemConstants.IMPORTED_FLAG);
+
+        sequenceHelper.increment();
+
+        return glpe;
     }
 
     /**
@@ -183,6 +191,43 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             }
         }
         return entryList;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#buildCreditPendingEntryForImportedExpense(org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String)
+     */
+    @Override
+    public List<GeneralLedgerPendingEntry> buildDistributionEntriesForCTSExpense(ImportedExpense expense, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String travelDocumentIdentifier){
+        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+
+        final String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_CHART);
+        final String accountNumber = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT);
+        final String creditObjectCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
+
+        ObjectCode objectCd = getObjectCodeService().getByPrimaryIdForCurrentYear(chartCode, creditObjectCode);
+        if (ObjectUtils.isNull(objectCd)) {
+            LOG.error("ERROR: Could not get an ObjectCode for chart code: " + chartCode + " object code: " + creditObjectCode);
+            return null;
+        }
+
+        GeneralLedgerPendingEntry explicitEntry = buildBasicDistributionPendingEntry(sequenceHelper);
+        //setup document number by agency data
+        explicitEntry.setDocumentNumber(expense.getDocumentNumber());
+        // customizations for glpe
+        explicitEntry.setChartOfAccountsCode(chartCode);
+        explicitEntry.setAccountNumber(accountNumber);
+        explicitEntry.setFinancialObjectCode(creditObjectCode);
+        explicitEntry.setFinancialObjectTypeCode(objectCd.getFinancialObjectTypeCode());
+        explicitEntry.setTransactionLedgerEntryAmount(expense.getConvertedAmount());
+        explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        explicitEntry.setTransactionDate(dateTimeService.getCurrentSqlDate());
+        explicitEntry.setOrganizationDocumentNumber(travelDocumentIdentifier);
+
+        entries.add(explicitEntry);
+
+        generateOffsetPendingEntry(entries, sequenceHelper, explicitEntry);
+
+        return entries;
     }
 
 

@@ -20,7 +20,7 @@
 			<ref bean="TemProfileAccount-note" />
 			<ref bean="TemProfileAccount-active" />
 			<ref bean="TemProfileAccount-versionNumber" />
-			<ref bean="TemProfileAccount-creditCardAgencyId" />
+			<ref bean="TemProfileAccount-creditCardOrAgencyCode" />
 			<ref bean="TemProfileAccount-profile.principal.principalId" />
 			<ref bean="TemProfileAccount-profile.firstName" />
 			<ref bean="TemProfileAccount-profile.lastName" />
@@ -38,7 +38,7 @@
 					<property name="objectAttributeName" value="creditCardAgency" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardAgencyId" p:targetName="id" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardOrAgencyCode" p:targetName="creditCardOrAgencyCode" />
 						</list>
 					</property>
 					<property name="supportAttributes">
@@ -74,15 +74,8 @@
 		<property name="control"><bean parent="TextControlDefinition" /></property>
 	</bean>
 	<bean id="TemProfileAccount-name" parent="TemProfileAccount-name-parentBean" />
-	<bean id="TemProfileAccount-name-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-name-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyName">
 		<property name="name" value="name" />
-		<property name="label" value="Credit Card/Agency Name" />
-		<property name="shortLabel" value="Credit Card/Agency Name" />
-		<property name="maxLength" value="50" />
-		<property name="required" value="true" />
-		<property name="summary" value="Credit Card/Agency Name" />
-		<property name="description" value="Credit Card/Agency Name" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
 	</bean>
 	<bean id="TemProfileAccount-accountNumber" parent="TemProfileAccount-accountNumber-parentBean" />
 	<bean id="TemProfileAccount-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -146,16 +139,9 @@
 		<property name="summary" value="Version Number" />
 		<property name="description" value="Version Number" />
 	</bean>
-	<bean id="TemProfileAccount-creditCardAgencyId" parent="TemProfileAccount-creditCardAgencyId-parentBean" />
-	<bean id="TemProfileAccount-creditCardAgencyId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="creditCardAgencyId" />
-		<property name="label" value="Credit Card Agency Id" />
-		<property name="shortLabel" value="Credit Card Agency Id" />
-		<property name="maxLength" value="4" />
-		<property name="summary" value="Credit Card Agency Id" />
-		<property name="description" value="Credit Card Agency Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
-	</bean>
+	<bean id="TemProfileAccount-creditCardOrAgencyCode" parent="TemProfileAccount-creditCardOrAgencyCode-parentBean" />
+	<bean id="TemProfileAccount-creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode" />
+	
 	<bean id="TemProfileAccount-profile.principal.principalId" parent="TemProfileAccount-profile.principal.principalId-parentBean" />
 	<bean id="TemProfileAccount-profile.principal.principalId-parentBean" abstract="true" parent="TemProfile-principalId">
 		<property name="name" value="profile.principal.principalId" />
@@ -211,7 +197,7 @@
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="accountId" />
 					<bean parent="FieldDefinition" p:attributeName="profileId" />
-					<bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />
+					<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 					<bean parent="FieldDefinition" p:attributeName="name" />
 					<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 					<bean parent="FieldDefinition" p:attributeName="expirationDate" />
@@ -241,7 +227,7 @@
 			<bean parent="FieldDefinition" p:attributeName="profile.homeDepartment" p:noLookup="true" />
             <bean parent="FieldDefinition" p:attributeName="profile.defaultChartCode" p:noLookup="true" />			
             <bean parent="FieldDefinition" p:attributeName="profile.account.accountNumber" />		
-            <bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />		
+            <bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />		
             <bean parent="FieldDefinition" p:attributeName="accountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
 			<bean parent="FieldDefinition" p:attributeName="profile.active" p:defaultValue="Y" p:noLookup="true" />
@@ -253,6 +239,7 @@
 			<bean parent="FieldDefinition" p:attributeName="profile.firstName" />
 			<bean parent="FieldDefinition" p:attributeName="profile.lastName" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="expirationDate" />
 			<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

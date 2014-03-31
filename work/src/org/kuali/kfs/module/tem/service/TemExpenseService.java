@@ -74,7 +74,7 @@ public interface TemExpenseService {
     public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
-     *
+     * Processes expense when it has been finally claimed on a document
      * @param travelDocument
      */
     public void updateExpense(TravelDocument travelDocument);

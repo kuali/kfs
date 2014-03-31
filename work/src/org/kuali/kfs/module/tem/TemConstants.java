@@ -314,6 +314,7 @@ public class TemConstants {
         public static final String AWAIT_INTL = "Awaiting International Travel Review";
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
+        public static final String AWAIT_BUDGET = "Await Budget";
         public static final String AWAIT_SPCL = "Awaiting Special Request Review";
         public static final String AWAIT_SEP_DUTIES = "Awaiting Separation Of Duties Review";
         public static final String AWAIT_DISBURSEMENT_METHOD = "Awaiting Disbursement Method Review";
@@ -325,6 +326,7 @@ public class TemConstants {
         public static final String DAPRVD_INTL = "Disapproved - International Travel";
         public static final String DAPRVD_SUB = "Disapproved - Sub-Fund";
         public static final String DAPRVD_AWARD = "Disapproved - Award";
+        public static final String DAPRVD_BUDGET = "Disapproved - Budget";
         public static final String DAPRVD_SPCL = "Disapproved - Special Request";
         public static final String DAPRVD_SEP_DUTIES = "Disapproved - Separation Of Duties";
         public static final String DAPRVD_DISBURSEMENT_METHOD = "Disapproved - Disbursement Method";
@@ -356,6 +358,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_RISK, DAPRVD_RISK);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_BUDGET, DAPRVD_BUDGET);
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
@@ -399,6 +402,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_INTL,  DAPRVD_INTL);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_BUDGET, DAPRVD_BUDGET);
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
@@ -424,6 +428,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_BUDGET, DAPRVD_BUDGET);
             disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
@@ -449,6 +454,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_BUDGET, DAPRVD_BUDGET);
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
@@ -703,8 +709,6 @@ public class TemConstants {
         public static final String AGENCY_DATA_VALIDATION_DTL = "AgencyDataValidation";
         public static final String VALIDATE_ACCOUNT = "Account";
         public static final String VALIDATE_SUBACCOUNT = "Sub-Account";
-        public static final String VALIDATE_OBJECT_CODE = "Object Code";
-        public static final String VALIDATE_SUBOBJECT_CODE = "Sub-Object Code";
     }
 
     public static class CreditCardStagingDataErrorCodes {
@@ -934,6 +938,9 @@ public class TemConstants {
         public static final String CAN_REMOVE_HOLD = "canRemoveHold";
         public static final String CAN_CLOSE_TA = "canCloseTA";
         public static final String CAN_CANCEL_TA = "canCancelTA";
+        public static final String CAN_NEW_ENTERTAINMENT = "canNewEntertainment";
+        public static final String CAN_NEW_RELOCATION = "canNewRelocation";
+        public static final String CAN_NEW_REIMBURSEMENT = "canNewReimbursement";
         public static final String CAN_PAY_VENDOR = "canPayVendor";
     }
 

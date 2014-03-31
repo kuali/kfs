@@ -11,7 +11,6 @@
 		<property name="attributes">
 		<list>
 			<ref bean="HistoricalTravelExpense-id" />
-			<ref bean="HistoricalTravelExpense-creditCardAgencyId" />
 			<ref bean="HistoricalTravelExpense-importDate" />
 			<ref bean="HistoricalTravelExpense-travelCompany" />
 			<ref bean="HistoricalTravelExpense-location" />
@@ -46,18 +45,6 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Id" />
 		<property name="description" value="Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>
-	<bean id="HistoricalTravelExpense-creditCardAgencyId" parent="HistoricalTravelExpense-creditCardAgencyId-parentBean" />
-	<bean id="HistoricalTravelExpense-creditCardAgencyId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="creditCardAgencyId" />
-		<property name="label" value="Credit Card Or Agency Code ID" />
-		<property name="shortLabel" value="Credit Card Or Agency Code ID" />
-		<property name="maxLength" value="32" />
-		<property name="required" value="true" />
-		<property name="summary" value="Credit Card Or Agency Code ID" />
-		<property name="description" value="Credit Card Or Agency Code ID" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
@@ -230,15 +217,12 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
 	</bean>
 	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode" parent="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" />
-	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="HistoricalTravelExpense-creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode">
 		<property name="name" value="creditCardOrAgencyCode" />
-		<property name="label" value="Credit Card or Agency Code" />
-		<property name="shortLabel" value="Credit Card or Agency Code" />
-		<property name="maxLength" value="4" />
-		<property name="summary" value="Credit Card or Agency Code" />
-		<property name="description" value="Credit Card or Agency Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
-	</bean>
+		<property name="control">
+	       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CreditCardAgencyTypeValuesFinder" p:includeKeyInLabel="false"  p:includeBlankRow="true" p:keyAttribute="creditCardOrAgencyCode" p:labelAttribute="creditCardOrAgencyName"/>
+	    </property>
+	</bean>	
 	<bean id="HistoricalTravelExpense-documentNumber" parent="HistoricalTravelExpense-documentNumber-parentBean"/>
 	<bean id="HistoricalTravelExpense-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber"/>
 	<bean id="HistoricalTravelExpense-expenseType.name" parent="HistoricalTravelExpense-expenseType.name-parentBean" />
@@ -268,7 +252,7 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />
+					<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
 					<bean parent="FieldDefinition" p:attributeName="importDate" />
 					<bean parent="FieldDefinition" p:attributeName="travelCompany" />
 					<bean parent="FieldDefinition" p:attributeName="location" />
@@ -302,7 +286,7 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" p:noLookup="true"/>
 			<bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
 			<bean parent="FieldDefinition" p:attributeName="importDate" />
 			<bean parent="FieldDefinition" p:attributeName="travelCompany" />

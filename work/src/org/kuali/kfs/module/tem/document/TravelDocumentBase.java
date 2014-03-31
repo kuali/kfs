@@ -43,6 +43,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
@@ -82,12 +83,16 @@ import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -1587,6 +1592,43 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return false;
     }
 
+    protected boolean isBudgetReviewRequired() {
+        // if document's fiscal year is less than or equal to the current fiscal year
+        final UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        final GeneralLedgerPendingEntryService generalLedgerPendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        final SufficientFundsService sufficientFundsService = SpringContext.getBean(SufficientFundsService.class);
+        final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Integer fiscalYear = universityDateService.getCurrentFiscalYear();
+        if (getTripEnd() != null) {
+            Calendar tripEndCal = Calendar.getInstance();
+            tripEndCal.setTimeInMillis(getTripEnd().getTime());
+            fiscalYear = new Integer(tripEndCal.get(Calendar.YEAR));
+        }
+        if (universityDateService.getCurrentFiscalYear().compareTo(fiscalYear) >= 0) {
+            // delete and recreate the GL entries for this document so they do not get included in the SF check
+            // This is *NOT* ideal.  The SF service needs to be updated to allow it to provide the current
+            // document number so that it can be exlcuded from pending entry checks.
+            List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
+            // dumb loop to just force OJB to load the objects.  Otherwise, the proxy object above
+            // only gets resolved *after* the delete below and no SF check happens.
+            for ( GeneralLedgerPendingEntry glpe : pendingEntries ) {
+                glpe.getChartOfAccountsCode();
+            }
+            generalLedgerPendingEntryService.delete(getDocumentNumber());
+            // get list of sufficientfundItems
+            List<SufficientFundsItem> fundsItems = sufficientFundsService.checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
+            generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(this);
+            businessObjectService.save( getGeneralLedgerPendingEntries() );
+
+            //kfsmi-7289
+            if (fundsItems != null && fundsItems.size() > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Gets the groupTravelers attribute.
      *
@@ -1977,8 +2019,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(currStatus);
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not update application document status", ex);
             }
         }
 
@@ -1988,8 +2029,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException("Could not update application document status on document disapproval", ex);
             }
         }
 
@@ -1999,7 +2039,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 updateAndSaveAppDocStatus(TemConstants.TravelStatusCodeKeys.CANCELLED);
             }
             catch (WorkflowException we) {
-                throw new RuntimeException("Could not update document type", we);
+                throw new RuntimeException("Could not update application document status on document disapproval", we);
             }
         }
     }
@@ -2289,5 +2329,12 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return true;
     }
 
-
+    /**
+     * The TA, ENT, RELO, and TR - none of them do sufficient funds checking
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#documentPerformsSufficientFundsCheck()
+     */
+    @Override
+    public boolean documentPerformsSufficientFundsCheck() {
+        return false;
+    }
 }

@@ -208,7 +208,8 @@
 											p:dynamicLabelProperty="subAccount.subAccountName" p:useShortLabel="true" />
 										<bean parent="AccountingLineView-field"
 											p:name="financialObjectCode" p:required="true"
-											p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:useShortLabel="true">
+											p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:useShortLabel="true"
+											p:unconditionallyReadOnly="true">
 											<property name="overrideFields">
 												<list>
 													<bean
@@ -219,7 +220,8 @@
 										</bean>
 										<bean parent="AccountingLineView-field"
 											p:name="financialSubObjectCode"
-											p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" p:useShortLabel="true" />
+											p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" p:useShortLabel="true"
+											p:unconditionallyReadOnly="true" />
 										<bean parent="AccountingLineView-field"
 											p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:useShortLabel="true"
 											p:dynamicLabelProperty="project.name" />

@@ -943,6 +943,8 @@
 				<ref bean="lockPDPModuleStep" />
 				<ref bean="lockCGModuleStep" />
 				<ref bean="lockENDOWModuleStep" />
+				<ref bean="lockTEMModuleStep" />
+				
 			</list>
 		</property>
 	</bean>
@@ -993,6 +995,10 @@
 	    <property name="namespaceCode" value="KFS-ENDOW"/>
 	</bean>
 	
+	<bean id="lockTEMModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-TEM"/>
+	</bean>
+	
 	<bean id="modulesUnlockJob" parent="modulesUnlockJob-parentBean"/>
 	<bean id="modulesUnlockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
 		<property name="steps">
@@ -1012,6 +1018,7 @@
 				<ref bean="unlockPDPModuleStep" />
 				<ref bean="unlockCGModuleStep" />
 				<ref bean="unlockENDOWModuleStep" />
+				<ref bean="unlockTEMModuleStep" />
 			</list>
 		</property>
 	</bean>
@@ -1060,6 +1067,9 @@
 	</bean>
 	<bean id="unlockENDOWModuleStep" parent="unlockModuleStep">
 	    <property name="namespaceCode" value="KFS-ENDOW"/>
+	</bean>
+	<bean id="unlockTEMModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-TEM"/>
 	</bean>
 	
 	<bean id="lockModuleStep" class="org.kuali.kfs.sys.batch.LockModuleStep" parent="step">

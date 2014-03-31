@@ -44,7 +44,7 @@
 "73","KFS73","1","1","KFS-PURAP","Review PREQ Receiving","","Y"
 "74","KFS74","1","1","KFS-PURAP","Review PREQ Tax","","Y"
 "75","KFS75","1","1","KFS-PURAP","Review POA NewUnorderedItems","","Y"
-"76","KFS76","1","1","KFS-PURAP","Review PO Budget","","Y"
+"76","KFS76","1","1","KFS-SYS","Review KFST Budget","","Y"
 "78","KFS78","1","1","KFS-PURAP","Review PO ContractManagement","","Y"
 "80","KFS80","1","1","KFS-PURAP","Review PO Tax","","Y"
 "81","KFS81","1","1","KFS-PURAP","Review PORH AccountsPayable","","Y"

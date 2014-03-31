@@ -20,6 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.rice.krad.document.Document;
 
 public class TravelEntertainmentDocumentPresentationController extends TravelDocumentPresentationController {
@@ -47,6 +48,29 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
         }
 
         return editModes;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        TravelEntertainmentDocument travelEntertainmentDocument = (TravelEntertainmentDocument) document;
+        Set<String> actions = super.getDocumentActions(document);
+        if (canNewEntertainment(travelEntertainmentDocument)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_NEW_ENTERTAINMENT);
+        }
+
+        return actions;
+    }
+
+    /**
+     * Determines if an entertainment doc can be initiated for this document.
+     * @param document
+     * @return
+     */
+    public boolean canNewEntertainment(TravelEntertainmentDocument document) {
+        return document.isTripProgenitor() && !document.getDocumentHeader().getWorkflowDocument().isInitiated();
     }
 
     /**

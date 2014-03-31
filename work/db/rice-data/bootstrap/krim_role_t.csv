@@ -24,7 +24,7 @@ ROLE_ID,OBJ_ID,VER_NBR,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND
 20,KFS20,1,Processor,KFS-PDP,Users who can set payments for immediate pay and use the Format Checks/ACH screen in PDP.,17,Y
 KFS98,KFS98,1,Accounts Payable Document Reviewer,KFS-PURAP,Users who receive workflow action requests for Accounts Payable transactional documents.,KFS69,Y
 22,KFS22,1,Accounts Payable Processor,KFS-PURAP,Accounts Payable users who can initiate Payment Requests and Credit Memo documents. They also have several permissions related to processing these document types and receive workflow action requests for them. ,1,Y
-79,KFS79,1,Budget Reviewer,KFS-PURAP,Central administration users charged with reviewing Purchase Order documents that exceed an account's sufficient funds balance.,25,Y
+79,KFS79,1,Budget Reviewer,KFS-SYS,Central administration users charged with reviewing financial documents exceeding an account's sufficient funds balance.,25,Y
 23,KFS23,1,Commodity Reviewer,KFS-PURAP,Users who receive workflow action requests for Purchasing transactional documents that contain a specific commodity code and campus combination.,33,Y
 24,KFS24,1,Content Reviewer,KFS-PURAP,Users who receive incomplete Requisition documents for completion for a given Chart and Organization.,27,Y
 25,KFS25,1,Contract Manager,KFS-PURAP,Contract Managers review and approve Purchase Order documents. A Purchase Order is assigned to a given Contract Manager for their review and approval.,34,Y

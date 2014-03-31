@@ -43,6 +43,20 @@
 			<column name="desc_txt" value="Authorizes users to view the entire bank account number on displays of wire transfer information on payment source documents (such as the Disbursement Voucher, the Travel Authorization, the Travel Reimbursement, etc)."/>
 			<where>nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber'</where>
 		</update>
+		<update tableName="krim_rsp_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Review KFST Budget"/>
+			<where>rsp_id = '76'</where>
+		</update>
+		<update tableName="krim_rsp_attr_data_t">
+			<column name="attr_val" value="KFST"/>
+			<where>attr_data_id = 'KFS266'</where>
+		</update>
+		<update tableName="krim_role_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="desc_txt" value="Central administration users charged with reviewing financial documents exceeding an account's sufficient funds balance."/>
+			<where>role_id = '79'</where>
+		</update>
 	</changeSet>
 	
 </databaseChangeLog>

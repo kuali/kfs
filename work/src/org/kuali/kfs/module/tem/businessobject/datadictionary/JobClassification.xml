@@ -8,6 +8,7 @@
 		<property name="lookupDefinition" ref="JobClassification-lookupDefinition" />
 		<property name="inquiryDefinition" ref="JobClassification-inquiryDefinition" />
 		<property name="objectLabel" value="JobClassification" />
+		<property name="titleAttribute" value="jobClsCode" />
 		<property name="attributes">
 		<list>
 			<ref bean="JobClassification-jobClassCode" />
@@ -20,23 +21,23 @@
 	<bean id="JobClassification-jobClassCode" parent="JobClassification-jobClassCode-parentBean" />
 	<bean id="JobClassification-jobClassCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="jobClsCode" />
-		<property name="label" value="Job Class Code" />
-		<property name="shortLabel" value="Job Class Code" />
+		<property name="label" value="Job Classification Code" />
+		<property name="shortLabel" value="Job Classification Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Job Class Code" />
-		<property name="description" value="Job Class Code" />
+		<property name="summary" value="Job Classification Code" />
+		<property name="description" value="Job Classification Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="JobClassification-jobClassName" parent="JobClassification-jobClassName-parentBean" />
 	<bean id="JobClassification-jobClassName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="jobClsName" />
-		<property name="label" value="Job Class Name" />
-		<property name="shortLabel" value="Job Class Name" />
+		<property name="label" value="Job Classification Name" />
+		<property name="shortLabel" value="Job Classification Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Job Class Name" />
-		<property name="description" value="Job Class Name" />
+		<property name="summary" value="Job Classification Name" />
+		<property name="description" value="Job Classification Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="JobClassification-active" parent="JobClassification-active-parentBean" />

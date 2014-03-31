@@ -28,7 +28,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase {
 
     protected Long id;
-    protected Integer creditCardAgencyId;
+    protected String creditCardOrAgencyCode;
     protected CreditCardAgency creditCardAgency;
     protected Date importDate;
     protected String travelCompany;
@@ -67,20 +67,20 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the creditCardAgencyId attribute.
-     * @return Returns the creditCardAgencyId.
+     * Gets the creditCardOrAgencyCode attribute.
+     * @return Returns the creditCardOrAgencyCode.
      */
-    @Column(name="CC_AGENCY_ID",nullable=false)
-    public Integer getCreditCardAgencyId() {
-        return creditCardAgencyId;
+    @Column(name = "CCA_CD", nullable = false)
+    public String getCreditCardOrAgencyCode() {
+        return creditCardOrAgencyCode;
     }
 
     /**
-     * Sets the creditCardAgencyId attribute value.
-     * @param creditCardAgencyId The creditCardAgencyId to set.
+     * Sets the creditCardOrAgencyCode attribute value.
+     * @param creditCardOrAgencyCode The creditCardOrAgencyCode to set.
      */
-    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
-        this.creditCardAgencyId = creditCardAgencyId;
+    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
+        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
     }
 
     /**

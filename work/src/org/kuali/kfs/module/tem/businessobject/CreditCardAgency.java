@@ -19,11 +19,8 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -34,7 +31,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 @Table(name = "TEM_CREDIT_CARD_AGENCY_T")
 public class CreditCardAgency extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private Integer id;
     private String creditCardOrAgencyCode;
     private String travelCardTypeCode;
     private Boolean paymentIndicator;
@@ -47,7 +43,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
     private String email;
     private String phone;
     private String contactName;
-    private String typeCode;
     private Boolean preReconciled;
     private Boolean enableNonReimbursable;
     private String vendorNumber;
@@ -57,27 +52,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     private TravelCardType travelCardType;
     private Bank bank;
-
-
-    /**
-     * Gets the id attribute.
-     * @return Returns the id.
-     */
-    @Id
-    @GeneratedValue(generator = "TEM_CREDIT_CARD_AGENCY_ID_SEQ")
-    @SequenceGenerator(name = "TEM_CREDIT_CARD_AGENCY_ID_SEQ", sequenceName = "TEM_CREDIT_CARD_AGENCY_ID_SEQ", allocationSize = 5)
-    public Integer getId() {
-        return id;
-    }
-
-
-    /**
-     * Sets the id attribute value.
-     * @param id The id to set.
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Column(name = "CREDIT_CARD_AGENCY_CODE", nullable = false)
     public String getCreditCardOrAgencyCode() {
@@ -232,17 +206,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
-    }
-
-
-    @Column(name = "TYPE_CODE", nullable = true, length = 10)
-    public String getTypeCode() {
-        return typeCode;
-    }
-
-
-    public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode;
     }
 
     @Column(name = "PRE_RECONCILED", nullable = true, length = 1)

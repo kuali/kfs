@@ -29,7 +29,9 @@
 		<property name="titleAttribute" value="vendorName" />
 		<property name="objectLabel" value="Debarred Unmatched Vendors" />
 		<property name="attributes">
-      		<list merge="true">
+			<list>
+				<ref bean="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier"/>
+				<ref bean="DebarredVendorUnmatched-vendorDetailAssignedIdentifier"/>
       			<ref bean="DebarredVendorUnmatched-defaultAddressCity"/>
       			<ref bean="DebarredVendorUnmatched-defaultAddressStateCode"/>
       			<ref bean="DebarredVendorUnmatched-defaultAddressCountryCode"/>
@@ -81,6 +83,12 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier" parent="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier-parentBean"/>
+	<bean id="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier"/>
+	
+	<bean id="DebarredVendorUnmatched-vendorDetailAssignedIdentifier" parent="DebarredVendorUnmatched-vendorDetailAssignedIdentifier-parentBean"/>
+	<bean id="DebarredVendorUnmatched-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier"/>
 	
 	<bean id="DebarredVendorUnmatched-defaultAddressCity" parent="DebarredVendorUnmatched-defaultAddressCity-parentBean" />
 

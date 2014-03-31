@@ -15,7 +15,6 @@
 			<ref bean="AgencyStagingData-errorCode" />
             <ref bean="AgencyStagingData-duplicateRecordId" />
 			<ref bean="AgencyStagingData-agencyDataId" />
-            <ref bean="AgencyStagingData-creditCardAgencyId" />
 			<ref bean="AgencyStagingData-creditCardOrAgencyCode" />
 			<ref bean="AgencyStagingData-agency" />
 			<ref bean="AgencyStagingData-otherCompanyName" />
@@ -140,25 +139,9 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-    <bean id="AgencyStagingData-creditCardAgencyId" parent="AgencyStagingData-creditCardAgencyId-parentBean" />
-    <bean id="AgencyStagingData-creditCardAgencyId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="creditCardAgencyId" />
-        <property name="label" value="Credit Card Agency Id" />
-        <property name="shortLabel" value="Credit Card Agency Id" />
-        <property name="maxLength" value="32" />
-        <property name="summary" value="Credit Card Agency Id" />
-        <property name="description" value="Credit Card Agency Id" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-    </bean>
 	<bean id="AgencyStagingData-creditCardOrAgencyCode" parent="AgencyStagingData-creditCardOrAgencyCode-parentBean" />
-	<bean id="AgencyStagingData-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="AgencyStagingData-creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode">
 		<property name="name" value="creditCardOrAgencyCode" />
-		<property name="label" value="Credit Card Agency Card Code" />
-		<property name="shortLabel" value="Credit Card Agency Card Code" />
-		<property name="maxLength" value="4" />
-		<property name="summary" value="Agency Card Code" />
-		<property name="description" value="Agency Card Code" />
 		<property name="control">
 	       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CreditCardAgencyTypeValuesFinder" p:includeKeyInLabel="false"  p:includeBlankRow="true" p:keyAttribute="creditCardOrAgencyCode" p:labelAttribute="creditCardOrAgencyName"/>
 	    </property>
@@ -190,11 +173,6 @@
         <property name="required" value="true" />
         <property name="summary" value="Search Chart Code" />
         <property name="description" value="Search Chart Code" />
-        <property name="control">
-            <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-        </property>
     </bean>
   
 	<bean id="AgencyStagingData-searchAccountNumber" parent="AgencyStagingData-searchAccountNumber-parentBean" />
@@ -1036,7 +1014,7 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
-				<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" p:noLookup="true"/>
                 <bean parent="FieldDefinition" p:attributeName="errorCode" />
 				<bean parent="FieldDefinition" p:attributeName="tripId" />
 				<bean parent="FieldDefinition" p:attributeName="travelerId" />

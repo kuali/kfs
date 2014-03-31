@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -60,6 +61,13 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         documentService = SpringContext.getBean(DocumentService.class);
 
         tr = DocumentTestUtils.createDocument(documentService, TravelReimbursementDocument.class);
+
+        Calendar d = Calendar.getInstance();
+        d.add(Calendar.DATE, 1);
+        tr.setTripBegin(new java.sql.Timestamp(d.getTimeInMillis()));
+        d.add(Calendar.DATE, 2);
+        tr.setTripEnd(new java.sql.Timestamp(d.getTimeInMillis()));
+
         documentService.prepareWorkflowDocument(tr);
 
         // setup traveler
@@ -131,44 +139,6 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
 
         try {
             trService.addListenersTo(tr);
-            success = true;
-        }
-        catch (NullPointerException e) {
-            success = false;
-            LOG.warn("NPE.", e);
-        }
-
-        assertTrue(success);
-    }
-
-    /**
-     * This method tests
-     * {@link TravelReimbursementService#notifyDateChangedOn(TravelReimbursementDocument, java.util.Date, java.util.Date)}
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testNotifyDateChangedOn() throws Exception {
-        boolean success = false;
-
-        try {
-            trService.notifyDateChangedOn(tr, new java.util.Date(), new java.util.Date());
-            success = true;
-        }
-        catch (NullPointerException e) {
-            success = false;
-            LOG.warn("NPE.", e);
-        }
-
-        assertFalse(success);
-
-        try {
-            tr.setTripBegin(new Timestamp(new java.util.Date().getTime()));
-            tr.setTripEnd(new Timestamp(new java.util.Date().getTime()));
-
-            documentService.saveDocument(tr, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-
-            trService.notifyDateChangedOn(tr, new java.util.Date(), new java.util.Date());
             success = true;
         }
         catch (NullPointerException e) {

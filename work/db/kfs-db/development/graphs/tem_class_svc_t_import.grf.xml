@@ -19,7 +19,7 @@
 //#TL
     function transform() {
         $0.code := replace(nvl($code, ""), "~!~", "|" );
-        $0.exp_typ_cd := replace(nvl($exp_typ_cd, ""), "~!~", "|" );
+        $0.exp_typ_meta_ctgry_cd := replace(nvl($exp_typ_meta_ctgry_cd, ""), "~!~", "|" );
         $0.class_svc_name := replace(nvl($class_svc_name, ""), "~!~", "|" );
         $0.aprvl_req_ind := replace(nvl($aprvl_req_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );

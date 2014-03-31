@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="EntertainmentPurpose" parent="EntertainmentPurpose-parentBean" />
+	<bean id="EntertainmentPurpose-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose" />
+		<property name="lookupDefinition" ref="EntertainmentPurpose-lookupDefinition" />
+		<property name="inquiryDefinition" ref="EntertainmentPurpose-inquiryDefinition" />
+		<property name="objectLabel" value="EntertainmentPurpose" />
+		<property name="titleAttribute" value="purposeCode"/>
+		<property name="attributes">
+		<list>
+			<ref bean="EntertainmentPurpose-purposeCode" />
+			<ref bean="EntertainmentPurpose-purposeName" />
+			<ref bean="EntertainmentPurpose-purposeDescription" />
+			<ref bean="EntertainmentPurpose-reviewRequiredIndicator" />
+			<ref bean="EntertainmentPurpose-active" />
+			<ref bean="EntertainmentPurpose-versionNumber" />
+		</list>
+		</property>
+	</bean>
+	<bean id="EntertainmentPurpose-purposeCode" parent="EntertainmentPurpose-purposeCode-parentBean" />
+	<bean id="EntertainmentPurpose-purposeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="purposeCode" />
+		<property name="label" value="Entertainment Purpose Code" />
+		<property name="shortLabel" value="Entertainment Purpose Code" />
+		<property name="maxLength" value="4" />
+		<property name="required" value="true" />
+		<property name="summary" value="Entertainment Purpose Code" />
+		<property name="description" value="Entertainment Purpose Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
+	</bean>
+	<bean id="EntertainmentPurpose-purposeName" parent="EntertainmentPurpose-purposeName-parentBean" />
+	<bean id="EntertainmentPurpose-purposeName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="purposeName" />
+		<property name="label" value="Entertainment Purpose Name" />
+		<property name="shortLabel" value="Entertainment Purpose Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Entertainment Purpose Name" />
+		<property name="description" value="Entertainment Purpose Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="EntertainmentPurpose-purposeDescription" parent="EntertainmentPurpose-purposeDescription-parentBean" />
+	<bean id="EntertainmentPurpose-purposeDescription-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+		<property name="name" value="purposeDescription" />
+		<property name="label" value="Entertainment Purpose Description" />
+		<property name="shortLabel" value="Entertainment Purpose Description" />
+		<property name="maxLength" value="100" />
+		<property name="summary" value="Entertainment Purpose Description" />
+		<property name="description" value="Entertainment Purpose Description" />
+	</bean>
+	<bean id="EntertainmentPurpose-reviewRequiredIndicator" parent="EntertainmentPurpose-reviewRequiredIndicator-parentBean" />
+	<bean id="EntertainmentPurpose-reviewRequiredIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="reviewRequiredIndicator" />
+		<property name="label" value="Special Request Review Required" />
+		<property name="shortLabel" value="Special Request Review Required" />
+		<property name="summary" value="Special Request Review Required" />
+		<property name="description" value="Special Request Review Required" />
+	</bean>
+	<bean id="EntertainmentPurpose-active" parent="EntertainmentPurpose-active-parentBean" />
+	<bean id="EntertainmentPurpose-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="required" value="true" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="EntertainmentPurpose-versionNumber" parent="EntertainmentPurpose-versionNumber-parentBean" />
+	<bean id="EntertainmentPurpose-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="EntertainmentPurpose-inquiryDefinition" parent="EntertainmentPurpose-inquiryDefinition-parentBean" />
+	<bean id="EntertainmentPurpose-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Entertainment Purpose Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Entertainment Purpose Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="purposeCode" />
+					<bean parent="FieldDefinition" p:attributeName="purposeName" />
+					<bean parent="FieldDefinition" p:attributeName="purposeDescription" />
+					<bean parent="FieldDefinition" p:attributeName="reviewRequiredIndicator" />
+					<bean parent="FieldDefinition" p:attributeName="active" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="EntertainmentPurpose-lookupDefinition" parent="EntertainmentPurpose-lookupDefinition-parentBean" />
+	<bean id="EntertainmentPurpose-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Entertainment Purpose Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="purposeCode" />
+			<bean parent="FieldDefinition" p:attributeName="purposeName" />
+			<bean parent="FieldDefinition" p:attributeName="purposeDescription" />
+			<bean parent="FieldDefinition" p:attributeName="reviewRequiredIndicator" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="purposeCode" />
+			<bean parent="FieldDefinition" p:attributeName="purposeName" />
+			<bean parent="FieldDefinition" p:attributeName="purposeDescription" />
+			<bean parent="FieldDefinition" p:attributeName="reviewRequiredIndicator" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+	</bean>
+</beans>

@@ -143,7 +143,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="BUSINS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -152,7 +152,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="COACH"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -161,7 +161,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECNPLUS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -170,7 +170,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PBUSINS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Business-First Class"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -179,7 +179,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PCOACH"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Coach-Economy"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -188,7 +188,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PECNPLUS"/>
-			<column name="EXP_TYP_CD" value="A"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
 			<column name="CLASS_SVC_NAME" value="Economy Plus"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -197,7 +197,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="ECONMY"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Economy, Intermediate"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -206,7 +206,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="GPS"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="GPS"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="N"/>
@@ -215,7 +215,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PRIVLIMO"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Private Limo"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -224,7 +224,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="SHRRIDE"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Shared Ride"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -233,7 +233,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="UPGRDE"/>
-			<column name="EXP_TYP_CD" value="R"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Upgrade (Mid-Size, Van, Other)"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -311,7 +311,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="1"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="ORBT"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -324,7 +323,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -333,7 +331,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="2"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="HOTL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -346,7 +343,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="L"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -355,7 +351,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="3"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="MPOL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -368,7 +363,6 @@
 			<column name="EMAIL" value="dcrabree@indiana.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Dave Crabtree"/>
-			<column name="TYPE_CODE" value="R"/>
 			<column name="PRE_RECONCILED" value="Y"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -377,7 +371,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="4"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="GHST"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -398,7 +391,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="5"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="USBC"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CORP"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -421,7 +413,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="6"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CNXS"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -434,7 +425,6 @@
 			<column name="EMAIL" value="kaosborne@ucdavis.edu"/>
 			<column name="PHONE" value="800-555-1212"/>
 			<column name="CONTACT_NAME" value="Karen Osborne"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -443,7 +433,6 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
-			<column name="ID" valueNumeric="7"/>
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CTSC"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
 			<column name="PAYMENT_IND" value="Y"/>
@@ -456,7 +445,6 @@
 			<column name="EMAIL" value="email@email.edu"/>
 			<column name="PHONE" value="800-123-1234"/>
 			<column name="CONTACT_NAME" value="Test User"/>
-			<column name="TYPE_CODE" value="A"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="N"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
@@ -2620,18 +2608,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="PURPOSE_CODE" value="NH"/>
-			<column name="PURPOSE_NAME" value="New Hire"/>
-			<column name="PURPOSE_DESCRIPTION" value="New Hire"/>
-			<column name="REVIEW_REQUIRED_IND" value="Y"/>
-			<column name="ROW_ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="PD"/>
 			<column name="PURPOSE_NAME" value="Prospective Donor Events"/>
 			<column name="PURPOSE_DESCRIPTION" value="Prospective Donor Events"/>
@@ -2640,8 +2617,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="RC"/>
 			<column name="PURPOSE_NAME" value="Recruitment"/>
 			<column name="PURPOSE_DESCRIPTION" value="Recruitment"/>
@@ -2650,8 +2626,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="RR"/>
 			<column name="PURPOSE_NAME" value="Reception or Retirement"/>
 			<column name="PURPOSE_DESCRIPTION" value="Reception or retirement"/>
@@ -2660,8 +2635,7 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_PURPOSE_T">
-			<column name="DOCUMENT_TYPE" value="ENT"/>
+		<insert tableName="TEM_ENT_PURPOSE_T">
 			<column name="PURPOSE_CODE" value="SA"/>
 			<column name="PURPOSE_NAME" value="Student or Administrative Meetings"/>
 			<column name="PURPOSE_DESCRIPTION" value="Student or Administrative Meetings"/>
@@ -2833,7 +2807,6 @@
 		</insert>
 		<insert tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" value="EMP"/>
-			<column name="SRC_CODE" value="KIM"/>
 			<column name="NM" value="Employee"/>
 			<column name="ADVANCES_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -2842,7 +2815,6 @@
 		</insert>
 		<insert tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" value="NON"/>
-			<column name="SRC_CODE" value="MANUAL"/>
 			<column name="NM" value="Non-Employee"/>
 			<column name="ADVANCES_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>

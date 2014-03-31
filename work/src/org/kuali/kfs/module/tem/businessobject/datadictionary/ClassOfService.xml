@@ -12,7 +12,7 @@
 		<property name="attributes">
 		<list>
 			<ref bean="ClassOfService-code" />
-			<ref bean="ClassOfService-expenseTypeCode" />
+			<ref bean="ClassOfService-expenseTypeMetaCategoryCode" />
 			<ref bean="ClassOfService-classOfServiceName" />
 			<ref bean="ClassOfService-approvalRequired" />
 			<ref bean="ClassOfService-active" />
@@ -24,24 +24,17 @@
 	<bean id="ClassOfService-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
 		<property name="label" value="Class of Service Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="shortLabel" value="Class of Service Code" />
 		<property name="maxLength" value="10" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Class of Service Code" />
+		<property name="description" value="Class of Service Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
-	<bean id="ClassOfService-expenseTypeCode" parent="ClassOfService-expenseTypeCode-parentBean" />
-	<bean id="ClassOfService-expenseTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="expenseTypeCode" />
-		<property name="label" value="Expense Type Code" />
-		<property name="shortLabel" value="Expense Type Code" />
-		<property name="maxLength" value="2" />
-		<property name="required" value="true" />
-		<property name="summary" value="Expense Type Code" />
-		<property name="description" value="Expense Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
-	</bean>
+	
+	<bean id="ClassOfService-expenseTypeMetaCategoryCode" parent="ClassOfService-expenseTypeMetaCategoryCode-parentBean" />
+	<bean id="ClassOfService-expenseTypeMetaCategoryCode-parentBean" abstract="true" parent="ExpenseType-expenseTypeMetaCategoryCode"/>
+	
 	<bean id="ClassOfService-classOfServiceName" parent="ClassOfService-classOfServiceName-parentBean" />
 	<bean id="ClassOfService-classOfServiceName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="classOfServiceName" />
@@ -90,7 +83,7 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="code" />
-					<bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode" />
 					<bean parent="FieldDefinition" p:attributeName="classOfServiceName" />
 					<bean parent="FieldDefinition" p:attributeName="approvalRequired" />
 					<bean parent="FieldDefinition" p:attributeName="active" />
@@ -111,7 +104,7 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="code" />
-			<bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
+			<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode" />
 			<bean parent="FieldDefinition" p:attributeName="classOfServiceName" />
 			<bean parent="FieldDefinition" p:attributeName="approvalRequired" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
@@ -120,7 +113,7 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="code" />
-			<bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
+			<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode" />
 			<bean parent="FieldDefinition" p:attributeName="classOfServiceName" />
 			<bean parent="FieldDefinition" p:attributeName="approvalRequired" />
 			<bean parent="FieldDefinition" p:attributeName="active" />

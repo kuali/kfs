@@ -453,7 +453,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-051"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the new fiscal year encumbrances will be held and will be posted by the year-end encumbrance forwards job."/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the new fiscal year encumbrances will be held and will be released by the &quot;temReleaseHeldEncumbranceJob&quot; job."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -871,7 +871,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-113"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Account;Sub-Account"/>
-			<column name="PARM_DESC_TXT" value="Defines the fields within the accounting line for matching between the TA encumbrance accounting line and downloaded agency data. List the accounting line elements that will be used for matching. Valid VALUES are: Account, Sub-Account, Object Code, Sub-Object Code."/>
+			<column name="PARM_DESC_TXT" value="Defines the fields within the accounting line for matching between the TA encumbrance accounting line and downloaded agency data. List the accounting line elements that will be used for matching. Valid VALUES are: Account, Sub-Account."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1331,15 +1331,16 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT_BY_TRV"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-163"/>
+			<column name="CMPNT_CD" value="ALL"/>
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-164"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="You have newly imported expenses that need to be reconciled."/>
-			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses that need to be reconciled."/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the Travel/Entertainment module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
+		
 	</changeSet>
 	
 </databaseChangeLog>

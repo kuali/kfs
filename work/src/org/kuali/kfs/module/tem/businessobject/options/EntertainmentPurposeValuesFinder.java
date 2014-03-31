@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.Purpose;
+import org.kuali.kfs.module.tem.businessobject.EntertainmentPurpose;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -28,7 +27,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public class PurposeValuesFinder extends KeyValuesBase {
+public class EntertainmentPurposeValuesFinder extends KeyValuesBase {
     protected static volatile KeyValuesService keyValuesService;
 
     /**
@@ -36,11 +35,11 @@ public class PurposeValuesFinder extends KeyValuesBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        Collection<Purpose> purposes = getKeyValuesService().findAll(Purpose.class);
+        Collection<EntertainmentPurpose> purposes = getKeyValuesService().findAll(EntertainmentPurpose.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
-        for (Purpose purpose : purposes) {
-            if(purpose.isActive()&&purpose.getDocumentType().equalsIgnoreCase(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT)) {
+        for (EntertainmentPurpose purpose : purposes) {
+            if(purpose.isActive()) {
                 labels.add(new ConcreteKeyValue(purpose.getPurposeCode(), purpose.getPurposeName()));
             }
         }

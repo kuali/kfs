@@ -21,23 +21,23 @@
 	<bean id="AirfareSource-code" parent="AirfareSource-code-parentBean" />
 	<bean id="AirfareSource-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Airfare Source Code" />
+		<property name="shortLabel" value="Airfare Source Code" />
 		<property name="maxLength" value="10" />
 		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
+		<property name="summary" value="Airfare Source Code" />
+		<property name="description" value="Airfare Source Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
 	<bean id="AirfareSource-name" parent="AirfareSource-name-parentBean" />
 	<bean id="AirfareSource-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Airfare Source Name" />
+		<property name="shortLabel" value="Airfare Source Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
+		<property name="summary" value="Airfare Source Name" />
+		<property name="description" value="Airfare Source Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="AirfareSource-active" parent="AirfareSource-active-parentBean" />

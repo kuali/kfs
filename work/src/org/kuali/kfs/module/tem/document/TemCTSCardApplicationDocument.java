@@ -79,7 +79,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
             List<CreditCardAgency> creditCardAgencyList = (List<CreditCardAgency>) getBusinessObjectService().findMatching(CreditCardAgency.class, fieldValues);
             CreditCardAgency creditCardAgency = creditCardAgencyList.get(0);
             profileAccount.setCreditCardAgency(creditCardAgency);
-            profileAccount.setCreditCardAgencyId(creditCardAgency.getId());
+            profileAccount.setCreditCardOrAgencyCode(creditCardAgency.getCreditCardOrAgencyCode());
             profileAccount.setName(creditCardAgency.getCreditCardOrAgencyName());
             profileAccount.setActive(true);
             profileAccount.setAccountNumber(temProfile.getEmployeeId());

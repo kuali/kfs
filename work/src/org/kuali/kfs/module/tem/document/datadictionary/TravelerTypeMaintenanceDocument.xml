@@ -13,7 +13,7 @@
 		<ref bean="TravelerTypeMaintenanceDocument-Section" />
 	</list>
 	</property>
-	<property name="allowsNewOrCopy" value="true" />
+	<property name="allowsNewOrCopy" value="false" />
 	<property name="lockingKeys">
 	<list>
 		<value>code</value>
@@ -27,13 +27,12 @@
 <bean id="TravelerTypeMaintenanceDocument-Section" parent="TravelerTypeMaintenanceDocument-Section-parentBean" />
 <bean id="TravelerTypeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="TravelerType" />
-		<property name="title" value="Edit TravelerType" />
+		<property name="title" value="Edit Traveler Type" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="sourceCode" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="advances" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="advances" p:required="false"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

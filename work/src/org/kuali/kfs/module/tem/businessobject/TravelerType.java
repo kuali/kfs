@@ -35,8 +35,6 @@ public class TravelerType extends PersistableBusinessObjectBase implements Mutab
 
     private String code;
 
-    private String sourceCode;
-
     private String name;
 
     private Boolean advances = Boolean.FALSE;
@@ -51,15 +49,6 @@ public class TravelerType extends PersistableBusinessObjectBase implements Mutab
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    @Column(name="src_code",length=10)
-    public String getSourceCode() {
-        return sourceCode;
-    }
-
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
     }
 
     @Column(name="nm",length=40,nullable=false)

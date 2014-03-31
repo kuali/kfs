@@ -129,8 +129,7 @@ public class TemPropertyConstants {
     public static final String AGENCY_STAGING_DATA = "agencyStagingData";
     public static final String CREDIT_CARD_STAGING_DATA = "creditCardStagingData";
     public static final String TRAVEL_CARD_TYPE = "travelCardType";
-    //profile accounts
-    public static final String CREDIT_CARD_AGENCY_ID = "creditCardAgencyId";
+
 
     public static final String RATE = "rate";
     public static final String ACTIVE_FROM_DATE = "activeFromDate";
@@ -414,7 +413,7 @@ public class TemPropertyConstants {
     }
 
     public class ClassOfService {
-        public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseType.expenseTypeMetaCategoryCode";
+        public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseTypeMetaCategoryCode";
     }
 
     public static final String SPECIAL_CIRCUMTANCES_QUESTION_TEXT = "text";
@@ -423,4 +422,5 @@ public class TemPropertyConstants {
     public static final String TRIP_TYPE_ENCUMBRANCE_BALANCE_TYPE = "encumbranceBalanceType";
     public static final String TRIP_TYPE_ENCUMBRANCE_OBJECT_CODE = "encumbranceObjCode";
     public static final String TRIP_TYPE_AUTO_TRAVEL_REIMBURSEMENT_LIMIT = "autoTravelReimbursementLimit";
+    public static final String LODGING = "lodging";
 }

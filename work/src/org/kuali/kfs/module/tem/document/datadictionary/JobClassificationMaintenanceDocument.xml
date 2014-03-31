@@ -26,11 +26,11 @@
 <bean id="JobClassificationMaintenanceDocument-Section" parent="JobClassificationMaintenanceDocument-Section-parentBean" />
 <bean id="JobClassificationMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="JobClassification" />
-		<property name="title" value="Edit JobClassification" />
+		<property name="title" value="Edit Job Classification" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="jobClsCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="jobClsName" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
 		</list></property>
 </bean>
 </beans>

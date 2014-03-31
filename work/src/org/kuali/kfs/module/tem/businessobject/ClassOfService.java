@@ -30,12 +30,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class ClassOfService extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String code;
-    private String expenseTypeCode;
+    private String expenseTypeMetaCategoryCode;
     private String classOfServiceName;
     private boolean approvalRequired = Boolean.FALSE;
     private boolean active = Boolean.TRUE;
-
-    private ExpenseType expenseType;
 
     @Id
     @Column(name="CODE",length=10, nullable=false)
@@ -47,13 +45,13 @@ public class ClassOfService extends PersistableBusinessObjectBase implements Mut
         this.code = code;
     }
 
-    @Column(name="DV_EXP_CD",length=2, nullable=false)
-    public String getExpenseTypeCode() {
-        return expenseTypeCode;
+    @Column(name="EXP_TYP_META_CTGRY_CD",length=2, nullable=false)
+    public String getExpenseTypeMetaCategoryCode() {
+        return expenseTypeMetaCategoryCode;
     }
 
-    public void setExpenseTypeCode(String expenseTypeCode) {
-        this.expenseTypeCode = expenseTypeCode;
+    public void setExpenseTypeMetaCategoryCode(String expenseTypeMetaCategoryCode) {
+        this.expenseTypeMetaCategoryCode = expenseTypeMetaCategoryCode;
     }
 
     @Column(name="CLASS_SVC_NAME",length=40,nullable=false)
@@ -83,19 +81,6 @@ public class ClassOfService extends PersistableBusinessObjectBase implements Mut
     @Override
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public ExpenseType getExpenseType() {
-        return expenseType;
-    }
-
-    /**
-     * This is deprecated because it is for use of the ORM, not devs
-     * @param expenseType
-     */
-    @Deprecated
-    public void setExpenseType(ExpenseType expenseType) {
-        this.expenseType = expenseType;
     }
 
     @SuppressWarnings("rawtypes")

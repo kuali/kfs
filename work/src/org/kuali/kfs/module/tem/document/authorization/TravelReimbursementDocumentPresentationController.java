@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
@@ -36,10 +37,12 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelReimbursementForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -88,7 +91,66 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TR_DELINQUENT, new String[] { TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT }, true);
             }
         }
-        return super.getDocumentActions(document);
+
+        Set<String> actions = super.getDocumentActions(document);
+        if (canNewReimbursement(tr)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_NEW_REIMBURSEMENT);
+        }
+
+        return actions;
+    }
+
+    /**
+     * Determines if a reimbursement can be initiated for this document. This is done for {@link TravelReimbursementDocument} instances
+     * that have a workflow document status of FINAL or PROCESSED and on documents that have a workflow
+     * App Doc Status of DEPT_APPROVED. Also checks if the person has permission to initiate the target documents.
+     * Will not show the new Reimbursement link if the TR already has a TR enroute.
+     * Will not show the new Reimbursement link if the TR is not the root document.
+     * Will not show the new Reimbursement link if a TA is required to initiate a TR.
+     * Will not show the new Reimbursement link if all the Trip Types require a TA to initiate a TR.
+     *
+     * @param document
+     * @return
+     */
+    public boolean canNewReimbursement(TravelReimbursementDocument document) {
+        final String documentType = document.getDocumentTypeName();
+
+        final String appDocStatus = document.getApplicationDocumentStatus();
+        boolean statusCheck = (document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal())
+                && (appDocStatus.equals(TravelReimbursementStatusCodeKeys.DEPT_APPROVED));
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+        boolean hasInitAccess = false;
+        if (getTemRoleService().canAccessTravelDocument(document, user) && !ObjectUtils.isNull(document.getTraveler()) && document.getTemProfileId() != null && !ObjectUtils.isNull(document.getTemProfile())){
+            //check if user also can init other docs
+            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
+        }
+
+        boolean checkRelatedDocs = true;
+        boolean originalDocumentCheck = true;
+        boolean initiateReimbursementWithoutAuthorization = true;
+
+        if (documentType.equals(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+            //don't display link if there are enroute TRs
+            List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
+            for (Document doc : docs) {
+                TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
+                if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                    checkRelatedDocs &= false;
+                }
+            }
+
+            //only allow the link to display if the TR is the root document
+            originalDocumentCheck = document.isTripProgenitor();
+
+            //only allow the link to display if a TR can be initiated without a TA
+            initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
+
+            //check Trip Types to verify at least one type can initiate TR without TA
+            initiateReimbursementWithoutAuthorization &= !getTravelReimbursementService().doAllReimbursementTripTypesRequireTravelAuthorization();
+        }
+
+        return statusCheck && hasInitAccess && checkRelatedDocs && originalDocumentCheck && initiateReimbursementWithoutAuthorization;
     }
 
     /**

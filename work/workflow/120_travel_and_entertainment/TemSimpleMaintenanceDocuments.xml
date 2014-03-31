@@ -88,7 +88,7 @@
     </documentType>
     <documentType>
       <name>TPUR</name>
-      <label>Purpose</label>
+      <label>Entertainment Purpose</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>

@@ -2571,7 +2571,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_PER_DIEM_REGION_T">
-			<column name="REGION_CD" valueNumeric="XXX"/>
+			<column name="REGION_CD" value="XXX"/>
 			<column name="TRIP_TYP_CD" value="OUT" />
 			<column name="REGION_NM" value="Region Not Found"/>
 			<column name="ACTV_IND" value="Y"/>

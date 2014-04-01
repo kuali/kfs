@@ -861,7 +861,7 @@
 				<value>unusedValueHolder</value>
 
 				<value>effectiveDateAsString</value>
-				<value>unusedValueHolder</value>
+				<value>expirationDateAsString</value>
 
 				<value>seasonBeginDateAsString</value>
 				<value>seasonEndDateAsString</value>

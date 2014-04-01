@@ -2480,7 +2480,7 @@
 		<insert tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" valueNumeric="1"/>
 			<column name="EXP_TYP_CD" value="MP"/>
-			<column name="RATE" valueNumeric="0.55"/>
+			<column name="RT" valueNumeric="0.55"/>
 			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:22"/>
 			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
 			<column name="VER_NBR" valueNumeric="1"/>

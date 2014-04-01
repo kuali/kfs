@@ -2510,7 +2510,6 @@
 			<column name="LUNCH" valueNumeric="11.0"/>
 			<column name="DIN" valueNumeric="23.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="34.5"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
@@ -2522,7 +2521,6 @@
 			<column name="LUNCH" valueNumeric="12.0"/>
 			<column name="DIN" valueNumeric="26.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="38.25"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
@@ -2534,7 +2532,6 @@
 			<column name="LUNCH" valueNumeric="13.0"/>
 			<column name="DIN" valueNumeric="29.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="42.0"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
@@ -2546,7 +2543,6 @@
 			<column name="LUNCH" valueNumeric="15.0"/>
 			<column name="DIN" valueNumeric="31.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="45.75"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
@@ -2558,7 +2554,6 @@
 			<column name="LUNCH" valueNumeric="16.0"/>
 			<column name="DIN" valueNumeric="34.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="49.5"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
@@ -2570,7 +2565,6 @@
 			<column name="LUNCH" valueNumeric="18.0"/>
 			<column name="DIN" valueNumeric="36.0"/>
 			<column name="INC" valueNumeric="5.0"/>
-			<column name="FIRST_LAST_DAY_AMOUNT" valueNumeric="53.25"/>
 			<column name="LAST_UPD_DT" valueDate="2011-08-31T00:00:00"/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>

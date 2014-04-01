@@ -269,7 +269,6 @@
 			<column name="TRAVELER_NM" type="VARCHAR2(40)" />
 			<column name="TYPE_CD" type="VARCHAR2(1)" />
 			<column name="DV_EXP_CD" type="VARCHAR2(2)" />
-			<column name="PMT_GRP_ID" type="NUMBER(8)" />
 			<column name="MERCHANT_NM" type="VARCHAR2(40)" />
 			<column name="BANK_POST_DT" type="DATE" />
 			<column name="PROCESSING_TS" type="DATE" />
@@ -279,6 +278,7 @@
 			<column name="ITN_NBR" type="VARCHAR2(20)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="PMT_GRP_ID" type="NUMBER(8)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_STAGING_T"
 			constraintName="TEM_CREDIT_CARD_STAGING_TP1" columnNames="ID" />
@@ -365,7 +365,7 @@
 			<column name="DESCRIPTION" type="VARCHAR2(25)" />
 			<column name="RECON_DT" type="DATE" />
 			<column name="RECONCILED" type="VARCHAR2(1)" />
-			<column name="CURR_RT" type="NUMBER(8,2)" />
+			<column name="CURR_RT" type="NUMBER(20,10)" />
 			<column name="CONV_AMT" type="NUMBER(8,2)" />
 			<column name="REIMB" type="VARCHAR2(1)" />
 			<column name="MISSING_RCPT" type="VARCHAR2(1)" />
@@ -394,7 +394,7 @@
 			constraintName="TEM_JOB_CLASS_TP1" columnNames="JOB_CLS_CD" />
 		<createTable tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="RT" type="NUMBER(19,2)" />
+			<column name="RT" type="NUMBER(14,4)" />
 			<column name="ACTV_FROM_DT" type="DATE" />
 			<column name="ACTV_TO_DT" type="DATE" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
@@ -425,16 +425,15 @@
 			<column name="ACCOM_PH" type="VARCHAR2(20)" />
 			<column name="ACCOM_ADDRESS" type="VARCHAR2(255)" />
 			<column name="MLG_DT" type="DATE" />
-			<column name="PRI_DEST_ID" type="NUMBER(22,0)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="MILEAGE_RT_EXP_TYP_CD" type="VARCHAR2(2)" />
+			<column name="PRI_DEST_ID" type="NUMBER(22,0)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_EXP_T"
 			constraintName="TEM_PER_DIEM_EXP_TP1" columnNames="ID" />
 		<createTable tableName="TEM_PER_DIEM_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="PRI_DEST" type="VARCHAR2(100)" />
 			<column name="EFFECT_FROM_DT" type="DATE" />
 			<column name="EFFECT_TO_DT" type="DATE" />
 			<column name="LOAD_DT" type="DATE" />
@@ -449,6 +448,7 @@
 				defaultValueNumeric="0" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="PRI_DEST_ID" type="NUMBER(22,0)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_T"
 			constraintName="TEM_PER_DIEM_TP1" columnNames="ID" />
@@ -457,9 +457,9 @@
        		<column name="PRI_DEST_NM" type="VARCHAR2(100)"/>
         	<column name="REGION_CD" type="VARCHAR2(100)"/>
         	<column name="COUNTY_CD" type="VARCHAR2(100)"/>
+        	<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
     	</createTable>
     	<addPrimaryKey tableName="TEM_PRI_DEST_T"
 			constraintName="TEM_PRI_DEST_TP1" columnNames="ID" />
@@ -489,15 +489,15 @@
 		<createTable tableName="TEM_PROFILE_ACCOUNT_T">
 			<column name="ACCOUNT_ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />
-			<column name="CREDIT_CARD_AGENCY_CODE" type="VARCHAR2(4)" />
 			<column name="NAME" type="VARCHAR2(50)" />
 			<column name="ACCOUNT_NBR" type="VARCHAR2(50)" />
 			<column name="EXP_DATE" type="DATE" />
 			<column name="EFFECTIVE_DATE" type="DATE" />
 			<column name="NOTE" type="VARCHAR2(500)" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
+			<column name="CREDIT_CARD_AGENCY_CODE" type="VARCHAR2(4)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PROFILE_ACCOUNT_T"
 			constraintName="TEM_PROFILE_ACCOUNT_TP1" columnNames="ACCOUNT_ID" />
@@ -910,9 +910,9 @@
 			<column name="RGN_FAMIL" type="VARCHAR2(255)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
-			<column name="TR_FDOC_NBR" type="VARCHAR2(14)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="TR_FDOC_NBR" type="VARCHAR2(14)"/>
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
 			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</createTable>
@@ -946,7 +946,7 @@
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
 			<column name="HOLD_RQSTR_PRNCPL_ID" type="VARCHAR2(40)"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="Y"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_DOC_T"
 			constraintName="TEM_TRVL_AUTH_DOC_TP1" columnNames="FDOC_NBR" />
@@ -1006,7 +1006,7 @@
 			<column name="EXP_AMT" type="NUMBER(20,3)"
 				defaultValueNumeric="0" />
 			<column name="EXP_DESC" type="VARCHAR2(255)" />
-			<column name="CUR_RT" type="NUMBER(7,6)" defaultValueNumeric="0" />
+			<column name="CUR_RT" type="NUMBER(20,10)" defaultValueNumeric="0" />
 			<column name="CUR_COUNTRY_CD" type="VARCHAR2(100)" />
 			<column name="CONVERTED_AMT" type="NUMBER(7,2)"
 				defaultValueNumeric="0" />
@@ -1014,7 +1014,7 @@
 			<column name="AIRFARE_SRC_CD" type="VARCHAR2(10)" />
 			<column name="CLASS_SVC_CODE" type="VARCHAR2(10)" />
 			<column name="MILES" type="NUMBER(22,0)" />
-			<column name="MILEAGE_OTHR_RT" type="NUMBER(19,2)"
+			<column name="MILEAGE_OTHR_RT" type="NUMBER(14,4)"
 				defaultValueNumeric="0" />
 			<column name="CARD_TYPE" type="VARCHAR2(40)" />
 			<column name="RENTAL_CAR_INSURANCE" type="VARCHAR2(1)" />

@@ -288,6 +288,8 @@
 		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RT_TR1"
 			baseTableName="TEM_MILEAGE_RT_T" baseColumnNames="EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD"/>
+		<addUniqueConstraint tableName="TEM_MILEAGE_RT_T"
+			constraintName="TEM_MILEAGE_RT_TC0" columnNames="OBJ_ID" />
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR1"
 			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
@@ -725,6 +727,16 @@
 		</createIndex>
 		<createIndex indexName="TEM_HELD_ENCUM_ENTRY_TI5" tableName="TEM_HELD_ENCUM_ENTRY_T">
 			<column name="TRIP_ID" type="VARCHAR2(19)"/>
+		</createIndex>
+		<createIndex indexName="TEM_PER_DIEM_TI1" tableName="TEM_PER_DIEM_T">
+			<column name="SSN_BGN_MONTH_DAY" type="VARCHAR2(5)" />
+			<column name="EFFECT_FROM_DT" type="DATE" />
+			<column name="PRI_DEST_ID" type="NUMBER(22,0)" />
+		</createIndex>
+		<createIndex indexName="TEM_PRI_DEST_TI1" tableName="TEM_PRI_DEST_T">
+			<column name="PRI_DEST_NM" type="VARCHAR2(100)" />
+			<column name="REGION_CD" type="VARCHAR2(100)" />
+			<column name="COUNTY_CD" type="VARCHAR2(100)" />
 		</createIndex>
 		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="TRIP_TYP_CD" columnDataType="VARCHAR2(3)"/>
 		<addNotNullConstraint tableName="TEM_PER_DIEM_REGION_T" columnName="ACTV_IND" columnDataType="VARCHAR2(1)"/>

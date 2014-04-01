@@ -16104,7 +16104,6 @@
         <column name="LUNCH" size="22" type="DECIMAL"/>
         <column name="DIN" size="22" type="DECIMAL"/>
         <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="FIRST_LAST_DAY_AMOUNT" scale="2" size="19" type="DECIMAL"/>
         <column name="LAST_UPD_DT" type="DATE"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>

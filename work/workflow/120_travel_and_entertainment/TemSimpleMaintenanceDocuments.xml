@@ -103,7 +103,7 @@
     </documentType>
     <documentType>
       <name>TAAR</name>
-      <label>Travel Agency Audit Report</label>
+      <label>Travel Agency Audit and Correction</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>

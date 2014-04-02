@@ -34,7 +34,7 @@
 			<bean parent="MaintainableFieldDefinition" p:name="lunch" p:required="true" />
 			<bean parent="MaintainableFieldDefinition" p:name="dinner" p:required="true" />
 			<bean parent="MaintainableFieldDefinition" p:name="incidentals" p:required="true" />
-			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+			<bean parent="MaintainableFieldDefinition" p:name="active" />
 		</list></property>
 </bean>
 </beans>

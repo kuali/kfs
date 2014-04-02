@@ -32,7 +32,7 @@
 	<bean id="MileageRateMaintenanceDocument-Section" parent="MileageRateMaintenanceDocument-Section-parentBean" />
 	<bean id="MileageRateMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="MileageRate" />
-		<property name="title" value="Edit MileageRate" />
+		<property name="title" value="Edit Mileage Rate" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>

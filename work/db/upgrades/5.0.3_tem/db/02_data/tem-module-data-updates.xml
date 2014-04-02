@@ -312,7 +312,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="ORBT"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="orbitz.com"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -332,7 +332,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="HOTL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="hotel.com"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -352,7 +352,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="MPOL"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="Motor Pool"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -372,7 +372,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="GHST"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="IU Ghost Card-USB"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -414,7 +414,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CNXS"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="UCD Connexus Ghost Card"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -434,7 +434,7 @@
 		<insert tableName="TEM_CREDIT_CARD_AGENCY_T">
 			<column name="CREDIT_CARD_AGENCY_CODE" value="CTSC"/>
 			<column name="TRAVEL_CARD_TYPE_CD" value="CTS"/>
-			<column name="PAYMENT_IND" value="Y"/>
+			<column name="PAYMENT_IND" value="N"/>
 			<column name="CREDIT_CARD_AGENCY_NAME" value="UCI APL-E Card"/>
 			<column name="ADDRESS1" value="Address 1"/>
 			<column name="ADDRESS2" value="Address 2"/>
@@ -2590,7 +2590,6 @@
 		<insert tableName="TEM_PER_DIEM_T">
 			<column name="ID" valueNumeric="2147483647"/>
 			<column name="PRI_DEST_ID" valueNumeric="2147483647"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
 			<column name="BKFST" valueNumeric="0.0"/>
 			<column name="LUNCH" valueNumeric="0.0"/>
 			<column name="DIN" valueNumeric="0.0"/>

@@ -1346,8 +1346,8 @@
 			<column name="PARM_NM" value="DEFAULT_EFFECTIVE_TO_DATE"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-165"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="2049-12-31"/>
-			<column name="PARM_DESC_TXT" value="This parameter identifies an arbitrary &quot;effective to&quot; date that has been assigned to per diem rows when a valid &quot;effective to&quot; date does not exist. When a new year's per diem rates are loaded, if a new row has an &quot;effective to&quot; date matching this parameter then the previous year's row for that destination will have its &quot;effective to&quot; date changed to be one day prior to the new rate's &quot;effective from&quot; date. Date format for this parameter is yyyy-mm-dd."/>
+			<column name="VAL" value="12/31/2049"/>
+			<column name="PARM_DESC_TXT" value="This parameter identifies an arbitrary &quot;effective to&quot; date that has been assigned to per diem rows when a valid &quot;effective to&quot; date does not exist. When a new year's per diem rates are loaded, if a new row has an &quot;effective to&quot; date matching this parameter then the previous year's row for that destination will have its &quot;effective to&quot; date changed to be one day prior to the new rate's &quot;effective from&quot; date. Date format for this parameter is MM/dd/yyyy."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

@@ -680,23 +680,23 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     protected String generateDescription() {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         String description = super.generateDescription();
-        boolean preTripReimbursement = false;
-        try {
-        Date tripEnd = dateTimeService.convertToSqlDate(getTripEnd());
-        Date tripBegin = dateTimeService.convertToSqlDate(getTripBegin());
-        Date currentDate = dateTimeService.getCurrentSqlDate();
-        preTripReimbursement =  tripBegin.compareTo(currentDate)>=0 && tripEnd.compareTo(currentDate) >= 0  ? true : false;
-        } catch (ParseException pe) {
-            LOG.error("Error while parsing dates ",pe);
-        }
 
+        if (getTripEnd() != null && getTripBegin() != null) {
+            boolean preTripReimbursement = false;
+            try {
+            Date tripEnd = dateTimeService.convertToSqlDate(getTripEnd());
+            Date tripBegin = dateTimeService.convertToSqlDate(getTripBegin());
+            Date currentDate = dateTimeService.getCurrentSqlDate();
+            preTripReimbursement =  tripBegin.compareTo(currentDate)>=0 && tripEnd.compareTo(currentDate) >= 0  ? true : false;
+            } catch (ParseException pe) {
+                LOG.error("Error while parsing dates ",pe);
+            }
 
+            final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
-
-        final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
-
-        if (preTrip && preTripReimbursement){
-            return postpendPreTripToDescription(description);
+            if (preTrip && preTripReimbursement){
+                return postpendPreTripToDescription(description);
+            }
         }
 
         return description;

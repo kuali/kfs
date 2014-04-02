@@ -31,11 +31,8 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temRoleService" ref="temRoleService" />
-		<property name="travelerService" ref="travelerService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
-		<property name="kualiRuleService" ref="kualiRuleService" />
 		<property name="stateService" ref="stateService" />
-		<property name="persistenceStructureService" ref="persistenceStructureService"/>
+		<property name="configurationService" ref="configurationService"/>
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="defaultAcceptableFileExtensions">
 			<list>
@@ -53,6 +50,8 @@
     	<property name="perDiemService" ref="perDiemService"/>
     	<property name="travelExpenseService" ref="travelExpenseService"/>
     	<property name="noteService" ref="noteService"/>
+    	<property name="travelService" ref="temTravelService"/>
+    	<property name="mileageRateService" ref="mileageRateService"/>
 	</bean>
 	<bean id="travelDocumentService" parent="travelDocumentService-parentBean" />
 	<bean id="travelDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.MockTravelDocumentServiceImpl">

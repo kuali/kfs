@@ -144,7 +144,7 @@
 	<bean id="Bill-billedIndicator-parentBean" abstract="true"
  		parent="GenericAttributes-genericBoolean">
 		<property name="name" value="billedIndicator" />
- 		<property name="label" value="Is It Billed" />
+ 		<property name="label" value="Billed" />
 		<property name="shortLabel" value="billedIndicator" />
  	</bean>
 

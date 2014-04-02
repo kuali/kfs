@@ -89,7 +89,6 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
 							<bean parent="MaintainableFieldDefinition" p:name="billNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier" />
 							<bean parent="MaintainableFieldDefinition" p:name="billDescription" />
 							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
 							<bean parent="MaintainableFieldDefinition" p:name="billDate" />

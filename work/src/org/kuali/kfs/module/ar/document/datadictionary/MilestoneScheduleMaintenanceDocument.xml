@@ -89,7 +89,6 @@
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneNumber" />
-							<bean parent="MaintainableFieldDefinition" p:name="milestoneIdentifier" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneDescription" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneAmount" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneExpectedCompletionDate" />

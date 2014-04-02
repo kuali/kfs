@@ -15224,7 +15224,7 @@
         <column name="EXP_DETAIL_REQ_IND" size="1" type="VARCHAR"/>
         <column name="EXP_PRPY_IND" required="true" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="HOSTED_IND" required="true" size="2" type="VARCHAR"/>
+        <column name="HOSTED_IND" required="true" size="1" type="VARCHAR"/>
         <column name="EXP_TYP_META_CTGRY_CD" size="1" type="VARCHAR"/>
         <column name="CTGRY_DFLT_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="TEM_EXP_TYP_TC0">
@@ -15468,7 +15468,7 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="CREDIT_CARD_AGENCY_CODE" size="4" type="VARCHAR"/>
+        <column name="CREDIT_CARD_AGENCY_CODE" required="true" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_PROFILE_T" name="TEM_PROFILE_ACCOUNT_TR1">
             <reference foreign="PROFILE_ID" local="PROFILE_ID"/>
         </foreign-key>

@@ -148,7 +148,13 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
                 // If the Milestone has already been copied to the Invoice, it will be readonly, the user won't have been able to change
                 // it and thus we don't need to highlight it as an error if it's a dupe. There will be another dupe in the list that
                 // we will highlight.
-                if (!SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasMilestoneBeenCopiedToInvoice(milestone.getProposalNumber(), milestone.getMilestoneIdentifier().toString())) {
+                boolean copiedToInvoice = false;
+                if (ObjectUtils.isNotNull(milestone.getMilestoneIdentifier())) {
+                    if (SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasMilestoneBeenCopiedToInvoice(milestone.getProposalNumber(), milestone.getMilestoneIdentifier().toString())) {
+                        copiedToInvoice = true;
+                    }
+                }
+                if (!copiedToInvoice) {
                     if (duplicateMilestoneNumbers.contains(milestone.getMilestoneNumber())) {
                         String errorPath = ArPropertyConstants.MilestoneScheduleFields.MILESTONES + "[" + lineNum + "]." + ArPropertyConstants.MilestoneFields.MILESTONE_NUMBER;
                         putFieldError(errorPath, ArKeyConstants.ERROR_DUPLICATE_MILESTONE_NUMBER);

@@ -33,7 +33,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     private String creditCardOrAgencyCode;
     private String travelCardTypeCode;
-    private Boolean paymentIndicator;
+    private Boolean paymentIndicator = Boolean.FALSE;
     private String creditCardOrAgencyName;
     private String address1;
     private String address2;
@@ -43,10 +43,10 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
     private String email;
     private String phone;
     private String contactName;
-    private Boolean preReconciled;
-    private Boolean enableNonReimbursable;
+    private Boolean preReconciled = Boolean.FALSE;
+    private Boolean enableNonReimbursable = Boolean.FALSE;
     private String vendorNumber;
-    private Boolean foreignCompany = Boolean.TRUE;
+    private Boolean foreignCompany = Boolean.FALSE;
     private String bankCode;
     private Boolean active = Boolean.TRUE;
 

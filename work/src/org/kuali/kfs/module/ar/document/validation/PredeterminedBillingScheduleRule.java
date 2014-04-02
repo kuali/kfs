@@ -149,7 +149,14 @@ public class PredeterminedBillingScheduleRule extends KfsMaintenanceDocumentRule
                 // If the Bill has already been copied to the Invoice, it will be readonly, the user won't have been able to change
                 // it and thus we don't need to highlight it as an error if it's a dupe. There will be another dupe in the list that
                 // we will highlight.
-                if (!SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasBillBeenCopiedToInvoice(bill.getProposalNumber(), bill.getBillIdentifier().toString())) {
+                boolean copiedToInvoice = false;
+                if (ObjectUtils.isNotNull(bill.getBillIdentifier())) {
+                    if (SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasBillBeenCopiedToInvoice(bill.getProposalNumber(), bill.getBillIdentifier().toString())) {
+                        copiedToInvoice = true;
+                    }
+                }
+
+                if (!copiedToInvoice) {
                     if (duplicateBillNumbers.contains(bill.getBillNumber())) {
                         String errorPath = ArPropertyConstants.PredeterminedBillingScheduleFields.BILLS + "[" + lineNum + "]." + ArPropertyConstants.BillFields.BILL_NUMBER;
                         putFieldError(errorPath, ArKeyConstants.ERROR_DUPLICATE_BILL_NUMBER);

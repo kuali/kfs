@@ -450,4 +450,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return realTravelDocumentService.customizeAgencyLink(travelDocument, agencyName, link);
     }
 
+    @Override
+    public boolean isDocumentStatusValidForReconcilingCharges(TravelDocument travelDocument) {
+        return realTravelDocumentService.isDocumentStatusValidForReconcilingCharges(travelDocument);
+    }
 }

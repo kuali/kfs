@@ -435,6 +435,14 @@ public interface TravelDocumentService {
     public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
 
     /**
+     * This method determines whether a document is in the correct state for reconciling external vendor charges.
+     *
+     * @param travelDocument
+     * @return
+     */
+    public boolean isDocumentStatusValidForReconcilingCharges(TravelDocument travelDocument);
+
+    /**
      * find matching trips  for the same traveler, dates
      *
      */

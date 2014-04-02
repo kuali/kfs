@@ -59,14 +59,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -2248,8 +2248,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return advances;
     }
 
-
-
     /**
      * Determines if the document with the given document number has been approved or not
      * @param documentNumber the document number of the document to check
@@ -2258,6 +2256,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected boolean isDocumentApprovedOrExtracted(String documentNumber) {
         final FinancialSystemDocumentHeader documentHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
         return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode()) || KFSConstants.DocumentStatusCodes.Payments.EXTRACTED.equals(documentHeader.getFinancialDocumentStatusCode());
+    }
+
+    /**
+     * Determines if the document with the given document number has been initiated or submitted for routing
+     * @param documentNumber the document number of the document to check
+     * @return true if the document has been approved, false otherwise
+     */
+    protected boolean isDocumentInitiatedOrEnroute(String documentNumber) {
+        final FinancialSystemDocumentHeader documentHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
+        return KFSConstants.DocumentStatusCodes.INITIATED.equals(documentHeader.getFinancialDocumentStatusCode()) || KFSConstants.DocumentStatusCodes.ENROUTE.equals(documentHeader.getFinancialDocumentStatusCode());
     }
 
     /**
@@ -2526,33 +2534,61 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     *
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getTravelDocumentNumbersByTrip(java.lang.String)
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getApprovedTravelDocumentNumbersByTrip(java.lang.String)
      */
     @Override
     public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
-        HashMap<String,String> approvedTravelDocumentNumbers = new HashMap<String,String>();
+        HashMap<String,String> documentNumbersToReturn = new HashMap<String,String>();
 
-        List<String> travelDocumentNumbers = new ArrayList<String>();
+        List<TravelDocument> travelDocuments = new ArrayList<TravelDocument>();
 
         TravelDocument travelDocument = getParentTravelDocument(travelDocumentIdentifier);
         if (ObjectUtils.isNotNull(travelDocument)) {
-            travelDocumentNumbers.add(travelDocument.getDocumentNumber());
+            travelDocuments.add(travelDocument);
         }
 
-        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentIdentifier));
-        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelEntertainmentDocument.class, travelDocumentIdentifier));
-        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelRelocationDocument.class, travelDocumentIdentifier));
+        travelDocuments.addAll(getTravelDocumentDao().findDocuments(TravelReimbursementDocument.class, travelDocumentIdentifier));
+        travelDocuments.addAll(getTravelDocumentDao().findDocuments(TravelEntertainmentDocument.class, travelDocumentIdentifier));
+        travelDocuments.addAll(getTravelDocumentDao().findDocuments(TravelRelocationDocument.class, travelDocumentIdentifier));
 
 
-        for(Iterator iter = travelDocumentNumbers.iterator(); iter.hasNext();) {
-            String documentNumber = (String)iter.next();
-            if (!approvedTravelDocumentNumbers.containsKey(documentNumber) && isDocumentApprovedOrExtracted(documentNumber)) {
-                approvedTravelDocumentNumbers.put(documentNumber,documentNumber);
+        for(Iterator<TravelDocument> iter = travelDocuments.iterator(); iter.hasNext();) {
+            TravelDocument document = iter.next();
+
+            if (!documentNumbersToReturn.containsKey(document.getDocumentNumber()) && isDocumentStatusValidForReconcilingCharges(document)) {
+                documentNumbersToReturn.put(document.getDocumentNumber(),document.getDocumentNumber());
             }
         }
 
-        return approvedTravelDocumentNumbers.values();
+        return documentNumbersToReturn.values();
+    }
+
+    @Override
+    public boolean isDocumentStatusValidForReconcilingCharges(TravelDocument travelDocument) {
+
+        String documentNumber = travelDocument.getDocumentNumber();
+
+        if (isDocumentApprovedOrExtracted(documentNumber)) {
+            return true;
+        }
+
+        if (travelDocument instanceof TravelAuthorizationDocument) {
+            boolean vendorPaymentAllowedBeforeFinalAuthorization = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+
+            if (vendorPaymentAllowedBeforeFinalAuthorization) {
+                return isDocumentInitiatedOrEnroute(documentNumber);
+            }
+        }
+
+        if (travelDocument instanceof TravelReimbursementDocument) {
+            boolean vendorPaymentAllowedBeforeFinalReimbursement = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+
+            if (vendorPaymentAllowedBeforeFinalReimbursement) {
+                return isDocumentInitiatedOrEnroute(documentNumber);
+            }
+        }
+
+        return false;
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

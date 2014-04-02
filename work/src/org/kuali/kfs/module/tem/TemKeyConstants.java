@@ -260,6 +260,7 @@ public class TemKeyConstants {
 
     public static final String MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER = "message.batch.tem.agencydatareconciliation.reportHeader";
     public static final String MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION = "message.batch.tem.agencydatareconciliation.glpeCreation";
+    public static final String MESSAGE_AGECNY_DATA_RECON_DOCUMENT_STATUS = "message.batch.tem.agencydatareconciliation.documentStatusInvalid";
     public static final String MESSAGE_AGENCY_DATA_RECON_ACCOUNTING_LINE_MATCH = "message.batch.tem.agencydatareconciliation.accountingLineNoMatch";
     public static final String MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE = "message.batch.tem.agencydatareconciliation.expenseTypeObjectCodeInvalid";
     public static final String MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH = "message.batch.tem.agencydatareconciliation.tripNoMatch";

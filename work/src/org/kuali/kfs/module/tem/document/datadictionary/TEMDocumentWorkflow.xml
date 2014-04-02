@@ -459,7 +459,7 @@
     	</property>
 	</bean>
 	
-	<bean id="TravelDocument-RoutingType-Traveler" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	<bean id="TravelDocument-WithRoutingAttribute-profilePrincipalId" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
 		<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
@@ -469,7 +469,7 @@
     	</property>
 	</bean>
 	
-	<bean id="TravelReimbursable-RoutingType-Traveler" parent="TravelDocument-RoutingType-Traveler">
+	<bean id="TravelDocument-RoutingType-Traveler" parent="TravelDocument-WithRoutingAttribute-profilePrincipalId">
     	<property name="documentValuePathGroups">
     		<list>
     			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
@@ -513,13 +513,32 @@
     	</property>
     </bean>
     
-    <bean id="TaxableRamificationDocument-RoutingType-Traveler" parent="TravelDocument-RoutingType-Traveler">
+    <bean id="TaxableRamificationDocument-RoutingType-Traveler" parent="TravelDocument-WithRoutingAttribute-profilePrincipalId">
     	<property name="documentValuePathGroups">
     		<list>
     			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
     					<list>
     						<value>travelerDetail.principalId</value>
+    					</list>
+    				</property>
+			   	</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="TravelDocument-RoutingType-Budget"  class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		 <property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart" />
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+    					<list>
+    						<value>temProfile.defaultChartCode</value>
     					</list>
     				</property>
 			   	</bean>

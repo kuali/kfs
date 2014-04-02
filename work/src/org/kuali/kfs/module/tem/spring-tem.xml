@@ -316,9 +316,6 @@
 	<bean id="TravelDocument-addActualExpenseListener" parent="TravelDocument-addActualExpenseListener-parentBean" />
 	<bean id="TravelDocument-addActualExpenseListener-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.listener.ActualExpenseListener" />
 	
-	<bean id="TravelDocument-importedExpenseListener" parent="TravelDocument-importedExpenseListener-parentBean" />
-	<bean id="TravelDocument-importedExpenseListener-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.listener.ImportedExpenseListener" />
-
 	<bean id="temTravelReimbursementService" parent="temTravelReimbursementService-parentBean" />
 	<bean id="temTravelReimbursementService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.TravelReimbursementServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -342,7 +339,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>
@@ -368,7 +364,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>
@@ -513,11 +508,8 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temRoleService" ref="temRoleService" />
-		<property name="travelerService" ref="travelerService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
-		<property name="kualiRuleService" ref="kualiRuleService" />
 		<property name="stateService" ref="stateService" />
-		<property name="persistenceStructureService" ref="persistenceStructureService"/>
+		<property name="configurationService" ref="configurationService"/>
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="defaultAcceptableFileExtensions">
 			<list>
@@ -577,7 +569,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>

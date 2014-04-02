@@ -484,8 +484,6 @@
                     <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value></key>
                     <value>TravelModule-addActualExpenseDetailLineValidation</value>
                 </entry>
-                <!--entry> <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateDistributionAccountingLinesEvent</value></key> 
-                    <value>TravelModule-distributeAccountingLinesValidation</value> </entry -->
             </map>
         </property>
     </bean>

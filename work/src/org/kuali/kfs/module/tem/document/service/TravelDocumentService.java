@@ -281,8 +281,6 @@ public interface TravelDocumentService {
      */
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document);
 
-    //Map<String,Object> calculateTotalsFor(final TravelDocument travelDocument);
-
     /**
      *
      * This method gets the total of all advances given for the trip relating to the travel document.

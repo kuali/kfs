@@ -441,11 +441,7 @@
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent</value></key>
                 <value>TravelModule-distributionAccountingLineValidation</value>
-            </entry>  	
-            <!--entry>
-                <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateDistributionAccountingLinesEvent</value></key>
-                <value>TravelModule-distributeAccountingLinesValidation</value>
-            </entry-->		        
+            </entry>	        
         </map>
     </property>
   </bean>

@@ -204,14 +204,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
         accountingDocumentRelationshipDao.delete(accountingDocumentRelationship);
     }
 
-    public AccountingDocumentRelationshipDao getAccountingDocumentRelationshipDao() {
-        return accountingDocumentRelationshipDao;
-    }
-
-    public void setAccountingDocumentRelationshipDao(AccountingDocumentRelationshipDao accountingDocumentRelationshipDao) {
-        this.accountingDocumentRelationshipDao = accountingDocumentRelationshipDao;
-    }
-
     /**
      * Counts the number of accounting document relationships where the given document number is the related document number; returns true
      * if that count is greater than 0
@@ -223,6 +215,19 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
         fieldValues.put(TemPropertyConstants.TRVL_RELATED_DOCUMENT_NUM, documentNumber);
         final int count = getBusinessObjectService().countMatching(AccountingDocumentRelationship.class, fieldValues);
         return count > 0;
+    }
+
+    @Override
+    public List<AccountingDocumentRelationship> find(AccountingDocumentRelationship adr) {
+        return accountingDocumentRelationshipDao.findAccountingDocumentRelationship(adr);
+    }
+
+    public AccountingDocumentRelationshipDao getAccountingDocumentRelationshipDao() {
+        return accountingDocumentRelationshipDao;
+    }
+
+    public void setAccountingDocumentRelationshipDao(AccountingDocumentRelationshipDao accountingDocumentRelationshipDao) {
+        this.accountingDocumentRelationshipDao = accountingDocumentRelationshipDao;
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -239,11 +244,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
 
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
-    }
-
-    @Override
-    public List<AccountingDocumentRelationship> find(AccountingDocumentRelationship adr) {
-        return accountingDocumentRelationshipDao.findAccountingDocumentRelationship(adr);
     }
 
 }

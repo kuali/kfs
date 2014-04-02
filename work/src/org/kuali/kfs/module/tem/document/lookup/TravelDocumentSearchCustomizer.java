@@ -23,9 +23,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.service.TemProfileService;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer;
@@ -122,18 +119,6 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
             LOG.error(ex.getMessage(), ex);
         }
         return document;
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    protected TemRoleService getTemRoleService() {
-        return SpringContext.getBean(TemRoleService.class);
-    }
-
-    protected TemProfileService getTemProfileService() {
-        return SpringContext.getBean(TemProfileService.class);
     }
 
     protected DocumentService getDocumentService() {

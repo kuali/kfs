@@ -21,7 +21,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 /**
  * Helper interface to bridge between trip and traveler implementations of travel agency auditing
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public interface AgencyStagingDataValidationHelper  {
 

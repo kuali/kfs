@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
@@ -117,4 +118,12 @@ public interface TemProfileService {
      * @return a List of KeyValue pairs which represent genders
      */
     public List<KeyValue> getGenderKeyValues();
+
+    /**
+     * Determines if the given profile account already exists in the persistence store
+     * @param account the account to check for the existence of
+     * @param skipProfile if not null, any profile accounts with the same id as the given skip profile will be skipped
+     * @return true if the profile account does exist, false otherwise
+     */
+    public boolean doesProfileAccountExist(TemProfileAccount account, TemProfile skipProfile);
 }

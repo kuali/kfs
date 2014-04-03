@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -272,35 +270,14 @@ public class TemProfileRule extends MaintenanceDocumentRuleBase{
      */
     protected boolean doesProfileAccountMatchExisting(TemProfile profile, TemProfileAccount newAccount) {
         if (profile.getAccounts() == null || profile.getAccounts().isEmpty()) {
-            return doesProfileAccountExistForSomeoneElse(profile, newAccount);
+            return getTemProfileService().doesProfileAccountExist(newAccount, profile);
         }
         for (TemProfileAccount existingAccount : profile.getAccounts()) {
             if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && StringUtils.equals(existingAccount.getCreditCardOrAgencyCode(), newAccount.getCreditCardOrAgencyCode())) {
                 return true;
             }
         }
-        return doesProfileAccountExistForSomeoneElse(profile, newAccount);
-    }
-
-    /**
-     * Determines if the given profile account exists in the database on another profile
-     * @param profile the profile to make sure that we're not checking accounts on this profile
-     * @param newAccount the new profile account which we're attempting to add
-     * @return true if the profile account exists in the db already
-     */
-    protected boolean doesProfileAccountExistForSomeoneElse(TemProfile profile, TemProfileAccount newAccount) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, newAccount.getAccountNumber());
-        fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, newAccount.getCreditCardOrAgencyCode());
-        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
-        final Collection<TemProfileAccount> profileAccounts = getBoService().findMatching(TemProfileAccount.class, fieldValues);
-        List<TemProfileAccount> otherFolksAccounts = new ArrayList<TemProfileAccount>();
-        for (TemProfileAccount profileAccount : profileAccounts) { // loop through all accounts to exhaust any iterator
-            if (profile.getId() == null || profileAccount.getProfileId().equals(profile.getId())) {
-                otherFolksAccounts.add(profileAccount);
-            }
-        }
-        return otherFolksAccounts.size() > 0;
+        return getTemProfileService().doesProfileAccountExist(newAccount, profile);
     }
 
     /**

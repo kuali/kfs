@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -140,6 +141,11 @@ public class MockTemProfileServiceImpl implements TemProfileService {
     @Override
     public List<KeyValue> getGenderKeyValues() {
         return realTemProfileService.getGenderKeyValues();
+    }
+
+    @Override
+    public boolean doesProfileAccountExist(TemProfileAccount account, TemProfile skipProfile) {
+        return realTemProfileService.doesProfileAccountExist(account, skipProfile);
     }
 
 }

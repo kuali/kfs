@@ -22,11 +22,6 @@
 	</property>
 	<property name="documentTypeName"        value="TCCA" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-	<!-- property name="defaultExistenceChecks">
-      <list>
-        <bean parent="ReferenceDefinition" p:attributeName="bank" p:attributeToHighlightOnFail="bankCode"/>
-      </list>
-    </property -->
 </bean>
 
 <bean id="CreditCardAgencyMaintenanceDocument-Section" parent="CreditCardAgencyMaintenanceDocument-Section-parentBean" />

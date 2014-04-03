@@ -235,7 +235,8 @@
 			<column name="CONTACT_NAME" type="VARCHAR2(45)" />
 			<column name="PRE_RECONCILED" type="VARCHAR2(1)" />
 			<column name="ENABLE_NON_REIMBURSABLE" type="VARCHAR2(1)" />
-			<column name="VENDOR_NUMBER" type="VARCHAR2(20)" />
+			<column name="VNDR_HDR_GNRTD_ID" type="DECIMAL(10)" />
+			<column name="VNDR_DTL_ASND_ID" type="DECIMAL(10)" />
 			<column name="FOREIGN_COMPANY" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />

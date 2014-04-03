@@ -1138,26 +1138,6 @@
 			<foreignkey field-ref="creditCardOrAgencyCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer" table="TEM_PROFILE_CUST_T">
-		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerTypeCode" column="CUSTOMER_TYP_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerPhoneNumber" column="CUST_PHONE_NBR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerTaxNumberTypeCode" column="CUST_TAX_TYP_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerAddressName" column="ADDRESS_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerLine1StreetAddress" column="ADDR_LINE_1" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerLine2StreetAddress" column="ADDR_LINE_2" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerCityName" column="CITY_NM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerStateCode" column="STATE_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerZipCode" column="ZIP_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerAddressInternationalProvinceName" column="INTL_PROV_NM" jdbc-type="VARCHAR"/>
-		<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-	</class-descriptor>
     
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown" table="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
 		<field-descriptor name="mealsAndIncidentals" column="MEALS_INC" jdbc-type="DECIMAL" primarykey="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>		
@@ -1368,7 +1348,8 @@
 		<field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="preReconciled" column="PRE_RECONCILED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="enableNonReimbursable" column="ENABLE_NON_REIMBURSABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="vendorNumber" column="VENDOR_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="foreignCompany" column="FOREIGN_COMPANY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -1381,6 +1362,10 @@
 		<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		  <foreignkey field-ref="bankCode"/> 
 		</reference-descriptor>
+		<reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        	<foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    	</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" table="TEM_CREDIT_CARD_STAGING_T">

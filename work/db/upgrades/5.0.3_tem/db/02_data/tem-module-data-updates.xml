@@ -404,7 +404,8 @@
 			<column name="CONTACT_NAME" value="Karen Osborne"/>
 			<column name="PRE_RECONCILED" value="N"/>
 			<column name="ENABLE_NON_REIMBURSABLE" value="Y"/>
-			<column name="VENDOR_NUMBER" value="1001-0"/>
+			<column name="VNDR_HDR_GNRTD_ID" valueNumeric="1001"/>
+			<column name="VNDR_DTL_ASND_ID" valueNumeric="0"/>
 			<column name="FOREIGN_COMPANY" value="N"/>
 			<column name="BNK_CD" value="TEST"/>
 			<column name="ACTV_IND" value="Y"/>

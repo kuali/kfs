@@ -21,9 +21,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -33,8 +31,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  *
  */
 public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
-    protected static volatile VendorService vendorService;
-
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         super.processCustomSaveDocumentBusinessRules(document);
@@ -117,25 +113,21 @@ public class CreditCardAgencyRule extends MaintenanceDocumentRuleBase {
         final String vendorNumberLabel = getDataDictionaryService().getAttributeErrorLabel(CreditCardAgency.class, KFSPropertyConstants.VENDOR_NUMBER);
 
         if (isCorporateCardAgency(creditCardAgency) && creditCardAgency.isPaymentIndicator()) {
-            if (StringUtils.isBlank(creditCardAgency.getVendorNumber())) {
+            if (creditCardAgency.getVendorHeaderGeneratedIdentifier() == null || creditCardAgency.getVendorDetailAssignedIdentifier() == null) {
                 putFieldError(KFSPropertyConstants.VENDOR_NUMBER, TemKeyConstants.ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED, new String[] { vendorNumberLabel });
                 return false;
             }
         }
-        if (!StringUtils.isBlank(creditCardAgency.getVendorNumber())) {
-            final VendorDetail vendorDetail = getVendorService().getVendorDetail(creditCardAgency.getVendorNumber());
-            if (vendorDetail == null || !vendorDetail.isActiveIndicator()) {
+        if (creditCardAgency.getVendorHeaderGeneratedIdentifier() != null && creditCardAgency.getVendorDetailAssignedIdentifier() != null) {
+            if (ObjectUtils.isNull(creditCardAgency.getVendorDetail()) || creditCardAgency.getVendorDetail().getVendorHeaderGeneratedIdentifier() != creditCardAgency.getVendorHeaderGeneratedIdentifier() || creditCardAgency.getVendorDetail().getVendorDetailAssignedIdentifier() != creditCardAgency.getVendorDetailAssignedIdentifier()) {
+                creditCardAgency.refreshReferenceObject(VendorPropertyConstants.VENDOR_DETAIL);
+            }
+
+            if (ObjectUtils.isNull(creditCardAgency.getVendorDetail()) || !creditCardAgency.getVendorDetail().isActiveIndicator()) {
                 putFieldError(KFSPropertyConstants.VENDOR_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, new String[] { vendorNumberLabel });
                 return false;
             }
         }
         return true;
-    }
-
-    protected VendorService getVendorService() {
-        if (vendorService == null) {
-            vendorService = SpringContext.getBean(VendorService.class);
-        }
-        return vendorService;
     }
 }

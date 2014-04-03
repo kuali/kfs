@@ -149,6 +149,9 @@
 		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_AGENCY_TR2"
 			baseTableName="TEM_CREDIT_CARD_AGENCY_T" baseColumnNames="BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
+		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_AGENCY_TR3"
+			baseTableName="TEM_CREDIT_CARD_AGENCY_T" baseColumnNames="VNDR_HDR_GNRTD_ID, VNDR_DTL_ASND_ID"
+			referencedTableName="PUR_VNDR_DTL_T" referencedColumnNames="VNDR_HDR_GNRTD_ID, VNDR_DTL_ASND_ID" />
 		<addUniqueConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"

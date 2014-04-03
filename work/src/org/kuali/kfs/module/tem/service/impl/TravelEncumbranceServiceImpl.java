@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.service.impl;
+package org.kuali.kfs.module.tem.service.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
+import org.kuali.kfs.module.tem.service.TravelEncumbranceService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;

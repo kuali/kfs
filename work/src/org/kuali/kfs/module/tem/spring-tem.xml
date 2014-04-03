@@ -532,7 +532,7 @@
 	</bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
-    <bean id="travelEncumbranceService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelEncumbranceServiceImpl" abstract="true">
+    <bean id="travelEncumbranceService-parentBean" class="org.kuali.kfs.module.tem.service.impl.TravelEncumbranceServiceImpl" abstract="true">
       <property name="businessObjectService" ref="businessObjectService" />
       <property name="travelDocumentService" ref="travelDocumentService" />
       <property name="documentService" ref="documentService" />

@@ -86,7 +86,6 @@ import org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuth
 import org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
 import org.kuali.kfs.module.tem.document.validation.event.RecalculateTripDetailTotalEvent;
 import org.kuali.kfs.module.tem.document.validation.event.UpdateTripDetailsEvent;
@@ -96,6 +95,7 @@ import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
+import org.kuali.kfs.module.tem.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;

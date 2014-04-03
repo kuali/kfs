@@ -177,7 +177,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
                 for (PerDiem oldPerDiem : oldPerDiems) {
 
                     if (KfsDateUtils.isSameDay(oldPerDiem.getEffectiveToDate(), futureDate)) {
-                        oldPerDiem.setEffectiveToDate( new java.sql.Date(DateUtils.addDays(perDiem.getEffectiveFromDate(), -1).getTime()));
+                        oldPerDiem.setEffectiveToDate( new java.sql.Date(DateUtils.addDays(perDiem.getEffectiveFromDate(), 0).getTime()));
                         businessObjectService.save(oldPerDiem);
                     }
                 }

@@ -166,7 +166,7 @@
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1110" />
 			<column name="PERM_TMPL_ID" value="10" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="Initiate Document of Type CINV" />
 			<column name="DESC_TXT" value="Initiate Document of Type CINV" />
 			<column name="OBJ_ID" value="KFSCG01" />
@@ -210,7 +210,7 @@
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="CGPERMFFR" />
 			<column name="PERM_TMPL_ID" value="29" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="Use Screen CG Federal Form Generation Process" />
 			<column name="DESC_TXT"
 				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process" />
@@ -254,7 +254,7 @@
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="CGPERMIRD" />
 			<column name="PERM_TMPL_ID" value="29" />
-			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="Use Screen CG Invoice Report Delivery Process" />
 			<column name="DESC_TXT" value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process" />
 			<column name="OBJ_ID" value="KFSCG04" />

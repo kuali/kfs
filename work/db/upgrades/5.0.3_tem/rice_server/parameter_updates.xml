@@ -1351,6 +1351,17 @@
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelEntertainment"/>
+			<column name="PARM_NM" value="NON_EMPLOYEE_CERTIFICATION_REQUIRED_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-166"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="If set to Y, the certification for non-employee hosts is required."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
 		
 	</changeSet>
 	

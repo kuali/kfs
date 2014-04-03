@@ -196,7 +196,6 @@ public class TemKeyConstants {
     public static final String ERROR_RECEIPT_NOTES_REQUIRED = "error.document.tem.actualexpense.receipt.notes";
 
     public static final String TEM_ENT_DOC_ATTENDEE_LIST_QUESTION  = "tem.entertainment.attendee.list.question.text";
-    public static final String TEM_ENT_NON_EMPLOYEE_FORM_QUESTION  = "tem.entertainment.NonEmployeeForm.question.text";
     public static final String TEM_ENT_QUESTION_PROCEED="tem.entertainment.question.proceed.text";
 
     public static final String TEM_ENT_HOST_CERTIFICATION  = "tem.entertainment.host.certification";
@@ -222,9 +221,12 @@ public class TemKeyConstants {
     public static final String ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND = "error.document.tem.travel.groupTraveler.employeeNotFound";
     public static final String ERROR_TRVL_GROUP_TRVL_DUPLICATE = "error.document.tem.travel.groupTraveler.duplicate";
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
+    public static final String NON_EMPLOYEE_CERTIFICATION_REQUIRED_IND = "tem.entertainment.non.employee.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
     public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";
     public static final String ERROR_TR_ENROUTE_DURING_TR_INIT = "error.document.tem.reimbursement.init.enroute.tr";
+
+
 
     public static final String TEM_NON_EMPLOYEE_CERTIFICATION  = "tem.non.employee.certification";
 

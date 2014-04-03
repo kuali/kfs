@@ -615,7 +615,6 @@
 		<field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="eventTitle" column="TITLE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="nonEmployeeCertified" column="NON_EMPLOYEE_CERTIFIED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="spouseIncluded" column="SPOUSE_INCLUDED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="expenseLimit" column="EXP_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -1138,7 +1137,7 @@
 			<foreignkey field-ref="creditCardOrAgencyCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-    
+
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown" table="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
 		<field-descriptor name="mealsAndIncidentals" column="MEALS_INC" jdbc-type="DECIMAL" primarykey="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>		
 		<field-descriptor name="breakfast" column="BKFST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>

@@ -43,7 +43,6 @@
 			<ref bean="TravelEntertainmentDocument-tripBegin" />
 			<ref bean="TravelEntertainmentDocument-tripEnd" />
 			<ref bean="TravelEntertainmentDocument-eventTitle" />
-			<ref bean="TravelEntertainmentDocument-nonEmployeeCertified" />
 			<ref bean="TravelEntertainmentDocument-spouseIncluded" />
 			<ref bean="TravelEntertainmentDocument-spouseIncludedForSearching" />
 			<ref bean="TravelEntertainmentDocument-description" />
@@ -163,14 +162,6 @@
 		<property name="summary" value="Event Title" />
 		<property name="description" value="Event Title" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
-	</bean>
-	<bean id="TravelEntertainmentDocument-nonEmployeeCertified" parent="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" />
-	<bean id="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="nonEmployeeCertified" />
-		<property name="label" value="Non-Employee Certification Form Attached" />
-		<property name="shortLabel" value="Non-Employee Certification Form Attached" />
-		<property name="summary" value="Non-Employee Certification Form Attached" />
-		<property name="description" value="Non-Employee Certification Form Attached" />
 	</bean>
 	<bean id="TravelEntertainmentDocument-spouseIncluded" parent="TravelEntertainmentDocument-spouseIncluded-parentBean" />
 	<bean id="TravelEntertainmentDocument-spouseIncluded-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">

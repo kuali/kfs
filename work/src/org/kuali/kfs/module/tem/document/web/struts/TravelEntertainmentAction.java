@@ -132,7 +132,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 document.setNumberOfAttendees(travelDocument.getNumberOfAttendees());
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
                 document.setPaymentMethod(travelDocument.getPaymentMethod());
-                document.setNonEmployeeCertified(travelDocument.getNonEmployeeCertified());
+
 
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
                 document.configureTraveler(travelDocument.getTemProfileId(), travelDocument.getTraveler());
@@ -197,7 +197,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         document.setTripEnd(entDocument.getTripEnd());
         document.setSpouseIncluded(entDocument.getSpouseIncluded());
         document.setDescription(entDocument.getDescription());
-        document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
         document.updatePayeeTypeForReimbursable();
 
         try {

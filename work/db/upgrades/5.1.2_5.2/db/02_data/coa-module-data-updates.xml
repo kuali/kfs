@@ -1,0 +1,1762 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="OFFSET_DEFINTIONS_FOR_TEM_DOCTYPES">
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_001"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_002"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_003"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_004"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_005"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_006"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_007"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_008"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_009"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_010"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_011"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_012"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TACA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_013"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_014"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_015"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_016"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_017"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_018"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_019"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_020"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_021"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_022"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_023"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_024"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_025"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TAWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_026"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_027"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_028"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_029"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_030"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_031"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_032"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_033"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_034"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_035"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_036"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_037"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_038"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TRCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_039"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_040"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_041"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_042"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_043"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_044"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_045"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_046"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_047"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_048"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_049"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_050"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_051"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TRWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_052"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_053"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_054"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_055"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_056"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_057"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_058"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_059"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_060"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_061"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_062"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_063"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_064"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="ENCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_065"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_066"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_067"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_068"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_069"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_070"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_071"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_072"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_073"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_074"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_075"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_076"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_077"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="ENWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_078"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_079"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_080"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_081"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_082"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_083"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_084"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_085"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_086"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_087"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_088"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_089"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_090"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="RECA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_091"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_092"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_093"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_094"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_095"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_096"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_097"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_098"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_099"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_100"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_101"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_102"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_103"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="REWF"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_104"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_105"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_106"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_107"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_108"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_109"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_110"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_111"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_112"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_113"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_114"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_115"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_116"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2013"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_117"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_118"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_119"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_120"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_121"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_122"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_123"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_124"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_125"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_126"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_127"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_128"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_129"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TRTA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_130"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="8000"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_131"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_132"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_133"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_134"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_135"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_136"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_137"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_138"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_139"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_140"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_141"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_142"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="RCCA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="AC"/>
+			<column name="OBJ_ID" value="TEM_OFFSET_DEFN_143"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="9041"/>
+		</insert>
+				<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="1fb0d71d-8fac-4277-91c2-1516669b889f"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="7d58e949-bb7a-4b43-9f52-6084140dc3f9"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="8e9e3f7b-589d-4ba7-bf65-2f94904ca146"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BA"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="671af7b9-5d4d-4817-bf0e-5f5c939d62dd"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="0c72e424-7ff4-4470-b78b-f16bf8c7ec21"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="5c8694b6-d8ab-41ba-82b7-43d8168600f3"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="bd9b7cdb-1d46-4cc4-a317-324daff91c0e"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="BL"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="b5eee298-55e8-4908-b9a4-e07994d6f59e"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="a4ba2de2-065b-4f55-9d1d-a57198e7562c"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="ab8779ad-cd21-497a-8695-af48e8a29807"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="7e03f1b5-55b8-4f3b-94a8-0159c98440fc"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="EA"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="62e222e9-efc5-4a0d-a93d-4dd4cb9087b2"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="b5941325-5068-467f-bc9a-3813e304ea21"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="3d94d145-130a-4d28-a109-ed7471dcad46"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="5542a8f6-3e13-408f-80b5-1126a781ea14"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="FW"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="2568b8f0-6a97-4c23-abcc-f2d9aad153aa"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="0bbe205d-123b-498b-b1cd-494b56d4d5dc"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="76890dce-1891-4c0d-ba0f-825abdfe9148"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="0df7c7a4-39e8-4252-81df-e68664d3ce8f"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="HO"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="0862122c-1586-48d1-9e45-db1b3520b96a"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="7405be96-aeac-47c0-8ef4-aed960f236c2"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="dbeeb258-fbd1-4708-b0ea-8354eb7018d0"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="141215c6-d30e-4f9b-96e1-c370b0521559"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IA"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="b637748b-d805-4f84-a780-c645e341299d"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="2c67f8d1-ac2b-443f-a570-948e5bce2739"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="2b227ab5-f1cf-49d6-b59f-cd2ece375d81"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="461dac4c-63c4-4dc4-825f-65b613ffcbf8"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IN"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="a5462800-762b-431d-9545-46b94865e299"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="c216f1f2-226e-485d-99c1-38947445a4c4"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="cf7961fc-d9ea-45d1-a46c-7b4a36888811"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="77684f76-994d-4719-967e-91fe5e76f42e"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="IU"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="1f75ccd2-90e7-4f15-be48-3c0102277b02"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="65e97721-7c43-4885-ac22-66902a609b5d"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="84a03922-da70-4050-a838-9a02b16a41b3"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="cbaf7752-d7ac-463b-982e-0b3b7925d005"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="KO"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="df610b6e-1419-4ae1-89fb-88770d64180d"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="fc69102f-e7c8-478d-86b0-195bae034987"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="b79e393a-5a8c-4e4b-b90b-e24f56f763ac"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="876de753-d0e7-45fb-89ea-19ff0bb63f8c"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="NW"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="4f77e7ca-c2cc-4507-a03d-45dbf7a64e49"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="a1392e43-6f6e-468a-b60f-7c5814fdcf5b"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="aa9a1546-795e-414d-8d99-389010ca7dc0"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="d92cff18-70e4-4fae-a81c-1a675cf8f255"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SB"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="bfd7075d-9a09-4695-b987-2d669f3b940e"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="2771ce0c-b600-49e3-b070-bbb3c239f1af"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="1fcd302c-69c4-4baa-a9d3-4cb061228040"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="b47543a2-e8ec-460e-8693-f97749dafdf7"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="SE"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="6973fea4-1665-4961-86a6-499643481f57"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="8473cc70-3814-4453-ab9d-a1661419e632"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TAA"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="9c05d9ea-7e64-4ed2-b340-fb96c5712c78"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TAC"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="a3ed1dec-639b-4904-b7a4-54263335aed3"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+		<insert tableName="GL_OFFSET_DEFN_T">
+			<column name="UNIV_FISCAL_YEAR" valueNumeric="2014"/>
+			<column name="FIN_COA_CD" value="UA"/>
+			<column name="FDOC_TYP_CD" value="TR"/>
+			<column name="FIN_BALANCE_TYP_CD" value="EX"/>
+			<column name="OBJ_ID" value="4de28a0e-672e-49ab-a28a-0008cc61bd71"/>
+			<column name="VER_NBR" valueNumeric="2"/>
+			<column name="FIN_OBJECT_CD" value="9892"/>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,104 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-658">
+		<update tableName="krim_role_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Travel Manager'</where>
+		</update>
+		<update tableName="krim_typ_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Payment Method'</where>
+		</update>
+		<update tableName="krim_attr_defn_t">
+			<column name="nm" value="paymentMethodCode"/>
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'disbursementVoucherPaymentMethodCode'</where>
+		</update>
+		<update tableName="krim_role_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Method Reviewer'</where>
+		</update>
+		<update tableName="krim_rsp_attr_data_t">
+			<column name="attr_val" value="KFS"/>
+			<where>kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and rsp_id = (select rsp_id from krim_rsp_t where nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod')</where>
+		</update>
+		<update tableName="krim_rsp_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Review KFS PaymentMethod"/>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod'</where>
+		</update>
+		<update tableName="krim_perm_attr_data_t">
+			<column name="attr_val" value="PaymentSourceWireTransfer"/>
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'componentName')</where>
+		</update>
+		<update tableName="krim_perm_attr_data_t">
+			<column name="attr_val" value="payeeAccountNumber"/>
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'propertyName')</where>
+		</update>
+		<update tableName="krim_perm_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Full Unmask Field PaymentSourceWireTransfer payeeAccountNumber"/>
+			<column name="desc_txt" value="Authorizes users to view the entire bank account number on displays of wire transfer information on payment source documents (such as the Disbursement Voucher, the Travel Authorization, the Travel Reimbursement, etc)."/>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber'</where>
+		</update>
+		<update tableName="krim_rsp_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Review KFST Budget"/>
+			<where>rsp_id = '76'</where>
+		</update>
+		<update tableName="krim_rsp_attr_data_t">
+			<column name="attr_val" value="KFST"/>
+			<where>attr_data_id = 'KFS266'</where>
+		</update>
+		<update tableName="krim_role_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="desc_txt" value="Central administration users charged with reviewing financial documents exceeding an account's sufficient funds balance."/>
+			<where>role_id = '79'</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="KFSTEM" id="KFSTP-1189">
+		<!-- delete PREQ Tax -->
+		<delete tableName="krim_role_rsp_actn_t">
+			<where>role_rsp_id in (select role_rsp_id from krim_role_rsp_t where rsp_id = '74')</where>
+		</delete>
+		<delete tableName="krim_role_rsp_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		<delete tableName="krim_rsp_attr_data_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		<delete tableName="krim_rsp_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		
+		<!-- delete PO Tax -->
+		<delete tableName="krim_role_rsp_actn_t">
+			<where>role_rsp_id in (select role_rsp_id from krim_role_rsp_t where rsp_id = '80')</where>
+		</delete>
+		<delete tableName="krim_role_rsp_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		<delete tableName="krim_rsp_attr_data_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		<delete tableName="krim_rsp_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		
+		<!-- turn DV Tax into KFS Tax -->
+		<update tableName="krim_rsp_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Review KFS Tax"/>
+			<column name="desc_txt" value="Responsibility for tax purposes review on any KFS document." />
+			<where>rsp_id = '49'</where>
+		</update>
+		<update tableName="krim_rsp_attr_data_t">
+			<column name="attr_val" value="KFS"/>
+			<where>attr_data_id = 'KFS158'</where>
+		</update>
+	</changeSet>
+	
+</databaseChangeLog>

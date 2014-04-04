@@ -15033,17 +15033,22 @@
         <column name="CONTACT_NAME" size="45" type="VARCHAR"/>
         <column name="PRE_RECONCILED" size="1" type="VARCHAR"/>
         <column name="ENABLE_NON_REIMBURSABLE" size="1" type="VARCHAR"/>
-        <column name="VENDOR_NUMBER" size="20" type="VARCHAR"/>
         <column name="FOREIGN_COMPANY" required="true" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="BNK_CD" size="4" type="VARCHAR"/>
+        <column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
+        <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRVL_CARD_TYP_T" name="TEM_CREDIT_CARD_AGENCY_TR1">
             <reference foreign="CODE" local="TRAVEL_CARD_TYPE_CD"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_CREDIT_CARD_AGENCY_TR2">
             <reference foreign="BNK_CD" local="BNK_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="PUR_VNDR_DTL_T" name="TEM_CREDIT_CARD_AGENCY_TR3">
+            <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>
+            <reference foreign="VNDR_DTL_ASND_ID" local="VNDR_DTL_ASND_ID"/>
         </foreign-key>
         <unique name="TEM_CREDIT_CARD_AGENCY_TC0">
             <unique-column name="OBJ_ID"/>
@@ -15139,7 +15144,6 @@
         <column name="PRIMARY_DEST_NAME" size="100" type="VARCHAR"/>
         <column name="PRIMARY_DEST_CNTRY_ST" size="100" type="VARCHAR"/>
         <column name="PRIMARY_DEST_CNTY" size="100" type="VARCHAR"/>
-        <column name="NON_EMPLOYEE_CERTIFIED" size="1" type="VARCHAR"/>
         <column name="SPOUSE_INCLUDED" size="1" type="VARCHAR"/>
         <column name="DESCRIPTION" size="255" type="VARCHAR"/>
         <column name="PURPOSE_CODE" size="4" type="VARCHAR"/>

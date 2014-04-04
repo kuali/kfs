@@ -32,12 +32,13 @@
         $0.contact_name := replace(nvl($contact_name, ""), "~!~", "|" );
         $0.pre_reconciled := replace(nvl($pre_reconciled, ""), "~!~", "|" );
         $0.enable_non_reimbursable := replace(nvl($enable_non_reimbursable, ""), "~!~", "|" );
-        $0.vendor_number := replace(nvl($vendor_number, ""), "~!~", "|" );
         $0.foreign_company := replace(nvl($foreign_company, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.bnk_cd := replace(nvl($bnk_cd, ""), "~!~", "|" );
+        $0.vndr_hdr_gnrtd_id := $vndr_hdr_gnrtd_id;
+        $0.vndr_dtl_asnd_id := $vndr_dtl_asnd_id;
    }
       ]]></attr>
     </Node>

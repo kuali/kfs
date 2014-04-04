@@ -181,8 +181,9 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
                         businessObjectService.save(oldPerDiem);
                     }
                 }
-                businessObjectService.save(perDiem);
+               // businessObjectService.save(perDiem);
             }
+            businessObjectService.save(perDiemLoadList);
 
         }
         catch (Exception ex) {

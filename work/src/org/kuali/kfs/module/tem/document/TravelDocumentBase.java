@@ -158,6 +158,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     private Boolean delinquentTRException = false;
     private Boolean blanketTravel = false;
 
+    protected volatile transient static TravelEncumbranceService travelEncumbranceService;
+
     @Transient
     private List<PropertyChangeListener> propertyChangeListeners = new ArrayList<PropertyChangeListener>();
 
@@ -176,7 +178,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     protected TravelEncumbranceService getTravelEncumbranceService() {
-        return SpringContext.getBean(TravelEncumbranceService.class);
+        if (travelEncumbranceService == null) {
+            travelEncumbranceService = SpringContext.getBean(TravelEncumbranceService.class);
+        }
+        return travelEncumbranceService;
     }
 
     protected TravelReimbursementService getTravelReimbursementService() {
@@ -234,26 +239,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     * This method updates both the internal travel document status value and the app doc status
-     * in the document header of workflow
-     *
-     * NOTE: force to update the app doc status when workflow state  is F, P or D
-     *
-     * @param status
-     */
-//    @Override
-//    public boolean updateAppDocStatus(String status) {
-//        boolean updated = false;
-//        WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
-//        //final, processed and dispproved will always need to update the app doc status
-//        if ((workflow.isFinal() || workflow.isProcessed()) || workflow.isDisapproved()){
-//            setAppDocStatus(status);
-//            updated = saveAppDocStatus();
-//        }
-//        return updated;
-//    }
-
-    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getAppDocStatus()
      */
     @Override
@@ -261,20 +246,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         return status;
     }
-
-    /**
-     * Update application doc status if it is different from the current stats
-     *
-     * @param status
-     */
-//    final public void setAppDocStatus(String status) {
-//        // get current workflow status and compare to status change
-//        String currStatus = getAppDocStatus();
-//        if (StringUtils.isBlank(currStatus) || !status.equalsIgnoreCase(currStatus)) {
-//            LOG.debug("NEW status is [" + status + "] was {" + currStatus + "}");
-//            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(status);
-//        }
-//    }
 
     /**
      * Save the current document header with the updated app doc status

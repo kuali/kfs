@@ -547,6 +547,7 @@
       <property name="dateTimeService" ref="dateTimeService"/>
       <property name="universityDateService" ref="universityDateService"/>
       <property name="accountingPeriodService" ref="accountingPeriodService"/>
+      <property name="optionsService" ref="optionsService"/>
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />

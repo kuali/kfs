@@ -23,7 +23,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -70,7 +69,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -777,9 +775,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                         final boolean shouldHoldAdvance = shouldHoldAdvance();
 
                         for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            if ((shouldHoldEncumbrance && isEncumbrancePendingEntry(glpe)) || (shouldHoldAdvance && isAdvancePendingEntry(glpe))) {
-                                HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
-                                heldEntries.add(hee);
+                            if (((shouldHoldEncumbrance && isEncumbrancePendingEntry(glpe)) || (shouldHoldAdvance && isAdvancePendingEntry(glpe)))) {
+                                if (!glpe.isTransactionEntryOffsetIndicator()) {
+                                    HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
+                                    heldEntries.add(hee);
+                                }
                                 getBusinessObjectService().delete(glpe);
                             } else {
                                 glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED); // we shouldn't hit this block but if for some weird reason we do, let's approve the glpe
@@ -815,45 +815,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             return false; // we won't hold encumbrances if we don't know when the trip is ending
         }
         final java.sql.Date tripEnd = new java.sql.Date(getTripEnd().getTime());
-        return shouldHoldGLEntries(tripEnd);
+        return getTravelEncumbranceService().shouldHoldEntries(tripEnd);
 
-    }
-
-    /**
-     * This method is to determine whether we need to hold gl entries for given date or not.
-     *
-     * @param date
-     * @return true if system options or university dates or accounting periods or offset definitions is missing for given date otherwise false
-     */
-    protected boolean shouldHoldGLEntries(Date date) {
-
-        final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
-        final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(date);
-        AccountingPeriod accountingPeriod = null;
-        HashMap<String, Object > fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tripEndFiscalYear);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-
-        final Integer heldEncumbranceFiscalYear = getUniversityDateService().getFiscalYear(new java.sql.Date(getTripEnd().getTime()));
-        SystemOptions options = getOptionsService().getOptions(tripEndFiscalYear);
-
-        final int matchingCount  = getBusinessObjectService().countMatching(OffsetDefinition.class, fieldValues);
-
-        try {
-            if (currentFiscalYear.equals(tripEndFiscalYear)) {
-                accountingPeriod = getAccountingPeriodService().getByDate(date);
-            }
-            else {
-                final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
-                accountingPeriod = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
-            }
-        } catch (ParseException pe) {
-            LOG.error("error while parsing date " + pe);
-        }
-
-
-        final boolean holdEncumbrance = heldEncumbranceFiscalYear != null  && options != null && accountingPeriod != null && matchingCount > 0 ? false : true;
-        return holdEncumbrance;
     }
 
     /**
@@ -862,10 +825,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected boolean shouldHoldAdvance() {
         if (shouldProcessAdvanceForDocument() && getTravelAdvance().getDueDate() != null) {
-          return  shouldHoldGLEntries(getTravelAdvance().getDueDate());
-         // Integer heldAdvanceFiscalYear = getUniversityDateService().getFiscalYear(getTravelAdvance().getDueDate());
-         //   final boolean holdAdvance = heldAdvanceFiscalYear == null;
-         //   return holdAdvance;
+          return getTravelEncumbranceService().shouldHoldEntries(getTravelAdvance().getDueDate());
         }
         return false;
     }

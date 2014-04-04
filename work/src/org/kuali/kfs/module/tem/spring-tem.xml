@@ -393,7 +393,8 @@
 		<property name="personService" ref="personService" />
 		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService"/>
-		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>		
+		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>	
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="travelSummaryByDayReportService" parent="travelSummaryByDayReportService-parentBean" />

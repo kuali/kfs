@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -30,6 +31,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -38,8 +40,8 @@ import org.kuali.kfs.module.tem.report.ExpenseSummaryReport;
 import org.kuali.kfs.module.tem.report.service.ExpenseSummaryReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -54,12 +56,13 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
 
     public static Logger LOG = Logger.getLogger(ExpenseSummaryReportServiceImpl.class);
 
-    private ConfigurationService configurationService;
-    private ParameterService parameterService;
-    private PersonService personService;
-    private TravelAuthorizationService travelAuthorizationService;
-    private AccountingDistributionService accountingDistributionService;
-    private TravelDocumentService travelDocumentService;
+    protected ConfigurationService configurationService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
+    protected TravelAuthorizationService travelAuthorizationService;
+    protected AccountingDistributionService accountingDistributionService;
+    protected TravelDocumentService travelDocumentService;
+    protected DateTimeService dateTimeService;
 
     public ConfigurationService getConfigurationService() {
         return configurationService;
@@ -89,8 +92,14 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         final String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiator = getPersonService().getPerson(initiatorId);
         retval.setInitiator(initiator.getFirstName() + " " + initiator.getLastName());
-        retval.setBeginDate(travelDocument.getTripBegin() != null ? KfsDateUtils.clearTimeFields(travelDocument.getTripBegin()) : new Date());
-        retval.setEndDate(travelDocument.getTripEnd() != null ? KfsDateUtils.clearTimeFields(travelDocument.getTripEnd()) : new Date());
+        try {
+            retval.setBeginDate(travelDocument.getTripBegin() != null ? dateTimeService.convertToSqlDate (travelDocument.getTripBegin()) : new Date());
+            retval.setEndDate(travelDocument.getTripEnd() != null ? dateTimeService.convertToSqlDate (travelDocument.getTripEnd()) : new Date());
+
+        }catch (ParseException pe) {
+            LOG.error("error while parsing date " + pe);
+        }
+
         retval.setLocations(travelDocument.getPrimaryDestinationName());
         retval.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
         retval.setTripId(travelDocument.getTravelDocumentIdentifier() + "");
@@ -157,9 +166,14 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         }
 
         final KualiDecimal expenseLimit = travelDocument.getExpenseLimit() == null ? KualiDecimal.ZERO : travelDocument.getExpenseLimit();
-        final KualiDecimal maxExpense = expenseLimit.isLessThan(travelDocument.getDocumentGrandTotal()) ? expenseLimit : travelDocument.getDocumentGrandTotal();
-        String totalExpenseName = "Owed to Requestor";
+        final KualiDecimal manualPerDiemAdjustment = travelDocument.getPerDiemAdjustment();
+        final KualiDecimal ctsTotal  = travelDocument.getCTSTotal();
+        final KualiDecimal corporateCardTotal  = travelDocument.getCorporateCardTotal();
+        final KualiDecimal maxExpense =  travelDocument.getReimbursableTotal();
+        String totalExpenseName = "Owed to Payee";
         KualiDecimal owed = maxExpense;
+
+
 
         boolean isTR = travelDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
 
@@ -174,7 +188,10 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         }
 
         summary.add(new ExpenseSummaryReport.Detail("Expense Total", "SUMMARY", travelDocument.getDocumentGrandTotal(), travelDocument.getTripBegin()));
+        summary.add (new ExpenseSummaryReport.Detail("Manual Per Diem Adj", "SUMMARY",manualPerDiemAdjustment, travelDocument.getTripBegin()));
         summary.add(new ExpenseSummaryReport.Detail("Expense Limit", "SUMMARY", travelDocument.getExpenseLimit(), travelDocument.getTripBegin()));
+        summary.add(new ExpenseSummaryReport.Detail("Less CTS Charges", "SUMMARY", ctsTotal, travelDocument.getTripBegin()));
+        summary.add(new ExpenseSummaryReport.Detail("Corp Credit Card Charges", "SUMMARY", corporateCardTotal, travelDocument.getTripBegin()));
         if (isTR) {
             summary.add(new ExpenseSummaryReport.Detail("Less Advances", "SUMMARY", advanceTotal, travelDocument.getTripBegin()));
         }
@@ -197,6 +214,15 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
                 summary.add(new ExpenseSummaryReport.Detail("Distribution: "+ad.getObjectCode(), "OTHER", ad.getSubTotal().abs(), travelDocument.getTripBegin()));
             }
         }
+
+        travelDocument.refreshReferenceObject("sourceAccountingLines");
+
+       List<TemSourceAccountingLine> sourceAccountingLines = travelDocument.getSourceAccountingLines();
+
+       for(TemSourceAccountingLine account : sourceAccountingLines){
+           String accountDetails = account.getAccountNumber() + "-" + account.getFinancialObjectCode();
+           summary.add(new ExpenseSummaryReport.Detail("Account: "+ accountDetails, "OTHER", account.getAmount(), travelDocument.getTripBegin()));
+       }
 
         if (summary.size() > 0) {
             retval.setSummary(summary);
@@ -281,5 +307,11 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     public void setAccountingDistributionService(AccountingDistributionService accountingDistributionService) {
         this.accountingDistributionService = accountingDistributionService;
     }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+
 
 }

@@ -31,9 +31,8 @@ public class TravelAuthCustomerExistValidation extends GenericValidation {
 
     public static Logger LOG = Logger.getLogger(TravelAuthCustomerExistValidation.class);
 
-    private ParameterService parameterService;
+    protected ParameterService parameterService;
 
-    //@Override
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();

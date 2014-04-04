@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
-import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
+import org.kuali.kfs.module.tem.document.service.AgencyStagingDataRuleHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -38,10 +38,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
  * by traveler
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataValidationHelper {
+public class AgencyStagingDataRuleByTraveler implements AgencyStagingDataRuleHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
     public static final String ADD_LINE_ERROR_PREFIX = KRADConstants.MAINTENANCE_ADD_PREFIX;
 
@@ -74,7 +72,7 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     * @see org.kuali.kfs.module.tem.document.service.AgencyStagingDataRuleHelper#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {

@@ -64,7 +64,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Service for handling imported expenses using the IU method or "By Trip Id" method.
  *
- * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
+ * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataRule
  */
 @Transactional
 public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTripService  {

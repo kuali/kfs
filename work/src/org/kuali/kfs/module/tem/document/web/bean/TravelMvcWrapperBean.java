@@ -32,8 +32,6 @@ import org.kuali.rice.krad.document.Document;
 /**
  * Interface intended to decouple the MVC framework from the classes used therein and Spring. This allows button actions to interact
  * with the Spring IOC and the SOA without coupling with the MVC framework like Struts. Ooops...I said it.
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public interface TravelMvcWrapperBean {
 

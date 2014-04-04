@@ -38,10 +38,6 @@ public class PerDiemExpenseValidation extends GenericValidation {
     protected DateTimeService dateTimeService;
     protected Boolean incidentalsWithMealsOnlyInd;
 
-    public PerDiemExpenseValidation() {
-        super();
-    }
-
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */

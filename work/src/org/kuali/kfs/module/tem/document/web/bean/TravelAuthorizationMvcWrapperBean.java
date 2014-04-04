@@ -25,10 +25,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean {
     /**
      * Gets the newEmergencyContactLine attribute.

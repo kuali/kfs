@@ -41,7 +41,6 @@ public class TravelerOnlyOnePrimaryArranger extends GenericValidation {
             document.refreshReferenceObject("profile");
         }
 
-
         if(ObjectUtils.isNotNull(arrangerDocumentService.findPrimaryTravelProfileArranger(arrangerId, profileId))) {
             GlobalVariables.getMessageMap().putError(ArrangerFields.PRIMARY_ARRANGER, TemKeyConstants.ERROR_TTA_ARRGR_ONE_PRIMARY);
             return false;
@@ -65,7 +64,4 @@ public class TravelerOnlyOnePrimaryArranger extends GenericValidation {
     public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
         this.arrangerDocumentService = arrangerDocumentService;
     }
-
-
-
 }

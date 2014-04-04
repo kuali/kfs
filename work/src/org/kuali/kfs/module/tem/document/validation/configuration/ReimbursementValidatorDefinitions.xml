@@ -15,9 +15,7 @@
 	<bean id="TravelReimbursement-employeeCertificationValidation" class="org.kuali.kfs.module.tem.document.validation.impl.ReimbursementEmployeeCertificationValidation">
       <property name="travelerService" ref="travelerService" />
     </bean>
-
-<!-- 	<bean id="TravelReimbursement-addAccountingLineAllowedObjCodeValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineAllowedObjectCodeValidation"> </bean> -->
-         
+        
     <bean id="TravelReimbursement-saveDocumentValidation" parent="TravelReimbursement-saveDocumentValidation-parentBean" scope="prototype" />
   	<bean id="TravelReimbursement-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">

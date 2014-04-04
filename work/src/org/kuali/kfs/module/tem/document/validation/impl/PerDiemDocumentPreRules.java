@@ -31,9 +31,6 @@ public class PerDiemDocumentPreRules extends MaintenancePreRulesBase {
 
     protected PerDiem newPerDiem;
 
-    public PerDiemDocumentPreRules() {
-    }
-
     /**
      * Sets up a convenience object and few other vendor attributes
      *

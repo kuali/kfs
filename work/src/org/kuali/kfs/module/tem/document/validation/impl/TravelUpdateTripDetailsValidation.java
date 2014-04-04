@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_DELINQUENT_MSG_REQUIRED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TA_AUTH_END_DATE_BEFORE_BEGIN;
-import static org.kuali.kfs.sys.context.SpringContext.getBean;
 
 import java.util.Date;
 
@@ -37,6 +36,7 @@ import org.kuali.rice.krad.util.MessageMap;
  * Validation that is run when a user modifies the trip detail information in a {@link TravelDocument}
  */
 public class TravelUpdateTripDetailsValidation extends GenericValidation {
+    protected DictionaryValidationService dictionaryValidationService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -94,8 +94,11 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
         return valid;
     }
 
-    protected DictionaryValidationService getDictionaryValidationService() {
-        return getBean(DictionaryValidationService.class);
+    public DictionaryValidationService getDictionaryValidationService() {
+        return dictionaryValidationService;
     }
 
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
 }

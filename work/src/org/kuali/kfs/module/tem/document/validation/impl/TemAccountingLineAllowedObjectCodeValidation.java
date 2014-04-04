@@ -40,7 +40,6 @@ import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -49,7 +48,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -58,6 +56,10 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidation {
+    protected TravelDocumentService travelDocumentService;
+    protected AccountingDistributionService accountingDistributionService;
+    protected ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -91,7 +93,7 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
         }
 
         // Test added accounting lines for null values and if there is an access change.
-        valid = SpringContext.getBean(TravelDocumentService.class).validateSourceAccountingLines(travelDocument, false);
+        valid = getTravelDocumentService().validateSourceAccountingLines(travelDocument, false);
 
         if ((!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT))
                 && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.IN_PROCESS))
@@ -108,7 +110,7 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
         if (!(event.getDocument() instanceof TravelAuthorizationDocument)) {
             if (ObjectUtils.isNotNull(line.getObjectTypeCode())) {
                 // check to make sure they're the same
-                List<AccountingDistribution> list = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
+                List<AccountingDistribution> list = getAccountingDistributionService().buildDistributionFrom(travelDocument);
                 List<AccountingLineDistributionKey> distributionList = new ArrayList<AccountingLineDistributionKey>();
                 List<String> expectedObjectCodes = new ArrayList<String>();
                 for (AccountingDistribution dist : list) {
@@ -144,14 +146,14 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
                         break;
                     }
                 }
-                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+                boolean isCGEnabled = getParameterService().getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){
                     for (TemExpense expense : allExpenses){
                         if (expense.getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
                             Map<String,Object> fieldValues = new HashMap<String, Object>();
                             fieldValues.put(KRADPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
                             fieldValues.put(KRADPropertyConstants.NAME,expense.getTravelCompanyCodeName());
-                            TravelCompanyCode travelCompany = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
+                            TravelCompanyCode travelCompany = getBusinessObjectService().findByPrimaryKey(TravelCompanyCode.class, fieldValues);
                             if (travelCompany != null && travelCompany.isForeignCompany()){
                                 String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
                                 if (travelDocument instanceof TravelAuthorizationDocument && expense instanceof ActualExpense){
@@ -160,7 +162,7 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
                                     }
                                 }
                                 if (financialObjectCode != null && financialObjectCode.equals(line.getFinancialObjectCode())){
-                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+                                    String cg = getParameterService().getParameterValueAsString(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
                                     if (line.getAccount() == null){
                                         line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
                                     }
@@ -206,10 +208,6 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
         return valid;
     }
 
-    private DocumentHelperService getDocumentHelperService() {
-        return SpringContext.getBean(DocumentHelperService.class);
-    }
-
     /**
      * Check if workflow is at the specific node
      *
@@ -238,4 +236,35 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD);
     }
 
+    public TravelDocumentService getTravelDocumentService() {
+        return travelDocumentService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
+    }
+
+    public AccountingDistributionService getAccountingDistributionService() {
+        return accountingDistributionService;
+    }
+
+    public void setAccountingDistributionService(AccountingDistributionService accountingDistributionService) {
+        this.accountingDistributionService = accountingDistributionService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

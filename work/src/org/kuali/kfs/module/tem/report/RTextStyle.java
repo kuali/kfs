@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.report;
 
-/**
- * 
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public class RTextStyle {
     private String fontName;
     private boolean bold;
@@ -26,7 +22,7 @@ public class RTextStyle {
     private Integer fontSize;
 
     /**
-     * Gets the bold property. 
+     * Gets the bold property.
      * @return Returns the bold.
      */
     public boolean getBold() {
@@ -34,7 +30,7 @@ public class RTextStyle {
     }
 
     /**
-     * Gets the bold property. 
+     * Gets the bold property.
      * @return Returns the bold.
      */
     public boolean isBold() {
@@ -50,7 +46,7 @@ public class RTextStyle {
     }
 
     /**
-     * Gets the italic property. 
+     * Gets the italic property.
      * @return Returns the italic.
      */
     public boolean getItalic() {
@@ -58,7 +54,7 @@ public class RTextStyle {
     }
 
     /**
-     * Gets the italic property. 
+     * Gets the italic property.
      * @return Returns the italic.
      */
     public boolean isItalic() {
@@ -74,7 +70,7 @@ public class RTextStyle {
     }
 
     /**
-     * Gets the fontName property. 
+     * Gets the fontName property.
      * @return Returns the fontName.
      */
     public String getFontName() {
@@ -91,7 +87,7 @@ public class RTextStyle {
 
 
     /**
-     * Gets the fontSize property. 
+     * Gets the fontSize property.
      * @return Returns the fontSize.
      */
     public Integer getFontSize() {

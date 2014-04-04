@@ -26,34 +26,30 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthEmergencyContactRequiredValidation extends GenericValidation {
-    MessageMap mm = GlobalVariables.getMessageMap();
+    protected ParameterService parameterService;
 
-    //@Override
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
 
         TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();
         taDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
         TripType tripType = taDocument.getTripType();
 
-        if (paramService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_EMERGENCY_CONTACT_IND) && ObjectUtils.isNotNull(tripType)) {
+        if (getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_EMERGENCY_CONTACT_IND) && ObjectUtils.isNotNull(tripType)) {
             if (tripType.isContactInfoRequired()  && (taDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || taDocument.getDocumentHeader().getWorkflowDocument().isSaved())) {
                 rulePassed = validEmergencyContact(taDocument);
             }
 
-            if (paramService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(tripType.getCode())) {
+            if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(tripType.getCode())) {
                 if (StringUtils.isBlank(taDocument.getCellPhoneNumber())) {
                     rulePassed = false;
                     GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
@@ -103,4 +99,11 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
         return validEmergencyContact;
     }
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

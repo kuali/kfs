@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
+import org.kuali.kfs.module.tem.document.service.AgencyStagingDataRuleHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -26,14 +26,14 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 /**
  * Business rules validation for the Travel Agency Audit and Correction
  */
-public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
+public class AgencyStagingDataRule extends MaintenanceDocumentRuleBase {
 
-    protected AgencyStagingDataValidationHelper validationByTripHelper;
-    protected AgencyStagingDataValidationHelper validationByTravelerHelper;
+    protected AgencyStagingDataRuleHelper validationByTripHelper;
+    protected AgencyStagingDataRuleHelper validationByTravelerHelper;
 
-    public AgencyStagingDataValidation() {
-        setValidationByTripHelper(SpringContext.getBean(AgencyStagingDataValidationByTrip.class));
-        setValidationByTravelerHelper(SpringContext.getBean(AgencyStagingDataValidationByTraveler.class));
+    public AgencyStagingDataRule() {
+        setValidationByTripHelper(SpringContext.getBean(AgencyStagingDataRuleByTrip.class));
+        setValidationByTravelerHelper(SpringContext.getBean(AgencyStagingDataRuleByTraveler.class));
     }
 
     /**
@@ -76,7 +76,7 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
         return result;
     }
 
-    protected AgencyStagingDataValidationHelper getValidationHelper() {
+    protected AgencyStagingDataRuleHelper getValidationHelper() {
         final AgencyStagingData data = (AgencyStagingData) getNewBo();
         if (data.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
             return getValidationByTravelerHelper();
@@ -88,7 +88,7 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
      * Gets the validationByTravelerHelper attribute.
      * @return Returns the validationByTravelerHelper.
      */
-    public AgencyStagingDataValidationHelper getValidationByTravelerHelper() {
+    public AgencyStagingDataRuleHelper getValidationByTravelerHelper() {
         return validationByTravelerHelper;
     }
 
@@ -96,7 +96,7 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
      * Sets the validationByTravelerHelper attribute value.
      * @param validationByTravelerHelper The validationByTravelerHelper to set.
      */
-    public void setValidationByTravelerHelper(final AgencyStagingDataValidationHelper validationByTravelerHelper) {
+    public void setValidationByTravelerHelper(final AgencyStagingDataRuleHelper validationByTravelerHelper) {
         this.validationByTravelerHelper = validationByTravelerHelper;
     }
 
@@ -104,7 +104,7 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
      * Gets the validationByTripHelper attribute.
      * @return Returns the validationByTripHelper.
      */
-    public AgencyStagingDataValidationHelper getValidationByTripHelper() {
+    public AgencyStagingDataRuleHelper getValidationByTripHelper() {
         return validationByTripHelper;
     }
 
@@ -112,7 +112,7 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
      * Sets the validationByTripHelper attribute value.
      * @param validationByTripHelper The validationByTripHelper to set.
      */
-    public void setValidationByTripHelper(final AgencyStagingDataValidationHelper validationByTripHelper) {
+    public void setValidationByTripHelper(final AgencyStagingDataRuleHelper validationByTripHelper) {
         this.validationByTripHelper = validationByTripHelper;
     }
 

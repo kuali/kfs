@@ -45,8 +45,6 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Class representing a PDF Coversheet of the {@link TravelReimbursementDocument}.
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class Coversheet implements PdfStream {
     private static final int ALIGNMENT_MARK_HEIGHT = 8;
@@ -609,6 +607,4 @@ public class Coversheet implements PdfStream {
         doc.close();
         writer.close();
     }
-
-
 }

@@ -37,9 +37,8 @@ public class TravelArrangerUniqueTravelerArrangerValidation extends GenericValid
         }
 
         if (ObjectUtils.isNull(document.getProfile()) ) {
-            /** Route document does a validation of the DD and already put the error message on in the message map so we do not need to put another on the stack.
-            * If we do not return here, we'll get a NPE down below.
-            */
+            // Route document does a validation of the DD and already put the error message on in the message map so we do not need to put another on the stack.
+            // If we do not return here, we'll get a NPE down below.
             return false;
         }
 

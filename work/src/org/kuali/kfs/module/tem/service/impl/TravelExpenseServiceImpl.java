@@ -73,7 +73,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Service for handling travel expenses
  *
- * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
+ * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataRule
  */
 @Transactional
 public class TravelExpenseServiceImpl implements TravelExpenseService {

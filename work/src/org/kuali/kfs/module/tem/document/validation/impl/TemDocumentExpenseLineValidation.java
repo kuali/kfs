@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -41,10 +40,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class TemDocumentExpenseLineValidation extends GenericValidation {
     protected boolean warningOnly = true;
+    protected BusinessObjectService businessObjectService;
+    protected DictionaryValidationService dictionaryValidationService;
 
-    public TemDocumentExpenseLineValidation() {
-        super();
-    }
 
     /**
      * This method validates following rules 1.Validated whether mileage, hosted meal or lodging specified in perdiem section, if
@@ -302,7 +300,7 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
      */
     public BigDecimal getMaxMileageRate() {
         BigDecimal maxMileage = BigDecimal.ZERO;
-        Collection<MileageRate> mileageRates = SpringContext.getBean(BusinessObjectService.class).findAll(MileageRate.class);
+        Collection<MileageRate> mileageRates = getBusinessObjectService().findAll(MileageRate.class);
         for (MileageRate mileageRate : mileageRates) {
             if (mileageRate.getRate().compareTo(maxMileage) > 0) {
                 maxMileage = mileageRate.getRate();
@@ -324,6 +322,18 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
      * @return
      */
     public final DictionaryValidationService getDictionaryValidationService() {
-        return SpringContext.getBean(DictionaryValidationService.class);
+        return dictionaryValidationService;
+    }
+
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

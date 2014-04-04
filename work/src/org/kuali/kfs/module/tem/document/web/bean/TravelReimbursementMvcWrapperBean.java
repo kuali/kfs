@@ -22,10 +22,6 @@ import java.util.List;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean {
 
     boolean canCertify();
@@ -104,5 +100,4 @@ public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean 
      * @param newActualExpenseLine The newActualExpenseLine to set.
      */
     void setNewActualExpenseLine(final ActualExpense newActualExpenseLine);
-
 }

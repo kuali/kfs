@@ -95,6 +95,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     protected DataDictionaryService dataDictionaryService;
     protected PersistenceStructureService persistenceStructureService;
     protected UniversityDateService universityDateService;
+    protected AccountService accountService;
+    protected SufficientFundsService sufficientFundsService;
+    protected FlexibleOffsetAccountService flexibleOffsetAccountService;
+    protected OffsetDefinitionService offsetDefinitionService;
+    protected ObjectTypeService objectTypeService;
 
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
@@ -104,8 +109,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public KualiDecimal getExpenseSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isDebit, boolean isYearEnd) {
         LOG.debug("getExpenseSummary() started");
 
-        // FIXME! - this ObjectTypeService should be injected
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = getObjectTypeService();
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         // FIXME! - cache this list - balance type code will not change during the lifetime of the server
@@ -126,7 +130,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         LOG.debug("getEncumbranceSummary() started");
 
         // FIXME! - this ObjectTypeService should be injected
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = getObjectTypeService();
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
@@ -146,7 +150,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public KualiDecimal getBudgetSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isYearEnd) {
         LOG.debug("getBudgetSummary() started");
 
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = getObjectTypeService();
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
@@ -213,7 +217,6 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
         keys.put("transactionLedgerEntrySequenceNumber", transactionEntrySequenceId);
-        // FIXME! - this ObjectService should be injected
         return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
     }
 
@@ -287,7 +290,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionEntryProcessedTs(transactionTimestamp);
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
 
-        Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(glpeSourceDetail.getChartOfAccountsCode(), glpeSourceDetail.getAccountNumber());
+        Account account = getAccountService().getByPrimaryIdWithCaching(glpeSourceDetail.getChartOfAccountsCode(), glpeSourceDetail.getAccountNumber());
         ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdWithCaching( glpeSource.getPostingYear(), glpeSourceDetail.getChartOfAccountsCode(), glpeSourceDetail.getFinancialObjectCode());
 
         if ( account != null ) {
@@ -306,7 +309,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug("SF Code / Object: " + sufficientFundsCode + " / " + objectCode);
                 }
-                String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, sufficientFundsCode);
+                String sifficientFundsObjectCode = getSufficientFundsService().getSufficientFundsObjectCode(objectCode, sufficientFundsCode);
                 explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
             } else {
                 LOG.debug( "Object code object was null, skipping setting of SF object field." );
@@ -386,7 +389,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             account.setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
         // FIXME! - inject the sufficient funds service
-        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, account.getAccountSufficientFundsCode()));
+        explicitEntry.setAcctSufficientFundsFinObjCd(getSufficientFundsService().getSufficientFundsObjectCode(objectCode, account.getAccountSufficientFundsCode()));
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
@@ -436,15 +439,13 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         boolean success = true;
 
         // lookup offset object info
-        // FIXME! - OffsetDefinitionService should be injected (and probably cache the result)
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(universityFiscalYear, explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
+        OffsetDefinition offsetDefinition = getOffsetDefinitionService().getByPrimaryId(universityFiscalYear, explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
         if (ObjectUtils.isNull(offsetDefinition)) {
             success = false;
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION, universityFiscalYear.toString(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
         }
         else {
-            // FIXME! - FlexibleOffsetAccountService should be injected
-            OffsetAccount flexibleOffsetAccount = SpringContext.getBean(FlexibleOffsetAccountService.class).getByPrimaryIdIfEnabled(explicitEntry.getChartOfAccountsCode(), explicitEntry.getAccountNumber(), getOffsetFinancialObjectCode(offsetDefinition));
+            OffsetAccount flexibleOffsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(explicitEntry.getChartOfAccountsCode(), explicitEntry.getAccountNumber(), getOffsetFinancialObjectCode(offsetDefinition));
             flexOffsetAccountIfNecessary(flexibleOffsetAccount, offsetEntry);
         }
 
@@ -468,10 +469,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             if (ObjectUtils.isNull(financialObject)) {
                 throw new RuntimeException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
             }
-            // FIXME! - inject the sufficient funds service
-            Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(offsetEntry.getChartOfAccountsCode(), offsetEntry.getAccountNumber());
+            Account account = getAccountService().getByPrimaryId(offsetEntry.getChartOfAccountsCode(), offsetEntry.getAccountNumber());
             if ( account != null ) {
-                offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, account.getAccountSufficientFundsCode()));
+                offsetEntry.setAcctSufficientFundsFinObjCd(getSufficientFundsService().getSufficientFundsObjectCode(financialObject, account.getAccountSufficientFundsCode()));
             }
         }
 
@@ -687,7 +687,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setTransactionLedgerEntryAmount(depositAmount.abs());
         bankOffsetEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
         bankOffsetEntry.setUniversityFiscalYear(universityFiscalYear);
-        bankOffsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
+        bankOffsetEntry.setAcctSufficientFundsFinObjCd(getSufficientFundsService().getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
 
         return true;
     }
@@ -1021,5 +1021,45 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    public SufficientFundsService getSufficientFundsService() {
+        return sufficientFundsService;
+    }
+
+    public void setSufficientFundsService(SufficientFundsService sufficientFundsService) {
+        this.sufficientFundsService = sufficientFundsService;
+    }
+
+    public FlexibleOffsetAccountService getFlexibleOffsetAccountService() {
+        return flexibleOffsetAccountService;
+    }
+
+    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
+        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    }
+
+    public OffsetDefinitionService getOffsetDefinitionService() {
+        return offsetDefinitionService;
+    }
+
+    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
+        this.offsetDefinitionService = offsetDefinitionService;
+    }
+
+    public ObjectTypeService getObjectTypeService() {
+        return objectTypeService;
+    }
+
+    public void setObjectTypeService(ObjectTypeService objectTypeService) {
+        this.objectTypeService = objectTypeService;
     }
 }

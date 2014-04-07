@@ -24,12 +24,20 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 
 /**
  * This is the data access interface for Document objects.
  *
  */
 public interface TravelDocumentDao {
+
+    /**
+     *
+     * @param travelDocumentNumber to refer to for travel document results
+     * @return
+     */
+    List<TravelDocument> findDocuments(final Class<?> travelDocumentClass, final String travelDocumentNumber);
 
     /**
      *

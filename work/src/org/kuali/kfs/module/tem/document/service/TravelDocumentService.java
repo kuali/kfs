@@ -281,8 +281,6 @@ public interface TravelDocumentService {
      */
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document);
 
-    //Map<String,Object> calculateTotalsFor(final TravelDocument travelDocument);
-
     /**
      *
      * This method gets the total of all advances given for the trip relating to the travel document.
@@ -433,6 +431,14 @@ public interface TravelDocumentService {
      * @return
      */
     public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
+
+    /**
+     * This method determines whether a document is in the correct state for reconciling external vendor charges.
+     *
+     * @param travelDocument
+     * @return
+     */
+    public boolean isDocumentStatusValidForReconcilingCharges(TravelDocument travelDocument);
 
     /**
      * find matching trips  for the same traveler, dates

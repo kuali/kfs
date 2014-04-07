@@ -288,6 +288,7 @@ public class TemConstants {
         public static final String HOST_CERTIFICATION_REQUIRED_IND = "HOST_CERTIFICATION_REQUIRED_IND";
         public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
         public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
+        public static final String NON_EMPLOYEE_CERTIFICATION_REQUIRED_IND = "NON_EMPLOYEE_CERTIFICATION_REQUIRED_IND";
     }
 
     public static class TravelEntertainment {
@@ -561,6 +562,7 @@ public class TemConstants {
         public static final String CONUS_MEAL_BREAKDOWN = "CONUS_MEAL_BREAKDOWN";
         public static final String REJECT_FILE_IND = "REJECT_FILE_IND";
         public static final String BYPASS_STATE_OR_COUNTRY_CODES = "BYPASS_STATE_OR_COUNTRY_CODES";
+        public static final String DEFAULT_EFFECTIVE_TO_DATE = "DEFAULT_EFFECTIVE_TO_DATE";
     }
 
     public static final class HostedMeals {

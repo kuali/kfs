@@ -199,7 +199,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(EXPENSE_SUMMARY_REPORT_TITLE, reimbursement.getTravelDocumentIdentifier()));
-     //  WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "ExpenseSummary" + PDF_FILE_EXTENSION);
+
         return null;
     }
 
@@ -215,7 +215,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, String.format(SUMMARY_BY_DAY_TITLE, reimbursement.getTravelDocumentIdentifier()));
-        //WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "SummaryByDay" + PDF_FILE_EXTENSION);
+
         return null;
     }
 

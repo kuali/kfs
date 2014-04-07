@@ -555,6 +555,11 @@
 			<ref bean="universityDateService" />
 		</property>
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
+		<property name="accountService" ref="accountService"/>
+		<property name="sufficientFundsService" ref="sufficientFundsService"/>
+		<property name="flexibleOffsetAccountService" ref="flexibleOffsetAccountService"/>
+		<property name="offsetDefinitionService" ref="offsetDefinitionService"/>
+		<property name="objectTypeService" ref="objectTypeService"/>
 	</bean>
 	<bean id="taxService" parent="taxService-parentBean"/>
 	

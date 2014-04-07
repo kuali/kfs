@@ -38,13 +38,6 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
     protected boolean currentExpenseInCollection = true;
 
     /**
-     *
-     */
-    public TravelDocumentActualExpenseLineValidation() {
-        super();
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     @Override

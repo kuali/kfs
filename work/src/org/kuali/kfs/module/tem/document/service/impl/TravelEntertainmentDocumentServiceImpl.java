@@ -166,6 +166,11 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         return receipt;
     }
 
+    @Override
+    public void handleNewAttendee(Attendee newAttendeeLine) {
+        getDictionaryValidationService().validate(newAttendeeLine);
+    }
+
     public ParameterService getParameterService() {
         return parameterService;
     }
@@ -216,11 +221,6 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
-    }
-
-    @Override
-    public void handleNewAttendee(Attendee newAttendeeLine) {
-        getDictionaryValidationService().validate(newAttendeeLine);
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {

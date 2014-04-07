@@ -45,7 +45,6 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     private Date startDate;
     private Date endDate;
     private boolean canPrintHostCertification;
-    private boolean displayNonEmployeeCheckBox;
     private boolean canUnmask = false;
 
     private Attendee newAttendeeLine;
@@ -206,13 +205,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
        return !StringUtils.isBlank(getTravelDocumentIdentifier()) && !StringUtils.isBlank(getFromDocumentNumber()) ? true : false;
     }
 
-    public boolean isDisplayNonEmployeeCheckBox() {
-        return getEntertainmentDocument().canDisplayNonEmployeeCheckbox();
-    }
 
-    public void setDisplayNonEmployeeCheckBox(boolean displayNonEmployeeCheckBox) {
-        this.displayNonEmployeeCheckBox = displayNonEmployeeCheckBox;
-    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()

@@ -21,11 +21,10 @@ import java.util.Map;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 
 /**
- * Contains field-related information for DataDictionary entries.  Used by lookups and inquiries. Maps to 
+ * Contains field-related information for DataDictionary entries.  Used by lookups and inquiries. Maps to
  * fields in other classes for indirect lookup of information
  *
  * Note: the setters do copious amounts of validation, to facilitate generating errors during the parsing process.
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelDetailLookupMappedFieldProxy extends FieldDefinition {
     private static final long serialVersionUID = -3426603523049661524L;

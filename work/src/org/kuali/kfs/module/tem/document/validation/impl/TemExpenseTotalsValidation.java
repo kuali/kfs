@@ -60,9 +60,8 @@ public class TemExpenseTotalsValidation extends GenericValidation {
         counter = 0;
         for (ImportedExpense importedExpense : travelDocument.getImportedExpenses()){
             String property = TemPropertyConstants.IMPORTED_EXPENSES + "[" + counter +"]";
-            /*
-             * Determine if the detail is an amount that doesn't go over the threshold
-             */
+
+             //Determine if the detail is an amount that doesn't go over the threshold
             KualiDecimal total = KualiDecimal.ZERO;
             for (TemExpense detail : importedExpense.getExpenseDetails()) {
                 total = total.add(detail.getExpenseAmount());

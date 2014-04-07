@@ -1,0 +1,18 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-8898">
+		<update tableName="krew_doc_typ_t">
+			<column name="lbl" value="Payment Documentation Location"/>
+			<column name="parnt_id" valueComputed="(select i.doc_typ_id from (select distinct doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'FSSM' and cur_ind = 1 and actv_ind = 1) i)"/>
+			<where>doc_typ_nm = 'DVDL' and cur_ind = 1 and actv_ind = 1</where>
+		</update>
+		<update tableName="krew_doc_typ_t">
+			<column name="lbl" value="Wire Charge"/>
+			<column name="parnt_id" valueComputed="(select i.doc_typ_id from (select distinct doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'FSSM' and cur_ind = 1 and actv_ind = 1) i)"/>
+			<where>doc_typ_nm = 'DVWT' and cur_ind = 1 and actv_ind = 1</where>
+		</update>
+	</changeSet>
+	
+</databaseChangeLog>

@@ -28,7 +28,6 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelReimbursementDocumentPreRules extends PromptBeforeValidationBase {
-
     @SuppressWarnings("rawtypes")
     @Override
     public boolean doPrompts(Document document) {

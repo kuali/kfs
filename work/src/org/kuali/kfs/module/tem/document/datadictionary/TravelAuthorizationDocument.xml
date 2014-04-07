@@ -352,7 +352,8 @@
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
 			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
 			<entry key="PaymentMethod" value-ref="TravelAuthorization-RoutingType-PaymentMethod"/>
-			<entry key="Traveler" value-ref="TravelReimbursable-RoutingType-Traveler"/>
+			<entry key="Traveler" value-ref="TravelDocument-RoutingType-Traveler"/>
+			<entry key="Budget" value-ref="TravelDocument-RoutingType-Budget"/>
 		</map>
 	</property>
   </bean>

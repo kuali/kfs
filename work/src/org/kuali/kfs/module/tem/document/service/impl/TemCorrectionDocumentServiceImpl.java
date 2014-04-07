@@ -211,7 +211,4 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-
-
-
 }

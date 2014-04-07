@@ -25,13 +25,14 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentRequiredInfoValidation extends GenericValidation{
+    protected TravelExpenseService travelExpenseService;
+
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -122,12 +123,11 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
         return true;
     }
 
-    /**
-     *
-     * @return
-     */
-    private TravelExpenseService getTravelExpenseService(){
-        return SpringContext.getBean(TravelExpenseService.class);
+    public TravelExpenseService getTravelExpenseService() {
+        return travelExpenseService;
     }
 
+    public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
+        this.travelExpenseService = travelExpenseService;
+    }
 }

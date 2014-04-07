@@ -37,7 +37,7 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
         boolean valid = true;
 
         GlobalVariables.getMessageMap().clearErrorPath();
-        
+
         TravelEntertainmentDocument document = (TravelEntertainmentDocument) event.getDocument();
         boolean entertainmentHostAttached = false;
         List<Note> notes = document.getNotes();
@@ -47,7 +47,6 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
                 break;
             }
         }
-
 
         // if host is not as payee than entertainment host certification is required ; otherwise not
         if (!document.getHostAsPayee() && !entertainmentHostAttached) {
@@ -77,7 +76,6 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
         return success;
     }
 
-
     public boolean isWarningOnly() {
         return warningOnly;
     }
@@ -85,6 +83,4 @@ public class TravelEntertainmentHostCertificationAttachmentValidation extends Ge
     public void setWarningOnly(boolean warningOnly) {
         this.warningOnly = warningOnly;
     }
-
-
 }

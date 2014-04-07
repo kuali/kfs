@@ -13,7 +13,9 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation" parent="TravelModule-tripInfoUpdateTripDetailsValidation-parentBean"/>
-	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelUpdateTripDetailsValidation" />
+	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelUpdateTripDetailsValidation">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+	</bean>
 	
 	<bean id="TravelModule-milegeRateAvailableForPerDiemValidation" parent="TravelModule-milegeRateAvailableForPerDiemValidation-parentBean"/>
 	<bean id="TravelModule-milegeRateAvailableForPerDiemValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentMileageRateAvailableForPerDiemValidation">
@@ -32,6 +34,7 @@
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="documentDictionaryService" ref="documentDictionaryService"/>
 		<property name="travelDocumentService" ref="travelDocumentService" />
+		<property name="parameterService" ref="parameterService"/>
 	</bean>
 
     <bean id="TravelModule-accommodationInfoRequiredValidation" parent="TravelModule-accommodationInfoRequiredValidation-parentBean" />
@@ -42,7 +45,9 @@
 
 	<bean id="TravelModule-emergencyContactRequiredValidation" parent="TravelModule-emergencyContactRequiredValidation-parentBean" />
 	<bean id="TravelModule-emergencyContactRequiredValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEmergencyContactRequiredValidation" />
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEmergencyContactRequiredValidation">
+		<property name="parameterService" ref="parameterService"/>
+	</bean>
 
 	<bean id="TravelModule-travelerValidation" parent="TravelModule-travelerValidation-parentBean" />
 	<bean id="TravelModule-travelerValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelerValidation">
@@ -74,13 +79,17 @@
 	</bean>
 	
 	<bean id="TravelModule-accountingTotalsValidation" parent="TravelModule-accountingTotalsValidation-parentBean" />
-	<bean id="TravelModule-accountingTotalsValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineTotalsValidation">
+	<bean id="TravelModule-accountingTotalsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineTotalsValidation">
+		<property name="accountingDistributionService" ref="temAccountingDistributionService" />
 	</bean>
 	
 	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation" parent="TravelModule-addAccountingLineAllowedObjCodeValidation-parentBean" />	
-	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineAllowedObjectCodeValidation" />		
+	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineAllowedObjectCodeValidation">
+		<property name="travelDocumentService" ref="travelDocumentService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="accountingDistributionService" ref="temAccountingDistributionService" />
+	</bean>		
 		
 	<bean id="TravelModule-accountingLineBlanketTripTypeValidation" parent="TravelModule-accountingLineBlanketTripTypeValidation-parentBean" />
 	<bean id="TravelModule-accountingLineBlanketTripTypeValidation-parentBean" abstract="true"
@@ -104,7 +113,9 @@
 
 	<bean id="TravelModule-requiredInfoValidation" parent="TravelModule-requiredInfoValidation-parentBean" />
 	<bean id="TravelModule-requiredInfoValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentRequiredInfoValidation" />
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentRequiredInfoValidation">
+		<property name="travelExpenseService" ref="travelExpenseService"/>
+	</bean>
 
 	<bean id="TravelModule-addGroupTravelLineRequiredInfoValidation" parent="TravelModule-addGroupTravelLineRequiredInfoValidation-parentBean" />
 	<bean id="TravelModule-addGroupTravelLineRequiredInfoValidation-parentBean"
@@ -120,10 +131,15 @@
 		
 	<bean id="TravelModule-addImportedExpenseDetailLineValidation" parent="TravelModule-addImportedExpenseDetailLineValidation-parentBean"/>
 	<bean id="TravelModule-addImportedExpenseDetailLineValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentImportedExpenseDetailLineValidation"/>
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentImportedExpenseDetailLineValidation">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+	</bean>
 
 	<bean id="TravelDocument-actualExpenseLineValidation" parent="TravelDocument-actualExpenseLineValidation-parentBean"/>
-	<bean id="TravelDocument-actualExpenseLineValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseLineValidation"/>
+	<bean id="TravelDocument-actualExpenseLineValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseLineValidation">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+	</bean>
 	
 	<bean id="TravelDocument-actualExpenseMileageRateExistsValidation" parent="TravelDocument-actualExpenseMileageRateExistsValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseMileageRateExistsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseMileageRateExistsValidation">
@@ -132,11 +148,19 @@
 		
 	<bean id="TravelDocument-actualExpenseDetailLineValidation" parent="TravelDocument-actualExpenseDetailLineValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseDetailLineValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseDetailLineValidation"/>
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentActualExpenseDetailLineValidation">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+	</bean>
 	
 	<bean id="TravelModule-distributionAccountingLineValidation" parent="TravelModule-distributionAccountingLineValidation-parentBean"/>
 	<bean id="TravelModule-distributionAccountingLineValidation-parentBean" abstract="true"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentDistributionAccountingLinesValidation"/>
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentDistributionAccountingLinesValidation">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+		<property name="accountingDistributionService" ref="temAccountingDistributionService" />
+	</bean>
 
 	<bean id="TravelModule-accountingObjectLevelValidation" parent="TravelModule-accountingObjectLevelValidation-parentBean"/>
 	<bean id="TravelModule-accountingObjectLevelValidation-parentBean" abstract="true"

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-8898">
+		<dropUniqueConstraint tableName="FP_DV_WIRE_TRNFR_T" constraintName="FP_DV_WIRE_TRNFR_TC0"/>
+		<renameTable oldTableName="FP_DV_WIRE_TRNFR_T" newTableName="FS_PMT_SRC_WIRE_TRNFR_T"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_BNK_NM" newColumnName="BNK_NM" columnDataType="VARCHAR2(40)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_BNK_RTNG_NBR" newColumnName="BNK_RTNG_NBR" columnDataType="VARCHAR2(9)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_BNK_CTY_NM" newColumnName="BNK_CTY_NM" columnDataType="VARCHAR2(37)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_BNK_ST_CD" newColumnName="BNK_ST_CD" columnDataType="VARCHAR2(2)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_BNK_CNTRY_CD" newColumnName="BNK_CNTRY_CD" columnDataType="VARCHAR2(2)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_ATTN_LN_TXT" newColumnName="ATTN_LN_TXT" columnDataType="VARCHAR2(80)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_ADDL_WIRE_TXT" newColumnName="ADDL_WIRE_TXT" columnDataType="VARCHAR2(120)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_PAYEE_ACCT_NBR" newColumnName="PAYEE_ACCT_NBR" columnDataType="VARCHAR2(4000)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_CRNCY_TYP_NM" newColumnName="CRNCY_TYP_NM" columnDataType="VARCHAR2(20)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_CRNCY_TYP_CD" newColumnName="CRNCY_TYP_CD" columnDataType="VARCHAR2(1)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_WIRE_TRNFR_FEE_WVR_IND" newColumnName="WIRE_TRNFR_FEE_WVR_IND" columnDataType="CHAR(1)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_PAYEE_ACCT_NM" newColumnName="PAYEE_ACCT_NM" columnDataType="VARCHAR2(123)"/>
+		<dropColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" columnName="DV_PAYEE_ACCT_TYP_CD"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_ACH_PRFL_NBR" newColumnName="ACH_PRFL_NBR" columnDataType="VARCHAR2(3)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_NM" newColumnName="FCRNCY_TYP_NM" columnDataType="VARCHAR2(20)"/>
+		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_CD" newColumnName="FCRNCY_TYP_CD" columnDataType="VARCHAR2(1)"/>
+		<addUniqueConstraint tableName="FS_PMT_SRC_WIRE_TRNFR_T" constraintName="FS_PMT_SRC_WIRE_TRNFR_TC0" columnNames="OBJ_ID"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_DOC_T" constraintName="FP_DV_DOC_TR2"/>
+		<dropUniqueConstraint tableName="FP_DV_DOC_LOC_T" constraintName="FP_DV_DOC_LOC_TC0"/>
+		<dropPrimaryKey tableName="FP_DV_DOC_LOC_T" constraintName="FP_DV_DOC_LOC_TP1"/>
+		<renameTable oldTableName="FP_DV_DOC_LOC_T" newTableName="FS_PMT_DOC_LOC_T"/>
+		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_CD" newColumnName="PMT_DOC_LOC_CD" columnDataType="VARCHAR2(2)"/>
+		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_NM" newColumnName="PMT_DOC_LOC_NM" columnDataType="VARCHAR2(25)"/>
+		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_ADDR" newColumnName="PMT_DOC_LOC_ADDR" columnDataType="VARCHAR2(255)"/>
+		<addPrimaryKey tableName="FS_PMT_DOC_LOC_T" constraintName="FS_PMT_DOC_LOC_TP1" columnNames="PMT_DOC_LOC_CD"/>
+		<addUniqueConstraint tableName="FS_PMT_DOC_LOC_T" constraintName="FS_PMT_DOC_LOC_TC0" columnNames="OBJ_ID"/>
+		<addForeignKeyConstraint constraintName="FP_DV_DOC_TR2"
+			baseTableName="FP_DV_DOC_T" baseColumnNames="DV_DOC_LOC_CD"
+			referencedTableName="FS_PMT_DOC_LOC_T" referencedColumnNames="PMT_DOC_LOC_CD" />
+		<dropUniqueConstraint tableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TC0"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR1"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR2"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR3"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR4"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR5"/>
+		<renameTable oldTableName="FP_DV_WIRE_CHRG_T" newTableName="FS_WIRE_CHRG_T"/>
+		<renameColumn tableName="FS_WIRE_CHRG_T" oldColumnName="DV_DOMSTC_CHG_AMT" newColumnName="DOMSTC_CHG_AMT" columnDataType="NUMBER(19,2)"/>
+		<renameColumn tableName="FS_WIRE_CHRG_T" oldColumnName="DV_FRGN_CHRG_AMT" newColumnName="FRGN_CHRG_AMT" columnDataType="NUMBER(19,2)"/>
+		<addUniqueConstraint tableName="FS_WIRE_CHRG_T" constraintName="FS_WIRE_CHRG_TC0" columnNames="OBJ_ID"/>
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR1"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR"
+			referencedTableName="FS_OPTION_T" referencedColumnNames="UNIV_FISCAL_YR" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR2"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="FIN_COA_CD"
+			referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR3"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,INC_FIN_OBJ_CD"
+			referencedTableName="CA_OBJECT_CODE_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR4"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,EXP_FIN_OBJ_CD"
+			referencedTableName="CA_OBJECT_CODE_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR5"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
+			referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+</databaseChangeLog>
+	

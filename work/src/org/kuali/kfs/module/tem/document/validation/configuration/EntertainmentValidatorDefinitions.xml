@@ -14,6 +14,9 @@
         
 	<bean id="Entertainment-entertainmentInformationRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentRequiredInfoValidation"/>
 	<bean id="Entertainment-hostCertificationAttachmentValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentHostCertificationAttachmentValidation" />
+	<bean id="Entertainment-nonEmployeeCertificationAttachmentValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentNonEmployeeCertificationAttachmentValidation" >
+		<property name="parameterService" ref="parameterService"/>
+	</bean>
 	
 	<bean id="Entertainment-routeDocumentValidation" parent="Entertainment-routeDocumentValidation-parentBean" scope="prototype" />
 	<bean id="Entertainment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
@@ -22,6 +25,7 @@
    			<bean parent="Entertainment-hostCertificationAttachmentValidation" scope="prototype" p:warningOnly="false"/>	
    			<bean parent="TEMReimbursement-requiredAccountingLinesCountValidation" scope="prototype" />
    			<bean parent="Entertainment-entertainmentInformationRequiredInfoValidation" scope="prototype" />
+   			<bean parent="Entertainment-nonEmployeeCertificationAttachmentValidation" scope="prototype" />	
    			<bean parent="TravelModule-travelerValidation" scope="prototype" /> 
    			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />

@@ -34,10 +34,6 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<TravelDocument> {
     private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;
@@ -72,8 +68,6 @@ public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<Tra
 
     @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
-        //final Object question = asker.getQuestion();
-        //final String reason   = asker.getReason();
         final String message  = getReturnToFiscalOfficerQuestion(RETURN_TO_FO_TEXT);
 
         T retval = (T) asker.confirm(RETURN_TO_FO_QUESTION, message, true);
@@ -83,7 +77,6 @@ public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<Tra
 
     public String getReturnToFiscalOfficerQuestion(final String operation) {
         String message = "";
-        //final String key = getConfigurationService().getPropertyValueAsString(TR_FISCAL_OFFICER_QUESTION);
         final String key = getConfigurationService().getPropertyValueAsString(TA_QUESTION_DOCUMENT);
         message = StringUtils.replace(key, "{0}", operation);
         // Ask question if not already asked.

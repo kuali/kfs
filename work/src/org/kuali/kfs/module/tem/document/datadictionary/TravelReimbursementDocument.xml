@@ -441,11 +441,7 @@
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent</value></key>
                 <value>TravelModule-distributionAccountingLineValidation</value>
-            </entry>  	
-            <!--entry>
-                <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateDistributionAccountingLinesEvent</value></key>
-                <value>TravelModule-distributeAccountingLinesValidation</value>
-            </entry-->		        
+            </entry>	        
         </map>
     </property>
   </bean>
@@ -462,7 +458,8 @@
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
 			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
     		<entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/> 
-    		<entry key="Traveler" value-ref="TravelReimbursable-RoutingType-Traveler"/>           
+    		<entry key="Traveler" value-ref="TravelDocument-RoutingType-Traveler"/>
+    		<entry key="Budget" value-ref="TravelDocument-RoutingType-Budget"/>       
 		</map>
 	</property>
   </bean>  

@@ -88,7 +88,7 @@
     </documentType>
     <documentType>
       <name>TPUR</name>
-      <label>Purpose</label>
+      <label>Entertainment Purpose</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>
@@ -103,7 +103,7 @@
     </documentType>
     <documentType>
       <name>TAAR</name>
-      <label>Travel Agency Audit Report</label>
+      <label>Travel Agency Audit and Correction</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>

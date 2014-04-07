@@ -28,7 +28,7 @@
 		</property>
 		<property name="documentTypeName" value="TAAR" />
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.AgencyStagingDataAuthorizer"/>
-		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataRule" />
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.AgencyStagingDataPresentationController" />
 		<property name="webScriptFiles" >
       		<list>

@@ -44,8 +44,8 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,6 +58,24 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
     public static Logger LOG = Logger.getLogger(TravelDocumentDaoOjb.class);
 
+    @Override
+    public List<TravelDocument> findDocuments(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
+        final Criteria c = new Criteria();
+        c.addEqualTo(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentNumber);
+
+        LOG.debug("Creating query for type "+ travelDocumentClass+ " using criteria "+ c);
+
+        final List<TravelDocument> retval = new ArrayList<TravelDocument>();
+
+        Collection<? extends TravelDocument> documents = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(travelDocumentClass, c));
+
+        for (Iterator it = documents.iterator(); it.hasNext();) {
+            TravelDocument document = (TravelDocument) it.next();
+            retval.add(document);
+        }
+
+        return retval;
+    }
 
 	@Override
     public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {

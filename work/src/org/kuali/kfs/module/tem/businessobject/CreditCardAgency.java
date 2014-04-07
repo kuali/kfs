@@ -17,15 +17,15 @@ package org.kuali.kfs.module.tem.businessobject;
 
 import java.util.LinkedHashMap;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "TEM_CREDIT_CARD_AGENCY_T")
@@ -33,7 +33,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     private String creditCardOrAgencyCode;
     private String travelCardTypeCode;
-    private Boolean paymentIndicator;
+    private Boolean paymentIndicator = Boolean.FALSE;
     private String creditCardOrAgencyName;
     private String address1;
     private String address2;
@@ -43,17 +43,18 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
     private String email;
     private String phone;
     private String contactName;
-    private Boolean preReconciled;
-    private Boolean enableNonReimbursable;
-    private String vendorNumber;
-    private Boolean foreignCompany = Boolean.TRUE;
+    private Boolean preReconciled = Boolean.FALSE;
+    private Boolean enableNonReimbursable = Boolean.FALSE;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private Boolean foreignCompany = Boolean.FALSE;
     private String bankCode;
     private Boolean active = Boolean.TRUE;
 
     private TravelCardType travelCardType;
     private Bank bank;
+    private VendorDetail vendorDetail;
 
-    @Column(name = "CREDIT_CARD_AGENCY_CODE", nullable = false)
     public String getCreditCardOrAgencyCode() {
         return creditCardOrAgencyCode;
     }
@@ -63,9 +64,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.creditCardOrAgencyCode = creditCardOrAgencyCode;
     }
 
-
-    @ManyToOne
-    @JoinColumn(name = "TRAVEL_CARD_TYPE_CD")
     public TravelCardType getTravelCardType() {
         return travelCardType;
     }
@@ -75,7 +73,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.travelCardType = travelCardType;
     }
 
-    @Column(name = "TRAVEL_CARD_TYPE_CD", nullable = false, length = 2)
     public String getTravelCardTypeCode() {
         return travelCardTypeCode;
     }
@@ -85,43 +82,33 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.travelCardTypeCode = travelCardTypeCode;
     }
 
-    @Column(name = "PAYMENT_IND", nullable = false, length = 1)
     public Boolean getPaymentIndicator() {
         return paymentIndicator;
     }
-    @Column(name = "PAYMENT_IND", nullable = false, length = 1)
     public Boolean isPaymentIndicator() {
         return paymentIndicator;
     }
-
 
     public void setPaymentIndicator(Boolean paymentIndicator) {
         this.paymentIndicator = paymentIndicator;
     }
 
-
-    @Column(name = "CREDIT_CARD_AGENCY_NAME", nullable = false, length = 45)
     public String getCreditCardOrAgencyName() {
         return creditCardOrAgencyName;
     }
-
 
     public void setCreditCardOrAgencyName(String creditCardOrAgencyName) {
         this.creditCardOrAgencyName = creditCardOrAgencyName;
     }
 
-
-    @Column(name = "ADDRESS1", nullable = true, length = 45)
     public String getAddress1() {
         return address1;
     }
-
 
     public void setAddress1(String address1) {
         this.address1 = address1;
     }
 
-    @Column(name = "ADDRESS2", nullable = true, length = 45)
     public String getAddress2() {
         return address2;
     }
@@ -130,8 +117,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.address2 = address2;
     }
 
-
-    @Column(name = "CITY", nullable = true, length = 45)
     public String getCity() {
         return city;
     }
@@ -141,8 +126,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.city = city;
     }
 
-
-    @Column(name = "STATE", nullable = true, length = 2)
     public String getState() {
         return state;
     }
@@ -152,8 +135,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.state = state;
     }
 
-
-    @Column(name = "ZIPCODE", nullable = true, length = 20)
     public String getZipCode() {
         return zipCode;
     }
@@ -163,8 +144,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.zipCode = zipCode;
     }
 
-
-    @Column(name = "EMAIL", nullable = true, length = 90)
     public String getEmail() {
         return email;
     }
@@ -174,8 +153,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.email = email;
     }
 
-
-    @Column(name = "PHONE", nullable = true, length = 40)
     public String getPhone() {
         return phone;
     }
@@ -185,7 +162,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.phone = phone;
     }
 
-    @Column(name = "FOREIGN_COMPANY", nullable = false, length = 1)
     public Boolean getForeignCompany() {
         return foreignCompany;
     }
@@ -195,10 +171,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.foreignCompany = foreignCompany;
     }
 
-
-
-
-    @Column(name = "CONTACT_NAME", nullable = true, length = 45)
     public String getContactName() {
         return contactName;
     }
@@ -208,46 +180,66 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         this.contactName = contactName;
     }
 
-    @Column(name = "PRE_RECONCILED", nullable = true, length = 1)
     public Boolean getPreReconciled() {
         return preReconciled;
     }
-    @Column(name = "PRE_RECONCILED", nullable = true, length = 1)
     public Boolean isPreReconciled() {
         return preReconciled;
     }
-
 
     public void setPreReconciled(Boolean preReconciled) {
         this.preReconciled = preReconciled;
     }
 
-    @Column(name = "ENABLE_NON_REIMBURSABLE", nullable = true, length = 1)
     public Boolean getEnableNonReimbursable() {
         return enableNonReimbursable;
     }
-    @Column(name = "ENABLE_NON_REIMBURSABLE", nullable = true, length = 1)
     public Boolean isEnableNonReimbursable() {
         return enableNonReimbursable;
     }
-
 
     public void setEnableNonReimbursable(Boolean enableNonReimbursable) {
         this.enableNonReimbursable = enableNonReimbursable;
     }
 
-
-    @Column(name = "VENDOR_NUMBER", nullable = true, length = 20)
-    public String getVendorNumber() {
-        return vendorNumber;
-    }
-
-
     public void setVendorNumber(String vendorNumber) {
-        this.vendorNumber = vendorNumber;
+        VendorDetail vd = new VendorDetail();
+        vd.setVendorNumber(vendorNumber);
+        vendorHeaderGeneratedIdentifier = vd.getVendorHeaderGeneratedIdentifier();
+        vendorDetailAssignedIdentifier = vd.getVendorDetailAssignedIdentifier();
+        refreshReferenceObject(VendorPropertyConstants.VENDOR_DETAIL);
     }
 
-    @Column(name="ACTV_IND",length=1, nullable=false)
+    public String getVendorNumber() {
+        if (!ObjectUtils.isNull(vendorDetail)) {
+            return vendorDetail.getVendorNumber();
+        } else if (vendorHeaderGeneratedIdentifier != null && vendorDetailAssignedIdentifier != null) {
+            VendorDetail vd = new VendorDetail();
+            vd.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier);
+            vd.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier);
+            return vd.getVendorNumber();
+        }
+        else {
+            return "";
+        }
+    }
+
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+    public Integer getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public Integer getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -268,7 +260,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
 
     @Override
-    @Column(name="ACTV_IND",length=1, nullable=false)
     public boolean isActive() {
         return getActive();
     }
@@ -287,5 +278,13 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
     }
 }

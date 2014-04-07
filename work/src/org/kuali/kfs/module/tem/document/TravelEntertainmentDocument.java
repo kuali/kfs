@@ -68,7 +68,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     private Integer hostProfileId;
     private String hostName;
     private String eventTitle;
-    private Boolean nonEmployeeCertified;
     protected Boolean spouseIncluded;
     private String description;
     private String purposeCode;
@@ -109,14 +108,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     }
 
 
-    @Column(name = "NON_EMPLOYEE_CERTIFIED", length = 1, nullable = true)
-    public Boolean getNonEmployeeCertified() {
-        return nonEmployeeCertified;
-    }
 
-    public void setNonEmployeeCertified(Boolean nonEmployeeCertified) {
-        this.nonEmployeeCertified = nonEmployeeCertified;
-    }
 
     @Column(name = "SPOUSE_INCLUDED", nullable = true, length = 1)
     public Boolean getSpouseIncluded() {
@@ -364,7 +356,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         return (getHostProfile() != null && getTemProfile() != null && !getHostProfile().getProfileId().equals(getTemProfile().getProfileId()) && !getDocumentHeader().getWorkflowDocument().isInitiated());
     }
 
-    public boolean canDisplayNonEmployeeCheckbox() {
+    public boolean IsHostNonEmployee() {
         return ((getHostProfile() != null && getHostProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)) || (getTemProfile() != null && getTemProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)));
     }
 

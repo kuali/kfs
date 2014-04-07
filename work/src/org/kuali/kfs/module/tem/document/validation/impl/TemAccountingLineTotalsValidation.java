@@ -29,7 +29,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -37,6 +36,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class TemAccountingLineTotalsValidation extends GenericValidation {
+    protected AccountingDistributionService accountingDistributionService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -47,7 +47,7 @@ public class TemAccountingLineTotalsValidation extends GenericValidation {
         boolean rulePassed = true;
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
 
-        List<AccountingDistribution> distributions = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
+        List<AccountingDistribution> distributions = getAccountingDistributionService().buildDistributionFrom(travelDocument);
         KualiDecimal totalRemaining = KualiDecimal.ZERO;
         Map<AccountingLineDistributionKey,KualiDecimal> amounts = new HashMap<AccountingLineDistributionKey, KualiDecimal>();
         Map<AccountingLineDistributionKey,KualiDecimal> finalAmounts = new HashMap<AccountingLineDistributionKey, KualiDecimal>();
@@ -125,5 +125,13 @@ public class TemAccountingLineTotalsValidation extends GenericValidation {
 
         GlobalVariables.getMessageMap().clearErrorPath();
         return rulePassed;
+    }
+
+    public AccountingDistributionService getAccountingDistributionService() {
+        return accountingDistributionService;
+    }
+
+    public void setAccountingDistributionService(AccountingDistributionService accountingDistributionService) {
+        this.accountingDistributionService = accountingDistributionService;
     }
 }

@@ -19,8 +19,6 @@ package org.kuali.kfs.module.tem.businessobject;
 
 /**
  * Aware of expense type codes
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public interface ExpenseTypeAware {
 

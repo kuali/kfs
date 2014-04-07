@@ -83,6 +83,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     private String perDiemFileErrorDirectory;
     private String perDiemReportDirectory;
     private String perDiemReportFilePrefix;
+    private java.util.Date futureDate;
 
     Collection<TemRegion> persistedRegions;
     Collection<PrimaryDestination> persistedPrimaryDestinations;
@@ -93,6 +94,14 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     @Override
     public boolean loadPerDiem() {
         boolean success = true;
+
+        String dateValue = parameterService.getParameterValueAsString(PerDiemLoadStep.class, PerDiemParameter.DEFAULT_EFFECTIVE_TO_DATE);
+        try {
+            futureDate = dateTimeService.convertToDate(dateValue);
+        } catch (ParseException pe) {
+            LOG.error("Unable to parse the parameter value to a Date for DEFAULT_EFFECTIVE_TO_DATE");
+            throw new RuntimeException(pe);
+        }
 
         for (BatchInputFileType inputFileType : perDiemInputFileTypes) {
             List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(inputFileType);
@@ -164,16 +173,17 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
                 } else {
                     perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
                 }
-
                 List<PerDiem> oldPerDiems = perDiemService.retrievePreviousPerDiem(perDiem);
                 for (PerDiem oldPerDiem : oldPerDiems) {
-                    if (ObjectUtils.isNull(oldPerDiem.getEffectiveToDate())) {
-                        oldPerDiem.setEffectiveToDate( new java.sql.Date(DateUtils.addDays(perDiem.getEffectiveFromDate(), -1).getTime()));
+
+                    if (KfsDateUtils.isSameDay(oldPerDiem.getEffectiveToDate(), futureDate)) {
+                        oldPerDiem.setEffectiveToDate( new java.sql.Date(DateUtils.addDays(perDiem.getEffectiveFromDate(), 0).getTime()));
                         businessObjectService.save(oldPerDiem);
                     }
                 }
-                businessObjectService.save(perDiem);
+               // businessObjectService.save(perDiem);
             }
+            businessObjectService.save(perDiemLoadList);
 
         }
         catch (Exception ex) {
@@ -250,14 +260,19 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         Date effectiveDate = this.getEffectiveDateFromString(perDiem);
         perDiem.setEffectiveFromDate(effectiveDate);
 
-        String seasonBeginMonthAndDay = perDiem.getSeasonBeginDateAsString();
-        perDiem.setSeasonBeginMonthAndDay(seasonBeginMonthAndDay);
+        Date effectiveToDate = this.getExpirationDateFromString(perDiem);
+        perDiem.setEffectiveToDate(effectiveToDate);
 
         Date loadDate = this.getDateTimeService().getCurrentSqlDate();
         perDiem.setLoadDate(loadDate);
 
         this.getPerDiemService().updateTripType(perDiem);
         this.getPerDiemService().breakDownMealsIncidental(perDiem);
+
+        String seasonBeginMonthAndDay = perDiem.getSeasonBeginDateAsString();
+        perDiem.setSeasonBeginMonthAndDay(seasonBeginMonthAndDay);
+
+
     }
 
     /**

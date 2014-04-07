@@ -29,8 +29,6 @@ import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of travel expense company value pairs.
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
     private KeyValuesService keyValuesService;

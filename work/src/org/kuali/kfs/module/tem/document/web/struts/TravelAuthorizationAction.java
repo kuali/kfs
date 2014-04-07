@@ -491,24 +491,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
     }
 
     /**
-     * This method removes an other travel expense from this collection
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return the page to forward back to
-     * @throws Exception
-     */
-    @Override
-    public ActionForward deleteActualExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.deleteActualExpenseLine(mapping, form, request, response);
-        //recalculate(mapping, form, request, response);
-
-        return retval;
-    }
-
-    /**
      * This method adds a new emergency contact into the travel request document
      *
      * @param mapping
@@ -599,10 +581,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-//        TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
-//        TravelAuthorizationDocument travelReqDoc = authForm.getTravelAuthorizationDocument();
-//        travelReqDoc.propagateAdvanceInformationIfNeeded();
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 
@@ -701,10 +679,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
             Note newNote = getDocumentService().createNoteFromDocument(taDoc, noteText);
 
-
-            // newNote.setNoteText(noteText);
-            // newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
-            // getDocumentService().addNoteToDocument(taDoc, newNote);
             taForm.setNewNote(newNote);
 
             taForm.setAttachmentFile(new BlankFormFile());
@@ -966,9 +940,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-        /*if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-            reverseAmendment((TravelAuthorizationForm) form);
-        }*/
         return super.close(mapping, form, request, response);
     }
 

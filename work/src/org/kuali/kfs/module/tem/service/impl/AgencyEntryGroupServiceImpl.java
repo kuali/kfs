@@ -196,7 +196,4 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-
-
-
 }

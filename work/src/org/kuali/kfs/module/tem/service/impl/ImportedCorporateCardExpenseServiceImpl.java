@@ -47,8 +47,8 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
 
     protected static Logger LOG = Logger.getLogger(ImportedCorporateCardExpenseServiceImpl.class);
 
-    ImportedExpensePendingEntryService importedExpensePendingEntryService;
-    CreditCardAgencyService creditCardAgencyService;
+    protected ImportedExpensePendingEntryService importedExpensePendingEntryService;
+    protected CreditCardAgencyService creditCardAgencyService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.TemExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)

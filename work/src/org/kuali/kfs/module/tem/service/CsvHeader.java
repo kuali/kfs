@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.service;
 
-
-
 /**
  * Interface defining the structure for a CSV flat file record of stuff
  * @see org.kuali.kfs.module.tem.service.impl.PurchaseOrderCsvRecord

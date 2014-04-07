@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,10 +37,10 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 public class AgencyEntryServiceImpl implements AgencyEntryService {
     private AgencyEntryGroupService agencyEntryGroupService;
 
-    private DateTimeService dateTimeService;
-    private String batchFileErrorDirectoryName;
+    protected DateTimeService dateTimeService;
+    protected String batchFileErrorDirectoryName;
     protected String batchFileDirectoryName;
-    private AgencyDataXmlInputFileType agencyDataXmlInputFileType;
+    protected AgencyDataXmlInputFileType agencyDataXmlInputFileType;
 
     List<AgencyEntryFull> agencyGroup = new ArrayList<AgencyEntryFull>();
 
@@ -77,8 +77,8 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
                 // figure it out
             }
         }
-        
-        
+
+
         return agencyGroup.size();
     }
 
@@ -121,7 +121,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Gets the agencyEntryGroupService attribute.
-     * 
+     *
      * @return Returns the agencyEntryGroupService.
      */
     public AgencyEntryGroupService getAgencyEntryGroupService() {
@@ -130,7 +130,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Sets the agencyEntryGroupService attribute value.
-     * 
+     *
      * @param agencyEntryGroupService The agencyEntryGroupService to set.
      */
     public void setAgencyEntryGroupService(AgencyEntryGroupService agencyEntryGroupService) {
@@ -139,7 +139,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -148,7 +148,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -157,7 +157,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Gets the batchFileDirectoryName attribute.
-     * 
+     *
      * @return Returns the batchFileDirectoryName.
      */
     public String getBatchFileErrorDirectoryName() {
@@ -166,7 +166,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Sets the batchFileDirectoryName attribute value.
-     * 
+     *
      * @param batchFileDirectoryName The batchFileDirectoryName to set.
      */
     public void setBatchFileErrorDirectoryName(String batchFileErrorDirectoryName) {
@@ -175,7 +175,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Gets the agencyDataXmlInputFileType attribute.
-     * 
+     *
      * @return Returns the agencyDataXmlInputFileType.
      */
     public AgencyDataXmlInputFileType getAgencyDataXmlInputFileType() {
@@ -184,7 +184,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
 
     /**
      * Sets the agencyDataXmlInputFileType attribute value.
-     * 
+     *
      * @param agencyDataXmlInputFileType The agencyDataXmlInputFileType to set.
      */
     public void setAgencyDataXmlInputFileType(AgencyDataXmlInputFileType agencyDataXmlInputFileType) {
@@ -192,7 +192,7 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
     }
 
     /**
-     * Gets the batchFileDirectoryName attribute. 
+     * Gets the batchFileDirectoryName attribute.
      * @return Returns the batchFileDirectoryName.
      */
     public String getBatchFileDirectoryName() {
@@ -206,6 +206,4 @@ public class AgencyEntryServiceImpl implements AgencyEntryService {
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-
-
 }

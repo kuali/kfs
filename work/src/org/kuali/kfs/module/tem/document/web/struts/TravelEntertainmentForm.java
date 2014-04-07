@@ -244,7 +244,4 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     public void setFromDocumentNumber(String fromDocumentNumber) {
         this.fromDocumentNumber = fromDocumentNumber;
     }
-
-
-
 }

@@ -253,5 +253,4 @@ public class TemProfileServiceImpl implements TemProfileService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 }

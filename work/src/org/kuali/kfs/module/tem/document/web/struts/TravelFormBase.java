@@ -1159,5 +1159,4 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     public void setShouldDisplayAgencyLinks(boolean shouldDisplayAgencyLinks) {
         this.shouldDisplayAgencyLinks = shouldDisplayAgencyLinks;
     }
-
 }

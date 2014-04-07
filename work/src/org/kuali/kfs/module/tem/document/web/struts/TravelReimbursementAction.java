@@ -441,12 +441,6 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
 
-
-
-            //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
-            //document.setSourceAccountingLines(rootDocument.getSourceAccountingLines());
-            //document.setTargetAccountingLines(rootDocument.getTargetAccountingLines());
-
             //only initialize per diem and copy expenses for a TR created from a TA
             if (rootDocument instanceof TravelAuthorizationDocument) {
 

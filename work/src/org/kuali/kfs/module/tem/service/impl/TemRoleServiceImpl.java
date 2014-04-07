@@ -49,9 +49,9 @@ public class TemRoleServiceImpl implements TemRoleService{
 
     public static Logger LOG = Logger.getLogger(TemRoleServiceImpl.class);
 
-    RoleService roleService;
-    BusinessObjectService businessObjectService;
-    TravelArrangerDocumentService arrangerDocumentService;
+    protected RoleService roleService;
+    protected BusinessObjectService businessObjectService;
+    protected TravelArrangerDocumentService arrangerDocumentService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.TemRoleService#canAccessTravelDocument(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
@@ -289,7 +289,6 @@ public class TemRoleServiceImpl implements TemRoleService{
      */
     @Override
     public Collection<RoleMembership> getTravelArrangers(String chartCode, String orgCode) {
-       // String contractManagerId = null;
         Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartCode);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, orgCode);

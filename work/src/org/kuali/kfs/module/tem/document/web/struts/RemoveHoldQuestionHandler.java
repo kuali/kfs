@@ -64,13 +64,13 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
             return (T) asker.back();
         }
 
-     // Have to check length on value entered.
+        // Have to check length on value entered.
         String introNoteMessage = REMOVE_HOLD_NOTE_PREFIX + BLANK_SPACE;
         // Build out full message.
         final StringBuilder noteText = new StringBuilder(introNoteMessage + asker.getReason());
 
         int noteTextLength = noteText.length();
-     // Get note text max length from DD.
+        // Get note text max length from DD.
         int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
         if (isBlank(asker.getReason()) || (noteTextLength > noteTextMaxLength)) {
             // Figure out exact number of characters that the user can enter.
@@ -88,7 +88,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
 
         final String messageType = TA_MESSAGE_REMOVE_HOLD_DOCUMENT;
         final TravelDocument document = asker.getDocument();
-        // String previousDocumentId = ((StrutsInquisitor) asker).getForm().getDocId();
+
         String previousDocumentId = null;
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
@@ -103,7 +103,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
              document.updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
             getDocumentDao().save(document);
 
-          //send FYI for to initiator and traveler
+            //send FYI for to initiator and traveler
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
 

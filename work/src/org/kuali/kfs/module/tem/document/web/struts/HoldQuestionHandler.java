@@ -99,7 +99,6 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
         final String messageType = TA_MESSAGE_HOLD_DOCUMENT;
         final TravelDocument document = asker.getDocument();
 
-        // String previousDocumentId = ((StrutsInquisitor) asker).getForm().getDocId();
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward =  (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);

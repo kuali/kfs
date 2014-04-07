@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HistoricalTravelExpenseServiceImpl implements HistoricalTravelExpenseService {
 
-    private HistoricalTravelExpenseDao historicalTravelExpenseDao;
+    protected HistoricalTravelExpenseDao historicalTravelExpenseDao;
 
     /**
      * @see org.kuali.kfs.module.tem.service.HistoricalTravelExpenseService#getImportedExpesnesToBeNotified()

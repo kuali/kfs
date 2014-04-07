@@ -168,16 +168,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         initializeAssignAccounts(entForm);
     }
 
-    //TODO: is this really necessary?
-    private void initializeTemProfiles(TravelEntertainmentDocument document) {
-        if (document.getHostProfile() == null && document.getHostProfileId() != null) {
-            document.setHostProfileId(document.getHostProfileId());
-        }
-        if (document.getTemProfile() == null && document.getTemProfileId() != null) {
-            document.setProfileId(document.getTemProfileId());
-        }
-    }
-
     protected void populateFromPreviousENTDoc(TravelEntertainmentDocument document, String temDocId) {
         TravelEntertainmentDocument entDocument = getBusinessObjectService().findBySinglePrimaryKey(TravelEntertainmentDocument.class, temDocId);
         document.setTravelerDetailId(entDocument.getTravelerDetailId());

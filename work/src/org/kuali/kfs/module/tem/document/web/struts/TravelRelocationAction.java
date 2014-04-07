@@ -251,42 +251,6 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     /**
-     * Action method for adding an {@link ActualExpense} instance to the {@link TravelDocument}
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public ActionForward addActualExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.addActualExpenseLine(mapping, form, request, response);
-        // recalculate(mapping, form, request, response);
-
-        return retval;
-    }
-
-    /**
-     * This method removes an other travel expense from this collection
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return the page to forward back to
-     * @throws Exception
-     */
-    @Override
-    public ActionForward deleteActualExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.deleteActualExpenseLine(mapping, form, request, response);
-        // recalculate(mapping, form, request, response);
-
-        return retval;
-    }
-
-    /**
      * Recalculates the Expenses Total Tab
      *
      * @param mapping

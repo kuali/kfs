@@ -88,12 +88,10 @@ public class AddImportedExpenseDetailEvent implements Observer {
                 newExpense.setNotes(null);
             }
             catch (IllegalAccessException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException(ex);
             }
             catch (InvocationTargetException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException(ex);
             }
             if (detailTotal.isLessThan(line.getExpenseAmount())){
                 KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);

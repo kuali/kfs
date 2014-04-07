@@ -58,12 +58,12 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
     public static Logger LOG = Logger.getLogger(NonEmployeeCertificationReportServiceImpl.class);
 
-    private ParameterService parameterService;
-    private ReportInfo reportInfo;
-    private PersonService personService;
-    private OrganizationService organizationService;
-    private TravelDocumentService travelDocumentService;
-    private TemProfileService temProfileService;
+    protected ParameterService parameterService;
+    protected ReportInfo reportInfo;
+    protected PersonService personService;
+    protected OrganizationService organizationService;
+    protected TravelDocumentService travelDocumentService;
+    protected TemProfileService temProfileService;
 
     @Override
     public NonEmployeeCertificationReport buildReport(TravelDocument travelDocument) {
@@ -185,29 +185,14 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         return reportFile;
     }
 
-    /**
-     *
-     * This method...
-     * @return
-     */
     protected ReportGenerationService getReportGenerationService() {
         return SpringContext.getBean(ReportGenerationService.class);
     }
 
-    /**
-     *
-     * This method...
-     * @return
-     */
     public ReportInfo getReportInfo(){
         return this.reportInfo;
     }
 
-    /**
-     *
-     * This method...
-     * @param reportInfo
-     */
     public void setReportInfo(ReportInfo reportInfo){
         this.reportInfo = reportInfo;
     }

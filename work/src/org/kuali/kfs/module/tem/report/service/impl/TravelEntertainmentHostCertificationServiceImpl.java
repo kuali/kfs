@@ -60,12 +60,12 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
 
     public static Logger LOG = Logger.getLogger(TravelEntertainmentHostCertificationServiceImpl.class);
 
-    private ConfigurationService configurationService;
-    private ParameterService parameterService;
-    private PersonService personService;
-    private TravelDocumentService travelDocumentService;
-    private ReportInfo entReportInfo;
-    private TemProfileService temProfileService;
+    protected ConfigurationService configurationService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
+    protected TravelDocumentService travelDocumentService;
+    protected ReportInfo entReportInfo;
+    protected TemProfileService temProfileService;
 
     public ConfigurationService getConfigurationService() {
         return configurationService;
@@ -251,6 +251,4 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
     }
-
-
 }

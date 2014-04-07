@@ -162,16 +162,6 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         this.canCertify = canCertify;
     }
 
-//    /**
-//     * disable calculate on ENT doc
-//     *
-//     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#canCalculate()
-//     */
-//    @Override
-//    public boolean canCalculate(){
-//        return false;
-//    }
-
     /**
      * Get Travel Relocation Document
      *

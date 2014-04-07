@@ -33,11 +33,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
  *
  */
 public final class JstlFunctions {
-    private static final String SETTING_PARAMS_PROLOG = "Setting params ";
-    private static final String PROPERTY_SETTING_EXC_PROLOG = "Could not set property ";
-    private static final String IN_PREPOSITION = " in ";
-    private static final String VALUES_FINDER_CLASS_EXC_PROLOG = "Could not find valuesFinder class ";
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
+    protected static final String SETTING_PARAMS_PROLOG = "Setting params ";
+    protected static final String PROPERTY_SETTING_EXC_PROLOG = "Could not set property ";
+    protected static final String IN_PREPOSITION = " in ";
+    protected static final String VALUES_FINDER_CLASS_EXC_PROLOG = "Could not find valuesFinder class ";
+    protected static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
 
     private JstlFunctions() {}
 

@@ -10,5 +10,10 @@
 		<addColumn tableName="FP_DV_TRVL_CO_NM_T">
 			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
 		</addColumn>
+		
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
 	</changeSet>
 </databaseChangeLog>

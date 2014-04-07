@@ -1331,7 +1331,7 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="ALL"/>
+			<column name="CMPNT_CD" value="All"/>
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-164"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>

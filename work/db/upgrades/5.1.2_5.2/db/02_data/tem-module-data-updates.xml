@@ -256,6 +256,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -280,6 +281,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -382,6 +384,7 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -394,6 +397,7 @@
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -405,6 +409,7 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -481,6 +486,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -492,6 +498,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -503,6 +510,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -514,6 +522,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -564,6 +573,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -575,6 +585,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -586,6 +597,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -598,6 +610,7 @@
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -609,6 +622,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -621,6 +635,7 @@
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -632,6 +647,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -643,6 +659,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -654,6 +671,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -678,6 +696,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -689,6 +708,7 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="HOSTED_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>

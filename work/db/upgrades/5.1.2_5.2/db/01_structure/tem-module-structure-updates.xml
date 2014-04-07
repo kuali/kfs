@@ -235,13 +235,13 @@
 			<column name="CONTACT_NAME" type="VARCHAR2(45)" />
 			<column name="PRE_RECONCILED" type="VARCHAR2(1)" />
 			<column name="ENABLE_NON_REIMBURSABLE" type="VARCHAR2(1)" />
-			<column name="VNDR_HDR_GNRTD_ID" type="DECIMAL(10)" />
-			<column name="VNDR_DTL_ASND_ID" type="DECIMAL(10)" />
 			<column name="FOREIGN_COMPANY" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="BNK_CD" type="VARCHAR2(4)" />
+			<column name="VNDR_HDR_GNRTD_ID" type="DECIMAL(10)" />
+			<column name="VNDR_DTL_ASND_ID" type="DECIMAL(10)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="CREDIT_CARD_AGENCY_CODE" />
@@ -296,7 +296,7 @@
 			constraintName="TEM_CTS_CARD_APP_DOC_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_EM_CONT_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
+			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
 			<column name="CONT_REL_TYP_CD" type="VARCHAR2(3)" />
 			<column name="CONT_NM" type="VARCHAR2(40)" />
@@ -344,7 +344,7 @@
 			columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_GRP_TRVLR_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
+			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
 			<column name="NAME" type="VARCHAR2(100)" />
 			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
@@ -528,27 +528,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_PROFILE_ARRANGER_T"
 			constraintName="TEM_PROFILE_ARRANGER_TP1" columnNames="ARRANGER_ID" />
-		<createTable tableName="TEM_PROFILE_CUST_T">
-			<column name="CUST_NBR" type="VARCHAR2(40)" />
-			<column name="CUSTOMER_TYP_CD" type="VARCHAR2(2)" />
-			<column name="CUST_NM" type="VARCHAR2(19)" />
-			<column name="CUST_PHONE_NBR" type="VARCHAR2(40)" />
-			<column name="CUST_TAX_NBR" type="VARCHAR2(40)" />
-			<column name="CUST_TAX_TYP_CD" type="VARCHAR2(4)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="ADDRESS_NAME" type="VARCHAR2(40)" />
-			<column name="ADDR_LINE_1" type="VARCHAR2(50)" />
-			<column name="ADDR_LINE_2" type="VARCHAR2(50)" />
-			<column name="CITY_NM" type="VARCHAR2(30)" />
-			<column name="STATE_CD" type="VARCHAR2(40)" />
-			<column name="ZIP_CD" type="VARCHAR2(10)" />
-			<column name="INTL_PROV_NM" type="VARCHAR2(45)" />
-			<column name="CUST_EMAIL_ADDR" type="VARCHAR2(40)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_PROFILE_CUST_T"
-			constraintName="TEM_PROFILE_CUST_TP1" columnNames="CUST_NBR" />
 		<createTable tableName="TEM_PROFILE_EM_CONT_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="CONT_REL_TYP_CD" type="VARCHAR2(3)" />
@@ -739,24 +718,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRAVELER_DTL_T"
 			constraintName="TEM_TRAVELER_DTL_TP1" columnNames="ID" />
-		<createTable tableName="TEM_TRAVELER_PROF_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FIRST_NM" type="VARCHAR2(40)" />
-			<column name="LAST_NM" type="VARCHAR2(40)" />
-			<column name="ADDR_LINE_1" type="VARCHAR2(50)" />
-			<column name="ADDR_LINE_2" type="VARCHAR2(50)" />
-			<column name="CITY_NM" type="VARCHAR2(50)" />
-			<column name="POSTAL_STATE_CD" type="VARCHAR2(50)" />
-			<column name="POSTAL_CD" type="VARCHAR2(50)" />
-			<column name="COUNTRY_CD" type="VARCHAR2(50)" />
-			<column name="EMAIL_ADDR" type="VARCHAR2(50)" />
-			<column name="PHONE_NBR" type="VARCHAR2(20)" />
-			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_TRAVELER_PROF_T"
-			constraintName="TEM_TRAVELER_PROF_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" type="VARCHAR2(3)" />
 			<column name="NM" type="VARCHAR2(40)" />
@@ -767,33 +728,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRAVELER_TYP_T"
 			constraintName="TEM_TRAVELER_TYP_TP1" columnNames="CODE" />
-		<createTable tableName="TEM_TRIP_DTL_EST_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
-			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
-			<column name="DETAIL_DT" type="DATE" />
-			<column name="COUNTRY" type="VARCHAR2(100)" />
-			<column name="COUNTY_CD" type="VARCHAR2(100)" />
-			<column name="PRI_DEST" type="VARCHAR2(100)" />
-			<column name="PERSONAL" type="VARCHAR2(1)" />
-			<column name="MEALS_INC" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="LODGING" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="MILES" type="NUMBER(22,0)" />
-			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
-			<column name="OTHER_EXP" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="ACCOM_TYP_CD" type="VARCHAR2(4)" />
-			<column name="ACCOM_NM" type="VARCHAR2(255)" />
-			<column name="ACCOM_PH" type="VARCHAR2(20)" />
-			<column name="ACCOM_ADDRESS" type="VARCHAR2(255)" />
-			<column name="PER_DIEM_ID" type="NUMBER(22,0)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_TRIP_DTL_EST_T"
-			constraintName="TEM_TRIP_DTL_EST_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRIP_TYP_T">
 			<column name="CODE" type="VARCHAR2(3)" />
 			<column name="NM" type="VARCHAR2(40)" />

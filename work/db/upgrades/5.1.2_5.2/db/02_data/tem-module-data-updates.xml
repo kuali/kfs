@@ -797,7 +797,6 @@
 			<column name="LODGING" valueNumeric="0.0"/>
 			<column name="INC" valueNumeric="0.0"/>
 			<column name="MEALS_INC" valueNumeric="0.0"/>
-			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>

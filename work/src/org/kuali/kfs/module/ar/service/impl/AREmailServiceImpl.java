@@ -132,7 +132,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             List<InvoiceAddressDetail> invoiceAddressDetails = invoice.getInvoiceAddressDetails();
             for (InvoiceAddressDetail invoiceAddressDetail : invoiceAddressDetails) {
-                if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())) {
+                if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
 
                     // KFSTI-48 Refactor to retrieve the note through noteService
                     Note note = noteService.getNoteByNoteId(invoiceAddressDetail.getNoteId());

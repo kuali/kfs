@@ -30,9 +30,7 @@
 				<ref bean="InvoiceAddressDetail-customerAddressTypeCode" />
 				<ref bean="InvoiceAddressDetail-customerAddressName" />
 				<ref bean="InvoiceAddressDetail-customerInvoiceTemplateCode" />
-				<ref bean="InvoiceAddressDetail-preferredCustomerInvoiceTemplateCode" />
 				<ref bean="InvoiceAddressDetail-invoiceTransmissionMethodCode" />
-				<ref bean="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -124,23 +122,7 @@
 		<property name="name" value="customerInvoiceTemplateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Invoice Template" />
-		<property name="shortLabel" value="InvType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-	<bean id="InvoiceAddressDetail-preferredCustomerInvoiceTemplateCode" parent="InvoiceAddressDetail-preferredCustomerInvoiceTemplateCode-parentBean" />
-
-	<bean id="InvoiceAddressDetail-preferredCustomerInvoiceTemplateCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="preferredCustomerInvoiceTemplateCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Invoice Template" />
-		<property name="shortLabel" value="PrfInvType" />
+		<property name="shortLabel" value="InvTmplt" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
@@ -157,22 +139,6 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Method of Invoice Transmission" />
 		<property name="shortLabel" value="InvTrnsMthd" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTransmissionMethodValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-	<bean id="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode" parent="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode-parentBean" />
-
-	<bean id="InvoiceAddressDetail-preferredInvoiceTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="preferredInvoiceTransmissionMethodCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Preferred Method of Invoice Transmission" />
-		<property name="shortLabel" value="PrfInvTrnsMthd" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
@@ -203,9 +169,7 @@
 							<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
 							<bean parent="FieldDefinition" p:attributeName="customerAddressName" />
 							<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
-							<bean parent="FieldDefinition" p:attributeName="preferredCustomerInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
-							<bean parent="FieldDefinition" p:attributeName="preferredInvoiceTransmissionMethodCode" />
 						</list>
 					</property>
 				</bean>

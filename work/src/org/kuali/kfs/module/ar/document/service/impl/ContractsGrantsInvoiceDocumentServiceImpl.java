@@ -48,6 +48,7 @@ import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -3110,10 +3111,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             byte[] reportStream;
             byte[] copyReportStream;
             // validating the invoice template
-            if (ObjectUtils.isNotNull(invoiceAddressDetail.getPreferredCustomerInvoiceTemplateCode())) {
-                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getPreferredCustomerInvoiceTemplateCode());
-            }
-            else if (ObjectUtils.isNotNull(invoiceAddressDetail.getCustomerInvoiceTemplateCode())) {
+            if (ObjectUtils.isNotNull(invoiceAddressDetail.getCustomerInvoiceTemplateCode())) {
                 invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getCustomerInvoiceTemplateCode());
             }
             else {
@@ -3323,7 +3321,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceAddressDetails[" + i + "].customerAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
                 parameterMap.put("invoiceAddressDetails[" + i + "].customerAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
                 parameterMap.put("invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
-                parameterMap.put("invoiceAddressDetails[" + i + "].preferredCustomerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
@@ -3872,21 +3869,30 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // copy award's customer address to invoice address details
             document.getInvoiceAddressDetails().clear();
 
-            List<CustomerAddress> customerAddresses = new ArrayList<CustomerAddress>();
-            Map<String, Object> mapKey = new HashMap<String, Object>();
-            mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, award.getAgency().getCustomerNumber());
-            customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
-            for (CustomerAddress customerAddress : customerAddresses) {
-
-                InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
-                invoiceAddressDetail.setCustomerNumber(customerAddress.getCustomerNumber());
-                invoiceAddressDetail.setDocumentNumber(document.getDocumentNumber());
-                invoiceAddressDetail.setCustomerAddressIdentifier(customerAddress.getCustomerAddressIdentifier());
-                invoiceAddressDetail.setCustomerAddressTypeCode(customerAddress.getCustomerAddressTypeCode());
-                invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
-                invoiceAddressDetail.setInvoiceTransmissionMethodCode(customerAddress.getInvoiceTransmissionMethodCode());
-
-                document.getInvoiceAddressDetails().add(invoiceAddressDetail);
+            ContractsAndGrantsBillingAgency agency = award.getAgency();
+            if (ObjectUtils.isNotNull(agency)) {
+                List<CustomerAddress> customerAddresses = new ArrayList<CustomerAddress>();
+                Map<String, Object> mapKey = new HashMap<String, Object>();
+                mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, agency.getCustomerNumber());
+                customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
+                for (CustomerAddress customerAddress : customerAddresses) {
+                        InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
+                    invoiceAddressDetail.setCustomerNumber(customerAddress.getCustomerNumber());
+                    invoiceAddressDetail.setDocumentNumber(document.getDocumentNumber());
+                    invoiceAddressDetail.setCustomerAddressIdentifier(customerAddress.getCustomerAddressIdentifier());
+                    invoiceAddressDetail.setCustomerAddressTypeCode(customerAddress.getCustomerAddressTypeCode());
+                    invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
+                    invoiceAddressDetail.setInvoiceTransmissionMethodCode(customerAddress.getInvoiceTransmissionMethodCode());
+                    if (StringUtils.isNotBlank(customerAddress.getCustomerInvoiceTemplateCode())) {
+                        invoiceAddressDetail.setCustomerInvoiceTemplateCode(customerAddress.getCustomerInvoiceTemplateCode());
+                    } else {
+                        AccountsReceivableCustomer customer = agency.getCustomer();
+                        if (ObjectUtils.isNotNull(customer) && StringUtils.isNotBlank(customer.getCustomerInvoiceTemplateCode())) {
+                            invoiceAddressDetail.setCustomerInvoiceTemplateCode(customer.getCustomerInvoiceTemplateCode());
+                        }
+                    }
+                    document.getInvoiceAddressDetails().add(invoiceAddressDetail);
+                }
             }
 
             java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();

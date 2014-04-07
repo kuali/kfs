@@ -62,7 +62,7 @@
 
 	<ar:invoiceSuspensionCategories />
 	
-	<ar:invoiceTypeAssignments readOnly="${readOnly}"/>
+	<ar:invoiceTransmissionDetails readOnly="${readOnly}"/>
 
 	<gl:generalLedgerPendingEntries />
 

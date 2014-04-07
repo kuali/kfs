@@ -1682,12 +1682,8 @@
 		<field-descriptor name="customerAddressIdentifier" column="CUST_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" />
 		<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressName" column="CUST_ADDR_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="customerInvoiceTemplateCode" column="CUST_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
-		<field-descriptor name="preferredCustomerInvoiceTemplateCode" column="PREF_CUST_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type 
-			Link -->
-		<field-descriptor name="invoiceTransmissionMethodCode" column="INV_TRNS_MTHD_CD" jdbc-type="VARCHAR" /><!-- Invoice Indicator Link -->
-		<field-descriptor name="preferredInvoiceTransmissionMethodCode" column="PREF_INV_TRNS_MTHD_CD" jdbc-type="VARCHAR" /><!-- Preferred Invoice Indicator 
-			Link -->
+		<field-descriptor name="customerInvoiceTemplateCode" column="CUST_INV_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="invoiceTransmissionMethodCode" column="INV_TRNS_MTHD_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="noteId" column="NOTE_ID" jdbc-type="BIGINT" />

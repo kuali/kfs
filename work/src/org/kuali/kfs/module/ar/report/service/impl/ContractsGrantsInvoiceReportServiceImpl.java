@@ -766,7 +766,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             List<InvoiceAddressDetail> agencyAddresses = invoice.getInvoiceAddressDetails();
 
             for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
-                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getPreferredInvoiceTransmissionMethodCode())) {
+                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getInvoiceTransmissionMethodCode())) {
                     CustomerAddress address = agencyAddress.getCustomerAddress();
 
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
@@ -811,7 +811,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             List<InvoiceAddressDetail> agencyAddresses = invoice.getInvoiceAddressDetails();
 
             for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
-                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getPreferredInvoiceTransmissionMethodCode())) {
+                if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getInvoiceTransmissionMethodCode())) {
                     CustomerAddress address = agencyAddress.getCustomerAddress();
 
                     //If envelopes to print is empty - donot print them.

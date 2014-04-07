@@ -681,6 +681,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
         }
     }
 
+    @Override
     public String getCustomerInvoiceTemplateCode() {
         return customerInvoiceTemplateCode;
     }

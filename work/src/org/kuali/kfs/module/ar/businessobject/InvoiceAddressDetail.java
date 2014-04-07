@@ -31,10 +31,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private Integer customerAddressIdentifier;
     private String customerAddressTypeCode;
     private String customerAddressName;
-    private String preferredCustomerInvoiceTemplateCode;
     private String customerInvoiceTemplateCode;
     private String invoiceTransmissionMethodCode;
-    private String preferredInvoiceTransmissionMethodCode;
     private long noteId;
 
     private CustomerAddress customerAddress;
@@ -80,24 +78,6 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
      */
     public void setInvoiceTransmissionMethodCode(String invoiceTransmissionMethodCode) {
         this.invoiceTransmissionMethodCode = invoiceTransmissionMethodCode;
-    }
-
-    /**
-     * Gets the preferredInvoiceTransmissionMethodCode attribute.
-     *
-     * @return Returns the preferredInvoiceTransmissionMethodCode.
-     */
-    public String getPreferredInvoiceTransmissionMethodCode() {
-        return preferredInvoiceTransmissionMethodCode;
-    }
-
-    /**
-     * Sets the preferredInvoiceTransmissionMethodCode attribute value.
-     *
-     * @param preferredInvoiceTransmissionMethodCode The preferredInvoiceTransmissionMethodCode to set.
-     */
-    public void setPreferredInvoiceTransmissionMethodCode(String preferredInvoiceTransmissionMethodCode) {
-        this.preferredInvoiceTransmissionMethodCode = preferredInvoiceTransmissionMethodCode;
     }
 
     /**
@@ -208,25 +188,6 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the preferredCustomerInvoiceTemplateCode attribute.
-     *
-     * @return Returns the preferredCustomerInvoiceTemplateCode.
-     */
-    public String getPreferredCustomerInvoiceTemplateCode() {
-
-        return preferredCustomerInvoiceTemplateCode;
-    }
-
-    /**
-     * Sets the preferredCustomerInvoiceTemplateCode attribute value.
-     *
-     * @param preferredCustomerInvoiceTemplateCode The preferredCustomerInvoiceTemplateCode to set.
-     */
-    public void setPreferredCustomerInvoiceTemplateCode(String preferredCustomerInvoiceTemplateCode) {
-        this.preferredCustomerInvoiceTemplateCode = preferredCustomerInvoiceTemplateCode;
-    }
-
-    /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
@@ -235,10 +196,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
         m.put(customerNumber, this.customerNumber);
         m.put(customerAddressTypeCode, this.customerAddressTypeCode);
         m.put(customerAddressName, this.customerAddressName);
-        m.put(preferredCustomerInvoiceTemplateCode, this.preferredCustomerInvoiceTemplateCode);
         m.put(customerInvoiceTemplateCode, this.customerInvoiceTemplateCode);
         m.put(invoiceTransmissionMethodCode, invoiceTransmissionMethodCode);
-        m.put(preferredInvoiceTransmissionMethodCode, this.preferredInvoiceTransmissionMethodCode);
         return m;
     }
 

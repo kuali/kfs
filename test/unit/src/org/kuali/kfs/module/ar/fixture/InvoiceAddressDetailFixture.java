@@ -21,29 +21,24 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
  * Fixture class for InvoiceAddressDetail
  */
 public enum InvoiceAddressDetailFixture {
-    INV_ADDRESS_DETAIL1("documentNumber", "customerNumber",111, "customerAddressTypeCode", "customerAddressName", "preferredCustomerInvoiceTemplateCode", "customerInvoiceTemplateCode", "invoiceTransmissionMethodCode", "preferredInvoiceTransmissionCode");
+    INV_ADDRESS_DETAIL1("documentNumber", "customerNumber",111, "customerAddressTypeCode", "customerAddressName", "customerInvoiceTemplateCode", "invoiceTransmissionMethodCode");
 
     private String documentNumber;
     private String customerNumber;
     private Integer customerAddressIdentifier;
     private String customerAddressTypeCode;
     private String customerAddressName;
-    private String preferredCustomerInvoiceTemplateCode;
     private String customerInvoiceTemplateCode;
     private String invoiceTransmissionMethodCode;
-    private String preferredInvoiceTransmissionCode;
 
-    private InvoiceAddressDetailFixture(String documentNumber, String customerNumber, Integer customerAddressIdentifier, String customerAddressTypeCode, String customerAddressName, String preferredCustomerInvoiceTemplateCode, String customerInvoiceTemplateCode, String invoiceTransmissionMethodCode, String preferredInvoiceTransmissionCode) {
-
+    private InvoiceAddressDetailFixture(String documentNumber, String customerNumber, Integer customerAddressIdentifier, String customerAddressTypeCode, String customerAddressName, String customerInvoiceTemplateCode, String invoiceTransmissionMethodCode) {
         this.documentNumber = documentNumber;
         this.customerNumber = customerNumber;
         this.customerAddressIdentifier = customerAddressIdentifier;
         this.customerAddressTypeCode = customerAddressTypeCode;
         this.customerAddressName = customerAddressName;
-        this.preferredCustomerInvoiceTemplateCode = preferredCustomerInvoiceTemplateCode;
         this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
         this.invoiceTransmissionMethodCode = invoiceTransmissionMethodCode;
-        this.preferredInvoiceTransmissionCode = preferredInvoiceTransmissionCode;
     }
 
     public InvoiceAddressDetail createInvoiceAddressDetail() {
@@ -53,10 +48,8 @@ public enum InvoiceAddressDetailFixture {
         invoiceAddressDetail.setCustomerAddressIdentifier(this.customerAddressIdentifier);
         invoiceAddressDetail.setCustomerAddressTypeCode(this.customerAddressTypeCode);
         invoiceAddressDetail.setCustomerAddressName(this.customerAddressName);
-        invoiceAddressDetail.setPreferredCustomerInvoiceTemplateCode(this.preferredCustomerInvoiceTemplateCode);
         invoiceAddressDetail.setCustomerInvoiceTemplateCode(this.customerInvoiceTemplateCode);
         invoiceAddressDetail.setInvoiceTransmissionMethodCode(this.invoiceTransmissionMethodCode);
-        invoiceAddressDetail.setPreferredInvoiceTransmissionMethodCode(this.preferredInvoiceTransmissionCode);
 
         return invoiceAddressDetail;
     }

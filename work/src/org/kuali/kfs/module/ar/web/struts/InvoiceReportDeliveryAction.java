@@ -204,7 +204,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 for (ContractsGrantsInvoiceDocument invoice : list) {
                     if (ObjectUtils.isNull(invoice.getMarkedForProcessing())) {
                         for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
-                            if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())) {
+                            if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                                 emailSet.add(invoice);
                             }
                         }
@@ -218,7 +218,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     statusMessage.append(MARKED_FOR_PROCESSING_BY_BATCH_JOB);
                     statusMessage.append("\n");
                 }
-                else {                    
+                else {
                     // if no invoices to be emailed were found and EMAIL was the option, add status message
                     if(ArConstants.InvoiceTransmissionMethod.EMAIL.equalsIgnoreCase(deliveryType)){
                         statusMessage.append(NO_MATCHING_INVOICE);
@@ -239,7 +239,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 for (ContractsGrantsInvoiceDocument invoice : list) {
                     if (ObjectUtils.isNull(invoice.getDateReportProcessed())) {
                         for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
-                            if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceTransmissionMethodCode())) {
+                            if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                                 mailSet.add(invoice);
                             }
                         }

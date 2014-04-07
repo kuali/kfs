@@ -349,13 +349,15 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             fieldValues.put("proposalNumber", award.getProposalNumber().toString());
         }
         List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).retrieveAllCGInvoicesByCriteria(fieldValues);
-        for(ContractsGrantsInvoiceDocument invoice: list){
-            Map primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());
-            List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)businessObjectService.findMatching(InvoicePaidApplied.class, primaryKeys);
-            if(ObjectUtils.isNotNull(ipas)) {
-                for(InvoicePaidApplied ipa : ipas) {
-                    cashReceipt = cashReceipt.add(ipa.getInvoiceItemAppliedAmount());
+        if (ObjectUtils.isNotNull(list)) {
+            for(ContractsGrantsInvoiceDocument invoice: list){
+                Map primaryKeys = new HashMap<String, Object>();
+                primaryKeys.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());
+                List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)businessObjectService.findMatching(InvoicePaidApplied.class, primaryKeys);
+                if(ObjectUtils.isNotNull(ipas)) {
+                    for(InvoicePaidApplied ipa : ipas) {
+                        cashReceipt = cashReceipt.add(ipa.getInvoiceItemAppliedAmount());
+                    }
                 }
             }
         }

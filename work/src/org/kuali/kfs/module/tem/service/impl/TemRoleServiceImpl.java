@@ -32,7 +32,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -159,7 +158,7 @@ public class TemRoleServiceImpl implements TemRoleService{
         //add the role qualification
         Map<String,String> qualification = new HashMap<String,String>();
         if (isProfileAlsoUser(user, profileId)) {
-            qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+            qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
         } else {
             qualification.put(TemProfileProperties.PROFILE_ID, profileId);
         }

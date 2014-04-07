@@ -1,5 +1,5 @@
 KIM_ATTR_DEFN_ID,OBJ_ID,VER_NBR,NM,LBL,ACTV_IND,NMSPC_CD,CMPNT_NM
-KFS10236,KFS-TEM-ATTR-DEFN-001,1,profilePrincipalId,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes
+KFS10236,KFS-ATTR-DEFN-001,1,profilePrincipalId,,Y,KFS-SYS,org.kuali.kfs.sys.identity.KfsKimAttributes
 KFS10237,KFS-TEM-ATTR-DEFN-002,1,travelerTypeCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes
 KFS10238,KFS-TEM-ATTR-DEFN-003,1,jobClsCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes
 KFS10682,KFS-TEM-ATTR-DEFN-004,1,reimbursementOveragePercentage,Reimbursement Overage Percentage,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -38,7 +39,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     @Override
     protected List<String> getRequiredAttributes() {
         final List<String> attrs = new ArrayList<String>(super.getRequiredAttributes());
-        attrs.add(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+        attrs.add(KfsKimAttributes.PROFILE_PRINCIPAL_ID);
         return Collections.unmodifiableList(attrs);
     }
 
@@ -51,7 +52,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         final List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if (qualification!=null && !qualification.isEmpty()) {
 
-            final String principalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+            final String principalId = qualification.get(KfsKimAttributes.PROFILE_PRINCIPAL_ID);
             if ( StringUtils.isNotBlank( principalId ) ) {
                 members.add(RoleMembership.Builder.create("", "", principalId, MemberType.PRINCIPAL, null).build());
             }

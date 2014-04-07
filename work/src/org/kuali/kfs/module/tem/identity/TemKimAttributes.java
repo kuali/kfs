@@ -22,14 +22,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TemKimAttributes extends KfsKimAttributes {
 
-    public static final String PROFILE_PRINCIPAL_ID = "profilePrincipalId";
     public static final String TRAVELER_TYPE_CODE = "travelerTypeCode";
     public static final String JOB_CLASSIFICATION_CODE = "jobClsCode";
     public static final String REIMBURSEMENT_AMOUNT = "reimbursementAmount";
     public static final String AUTHORIZATION_AMOUNT = "authorizationAmount";
     public static final String REIMBURESEMENT_OVERAGE_PERCENTAGE = "reimbursementOveragePercentage";
 
-    protected Integer profilePrincipalId;
     protected String travelerTypeCode;
     protected String jobClsCode;
     protected KualiDecimal reimbursementAmount;
@@ -38,22 +36,6 @@ public class TemKimAttributes extends KfsKimAttributes {
 
     protected TravelerType travelerType;
     protected JobClassification jobClassification;
-
-    /**
-     * Gets the profilePrincipalId attribute.
-     * @return Returns the profilePrincipalId.
-     */
-    public Integer getProfilePrincipalId() {
-        return profilePrincipalId;
-    }
-
-    /**
-     * Sets the profilePrincipalId attribute value.
-     * @param profilePrincipalId The profilePrincipalId to set.
-     */
-    public void setProfilePrincipalId(Integer profilePrincipalId) {
-        this.profilePrincipalId = profilePrincipalId;
-    }
 
     /**
      * @return the traveler type code

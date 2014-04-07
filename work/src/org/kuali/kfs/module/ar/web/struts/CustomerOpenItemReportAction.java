@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLooku
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -53,9 +55,9 @@ public class CustomerOpenItemReportAction extends KualiAction {
      * @param response
      * @return
      * @throws Exception
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the results.
-     * 
+     *
      * Fields are in data dictionary.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -78,8 +80,9 @@ public class CustomerOpenItemReportAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
-            if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null)
+            if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
+            }
 
             request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable));
         } catch (NumberFormatException e) {
@@ -93,7 +96,7 @@ public class CustomerOpenItemReportAction extends KualiAction {
 
     /**
      * View results from balance inquiry action
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -113,10 +116,22 @@ public class CustomerOpenItemReportAction extends KualiAction {
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
+    /**
+     * Overridden to add profilePrincipalId; some day, hopefully TEM can do this itself
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#getRoleQualification(org.apache.struts.action.ActionForm, java.lang.String)
+     */
+    @Override
+    protected Map<String, String> getRoleQualification(ActionForm form, String methodToCall) {
+        Map<String, String> qualification =  super.getRoleQualification(form, methodToCall);
+        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, currentUserPrincipalId);
+        return qualification;
+    }
+
     /**
      * Handling for screen close. Default action is return to caller.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -124,7 +139,7 @@ public class CustomerOpenItemReportAction extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return returnToCaller(mapping, form, request, response);
     }
-    
+
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
@@ -142,4 +157,5 @@ public class CustomerOpenItemReportAction extends KualiAction {
         String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }*/
+
 }

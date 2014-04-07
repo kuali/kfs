@@ -28,7 +28,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         p:objectLabel="KFS TEM KIM Attributes">
     <property name="attributes">
       <list merge="true">
-        <ref bean="TemKimAttributes-profilePrincipalId" />
         <ref bean="TemKimAttributes-travelerTypeCode"/>
         <ref bean="TemKimAttributes-jobClassificationCode"/>
         <ref bean="TemKimAttributes-reimbursementAmount"/>
@@ -47,15 +46,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       </list>
     </property>
   </bean>
-
-	<bean id="TemKimAttributes-profilePrincipalId" parent="TemKimAttributes-profilePrincipalId-parentBean" />
-	<bean id="TemKimAttributes-profilePrincipalId-parentBean" parent="AttributeDefinition">
-		<property name="name" value="profilePrincipalId" />
-		<property name="label" value="Profile Principal Id" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-	</bean>
 	
 	<bean id="TemKimAttributes-travelerTypeCode" parent="TemKimAttributes-travelerTypeCode-parentBean"/>
 	<bean id="TemKimAttributes-travelerTypeCode-parentBean" parent="TravelerType-code" abstract="true">

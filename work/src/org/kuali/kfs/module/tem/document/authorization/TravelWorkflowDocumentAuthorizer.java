@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.impl.KimDocumentTypeAuthorizer;
@@ -60,7 +60,7 @@ public class TravelWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer 
         if (!documentType.isPolicyDefined(org.kuali.rice.kew.api.doctype.DocumentTypePolicy.INITIATOR_MUST_ROUTE)) {
             Map<String, String> permissionDetails = buildDocumentTypePermissionDetails(documentType, documentStatus, null, null);
             Map<String, String> roleQualifiers = buildDocumentRoleQualifiers(document, permissionDetails.get(KewApiConstants.ROUTE_NODE_NAME_DETAIL));
-            roleQualifiers.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, principalId);
+            roleQualifiers.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, principalId);
 
             if (useKimPermission(KewApiConstants.KEW_NAMESPACE, KewApiConstants.ROUTE_PERMISSION, permissionDetails, true)) {
                 return getPermissionService().isAuthorizedByTemplate(principalId, KewApiConstants.KEW_NAMESPACE,
@@ -82,7 +82,7 @@ public class TravelWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer 
      */
     protected Map<String, String> getRoleQualifiers(String principalId) {
         Map<String, String> qualificationDetails = new HashMap<String, String>();
-        qualificationDetails.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, principalId);
+        qualificationDetails.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, principalId);
         return qualificationDetails;
     }
 }

@@ -49,6 +49,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     public static final String FILE_PATH = "filePath";
     public static final String ROUTE_NODE_NAME = "routeNodeName";
+    public static final String PROFILE_PRINCIPAL_ID = "profilePrincipalId";
 
     protected String chartOfAccountsCode;
     protected String accountNumber;
@@ -67,6 +68,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String paymentMethodCode;
     protected String subAccountNumber;
     protected String filePath;
+    protected Integer profilePrincipalId;
 
     protected Chart chart;
     protected Organization organization;
@@ -287,6 +289,22 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
+     * Gets the profilePrincipalId attribute.
+     * @return Returns the profilePrincipalId.
+     */
+    public Integer getProfilePrincipalId() {
+        return profilePrincipalId;
+    }
+
+    /**
+     * Sets the profilePrincipalId attribute value.
+     * @param profilePrincipalId The profilePrincipalId to set.
+     */
+    public void setProfilePrincipalId(Integer profilePrincipalId) {
+        this.profilePrincipalId = profilePrincipalId;
     }
 
     public Chart getChart() {

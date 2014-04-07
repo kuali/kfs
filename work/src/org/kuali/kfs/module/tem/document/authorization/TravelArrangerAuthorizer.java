@@ -18,8 +18,8 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -34,7 +34,7 @@ public class TravelArrangerAuthorizer extends FinancialSystemTransactionalDocume
         if (dataObject instanceof TravelArrangerDocument) {
          TravelArrangerDocument document = (TravelArrangerDocument)dataObject;
             if (ObjectUtils.isNotNull(document.getProfile())) {
-                qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, document.getProfile().getPrincipalId());
+                qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, document.getProfile().getPrincipalId());
             }
         }
     }

@@ -1,0 +1,15 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-11416">
+		<insert tableName="PDP_ACH_TRANS_TYP_T">
+			<column name="TRANS_TYP" value="TEM"/>
+			<column name="OBJ_ID" value="KFS-ACH-TRANS-TYP-002"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="TRANS_TYP_DESC" value="Travel and Entertainment Transaction Type"/>
+		</insert>
+		
+	</changeSet>
+	
+</databaseChangeLog>

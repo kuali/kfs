@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -193,6 +195,31 @@ public class TemProfileServiceImpl implements TemProfileService {
         keyValues.add(new ConcreteKeyValue("M", "Male"));
         keyValues.add(new ConcreteKeyValue("F", "Female"));
         return keyValues;
+    }
+
+    /**
+     * Checks the business object service to see if the profile account exists
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#doesProfileAccountExist(org.kuali.kfs.module.tem.businessobject.TemProfileAccount, org.kuali.kfs.module.tem.businessobject.TemProfile)
+     */
+    @Override
+    public boolean doesProfileAccountExist(TemProfileAccount account, TemProfile skipProfile) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+        fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, account.getCreditCardOrAgencyCode());
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        final Collection<TemProfileAccount> profileAccounts = getBusinessObjectService().findMatching(TemProfileAccount.class, fieldValues);
+        if (skipProfile != null && skipProfile.getId() != null) {
+            List<TemProfileAccount> otherFolksAccounts = new ArrayList<TemProfileAccount>();
+            for (TemProfileAccount profileAccount : profileAccounts) { // loop through all accounts to exhaust any iterator
+                if (profileAccount.getProfileId().equals(skipProfile.getId())) {
+                    otherFolksAccounts.add(profileAccount);
+                }
+            }
+            return otherFolksAccounts.size() > 0;
+        }
+
+        //otherwise, just return the size of the profileAccounts
+        return profileAccounts.size() > 0;
     }
 
     /**

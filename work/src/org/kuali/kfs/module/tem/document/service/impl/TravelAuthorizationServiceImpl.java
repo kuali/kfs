@@ -123,9 +123,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     protected NoteService noteService;
     protected TravelAuthorizationDao travelAuthorizationDao;
 
-    private List<PropertyChangeListener> propertyChangeListeners;
-
-    private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    protected List<PropertyChangeListener> propertyChangeListeners;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#createCustomerInvoice(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)

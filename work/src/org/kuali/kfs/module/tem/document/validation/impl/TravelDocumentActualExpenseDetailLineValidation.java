@@ -23,7 +23,6 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -32,6 +31,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TravelDocumentActualExpenseDetailLineValidation extends TemDocumentExpenseLineValidation implements ActualExpenseDetailValidation {
     protected ActualExpense actualExpenseForValidation;
     protected ActualExpense actualExpenseDetailForValidation;
+
+    protected DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -160,12 +161,12 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TemDocument
         this.actualExpenseDetailForValidation = actualExpenseDetailForValidation;
     }
 
-    /**
-     *
-     * @return
-     */
-    public final DataDictionaryService getDataDictionaryService() {
-        return SpringContext.getBean(DataDictionaryService.class);
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.service.impl;
+package org.kuali.kfs.module.tem.service.impl;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
@@ -39,6 +41,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.HeldEncumbranceEntry;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
@@ -46,7 +49,7 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
+import org.kuali.kfs.module.tem.service.TravelEncumbranceService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -58,9 +61,11 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -92,6 +97,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     protected DateTimeService dateTimeService;
     protected UniversityDateService universityDateService;
     protected AccountingPeriodService accountingPeriodService;
+    protected OptionsService optionsService;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbranceForCancelTA(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
@@ -757,26 +763,42 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @return the AccountingPeriod of the posting account
      */
     protected AccountingPeriod getPostingAccountingPeriodForHeldEncumbrance(HeldEncumbranceEntry hee) {
-        final TravelAuthorizationDocument originalTravelAuthorization = getTravelAuthForTripId(hee.getTravelDocumentIdentifier());
-        if (originalTravelAuthorization == null) {
-            LOG.warn("Could not find travel authorization for trip id "+hee.getTravelDocumentIdentifier()+" which is strange because we're looking for the travel authorization which created a TEM held encumbrance entry");
-        } else {
-            final TravelAuthorizationDocument currentTravelAuthorization = travelDocumentService.findCurrentTravelAuthorization(originalTravelAuthorization);
-            final java.sql.Date tripEnd = new java.sql.Date(currentTravelAuthorization.getTripEnd().getTime());
-            final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
-            if (tripEndFiscalYear == null) {
-                LOG.info("Could not yet release TEM held encumbrance entry "+hee.getDocumentNumber()+" sequence: "+hee.getTransactionLedgerEntrySequenceNumber()+" because the fiscal year for the trip end does not yet exist.");
+        if (doesHeldEncumbranceRepresentAuthorization(hee)) {
+            final TravelAuthorizationDocument originalTravelAuthorization = getTravelAuthForTripId(hee.getTravelDocumentIdentifier());
+            if (originalTravelAuthorization == null) {
+                LOG.warn("Could not find travel authorization for trip id "+hee.getTravelDocumentIdentifier()+" which is strange because we're looking for the travel authorization which created a TEM held encumbrance entry");
             } else {
-                try {
-                final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
-                final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
-                return firstAccountingPeriodOfEncumbranceFiscalYear;
-                } catch (ParseException pe) {
-                    LOG.error("Error while parsing date" + pe);
+                final TravelAuthorizationDocument currentTravelAuthorization = travelDocumentService.findCurrentTravelAuthorization(originalTravelAuthorization);
+                final java.sql.Date tripEnd = new java.sql.Date(currentTravelAuthorization.getTripEnd().getTime());
+                final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripEnd);
+                if (tripEndFiscalYear == null) {
+                    LOG.info("Could not yet release TEM held encumbrance entry "+hee.getDocumentNumber()+" sequence: "+hee.getTransactionLedgerEntrySequenceNumber()+" because the fiscal year for the trip end does not yet exist.");
+                } else {
+                    final AccountingPeriod firstAccountingPeriodOfEncumbranceFiscalYear = getFirstAccountingPeriodOfFiscalYear(tripEndFiscalYear);
+                    return firstAccountingPeriodOfEncumbranceFiscalYear;
                 }
+            }
+        } else if (doesHeldEncumbranceRepresentAdvance(hee)) {
+            final TravelAdvance advance = getTravelAdvanceForDocumentNumber(hee.getDocumentNumber());
+            if (advance != null) {
+                final Integer dueDateFiscalYear = getUniversityDateService().getFiscalYear(advance.getDueDate());
+                final AccountingPeriod firstAccountingPeriodOfDueDateFiscalYear = getFirstAccountingPeriodOfFiscalYear(dueDateFiscalYear);
+                return firstAccountingPeriodOfDueDateFiscalYear;
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the first accounting period of the given fiscal year
+     * @param fiscalYear the fiscal year to find the first accounting period for
+     * @return the first accounting period of the given fiscal year
+     */
+    protected AccountingPeriod getFirstAccountingPeriodOfFiscalYear(Integer fiscalYear) {
+        final java.util.Date firstDateOfFiscalYear = getUniversityDateService().getFirstDateOfFiscalYear(fiscalYear);
+        final AccountingPeriod firstAccountingPeriodOfFiscalYear = getAccountingPeriodService().getByDate(new java.sql.Date(firstDateOfFiscalYear.getTime()));
+        return firstAccountingPeriodOfFiscalYear;
+
     }
 
     /**
@@ -801,20 +823,146 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @Override
     public void releaseHeldEncumbrances() {
+        Map<String, Boolean> releaseCache = new HashMap<String, Boolean>();
+        Map<String, TravelAuthorizationDocument> documentCache = new HashMap<String, TravelAuthorizationDocument>();
+
         Collection<HeldEncumbranceEntry> allHeldEntries = businessObjectService.findAll(HeldEncumbranceEntry.class);
         List<HeldEncumbranceEntry> entriesToDelete = new ArrayList<HeldEncumbranceEntry>();
         List<GeneralLedgerPendingEntry> entriesToSave = new ArrayList<GeneralLedgerPendingEntry>();
 
         for (HeldEncumbranceEntry heldEntry : allHeldEntries) {
-            GeneralLedgerPendingEntry glpe = convertHeldEncumbranceEntryToPendingEntry(heldEntry);
-            if (glpe != null) {
-                glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-                entriesToSave.add(glpe);
-                entriesToDelete.add(heldEntry);
+            if (shouldReleaseEntry(heldEntry, releaseCache)) {
+                GeneralLedgerPendingEntry glpe = convertHeldEncumbranceEntryToPendingEntry(heldEntry);
+                if (glpe != null) {
+                    GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(glpe);
+                    GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(glpe.getTransactionLedgerEntrySequenceNumber() + 1); // assume that the offset can use the sequence number + 1 of the original entry (which is what the original offset should have been)
+                    final Integer fiscalYear = universityDateService.getFiscalYear(getDateForEntry(heldEntry));
+
+                    generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(fiscalYear, glpe, sequenceHelper, offsetEntry);
+
+                    glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+                    offsetEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+                    entriesToSave.add(glpe);
+                    entriesToSave.add(offsetEntry);
+                    entriesToDelete.add(heldEntry);
+                }
             }
         }
         businessObjectService.save(entriesToSave);
         businessObjectService.delete(entriesToDelete);
+    }
+
+    /**
+     * Determines if an entry should be released
+     * @param heldEntry the entry to determine the release eligibility of
+     * @param releaseCache a cache of whether we should release entries, to avoid hitting the database so often
+     * @return true if the entry should be released, false otherwise
+     */
+    protected boolean shouldReleaseEntry(HeldEncumbranceEntry heldEntry, Map<String, Boolean> releaseCache) {
+        final String cacheKey = buildReleaseCacheKey(heldEntry);
+        final Boolean cacheResults = releaseCache.get(cacheKey);
+        if (cacheResults != null) {
+            return cacheResults.booleanValue();
+        }
+
+        // still here? we'd best figure out if we can release or not
+        final java.sql.Date releaseDate = getDateForEntry(heldEntry);
+        if (releaseDate == null) {
+            LOG.warn("Could not determine release date for held entry "+heldEntry.getDocumentNumber());
+            releaseCache.put(cacheKey, Boolean.FALSE); // can't determine a date?  Then let's not release
+            return false;
+        }
+
+        final boolean shouldReleaseEntry = !shouldHoldEntries(releaseDate);
+        releaseCache.put(cacheKey, Boolean.valueOf(shouldReleaseEntry));
+        return shouldReleaseEntry;
+    }
+
+    /**
+     * Finds the date which should be used to determine if the entry can be released for the given entry
+     * @param heldEntry the entry to find a release date for
+     * @return the release date, or null if a value could not be determined
+     */
+    protected java.sql.Date getDateForEntry(HeldEncumbranceEntry heldEntry) {
+        if (doesHeldEncumbranceRepresentAuthorization(heldEntry)) {
+            return getDateForEntryFromDocument(heldEntry.getDocumentNumber());
+        } else if (doesHeldEncumbranceRepresentAdvance(heldEntry)) {
+            return getDateForEntryFromAdvance(heldEntry.getDocumentNumber());
+        }
+        return null;
+    }
+
+    /**
+     * Determines if the given entry represents a travel authorization
+     * @param heldEntry the held entry to find representation for
+     * @return true if the held entry represents a travel authorization, false otherwise
+     */
+    protected boolean doesHeldEncumbranceRepresentAuthorization(HeldEncumbranceEntry heldEntry) {
+        return StringUtils.equals(heldEntry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT) || StringUtils.equals(heldEntry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+    }
+
+    /**
+     * Determines if the given entry represents a travel advance
+     * @param heldEntry the held entry to find representation for
+     * @return true if the held entry represents a travel advance, false otherwise
+     */
+    protected boolean doesHeldEncumbranceRepresentAdvance(HeldEncumbranceEntry heldEntry) {
+        return StringUtils.equals(heldEntry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT) || StringUtils.equals(heldEntry.getFinancialDocumentTypeCode(), TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
+    }
+
+    /**
+     * Uses the trip end date of a travel authorization or travel authorization amendment to act as date for determining if entry may be released
+     * @param documentNumber the document number to find the trip end date of
+     * @return the trip end date or null if a value could not be determined
+     */
+    protected java.sql.Date getDateForEntryFromDocument(String documentNumber) {
+        final TravelAuthorizationDocument travelAuth = getBusinessObjectService().findBySinglePrimaryKey(TravelAuthorizationDocument.class, documentNumber); // because of extents in ojb, this will pick up travel authorizations as well
+        if (travelAuth != null && travelAuth.getTripEnd() != null) {
+            return new java.sql.Date(travelAuth.getTripEnd().getTime());
+        }
+        return null;
+    }
+
+    /**
+     * Uses the due date of a travel advance to act as the date for determining if entry may be released
+     * @param documentNumber the document number of the advance to find the due date of
+     * @return the due date of the advance or null if a value could not be determined
+     */
+    protected java.sql.Date getDateForEntryFromAdvance(String documentNumber) {
+        final TravelAdvance advance = getTravelAdvanceForDocumentNumber(documentNumber);
+        if (advance != null) {
+            return advance.getDueDate();
+        }
+        return null;
+    }
+
+    /**
+     * Given a document number, looks up the travel advance from that document
+     * @param documentNumber the document number to look up
+     * @return the travel advance, or null if an advance could not be found
+     */
+    protected TravelAdvance getTravelAdvanceForDocumentNumber(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber); // we assume if a held entry was created, the doc was approved and the advance should be processed - so we're only going to look at the advance
+        Collection<TravelAdvance> advances = getBusinessObjectService().findMatching(TravelAdvance.class, fieldValues);
+        if (advances != null && !advances.isEmpty()) {
+            final TravelAdvance advance = advances.iterator().next(); // there should only be one
+            return advance;
+        }
+        return null;
+    }
+
+    /**
+     * Creates a key for the release cache from the held encumbrance entry
+     * @param heldEntry the entry to create a key for
+     * @return the key for the entry
+     */
+    protected String buildReleaseCacheKey(HeldEncumbranceEntry heldEntry) {
+        StringBuilder key = new StringBuilder();
+        key.append(heldEntry.getDocumentNumber());
+        key.append("-");
+        key.append(heldEntry.getFinancialDocumentTypeCode());
+        return key.toString();
     }
 
     /**
@@ -828,12 +976,63 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         businessObjectService.deleteMatching(HeldEncumbranceEntry.class, fieldValues);
     }
 
+    /**
+     * Checks that a number of objects needed to support the entries exist - the fiscal year, the university date, the accounting period, and the offset definition
+     * @see org.kuali.kfs.module.tem.service.TravelEncumbranceService#shouldHoldEntries(java.util.Date)
+     */
+    @Override
+    public boolean shouldHoldEntries(Date tripDate) {
+        final Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
+        final Integer tripEndFiscalYear = getUniversityDateService().getFiscalYear(tripDate);
+        if (tripEndFiscalYear == null) {
+            return true; // no fiscal year yet - we definitely need to hold entries
+        }
+
+        AccountingPeriod accountingPeriod = null;
+        HashMap<String, Object > fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tripEndFiscalYear);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+
+        final Integer heldEncumbranceFiscalYear = getUniversityDateService().getFiscalYear(tripDate);
+        SystemOptions options = getOptionsService().getOptions(tripEndFiscalYear);
+
+        final int matchingCount  = getBusinessObjectService().countMatching(OffsetDefinition.class, fieldValues);
+
+        try {
+            if (currentFiscalYear.equals(tripEndFiscalYear)) {
+                accountingPeriod = getAccountingPeriodService().getByDate(tripDate);
+            }
+            else {
+                final String firstDateOfEncumbranceFiscalYear = getDateTimeService().toDateString(getUniversityDateService().getFirstDateOfFiscalYear(tripEndFiscalYear));
+                accountingPeriod = getAccountingPeriodService().getByDate(getDateTimeService().convertToSqlDate(firstDateOfEncumbranceFiscalYear));
+            }
+        } catch (ParseException pe) {
+            LOG.error("error while parsing date " + pe);
+        }
+
+
+        final boolean holdEncumbrance = tripEndFiscalYear == null || options == null || accountingPeriod == null || matchingCount == 0;
+        return holdEncumbrance;
+    }
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {

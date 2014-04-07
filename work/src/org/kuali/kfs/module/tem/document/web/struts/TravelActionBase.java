@@ -86,7 +86,6 @@ import org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuth
 import org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
 import org.kuali.kfs.module.tem.document.validation.event.RecalculateTripDetailTotalEvent;
 import org.kuali.kfs.module.tem.document.validation.event.UpdateTripDetailsEvent;
@@ -96,6 +95,7 @@ import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
+import org.kuali.kfs.module.tem.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -817,7 +817,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
         // information
         if (refreshCaller == null) {
-            // reqForm.setTravelerId(reqForm.getTempTravelerId());
             return null;
         }
 
@@ -888,8 +887,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * Just a passthru {@link InvocationHandler}. It's used when creating a proxy, to access methods in a class without knowing what
      * that class really is. This allows us to put a facade layer on top of whatever MVC we use; hence, the name
      * {@link TravelMvcWrapperInvocationHandler}
-     *
-     * @author Leo Przybylski leo [at] rsmart.com
      */
     class TravelMvcWrapperInvocationHandler<MvcClass> implements InvocationHandler {
         private MvcClass mvcObj;
@@ -1066,19 +1063,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // checking this is causing a RuntimeException when the workflow document is null (when generating a report).
         // apparently even checking if a workflow document is null will cause it to send a RuntimeException - hence the try catch.
         boolean workflowCheck = false;
-        try {
 
-            List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
-            for (RouteNodeInstance routeNode : nodes){
-                if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
-                    workflowCheck = true;
-                }
+        List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
+        for (RouteNodeInstance routeNode : nodes){
+            if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
+                workflowCheck = true;
             }
-            workflowCheck &= reqForm.getWorkflowDocument().isEnroute();
         }
-        catch (RuntimeException e) {
-            e.printStackTrace();
-        }
+        workflowCheck &= reqForm.getWorkflowDocument().isEnroute();
 
         return getTravelDocumentService().isResponsibleForAccountsOn(reqForm.getTravelDocument(), GlobalVariables.getUserSession().getPerson().getPrincipalId()) && workflowCheck;
     }
@@ -1303,15 +1295,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         travelForm.getObservable().notifyObservers(mvcWrapper);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#getSourceAccountingLine(org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    protected SourceAccountingLine getSourceAccountingLine(ActionForm form, HttpServletRequest request) {
-        return super.getSourceAccountingLine(form, request);
     }
 
     /**

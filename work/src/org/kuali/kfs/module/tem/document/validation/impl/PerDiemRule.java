@@ -71,17 +71,6 @@ public class PerDiemRule extends MaintenanceDocumentRuleBase {
                 valid = false;
                 putFieldError(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, TemKeyConstants.ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY, new String[] { perDiem.getSeasonBeginMonthAndDay() });
             }
-
-            /*if (valid) {
-            final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            final String season = perDiem.getSeasonBeginMonthAndDay()+"/"+Calendar.getInstance().get(Calendar.YEAR);
-            try {
-                java.util.Date d = sdf.parse(season);
-            } catch (ParseException nfe) {
-                valid = false;
-                putFieldError(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, TemKeyConstants.ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY, new String[] { perDiem.getSeasonBeginMonthAndDay() });
-            }
-            }*/
         }
         return valid;
     }

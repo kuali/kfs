@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
+import org.kuali.kfs.module.tem.service.TravelEncumbranceService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 

@@ -196,7 +196,6 @@ public class TemKeyConstants {
     public static final String ERROR_RECEIPT_NOTES_REQUIRED = "error.document.tem.actualexpense.receipt.notes";
 
     public static final String TEM_ENT_DOC_ATTENDEE_LIST_QUESTION  = "tem.entertainment.attendee.list.question.text";
-    public static final String TEM_ENT_NON_EMPLOYEE_FORM_QUESTION  = "tem.entertainment.NonEmployeeForm.question.text";
     public static final String TEM_ENT_QUESTION_PROCEED="tem.entertainment.question.proceed.text";
 
     public static final String TEM_ENT_HOST_CERTIFICATION  = "tem.entertainment.host.certification";
@@ -222,9 +221,12 @@ public class TemKeyConstants {
     public static final String ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND = "error.document.tem.travel.groupTraveler.employeeNotFound";
     public static final String ERROR_TRVL_GROUP_TRVL_DUPLICATE = "error.document.tem.travel.groupTraveler.duplicate";
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
+    public static final String NON_EMPLOYEE_CERTIFICATION_REQUIRED_IND = "tem.entertainment.non.employee.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
     public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";
     public static final String ERROR_TR_ENROUTE_DURING_TR_INIT = "error.document.tem.reimbursement.init.enroute.tr";
+
+
 
     public static final String TEM_NON_EMPLOYEE_CERTIFICATION  = "tem.non.employee.certification";
 
@@ -260,6 +262,7 @@ public class TemKeyConstants {
 
     public static final String MESSAGE_AGENCY_DATA_RECONCILIATION_REPORT_HEADER = "message.batch.tem.agencydatareconciliation.reportHeader";
     public static final String MESSAGE_AGENCY_DATA_RECON_GLPE_CREATION = "message.batch.tem.agencydatareconciliation.glpeCreation";
+    public static final String MESSAGE_AGECNY_DATA_RECON_DOCUMENT_STATUS = "message.batch.tem.agencydatareconciliation.documentStatusInvalid";
     public static final String MESSAGE_AGENCY_DATA_RECON_ACCOUNTING_LINE_MATCH = "message.batch.tem.agencydatareconciliation.accountingLineNoMatch";
     public static final String MESSAGE_AGENCY_DATA_RECON_EXPENSE_TYPE_OBJECT_CODE = "message.batch.tem.agencydatareconciliation.expenseTypeObjectCodeInvalid";
     public static final String MESSAGE_AGENCY_DATA_RECON_TRIP_MATCH = "message.batch.tem.agencydatareconciliation.tripNoMatch";
@@ -340,6 +343,7 @@ public class TemKeyConstants {
     public static final String ERROR_PER_DIEM_MIB_INVALID_AMOUNTS_MUST_BE_POSITIVE = "error.perdiem.mib.invalid.amountsMustBePositive";
     public static final String ERROR_PER_DIEM_MIB_INVALID_TOTAL_MEALS_AND_INCIDENTALS = "error.perdiem.mib.invalid.total.mealsAndIncidentals";
     public static final String ERROR_PER_DIEM_MIB_INVALID_FIRST_OR_LAST_DAY_AMOUNT = "error.perdiem.mib.invalid.firstOrLastDayAmount";
+    public static final String ERROR_CREDIT_CARD_AGENCY_PAYMENT_INDICATOR_NOT_ALLOWED = "error.creditCardAgency.payment.indicator.not.allowed";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
     public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_VENDOR_NUMBER_REQUIRED = "error.creditCardAgency.corporate.card.agency.vendor.number.required";
 

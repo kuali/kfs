@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,11 +26,9 @@ import org.kuali.kfs.sys.report.ReportInfo;
 
 /**
  * Service interface for travel reports.
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public interface TravelReportFactoryService {
-    
+
     RString h1(final String str);
 
     RString h2(final String str);
@@ -40,9 +38,7 @@ public interface TravelReportFactoryService {
     RString h4(final String str);
 
     RString h5(final String str);
-    
-    // <T> T createObject(final Class clazz, final String[] ... strs) throws Exception;
-    
+
     /**
      * Populate the design of a report. Report's main content container is a design.
      *
@@ -68,7 +64,7 @@ public interface TravelReportFactoryService {
      * Determine whether a {@link Field} in the {@link ReportInfo} instance is a report {@link Summary} or not.
      *
      * @param field a {@link Field} instance in a {@link ReportInfo} class
-     * @param true if the {@link Summary} annotation is on a {@link Field} 
+     * @param true if the {@link Summary} annotation is on a {@link Field}
      */
     boolean isSummary(final Field field);
 

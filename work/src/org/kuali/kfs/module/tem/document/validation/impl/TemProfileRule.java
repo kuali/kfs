@@ -270,14 +270,14 @@ public class TemProfileRule extends MaintenanceDocumentRuleBase{
      */
     protected boolean doesProfileAccountMatchExisting(TemProfile profile, TemProfileAccount newAccount) {
         if (profile.getAccounts() == null || profile.getAccounts().isEmpty()) {
-            return false;
+            return getTemProfileService().doesProfileAccountExist(newAccount, profile);
         }
         for (TemProfileAccount existingAccount : profile.getAccounts()) {
-            if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && org.apache.commons.lang.ObjectUtils.equals(existingAccount.getCreditCardOrAgencyCode(), newAccount.getCreditCardOrAgencyCode())) {
+            if (StringUtils.equals(existingAccount.getAccountNumber(), newAccount.getAccountNumber()) && StringUtils.equals(existingAccount.getCreditCardOrAgencyCode(), newAccount.getCreditCardOrAgencyCode())) {
                 return true;
             }
         }
-        return false;
+        return getTemProfileService().doesProfileAccountExist(newAccount, profile);
     }
 
     /**

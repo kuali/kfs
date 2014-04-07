@@ -21,8 +21,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Bean class used to hold values for creating the view for Accounting Distribution on the
  * {@link TravelReimbursementDocument} page
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class AccountingDistribution extends PersistableBusinessObjectBase implements java.io.Serializable {
     private String objectCode;

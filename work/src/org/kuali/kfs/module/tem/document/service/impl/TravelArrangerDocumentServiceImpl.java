@@ -31,7 +31,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @SuppressWarnings("rawtypes")
 public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocumentService {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     @Override
     public void createTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
@@ -50,7 +50,6 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         }
 
         businessObjectService.save(profileArranger);
-
     }
 
     @Override

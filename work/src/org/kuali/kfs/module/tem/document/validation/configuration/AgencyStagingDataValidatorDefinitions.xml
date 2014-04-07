@@ -13,13 +13,13 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="AgencyStagingDataByTrip" parent="AgencyStagingDataByTrip-parentBean" />    
     <bean  id="AgencyStagingDataByTrip-parentBean" abstract="true"
-        class="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidationByTrip">
+        class="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataRuleByTrip">
         <property name="expenseImportByTripService" ref="expenseImportByTripService" /> 
     </bean>
 
 	<bean id="AgencyStagingDataByTraveler" parent="AgencyStagingDataByTraveler-parentBean" />
     <bean  id="AgencyStagingDataByTraveler-parentBean" abstract="true"
-        class="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidationByTraveler">
+        class="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataRuleByTraveler">
         <property name="expenseImportByTravelerService" ref="expenseImportByTravelerService" /> 
     </bean>
     

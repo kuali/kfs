@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 @ReportStyle("standard")
 @TitleStyle("standard")
 public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedReport {
-    
+
     public static Logger LOG = Logger.getLogger(ExpenseSummaryReport.class);
-    
+
     private String traveler;
     private String initiator;
     private String authorizationInitiator;
@@ -60,7 +60,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     @Group("expenseType")
     @DetailSection
     private JRDataSource data;
-    
+
     @SubReport
     @Summary
     private JRDataSource summary;
@@ -81,7 +81,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getTraveler() {
         return this.traveler;
     }
-    
+
     /**
      * Sets the value of traveler
      *
@@ -99,7 +99,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getInitiator() {
         return this.initiator;
     }
-    
+
     /**
      * Sets the value of initiator
      *
@@ -117,7 +117,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getAuthorizationInitiator() {
         return this.authorizationInitiator;
     }
-    
+
     /**
      * Sets the value of authorizationInitiator
      *
@@ -135,7 +135,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getInstitution() {
         return this.institution;
     }
-    
+
     /**
      * Sets the value of Institution
      *
@@ -153,7 +153,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public Date getBeginDate() {
         return this.beginDate;
     }
-    
+
     /**
      * Sets the value of beginDate
      *
@@ -171,7 +171,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public Date getEndDate() {
         return this.endDate;
     }
-    
+
     /**
      * Sets the value of endDate
      *
@@ -189,7 +189,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getLocations() {
         return this.locations;
     }
-    
+
     /**
      * Sets the value of locations
      *
@@ -207,7 +207,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getTripId() {
         return this.tripId;
     }
-    
+
     /**
      * Sets the value of TripId
      *
@@ -225,7 +225,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public String getPurpose() {
         return this.purpose;
     }
-    
+
     /**
      * Sets the value of Purpose
      *
@@ -245,7 +245,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
     public JRDataSource getData() {
         return this.data;
     }
-    
+
     /**
      * Sets the value of Data
      *
@@ -288,14 +288,14 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
             else {
                 this.amount = KualiDecimal.ZERO.bigDecimalValue();
             }
- 
+
             if (date != null) {
                 final String expenseDate = new SimpleDateFormat("MM/dd").format(date);
                 this.date = expenseDate;
             }
             this.expenseType = expenseType;
         }
-        
+
         /**
          * Gets the value of Name
          *
@@ -304,7 +304,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
         public String getName() {
             return this.name;
         }
-        
+
         /**
          * Sets the value of Name
          *
@@ -322,7 +322,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
         public String getExpenseType() {
             return this.expenseType;
         }
-        
+
         /**
          * Sets the value of ExpenseType
          *
@@ -331,7 +331,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
         public void setExpenseType(final String argExpenseType) {
             this.expenseType = argExpenseType;
         }
-        
+
         /**
          * Gets the value of Amount
          *
@@ -340,7 +340,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
         public BigDecimal getAmount() {
             return this.amount;
         }
-        
+
         /**
          * Sets the value of Amount
          *
@@ -358,7 +358,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
         public String getDate() {
             return this.date;
         }
-        
+
         /**
          * Sets the value of Date
          *

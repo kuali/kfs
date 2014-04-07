@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-/**
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public class ReimbursementEmployeeCertificationValidation extends GenericValidation {
 
     private TravelerService travelerService;
@@ -48,14 +45,14 @@ public class ReimbursementEmployeeCertificationValidation extends GenericValidat
         }
 
         return valid;
-    }  
+    }
 
     protected boolean requiresCertification(final TravelerDetail traveler) {
         final Person user = GlobalVariables.getUserSession().getPerson();
         if (user.getPrincipalId().equals(traveler.getPrincipalId())
             && isEmployee(traveler)) {
             return true;
-        }        
+        }
         return false;
     }
 
@@ -65,8 +62,6 @@ public class ReimbursementEmployeeCertificationValidation extends GenericValidat
         }
         return getTravelerService().isEmployee(traveler);
     }
-
-
 
     /**
      * Gets the value of travelerService

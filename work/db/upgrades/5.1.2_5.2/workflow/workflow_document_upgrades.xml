@@ -170,7 +170,7 @@
 		</documentType>
 		<documentType>
 			<name>TAAR</name>
-			<label>Travel Agency Audit Report</label>
+			<label>Travel Agency Audit and Correction</label>
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
@@ -948,7 +948,7 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
-            <label>Moving and Relocation</label>
+            <label>Moving and Relocation Reimbursement</label>
             <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
@@ -1240,7 +1240,7 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
-            <label>Entertainment Document</label>
+            <label>Entertainment Reimbursement</label>
             <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>

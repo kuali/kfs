@@ -775,9 +775,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                         final boolean shouldHoldAdvance = shouldHoldAdvance();
 
                         for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            if ((shouldHoldEncumbrance && isEncumbrancePendingEntry(glpe)) || (shouldHoldAdvance && isAdvancePendingEntry(glpe))) {
-                                HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
-                                heldEntries.add(hee);
+                            if (((shouldHoldEncumbrance && isEncumbrancePendingEntry(glpe)) || (shouldHoldAdvance && isAdvancePendingEntry(glpe)))) {
+                                if (!glpe.isTransactionEntryOffsetIndicator()) {
+                                    HeldEncumbranceEntry hee = getTravelEncumbranceService().convertPendingEntryToHeldEncumbranceEntry(glpe);
+                                    heldEntries.add(hee);
+                                }
                                 getBusinessObjectService().delete(glpe);
                             } else {
                                 glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED); // we shouldn't hit this block but if for some weird reason we do, let's approve the glpe
@@ -812,9 +814,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (getTripEnd() == null) {
             return false; // we won't hold encumbrances if we don't know when the trip is ending
         }
-        final Integer heldEncumbranceFiscalYear = getUniversityDateService().getFiscalYear(new java.sql.Date(getTripEnd().getTime()));
-        final boolean holdEncumbrance = heldEncumbranceFiscalYear == null;
-        return holdEncumbrance;
+        final java.sql.Date tripEnd = new java.sql.Date(getTripEnd().getTime());
+        return getTravelEncumbranceService().shouldHoldEntries(tripEnd);
+
     }
 
     /**
@@ -823,12 +825,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected boolean shouldHoldAdvance() {
         if (shouldProcessAdvanceForDocument() && getTravelAdvance().getDueDate() != null) {
-            final Integer heldAdvanceFiscalYear = getUniversityDateService().getFiscalYear(getTravelAdvance().getDueDate());
-            final boolean holdAdvance = heldAdvanceFiscalYear == null;
-            return holdAdvance;
+          return getTravelEncumbranceService().shouldHoldEntries(getTravelAdvance().getDueDate());
         }
         return false;
     }
+
+
 
     /**
      * Determines if the given general ledger pending entry represents an encumbrance entry
@@ -1052,7 +1054,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting();
         }
-       throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
     /**
@@ -1174,7 +1176,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public boolean hasCustomDVDistribution(){
-       return true;
+        return true;
     }
 
     /**
@@ -1446,7 +1448,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return getAdvanceAccountingLines();
     }
 
-   public String  getHoldRequestorPersonName() {
+    public String  getHoldRequestorPersonName() {
         if(StringUtils.isNotBlank(holdRequestorprincipalId)) {
             Person person = getPersonService().getPerson(holdRequestorprincipalId);
             return person.getName();

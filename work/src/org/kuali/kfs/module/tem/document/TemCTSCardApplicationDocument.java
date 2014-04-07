@@ -69,7 +69,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
-        if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
+        if (status.equals(DocumentStatus.PROCESSED)){
             TemProfileAccount profileAccount = new TemProfileAccount();
             Calendar cal = Calendar.getInstance();
             profileAccount.setEffectiveDate(new java.sql.Date(cal.getTimeInMillis()));

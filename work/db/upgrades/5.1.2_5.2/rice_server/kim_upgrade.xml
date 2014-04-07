@@ -2,7 +2,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
-	<changeSet author="KFSTEM" id="KFSMI-8898">
+	<changeSet author="KFSTEM" id="KFSMI-658">
 		<update tableName="krim_role_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
 			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Travel Manager'</where>
@@ -56,6 +56,48 @@
 			<column name="nmspc_cd" value="KFS-SYS"/>
 			<column name="desc_txt" value="Central administration users charged with reviewing financial documents exceeding an account's sufficient funds balance."/>
 			<where>role_id = '79'</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="KFSTEM" id="KFSTP-1189">
+		<!-- delete PREQ Tax -->
+		<delete tableName="krim_role_rsp_actn_t">
+			<where>role_rsp_id in (select role_rsp_id from krim_role_rsp_t where rsp_id = '74')</where>
+		</delete>
+		<delete tableName="krim_role_rsp_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		<delete tableName="krim_rsp_attr_data_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		<delete tableName="krim_rsp_t">
+			<where>rsp_id = '74'</where>
+		</delete>
+		
+		<!-- delete PO Tax -->
+		<delete tableName="krim_role_rsp_actn_t">
+			<where>role_rsp_id in (select role_rsp_id from krim_role_rsp_t where rsp_id = '80')</where>
+		</delete>
+		<delete tableName="krim_role_rsp_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		<delete tableName="krim_rsp_attr_data_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		<delete tableName="krim_rsp_t">
+			<where>rsp_id = '80'</where>
+		</delete>
+		
+		<!-- turn DV Tax into KFS Tax -->
+		<update tableName="krim_rsp_t">
+			<column name="nmspc_cd" value="KFS-SYS"/>
+			<column name="nm" value="Review KFS Tax"/>
+			<column name="desc_txt" value="Responsibility for tax purposes review on any KFS document." />
+			<where>rsp_id = '49'</where>
+		</update>
+		<update tableName="krim_rsp_attr_data_t">
+			<column name="attr_val" value="KFS"/>
+			<where>attr_data_id = 'KFS158'</where>
 		</update>
 	</changeSet>
 	

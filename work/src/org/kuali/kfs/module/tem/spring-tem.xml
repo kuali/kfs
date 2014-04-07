@@ -316,9 +316,6 @@
 	<bean id="TravelDocument-addActualExpenseListener" parent="TravelDocument-addActualExpenseListener-parentBean" />
 	<bean id="TravelDocument-addActualExpenseListener-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.listener.ActualExpenseListener" />
 	
-	<bean id="TravelDocument-importedExpenseListener" parent="TravelDocument-importedExpenseListener-parentBean" />
-	<bean id="TravelDocument-importedExpenseListener-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.listener.ImportedExpenseListener" />
-
 	<bean id="temTravelReimbursementService" parent="temTravelReimbursementService-parentBean" />
 	<bean id="temTravelReimbursementService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.TravelReimbursementServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -342,7 +339,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>
@@ -368,7 +364,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>
@@ -398,7 +393,8 @@
 		<property name="personService" ref="personService" />
 		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService"/>
-		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>		
+		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>	
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="travelSummaryByDayReportService" parent="travelSummaryByDayReportService-parentBean" />
@@ -513,11 +509,8 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temRoleService" ref="temRoleService" />
-		<property name="travelerService" ref="travelerService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
-		<property name="kualiRuleService" ref="kualiRuleService" />
 		<property name="stateService" ref="stateService" />
-		<property name="persistenceStructureService" ref="persistenceStructureService"/>
+		<property name="configurationService" ref="configurationService"/>
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="defaultAcceptableFileExtensions">
 			<list>
@@ -540,7 +533,7 @@
 	</bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
-    <bean id="travelEncumbranceService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelEncumbranceServiceImpl" abstract="true">
+    <bean id="travelEncumbranceService-parentBean" class="org.kuali.kfs.module.tem.service.impl.TravelEncumbranceServiceImpl" abstract="true">
       <property name="businessObjectService" ref="businessObjectService" />
       <property name="travelDocumentService" ref="travelDocumentService" />
       <property name="documentService" ref="documentService" />
@@ -554,6 +547,7 @@
       <property name="dateTimeService" ref="dateTimeService"/>
       <property name="universityDateService" ref="universityDateService"/>
       <property name="accountingPeriodService" ref="accountingPeriodService"/>
+      <property name="optionsService" ref="optionsService"/>
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
@@ -577,7 +571,6 @@
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
-				<ref bean="TravelDocument-importedExpenseListener" />
 			</list>
 		</property>
 	</bean>
@@ -861,7 +854,7 @@
 				<value>unusedValueHolder</value>
 
 				<value>effectiveDateAsString</value>
-				<value>unusedValueHolder</value>
+				<value>expirationDateAsString</value>
 
 				<value>seasonBeginDateAsString</value>
 				<value>seasonEndDateAsString</value>

@@ -49,10 +49,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 @Transactional
 public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument> {
     protected ConfigurationService ConfigurationService;

@@ -572,5 +572,4 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
-
 }

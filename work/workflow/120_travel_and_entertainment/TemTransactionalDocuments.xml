@@ -704,7 +704,7 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
-            <label>Moving and Relocation</label>
+            <label>Moving and Relocation Reimbursement</label>
             <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
@@ -996,7 +996,7 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
-            <label>Entertainment Document</label>
+            <label>Entertainment Reimbursement</label>
             <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>

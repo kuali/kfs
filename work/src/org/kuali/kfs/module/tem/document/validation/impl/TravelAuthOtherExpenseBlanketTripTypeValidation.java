@@ -23,8 +23,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
    public class TravelAuthOtherExpenseBlanketTripTypeValidation extends GenericValidation {
-       //@Override
-       @Override
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
            boolean rulePassed = true;
            TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();

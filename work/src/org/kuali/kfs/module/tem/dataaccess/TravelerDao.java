@@ -22,8 +22,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 
 /**
  * This is the data access interface for Travelers.
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public interface TravelerDao {
 

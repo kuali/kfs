@@ -22,7 +22,6 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -30,6 +29,7 @@ import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentImportedExpenseDetailLineValidation extends GenericValidation {
+    protected DictionaryValidationService dictionaryValidationService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -72,6 +72,10 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
     }
 
     public DictionaryValidationService getDictionaryValidationService() {
-        return SpringContext.getBean(DictionaryValidationService.class);
+        return dictionaryValidationService;
+    }
+
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
     }
 }

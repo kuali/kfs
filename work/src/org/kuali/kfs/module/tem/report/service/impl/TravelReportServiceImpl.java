@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.report.DetailedReport;
 import org.kuali.kfs.module.tem.report.annotations.ReportStyle;
-import org.kuali.kfs.module.tem.report.annotations.Summary;
 import org.kuali.kfs.module.tem.report.service.TravelReportFactoryService;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.sys.report.ReportInfo;
@@ -48,9 +47,9 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
  *
  */
 public class TravelReportServiceImpl implements TravelReportService {
-    
+
     public static Logger LOG = Logger.getLogger(TravelReportServiceImpl.class);
-    
+
     private ReportGenerationService reportGenerationService;
     private TravelReportFactoryService reportFactoryService;
 
@@ -65,18 +64,18 @@ public class TravelReportServiceImpl implements TravelReportService {
         final Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put("report", report);
 
-        final Collection<JasperPrint> printObjs = new ArrayList<JasperPrint>();        
+        final Collection<JasperPrint> printObjs = new ArrayList<JasperPrint>();
 
         final Collection<Field> subreportFields = getReportFactoryService().getSubreportFieldsFrom(report);
-        
+
         if (subreportFields.size() > 0) {
             LOG.info("######################################################################");
             LOG.info("# BEGINNING PROCESSING SUBREPORTS                                    #");
             LOG.info("######################################################################");
         }
-        
+
         for (final Field subreportField : subreportFields) {
-            subreportField.setAccessible(true);                        
+            subreportField.setAccessible(true);
             final JasperReport reportObj = getReportFactoryService().processReportForField(report, subreportField);
             if (reportObj != null) {
                 reportObj.setWhenNoDataType(JasperReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
@@ -95,7 +94,7 @@ public class TravelReportServiceImpl implements TravelReportService {
         int i = 0;
         while (addMoreReports) {
             final JasperDesign designObj = getReportFactoryService().designReport(report, i);
-            
+
             if (designObj != null) {
                 final JasperReport reportObj = JasperCompileManager.compileReport(designObj);
                 reportObj.setWhenNoDataType(JasperReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
@@ -107,19 +106,11 @@ public class TravelReportServiceImpl implements TravelReportService {
                 addMoreReports = false;
             }
             i++;
-        }        
-        
-        if (getReportFactoryService().hasSummary(report)) {
-            final JasperDesign designObj = getReportFactoryService().designSummary(report);            
-            final JasperReport reportObj = JasperCompileManager.compileReport(designObj);
-            reportObj.setWhenNoDataType(JasperReport.WHEN_NO_DATA_TYPE_NO_DATA_SECTION);
-            
-            final Field summaryField = getReportFactoryService().getFieldWithAnnotation(report, Summary.class);
-            summaryField.setAccessible(true);
-            printObjs.add(JasperFillManager.fillReport(reportObj, reportData, (JRDataSource) summaryField.get(report)));
         }
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+
+
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final JRPdfExporter exporter = new JRPdfExporter();
         exporter.setParameter(JASPER_PRINT_LIST, printObjs);
         exporter.setParameter(OUTPUT_STREAM, baos);
@@ -135,7 +126,7 @@ public class TravelReportServiceImpl implements TravelReportService {
         }
         return baos;
     }
-    
+
     public void setReportGenerationService(final ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
     }
@@ -155,7 +146,7 @@ public class TravelReportServiceImpl implements TravelReportService {
     }
 
     /**
-     * Gets the reportFactoryService property. 
+     * Gets the reportFactoryService property.
      * @return Returns the reportFactoryService.
      */
     public TravelReportFactoryService getReportFactoryService() {

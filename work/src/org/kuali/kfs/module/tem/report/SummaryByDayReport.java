@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,10 +38,6 @@ import org.kuali.kfs.module.tem.report.annotations.TitleStyle;
 import org.kuali.kfs.sys.report.ReportInfoHolder;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 @JasperReport
 @ReportStyle("standard")
 @TitleStyle("standard")
@@ -51,7 +47,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     private String purpose;
     private String tripId;
     private String institution;
- 
+
     @Crosstab
     @Summary
     private JRDataSource summary;
@@ -71,10 +67,10 @@ public class SummaryByDayReport extends ReportInfoHolder {
     @Crosstab
     @SubReport
     private JRDataSource otherExpenses;
-    
+
     @Crosstab
     @SubReport
-    private JRDataSource weeklyTotal;    
+    private JRDataSource weeklyTotal;
 
     public SummaryByDayReport() {
         setReportTemplateClassPath(TEMPLATE_CLASSPATH);
@@ -91,7 +87,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public Date getBeginDate() {
         return this.beginDate;
     }
-    
+
     /**
      * Sets the value of beginDate
      *
@@ -109,7 +105,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public Date getEndDate() {
         return this.endDate;
     }
-    
+
     /**
      * Sets the value of endDate
      *
@@ -127,7 +123,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public String getTripId() {
         return this.tripId;
     }
-    
+
     /**
      * Sets the value of TripId
      *
@@ -145,7 +141,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public String getPurpose() {
         return this.purpose;
     }
-    
+
     /**
      * Sets the value of Purpose
      *
@@ -163,7 +159,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public String getInstitution() {
         return this.institution;
     }
-    
+
     /**
      * Sets the value of Institution
      *
@@ -173,7 +169,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
         this.institution = argInstitution;
     }
 
-   
+
     /**
      * Gets the value of Summary
      *
@@ -182,7 +178,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public JRDataSource getSummary() {
         return this.summary;
     }
-    
+
     /**
      * Sets the value of Summary
      *
@@ -200,7 +196,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public JRDataSource getLodging() {
         return this.lodging;
     }
-    
+
     /**
      * Sets the value of Lodging
      *
@@ -218,7 +214,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public JRDataSource getTransportation() {
         return this.transportation;
     }
-    
+
     /**
      * Sets the value of Transportation
      *
@@ -236,7 +232,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public JRDataSource getMeals() {
         return this.meals;
     }
-    
+
     /**
      * Sets the value of Meals
      *
@@ -254,7 +250,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public JRDataSource getOtherExpenses() {
         return this.otherExpenses;
     }
-    
+
     /**
      * Sets the value of Other
      *
@@ -263,22 +259,22 @@ public class SummaryByDayReport extends ReportInfoHolder {
     public void setOtherExpenses(final Collection<Detail> argOther) {
         this.otherExpenses = convertReportData(argOther);
     }
-    
+
     public JRDataSource getWeeklyTotal() {
         return weeklyTotal;
     }
 
     public void setWeeklyTotal(final Collection<Detail> argWeeklyTotal) {
         this.weeklyTotal = convertReportData(argWeeklyTotal);
-    }    
+    }
 
     public static class Detail {
         @ColumnHeader
         private String name;
-        
+
         @RowHeader
         private String date;
-        
+
         @Measure
         private BigDecimal amount;
 
@@ -292,7 +288,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
             }
             this.date = date;
         }
-        
+
         /**
          * Gets the value of Name
          *
@@ -301,7 +297,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
         public String getName() {
             return this.name;
         }
-        
+
         /**
          * Sets the value of Name
          *
@@ -310,7 +306,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
         public void setName(final String argName) {
             this.name = argName;
         }
-        
+
         /**
          * Gets the value of Amount
          *
@@ -319,7 +315,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
         public BigDecimal getAmount() {
             return this.amount;
         }
-        
+
         /**
          * Sets the value of Amount
          *
@@ -337,7 +333,7 @@ public class SummaryByDayReport extends ReportInfoHolder {
         public String getDate() {
             return this.date;
         }
-        
+
         /**
          * Sets the value of Date
          *

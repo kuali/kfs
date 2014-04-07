@@ -26,6 +26,8 @@
 			<ref bean="CreditCardAgency-preReconciled" />
 			<ref bean="CreditCardAgency-enableNonReimbursable" />
 			<ref bean="CreditCardAgency-vendorNumber" />
+			<ref bean="CreditCardAgency-vendorHeaderGeneratedIdentifier"/>
+			<ref bean="CreditCardAgency-vendorDetailAssignedIdentifier"/>
 			<ref bean="CreditCardAgency-foreignCompany" />
 			<ref bean="CreditCardAgency-bankCode" />
 			<ref bean="CreditCardAgency-bank.bankName" />
@@ -33,6 +35,18 @@
 			<ref bean="CreditCardAgency-versionNumber" />
 		</list>
 		</property>
+	    <property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+	              <property name="objectAttributeName" value="vendorDetail"/>
+	              <property name="primitiveAttributes">
+	                <list>
+	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorNumber" p:targetName="vendorNumber"/>
+	                </list>
+	              </property>
+	    		</bean>
+			</list>
+	    </property>
 	</bean>
 	<bean id="CreditCardAgency-creditCardOrAgencyCode" parent="CreditCardAgency-creditCardOrAgencyCode-parentBean" />
 	<bean id="CreditCardAgency-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -180,6 +194,16 @@
 		<property name="description" value="Vendor Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
+	<bean id="CreditCardAgency-vendorHeaderGeneratedIdentifier" parent="CreditCardAgency-vendorHeaderGeneratedIdentifier-parentBean" />
+	<bean id="CreditCardAgency-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CreditCardAgency-vendorDetailAssignedIdentifier" parent="CreditCardAgency-vendorDetailAssignedIdentifier-parentBean" />
+	<bean id="CreditCardAgency-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+		<property name="required" value="false" />
+	</bean>
+
 	<bean id="CreditCardAgency-foreignCompany" parent="CreditCardAgency-foreignCompany-parentBean" />
 	<bean id="CreditCardAgency-foreignCompany-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="foreignCompany" />
@@ -219,6 +243,7 @@
 	<bean id="CreditCardAgency-inquiryDefinition" parent="CreditCardAgency-inquiryDefinition-parentBean" />
 	<bean id="CreditCardAgency-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Credit Card or Agency Inquiry"/>
+		<property name="inquirableClass" value="org.kuali.kfs.module.tem.businessobject.inquiry.CreditCardAgencyInquirable"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">

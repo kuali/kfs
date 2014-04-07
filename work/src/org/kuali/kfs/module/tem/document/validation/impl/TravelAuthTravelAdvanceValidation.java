@@ -39,7 +39,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent;
@@ -60,6 +59,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     protected TemProfileService temProfileService;
     protected DocumentDictionaryService documentDictionaryService;
     protected TravelDocumentService travelDocumentService;
+    protected ParameterService parameterService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -124,9 +124,9 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             }
         }
 
-        boolean testCards = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CASH_ADVANCE_WARNING_IND);
+        boolean testCards = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CASH_ADVANCE_WARNING_IND);
         if (testCards){
-            Collection<String> cardTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
+            Collection<String> cardTypes = getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
             Map<String,String> cardTypeMap = new HashMap<String, String>();
             for (String cardType : cardTypes){
                 cardTypeMap.put(cardType.toUpperCase(), cardType.toUpperCase());
@@ -254,5 +254,11 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         this.travelDocumentService = travelDocumentService;
     }
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

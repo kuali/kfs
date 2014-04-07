@@ -40,6 +40,9 @@ import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentDistributionAccountingLinesValidation extends GenericValidation {
+    protected DictionaryValidationService dictionaryValidationService;
+    protected BusinessObjectService businessObjectService;
+    protected AccountingDistributionService accountingDistributionService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -67,7 +70,6 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
                     return false;
 
                 }
-
 
                 if (line.getAccountLinePercent() == null){
                     line.setAccountLinePercent(new BigDecimal(0));
@@ -127,6 +129,18 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
 
     public DictionaryValidationService getDictionaryValidationService() {
         return SpringContext.getBean(DictionaryValidationService.class);
+    }
+
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setAccountingDistributionService(AccountingDistributionService accountingDistributionService) {
+        this.accountingDistributionService = accountingDistributionService;
     }
 
     public AccountingDistributionService getAccountingDistributionService() {

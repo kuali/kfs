@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.service;
+package org.kuali.kfs.module.tem.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -214,5 +215,12 @@ public interface TravelEncumbranceService {
      * @param tripId the trip id who's been burned by its own held encumbrance entries one too many times and now has revenge on its mind
      */
     public void deleteHeldEncumbranceEntriesForTrip(String tripId);
+
+    /**
+     * Determines if entries should be held for the given trip date
+     * @param tripDate the trip date to determine if general ledger pending entries should be held for
+     * @return true if entries should be held, false otherwise
+     */
+    public boolean shouldHoldEntries(Date tripDate);
 
 }

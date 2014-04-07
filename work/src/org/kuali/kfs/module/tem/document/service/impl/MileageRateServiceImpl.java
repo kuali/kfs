@@ -34,25 +34,22 @@ public class MileageRateServiceImpl implements MileageRateService {
 
     @Override
     public MileageRate getMileageRateByExpenseTypeCode(MileageRate mileageRate) {
-           final Date fromDate = mileageRate.getActiveFromDate();
-           final Date toDate = mileageRate.getActiveToDate();
-           Map<String,Object> criteria = new HashMap<String,Object>();
-           criteria.put("expenseTypeCode", mileageRate.getExpenseTypeCode());
-           List<MileageRate>  mileageRates = (List<MileageRate>) businessObjectService.findMatching(MileageRate.class, criteria);
-           for (MileageRate rate : mileageRates) {
-               if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveToDate(), Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, rate.getActiveFromDate() , Calendar.DATE) >= 0)) {
-                   return rate;
-               }
+       final Date fromDate = mileageRate.getActiveFromDate();
+       final Date toDate = mileageRate.getActiveToDate();
+       Map<String,Object> criteria = new HashMap<String,Object>();
+       criteria.put("expenseTypeCode", mileageRate.getExpenseTypeCode());
+       List<MileageRate>  mileageRates = (List<MileageRate>) businessObjectService.findMatching(MileageRate.class, criteria);
+       for (MileageRate rate : mileageRates) {
+           if(!(rate.getId().equals(mileageRate.getId())) && (DateUtils.truncatedCompareTo(fromDate, rate.getActiveToDate(), Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, rate.getActiveFromDate() , Calendar.DATE) >= 0)) {
+               return rate;
            }
-
-           return null;
-
        }
 
+       return null;
+    }
 
     @Override
     public MileageRate findMileageRateByExpenseTypeCodeAndDate(String expenseTypeCode, Date effectiveDate) {
-
         for (MileageRate mileageRate : cachingMileageRateService.findAllMileageRates()) {
             if ((KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveFromDate()) || effectiveDate.after(mileageRate.getActiveFromDate())) && (KfsDateUtils.isSameDay(effectiveDate, mileageRate.getActiveToDate()) || effectiveDate.before(mileageRate.getActiveToDate())) && mileageRate.getExpenseTypeCode().equals(expenseTypeCode)) {
                 return mileageRate;
@@ -66,10 +63,7 @@ public class MileageRateServiceImpl implements MileageRateService {
         this.cachingMileageRateService = cachingMileageRateService;
     }
 
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-
 }

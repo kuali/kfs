@@ -14957,23 +14957,16 @@
         <column name="CC_STG_DAT_ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TC0">
+        <unique name="TEM_CC_IMP_EXP_CLR_DTL_TC0">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TP1">
-            <unique-column name="FDOC_NBR"/>
-            <unique-column name="CC_STG_DAT_ID"/>
         </unique>
     </table>
     <table name="TEM_CC_IMP_EXP_CLR_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <unique name="TEM_CC_IMP_EXP_CLR_T_TC0">
+        <unique name="TEM_CC_IMP_EXP_CLR_TC0">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="TEM_CC_IMP_EXP_CLR_T_TP1">
-            <unique-column name="FDOC_NBR"/>
         </unique>
     </table>
     <table name="TEM_CLASS_SVC_T">
@@ -15349,11 +15342,8 @@
         <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_MILEAGE_RT_TR1">
             <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
         </foreign-key>
-        <unique name="TEM_MILEAGE_RATE_TC0">
+        <unique name="TEM_MILEAGE_RT_TC0">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="TEM_MILEAGE_RATE_TP1">
-            <unique-column name="ID"/>
         </unique>
     </table>
     <table name="TEM_PER_DIEM_EXP_T">

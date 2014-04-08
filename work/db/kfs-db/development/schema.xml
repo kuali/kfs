@@ -1274,9 +1274,7 @@
         <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="CUST_ADDR_NM" size="40" type="VARCHAR"/>
         <column name="CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="PREF_CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
-        <column name="PREF_INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
@@ -15822,7 +15820,7 @@
     </table>
     <table name="TEM_EM_CONT_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
+        <column name="FDOC_NBR" size="255" type="VARCHAR"/>
         <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
         <column name="CONT_REL_TYP_CD" required="true" size="3" type="VARCHAR"/>
         <column name="CONT_NM" size="40" type="VARCHAR"/>
@@ -15930,9 +15928,9 @@
     </table>
     <table name="TEM_EXP_TYP_T">
         <column name="EXP_TYP_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="EXP_TYP_NM" required="true" size="100" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="EXP_TYP_NM" size="100" type="VARCHAR"/>
         <column name="GRP_TRVL_IND" size="1" type="VARCHAR"/>
         <column name="EXP_DETAIL_REQ_IND" size="1" type="VARCHAR"/>
         <column name="EXP_PRPY_IND" size="1" type="VARCHAR"/>
@@ -15940,23 +15938,20 @@
         <column name="ACTV_IND" size="1" type="VARCHAR"/>
         <column name="HOSTED_IND" size="2" type="VARCHAR"/>
         <column name="EXP_TYP_META_CTGRY_CD" size="1" type="VARCHAR"/>
-        <column name="CTGRY_DFLT_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="CTGRY_DFLT_IND" size="1" type="VARCHAR"/>
         <unique name="TEM_EXP_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
     <table name="TEM_GRP_TRVLR_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
+        <column name="FDOC_NBR" size="255" type="VARCHAR"/>
         <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
         <column name="NAME" size="100" type="VARCHAR"/>
         <column name="TRAVELER_TYP_CD" required="true" size="3" type="VARCHAR"/>
         <column name="TRVL_EMP_ID" size="255" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_TRAVELER_TYP_T" name="TEM_GRP_TRVLR_TR1">
-            <reference foreign="CODE" local="TRAVELER_TYP_CD"/>
-        </foreign-key>
         <unique name="TEM_GRP_TRVLR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16055,7 +16050,7 @@
         <column name="ACTV_TO_DT" required="true" type="DATE"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="EXP_TYP_CD" required="true" size="2" type="VARCHAR"/>
+        <column name="EXP_TYP_CD" size="2" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_MILEAGE_RT_TR1">
             <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
         </foreign-key>
@@ -16172,7 +16167,7 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="CREDIT_CARD_AGENCY_CODE" required="true" size="4" type="VARCHAR"/>
+        <column name="CREDIT_CARD_AGENCY_CODE" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_PROFILE_T" name="TEM_PROFILE_ACCOUNT_TR1">
             <reference foreign="PROFILE_ID" local="PROFILE_ID"/>
         </foreign-key>
@@ -16209,6 +16204,31 @@
             <reference foreign="PROFILE_ID" local="PROFILE_ID"/>
         </foreign-key>
         <unique name="TEM_PROFILE_ARRANGER_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_PROFILE_CUST_T">
+        <column name="CUST_NBR" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="CUSTOMER_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="CUST_NM" size="19" type="VARCHAR"/>
+        <column name="CUST_PHONE_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_TAX_NBR" size="40" type="VARCHAR"/>
+        <column name="CUST_TAX_TYP_CD" size="4" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="ADDRESS_NAME" size="40" type="VARCHAR"/>
+        <column name="ADDR_LINE_1" size="50" type="VARCHAR"/>
+        <column name="ADDR_LINE_2" size="50" type="VARCHAR"/>
+        <column name="CITY_NM" size="30" type="VARCHAR"/>
+        <column name="STATE_CD" size="40" type="VARCHAR"/>
+        <column name="ZIP_CD" size="10" type="VARCHAR"/>
+        <column name="INTL_PROV_NM" size="45" type="VARCHAR"/>
+        <column name="CUST_EMAIL_ADDR" size="40" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_CUST_TYP_T" name="TEM_PROFILE_CUST_TR1">
+            <reference foreign="CUST_TYP_CD" local="CUSTOMER_TYP_CD"/>
+        </foreign-key>
+        <unique name="TEM_PROFILE_CUST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16427,6 +16447,28 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="TEM_TRAVELER_PROF_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="FIRST_NM" size="40" type="VARCHAR"/>
+        <column name="LAST_NM" size="40" type="VARCHAR"/>
+        <column name="ADDR_LINE_1" size="50" type="VARCHAR"/>
+        <column name="ADDR_LINE_2" size="50" type="VARCHAR"/>
+        <column name="CITY_NM" size="50" type="VARCHAR"/>
+        <column name="POSTAL_STATE_CD" size="50" type="VARCHAR"/>
+        <column name="POSTAL_CD" size="50" type="VARCHAR"/>
+        <column name="COUNTRY_CD" size="50" type="VARCHAR"/>
+        <column name="EMAIL_ADDR" size="50" type="VARCHAR"/>
+        <column name="PHONE_NBR" size="20" type="VARCHAR"/>
+        <column name="TRAVELER_TYP_CD" required="true" size="3" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_TRAVELER_TYP_T" name="TEM_TRAVELER_PROF_TR1">
+            <reference foreign="CODE" local="TRAVELER_TYP_CD"/>
+        </foreign-key>
+        <unique name="TEM_TRAVELER_PROF_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="TEM_TRAVELER_TYP_T">
         <column name="CODE" primaryKey="true" size="3" type="VARCHAR"/>
         <column name="NM" required="true" size="40" type="VARCHAR"/>
@@ -16435,6 +16477,40 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <unique name="TEM_TRAVELER_TYP_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_TRIP_DTL_EST_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="FDOC_NBR" size="255" type="VARCHAR"/>
+        <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
+        <column name="DETAIL_DT" type="DATE"/>
+        <column name="COUNTRY" size="100" type="VARCHAR"/>
+        <column name="COUNTY_CD" size="100" type="VARCHAR"/>
+        <column name="PRI_DEST" size="100" type="VARCHAR"/>
+        <column name="PERSONAL" size="1" type="VARCHAR"/>
+        <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
+        <column name="MILES" size="22" type="DECIMAL"/>
+        <column name="MILEAGE_RT_ID" size="22" type="DECIMAL"/>
+        <column default="0" name="OTHER_EXP" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACCOM_TYP_CD" size="4" type="VARCHAR"/>
+        <column name="ACCOM_NM" size="255" type="VARCHAR"/>
+        <column name="ACCOM_PH" size="20" type="VARCHAR"/>
+        <column name="ACCOM_ADDRESS" size="255" type="VARCHAR"/>
+        <column name="PER_DIEM_ID" required="true" size="22" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_MILEAGE_RT_T" name="TEM_TRIP_DTL_EST_TR1">
+            <reference foreign="ID" local="MILEAGE_RT_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_ACCOMM_TYP_T" name="TEM_TRIP_DTL_EST_TR2">
+            <reference foreign="CODE" local="ACCOM_TYP_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRIP_DTL_EST_TR3">
+            <reference foreign="ID" local="PER_DIEM_ID"/>
+        </foreign-key>
+        <unique name="TEM_TRIP_DTL_EST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16683,8 +16759,8 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CHK_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="DUE_DT" type="DATE"/>
-        <column default="N" name="ATTCH_IND" size="1" type="VARCHAR"/>
-        <column default="N" name="SPCL_HANDLG_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="ATTCH_IND" size="1" type="CHAR"/>
+        <column default="N" name="SPCL_HANDLG_IND" size="1" type="CHAR"/>
         <column name="CHK_STUB_TXT" size="1400" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
         <column name="EXTRT_DT" type="DATE"/>
@@ -16692,7 +16768,7 @@
         <column name="CNCL_DT" type="DATE"/>
         <column name="DOC_LOC_CD" size="2" type="VARCHAR"/>
         <column name="PMT_MTHD_CD" size="1" type="VARCHAR"/>
-        <column default="N" name="ALIEN_PMT_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="ALIEN_PMT_IND" size="1" type="CHAR"/>
         <column name="RMT_PRSN_NM" size="123" type="VARCHAR"/>
         <column name="RMT_LN1_ADDR" size="45" type="VARCHAR"/>
         <column name="RMT_LN2_ADDR" size="45" type="VARCHAR"/>
@@ -16700,7 +16776,7 @@
         <column name="RMT_ST_CD" size="2" type="VARCHAR"/>
         <column name="RMT_ZIP_CD" size="20" type="VARCHAR"/>
         <column name="RMT_CNTRY_CD" size="2" type="VARCHAR"/>
-        <column default="N" name="W9_CMPLT_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="W9_CMPLT_IND" size="1" type="CHAR"/>
         <column name="PAYEE_TYP_CD" size="1" type="VARCHAR"/>
         <column default="N" name="EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="TEM_TRVL_PMT_TR1">

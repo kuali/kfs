@@ -357,7 +357,6 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-FP","InternalBilling","SUB_FUND_GROUPS","KFS271","1","VALID","PFRI;PFIP","Sub-Fund Group(s) restricted from use on the Internal Billing document.","D","KFS"
 "KFS-FP","IntraAccountAdjustment","OBJECT_TYPES","KFSCNTRB739_1","1","VALID","IN;EX","Allowed object type code(s) for use on the Intra-Account Adjustment document.","A","KFS"
 "KFS-FP","IntraAccountAdjustment","OBJECT_SUB_TYPES","KFSCNTRB739_2","1","VALID","FR;HW;SA","Object Sub-Type(s) restricted from use on the Intra-Account Adjustment document.","D","KFS"
-"KFS-FP","JournalVoucher","ALLOWED_BUDGET_BALANCE_TYPES","KFSCNTRB-1771_JV_BB_TYPES","1","VALID","BB;CB;MB","Budget Type Codes allowed on a Journal Voucher","A","KFS"
 "KFS-FP","NonCheckDisbursement","OBJECT_CONSOLIDATIONS","KFS272","1","VALID","","Object Consolidation(s) restricted from use on the Non-Check Disbursement document.","D","KFS"
 "KFS-FP","NonCheckDisbursement","OBJECT_SUB_TYPES","KFS273","1","VALID","BU;CA;FB;HW;SA;VA;RE;MT;FR;CE","Object Sub-Type(s) restricted from use on the Non-Check Disbursement document.","D","KFS"
 "KFS-FP","NonCheckDisbursement","OBJECT_TYPES","KFS274","1","VALID","IC;ES","Object Type(s) restricted from use on the Non-Check Disbursement document.","D","KFS"

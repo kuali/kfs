@@ -33,18 +33,12 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 import static org.kuali.kfs.sys.KFSKeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
 import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -94,25 +88,13 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
                 return false;
             }
             else if (amount.isNegative()) {
-            	if (!allowNegativeAmounts(getAccountingLineForValidation())) {
+                if (!getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET)) {
                     GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }
         }
 
         return true;
-    }
-    
-    /**
-     * This method retrieves the parameter values that define the allowable balance type codes and determines if negative amounts
-     * are allowed for the associated accounting line.
-     * 
-     * @param acctLine The accounting line which will be used to determine if negative amounts are allowed.
-     * @return True if the accounting line has a balance type found in the associated parameter, false otherwise.
-     */
-    private boolean allowNegativeAmounts(AccountingLine acctLine) {
-    	Collection<String> budgetTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(JournalVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.FP_ALLOWED_BUDGET_BALANCE_TYPES);
-    	return budgetTypes.contains(acctLine.getBalanceTypeCode());
     }
     
     /**

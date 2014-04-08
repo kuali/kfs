@@ -30,7 +30,6 @@
         <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.chartCode"/>
         <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.unitCode"/>
         <ref bean="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode"/>
-        <ref bean="BankChangeHistory-id"/>
         <ref bean="BankChangeHistory-custPaymentDocNbr"/>
         <ref bean="BankChangeHistory-purchaseOrderNbr"/>
         <ref bean="BankChangeHistory-invoiceNbr"/>
@@ -63,18 +62,6 @@
   <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode" parent="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode-parentBean"/>
   <bean id="BankChangeHistory-paymentGroup.batch.customerProfile.subUnitCode-parentBean" abstract="true" parent="CustomerProfile-subUnitCode">
     <property name="name" value="paymentGroup.batch.customerProfile.subUnitCode"/>
-  </bean> 
-  
-  <bean id="BankChangeHistory-id" parent="BankChangeHistory-id-parentBean"/>
-  <bean id="BankChangeHistory-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="id"/>
-    <property name="label" value="Id"/>
-    <property name="shortLabel" value="Id"/>
-    <property name="maxLength" value="25"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control" ref="HiddenControl" />
   </bean> 
   
   <bean id="BankChangeHistory-custPaymentDocNbr" parent="BankChangeHistory-custPaymentDocNbr-parentBean"/>

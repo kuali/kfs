@@ -69,7 +69,7 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
         Set<Person> persons = new HashSet<Person>();
 
         for (ActionTaken actionTaken : actionsTaken) {
-            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken().getCode())) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
                 String principalId = actionTaken.getPrincipalId();
                 if (!principalIds.contains(principalId)) {
                     principalIds.add(principalId);

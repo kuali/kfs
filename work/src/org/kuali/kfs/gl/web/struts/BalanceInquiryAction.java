@@ -39,8 +39,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -48,11 +46,9 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
 
 /**
  * This class handles Actions for lookup flow
@@ -363,20 +359,8 @@ public class BalanceInquiryAction extends KualiAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        org.kuali.rice.kns.datadictionary.BusinessObjectEntry boe = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
-
-        Map<String, String> permissionDetails = KRADUtils.getNamespaceAndComponentSimpleName(boe.getDataObjectClass());
-        if (!KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(GlobalVariables.getUserSession().getPrincipalId(),
-                KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, permissionDetails,
-                new HashMap<String,String>()))
-        {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(),
-                    KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS,
-                    boe.getDataObjectClass().getSimpleName());
-        }
-
         request.setAttribute(KRADConstants.PARAM_MAINTENANCE_VIEW_MODE, KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
-
+        org.kuali.rice.kns.datadictionary.BusinessObjectEntry boe = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
         int numCols = boe.getLookupDefinition().getNumOfColumns();
         if (numCols <= 0) {
             numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.

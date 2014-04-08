@@ -55,6 +55,7 @@
         <ref bean="PaymentGroupHistory-pmtCancelExtractStat"/>
         <ref bean="PaymentGroupHistory-pmtCancelExtractDate"/> 
         <ref bean="PaymentGroupHistory-changeNoteText"/> 
+        <ref bean="PaymentGroupHistory-id"/>
                
       </list>
     </property>

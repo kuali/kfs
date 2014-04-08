@@ -11,3 +11,4 @@
 "KFSSEC1005","KFSSEC1005","1","KFS-SEC","Edit Accounting Line with Field Value","","KFSSEC1","Y"
 "KFSSEC1006","KFSSEC1006","1","KFS-SEC","Lookup with Field Value","","KFSSEC2","Y"
 "KFSSEC1007","KFSSEC1007","1","KFS-SEC","Balance Inquiry with Field Value","","KFSSEC3","Y"
+"KFS10444","KFS-TEM-PERM-TMPL-001","1","KFS-SYS","View Record","Template for permissions which restrict the ability to view specific records in a lookup.","10","Y"

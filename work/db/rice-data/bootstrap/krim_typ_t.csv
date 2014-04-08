@@ -36,7 +36,14 @@
 "KFSSEC2","KFSSEC2","1","Attribute Name","{http://kfs.kuali.org/kfs/v5_0}securityAttributePermissionTypeService","Y","KFS-SEC"
 "KFSSEC3","KFSSEC3","1","Attribute Name & Namespace","{http://kfs.kuali.org/kfs/v5_0}securityAttributeNamespacePermissionTypeService","Y","KFS-SEC"
 "KFSSEC4","KFSSEC4","1","Constraint, Operator, & Value","{http://kfs.kuali.org/kfs/v5_0}securityAttributeRoleTypeService","Y","KFS-SEC"
-KFSMI4553-1,KFSMI4553-1,1,Exclude Single Actor Separation Of Duties,{http://kfs.kuali.org/kfs/v5_0}excludeSingleActorSeparationOfDutiesRoleTypeService,Y,KFS-SYS
-KFSMI6886-TYP,KFSMI6886-TYP,1,Payee ACH Account,{http://kfs.kuali.org/kfs/v5_0}payeeACHAccountRoleTypeService,Y,KFS-PDP
+"KFSMI4553-1","KFSMI4553-1","1","Exclude Single Actor Separation Of Duties","{http://kfs.kuali.org/kfs/v5_0}excludeSingleActorSeparationOfDutiesRoleTypeService","Y","KFS-SYS"
+"KFSMI6886-TYP","KFSMI6886-TYP","1","Payee ACH Account","{http://kfs.kuali.org/kfs/v5_0}payeeACHAccountRoleTypeService","Y","KFS-PDP"
 "KFSCNTRB199-TYP1","KFSCNTRB199-TYP1","1","Namespace or File Path","{http://kfs.kuali.org/kfs/v5_0}namespaceOrFilePathPermissionTypeService","Y","KFS-SYS"
 "KFSMI9562-TYP","KFSMI9562-TYP","1","Default","{http://kfs.kuali.org/kfs/v5_0}defaultRoleTypeService","Y","KFS-SYS"
+"KFS10248","KFS-TEM-TYP-001","1","Derived Role: Travel Document","{http://kfs.kuali.org/kfs/v5_0}travelerDerivedRoleTypeService","Y","KFS-TEM"
+"KFS10249","KFS-TEM-TYP-002","1","Derived Role: TEM Profile","{http://kfs.kuali.org/kfs/v5_0}temProfileDerivedRoleTypeService","Y","KFS-TEM"
+"KFS10250","KFS-TEM-TYP-003","1","TEM Profile Organization Hierarchy","{http://kfs.kuali.org/kfs/v5_0}temProfileOrganizationHierarchyRoleTypeService","Y","KFS-TEM"
+"KFS10251","KFS-TEM-TYP-004","1","TEM Profile Arranger Organization Hierarchy","{http://kfs.kuali.org/kfs/v5_0}temProfileArrangerOrganizationHierarchyRoleTypeService","Y","KFS-TEM"
+"KFS10252","KFS-TEM-TYP-005","1","Derived Role: TEM Profile Arranger","{http://kfs.kuali.org/kfs/v5_0}arrangerDerivedRoleTypeService","Y","KFS-TEM"
+"KFS10254","KFS-TEM-TYP-007","1","Job Classification","{http://kfs.kuali.org/kfs/v5_0}temExecutiveManagerRoleTypeService","Y","KFS-TEM"
+"KFS10681","KFS-TEM-TYP-008","1",""Chart"," Organization"," and Reimburesment Overage Percentage"","{http://kfs.kuali.org/kfs/v5_0}reimbursementOverageOrganizationHierarchyRoleTypeService","Y","KFS-TEM"

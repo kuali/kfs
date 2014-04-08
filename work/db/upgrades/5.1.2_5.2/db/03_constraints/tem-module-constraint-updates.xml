@@ -360,17 +360,6 @@
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
 			columnName="PRIMARY_IND" columnDataType="VARCHAR2(1)" />
-		<addForeignKeyConstraint constraintName="TEM_PROFILE_CUST_TR1"
-			baseTableName="TEM_PROFILE_CUST_T" baseColumnNames="CUSTOMER_TYP_CD"
-			referencedTableName="AR_CUST_TYP_T" referencedColumnNames="CUST_TYP_CD" />
-		<addUniqueConstraint tableName="TEM_PROFILE_CUST_T"
-			constraintName="TEM_PROFILE_CUST_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_PROFILE_EM_CONT_TR1"
 			baseTableName="TEM_PROFILE_EM_CONT_T" baseColumnNames="CONT_REL_TYP_CD"
 			referencedTableName="TEM_CONT_REL_TYP_T" referencedColumnNames="CODE" />
@@ -512,17 +501,6 @@
 			columnName="LIABILITY_INSURANCE" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
-		<addForeignKeyConstraint constraintName="TEM_TRAVELER_PROF_TR1"
-			baseTableName="TEM_TRAVELER_PROF_T" baseColumnNames="TRAVELER_TYP_CD"
-			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
-		<addUniqueConstraint tableName="TEM_TRAVELER_PROF_T"
-			constraintName="TEM_TRAVELER_PROF_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
-			columnName="TRAVELER_TYP_CD" columnDataType="VARCHAR2(3)" />
 		<addUniqueConstraint tableName="TEM_TRAVELER_TYP_T"
 			constraintName="TEM_TRAVELER_TYP_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
@@ -535,20 +513,6 @@
 			columnName="ADVANCES_IND" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
-		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR2"
-			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="ACCOM_TYP_CD"
-			referencedTableName="TEM_ACCOMM_TYP_T" referencedColumnNames="CODE" />
-		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR3"
-			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="PER_DIEM_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
-		<addUniqueConstraint tableName="TEM_TRIP_DTL_EST_T"
-			constraintName="TEM_TRIP_DTL_EST_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
-			columnName="PER_DIEM_ID" columnDataType="NUMBER(22,0)" />
 		<addUniqueConstraint tableName="TEM_TRIP_TYP_T"
 			constraintName="TEM_TRIP_TYP_TC0" columnNames="OBJ_ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRIP_TYP_TR1"

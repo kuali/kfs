@@ -1609,6 +1609,19 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return getCsvRecordFactory().newInstance(header, record);
     }
 
+    @Override
+    public boolean isUnsuccessful(TravelDocument document) {
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        List<String> unsuccessful = KewApiConstants.DOCUMENT_STATUS_PARENT_TYPES.get(KewApiConstants.DOCUMENT_STATUS_PARENT_TYPE_UNSUCCESSFUL);
+        for (String tempStatus : unsuccessful){
+            if (status.equals(tempStatus)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Turns the injected List of groupTravelerHeaders into a Map where the key is the name and the value is a single element array holding the position of the column (which is assumed to be in the order the columns were injected)
      * @return a Map of columns and positions

@@ -1063,14 +1063,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // checking this is causing a RuntimeException when the workflow document is null (when generating a report).
         // apparently even checking if a workflow document is null will cause it to send a RuntimeException - hence the try catch.
         boolean workflowCheck = false;
-
-        List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
-        for (RouteNodeInstance routeNode : nodes){
-            if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
-                workflowCheck = true;
+        try {
+            List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
+            for (RouteNodeInstance routeNode : nodes){
+                if (routeNode.getName().equals(KFSConstants.RouteLevelNames.ACCOUNT)){
+                    workflowCheck = true;
+                }
             }
+            workflowCheck &= reqForm.getWorkflowDocument().isEnroute();
         }
-        workflowCheck &= reqForm.getWorkflowDocument().isEnroute();
+        catch (RuntimeException e) {
+            // Do not propagate this exception.
+           LOG.info("Could not retrieve the workflow document. This is most likely normal and ok in this case.");
+        }
 
         return getTravelDocumentService().isResponsibleForAccountsOn(reqForm.getTravelDocument(), GlobalVariables.getUserSession().getPerson().getPrincipalId()) && workflowCheck;
     }

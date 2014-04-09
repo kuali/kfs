@@ -1526,6 +1526,7 @@
 			<column name="BNKRPTCY_REVIEW_DT" type="datetime" />
 			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
 			<column name="STOP_WRK_REASON_TXT" type="varchar(120)" />
+			<column name="CUST_INV_TMPLT_CD" type="varchar(10)" />
 		</addColumn>
 
 		<modifySql dbms="oracle">

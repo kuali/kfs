@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -67,13 +67,14 @@ public class PurchaseOrderPdf extends PurapPdf {
     }
 
     /**
-     * Overrides the method in PdfPageEventHelper from itext to create and set the headerTable and set its logo image if 
+     * Overrides the method in PdfPageEventHelper from itext to create and set the headerTable and set its logo image if
      * there is a logoImage to be used, creates and sets the nestedHeaderTable and its content.
-     * 
+     *
      * @param writer    The PdfWriter for this document.
      * @param document  The document.
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onOpenDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
+    @Override
     public void onOpenDocument(PdfWriter writer, Document document) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("onOpenDocument() started. isRetransmit is " + isRetransmit);
@@ -87,7 +88,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             headerTable.getDefaultCell().setBorderWidth(0);
             headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
-            
+
             Image logo = null;
             if (StringUtils.isNotBlank(logoImage)) {
                 try {
@@ -95,9 +96,9 @@ public class PurchaseOrderPdf extends PurapPdf {
                 }
                 catch (FileNotFoundException e) {
                     LOG.info("The logo image [" + logoImage + "] is not available.  Defaulting to the default image.");
-                }            
+                }
             }
-            
+
             if (logo == null) {
                 // if we don't use images
                 headerTable.addCell(new Phrase(new Chunk("")));
@@ -132,7 +133,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             nestedHeaderTable.addCell(cell);
             Paragraph p = new Paragraph();
             p.add(new Chunk("PO Number: ", ver_11_normal));
-            p.add(new Chunk(po.getPurapDocumentIdentifier().toString(), cour_7_normal));
+            p.add(new Chunk(po.getPurapDocumentIdentifier().toString(), cour_16_bold));
 
             cell = new PdfPCell(p);
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -167,19 +168,20 @@ public class PurchaseOrderPdf extends PurapPdf {
 
     /**
      * Gets a PageEvents object.
-     * 
+     *
      * @return a new PageEvents object
      */
+    @Override
     public PurchaseOrderPdf getPageEvents() {
         LOG.debug("getPageEvents() started.");
         return new PurchaseOrderPdf();
     }
 
     /**
-     * Generates the pdf document based on the data in the given PurchaseOrderDocument, the pdf parameters, 
+     * Generates the pdf document based on the data in the given PurchaseOrderDocument, the pdf parameters,
      * environment, retransmit items, creates a pdf writer using the given byteArrayOutputStream then
      * write the pdf document into the writer.
-     * 
+     *
      * @param po                     The PurchaseOrderDocument to be used to generate the pdf.
      * @param pdfParameters          The PurchaseOrderPdfParameters to be used to generate the pdf.
      * @param byteArrayOutputStream  The ByteArrayOutputStream where the pdf document will be written to.
@@ -222,9 +224,9 @@ public class PurchaseOrderPdf extends PurapPdf {
     }
 
     /**
-     * Invokes the createPdf method to create a pdf document and saves it into a file 
+     * Invokes the createPdf method to create a pdf document and saves it into a file
      * which name and location are specified in the pdfParameters.
-     * 
+     *
      * @param po             The PurchaseOrderDocument to be used to create the pdf.
      * @param pdfParameters  The pdfParameters containing some of the parameters information needed by the pdf for example, the pdf file name and pdf file location, purchasing director name, etc.
      * @param isRetransmit   The boolean to indicate whether this is for a retransmit purchase order document.
@@ -235,8 +237,8 @@ public class PurchaseOrderPdf extends PurapPdf {
             LOG.debug("savePdf() started for po number " + po.getPurapDocumentIdentifier());
         }
 
-        PurchaseOrderTransmitParameters pdfTransmitParameters = (PurchaseOrderTransmitParameters)pdfParameters;        
-        
+        PurchaseOrderTransmitParameters pdfTransmitParameters = (PurchaseOrderTransmitParameters)pdfParameters;
+
         this.isRetransmit = isRetransmit;
         String statusInquiryUrl = pdfTransmitParameters.getStatusInquiryUrl();
         String campusName = pdfTransmitParameters.getCampusParameter().getCampus().getName();
@@ -274,7 +276,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
     /**
      * Creates the purchase order pdf, and pass in null as the retransmitItems List because it doesn't need retransmit.
-     * 
+     *
      * @param po                             The PurchaseOrderDocument to be used to create the pdf.
      * @param document                       The pdf document whose margins have already been set.
      * @param writer                         The PdfWriter to write the pdf document into.
@@ -297,7 +299,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
     /**
      * Create a PDF using the given input parameters.
-     * 
+     *
      * @param po                             The PurchaseOrderDocument to be used to create the pdf.
      * @param document                       The pdf document whose margins have already been set.
      * @param writer                         The PdfWriter to write the pdf document into.
@@ -355,9 +357,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (StringUtils.isNotBlank(po.getVendorName())) {
             vendorInfo.append("     " + po.getVendorName() + "\n");
         }
-       
+
         vendorInfo.append("     ATTN: " + po.getVendorAttentionName() + "\n");
-       
+
         if (StringUtils.isNotBlank(po.getVendorLine1Address())) {
             vendorInfo.append("     " + po.getVendorLine1Address() + "\n");
         }
@@ -394,7 +396,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         StringBuffer shipToInfo = new StringBuffer();
         shipToInfo.append("\n");
-        
+
         if (po.getAddressToVendorIndicator()) { // use receiving address
             shipToInfo.append("     " + po.getReceivingName() + "\n");
             shipToInfo.append("     " + po.getReceivingLine1Address() + "\n");
@@ -404,7 +406,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             shipToInfo.append("     " + po.getReceivingCityName() + ", " + po.getReceivingStateCode() + " " + po.getReceivingPostalCode() + "\n");
             if (StringUtils.isNotBlank(po.getReceivingCountryCode()) && !KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getReceivingCountryCode())) {
                 shipToInfo.append("     " + po.getReceivingCountryName() + "\n");
-            }   
+            }
         }
         else { // use delivery address
             shipToInfo.append("     " + po.getDeliveryToName() + "\n");
@@ -432,7 +434,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             shipToInfo.append("     " + po.getDeliveryToPhoneNumber());
         }
         */
-        
+
         p = new Paragraph();
         p.add(new Chunk("  Shipping Address", ver_5_normal));
         p.add(new Chunk(shipToInfo.toString(), cour_7_normal));
@@ -499,7 +501,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (po.getPurchaseOrderInitialOpenTimestamp() != null) {
             orderDate = sdf.format(po.getPurchaseOrderInitialOpenTimestamp());
         }
-        else { 
+        else {
             // This date isn't set until the first time this document is printed, so will be null the first time; use today's date.
             orderDate = sdf.format(getDateTimeService().getCurrentSqlDate());
         }
@@ -605,16 +607,16 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // ***** Items table *****
         LOG.debug("createPdf() items table started.");
-        
+
         float[] itemsWidths = { 0.07f, 0.1f, 0.07f, 0.45f, 0.15f, 0.15f};
-        
+
         if (!po.isUseTaxIndicator()){
-            itemsWidths = ArrayUtils.add(itemsWidths, 0.14f);    
+            itemsWidths = ArrayUtils.add(itemsWidths, 0.14f);
             itemsWidths = ArrayUtils.add(itemsWidths, 0.15f);
         }
 
         PdfPTable itemsTable = new PdfPTable(itemsWidths.length);
-        
+
         // itemsTable.setCellsFitPage(false); With this set to true a large cell will
         // skip to the next page. The default Table behaviour seems to be what we want:
         // start the large cell on the same page and continue it to the next.
@@ -645,12 +647,12 @@ public class PurchaseOrderPdf extends PurapPdf {
             tableCell = new PdfPCell(new Paragraph("Tax Amount", ver_5_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             itemsTable.addCell(tableCell);
-            
+
             tableCell = new PdfPCell(new Paragraph("Total Amount", ver_5_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             itemsTable.addCell(tableCell);
         }
-        
+
         Collection<PurchaseOrderItem> itemsList = new ArrayList();
         if (isRetransmit) {
             itemsList = retransmitItems;
@@ -700,7 +702,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tableCell.setNoWrap(true);
                 itemsTable.addCell(tableCell);
-                
+
                 if (!po.isUseTaxIndicator()){
                     KualiDecimal taxAmount = poi.getItemTaxAmount();
                     taxAmount = taxAmount == null ? KualiDecimal.ZERO : taxAmount;
@@ -708,13 +710,13 @@ public class PurchaseOrderPdf extends PurapPdf {
                     tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     tableCell.setNoWrap(true);
                     itemsTable.addCell(tableCell);
-                    
+
                     tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getTotalAmount()) + " ", cour_7_normal));
                     tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     tableCell.setNoWrap(true);
                     itemsTable.addCell(tableCell);
                 }
-                
+
             }
         }
         // Blank line before totals
@@ -724,22 +726,22 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
-        
+
         if (!po.isUseTaxIndicator()){
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
         }
-        
+
         //Next Line
         if (!po.isUseTaxIndicator()){
-            
+
             //Print Total Prior to Tax
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
-            
+
             tableCell = new PdfPCell(new Paragraph("Total Prior to Tax: ", ver_10_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             itemsTable.addCell(tableCell);
@@ -755,7 +757,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             tableCell.setNoWrap(true);
             itemsTable.addCell(tableCell);
-            
+
             //Print Total Tax
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
@@ -778,19 +780,19 @@ public class PurchaseOrderPdf extends PurapPdf {
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             tableCell.setNoWrap(true);
             itemsTable.addCell(tableCell);
-            
+
         }
-        
+
         // Totals line; first 3 cols empty
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
-        
+
         if (!po.isUseTaxIndicator()){
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
         }
-        
+
         tableCell = new PdfPCell(new Paragraph("Total order amount: ", ver_10_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
@@ -813,12 +815,12 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
-        
+
         if (!po.isUseTaxIndicator()){
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
         }
-        
+
         document.add(itemsTable);
 
         // Contract language.
@@ -857,7 +859,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
-            
+
             Image directorSignature = null;
             if (StringUtils.isNotBlank(directorSignatureImage)) {
                 try {
@@ -867,7 +869,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                     LOG.info("The director signature image [" + directorSignatureImage + "] is not available.  Defaulting to the default image.");
                 }
             }
-                                
+
             if (directorSignature == null) {
                 // an empty cell if the contract manager signature image is not available.
                 cell = new PdfPCell();
@@ -876,7 +878,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 directorSignature.scalePercent(30, 30);
                 cell = new PdfPCell(directorSignature, false);
             }
-            
+
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
             cell.setBorderWidth(0);
@@ -908,7 +910,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // Contract manager signature, name and phone; only on non-APOs
         if (!po.getPurchaseOrderAutomaticIndicator()) {
-            
+
             Image contractManagerSignature = null;
             if (StringUtils.isNotBlank(contractManagerSignatureImage)) {
                 try {
@@ -917,7 +919,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                     LOG.info("The contract manager image [" + contractManagerSignatureImage + "] is not available.  Defaulting to the default image.");
                 }
             }
-            
+
             if (contractManagerSignature == null) {
                 // an empty cell if the contract manager signature image is not available.
                 cell = new PdfPCell();
@@ -955,7 +957,7 @@ public class PurchaseOrderPdf extends PurapPdf {
 
     /**
      * Determines whether the item should be displayed on the pdf.
-     * 
+     *
      * @param poi  The PurchaseOrderItem to be determined whether it should be displayed on the pdf.
      * @return     boolean true if it should be displayed on the pdf.
      */

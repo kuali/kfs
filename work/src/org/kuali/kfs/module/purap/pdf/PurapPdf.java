@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@ import java.io.File;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -78,7 +77,8 @@ public class PurapPdf extends PdfPageEventHelper {
 
     Font cour_7_normal = FontFactory.getFont("COURIER", 7, 0);
     Font cour_10_normal = FontFactory.getFont("COURIER", 10, 0);
-    
+    Font cour_16_bold = FontFactory.getFont("COURIER", 16, 1);
+
     static KualiDecimal zero = KualiDecimal.ZERO;
 
     private DateTimeService dateTimeService;
@@ -97,11 +97,12 @@ public class PurapPdf extends PdfPageEventHelper {
     /**
      * Overrides the method in PdfPageEventHelper from itext to include our watermark text to indicate that
      * this is a Test document and include the environment, if the environment is not a production environment.
-     * 
+     *
      * @param writer    The PdfWriter for this document.
      * @param document  The document.
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onStartPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
+    @Override
     public void onStartPage(PdfWriter writer, Document document) {
         if (!KRADUtils.isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
@@ -129,11 +130,12 @@ public class PurapPdf extends PdfPageEventHelper {
     /**
      * Overrides the method in PdfPageEventHelper from itext to write the headerTable, compose the footer and show the
      * footer.
-     * 
+     *
      * @param writer    The PdfWriter for this document.
      * @param document  The document.
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
+    @Override
     public void onEndPage(PdfWriter writer, Document document) {
         LOG.debug("onEndPage() started.");
         PdfContentByte cb = writer.getDirectContent();
@@ -159,11 +161,12 @@ public class PurapPdf extends PdfPageEventHelper {
 
     /**
      * Overrides the method in the PdfPageEventHelper from itext to put the total number of pages into the template.
-     * 
+     *
      * @param writer    The PdfWriter for this document.
      * @param document  The document.
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onCloseDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
+    @Override
     public void onCloseDocument(PdfWriter writer, Document document) {
         LOG.debug("onCloseDocument() started.");
         tpl.beginText();
@@ -175,7 +178,7 @@ public class PurapPdf extends PdfPageEventHelper {
 
     /**
      * Gets a PageEvents object.
-     * 
+     *
      * @return a new PageEvents object
      */
     public PurapPdf getPageEvents() {
@@ -186,7 +189,7 @@ public class PurapPdf extends PdfPageEventHelper {
     /**
      * Creates an instance of a new Document and set its margins according to
      * the given input parameters.
-     * 
+     *
      * @param f1  Left margin.
      * @param f2  Right margin.
      * @param f3  Top margin.
@@ -203,7 +206,7 @@ public class PurapPdf extends PdfPageEventHelper {
 
     /**
      * Deletes an already created PDF.
-     * 
+     *
      * @param pdfFileLocation  The location of the pdf file.
      * @param pdfFilename      The name of the pdf file.
      */

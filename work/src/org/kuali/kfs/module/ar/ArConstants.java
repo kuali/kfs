@@ -468,5 +468,4 @@ public class ArConstants{
     public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
-    public static final String BILLED_AT_TERM = "AT_TERM";
 }

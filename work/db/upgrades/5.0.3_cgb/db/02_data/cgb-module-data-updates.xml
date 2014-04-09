@@ -182,9 +182,6 @@
 			<where>BILL_FREQ_CD='ATSTART'</where>
 		</delete>
 		<delete tableName="CG_BILL_FREQ_T">
-			<where>BILL_FREQ_CD='AT_TERM'</where>
-		</delete>
-		<delete tableName="CG_BILL_FREQ_T">
 			<where>BILL_FREQ_CD='ON-DEMAND'</where>
 		</delete>
 	</changeSet>

@@ -4189,9 +4189,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
                             invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
                         }
-                        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.BILLED_AT_TERM)) {
-                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
-                        }
                         else {// This code should be removed. This is temporary - just to make sure the amounts are pulled up.
                             invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
                         }

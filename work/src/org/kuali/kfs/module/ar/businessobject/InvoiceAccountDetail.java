@@ -376,10 +376,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
                         cumAmt = cumAmt.add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(lastBilledDate, bal));
                     }
-                    else if (billingFrequency.equalsIgnoreCase(ArConstants.BILLED_AT_TERM)) {
-                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                        cumAmt = cumAmt.add(balAmt);
-                    }
                     else {// For other billing frequencies
                         balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
                         cumAmt = cumAmt.add(balAmt);

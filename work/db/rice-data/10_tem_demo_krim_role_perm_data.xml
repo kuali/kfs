@@ -3,50 +3,50 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ATTR_DEFN_T">
-        <loadData tableName="KRIM_ATTR_DEFN_T" file="tem/krim_attr_defn_t.csv" />
+        <loadData tableName="KRIM_ATTR_DEFN_T" file="rice/krim_attr_defn_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_TYP_T">
-        <loadData tableName="KRIM_TYP_T" file="tem/krim_typ_t.csv" />
+        <loadData tableName="KRIM_TYP_T" file="rice/krim_typ_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_TYP_ATTR_T">
-        <loadData tableName="KRIM_TYP_ATTR_T" file="tem/krim_typ_attr_t.csv" />
+        <loadData tableName="KRIM_TYP_ATTR_T" file="rice/krim_typ_attr_t.csv" />
     </changeSet>
 
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_T">
-        <loadData tableName="KRIM_ROLE_T" file="tem/krim_role_t.csv" />
+        <loadData tableName="KRIM_ROLE_T" file="rice/krim_role_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_MBR_T">
-        <loadData tableName="KRIM_ROLE_MBR_T" file="tem/krim_role_mbr_t.csv" />
+        <loadData tableName="KRIM_ROLE_MBR_T" file="rice/krim_role_mbr_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_ATTR_DATA_T">
-        <loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="tem/krim_role_mbr_attr_data_t.csv" />
+        <loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="rice/krim_role_mbr_attr_data_t.csv" />
     </changeSet>
     
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_TMPL_T">
-        <loadData tableName="KRIM_PERM_TMPL_T" file="tem/krim_perm_tmpl_t.csv" />
+        <loadData tableName="KRIM_PERM_TMPL_T" file="rice/krim_perm_tmpl_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_T">
-        <loadData tableName="KRIM_PERM_T" file="tem/krim_perm_t.csv" />
+        <loadData tableName="KRIM_PERM_T" file="rice/krim_perm_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_ATTR_DATA_T">
-        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="tem/krim_perm_attr_data_t.csv" />
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="rice/krim_perm_attr_data_t.csv" />
     </changeSet>
     
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_RSP_T">
-        <loadData tableName="KRIM_RSP_T" file="tem/krim_rsp_t.csv" />
+        <loadData tableName="KRIM_RSP_T" file="rice/krim_rsp_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_RSP_ATTR_DATA_T">
-        <loadData tableName="KRIM_RSP_ATTR_DATA_T" file="tem/krim_rsp_attr_data_t.csv" />
+        <loadData tableName="KRIM_RSP_ATTR_DATA_T" file="rice/krim_rsp_attr_data_t.csv" />
     </changeSet>
 
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_PERM_T">
-        <loadData tableName="KRIM_ROLE_PERM_T" file="tem/krim_role_perm_t.csv" />
+        <loadData tableName="KRIM_ROLE_PERM_T" file="rice/krim_role_perm_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_RSP_T">
-        <loadData tableName="KRIM_ROLE_RSP_T" file="tem/krim_role_rsp_t.csv" />
+        <loadData tableName="KRIM_ROLE_RSP_T" file="rice/krim_role_rsp_t.csv" />
     </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_RSP_ACTN_T">
-        <loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="tem/krim_role_rsp_actn_t.csv" />
+        <loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="rice/krim_role_rsp_actn_t.csv" />
     </changeSet>
 
 </databaseChangeLog>   

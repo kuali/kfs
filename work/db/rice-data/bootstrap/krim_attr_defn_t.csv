@@ -24,7 +24,7 @@
 "KFSSEC103","KFSSEC103","1","overrideDeny","","Y","KFS-SEC","org.kuali.kfs.sec.identity.SecKimAttributes"
 "KFSMI6886-ATTRDEF","KFSMI6886-ATTRDEF","1","achTransactionTypeCode","","Y","KFS-PDP","org.kuali.kfs.sys.identity.KfsKimAttributes"
 "KFSCNTRB199-ATTRDEF1","KFSCNTRB199-ATTRDEF1","1","filePath","","Y","KFS-SYS","org.kuali.kfs.sys.identity.KfsKimAttributes"
-"KFS10236","KFS-ATTR-DEFN-001","1","profilePrincipalId","","Y","KFS-SYS","org.kuali.kfs.sys.identity.KfsKimAttributes"
+"KFS10236","KFS-TEM-ATTR-DEFN-001","1","profilePrincipalId","","Y","KFS-SYS","org.kuali.kfs.sys.identity.KfsKimAttributes"
 "KFS10237","KFS-TEM-ATTR-DEFN-002","1","travelerTypeCode","","Y","KFS-TEM","org.kuali.kfs.module.tem.identity.TemKimAttributes"
 "KFS10238","KFS-TEM-ATTR-DEFN-003","1","jobClsCode","","Y","KFS-TEM","org.kuali.kfs.module.tem.identity.TemKimAttributes"
 "KFS10682","KFS-TEM-ATTR-DEFN-004","1","reimbursementOveragePercentage","Reimbursement Overage Percentage","Y","KFS-TEM","org.kuali.kfs.module.tem.identity.TemKimAttributes"

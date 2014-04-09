@@ -1083,6 +1083,7 @@
         <column name="BNKRPTCY_REVIEW_DT" type="TIMESTAMP"/>
         <column default="N" name="STOP_WRK_IND" size="1" type="VARCHAR"/>
         <column name="STOP_WRK_REASON_TXT" size="120" type="VARCHAR"/>
+        <column name="CUST_INV_TMPLT_CD" size="10" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CUST_T" name="AR_CUST_TR1">
             <reference foreign="CUST_NBR" local="CUST_PARENT_CO_NBR"/>
         </foreign-key>

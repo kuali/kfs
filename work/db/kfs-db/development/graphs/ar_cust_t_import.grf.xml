@@ -45,6 +45,7 @@
         $0.bnkrptcy_review_dt := $bnkrptcy_review_dt;
         $0.stop_wrk_ind := replace(nvl($stop_wrk_ind, ""), "~!~", "|" );
         $0.stop_wrk_reason_txt := replace(nvl($stop_wrk_reason_txt, ""), "~!~", "|" );
+        $0.cust_inv_tmplt_cd := replace(nvl($cust_inv_tmplt_cd, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

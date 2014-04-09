@@ -74,7 +74,6 @@
 				<value>invoiceRecurrenceJob</value>
 				<value>customerInvoiceWriteoffBatchJob</value>
 				<value>customerAgingReportNotificationJob</value>
-				<value>dunningLetterDistributionJob</value>
 				<value>letterOfCreditJob</value>
 				<value>invoiceReportEmailDeliveryJob</value>
 				<value>contractsGrantsInvoiceDocumentJob</value>
@@ -266,13 +265,6 @@
 		</property>
 	</bean>
 
-	<bean id="dunningLetterDistributionJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="sendDunningLettersBatchStep" />
-			</list>
-		</property>
-	</bean>
 	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -311,16 +303,6 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-	</bean>
-
-	<bean id="sendDunningLettersBatchStep" class="org.kuali.kfs.module.ar.batch.SendDunningLettersBatchStep" parent="step">
-		<property name="cgInvoiceDocumentCreateService">
-			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep" parent="step">

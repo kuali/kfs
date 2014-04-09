@@ -64,6 +64,7 @@
 				<ref bean="LedgerBalance-dummyBusinessObject.consolidationOption" />
 				<ref bean="LedgerBalance-dummyBusinessObject.pendingEntryOption" />
 				<ref bean="LedgerBalance-dummyBusinessObject.amountViewOption" />
+				<ref bean="LedgerBalance-dummyBusinessObject.cgBeginningBalanceExcludeOption" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -379,6 +380,14 @@
 		<property name="name" value="dummyBusinessObject.amountViewOption" />
 	</bean>
 	
+	<bean id="LedgerBalance-dummyBusinessObject.cgBeginningBalanceExcludeOption"
+		parent="LedgerBalance-dummyBusinessObject.cgBeginningBalanceExcludeOption-parentBean" />
+
+	<bean
+		id="LedgerBalance-dummyBusinessObject.cgBeginningBalanceExcludeOption-parentBean"
+		abstract="true" parent="TransientBalanceInquiryAttributes-cgBeginningBalanceExcludeOption">
+		<property name="name" value="dummyBusinessObject.cgBeginningBalanceExcludeOption" />
+	</bean>
 
 	
 
@@ -473,7 +482,8 @@
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.amountViewOption"
 					p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.AmountViewOptionFinder" />
-				
+				<bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.cgBeginningBalanceExcludeOption"
+					p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.CGBeginningBalanceExcludeOptionFinder" />				
 			</list>
 		</property>
 		<property name="resultFields">

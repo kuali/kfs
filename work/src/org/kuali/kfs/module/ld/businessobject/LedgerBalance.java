@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,7 +65,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Constructs a LedgerBalance.java.
-     * 
+     *
      * @param transaction
      */
     public LedgerBalance(LaborTransaction transaction) {
@@ -84,7 +84,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Constructs a LedgerBalance.java.
-     * 
+     *
      * @param transaction
      */
     public LedgerBalance(LaborBalanceHistory ledgerBalanceHistory) {
@@ -100,167 +100,184 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
         this.setUniversityFiscalYear(ledgerBalanceHistory.getUniversityFiscalYear());
         this.setSubAccountNumber(ledgerBalanceHistory.getSubAccountNumber());
     }
-    
+
     /**
      * Gets the emplid
-     * 
+     *
      * @return Returns the emplid.
      */
+    @Override
     public String getEmplid() {
         return emplid;
     }
 
     /**
      * Sets the emplid
-     * 
+     *
      * @param emplid The emplid to set.
      */
+    @Override
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }
 
     /**
      * Gets the financialBalanceTypeCode
-     * 
+     *
      * @return Returns the financialBalanceTypeCode.
      */
+    @Override
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
     }
 
     /**
      * Sets the financialBalanceTypeCode
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
+    @Override
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
     }
 
     /**
      * Gets the financialBeginningBalanceLineAmount
-     * 
+     *
      * @return Returns the financialBeginningBalanceLineAmount.
      */
+    @Override
     public KualiDecimal getFinancialBeginningBalanceLineAmount() {
         return financialBeginningBalanceLineAmount;
     }
 
     /**
      * Sets the financialBeginningBalanceLineAmount
-     * 
+     *
      * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
      */
+    @Override
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
         super.setBeginningBalanceLineAmount(financialBeginningBalanceLineAmount);
-        
+
     }
 
     /**
      * Gets the financialObjectCode
-     * 
+     *
      * @return Returns the financialObjectCode.
      */
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
     /**
      * Sets the financialObjectCode
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
+    @Override
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
 
     /**
      * Gets the financialObjectTypeCode
-     * 
+     *
      * @return Returns the financialObjectTypeCode.
      */
+    @Override
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
     }
 
     /**
      * Sets the financialObjectTypeCode
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
+    @Override
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
     }
 
     /**
      * Gets the financialSubObjectCode
-     * 
+     *
      * @return Returns the financialSubObjectCode.
      */
+    @Override
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
     }
 
     /**
      * Sets the financialSubObjectCode
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
+    @Override
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
     }
 
     /**
      * Gets the positionNumber
-     * 
+     *
      * @return Returns the positionNumber.
      */
+    @Override
     public String getPositionNumber() {
         return positionNumber;
     }
 
     /**
      * Sets the positionNumber
-     * 
+     *
      * @param positionNumber The positionNumber to set.
      */
+    @Override
     public void setPositionNumber(String positionNumber) {
         this.positionNumber = positionNumber;
     }
 
     /**
      * Gets the transactionDateTimeStamp
-     * 
+     *
      * @return Returns the transactionDateTimeStamp.
      */
+    @Override
     public Timestamp getTransactionDateTimeStamp() {
         return transactionDateTimeStamp;
     }
 
     /**
      * Sets the transactionDateTimeStamp
-     * 
+     *
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
+    @Override
     public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
 
     /**
      * Gets the getFinancialBalanceTypeCode
-     * 
+     *
      * @return getFinancialBalanceTypeCode
      * @see org.kuali.kfs.gl.businessobject.Balance#getBalanceTypeCode()
      */
-    
+
+    @Override
     public String getBalanceTypeCode() {
         return this.getFinancialBalanceTypeCode();
     }
 
     /**
      * Sets the setFinancialBalanceTypeCode
-     * 
+     *
      * @param balanceTypeCode
      * @see org.kuali.kfs.gl.businessobject.Balance#setBalanceTypeCode(java.lang.String)
      */
@@ -271,7 +288,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Gets the getChartOfAccounts
-     * 
+     *
      * @return getChartOfAccounts
      * @see org.kuali.kfs.gl.businessobject.Balance#getChart()
      */
@@ -282,7 +299,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Sets the setChartOfAccounts
-     * 
+     *
      * @param chart
      * @see org.kuali.kfs.gl.businessobject.Balance#setChart(org.kuali.kfs.coa.businessobject.Chart)
      */
@@ -293,43 +310,47 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Gets the chartOfAccounts
-     * 
+     *
      * @return Returns the chartOfAccounts.
      */
+    @Override
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
      * Sets the chartOfAccounts
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      */
+    @Override
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
 
     /**
      * Gets the financialObjectType
-     * 
+     *
      * @return Returns the financialObjectType.
      */
+    @Override
     public ObjectType getFinancialObjectType() {
         return financialObjectType;
     }
 
     /**
      * Sets the financialObjectType
-     * 
+     *
      * @param financialObjectType The financialObjectType to set.
      */
+    @Override
     public void setFinancialObjectType(ObjectType financialObjectType) {
         this.financialObjectType = financialObjectType;
     }
 
     /**
      * Adds amounts in a period.
-     * 
+     *
      * @param period, amount
      * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
@@ -398,12 +419,13 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
     }
-    
+
     /**
      * get the amount in the given period.
-     * 
+     *
      * @param periodCode the given period code
      */
+    @Override
     public KualiDecimal getAmountByPeriod(String periodCode) {
         if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(periodCode)) {
             return this.getAccountLineAnnualBalanceAmount();
@@ -457,10 +479,11 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
             throw new IllegalArgumentException("Unsupport Period Code: " + periodCode);
         }
     }
-    
+
     /**
      * @see org.kuali.module.effort.bo.LaborLedgerEntry#getLaborLedgerObject()
      */
+    @Override
     public LaborLedgerObject getLaborLedgerObject() {
         return this.laborObject;
     }
@@ -468,6 +491,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     /**
      * @see org.kuali.module.effort.bo.LaborLedgerEntry#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
      */
+    @Override
     @Deprecated
     public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
         this.laborObject = (LaborObject) laborLedgerObject;
@@ -475,7 +499,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Gets the laborObject attribute.
-     * 
+     *
      * @return Returns the laborObject.
      */
     public LaborObject getLaborObject() {
@@ -484,7 +508,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Sets the laborObject attribute value.
-     * 
+     *
      * @param laborObject The laborObject to set.
      */
     @Deprecated
@@ -494,29 +518,31 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
 
     /**
      * Gets the Person
-     * 
+     *
      * @return Returns the Person
      */
+    @Override
     public Person getLedgerPerson() {
         if( (ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) && StringUtils.isNotBlank(emplid) ) {
             ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
-        
+
         return ledgerPerson;
     }
 
     /**
      * Sets the ledgerPerson
-     * 
+     *
      * @param ledgerPerson The ledgerPerson to set.
      */
+    @Override
     public void setLedgerPerson(Person ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
     }
 
     /**
      * construct the primary key list of the business object
-     * 
+     *
      * @return the primary key list of the business object
      */
     public static List<String> getPrimaryKeyList() {
@@ -533,6 +559,28 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
 
         return primaryKeyList;
+    }
+
+    /**
+     * Returns true if all amounts except C/G beginning balance are zero; false otherwise.
+     */
+    public boolean isCGBeginningBalanceOnly() {
+        return  getAccountLineAnnualBalanceAmount().isZero() &&
+                getBeginningBalanceLineAmount().isZero() &&
+                getFinancialBeginningBalanceLineAmount().isZero() &&
+        		getMonth1Amount().isZero() &&
+                getMonth2Amount().isZero() &&
+                getMonth3Amount().isZero() &&
+                getMonth4Amount().isZero() &&
+                getMonth5Amount().isZero() &&
+                getMonth6Amount().isZero() &&
+                getMonth7Amount().isZero() &&
+                getMonth8Amount().isZero() &&
+                getMonth9Amount().isZero() &&
+                getMonth10Amount().isZero() &&
+                getMonth11Amount().isZero() &&
+                getMonth12Amount().isZero() &&
+                getMonth13Amount().isZero();
     }
 
     /**

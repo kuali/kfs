@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
@@ -26,6 +27,7 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
  */
 public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBase {
 
+    private String cgBeginningBalanceExcludeOption;
     private String pendingEntryOption;
     private String consolidationOption;
     private String amountViewOption;
@@ -48,6 +50,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
      */
     public TransientBalanceInquiryAttributes() {
         super();
+        this.cgBeginningBalanceExcludeOption = ParameterValues.YES;
         this.pendingEntryOption = "";
         this.consolidationOption = "";
         this.genericAmount = KualiDecimal.ZERO;
@@ -57,12 +60,20 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        return (LinkedHashMap) OJBUtility.buildPropertyMap(this);
+        return OJBUtility.buildPropertyMap(this);
+    }
+
+    public String getCgBeginningBalanceExcludeOption() {
+        return cgBeginningBalanceExcludeOption;
+    }
+
+    public void setCgBeginningBalanceExcludeOption(String cgBeginningBalanceExcludeOption) {
+        this.cgBeginningBalanceExcludeOption = cgBeginningBalanceExcludeOption;
     }
 
     /**
      * Gets the pendingEntryOption attribute.
-     * 
+     *
      * @return Returns the pendingEntryOption.
      */
     public String getPendingEntryOption() {
@@ -71,7 +82,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the pendingEntryOption attribute value.
-     * 
+     *
      * @param pendingEntryOption The pendingEntryOption to set.
      */
     public void setPendingEntryOption(String pendingEntryOption) {
@@ -80,7 +91,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the consolidationOption attribute.
-     * 
+     *
      * @return Returns the consolidationOption.
      */
     public String getConsolidationOption() {
@@ -89,7 +100,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the consolidationOption attribute value.
-     * 
+     *
      * @param consolidationOption The consolidationOption to set.
      */
     public void setConsolidationOption(String consolidationOption) {
@@ -98,7 +109,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the linkButtonOption attribute.
-     * 
+     *
      * @return Returns the linkButtonOption.
      */
     public String getLinkButtonOption() {
@@ -107,7 +118,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the linkButtonOption attribute value.
-     * 
+     *
      * @param linkButtonOption The linkButtonOption to set.
      */
     public void setLinkButtonOption(String linkButtonOption) {
@@ -116,7 +127,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the genericAmount attribute.
-     * 
+     *
      * @return Returns the genericAmount.
      */
     public KualiDecimal getGenericAmount() {
@@ -125,7 +136,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the genericAmount attribute value.
-     * 
+     *
      * @param genericAmount The genericDecimal to set.
      */
     public void setGenericAmount(KualiDecimal genericAmount) {
@@ -134,7 +145,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the amountViewOption attribute.
-     * 
+     *
      * @return Returns the amountViewOption.
      */
     public String getAmountViewOption() {
@@ -143,7 +154,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the amountViewOption attribute value.
-     * 
+     *
      * @param amountViewOption The amountViewOption to set.
      */
     public void setAmountViewOption(String amountViewOption) {
@@ -152,7 +163,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the costShareOption attribute.
-     * 
+     *
      * @return Returns the costShareOption.
      */
     public String getCostShareOption() {
@@ -161,7 +172,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the costShareOption attribute value.
-     * 
+     *
      * @param costShareOption The costShareOption to set.
      */
     public void setCostShareOption(String costShareOption) {
@@ -170,7 +181,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the consolidationObjectCode attribute.
-     * 
+     *
      * @return Returns the consolidationObjectCode.
      */
     public String getConsolidationObjectCode() {
@@ -179,7 +190,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the consolidationObjectCode attribute value.
-     * 
+     *
      * @param consolidationObjectCode The consolidationObjectCode to set.
      */
     public void setConsolidationObjectCode(String consolidationObjectCode) {
@@ -188,7 +199,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the consolidationReportingSortCode attribute.
-     * 
+     *
      * @return Returns the consolidationReportingSortCode.
      */
     public String getConsolidationReportingSortCode() {
@@ -197,7 +208,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the consolidationReportingSortCode attribute value.
-     * 
+     *
      * @param consolidationReportingSortCode The consolidationReportingSortCode to set.
      */
     public void setConsolidationReportingSortCode(String consolidationReportingSortCode) {
@@ -206,7 +217,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the reportingSortCode attribute.
-     * 
+     *
      * @return Returns the reportingSortCode.
      */
     public String getReportingSortCode() {
@@ -215,7 +226,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the reportingSortCode attribute value.
-     * 
+     *
      * @param reportingSortCode The reportingSortCode to set.
      */
     public void setReportingSortCode(String reportingSortCode) {
@@ -224,7 +235,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the levelObjectCode attribute.
-     * 
+     *
      * @return Returns the levelObjectCode.
      */
     public String getLevelObjectCode() {
@@ -233,7 +244,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the levelObjectCode attribute value.
-     * 
+     *
      * @param levelObjectCode The levelObjectCode to set.
      */
     public void setLevelObjectCode(String levelObjectCode) {
@@ -242,7 +253,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the genericText attribute.
-     * 
+     *
      * @return Returns the genericText.
      */
     public String getGenericText() {
@@ -251,7 +262,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the genericText attribute value.
-     * 
+     *
      * @param genericText The genericText to set.
      */
     public void setGenericText(String genericText) {
@@ -260,7 +271,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Gets the blankLineOption attribute.
-     * 
+     *
      * @return Returns the blankLineOption.
      */
     public String getBlankLineOption() {
@@ -269,18 +280,18 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
 
     /**
      * Sets the blankLineOption attribute value.
-     * 
+     *
      * @param blankLineOption The blankLineOption to set.
      */
     public void setBlankLineOption(String blankLineOption) {
         this.blankLineOption = blankLineOption;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * Gets the debitCreditOption attribute value.
-     * 
+     *
      * @return Returns the debitCreditOption
      */
     public String getDebitCreditOption() {
@@ -288,7 +299,7 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     }
 
     /**
-     * 
+     *
      * Sets the debitCreditOption attribute
      * @param debitCreditOption The debitCreditOption to set.
      */

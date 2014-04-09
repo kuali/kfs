@@ -105,6 +105,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
+        // get the cgBeginningBalanceExcludeOption
+        boolean isCgBeginningBalanceExcluded = laborInquiryOptionsService.isCgBeginningBalanceOnlyExcluded(fieldValues);
+
         // test if the consolidation option is selected or not
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues);
 
@@ -139,6 +142,12 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
             searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21, consolidationKeyList);
         }
 
+        // filter out rows with all amounts zero except CG beginning balance if cgBeginningBalanceExcludeOption is checked.
+        // Note: this has to be done before accumulate, because accumulate adds up CG amount into monthly amounts.
+        if (isCgBeginningBalanceExcluded) {
+            searchResultsCollection = filterOutCGBeginningBalanceOnlyRows(searchResultsCollection);
+        }
+
         // perform the accumulation of the amounts
         accumulate(searchResultsCollection, isAccumulated);
 
@@ -147,6 +156,19 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new LedgerBalance());
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
+    }
+
+    /**
+     * Filter out rows with all amounts zero except CG beginning balance from the given searchResultsCollection.
+     */
+    protected Collection<LedgerBalance> filterOutCGBeginningBalanceOnlyRows(Collection<LedgerBalance> searchResultsCollection) {
+        Collection<LedgerBalance> filteredSearchResults = new ArrayList<LedgerBalance>();
+        for (LedgerBalance balance: searchResultsCollection) {
+            if (!balance.isCGBeginningBalanceOnly()) {
+                filteredSearchResults.add(balance);
+            }
+        }
+        return filteredSearchResults;
     }
 
     /**

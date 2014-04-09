@@ -22,6 +22,7 @@
     <property name="objectLabel" value="Transient Balance Inquiry Attributes"/>
     <property name="attributes">
       <list>
+      	<ref bean="TransientBalanceInquiryAttributes-cgBeginningBalanceExcludeOption"/> 
         <ref bean="TransientBalanceInquiryAttributes-pendingEntryOption"/>
         <ref bean="TransientBalanceInquiryAttributes-consolidationOption"/>
         <ref bean="TransientBalanceInquiryAttributes-amountViewOption"/>
@@ -36,6 +37,18 @@
   </bean>
 
 <!-- Attribute Definitions -->
+  <bean id="TransientBalanceInquiryAttributes-cgBeginningBalanceExcludeOption" parent="TransientBalanceInquiryAttributes-cgBeginningBalanceExcludeOption-parentBean"/>
+
+  <bean id="TransientBalanceInquiryAttributes-cgBeginningBalanceExcludeOption-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cgBeginningBalanceExcludeOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Exclude entries with only CG Beginning Balances"/>
+    <property name="shortLabel" value="Exclude CG Beginning Balances Only Entries"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.CGBeginningBalanceExcludeOptionFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
 
 
   <bean id="TransientBalanceInquiryAttributes-pendingEntryOption" parent="TransientBalanceInquiryAttributes-pendingEntryOption-parentBean"/>

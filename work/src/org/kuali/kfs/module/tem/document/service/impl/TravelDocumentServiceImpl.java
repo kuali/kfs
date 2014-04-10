@@ -2674,7 +2674,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         if (travelDocument instanceof TravelAuthorizationDocument) {
-            final boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(travelDocument.getClass(), TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+            final boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
             if (!vendorPaymentAllowedBeforeFinal) {
                 return link;
             }

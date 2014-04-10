@@ -899,7 +899,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<modifySql dbms="mysql">
-			<replace replace="sys_guid()" with="uuid()" />
+			<replace replace="SYS_GUID()" with="uuid()" />
 		</modifySql>
 	</changeSet>
 

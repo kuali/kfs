@@ -1034,8 +1034,8 @@
 		<addPrimaryKey tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_CC_IMP_EXP_CLR_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
-	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_CC_IMP_EXP_CLR_T" constraintName="TEM_CC_IMP_EXP_CLR_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_CC_IMP_EXP_CLR_DTL_T">

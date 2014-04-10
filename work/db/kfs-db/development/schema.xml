@@ -7150,6 +7150,9 @@
         <column name="DV_PDP_BNK_CD" size="4" type="VARCHAR"/>
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="FP_DV_DOC_TR2">
+            <reference foreign="PMT_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
+        </foreign-key>
         <unique name="FP_DV_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

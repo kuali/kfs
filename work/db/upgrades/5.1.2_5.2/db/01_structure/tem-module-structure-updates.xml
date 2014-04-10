@@ -1068,6 +1068,15 @@
 			<column name="TRNENTR_PROCESS_TM" type="DATE"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TP1" columnNames="FDOC_NBR,TRN_ENTR_SEQ_NBR"/>
+		
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+		
+	</changeSet>
+		
+	<changeSet author="KFSTEM" id="KFS_TEM_SEQUENCES_oracle" dbms="oracle">
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"
@@ -1129,9 +1138,175 @@
 		<createSequence sequenceName="TEM_TRVL_EXP_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TRVL_ID_SEQ" startValue="1" />
-		<modifySql dbms="mysql">
-			<replace replace="VARCHAR2" with="VARCHAR" />
-			<replace replace="NUMBER" with="DECIMAL" />
-		</modifySql>
 	</changeSet>
+	
+ 
+    <changeSet author="KFSTEM" id="KFS_TEM_SEQUENCES_mysql" dbms="mysql">
+    	<createTable tableName="TEM_ACCT_DOC_REL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ACCT_LINES_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_AGENCY_STAGING_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ATTENDEE_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CORP_CARD_PSEUDO_NUM_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CREDIT_CARD_AGENCY_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CREDIT_CARD_STAGING_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EM_CONT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ENTERTAINMENT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_OBJ_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_OBJ_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_GRP_TRVLR_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_HIST_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_MILEAGE_RT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PER_DIEM_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PER_DIEM_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PRI_DEST_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ACCOUNT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ARRANGER_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_EM_CONT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_RELO_DOC_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_SPCL_CRCMSNCS_Q_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_SPCL_CRCMSNCS_S">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRAVELER_DTL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRAVELER_PROF_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRIP_DTL_EST_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRP_ACCT_INFO_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRVL_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TRVL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+    
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+
+    </changeSet>
+		
 </databaseChangeLog>

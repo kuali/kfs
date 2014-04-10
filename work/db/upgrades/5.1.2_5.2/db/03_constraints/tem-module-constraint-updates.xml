@@ -239,7 +239,7 @@
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
-			columnName="EXP_TYP_NM" columnDataType="VARCHAR2(25)" />
+			columnName="EXP_TYP_NM" columnDataType="VARCHAR2(100)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
 			columnName="EXP_PRPY_IND" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"

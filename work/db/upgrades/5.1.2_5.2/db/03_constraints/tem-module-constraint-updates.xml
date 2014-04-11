@@ -537,7 +537,7 @@
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
 			columnName="TA_REQUIRED" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
-			columnName="PER_DIEM_CALC_METHOD" columnDataType="VARSHAR2(1)" />
+			columnName="PER_DIEM_CALC_METHOD" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addUniqueConstraint tableName="TEM_TRP_ACCT_INFO_T"

@@ -186,7 +186,9 @@
     <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true"/>
     
     <bean id="sponsorAddressWebService" parent="sponsorAddressWebService-parentBean"/>
-    <bean id="sponsorAddressWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorAddressServiceImpl" abstract="true"/>
+    <bean id="sponsorAddressWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorAddressServiceImpl" abstract="true">
+    	<property name="sponsorService" ref="sponsorWebService"/>
+    </bean>
     
     <bean id="awardWebService" parent="awardWebService-parentBean"/>
     <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">
@@ -211,7 +213,9 @@
     </bean>
     
     <bean id="awardProjectDirectorService" parent="awardProjectDirectorService-parentBean"/>
-    <bean id="awardProjectDirectorService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardProjectDirectorServiceImpl" abstract="true" parent="awardWebService"/>
+    <bean id="awardProjectDirectorService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardProjectDirectorServiceImpl" abstract="true">
+    	<property name="awardService" ref="awardWebService"/>
+    </bean>
     
     <bean id="contractsAndGrantsModuleRetrieveService" parent="contractsAndGrantsModuleRetrieveService-parentBean"/>
     <bean id="contractsAndGrantsModuleRetrieveService-parentBean" abstract="true" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl">

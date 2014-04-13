@@ -22,14 +22,16 @@ import java.util.Map;
 
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.businessobject.AgencyAddress;
+import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
-public class SponsorAddressServiceImpl extends SponsorServiceImpl {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SponsorAddressServiceImpl.class);
+public class SponsorAddressServiceImpl implements ExternalizableBusinessObjectService {
+
+    private ExternalizableBusinessObjectService sponsorService;
 
     @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        Agency agency = (Agency) super.findByPrimaryKey(primaryKeys);
+        Agency agency = (Agency) sponsorService.findByPrimaryKey(primaryKeys);
         if (agency != null && agency.getAgencyAddresses() != null && !agency.getAgencyAddresses().isEmpty()) {
             return agency.getAgencyAddresses().get(0);
         } else {
@@ -40,10 +42,18 @@ public class SponsorAddressServiceImpl extends SponsorServiceImpl {
     @Override
     public Collection findMatching(Map fieldValues) {
         List<AgencyAddress> results = new ArrayList<AgencyAddress>();
-        Collection<Agency> agencies = super.findMatching(fieldValues);
+        Collection<Agency> agencies = sponsorService.findMatching(fieldValues);
         for (Agency agency : agencies) {
             results.addAll(agency.getAgencyAddresses());
         }
         return results;
+    }
+
+    protected ExternalizableBusinessObjectService getSponsorService() {
+        return sponsorService;
+    }
+
+    public void setSponsorService(ExternalizableBusinessObjectService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 }

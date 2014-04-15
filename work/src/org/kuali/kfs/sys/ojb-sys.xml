@@ -20,6 +20,10 @@
         conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="financialDocumentInErrorNumber" column="FDOC_IN_ERR_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="workflowDocumentStatusCode" column="FDOC_HDR_STAT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="applicationDocumentStatus" column="APP_DOC_STAT" jdbc-type="VARCHAR" />
+    <field-descriptor name="initiatorPrincipalId" column="INITR_PRNCPL_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="workflowDocumentTypeName" column="FDOC_TYP_NM" jdbc-type="VARCHAR" />
     
     <!-- The name="super" attribute below is not used to address an actual attribute of the super-class but as a marker keyword defining the JOIN  to the super-class.
          See OJB documentation: http://db.apache.org/ojb/docu/guides/advanced-technique.html#table-per-subclass -->

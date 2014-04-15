@@ -763,6 +763,7 @@ public class KFSPropertyConstants {
     public static final String ICR_ACCOUNT_LINE_PERCENT = "accountLinePercent";
 
     public static final String INITIATOR_NETWORK_ID = KRADPropertyConstants.INITIATOR_NETWORK_ID;
+    public static final String INITIATOR_PRINCIPAL_ID = "initiatorPrincipalId";
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";
     public static final String INTRNL_FIN_ENCUM_SUFFICNT_FND_INDICATOR = "intrnlFinEncumSufficntFndIndicator";

@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -84,6 +85,12 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if (this instanceof AmountTotaling) {
             getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
+            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
         super.prepareForSave();
     }
 
@@ -117,6 +124,10 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        // set the route status
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusChangeEvent.getNewRouteStatus());
+        getFinancialSystemDocumentHeader().setApplicationDocumentStatus(getFinancialSystemDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus());
+
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
@@ -143,6 +154,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
+        // grab the new app doc status
+        getFinancialSystemDocumentHeader().setApplicationDocumentStatus(getFinancialSystemDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus());
+
         if (this instanceof AmountTotaling
                 && getDocumentHeader() != null
                 && getParameterService() != null
@@ -225,6 +239,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @param applicationDocumentStatus is the app doc status to save
      * @throws WorkflowException
      */
+    @Override
     public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
         getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(applicationDocumentStatus);
     }
@@ -235,6 +250,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @return Returns the applicationDocumentStatus
      */
 
+    @Override
     public String getApplicationDocumentStatus() {
         return getFinancialSystemDocumentHeader().getApplicationDocumentStatus();
     }
@@ -244,6 +260,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      *
      * @param applicationDocumentStatus The applicationDocumentStatus to set.
      */
+    @Override
     public void setApplicationDocumentStatus(String applicationDocumentStatus) {
         getFinancialSystemDocumentHeader().setApplicationDocumentStatus(applicationDocumentStatus);
     }

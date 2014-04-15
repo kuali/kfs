@@ -101,4 +101,3 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         return false;
     }
 }
-

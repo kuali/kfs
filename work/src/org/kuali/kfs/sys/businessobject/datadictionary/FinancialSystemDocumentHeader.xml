@@ -33,6 +33,9 @@
         <ref bean="FinancialSystemDocumentHeader-financialDocumentInErrorNumber"/>
         <ref bean="FinancialSystemDocumentHeader-correctedByDocumentId"/>
         <ref bean="FinancialSystemDocumentHeader-financialDocumentTotalAmount"/>
+        <ref bean="FinancialSystemDocumentHeader-workflowDocumentStatusCode"/>
+        <ref bean="FinancialSystemDocumentHeader-initiatorPrincipalId"/>
+        <ref bean="FinancialSystemDocumentHeader-workflowDocumentTypeName"/>
       </list>
     </property>
   </bean>
@@ -93,6 +96,29 @@
     <property name="label" value="Total Amount"/>
     <property name="shortLabel" value="Total Amount"/>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/> 
+  </bean>
+  
+  <bean id="FinancialSystemDocumentHeader-workflowDocumentStatusCode" parent="FinancialSystemDocumentHeader-workflowDocumentStatusCode-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-workflowDocumentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workflowDocumentStatusCode"/>
+    <property name="label" value="Workflow Document Status Code"/>
+    <property name="shortLabel" value="Doc Stat Cd"/>
+    <property name="maxLength" value="1"/>
+    <property name="control" ref="OneCharacterTextControl"/>
+  </bean>
+  
+  <bean id="FinancialSystemDocumentHeader-initiatorPrincipalId" parent="FinancialSystemDocumentHeader-initiatorPrincipalId-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-initiatorPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="initiatorPrincipalId"/>
+    <property name="label" value="Initiator Principal Id"/>
+    <property name="shortLabel" value="Init Prncpl Id"/>
+  </bean>
+  
+  <bean id="FinancialSystemDocumentHeader-workflowDocumentTypeName" parent="FinancialSystemDocumentHeader-workflowDocumentTypeName-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-workflowDocumentTypeName-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+    <property name="name" value="workflowDocumentTypeName"/>
+    <property name="label" value="Document Type Name" />
+	<property name="forceUppercase" value="true" />
   </bean>
 
 </beans>

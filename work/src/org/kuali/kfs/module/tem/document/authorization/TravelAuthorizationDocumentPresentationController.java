@@ -233,10 +233,10 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
 
         final String appDocStatus = document.getApplicationDocumentStatus();
         boolean appDocStatusCheck = (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
-                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
-                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
-                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
-                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
+                && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
+                && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
+                && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
+                && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
 
         boolean statusCheck = documentStatusCheck && appDocStatusCheck;
 
@@ -248,23 +248,21 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         }
 
         boolean checkRelatedDocs = true;
-        if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
 
-            //check whether there is already an ENROUTE TR
-            List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
-            for (Document doc : docs) {
-                TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
-                if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
-                    checkRelatedDocs &= false;
-                }
+        //check whether there is already an ENROUTE TR
+        List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        for (Document doc : docs) {
+            TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
+            if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                checkRelatedDocs &= false;
             }
+        }
 
-            //a TR document can be processed against a closed TA. If the TAC is Final/Closed display the TR link.
-            if (document.getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) {
-                documentStatusCheck = document.getDocumentHeader().getWorkflowDocument().isFinal();
-                appDocStatusCheck = appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED);
-                statusCheck = documentStatusCheck && appDocStatusCheck;
-            }
+        //a TR document can be processed against a closed TA. If the TAC is Final/Closed display the TR link.
+        if (StringUtils.equalsIgnoreCase(documentType, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) {
+            documentStatusCheck = document.getDocumentHeader().getWorkflowDocument().isFinal();
+            appDocStatusCheck = appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED);
+            statusCheck = documentStatusCheck && appDocStatusCheck;
         }
 
         return statusCheck && hasInitAccess && checkRelatedDocs;

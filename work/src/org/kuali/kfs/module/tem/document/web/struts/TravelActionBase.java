@@ -47,6 +47,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.ServletOutputStream;
@@ -60,6 +61,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelCustomSearchLinks;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -113,6 +115,9 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -131,6 +136,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.springframework.web.util.HtmlUtils;
 
 import com.lowagie.text.pdf.PdfCopy;
 import com.lowagie.text.pdf.PdfImportedPage;
@@ -147,6 +154,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
 
     protected volatile static PerDiemService perDiemService;
+    protected volatile static DocumentTypeService documentTypeService;
 
     protected static final String ACCOUNTING_LINES_TOTALS_VALIDATION_BEAN = "TravelDocument-accountingLineTotalsValidation";
 
@@ -201,6 +209,13 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             perDiemService = SpringContext.getBean(PerDiemService.class);
         }
         return perDiemService;
+    }
+
+    protected DocumentTypeService getDocumentTypeService() {
+        if (documentTypeService == null) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        }
+        return documentTypeService;
     }
 
 
@@ -1209,7 +1224,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     public ActionForward payDVToVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final String url = getKualiConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY)+"/"+TravelCustomSearchLinks.DV_URL + HtmlUtils.htmlEscape(((TravelFormBase)form).getTravelDocument().getDocumentNumber());
+        return new ActionForward(url, true);
     }
 
     public ActionForward addImportedExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1667,5 +1683,31 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 acctLine.setProjectCode(profile.getDefaultProjectCode());
             }
         }
+    }
+
+    /**
+     * looks up the resolved url for the given document type
+     * @param documentType the document type to check
+     * @return the resolved url
+     */
+    protected String getResolvedUrlForDocumentType(String documentType) {
+        final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(documentType);
+        return docType.getResolvedDocumentHandlerUrl();
+    }
+
+    /**
+     * Builds a new reimburesment url for the given travel document
+     * @param travelDoc the travel document to create a new reimbursement for
+     * @return the url to redirect to to create a new reimbursement
+     */
+    protected String buildNewReimbursementUrl(TravelDocument travelDoc) {
+        Properties props = new Properties();
+        props.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDoc.getTravelDocumentIdentifier());
+        props.put(KFSConstants.DOCUMENT_TYPE_NAME, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        props.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+
+        final String docUrlBase = getResolvedUrlForDocumentType(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        final String url = UrlFactory.parameterizeUrl(docUrlBase, props);
+        return url;
     }
 }

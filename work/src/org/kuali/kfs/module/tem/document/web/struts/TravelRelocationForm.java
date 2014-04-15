@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -36,8 +35,6 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -102,12 +99,6 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         newRelocationButton.setExtraButtonProperty("methodToCall.newRelocation");
         newRelocationButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_newrelocation.png");
         newRelocationButton.setExtraButtonAltText("New Relocation");
-        final DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
-        String newRelocationJavascript = String.format("javascript: window.open('%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s');",
-                docType.getResolvedDocumentHandlerUrl(),
-                ((TravelDocumentBase) getDocument()).getTravelDocumentIdentifier(),
-                TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
-        newRelocationButton.setExtraButtonOnclick(newRelocationJavascript);
 
         result.put(newRelocationButton.getExtraButtonProperty(), newRelocationButton);
 

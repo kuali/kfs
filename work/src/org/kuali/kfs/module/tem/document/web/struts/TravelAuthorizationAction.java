@@ -799,7 +799,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     }
 
     /**
-     * Forward to MAPPING_BASIC. The newReimbursement button is assumed to have java script
+     * Forward to creation of new reimbursement document
      *
      * @param mapping
      * @param form
@@ -809,7 +809,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward newReimbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final TravelAuthorizationDocument travelAuth = ((TravelAuthorizationForm)form).getTravelAuthorizationDocument();
+        return new ActionForward(buildNewReimbursementUrl(travelAuth), true);
     }
 
     /**

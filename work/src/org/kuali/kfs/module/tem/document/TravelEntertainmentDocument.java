@@ -300,8 +300,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus())
-                || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
+        if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
 
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
 

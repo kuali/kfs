@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -93,6 +94,8 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusChangeEvent.getNewRouteStatus());
+
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
@@ -166,5 +169,15 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         return (FinancialSystemDocumentHeader)documentHeader;
     }
 
+	@Override
+    public void prepareForSave() {
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
+            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        super.prepareForSave();
+    }
 }
 

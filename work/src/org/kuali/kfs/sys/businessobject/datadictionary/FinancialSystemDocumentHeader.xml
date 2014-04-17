@@ -112,6 +112,7 @@
     <property name="name" value="initiatorPrincipalId"/>
     <property name="label" value="Initiator Principal Id"/>
     <property name="shortLabel" value="Init Prncpl Id"/>
+    <property name="required" value="true"/> <!-- this shouldn't be required at the UI layer -->
   </bean>
   
   <bean id="FinancialSystemDocumentHeader-workflowDocumentTypeName" parent="FinancialSystemDocumentHeader-workflowDocumentTypeName-parentBean"/>

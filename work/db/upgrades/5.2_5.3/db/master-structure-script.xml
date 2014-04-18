@@ -14,9 +14,9 @@
 	<include file="01_structure/gl-module-structure-updates.xml"/>
 	<include file="01_structure/ld-module-structure-updates.xml"/>
 -->
-	<include file="01_structure/pdp-module-structure-updates.xml"/>
-<!-- 	
+	<include file="01_structure/pdp-module-structure-updates.xml"/>	
 	<include file="01_structure/sys-module-structure-updates.xml"/>
+<!-- 
 	<include file="01_structure/vnd-module-structure-updates.xml"/>
 -->
 </databaseChangeLog>

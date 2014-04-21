@@ -128,7 +128,6 @@ public class CancelQuestionHandler implements QuestionHandler<TravelDocument> {
                 String message = getMessageFrom(TA_QUESTION_DOCUMENT);
                 String question = StringUtils.replace(message, "{0}", CANCEL_TA_TEXT);
                 return (T) asker.confirm(CANCEL_TA_QUESTION, question, true, "temSingleConfirmationQuestion", CANCEL_TA_QUESTION, "");
-                //return (T) asker.confirm(CANCEL_TA_QUESTION, MessageUtils.getMessage(CONFIRM_CANCEL_QUESTION_TEXT), true, "","","","");
             }
         }
         catch (ValidationException ve) {

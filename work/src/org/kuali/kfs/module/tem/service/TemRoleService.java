@@ -22,6 +22,9 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleMembership;
 
+/**
+ * Ideally, this service would not exist - everything would be done via permissions
+ */
 public interface TemRoleService {
 
 

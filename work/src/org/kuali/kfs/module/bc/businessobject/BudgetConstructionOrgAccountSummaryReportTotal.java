@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,21 +15,23 @@
  */
 package org.kuali.kfs.module.bc.businessobject;
 
+import org.kuali.rice.core.api.util.type.KualiInteger;
+
 
 /**
  * Total Part of Budget Construction Organization Account Summary Report Business Object.
  */
 public class BudgetConstructionOrgAccountSummaryReportTotal {
     BudgetConstructionAccountSummary bcas;
-    private Integer totalRevenueBaseAmount;
-    private Integer totalGrossBaseAmount;
-    private Integer totalTransferInBaseAmount;
-    private Integer totalNetTransferBaseAmount;
+    private KualiInteger totalRevenueBaseAmount;
+    private KualiInteger totalGrossBaseAmount;
+    private KualiInteger totalTransferInBaseAmount;
+    private KualiInteger totalNetTransferBaseAmount;
 
-    private Integer totalRevenueReqAmount;
-    private Integer totalGrossReqAmount;
-    private Integer totalTransferInReqAmount;
-    private Integer totalNetTransferReqAmount;
+    private KualiInteger totalRevenueReqAmount;
+    private KualiInteger totalGrossReqAmount;
+    private KualiInteger totalTransferInReqAmount;
+    private KualiInteger totalNetTransferReqAmount;
 
     /**
      * Default constructor.
@@ -39,151 +41,151 @@ public class BudgetConstructionOrgAccountSummaryReportTotal {
 
     /**
      * Gets the totalGrossBaseAmount
-     * 
+     *
      * @return Returns the totalGrossBaseAmount.
      */
-    public Integer getTotalGrossBaseAmount() {
+    public KualiInteger getTotalGrossBaseAmount() {
         return totalGrossBaseAmount;
     }
 
     /**
      * Sets the totalGrossBaseAmount
-     * 
+     *
      * @param totalGrossBaseAmount The totalGrossBaseAmount to set.
      */
-    public void setTotalGrossBaseAmount(Integer totalGrossBaseAmount) {
+    public void setTotalGrossBaseAmount(KualiInteger totalGrossBaseAmount) {
         this.totalGrossBaseAmount = totalGrossBaseAmount;
     }
 
     /**
      * Gets the totalGrossReqAmount
-     * 
+     *
      * @return Returns the totalGrossReqAmount.
      */
-    public Integer getTotalGrossReqAmount() {
+    public KualiInteger getTotalGrossReqAmount() {
         return totalGrossReqAmount;
     }
 
     /**
      * Sets the totalGrossReqAmount
-     * 
+     *
      * @param totalGrossReqAmount The totalGrossReqAmount to set.
      */
-    public void setTotalGrossReqAmount(Integer totalGrossReqAmount) {
+    public void setTotalGrossReqAmount(KualiInteger totalGrossReqAmount) {
         this.totalGrossReqAmount = totalGrossReqAmount;
     }
 
     /**
      * Gets the totalNetTransferBaseAmount
-     * 
+     *
      * @return Returns the totalNetTransferBaseAmount.
      */
-    public Integer getTotalNetTransferBaseAmount() {
+    public KualiInteger getTotalNetTransferBaseAmount() {
         return totalNetTransferBaseAmount;
     }
 
     /**
      * Sets the totalNetTransferBaseAmount
-     * 
+     *
      * @param totalNetTransferBaseAmount The totalNetTransferBaseAmount to set.
      */
-    public void setTotalNetTransferBaseAmount(Integer totalNetTransferBaseAmount) {
+    public void setTotalNetTransferBaseAmount(KualiInteger totalNetTransferBaseAmount) {
         this.totalNetTransferBaseAmount = totalNetTransferBaseAmount;
     }
 
     /**
      * Gets the totalNetTransferReqAmount
-     * 
+     *
      * @return Returns the totalNetTransferReqAmount.
      */
-    public Integer getTotalNetTransferReqAmount() {
+    public KualiInteger getTotalNetTransferReqAmount() {
         return totalNetTransferReqAmount;
     }
 
     /**
      * Sets the totalNetTransferReqAmount
-     * 
+     *
      * @param totalNetTransferReqAmount The totalNetTransferReqAmount to set.
      */
-    public void setTotalNetTransferReqAmount(Integer totalNetTransferReqAmount) {
+    public void setTotalNetTransferReqAmount(KualiInteger totalNetTransferReqAmount) {
         this.totalNetTransferReqAmount = totalNetTransferReqAmount;
     }
 
     /**
      * Gets the totalRevenueBaseAmount
-     * 
+     *
      * @return Returns the totalRevenueBaseAmount.
      */
-    public Integer getTotalRevenueBaseAmount() {
+    public KualiInteger getTotalRevenueBaseAmount() {
         return totalRevenueBaseAmount;
     }
 
     /**
      * Sets the totalRevenueBaseAmount
-     * 
+     *
      * @param totalRevenueBaseAmount The totalRevenueBaseAmount to set.
      */
-    public void setTotalRevenueBaseAmount(Integer totalRevenueBaseAmount) {
+    public void setTotalRevenueBaseAmount(KualiInteger totalRevenueBaseAmount) {
         this.totalRevenueBaseAmount = totalRevenueBaseAmount;
     }
 
     /**
      * Gets the totalRevenueReqAmount
-     * 
+     *
      * @return Returns the totalRevenueReqAmount.
      */
-    public Integer getTotalRevenueReqAmount() {
+    public KualiInteger getTotalRevenueReqAmount() {
         return totalRevenueReqAmount;
     }
 
     /**
      * Sets the totalRevenueReqAmount
-     * 
+     *
      * @param totalRevenueReqAmount The totalRevenueReqAmount to set.
      */
-    public void setTotalRevenueReqAmount(Integer totalRevenueReqAmount) {
+    public void setTotalRevenueReqAmount(KualiInteger totalRevenueReqAmount) {
         this.totalRevenueReqAmount = totalRevenueReqAmount;
     }
 
     /**
      * Gets the totalTransferInBaseAmount
-     * 
+     *
      * @return Returns the totalTransferInBaseAmount.
      */
-    public Integer getTotalTransferInBaseAmount() {
+    public KualiInteger getTotalTransferInBaseAmount() {
         return totalTransferInBaseAmount;
     }
 
     /**
      * Sets the totalTransferInBaseAmount
-     * 
+     *
      * @param totalTransferInBaseAmount The totalTransferInBaseAmount to set.
      */
-    public void setTotalTransferInBaseAmount(Integer totalTransferInBaseAmount) {
+    public void setTotalTransferInBaseAmount(KualiInteger totalTransferInBaseAmount) {
         this.totalTransferInBaseAmount = totalTransferInBaseAmount;
     }
 
     /**
      * Gets the totalTransferInReqAmount
-     * 
+     *
      * @return Returns the totalTransferInReqAmount.
      */
-    public Integer getTotalTransferInReqAmount() {
+    public KualiInteger getTotalTransferInReqAmount() {
         return totalTransferInReqAmount;
     }
 
     /**
      * Sets the totalTransferInReqAmount
-     * 
+     *
      * @param totalTransferInReqAmount The totalTransferInReqAmount to set.
      */
-    public void setTotalTransferInReqAmount(Integer totalTransferInReqAmount) {
+    public void setTotalTransferInReqAmount(KualiInteger totalTransferInReqAmount) {
         this.totalTransferInReqAmount = totalTransferInReqAmount;
     }
 
     /**
      * Gets the budgetConstructionAccountSummary
-     * 
+     *
      * @return Returns the bcas.
      */
     public BudgetConstructionAccountSummary getBcas() {
@@ -192,7 +194,7 @@ public class BudgetConstructionOrgAccountSummaryReportTotal {
 
     /**
      * Sets the budgetConstructionAccountSummary
-     * 
+     *
      * @param bcas The budgetConstructionAccountSummary to set.
      */
     public void setBcas(BudgetConstructionAccountSummary bcas) {

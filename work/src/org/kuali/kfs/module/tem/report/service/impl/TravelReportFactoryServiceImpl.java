@@ -104,7 +104,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
     private static final int CELL_WIDTH        = 50;
     private static final int CELL_HEIGHT       = 18;
     private static final int GROUP_HEIGHT      = (DETAIL_HEIGHT / 3);
-    private Map<String,RTextStyle> styles;
+    protected Map<String,RTextStyle> styles;
 
     /**
      * Creates a level 1 header preset
@@ -786,10 +786,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             LOG.debug("Subreport has data. Proceeding to design subreport.");
         }
         catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                e.printStackTrace();
-            }
-            return null;
+            throw new RuntimeException(e);
         }
 
         final JasperDesign designObj = new JasperDesign();
@@ -863,7 +860,6 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setPageHeader(header);
 
         LOG.info("Creating report detail");
-        // final JRBand detail = createDetailForSummary(report);
         final Field summaryField = getFieldWithAnnotation(report, Summary.class);
         final JRBand summary = createSummary(summaryField);
 
@@ -906,18 +902,9 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setTopMargin(MARGIN);
         designObj.setBottomMargin(MARGIN);
 
-        // LOG.info("Adding header and footer");
-        // designObj.setPageHeader(createHeader());
-        // designObj.setPageFooter(createFooter());
-
         // Groups before detail
         LOG.info("Handling groups");
         addGroupsFor(report, designObj);
-
-        // Commenting out column handling since this is problably pointless.
-        // LOG.info("Determining the number of report columns");
-        // int columns = designObj.getGroupsList().size() / 3 > 1 ? designObj.getGroupsList().size() / 3 : 1;
-        // designObj.setColumnCount(columns);
 
         LOG.info("Creating report detail");
         final JRBand detail = createDetail(report, reportIndex);
@@ -1278,7 +1265,6 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
     protected JRDesignCrosstab createCrosstab(final ReportInfo report, final Field field) throws Exception {
         final JRDesignCrosstab crosstab = new JRDesignCrosstab();
         LOG.debug("<crosstab>");
-        // crosstab.setRunDirection(RUN_DIRECTION_LTR);
         LOG.debug("<reportElement width=\"400\" height=\"" + (SUMMARY_HEIGHT - 25) + "\" />");
         crosstab.setWidth(595);
         crosstab.setHeight(0);
@@ -1309,7 +1295,6 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         final JRDesignTextField rowHeaderField = normal("$V{Expenses}").toTextField();
         addDesignElementTo(rowHeader, rowHeaderField, 0, 0, CT_HEADER_WIDTH, CELL_HEIGHT);
-        // rowGroup.setPosition(POSITION_X_LEFT);
         rowGroup.setName("Expenses");
         rowGroup.setWidth(CT_HEADER_WIDTH);
         rowGroup.setHeader(rowHeader);
@@ -1331,7 +1316,6 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         final JRDesignTextField columnHeaderField = normal("$V{Days}").toTextField();
         addDesignElementTo(columnHeader, columnHeaderField, 0, 0, CELL_WIDTH, CELL_HEIGHT);
-        // columnGroup.setPosition(POSITION_Y_TOP);
         columnGroup.setName("Days");
         columnGroup.setHeight(CELL_HEIGHT);
         columnGroup.setHeader(columnHeader);
@@ -1400,7 +1384,6 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         final JRDesignFrame columnFrame = new JRDesignFrame();
         columnFrame.copyBox(new TravelReportLineBox(columnHeader));
-        //columnHeader.setBox(columnFrame);
 
         final JRDesignStaticText columnTotalText = h3("Expense Totals").toStaticText();
         addDesignElementTo(columnTotalHeader, columnTotalText, 0, 0, CELL_WIDTH, CELL_HEIGHT);

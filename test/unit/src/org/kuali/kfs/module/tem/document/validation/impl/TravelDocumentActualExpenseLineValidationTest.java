@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
@@ -40,6 +41,7 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
     private TravelDocumentActualExpenseLineValidation validation;
     private DateTimeService dateTimeService;
     private DocumentService docService;
+    private DictionaryValidationService dictionaryValidationService;
 
     private static final String AIRFARE_EXPENSE_TYPE_CODE = "A";
     private static final String MILEAGE_EXPENSE_TYPE_CODE = "M";
@@ -55,6 +57,8 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
         validation = new TravelDocumentActualExpenseLineValidation();
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         docService = SpringContext.getBean(DocumentService.class);
+        dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
+        validation.setDictionaryValidationService(dictionaryValidationService);
     }
 
     @Override

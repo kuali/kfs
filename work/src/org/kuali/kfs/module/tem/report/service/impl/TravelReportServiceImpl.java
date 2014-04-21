@@ -41,17 +41,19 @@ import org.kuali.kfs.module.tem.report.service.TravelReportFactoryService;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service interface for travel reports.
  *
  */
+@Transactional
 public class TravelReportServiceImpl implements TravelReportService {
 
     public static Logger LOG = Logger.getLogger(TravelReportServiceImpl.class);
 
-    private ReportGenerationService reportGenerationService;
-    private TravelReportFactoryService reportFactoryService;
+    protected ReportGenerationService reportGenerationService;
+    protected TravelReportFactoryService reportFactoryService;
 
     /**
      *

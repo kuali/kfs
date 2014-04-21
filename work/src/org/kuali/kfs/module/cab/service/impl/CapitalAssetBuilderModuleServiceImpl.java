@@ -1408,7 +1408,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 else {
                     // Validate New Asset information
-                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument, index );
+                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument);
                     if (valid) {
                         valid = validateNewCapitalAssetFields(capitalAssetInformation, index, accountingDocument);
                     }
@@ -1557,105 +1557,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation the fields of add asset to be checked
      * @return boolean false if a required field is missing
      */
-    protected boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument, int caLineIndex) {
-        boolean valid = true;
-
-        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-            valid = false;
-        }
-
-        if (capitalAssetInformation.getCapitalAssetQuantity() == null || capitalAssetInformation.getCapitalAssetQuantity() <= 0) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_QUANTITY);
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
-            valid = false;
-        }
-
-        //VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
-        //vendor name entered.
-        String vendorNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
-
-        if ("Y".equalsIgnoreCase(vendorNameRequired)) {
-        // skip vendor name required validation for procurement card document
-            if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.VENDOR_NAME);
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-        }
-
-        //MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
-        //vendor name entered.
-        String manufacturerNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
-
-        if ("Y".equalsIgnoreCase(manufacturerNameRequired)) {
-            if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME);
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-        }
-
-        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetDescription())) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
-            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
-            valid = false;
-        }
-
-        int index = 0;
-        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
-        for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "["+ caLineIndex+"]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
-
-            if (StringUtils.isBlank(dtl.getCampusCode())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-
-            if (StringUtils.isBlank(dtl.getBuildingCode())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Building.class, KFSPropertyConstants.BUILDING_CODE);
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-
-            // Room is not required for non-moveable
-            AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
-            if (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator()) {
-                if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
-                    String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
-                    valid = false;
-                }
-            }
-
-            // Room number not allowed for non-moveable assets
-            if (ObjectUtils.isNotNull(assetType) && !assetType.isMovingIndicator()) {
-                if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
-                    String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, label);
-                    valid = false;
-                }
-            }
-
-
-
-            index++;
-        }
-
-        return valid;
-    }
-
-    /**
-     * Check if all required fields exist on new asset
-     *
-     * @param capitalAssetInformation the fields of add asset to be checked
-     * @return boolean false if a required field is missing
-     *
-     *  Deprecated - the method signature changed
-     */
-    @Deprecated
     protected boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
         boolean valid = true;
 

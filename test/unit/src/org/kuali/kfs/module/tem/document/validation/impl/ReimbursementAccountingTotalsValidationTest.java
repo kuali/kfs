@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -68,6 +69,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         validation = new TemAccountingLineTotalsValidation();
+        validation.setAccountingDistributionService(SpringContext.getBean(AccountingDistributionService.class));
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         objectCodeService = SpringContext.getBean(ObjectCodeService.class);
 

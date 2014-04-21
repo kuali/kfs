@@ -88,8 +88,6 @@ public class ImportAttendeesEvent implements Observer {
 
             defaultValues.put(ATTENDEE_TYPE, defaultList);
             importedAttendees = getTravelDocumentService().importFile(fileContents, Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, defaultValues, MAX_LENGTH, tabErrorKey);
-            // importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class,
-            // ATTENDEE_ATTRIBUTE_NAMES, tabErrorKey);
 
             // validate imported items
             boolean allPassed = true;

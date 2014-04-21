@@ -27,7 +27,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -35,6 +34,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -78,7 +78,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
                 }
             }
             if (ObjectUtils.isNotNull(document.getTraveler())) {
-                qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, document.getTraveler().getPrincipalId());
+                qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, document.getTraveler().getPrincipalId());
             }
         }
     }
@@ -92,7 +92,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
         String nameSpaceCode = KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE;
         Map<String, String> permissionDetails = new HashMap<String, String>();
         Map<String, String> qualificationDetails = new HashMap<String, String>();
-        qualificationDetails.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+        qualificationDetails.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
         return getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), nameSpaceCode,
                 KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails);

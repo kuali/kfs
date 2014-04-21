@@ -45,6 +45,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KfsKimAttributes-paymentMethodCode" />
         <ref bean="KfsKimAttributes-subAccountNumber" />
         <ref bean="KfsKimAttributes-filePath" />
+        <ref bean="KfsKimAttributes-profilePrincipalId" />
       </list>
     </property>
     <property name="relationships">
@@ -169,5 +170,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	p:name="filePath" 
 	p:label="File Path"
     p:shortLabel="File Path" />
+    
+    <bean id="KfsKimAttributes-profilePrincipalId" parent="KfsKimAttributes-profilePrincipalId-parentBean" />
+	<bean id="KfsKimAttributes-profilePrincipalId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="profilePrincipalId" />
+		<property name="label" value="Profile Principal Id" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
 
 </beans>

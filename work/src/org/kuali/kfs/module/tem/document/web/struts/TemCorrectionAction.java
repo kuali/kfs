@@ -139,20 +139,10 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
             correctionForm.setRestrictedFunctionalityMode(false);
             correctionForm.setProcessInBatch(true);
 
-            // if users choose database, then get the list of origin entry groups and set the default
-            // CorrectionGroupEntriesFinder f = new CorrectionGroupEntriesFinder();
-            // List values = f.getKeyValues();
-            // if (values.size() > 0) {
-
             String newestAgencyMatchingErrorFileName = agencyEntryGroupService.getNewestAgencyMatchingErrorFileName();
             if (newestAgencyMatchingErrorFileName != null) {
                 document.setCorrectionInputFileName(newestAgencyMatchingErrorFileName);
             }
-            /*
-             * else { ConcreteKeyValue klp = (ConcreteKeyValue) values.get(0); document.setCorrectionInputFileName((String) klp.getKey()); }
-             * } else { GlobalVariables.getMessageMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY,
-             * KFSKeyConstants.ERROR_NO_ORIGIN_ENTRY_GROUPS); correctionForm.setChooseSystem(""); }
-             */
         }
         else {
             correctionForm.setEditMethod("");
@@ -205,7 +195,6 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
 
         if (!(KFSConstants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || KFSConstants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
             restoreSystemAndEditMethod(rForm);
-            // restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {
                 loadAllEntries(correctionForm.getInputGroupId(), rForm);
                 rForm.setDisplayEntries(new ArrayList<AgencyEntryFull>(rForm.getAllEntries()));
@@ -265,7 +254,6 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         TemCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
 
         if (validAgencyEntry(correctionForm.getEntryForManualEdit())) {
-            //correctionForm.updateEntryForManualEdit();
 
             // new entryId is always 0, so give it a unique Id, SequenceAccessorService is used.
             int newEntryId = correctionForm.getAllEntries().size() + 1;
@@ -349,8 +337,6 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
             correctionForm.getAllEntries().add(correctionForm.getEntryForManualEdit());
 
             // we've modified the list of all entries, so repersist it
-            // SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(),
-            // correctionForm.getAllEntries());
             correctionForm.setDisplayEntries(new ArrayList<AgencyEntryFull>(correctionForm.getAllEntries()));
 
 
@@ -606,15 +592,6 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return super.save(mapping, form, request, response);
-    }
-
-    /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -662,25 +639,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         }
     }
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return super.cancel(mapping, form, request, response);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#close(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return super.close(mapping, form, request, response);
-    }
-
-    private boolean prepareForRoute(TemCorrectionForm correctionForm) {
+    protected boolean prepareForRoute(TemCorrectionForm correctionForm) {
         TemCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
 
         // Is there a description?
@@ -717,12 +676,12 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
 
     }
 
-    private boolean validChangeGroups(TemCorrectionForm correctionForm) {
+    protected boolean validChangeGroups(TemCorrectionForm correctionForm) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    private boolean validGroupsItemsForDocumentSave(TemCorrectionForm correctionForm) {
+    protected boolean validGroupsItemsForDocumentSave(TemCorrectionForm correctionForm) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -741,7 +700,4 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         }
         return true;
     }
-
-
-
 }

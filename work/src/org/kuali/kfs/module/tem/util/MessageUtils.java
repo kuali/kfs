@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.ErrorMessage;
 
 public class MessageUtils {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MessageUtils.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MessageUtils.class);
 
     /**
      * Resolve the message from the key and the parameters on ErrorMessage propertie

@@ -137,14 +137,6 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
 
         }
 
-        // allow capital asset tab to be editable based on requisition status
-        String reqDocumentStatus = reqDocument.getApplicationDocumentStatus();
-        if (RequisitionStatuses.APPDOC_AWAIT_FISCAL_REVIEW.equals(reqDocumentStatus)
-                || RequisitionStatuses.APPDOC_IN_PROCESS.equals(reqDocumentStatus))
-        {
-            editModes.add(RequisitionEditMode.ALLOW_CAPITAL_ASSET_EDITS);
-        }
-
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
              Set<String> nodeNames = workflowDocument.getNodeNames();

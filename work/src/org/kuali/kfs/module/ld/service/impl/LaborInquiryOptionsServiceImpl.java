@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.web.ui.Field;
@@ -46,6 +47,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationFieldName()
      */
+    @Override
     public String getConsolidationFieldName() {
         return Constant.CONSOLIDATION_OPTION;
     }
@@ -53,9 +55,10 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationField(java.util.Collection)
      */
+    @Override
     public Field getConsolidationField(Collection<Row> rows) {
         for (Row row : rows) {
-            for (Field field : ((Collection<Field>) row.getFields())) {
+            for (Field field : (row.getFields())) {
                 if (field.getPropertyName().equals(getConsolidationFieldName())) {
                     return field;
                 }
@@ -67,6 +70,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getSelectedPendingEntryOption(java.util.Map)
      */
+    @Override
     public String getSelectedPendingEntryOption(Map fieldValues) {
         // truncate the non-property filed
         String pendingEntryOption = (String) fieldValues.get(Constant.PENDING_ENTRY_OPTION);
@@ -76,8 +80,21 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     }
 
     /**
+     * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isCgBeginningBalanceOnlyExcluded(java.util.Map)
+     */
+    @Override
+    public boolean isCgBeginningBalanceOnlyExcluded(Map fieldValues) {
+        // truncate the non-property filed
+        String cgBeginningBalanceExcludeOption = (String) fieldValues.get(Constant.EXCLUDE_CG_BEGINNING_BALANCE_ONLY_OPTION);
+        fieldValues.remove(Constant.EXCLUDE_CG_BEGINNING_BALANCE_ONLY_OPTION);
+
+        return ParameterValues.YES.equalsIgnoreCase(cgBeginningBalanceExcludeOption);
+    }
+
+    /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#getConsolidationOption(java.util.Map)
      */
+    @Override
     public String getConsolidationOption(Map fieldValues) {
         String consolidationOption = (String) fieldValues.get(getConsolidationFieldName());
         // truncate the non-property filed
@@ -87,11 +104,12 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map, java.util.Collection)
-     * 
+     *
      * KRAD Conversion: Lookupable performs checking for a particular attribute and return true or false.
      * This method is called from BaseFundsLookupableHelperServiceImpl.java, CurrentFundsLookupableHelperServiceImpl.java,
      * LedgerBalanceLookupableHelperServiceImpl.java in ld module
      */
+    @Override
     public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows) {
         boolean isConsolidationSelected = isConsolidationSelected(fieldValues);
 
@@ -105,6 +123,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map)
      */
+    @Override
     public boolean isConsolidationSelected(Map fieldValues) {
         String consolidationOption = getConsolidationOption(fieldValues);
 
@@ -126,6 +145,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateLedgerBalanceByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
+    @Override
     public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
         // determine if search results need to be updated by pending ledger entries
         if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
@@ -140,6 +160,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateCurrentFundsByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
+    @Override
     public void updateCurrentFundsByPendingLedgerEntry(Collection<AccountStatusCurrentFunds> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated) {
         // determine if search results need to be updated by pending ledger entries
         if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
@@ -154,6 +175,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#updateByPendingLedgerEntry(java.util.Collection,
      *      java.util.Map, java.lang.String, boolean)
      */
+    @Override
     public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption) {
         // determine if search results need to be updated by pending ledger entries
         if (Constant.ALL_PENDING_ENTRY.equals(pendingEntryOption)) {
@@ -166,7 +188,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * update a given collection entry with the pending entry obtained from the given field values and isApproved
-     * 
+     *
      * @param entryCollection the given entry collection
      * @param fieldValues the given field values
      * @param isApproved indicate if the resulting pending entry has been approved
@@ -223,7 +245,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * Determines if any of the fields that require a detail view are used
-     * 
+     *
      * @param fieldValues
      * @param fieldName
      */
@@ -233,7 +255,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * Sets the laborLedgerBalanceService attribute value.
-     * 
+     *
      * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
@@ -242,7 +264,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * Sets the laborLedgerPendingEntryService attribute value.
-     * 
+     *
      * @param laborLedgerPendingEntryService The laborLedgerPendingEntryService to set.
      */
     public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {

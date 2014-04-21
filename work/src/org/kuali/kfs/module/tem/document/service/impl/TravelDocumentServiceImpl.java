@@ -1058,19 +1058,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return isTravelAuthorizationProcessed(document) && isOpen(document);
     }
 
-    @Override
-    public boolean isUnsuccessful(TravelDocument document) {
-        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        List<String> unsuccessful = KewApiConstants.DOCUMENT_STATUS_PARENT_TYPES.get(KewApiConstants.DOCUMENT_STATUS_PARENT_TYPE_UNSUCCESSFUL);
-        for (String tempStatus : unsuccessful){
-            if (status.equals(tempStatus)){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * is this document in a processed workflow state?
      *
@@ -1620,6 +1607,19 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected GroupTravelerCsvRecord createGroupTravelerCsvRecord(final Map<String, List<Integer>> header, final String[] record) throws Exception {
         return getCsvRecordFactory().newInstance(header, record);
+    }
+
+    @Override
+    public boolean isUnsuccessful(TravelDocument document) {
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        List<String> unsuccessful = KewApiConstants.DOCUMENT_STATUS_PARENT_TYPES.get(KewApiConstants.DOCUMENT_STATUS_PARENT_TYPE_UNSUCCESSFUL);
+        for (String tempStatus : unsuccessful){
+            if (status.equals(tempStatus)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -2663,14 +2663,21 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     /**
      * In the default version, checks if the "config.document.travelRelocation.agencySites.include.tripId" property is true and if it is, just dumbly
-     * appends the tripId= doc's trip id to the link.  Really, out of the box, this isn't all that smart.
+     * appends the tripId= doc's trip id to the link.  Really, out of the box, this isn't all that smart. Will mask the value if the parameter says to.
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#customizeAgencyLink(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String, java.lang.String)
      */
     @Override
     public String customizeAgencyLink(TravelDocument travelDocument, String agencyName, String link) {
         final boolean passTrip = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES);
-        if (!passTrip || StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
+        if (!passTrip ||  StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
             return link; // nothing to add
+        }
+
+        if (travelDocument instanceof TravelAuthorizationDocument) {
+            final boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+            if (!vendorPaymentAllowedBeforeFinal) {
+                return link;
+            }
         }
         final String linkWithTripId = link+"?tripId="+travelDocument.getTravelDocumentIdentifier();
         return linkWithTripId;
@@ -2684,7 +2691,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected String prefixUrl(String url) {
         String prefixedUrl = url;
         if (!prefixedUrl.startsWith("http")) {
-            prefixedUrl = "http://"+prefixedUrl;
+            prefixedUrl = "https://"+prefixedUrl;
         }
         return prefixedUrl;
     }

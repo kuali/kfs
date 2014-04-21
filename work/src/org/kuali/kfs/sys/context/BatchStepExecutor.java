@@ -107,8 +107,9 @@ public class BatchStepExecutor implements Runnable {
 				batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile);
 			}
 
-		} catch (Throwable throwable) {
-			LOG.info("Step threw an error: ", throwable);
+		} catch (Exception throwable) {
+			//LOG.info("Step threw an error: ", throwable);
+		    LOG.warn(batchStepFile + " threw " + throwable.getClass().getName() + ". Look at the step log to see the details. throwable.getMessage(): " + throwable.getMessage());
 			batchContainerDirectory.writeBatchStepErrorResultFile(batchStepFile, throwable);
 
 		} finally {

@@ -390,9 +390,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * vendors, but at the moment, the pending vendors are under research investigation, so we're only checking the existing vendors
      * for now. If the vendor is a parent and the validation fails, display the actual error message. If the vendor is not a parent
      * and the validation fails, display the error message that the parent of this vendor needs to be changed, please contact
-     * Purchasing Dept. While checking for the existence of vendors with the same tax # and tax type, exclude the vendors with the
-     * same id. KULPURAP-302: Allow a duplication of a tax number in vendor header if there are only "inactive" header records with
-     * the duplicate record
+     * Purchasing Dept.
+     * Note: We will require uniqueness on Tax ID + ID type across all active and inactive vendors.
+     * If an inactive vendor exists with the same Tax ID and Tax ID Type, either the existing vendor record
+     * should be reactivated (or the incorrect tax id corrected).
      *
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes the unique tax # and tax type validation.
@@ -400,10 +401,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
    boolean validateParentVendorTaxNumber(VendorDetail vendorDetail) {
         boolean valid = true;
         boolean isParent = vendorDetail.isVendorParentIndicator();
+
         Map criteria = new HashMap();
+        criteria.put(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE, vendorDetail.getVendorHeader().getVendorTaxTypeCode());
         criteria.put(VendorPropertyConstants.VENDOR_TAX_NUMBER, vendorDetail.getVendorHeader().getVendorTaxNumber());
-         Map negativeCriteria = new HashMap();
+        Map negativeCriteria = new HashMap();
+
         int existingVendor = 0;
+
         // If this is editing an existing vendor, we have to include the current vendor's
         // header generated id in the negative criteria so that the current vendor is
         // excluded from the search
@@ -417,6 +422,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             // vendors with the same tax # and tax type regardless of the vendor header generated id.
             existingVendor = getBoService().countMatching(VendorDetail.class, criteria);
         }
+
         if (existingVendor > 0) {
             if (isParent) {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_TAX_TYPE_AND_NUMBER_COMBO_EXISTS);
@@ -426,6 +432,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             }
             valid &= false;
         }
+
         return valid;
     }
 

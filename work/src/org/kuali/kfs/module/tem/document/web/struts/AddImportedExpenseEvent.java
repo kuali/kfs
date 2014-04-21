@@ -86,7 +86,6 @@ public class AddImportedExpenseEvent implements Observer {
                 throw new RuntimeException("Could not copy properties to imported line detail", ex);
             }
 
-            //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);
             wrapper.setNewImportedExpenseLine(new ImportedExpense());
             wrapper.getNewImportedExpenseLines().add(newExpense);
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));

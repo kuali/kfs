@@ -24,6 +24,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -36,6 +37,10 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     protected String correctedByDocumentId;
     protected String financialDocumentInErrorNumber;
     protected String financialDocumentStatusCode;
+    protected String workflowDocumentStatusCode;
+    protected String applicationDocumentStatus;
+    protected String initiatorPrincipalId;
+    protected String workflowDocumentTypeName;
 
     /**
      * Constructor - creates empty instances of dependent objects
@@ -110,6 +115,30 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
         this.financialDocumentStatusCode = financialDocumentStatusCode;
     }
 
+    public String getWorkflowDocumentStatusCode() {
+        return workflowDocumentStatusCode;
+    }
+
+    public void setWorkflowDocumentStatusCode(String workflowDocumentStatusCode) {
+        this.workflowDocumentStatusCode = workflowDocumentStatusCode;
+    }
+
+    public String getInitiatorPrincipalId() {
+        return initiatorPrincipalId;
+    }
+
+    public void setInitiatorPrincipalId(String initiatorPrincipalId) {
+        this.initiatorPrincipalId = initiatorPrincipalId;
+    }
+
+    public String getWorkflowDocumentTypeName() {
+        return workflowDocumentTypeName;
+    }
+
+    public void setWorkflowDocumentTypeName(String workflowDocumentTypeName) {
+        this.workflowDocumentTypeName = workflowDocumentTypeName;
+    }
+
     /**
      * Gets the documentFinalDate attribute.
      * @return Returns the documentFinalDate.
@@ -129,8 +158,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      */
 
     public String getApplicationDocumentStatus() {
-        WorkflowDocument document = getWorkflowDocument();
-        return StringUtils.trimToEmpty(document.getApplicationDocumentStatus());
+        return applicationDocumentStatus;
     }
 
     /**
@@ -142,6 +170,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
         WorkflowDocument document = getWorkflowDocument();
 
         document.setApplicationDocumentStatus(applicationDocumentStatus);
+        this.applicationDocumentStatus = applicationDocumentStatus;
     }
 
     /**
@@ -184,6 +213,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
        setApplicationDocumentStatus(applicationDocumentStatus);
        SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
+       SpringContext.getBean(BusinessObjectService.class).save(this);
     }
 
 }

@@ -77,6 +77,7 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
      * @param criteria the criteria in which to check for a max results value
      * @return the maximum number of results that should be returned from a document search
      */
+    @Override
     public int getMaxResultCap(DocumentSearchCriteria criteria) {
         int systemLimit = KewApiConstants.DOCUMENT_LOOKUP_DEFAULT_RESULT_CAP;
         String resultCapValue = getParameterService().getParameterValueAsString(KewApiConstants.KEW_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_SEARCH_DETAIL_TYPE, KewApiConstants.DOC_SEARCH_RESULT_CAP);
@@ -108,6 +109,7 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         return maxResults;
     }
 
+    @Override
     public int getFetchMoreIterationLimit() {
         int fetchMoreLimit = DEFAULT_FETCH_MORE_ITERATION_LIMIT;
         String fetchMoreLimitValue = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KewApiConstants.KEW_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_SEARCH_DETAIL_TYPE, KewApiConstants.DOC_SEARCH_FETCH_MORE_ITERATION_LIMIT);
@@ -150,17 +152,14 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         this.documentAdHocService = documentAdHocService;
     }
 
-
     /**
      * Gets the parameterService attribute.
      *
      * @return Returns the parameterService
      */
-
     public ParameterService getParameterService() {
         return parameterService;
     }
-
 
     /**
      * Sets the parameterService attribute.
@@ -170,9 +169,4 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
-
-
-
-
 }

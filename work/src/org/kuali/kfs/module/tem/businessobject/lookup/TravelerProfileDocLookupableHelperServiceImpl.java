@@ -86,7 +86,7 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TemProfileLoo
         Map<String, String> roleQualifier = new HashMap<String, String>();
         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
-        roleQualifier.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());
+        roleQualifier.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());
         roleQualifier.put(TemKimAttributes.CUSTOMER_PROFILE_ID, profile.getCustomerNumber());
         roleQualifier.put(TemKimAttributes.PROFILE_ID, profile.getProfileId().toString());
 

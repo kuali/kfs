@@ -61,16 +61,10 @@
 				<ref bean="VendorDetail-vendorRestrictedIndicator" />
 				<ref bean="VendorDetail-vendorParentIndicator" />
 				<ref bean="VendorDetail-vendorFirstLastNameIndicator" />
-				<ref bean="VendorDetail-defaultAddressLine1"/>
-				<ref bean="VendorDetail-defaultAddressLine2"/>
-				<ref bean="VendorDetail-defaultAddressCity"/>
-				<ref bean="VendorDetail-defaultAddressPostalCode"/>
-				<ref bean="VendorDetail-defaultAddressStateCode"/>
-				<ref bean="VendorDetail-defaultAddressInternationalProvince"/>
-				<ref bean="VendorDetail-defaultAddressCountryCode"/>
 				<ref bean="VendorDetail-vendorAddresses.vendorStateCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorTaxNumber" />
-				<ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
+				<ref
+					bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
 				<ref bean="VendorDetail-vendorHeader.vendorTaxTypeCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorOwnershipCode" />
 				<ref bean="VendorDetail-vendorHeader.vendorOwnershipCategoryCode" />
@@ -495,35 +489,6 @@
 		<property name="label" value="Vendor First Last Name Indicator" />
 		<property name="shortLabel" value="Vendor First Last Name Indicator" />
 	</bean>
-	<bean id="VendorDetail-defaultAddressLine1" parent="VendorDetail-defaultAddressLine1-parentBean"/>
-	<bean id="VendorDetail-defaultAddressLine1-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
-		<property name="name" value="defaultAddressLine1" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressLine2" parent="VendorDetail-defaultAddressLine2-parentBean"/>
-	<bean id="VendorDetail-defaultAddressLine2-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
-		<property name="name" value="defaultAddressLine2" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressCity" parent="VendorDetail-defaultAddressCity-parentBean"/>
-	<bean id="VendorDetail-defaultAddressCity-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
-		<property name="name" value="defaultAddressCity" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressPostalCode" parent="VendorDetail-defaultAddressPostalCode-parentBean"/>
-	<bean id="VendorDetail-defaultAddressPostalCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
-		<property name="name" value="defaultAddressPostalCode" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressStateCode" parent="VendorDetail-defaultAddressStateCode-parentBean"/>
-	<bean id="VendorDetail-defaultAddressStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
-		<property name="name" value="defaultAddressStateCode" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressInternationalProvince" parent="VendorDetail-defaultAddressInternationalProvince-parentBean"/>
-	<bean id="VendorDetail-defaultAddressInternationalProvince-parentBean" abstract="true" parent="VendorAddress-vendorAddressInternationalProvinceName">
-		<property name="name" value="defaultAddressInternationalProvince" />
-	</bean>
-	<bean id="VendorDetail-defaultAddressCountryCode" parent="VendorDetail-defaultAddressCountryCode-parentBean"/>
-	<bean id="VendorDetail-defaultAddressCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
-		<property name="name" value="defaultAddressCountryCode" />
-	</bean>
-	
 	<bean id="VendorDetail-vendorAddresses.vendorStateCode" parent="VendorDetail-vendorAddresses.vendorStateCode-parentBean" />
 
 	<bean id="VendorDetail-vendorAddresses.vendorStateCode-parentBean"

@@ -368,5 +368,4 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
             this.date = argDate;
         }
     }
-
 }

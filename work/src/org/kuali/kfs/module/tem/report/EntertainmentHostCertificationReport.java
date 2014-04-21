@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     private Date endDate;
     private KualiDecimal totalExpense;
     private String employeeName;
-    
+
     private String purpose;
     private String tripId;
     private String institution;
@@ -61,94 +61,94 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     private String approvingDepartment;
     List<NonEmployeeCertificationReport.Detail> expenseDetails;
     private BufferedImage barcodeImage;
-    
+
     @Crosstab
     @DetailSection
     @SubReport
     private JRDataSource actualExpenses;
-    
-    
+
+
     public EntertainmentHostCertificationReport(){
         setReportTemplateClassPath(TEMPLATE_CLASSPATH);
         setReportFileName("EntertainmentHostCertification" + PDF_FILE_EXTENSION);
         setReportTemplateName("EntertainmentHostCertification.jrxml");
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @param argDocumentId
      */
     public void setDocumentId(String argDocumentId){
         documentId = argDocumentId;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     public String getDocumentId(){
         return documentId;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @param argEventId
      */
     public void setEventId(String argEventId){
         eventId = argEventId;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     public String getEventId(){
         return eventId;
     }
-    
-  
+
+
     /**
-     * 
+     *
      * This method...
      * @param argEndDate
      */
     public void setEndDate(Date argEndDate){
         endDate = argEndDate;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     public Date getEndDate(){
         return endDate;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @param argTotalExpense
      */
     public void setTotalExpense(KualiDecimal argTotalExpense){
         totalExpense = argTotalExpense;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     public KualiDecimal getTotalExpense(){
         return totalExpense;
     }
-    
 
-    
+
+
     /**
      * Gets the value of TripId
      *
@@ -157,7 +157,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public String getTripId() {
         return this.tripId;
     }
-    
+
     /**
      * Sets the value of TripId
      *
@@ -175,7 +175,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public String getPurpose() {
         return this.purpose;
     }
-    
+
     /**
      * Sets the value of Purpose
      *
@@ -193,7 +193,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public String getInstitution() {
         return this.institution;
     }
-    
+
     /**
      * Sets the value of Institution
      *
@@ -202,7 +202,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public void setInstitution(final String argInstitution) {
         this.institution = argInstitution;
     }
-    
+
     /**
      * Gets the value of Other
      *
@@ -211,7 +211,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public JRDataSource getActualExpenses() {
         return this.actualExpenses;
     }
-    
+
     /**
      * Sets the value of Other
      *
@@ -220,14 +220,14 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public void setActualExpenses(final Collection<Detail> argOther) {
         this.actualExpenses = convertReportData(argOther);
     }
-    
+
     public static class Detail {
         @ColumnHeader
         private String name;
-        
+
         @RowHeader
         private String date;
-        
+
         @Measure
         private BigDecimal amount;
 
@@ -241,7 +241,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
             }
             this.date = date;
         }
-        
+
         /**
          * Gets the value of Name
          *
@@ -250,7 +250,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
         public String getName() {
             return this.name;
         }
-        
+
         /**
          * Sets the value of Name
          *
@@ -259,7 +259,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
         public void setName(final String argName) {
             this.name = argName;
         }
-        
+
         /**
          * Gets the value of Amount
          *
@@ -268,7 +268,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
         public BigDecimal getAmount() {
             return this.amount;
         }
-        
+
         /**
          * Sets the value of Amount
          *
@@ -286,7 +286,7 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
         public String getDate() {
             return this.date;
         }
-        
+
         /**
          * Sets the value of Date
          *
@@ -382,6 +382,4 @@ public class EntertainmentHostCertificationReport extends ReportInfoHolder{
     public void setBarcodeImage(BufferedImage barcodeImage) {
         this.barcodeImage = barcodeImage;
     }
-    
- 
 }

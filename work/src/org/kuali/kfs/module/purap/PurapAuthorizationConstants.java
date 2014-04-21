@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,14 +29,13 @@ public class PurapAuthorizationConstants {
         public static final String ALLOW_ITEM_ENTRY = "allowItemEntry";
         public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
         public static final String LOCK_ADDRESS_TO_VENDOR = "lockAddressToVendor";
-        public static final String LOCK_TAX_AMOUNT_ENTRY = "lockTaxAmountEntry";
+        public static final String LOCK_TAX_AMOUNT_ENTRY = "lockTaxAmountEntry";   
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
         public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
         public static final String RESTRICT_FISCAL_ENTRY = "restrictFiscalEntry";
         public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
         public static final String DISABLE_REMOVE_ACCTS = "disableRemoveAccounts";
         public static final String DISABLE_SETUP_ACCT_DISTRIBUTION = "disableSetupAccountDistribution";
-        public static final String ALLOW_CAPITAL_ASSET_EDITS = "allowCapitalAssetEdit";
     }
 
     public static class PurchaseOrderEditMode {
@@ -61,7 +60,7 @@ public class PurapAuthorizationConstants {
     }
 
     public static class PaymentRequestEditMode {
-        public static final String PURAP_TAX_ENABLED = "purapTaxEnabled";
+        public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
@@ -102,14 +101,14 @@ public class PurapAuthorizationConstants {
     public static class CorrectionReceivingEditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
-
+    
     public static class BulkReceivingEditMode {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String LOCK_PO_DETAILS = "lockPODetails";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
-
-    public static final String PURAP_TAX_ENABLED = "purapTaxEnabled";
-
+    
+    public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
+    
 
 }

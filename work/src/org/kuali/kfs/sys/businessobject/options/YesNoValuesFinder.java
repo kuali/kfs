@@ -18,6 +18,8 @@ package org.kuali.kfs.sys.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSConstants.OptionLabels;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -32,8 +34,8 @@ public class YesNoValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", ""));
-        keyValues.add(new ConcreteKeyValue("Y", "Yes"));
-        keyValues.add(new ConcreteKeyValue("N", "No"));
+        keyValues.add(new ConcreteKeyValue(ParameterValues.YES, OptionLabels.YES));
+        keyValues.add(new ConcreteKeyValue(ParameterValues.NO, OptionLabels.NO));
 
         return keyValues;
     }

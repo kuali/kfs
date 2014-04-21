@@ -24,7 +24,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -96,7 +95,7 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
     protected void addRoleQualificationsFromProfile(TemProfile profile, Map<String, String> attributes) {
         // Add the principalId from the profile to grant permission to users modifying their own profile.
         if (!StringUtils.isBlank(profile.getPrincipalId())) {
-            attributes.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());
+            attributes.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());
         }
 
         // OrgCode and COACode are needed for the org descending hierarchy qualification

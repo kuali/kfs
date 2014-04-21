@@ -28,6 +28,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -73,7 +74,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                 }
             } else {
                 // do we have a profile principal id?
-                final String profilePrincipalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+                final String profilePrincipalId = qualification.get(KfsKimAttributes.PROFILE_PRINCIPAL_ID);
                 if (!StringUtils.isBlank(profilePrincipalId)) {
                     // in this case, we're just wondering if the user is an assigned arranger in general
                     return getArrangerDocumentService().hasArrangees(profilePrincipalId);

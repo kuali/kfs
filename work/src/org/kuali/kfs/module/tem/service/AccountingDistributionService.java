@@ -51,8 +51,6 @@ public interface AccountingDistributionService {
 
     public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal accountingLinesTotal, KualiDecimal expenseLimit);
 
-    //TODO: remove when sure.
-    //public void normalizeAmountAndPercents(List<TemDistributionAccountingLine> lines, KualiDecimal remainingTotal);
 
     public KualiDecimal getTotalAmount(List<TemDistributionAccountingLine> lines);
 

@@ -64,6 +64,7 @@
                 <value>weeklyEmailJob</value>
                 <value>modulesLockJob</value>
 				<value>modulesUnlockJob</value>
+				<value>populateFinancialSystemDocumentHeadersFromKewJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -1215,6 +1216,32 @@
             </map>
         </property>
     </bean>
+    
+    <bean name="populateFinancialSystemDocumentHeadersFromKewStep" parent="populateFinancialSystemDocumentHeadersFromKewStep-parentBean"/>
+    <bean name="populateFinancialSystemDocumentHeadersFromKewStep-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.PopulateFinancialSystemDocumentHeadersFromKewStep">
+    	<property name="logMode" value="${populate.financial.system.headers.from.kew.log.mode}"/>
+    	<property name="populationService" ref="financialSystemDocumentHeaderPopulationService"/>
+    </bean>
+    
+    <bean name="populateFinancialSystemDocumentHeadersFromKewJob" parent="populateFinancialSystemDocumentHeadersFromKewJob-parentBean"/>
+    <bean name="populateFinancialSystemDocumentHeadersFromKewJob-parentBean" abstract="true" parent="unscheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="populateFinancialSystemDocumentHeadersFromKewStep"/>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean name="financialSystemDocumentHeaderPopulationService" parent="financialSystemDocumentHeaderPopulationService-parentBean"/>
+    <bean name="financialSystemDocumentHeaderPopulationService-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.service.impl.FinancialSystemDocumentHeaderPopulationServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService"/>
+    	<property name="workflowDocumentService" ref="rice.kew.workflowDocumentService"/>
+    	<property name="identityService" ref="kimIdentityService"/>
+    	<property name="financialSystemDocumentHeaderPopulationDao" ref="financialSystemDocumentHeaderPopulationDao"/>
+    </bean>
+    
+    <bean id="financialSystemDocumentHeaderPopulationDao" parent="financialSystemDocumentHeaderPopulationDao-parentBean"/>
+	<bean id="financialSystemDocumentHeaderPopulationDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FinancialSystemDocumentHeaderPopulationDaoOjb"/>
        
     <import resource="spring-sys-bus-exports.xml"/>
 </beans>

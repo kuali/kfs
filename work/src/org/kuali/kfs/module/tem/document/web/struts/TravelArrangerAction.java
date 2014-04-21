@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,14 +30,14 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
-    
+
     public static Logger LOG = Logger.getLogger(TravelArrangerAction.class);
-    
+
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
@@ -54,19 +54,19 @@ public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
         String refreshCaller = arrgrForm.getRefreshCaller();
 
         LOG.debug("refresh call is:  " + refreshCaller);
-        
+
         ActionForward actionAfterTravelerLookup = this.refreshAfterProfileLookup(mapping, arrgrForm, request);
         if (actionAfterTravelerLookup != null) {
             return actionAfterTravelerLookup;
         }
-        
+
         return super.refresh(mapping, form, request, response);
     }
-    
+
     /**
      * This method is called during a refresh from lookup, it checks to see if it is being called for Group Traveler or the initial
      * Traveler lookup
-     * 
+     *
      * @param mapping
      * @param reqForm
      * @param request
@@ -74,14 +74,12 @@ public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
      */
     protected ActionForward refreshAfterProfileLookup(ActionMapping mapping, TravelArrangerForm arrangerForm, HttpServletRequest request) {
         String refreshCaller = arrangerForm.getRefreshCaller();
-        
+
         boolean isProfileLookupable = StringUtils.equals(refreshCaller, TEM_PROFILE_LOOKUPABLE);
 
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
         // information
         if (refreshCaller == null) {
-            //arrangerForm.setTravelerId(reqForm.getTempTravelerId());
-
             return null;
         }
 
@@ -92,8 +90,6 @@ public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
 
         TravelArrangerDocument doc = (TravelArrangerDocument)arrangerForm.getDocument();
         doc.refreshReferenceObject("profile");
-        //doc.setProfileId(profileId);
-        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -113,13 +109,13 @@ public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
                 getTravelDocumentService().addAdHocFYIRecipient(doc, doc.getProfile().getPrincipalId());
             }
         }
-        
+
         return super.route(mapping, form, request, response);
     }
-    
+
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
-    
+
 
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
+
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Budget Construction Organization Account Summary Report Business Object.
@@ -28,29 +30,29 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
 
     private BigDecimal totalObjectPositionCsfLeaveFteQuantity;
     private BigDecimal totalObjectCsfFullTimeEmploymentQuantity;
-    private Integer totalObjectFinancialBeginningBalanceLineAmount;
+    private KualiInteger totalObjectFinancialBeginningBalanceLineAmount;
     private BigDecimal totalObjectAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalObjectAppointmentRequestedFteQuantity;
-    private Integer totalObjectAccountLineAnnualBalanceAmount;
-    
+    private KualiInteger totalObjectAccountLineAnnualBalanceAmount;
+
     private String totalLevelDescription;
 
     private BigDecimal totalLevelPositionCsfLeaveFteQuantity;
     private BigDecimal totalLevelCsfFullTimeEmploymentQuantity;
-    private Integer totalLevelFinancialBeginningBalanceLineAmount;
+    private KualiInteger totalLevelFinancialBeginningBalanceLineAmount;
     private BigDecimal totalLevelAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalLevelAppointmentRequestedFteQuantity;
-    private Integer totalLevelAccountLineAnnualBalanceAmount;
-    
+    private KualiInteger totalLevelAccountLineAnnualBalanceAmount;
+
     private String typeDesc;
-    
+
     private BigDecimal totalTypePositionCsfLeaveFteQuantity;
     private BigDecimal totalTypeCsfFullTimeEmploymentQuantity;
-    private Integer totalTypeFinancialBeginningBalanceLineAmount;
+    private KualiInteger totalTypeFinancialBeginningBalanceLineAmount;
     private BigDecimal totalTypeAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalTypeAppointmentRequestedFteQuantity;
-    private Integer totalTypeAccountLineAnnualBalanceAmount;
-    
+    private KualiInteger totalTypeAccountLineAnnualBalanceAmount;
+
     private BudgetConstructionBalanceByAccount budgetConstructionBalanceByAccount;
 
     public String getTotalObjectDescription() {
@@ -77,11 +79,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalObjectCsfFullTimeEmploymentQuantity = totalObjectCsfFullTimeEmploymentQuantity;
     }
 
-    public Integer getTotalObjectFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTotalObjectFinancialBeginningBalanceLineAmount() {
         return totalObjectFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTotalObjectFinancialBeginningBalanceLineAmount(Integer totalObjectFinancialBeginningBalanceLineAmount) {
+    public void setTotalObjectFinancialBeginningBalanceLineAmount(KualiInteger totalObjectFinancialBeginningBalanceLineAmount) {
         this.totalObjectFinancialBeginningBalanceLineAmount = totalObjectFinancialBeginningBalanceLineAmount;
     }
 
@@ -101,11 +103,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalObjectAppointmentRequestedFteQuantity = totalObjectAppointmentRequestedFteQuantity;
     }
 
-    public Integer getTotalObjectAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTotalObjectAccountLineAnnualBalanceAmount() {
         return totalObjectAccountLineAnnualBalanceAmount;
     }
 
-    public void setTotalObjectAccountLineAnnualBalanceAmount(Integer totalObjectAccountLineAnnualBalanceAmount) {
+    public void setTotalObjectAccountLineAnnualBalanceAmount(KualiInteger totalObjectAccountLineAnnualBalanceAmount) {
         this.totalObjectAccountLineAnnualBalanceAmount = totalObjectAccountLineAnnualBalanceAmount;
     }
     public String getTotalLevelDescription() {
@@ -132,11 +134,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalLevelCsfFullTimeEmploymentQuantity = totalLevelCsfFullTimeEmploymentQuantity;
     }
 
-    public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTotalLevelFinancialBeginningBalanceLineAmount() {
         return totalLevelFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
+    public void setTotalLevelFinancialBeginningBalanceLineAmount(KualiInteger totalLevelFinancialBeginningBalanceLineAmount) {
         this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
     }
 
@@ -156,11 +158,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalLevelAppointmentRequestedFteQuantity = totalLevelAppointmentRequestedFteQuantity;
     }
 
-    public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTotalLevelAccountLineAnnualBalanceAmount() {
         return totalLevelAccountLineAnnualBalanceAmount;
     }
 
-    public void setTotalLevelAccountLineAnnualBalanceAmount(Integer totalLevelAccountLineAnnualBalanceAmount) {
+    public void setTotalLevelAccountLineAnnualBalanceAmount(KualiInteger totalLevelAccountLineAnnualBalanceAmount) {
         this.totalLevelAccountLineAnnualBalanceAmount = totalLevelAccountLineAnnualBalanceAmount;
     }
     public String getTypeDesc() {
@@ -187,11 +189,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalTypeCsfFullTimeEmploymentQuantity = totalTypeCsfFullTimeEmploymentQuantity;
     }
 
-    public Integer getTotalTypeFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTotalTypeFinancialBeginningBalanceLineAmount() {
         return totalTypeFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTotalTypeFinancialBeginningBalanceLineAmount(Integer totalTypeFinancialBeginningBalanceLineAmount) {
+    public void setTotalTypeFinancialBeginningBalanceLineAmount(KualiInteger totalTypeFinancialBeginningBalanceLineAmount) {
         this.totalTypeFinancialBeginningBalanceLineAmount = totalTypeFinancialBeginningBalanceLineAmount;
     }
 
@@ -211,11 +213,11 @@ public class BudgetConstructionAccountObjectDetailReportTotal {
         this.totalTypeAppointmentRequestedFteQuantity = totalTypeAppointmentRequestedFteQuantity;
     }
 
-    public Integer getTotalTypeAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTotalTypeAccountLineAnnualBalanceAmount() {
         return totalTypeAccountLineAnnualBalanceAmount;
     }
 
-    public void setTotalTypeAccountLineAnnualBalanceAmount(Integer totalTypeAccountLineAnnualBalanceAmount) {
+    public void setTotalTypeAccountLineAnnualBalanceAmount(KualiInteger totalTypeAccountLineAnnualBalanceAmount) {
         this.totalTypeAccountLineAnnualBalanceAmount = totalTypeAccountLineAnnualBalanceAmount;
     }
 

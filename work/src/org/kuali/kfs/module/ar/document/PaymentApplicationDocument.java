@@ -287,11 +287,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
+     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()- added for KFSCNTRB-1533/ KFSMI-10308
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return getTotalFromControl();
+        return getTotalApplied();
     }
 
     /**

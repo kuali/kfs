@@ -441,12 +441,6 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
 
-
-
-            //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
-            //document.setSourceAccountingLines(rootDocument.getSourceAccountingLines());
-            //document.setTargetAccountingLines(rootDocument.getTargetAccountingLines());
-
             //only initialize per diem and copy expenses for a TR created from a TA
             if (rootDocument instanceof TravelAuthorizationDocument) {
 
@@ -845,7 +839,7 @@ public class TravelReimbursementAction extends TravelActionBase {
     }
 
     /**
-     * Forward to MAPPING_BASIC. The newReimbursement button is assumed to have java script
+     * Forward to url to create new reimbursement
      *
      * @param mapping
      * @param form
@@ -855,7 +849,8 @@ public class TravelReimbursementAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward newReimbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final TravelReimbursementDocument travelReimb = ((TravelReimbursementForm)form).getTravelReimbursementDocument();
+        return new ActionForward(buildNewReimbursementUrl(travelReimb), true);
     }
 
     protected TravelReimbursementService getTravelReimbursementService() {

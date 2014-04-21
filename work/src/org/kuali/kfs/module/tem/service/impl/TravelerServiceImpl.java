@@ -78,18 +78,18 @@ import org.springframework.beans.BeanUtils;
  */
 public class TravelerServiceImpl implements TravelerService {
 
-    private ParameterService parameterService;
-    private PersonService personService;
-    private IdentityManagementService identityManagementService;
-    private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
-    private TemRoleService temRoleService;
-    private ChartService chartService;
-    private OrganizationService organizationService;
-    private RoleService roleService;
-    private AccountsReceivableModuleService accountsReceivableModuleService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
+    protected IdentityManagementService identityManagementService;
+    protected BusinessObjectService businessObjectService;
+    protected DateTimeService dateTimeService;
+    protected TemRoleService temRoleService;
+    protected ChartService chartService;
+    protected OrganizationService organizationService;
+    protected RoleService roleService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
 
-    private static Logger LOG = Logger.getLogger(TravelerServiceImpl.class);
+    protected static Logger LOG = Logger.getLogger(TravelerServiceImpl.class);
 
     /**
      * Creates a {@link TravelerDetail} from a {@link Person} instance

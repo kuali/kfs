@@ -235,13 +235,13 @@
 			<column name="CONTACT_NAME" type="VARCHAR2(45)" />
 			<column name="PRE_RECONCILED" type="VARCHAR2(1)" />
 			<column name="ENABLE_NON_REIMBURSABLE" type="VARCHAR2(1)" />
-			<column name="VNDR_HDR_GNRTD_ID" type="DECIMAL(10)" />
-			<column name="VNDR_DTL_ASND_ID" type="DECIMAL(10)" />
 			<column name="FOREIGN_COMPANY" type="VARCHAR2(1)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="BNK_CD" type="VARCHAR2(4)" />
+			<column name="VNDR_HDR_GNRTD_ID" type="DECIMAL(10)" />
+			<column name="VNDR_DTL_ASND_ID" type="DECIMAL(10)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="CREDIT_CARD_AGENCY_CODE" />
@@ -296,7 +296,7 @@
 			constraintName="TEM_CTS_CARD_APP_DOC_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_EM_CONT_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
+			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
 			<column name="CONT_REL_TYP_CD" type="VARCHAR2(3)" />
 			<column name="CONT_NM" type="VARCHAR2(40)" />
@@ -338,13 +338,14 @@
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
 			<column name="HOST_AS_PAYEE" type="VARCHAR2(1)" />
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_ENT_DOC_T" constraintName="TEM_ENT_DOC_TP1"
 			columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_ENT_DOC_T" defaultValue="N"/>
 		<createTable tableName="TEM_GRP_TRVLR_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
+			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
 			<column name="NAME" type="VARCHAR2(100)" />
 			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
@@ -528,27 +529,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_PROFILE_ARRANGER_T"
 			constraintName="TEM_PROFILE_ARRANGER_TP1" columnNames="ARRANGER_ID" />
-		<createTable tableName="TEM_PROFILE_CUST_T">
-			<column name="CUST_NBR" type="VARCHAR2(40)" />
-			<column name="CUSTOMER_TYP_CD" type="VARCHAR2(2)" />
-			<column name="CUST_NM" type="VARCHAR2(19)" />
-			<column name="CUST_PHONE_NBR" type="VARCHAR2(40)" />
-			<column name="CUST_TAX_NBR" type="VARCHAR2(40)" />
-			<column name="CUST_TAX_TYP_CD" type="VARCHAR2(4)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="ADDRESS_NAME" type="VARCHAR2(40)" />
-			<column name="ADDR_LINE_1" type="VARCHAR2(50)" />
-			<column name="ADDR_LINE_2" type="VARCHAR2(50)" />
-			<column name="CITY_NM" type="VARCHAR2(30)" />
-			<column name="STATE_CD" type="VARCHAR2(40)" />
-			<column name="ZIP_CD" type="VARCHAR2(10)" />
-			<column name="INTL_PROV_NM" type="VARCHAR2(45)" />
-			<column name="CUST_EMAIL_ADDR" type="VARCHAR2(40)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_PROFILE_CUST_T"
-			constraintName="TEM_PROFILE_CUST_TP1" columnNames="CUST_NBR" />
 		<createTable tableName="TEM_PROFILE_EM_CONT_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="CONT_REL_TYP_CD" type="VARCHAR2(3)" />
@@ -646,10 +626,11 @@
 			<column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_RELO_DOC_T"
 			constraintName="TEM_RELO_DOC_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_RELO_DOC_T" defaultValue="N"/>
 		<createTable tableName="TEM_RELO_REASON_T">
 			<column name="RELO_REASON_CD" type="VARCHAR2(2)" />
 			<column name="RELO_REASON_NM" type="VARCHAR2(40)" />
@@ -686,7 +667,7 @@
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
 			<column name="TRVL_DTL_ID" type="NUMBER(22,0)" />
-			<column name="TRVL_ADV_FDOC_NBR" type="VARCHAR(14)" />
+			<column name="TRVL_ADV_FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="AR_INV_DOC_NBR" type="VARCHAR2(14)" />
 			<column name="TAX_RAM_NTC" type="VARCHAR2(2000)" />
 			<column name="INV_AMT" type="NUMBER(22,0)" />
@@ -739,24 +720,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRAVELER_DTL_T"
 			constraintName="TEM_TRAVELER_DTL_TP1" columnNames="ID" />
-		<createTable tableName="TEM_TRAVELER_PROF_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FIRST_NM" type="VARCHAR2(40)" />
-			<column name="LAST_NM" type="VARCHAR2(40)" />
-			<column name="ADDR_LINE_1" type="VARCHAR2(50)" />
-			<column name="ADDR_LINE_2" type="VARCHAR2(50)" />
-			<column name="CITY_NM" type="VARCHAR2(50)" />
-			<column name="POSTAL_STATE_CD" type="VARCHAR2(50)" />
-			<column name="POSTAL_CD" type="VARCHAR2(50)" />
-			<column name="COUNTRY_CD" type="VARCHAR2(50)" />
-			<column name="EMAIL_ADDR" type="VARCHAR2(50)" />
-			<column name="PHONE_NBR" type="VARCHAR2(20)" />
-			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_TRAVELER_PROF_T"
-			constraintName="TEM_TRAVELER_PROF_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRAVELER_TYP_T">
 			<column name="CODE" type="VARCHAR2(3)" />
 			<column name="NM" type="VARCHAR2(40)" />
@@ -767,33 +730,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRAVELER_TYP_T"
 			constraintName="TEM_TRAVELER_TYP_TP1" columnNames="CODE" />
-		<createTable tableName="TEM_TRIP_DTL_EST_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
-			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
-			<column name="DETAIL_DT" type="DATE" />
-			<column name="COUNTRY" type="VARCHAR2(100)" />
-			<column name="COUNTY_CD" type="VARCHAR2(100)" />
-			<column name="PRI_DEST" type="VARCHAR2(100)" />
-			<column name="PERSONAL" type="VARCHAR2(1)" />
-			<column name="MEALS_INC" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="LODGING" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="MILES" type="NUMBER(22,0)" />
-			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
-			<column name="OTHER_EXP" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
-			<column name="ACCOM_TYP_CD" type="VARCHAR2(4)" />
-			<column name="ACCOM_NM" type="VARCHAR2(255)" />
-			<column name="ACCOM_PH" type="VARCHAR2(20)" />
-			<column name="ACCOM_ADDRESS" type="VARCHAR2(255)" />
-			<column name="PER_DIEM_ID" type="NUMBER(22,0)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_TRIP_DTL_EST_T"
-			constraintName="TEM_TRIP_DTL_EST_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRIP_TYP_T">
 			<column name="CODE" type="VARCHAR2(3)" />
 			<column name="NM" type="VARCHAR2(40)" />
@@ -884,10 +820,11 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
 			constraintName="TEM_TRVL_AUTH_AMEND_DOC_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_TRVL_AUTH_AMEND_DOC_T" defaultValue="N" />
 		<createTable tableName="TEM_TRVL_AUTH_CLOSE_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
@@ -914,10 +851,11 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="TR_FDOC_NBR" type="VARCHAR2(14)"/>
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
 			constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_TRVL_AUTH_CLOSE_DOC_T" defaultValue="N"/>
 		<createTable tableName="TEM_TRVL_AUTH_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
@@ -946,10 +884,11 @@
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
 			<column name="HOLD_RQSTR_PRNCPL_ID" type="VARCHAR2(40)"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="Y"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_DOC_T"
 			constraintName="TEM_TRVL_AUTH_DOC_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_TRVL_AUTH_DOC_T" defaultValue="Y"/>
 		<createTable tableName="TEM_TRVL_CARD_TYP_T">
 			<column name="CODE" type="VARCHAR2(4)" />
 			<column name="NM" type="VARCHAR2(40)" />
@@ -960,38 +899,38 @@
 		<addPrimaryKey tableName="TEM_TRVL_CARD_TYP_T"
 			constraintName="TEM_TRVL_CARD_TYP_TP1" columnNames="CODE" />
 		<createTable tableName="TEM_EXP_TYP_T">
-			<column name="EXP_TYP_CD" type="VARCHAR(2)"/>
-			<column name="OBJ_ID" type="VARCHAR(36)"/>
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)"/>
-			<column name="EXP_TYP_NM" type="VARCHAR(100)"/>
-			<column name="GRP_TRVL_IND" type="VARCHAR(1)"/>
-			<column name="EXP_DETAIL_REQ_IND" type="VARCHAR(1)"/>
-			<column name="EXP_PRPY_IND" type="VARCHAR(1)"/>
-			<column name="ACTV_IND" type="VARCHAR(1)"/>
-			<column name="HOSTED_IND" type="VARCHAR(1)"/>
-			<column name="EXP_TYP_META_CTGRY_CD" type="VARCHAR(1)"/>
-			<column name="CTGRY_DFLT_IND" type="VARCHAR(1)"/>
+			<column name="EXP_TYP_NM" type="VARCHAR2(100)"/>
+			<column name="GRP_TRVL_IND" type="VARCHAR2(1)"/>
+			<column name="EXP_DETAIL_REQ_IND" type="VARCHAR2(1)"/>
+			<column name="EXP_PRPY_IND" type="VARCHAR2(1)"/>
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
+			<column name="HOSTED_IND" type="VARCHAR2(1)"/>
+			<column name="EXP_TYP_META_CTGRY_CD" type="VARCHAR2(1)"/>
+			<column name="CTGRY_DFLT_IND" type="VARCHAR2(1)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_EXP_TYP_T"
 			constraintName="TEM_EXP_TYP_TP1" columnNames="EXP_TYP_CD"/>
 		<createTable tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" type="NUMBER(22,0)"/>
-			<column name="EXP_TYP_CD" type="VARCHAR(2)"/>
-			<column name="TRIP_TYP_CD" type="VARCHAR(3)"/>
-			<column name="TRAVELER_TYP_CD" type="VARCHAR(3)"/>
-			<column name="DOC_TYP_NM" type="VARCHAR(4)"/>
-			<column name="OBJ_ID" type="VARCHAR(36)"/>
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)"/>
+			<column name="TRIP_TYP_CD" type="VARCHAR2(3)"/>
+			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)"/>
+			<column name="DOC_TYP_NM" type="VARCHAR2(4)"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)"/>
-			<column name="FIN_OBJECT_CD" type="VARCHAR(4)"/>
-			<column name="MAX_AMT" type="DECIMAL(19,2)"/>
-			<column name="MAX_AMT_SUM_CD" type="VARCHAR(1)"/>
-			<column name="ERR_TYP_CD" type="VARCHAR(1)"/>
-			<column name="NOTE_REQ_IND" type="VARCHAR(1)"/>
-			<column name="RCPT_REQ_IND" type="VARCHAR(1)"/>
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)"/>
+			<column name="MAX_AMT" type="NUMBER(19,2)"/>
+			<column name="MAX_AMT_SUM_CD" type="VARCHAR2(1)"/>
+			<column name="ERR_TYP_CD" type="VARCHAR2(1)"/>
+			<column name="NOTE_REQ_IND" type="VARCHAR2(1)"/>
+			<column name="RCPT_REQ_IND" type="VARCHAR2(1)"/>
 			<column name="RCPT_REQ_THRSH" type="NUMBER(19,2)"/>
-			<column name="TAXABLE_IND" type="VARCHAR(1)"/>
-			<column name="SPCL_RQST_REQ_IND" type="VARCHAR(1)"/>
-			<column name="ACTV_IND" type="VARCHAR(1)"/>
+			<column name="TAXABLE_IND" type="VARCHAR2(1)"/>
+			<column name="SPCL_RQST_REQ_IND" type="VARCHAR2(1)"/>
+			<column name="ACTV_IND" type="VARCHAR2(1)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_EXP_TYP_FIN_OBJ_CD_T"
 			constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TP1" columnNames="EXP_TYP_OBJ_CD_ID"/>
@@ -1066,26 +1005,27 @@
 			<column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
-			<column name="PRGNTR_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="PRGNTR_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_REIMB_DOC_T"
 			constraintName="TEM_TRVL_REIMB_DOC_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="PRGNTR_IND" tableName="TEM_TRVL_REIMB_DOC_T" defaultValue="N"/>
 		<createTable tableName="TEM_TRVL_PMT_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
 			<column name="OBJ_ID" type="VARCHAR2(36)"/>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
 			<column name="CHK_TOT_AMT" type="DECIMAL(19,2)"/>
 			<column name="DUE_DT" type="DATE"/>
-			<column name="ATTCH_IND" type="VARCHAR2(1)" defaultValue="N"/>
-			<column name="SPCL_HANDLG_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="ATTCH_IND" type="VARCHAR2(1)" />
+			<column name="SPCL_HANDLG_IND" type="VARCHAR2(1)" />
 			<column name="CHK_STUB_TXT" type="VARCHAR2(1400)"/>
-			<column name="IMD_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="IMD_PMT_IND" type="VARCHAR2(1)" />
 			<column name="EXTRT_DT" type="DATE"/>
 			<column name="PAID_DT" type="DATE"/>
 			<column name="CNCL_DT" type="DATE"/>
 			<column name="DOC_LOC_CD" type="VARCHAR2(2)"/>
 			<column name="PMT_MTHD_CD" type="VARCHAR2(1)"/>
-			<column name="ALIEN_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="ALIEN_PMT_IND" type="VARCHAR2(1)" />
 			<column name="RMT_PRSN_NM" type="VARCHAR2(123)"/>
 			<column name="RMT_LN1_ADDR" type="VARCHAR2(45)"/>
 			<column name="RMT_LN2_ADDR" type="VARCHAR2(45)"/>
@@ -1093,15 +1033,22 @@
 			<column name="RMT_ST_CD" type="VARCHAR2(2)"/>
 			<column name="RMT_ZIP_CD" type="VARCHAR2(20)"/>
 			<column name="RMT_CNTRY_CD" type="VARCHAR2(2)"/>
-			<column name="W9_CMPLT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="W9_CMPLT_IND" type="VARCHAR2(1)" />
 			<column name="PAYEE_TYP_CD" type="VARCHAR2(1)"/>
-			<column name="EXCPT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="EXCPT_IND" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TP1" columnNames="FDOC_NBR" />
+		<addDefaultValue columnName="ATTCH_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		<addDefaultValue columnName="SPCL_HANDLG_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		<addDefaultValue columnName="IMD_PMT_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		<addDefaultValue columnName="ALIEN_PMT_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		<addDefaultValue columnName="W9_CMPLT_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		<addDefaultValue columnName="EXCPT_IND" tableName="TEM_TRVL_PMT_T" defaultValue="N"/>
+		
 		<createTable tableName="TEM_CC_IMP_EXP_CLR_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
-	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_CC_IMP_EXP_CLR_T" constraintName="TEM_CC_IMP_EXP_CLR_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_CC_IMP_EXP_CLR_DTL_T">
@@ -1134,6 +1081,14 @@
 			<column name="TRNENTR_PROCESS_TM" type="DATE"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_HELD_ENCUM_ENTRY_T" constraintName="TEM_HELD_ENCUM_ENTRY_TP1" columnNames="FDOC_NBR,TRN_ENTR_SEQ_NBR"/>
+		
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+		
+	</changeSet>
+		
+	<changeSet author="KFSTEM" id="KFS_TEM_SEQUENCES_oracle" dbms="oracle">
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"
@@ -1195,9 +1150,170 @@
 		<createSequence sequenceName="TEM_TRVL_EXP_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TRVL_ID_SEQ" startValue="1" />
-		<modifySql dbms="mysql">
-			<replace replace="VARCHAR2" with="VARCHAR" />
-			<replace replace="NUMBER" with="DECIMAL" />
-		</modifySql>
 	</changeSet>
+	
+ 
+    <changeSet author="KFSTEM" id="KFS_TEM_SEQUENCES_mysql" dbms="mysql">
+    	<createTable tableName="TEM_ACCT_DOC_REL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ACCT_LINES_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_AGENCY_STAGING_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ATTENDEE_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CORP_CARD_PSEUDO_NUM_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CREDIT_CARD_AGENCY_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_CREDIT_CARD_STAGING_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EM_CONT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_ENTERTAINMENT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_OBJ_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_GRP_TRVLR_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_HIST_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_MILEAGE_RT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PER_DIEM_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PER_DIEM_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PRI_DEST_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ACCOUNT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ARRANGER_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_EM_CONT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_PROFILE_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_RELO_DOC_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_SPCL_CRCMSNCS_Q_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_SPCL_CRCMSNCS_S">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRAVELER_DTL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRAVELER_PROF_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRIP_DTL_EST_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRP_ACCT_INFO_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_TRVL_EXP_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TRVL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+    
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+
+    </changeSet>
+		
 </databaseChangeLog>

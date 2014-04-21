@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -42,7 +43,7 @@ public class TemProfileDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
     @Override
     protected List<String> getRequiredAttributes() {
         final List<String> attrs = new ArrayList<String>(super.getRequiredAttributes());
-        attrs.add(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+        attrs.add(KfsKimAttributes.PROFILE_PRINCIPAL_ID);
         return Collections.unmodifiableList(attrs);
     }
 
@@ -57,7 +58,7 @@ public class TemProfileDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
             // This is to allow users to create/edit their own profile. If the principalId from the profile
             // matches, the profile fields are unmasked. Otherwise the other roles will handle the appropriate
             // masking/unmasking of fields (see TemProfileOrganizationHierarchyRoleTypeServiceImpl).
-            final String principalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+            final String principalId = qualification.get(KfsKimAttributes.PROFILE_PRINCIPAL_ID);
             if (StringUtils.isNotBlank(principalId)) {
                 // does this profile principal id have an actual profile?
                 if (hasProfile(principalId) || isCreatingProfile(qualification)) {

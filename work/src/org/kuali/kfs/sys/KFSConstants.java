@@ -813,6 +813,11 @@ public class KFSConstants {
         public static final String STRING_YES = "Yes";
     }
 
+    public static class OptionLabels {
+        public static final String YES = "Yes";
+        public static final String NO = "No";
+    }
+
     public static class Maintenance {
         public static final String AFTER_CLASS_DELIM = "!!";
         public static final String AFTER_FIELDNAME_DELIM = "^^";

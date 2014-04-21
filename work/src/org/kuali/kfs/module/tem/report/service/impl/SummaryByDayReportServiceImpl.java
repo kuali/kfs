@@ -52,11 +52,11 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
 
     public static Logger LOG = Logger.getLogger(SummaryByDayReportServiceImpl.class);
 
-    private ConfigurationService configurationService;
-    private ParameterService parameterService;
-    private PersonService personService;
-    private TravelDocumentService travelDocumentService;
-    private SimpleDateFormat monthDay = new SimpleDateFormat("MM/dd");
+    protected ConfigurationService configurationService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
+    protected TravelDocumentService travelDocumentService;
+    protected SimpleDateFormat monthDay = new SimpleDateFormat("MM/dd");
 
     public ConfigurationService getConfigurationService() {
         return configurationService;
@@ -74,9 +74,6 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         this.personService = personService;
     }
 
-    /**
-     *
-     */
     @Override
     public SummaryByDayReport buildReport(final TravelDocument travelDocument) {
         LOG.debug("Building a "+ SummaryByDayReport.class+ " report for trip id "+ travelDocument.getTravelDocumentIdentifier());

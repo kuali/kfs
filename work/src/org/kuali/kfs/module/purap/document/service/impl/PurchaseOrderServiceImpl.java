@@ -948,6 +948,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                 Note note = documentService.createNoteFromDocument(po, noteText);
                 po.addNote(note);
+                documentService.saveDocumentNotes(po);
             }
             catch (Exception e) {
                 throw new RuntimeException(e);

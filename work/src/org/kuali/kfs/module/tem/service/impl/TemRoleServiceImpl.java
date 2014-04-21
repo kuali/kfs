@@ -32,7 +32,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -49,9 +48,9 @@ public class TemRoleServiceImpl implements TemRoleService{
 
     public static Logger LOG = Logger.getLogger(TemRoleServiceImpl.class);
 
-    RoleService roleService;
-    BusinessObjectService businessObjectService;
-    TravelArrangerDocumentService arrangerDocumentService;
+    protected RoleService roleService;
+    protected BusinessObjectService businessObjectService;
+    protected TravelArrangerDocumentService arrangerDocumentService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.TemRoleService#canAccessTravelDocument(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
@@ -159,7 +158,7 @@ public class TemRoleServiceImpl implements TemRoleService{
         //add the role qualification
         Map<String,String> qualification = new HashMap<String,String>();
         if (isProfileAlsoUser(user, profileId)) {
-            qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+            qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
         } else {
             qualification.put(TemProfileProperties.PROFILE_ID, profileId);
         }
@@ -289,7 +288,6 @@ public class TemRoleServiceImpl implements TemRoleService{
      */
     @Override
     public Collection<RoleMembership> getTravelArrangers(String chartCode, String orgCode) {
-       // String contractManagerId = null;
         Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartCode);
         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, orgCode);

@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,7 +51,7 @@ public class CardApplicationDocumentAuthorizer extends FinancialSystemTransactio
      */
     protected void addCurrentUserQualifiers(Map<String, String> qualification) {
         final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-        qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, currentUserPrincipalId);
+        qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, currentUserPrincipalId);
 
         final TemProfile profile = getTemProfileService().findTemProfileByPrincipalId(currentUserPrincipalId);
         if (profile != null) {

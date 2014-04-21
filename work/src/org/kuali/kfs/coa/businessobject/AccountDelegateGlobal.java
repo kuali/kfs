@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -64,7 +63,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * This method adds a single AccountGlobalDetail instance to the list. If one is already present in the list with the same
      * chartCode and accountNumber, then this new one will not be added.
-     * 
+     *
      * @param accountGlobalDetail - populated AccountGlobalDetail instance
      */
     public void addAccount(AccountGlobalDetail accountGlobalDetail) {
@@ -90,7 +89,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * This method retrieves the specific AccountGlobalDetail object that corresponds to your requested chartCode and accountNumber
      * (or a null object if there is no match).
-     * 
+     *
      * @param chartCode
      * @param accountNumber
      * @return returns the AccountGlobalDetail instance matching the chartCode & accountNumber passed in, or Null if none match
@@ -122,6 +121,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
+    @Override
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
@@ -148,6 +148,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.krad.bo.BusinessObject)
      */
+    @Override
     @SuppressWarnings("deprecation")
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
@@ -160,7 +161,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
         for (AccountDelegateGlobalDetail changeDocument : changeDocuments) {
             for (AccountGlobalDetail accountDetail : accountDetails) {
 
-                Account account = (Account) boService.findByPrimaryKey(Account.class, accountDetail.getPrimaryKeys());
+                Account account = boService.findByPrimaryKey(Account.class, accountDetail.getPrimaryKeys());
 
                 // if the account doesnt exist, fail fast, as this should never happen,
                 // the busines rules for this document should have caught this.
@@ -174,7 +175,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
                 pkMap.putAll(accountDetail.getPrimaryKeys()); // chartOfAccountsCode & accountNumber
                 pkMap.put("financialDocumentTypeCode", changeDocument.getFinancialDocumentTypeCode());
                 pkMap.put("accountDelegateSystemId", changeDocument.getAccountDelegateUniversalId());
-                AccountDelegate delegate = (AccountDelegate) boService.findByPrimaryKey(AccountDelegate.class, pkMap);
+                AccountDelegate delegate = boService.findByPrimaryKey(AccountDelegate.class, pkMap);
 
                 // if there is no existing Delegate with these primary keys, then we're creating a new one,
                 // so lets populate it with the primary keys
@@ -191,18 +192,10 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
                 }
 
                 // APPROVAL FROM AMOUNT
-                if (changeDocument.getApprovalFromThisAmount() != null) {
-                    if (!changeDocument.getApprovalFromThisAmount().equals(KualiDecimal.ZERO)) {
-                        delegate.setFinDocApprovalFromThisAmt(changeDocument.getApprovalFromThisAmount());
-                    }
-                }
+                delegate.setFinDocApprovalFromThisAmt(changeDocument.getApprovalFromThisAmount());
 
                 // APPROVAL TO AMOUNT
-                if (changeDocument.getApprovalToThisAmount() != null) {
-                    if (!changeDocument.getApprovalToThisAmount().equals(KualiDecimal.ZERO)) {
-                        delegate.setFinDocApprovalToThisAmount(changeDocument.getApprovalToThisAmount());
-                    }
-                }
+                delegate.setFinDocApprovalToThisAmount(changeDocument.getApprovalToThisAmount());
 
                 // PRIMARY ROUTING
                 delegate.setAccountsDelegatePrmrtIndicator(changeDocument.getAccountDelegatePrimaryRoutingIndicator());
@@ -223,7 +216,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
@@ -235,6 +228,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#getDocumentNumber()
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -242,6 +236,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#setDocumentNumber(java.lang.String)
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
 
@@ -249,7 +244,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the accountGlobalDetails attribute.
-     * 
+     *
      * @return Returns the accountGlobalDetails.
      */
     public final List<AccountGlobalDetail> getAccountGlobalDetails() {
@@ -258,7 +253,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the accountGlobalDetails attribute value.
-     * 
+     *
      * @param accountGlobalDetails The accountGlobalDetails to set.
      */
     public final void setAccountGlobalDetails(List<AccountGlobalDetail> accountGlobalDetails) {
@@ -267,7 +262,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the delegateGlobals attribute.
-     * 
+     *
      * @return Returns the delegateGlobals.
      */
     public final List<AccountDelegateGlobalDetail> getDelegateGlobals() {
@@ -276,7 +271,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the delegateGlobals attribute value.
-     * 
+     *
      * @param delegateGlobals The delegateGlobals to set.
      */
     public final void setDelegateGlobals(List<AccountDelegateGlobalDetail> delegateGlobals) {
@@ -286,6 +281,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#isPersistable()
      */
+    @Override
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
@@ -342,6 +338,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
         this.model = loadModel;
     }
 
+    @Override
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         ArrayList<GlobalBusinessObjectDetail> details = new ArrayList<GlobalBusinessObjectDetail>(accountGlobalDetails.size() + delegateGlobals.size());
         details.addAll(accountGlobalDetails);

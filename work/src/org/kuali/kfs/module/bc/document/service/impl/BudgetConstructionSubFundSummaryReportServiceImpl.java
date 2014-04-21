@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,7 @@ import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -86,7 +87,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * builds report Header
-     * 
+     *
      * @param universityFiscalYear
      * @param orgSubFundSummaryReportEntry
      * @param subFundSummaryList
@@ -149,7 +150,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * builds report body
-     * 
+     *
      * @param orgSubFundSummaryReportEntry
      * @param subFundSummary
      */
@@ -175,15 +176,15 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
                 orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE));
             }
         }
-        orgSubFundSummaryReportEntry.setBaseAmount(BudgetConstructionReportHelper.convertKualiInteger(subFundSummary.getFinancialBeginningBalanceLineAmount()));
-        orgSubFundSummaryReportEntry.setReqAmount(BudgetConstructionReportHelper.convertKualiInteger(subFundSummary.getAccountLineAnnualBalanceAmount()));
-        orgSubFundSummaryReportEntry.setAmountChange(orgSubFundSummaryReportEntry.getReqAmount() - orgSubFundSummaryReportEntry.getBaseAmount());
+        orgSubFundSummaryReportEntry.setBaseAmount(subFundSummary.getFinancialBeginningBalanceLineAmount());
+        orgSubFundSummaryReportEntry.setReqAmount(subFundSummary.getAccountLineAnnualBalanceAmount());
+        orgSubFundSummaryReportEntry.setAmountChange(orgSubFundSummaryReportEntry.getReqAmount().subtract(orgSubFundSummaryReportEntry.getBaseAmount()));
         orgSubFundSummaryReportEntry.setPercentChange(BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getAmountChange(), orgSubFundSummaryReportEntry.getBaseAmount()));
     }
 
     /**
      * builds report total
-     * 
+     *
      * @param orgSubFundSummaryReportEntry
      * @param subFundSummaryList
      * @param reportTotalList
@@ -193,7 +194,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             if (BudgetConstructionReportHelper.isSameEntry(subFundSummaryList, subTotalEntry.getBcas(), fieldsForSubTotal())) {
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueBaseAmount(subTotalEntry.getSubFundTotalRevenueBaseAmount());
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueReqAmount(subTotalEntry.getSubFundTotalRevenueReqAmount());
-                orgSubFundSummaryReportEntry.setSubFundTotalRevenueAmountChange(subTotalEntry.getSubFundTotalRevenueReqAmount() - subTotalEntry.getSubFundTotalRevenueBaseAmount());
+                orgSubFundSummaryReportEntry.setSubFundTotalRevenueAmountChange(subTotalEntry.getSubFundTotalRevenueReqAmount().subtract(subTotalEntry.getSubFundTotalRevenueBaseAmount()));
                 BigDecimal percentChange = BigDecimal.ZERO;
                 percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getSubFundTotalRevenueAmountChange(), orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount());
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenuePercentChange(percentChange);
@@ -212,26 +213,26 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
                     orgSubFundSummaryReportEntry.setTotalGrossReqAmount(totalEntry.getTotalGrossReqAmount());
                     orgSubFundSummaryReportEntry.setTotalTransferInReqAmount(totalEntry.getTotalTransferInReqAmount());
                     orgSubFundSummaryReportEntry.setTotalNetTransferReqAmount(totalEntry.getTotalNetTransferReqAmount());
-                    orgSubFundSummaryReportEntry.setTotalRevenueAmountChange(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount() - orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount());
+                    orgSubFundSummaryReportEntry.setTotalRevenueAmountChange(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount()));
                     percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getTotalRevenueAmountChange(), orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount());
                     orgSubFundSummaryReportEntry.setTotalRevenuePercentChange(percentChange);
 
-                    orgSubFundSummaryReportEntry.setTotalGrossAmountChange(orgSubFundSummaryReportEntry.getTotalGrossReqAmount() - orgSubFundSummaryReportEntry.getTotalGrossBaseAmount());
+                    orgSubFundSummaryReportEntry.setTotalGrossAmountChange(orgSubFundSummaryReportEntry.getTotalGrossReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalGrossBaseAmount()));
                     percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getTotalGrossAmountChange(), orgSubFundSummaryReportEntry.getTotalGrossBaseAmount());
                     orgSubFundSummaryReportEntry.setTotalGrossPercentChange(percentChange);
 
-                    orgSubFundSummaryReportEntry.setTotalTransferAmountChange(orgSubFundSummaryReportEntry.getTotalTransferInReqAmount() - orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount());
+                    orgSubFundSummaryReportEntry.setTotalTransferAmountChange(orgSubFundSummaryReportEntry.getTotalTransferInReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount()));
                     percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getTotalTransferAmountChange(), orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount());
                     orgSubFundSummaryReportEntry.setTotalTransferInPercentChange(percentChange);
 
 
-                    orgSubFundSummaryReportEntry.setTotalNetTransferAmountChange(orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount() - orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount());
+                    orgSubFundSummaryReportEntry.setTotalNetTransferAmountChange(orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount()));
                     percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getTotalNetTransferAmountChange(), orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount());
                     orgSubFundSummaryReportEntry.setTotalNetTransferPercentChange(percentChange);
 
-                    orgSubFundSummaryReportEntry.setRevExpDifferenceBaseAmount(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount() - orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount());
-                    orgSubFundSummaryReportEntry.setRevExpDifferenceReqAmount(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount() - orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount());
-                    orgSubFundSummaryReportEntry.setRevExpDifferenceAmountChange(orgSubFundSummaryReportEntry.getRevExpDifferenceReqAmount() - orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount());
+                    orgSubFundSummaryReportEntry.setRevExpDifferenceBaseAmount(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount()));
+                    orgSubFundSummaryReportEntry.setRevExpDifferenceReqAmount(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount()));
+                    orgSubFundSummaryReportEntry.setRevExpDifferenceAmountChange(orgSubFundSummaryReportEntry.getRevExpDifferenceReqAmount().subtract(orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount()));
                     percentChange = BudgetConstructionReportHelper.calculatePercent(orgSubFundSummaryReportEntry.getRevExpDifferenceAmountChange(), orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount());
                     orgSubFundSummaryReportEntry.setRevExpDifferencePercentChange(percentChange);
                 }
@@ -242,13 +243,13 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * Calculates total part of report
-     * 
+     *
      * @param List bcasList
      * @param List simpleList
      */
     public List calculateSubTotal(List<BudgetConstructionAccountSummary> bcasList, List<BudgetConstructionAccountSummary> subTotalList) {
-        Integer subFundTotalRevenueBaseAmount = 0;
-        Integer subFundTotalRevenueReqAmount = 0;
+        KualiInteger subFundTotalRevenueBaseAmount = KualiInteger.ZERO;
+        KualiInteger subFundTotalRevenueReqAmount = KualiInteger.ZERO;
 
         List returnList = new ArrayList();
         for (BudgetConstructionAccountSummary simpleBcasEntry : subTotalList) {
@@ -256,20 +257,20 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             for (BudgetConstructionAccountSummary bcasListEntry : bcasList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcasEntry, bcasListEntry, fieldsForSubTotal())) {
                     if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-                        subFundTotalRevenueBaseAmount -= BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        subFundTotalRevenueReqAmount -= BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount.subtract(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount.subtract(bcasListEntry.getAccountLineAnnualBalanceAmount());
                     }
                     else if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_X)) {
-                        subFundTotalRevenueBaseAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        subFundTotalRevenueReqAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount());
                     }
                 }
             }
             bcSubFundTotal.setBcas(simpleBcasEntry);
             bcSubFundTotal.setSubFundTotalRevenueBaseAmount(subFundTotalRevenueBaseAmount);
             bcSubFundTotal.setSubFundTotalRevenueReqAmount(subFundTotalRevenueReqAmount);
-            subFundTotalRevenueBaseAmount = 0;
-            subFundTotalRevenueReqAmount = 0;
+            subFundTotalRevenueBaseAmount = KualiInteger.ZERO;
+            subFundTotalRevenueReqAmount = KualiInteger.ZERO;
             returnList.add(bcSubFundTotal);
 
         }
@@ -279,19 +280,19 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * Calculates total part of report
-     * 
+     *
      * @param List bcasList
      * @param List simpleList
      */
     public List calculateTotal(List<BudgetConstructionAccountSummary> bcasList, List<BudgetConstructionAccountSummary> totalList) {
-        Integer totalRevenueBaseAmount = 0;
-        Integer totalGrossBaseAmount = 0;
-        Integer totalTransferInBaseAmount = 0;
-        Integer totalNetTransferBaseAmount = 0;
-        Integer totalRevenueReqAmount = 0;
-        Integer totalGrossReqAmount = 0;
-        Integer totalTransferInReqAmount = 0;
-        Integer totalNetTransferReqAmount = 0;
+        KualiInteger totalRevenueBaseAmount = KualiInteger.ZERO;
+        KualiInteger totalGrossBaseAmount = KualiInteger.ZERO;
+        KualiInteger totalTransferInBaseAmount = KualiInteger.ZERO;
+        KualiInteger totalNetTransferBaseAmount = KualiInteger.ZERO;
+        KualiInteger totalRevenueReqAmount = KualiInteger.ZERO;
+        KualiInteger totalGrossReqAmount = KualiInteger.ZERO;
+        KualiInteger totalTransferInReqAmount = KualiInteger.ZERO;
+        KualiInteger totalNetTransferReqAmount = KualiInteger.ZERO;
 
         List returnList = new ArrayList();
         for (BudgetConstructionAccountSummary simpleBcasEntry : totalList) {
@@ -299,21 +300,21 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             for (BudgetConstructionAccountSummary bcasListEntry : bcasList) {
                 if (BudgetConstructionReportHelper.isSameEntry(simpleBcasEntry, bcasListEntry, fieldsForTotal())) {
                     if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-                        totalRevenueBaseAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        totalRevenueReqAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        totalRevenueBaseAmount = totalRevenueBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        totalRevenueReqAmount = totalRevenueReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount());
                     }
                     else if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_E)) {
-                        totalGrossBaseAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        totalGrossReqAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        totalGrossBaseAmount = totalGrossBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        totalGrossReqAmount = totalGrossReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount());
 
                     }
                     else if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_T)) {
-                        totalTransferInBaseAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        totalTransferInReqAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        totalTransferInBaseAmount = totalTransferInBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        totalTransferInReqAmount = totalTransferInReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount());
                     }
                     else if (bcasListEntry.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_X)) {
-                        totalNetTransferBaseAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getFinancialBeginningBalanceLineAmount());
-                        totalNetTransferReqAmount += BudgetConstructionReportHelper.convertKualiInteger(bcasListEntry.getAccountLineAnnualBalanceAmount());
+                        totalNetTransferBaseAmount = totalNetTransferBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount());
+                        totalNetTransferReqAmount = totalNetTransferReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount());
                     }
                 }
             }
@@ -327,14 +328,14 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             bcSubFundTotal.setTotalTransferInBaseAmount(totalTransferInBaseAmount);
             bcSubFundTotal.setTotalTransferInReqAmount(totalTransferInReqAmount);
             returnList.add(bcSubFundTotal);
-            totalGrossBaseAmount = 0;
-            totalGrossReqAmount = 0;
-            totalNetTransferBaseAmount = 0;
-            totalNetTransferReqAmount = 0;
-            totalRevenueBaseAmount = 0;
-            totalRevenueReqAmount = 0;
-            totalTransferInBaseAmount = 0;
-            totalTransferInReqAmount = 0;
+            totalGrossBaseAmount = KualiInteger.ZERO;
+            totalGrossReqAmount = KualiInteger.ZERO;
+            totalNetTransferBaseAmount = KualiInteger.ZERO;
+            totalNetTransferReqAmount = KualiInteger.ZERO;
+            totalRevenueBaseAmount = KualiInteger.ZERO;
+            totalRevenueReqAmount = KualiInteger.ZERO;
+            totalTransferInBaseAmount = KualiInteger.ZERO;
+            totalTransferInReqAmount = KualiInteger.ZERO;
         }
         return returnList;
     }
@@ -358,7 +359,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     public List<String> buildOrderByList() {
@@ -378,7 +379,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
     /**
      * sets budgetConstructionAccountSummaryReportDao
-     * 
+     *
      * @param budgetConstructionAccountSummaryReportDao
      */
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {

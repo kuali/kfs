@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
+
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Budget Construction Organization Account Summary Report Business Object.
@@ -49,40 +51,40 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private String subAccountNumber;
     private String accountNameAndSubAccountName;
     private String incExpDesc;
-    private Integer baseAmount;
-    private Integer reqAmount;
-    private Integer amountChange;
+    private KualiInteger baseAmount;
+    private KualiInteger reqAmount;
+    private KualiInteger amountChange;
     private BigDecimal percentChange = BigDecimal.ZERO;
 
     // Total parts
-    private Integer totalRevenueBaseAmount = 0;
-    private Integer totalGrossBaseAmount = 0;
-    private Integer totalTransferInBaseAmount = 0;
-    private Integer totalNetTransferBaseAmount = 0;
+    private KualiInteger totalRevenueBaseAmount = KualiInteger.ZERO;
+    private KualiInteger totalGrossBaseAmount = KualiInteger.ZERO;
+    private KualiInteger totalTransferInBaseAmount = KualiInteger.ZERO;
+    private KualiInteger totalNetTransferBaseAmount = KualiInteger.ZERO;
 
-    private Integer totalRevenueReqAmount = 0;
-    private Integer totalGrossReqAmount = 0;
-    private Integer totalTransferInReqAmount = 0;
-    private Integer totalNetTransferReqAmount = 0;
+    private KualiInteger totalRevenueReqAmount = KualiInteger.ZERO;
+    private KualiInteger totalGrossReqAmount = KualiInteger.ZERO;
+    private KualiInteger totalTransferInReqAmount = KualiInteger.ZERO;
+    private KualiInteger totalNetTransferReqAmount = KualiInteger.ZERO;
 
-    private Integer totalRevenueAmountChange = 0;
-    private Integer totalGrossAmountChange = 0;
-    private Integer totalTransferAmountChange = 0;
-    private Integer totalNetTransferAmountChange = 0;
+    private KualiInteger totalRevenueAmountChange = KualiInteger.ZERO;
+    private KualiInteger totalGrossAmountChange = KualiInteger.ZERO;
+    private KualiInteger totalTransferAmountChange = KualiInteger.ZERO;
+    private KualiInteger totalNetTransferAmountChange = KualiInteger.ZERO;
 
     private BigDecimal totalRevenuePercentChange = BigDecimal.ZERO;
     private BigDecimal totalGrossPercentChange = BigDecimal.ZERO;
     private BigDecimal totalTransferInPercentChange = BigDecimal.ZERO;
     private BigDecimal totalNetTransferPercentChange = BigDecimal.ZERO;
 
-    private Integer revExpDifferenceBaseAmount = 0;
-    private Integer revExpDifferenceReqAmount = 0;
-    private Integer revExpDifferenceAmountChange = 0;
+    private KualiInteger revExpDifferenceBaseAmount = KualiInteger.ZERO;
+    private KualiInteger revExpDifferenceReqAmount = KualiInteger.ZERO;
+    private KualiInteger revExpDifferenceAmountChange = KualiInteger.ZERO;
     private BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;
 
     /**
      * Gets the accountNameAndSubAccountName
-     * 
+     *
      * @return Returns the accountNameAndSubAccountName.
      */
     public String getAccountNameAndSubAccountName() {
@@ -91,7 +93,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the accountNameAndSubAccountName
-     * 
+     *
      * @param accountNameAndSubAccountName The accountNameAndSubAccountName to set.
      */
     public void setAccountNameAndSubAccountName(String accountNameAndSubAccountName) {
@@ -100,7 +102,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the accountNumber
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -109,7 +111,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the accountNumber
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -118,43 +120,43 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the amountChange
-     * 
+     *
      * @return Returns the amountChange.
      */
-    public Integer getAmountChange() {
+    public KualiInteger getAmountChange() {
         return amountChange;
     }
 
     /**
      * Sets the amountChange
-     * 
+     *
      * @param amountChange The amountChange to set.
      */
-    public void setAmountChange(Integer amountChange) {
+    public void setAmountChange(KualiInteger amountChange) {
         this.amountChange = amountChange;
     }
 
     /**
      * Gets the baseAmount
-     * 
+     *
      * @return Returns the baseAmount.
      */
-    public Integer getBaseAmount() {
+    public KualiInteger getBaseAmount() {
         return baseAmount;
     }
 
     /**
      * Sets the baseAmount
-     * 
+     *
      * @param baseAmount The baseAmount to set.
      */
-    public void setBaseAmount(Integer baseAmount) {
+    public void setBaseAmount(KualiInteger baseAmount) {
         this.baseAmount = baseAmount;
     }
 
     /**
      * Gets the baseFy
-     * 
+     *
      * @return Returns the baseFy.
      */
     public String getBaseFy() {
@@ -163,7 +165,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the baseFy
-     * 
+     *
      * @param baseFy The baseFy to set.
      */
     public void setBaseFy(String baseFy) {
@@ -172,7 +174,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the consHdr
-     * 
+     *
      * @return Returns the consHdr.
      */
     public String getConsHdr() {
@@ -181,7 +183,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the consHdr
-     * 
+     *
      * @param consHdr The consHdr to set.
      */
     public void setConsHdr(String consHdr) {
@@ -190,7 +192,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the fiscalYear
-     * 
+     *
      * @return Returns the fiscalYear.
      */
     public String getFiscalYear() {
@@ -199,7 +201,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the fiscalYear
-     * 
+     *
      * @param fiscalYear The fiscalYear to set.
      */
     public void setFiscalYear(String fiscalYear) {
@@ -208,7 +210,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the fundGroupCode
-     * 
+     *
      * @return Returns the fundGroupCode.
      */
     public String getFundGroupCode() {
@@ -217,7 +219,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the fundGroupCode
-     * 
+     *
      * @param fundGroupCode The fundGroupCode to set.
      */
     public void setFundGroupCode(String fundGroupCode) {
@@ -226,7 +228,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header1
-     * 
+     *
      * @return Returns the header1.
      */
     public String getHeader1() {
@@ -235,7 +237,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header1
-     * 
+     *
      * @param header1 The header1 to set.
      */
     public void setHeader1(String header1) {
@@ -244,7 +246,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header2
-     * 
+     *
      * @return Returns the header2.
      */
     public String getHeader2() {
@@ -253,7 +255,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header2
-     * 
+     *
      * @param header2 The header2 to set.
      */
     public void setHeader2(String header2) {
@@ -262,7 +264,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header3
-     * 
+     *
      * @return Returns the header3.
      */
     public String getHeader3() {
@@ -271,7 +273,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header3
-     * 
+     *
      * @param header3 The header3 to set.
      */
     public void setHeader3(String header3) {
@@ -280,7 +282,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header4
-     * 
+     *
      * @return Returns the header4.
      */
     public String getHeader4() {
@@ -289,7 +291,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header4
-     * 
+     *
      * @param header4 The header4 to set.
      */
     public void setHeader4(String header4) {
@@ -298,7 +300,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header5
-     * 
+     *
      * @return Returns the header5.
      */
     public String getHeader5() {
@@ -307,7 +309,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header5
-     * 
+     *
      * @param header5 The header5 to set.
      */
     public void setHeader5(String header5) {
@@ -316,7 +318,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the header6
-     * 
+     *
      * @return Returns the header6.
      */
     public String getHeader6() {
@@ -325,7 +327,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the header6
-     * 
+     *
      * @param header6 The header6 to set.
      */
     public void setHeader6(String header6) {
@@ -334,7 +336,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the incExpDesc
-     * 
+     *
      * @return Returns the incExpDesc.
      */
     public String getIncExpDesc() {
@@ -343,7 +345,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the incExpDesc
-     * 
+     *
      * @param incExpDesc The incExpDesc to set.
      */
     public void setIncExpDesc(String incExpDesc) {
@@ -352,7 +354,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the organizationCode
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -361,7 +363,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the organizationCode
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -370,7 +372,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the organizationName
-     * 
+     *
      * @return Returns the organizationName.
      */
     public String getOrganizationName() {
@@ -379,7 +381,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the organizationName
-     * 
+     *
      * @param organizationName The organizationName to set.
      */
     public void setOrganizationName(String organizationName) {
@@ -388,7 +390,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the percentChange
-     * 
+     *
      * @return Returns the percentChange.
      */
     public BigDecimal getPercentChange() {
@@ -397,7 +399,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the percentChange
-     * 
+     *
      * @param percentChange The percentChange to set.
      */
     public void setPercentChange(BigDecimal percentChange) {
@@ -406,25 +408,25 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the reqAmount
-     * 
+     *
      * @return Returns the reqAmount.
      */
-    public Integer getReqAmount() {
+    public KualiInteger getReqAmount() {
         return reqAmount;
     }
 
     /**
      * Sets the reqAmount
-     * 
+     *
      * @param reqAmount The reqAmount to set.
      */
-    public void setReqAmount(Integer reqAmount) {
+    public void setReqAmount(KualiInteger reqAmount) {
         this.reqAmount = reqAmount;
     }
 
     /**
      * Gets the reqFy
-     * 
+     *
      * @return Returns the reqFy.
      */
     public String getReqFy() {
@@ -433,7 +435,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the reqFy
-     * 
+     *
      * @param reqFy The reqFy to set.
      */
     public void setReqFy(String reqFy) {
@@ -442,43 +444,43 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the revExpDifferenceAmountChange
-     * 
+     *
      * @return Returns the revExpDifferenceAmountChange.
      */
-    public Integer getRevExpDifferenceAmountChange() {
+    public KualiInteger getRevExpDifferenceAmountChange() {
         return revExpDifferenceAmountChange;
     }
 
     /**
      * Sets the revExpDifferenceAmountChange
-     * 
+     *
      * @param revExpDifferenceAmountChange The revExpDifferenceAmountChange to set.
      */
-    public void setRevExpDifferenceAmountChange(Integer revExpDifferenceAmountChange) {
+    public void setRevExpDifferenceAmountChange(KualiInteger revExpDifferenceAmountChange) {
         this.revExpDifferenceAmountChange = revExpDifferenceAmountChange;
     }
 
     /**
      * Gets the revExpDifferenceBaseAmount
-     * 
+     *
      * @return Returns the revExpDifferenceBaseAmount.
      */
-    public Integer getRevExpDifferenceBaseAmount() {
+    public KualiInteger getRevExpDifferenceBaseAmount() {
         return revExpDifferenceBaseAmount;
     }
 
     /**
      * Sets the revExpDifferenceBaseAmount
-     * 
+     *
      * @param revExpDifferenceBaseAmount The revExpDifferenceBaseAmount to set.
      */
-    public void setRevExpDifferenceBaseAmount(Integer revExpDifferenceBaseAmount) {
+    public void setRevExpDifferenceBaseAmount(KualiInteger revExpDifferenceBaseAmount) {
         this.revExpDifferenceBaseAmount = revExpDifferenceBaseAmount;
     }
 
     /**
      * Gets the revExpDifferencePercentChange
-     * 
+     *
      * @return Returns the revExpDifferencePercentChange.
      */
     public BigDecimal getRevExpDifferencePercentChange() {
@@ -487,7 +489,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the revExpDifferencePercentChange
-     * 
+     *
      * @param revExpDifferencePercentChange The revExpDifferencePercentChange to set.
      */
     public void setRevExpDifferencePercentChange(BigDecimal revExpDifferencePercentChange) {
@@ -496,25 +498,25 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the revExpDifferenceReqAmount
-     * 
+     *
      * @return Returns the revExpDifferenceReqAmount.
      */
-    public Integer getRevExpDifferenceReqAmount() {
+    public KualiInteger getRevExpDifferenceReqAmount() {
         return revExpDifferenceReqAmount;
     }
 
     /**
      * Sets the revExpDifferenceReqAmount
-     * 
+     *
      * @param revExpDifferenceReqAmount The revExpDifferenceReqAmount to set.
      */
-    public void setRevExpDifferenceReqAmount(Integer revExpDifferenceReqAmount) {
+    public void setRevExpDifferenceReqAmount(KualiInteger revExpDifferenceReqAmount) {
         this.revExpDifferenceReqAmount = revExpDifferenceReqAmount;
     }
 
     /**
      * Gets the subAccountNumber
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -523,7 +525,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the subAccountNumber
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -532,7 +534,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the subFundGroupCode
-     * 
+     *
      * @return Returns the subFundGroupCode.
      */
     public String getSubFundGroupCode() {
@@ -541,7 +543,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the subFundGroupCode
-     * 
+     *
      * @param subFundGroupCode The subFundGroupCode to set.
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
@@ -550,7 +552,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the subFundGroupDescription
-     * 
+     *
      * @return Returns the subFundGroupDescription.
      */
     public String getSubFundGroupDescription() {
@@ -559,7 +561,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the subFundGroupDescription
-     * 
+     *
      * @param subFundGroupDescription The subFundGroupDescription to set.
      */
     public void setSubFundGroupDescription(String subFundGroupDescription) {
@@ -568,43 +570,43 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the totalGrossAmountChange
-     * 
+     *
      * @return Returns the totalGrossAmountChange.
      */
-    public Integer getTotalGrossAmountChange() {
+    public KualiInteger getTotalGrossAmountChange() {
         return totalGrossAmountChange;
     }
 
     /**
      * Sets the totalGrossAmountChange
-     * 
+     *
      * @param totalGrossAmountChange The totalGrossAmountChange to set.
      */
-    public void setTotalGrossAmountChange(Integer totalGrossAmountChange) {
+    public void setTotalGrossAmountChange(KualiInteger totalGrossAmountChange) {
         this.totalGrossAmountChange = totalGrossAmountChange;
     }
 
     /**
      * Gets the totalGrossBaseAmount
-     * 
+     *
      * @return Returns the totalGrossBaseAmount.
      */
-    public Integer getTotalGrossBaseAmount() {
+    public KualiInteger getTotalGrossBaseAmount() {
         return totalGrossBaseAmount;
     }
 
     /**
      * Sets the totalGrossBaseAmount
-     * 
+     *
      * @param totalGrossBaseAmount The totalGrossBaseAmount to set.
      */
-    public void setTotalGrossBaseAmount(Integer totalGrossBaseAmount) {
+    public void setTotalGrossBaseAmount(KualiInteger totalGrossBaseAmount) {
         this.totalGrossBaseAmount = totalGrossBaseAmount;
     }
 
     /**
      * Gets the totalGrossPercentChange
-     * 
+     *
      * @return Returns the totalGrossPercentChange.
      */
     public BigDecimal getTotalGrossPercentChange() {
@@ -613,7 +615,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the totalGrossPercentChange
-     * 
+     *
      * @param totalGrossPercentChange The totalGrossPercentChange to set.
      */
     public void setTotalGrossPercentChange(BigDecimal totalGrossPercentChange) {
@@ -622,61 +624,61 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the totalGrossReqAmount
-     * 
+     *
      * @return Returns the totalGrossReqAmount.
      */
-    public Integer getTotalGrossReqAmount() {
+    public KualiInteger getTotalGrossReqAmount() {
         return totalGrossReqAmount;
     }
 
     /**
      * Sets the totalGrossReqAmount
-     * 
+     *
      * @param totalGrossReqAmount The totalGrossReqAmount to set.
      */
-    public void setTotalGrossReqAmount(Integer totalGrossReqAmount) {
+    public void setTotalGrossReqAmount(KualiInteger totalGrossReqAmount) {
         this.totalGrossReqAmount = totalGrossReqAmount;
     }
 
     /**
      * Gets the totalNetTransferAmountChange
-     * 
+     *
      * @return Returns the totalNetTransferAmountChange.
      */
-    public Integer getTotalNetTransferAmountChange() {
+    public KualiInteger getTotalNetTransferAmountChange() {
         return totalNetTransferAmountChange;
     }
 
     /**
      * Sets the totalNetTransferAmountChange
-     * 
+     *
      * @param totalNetTransferAmountChange The totalNetTransferAmountChange to set.
      */
-    public void setTotalNetTransferAmountChange(Integer totalNetTransferAmountChange) {
+    public void setTotalNetTransferAmountChange(KualiInteger totalNetTransferAmountChange) {
         this.totalNetTransferAmountChange = totalNetTransferAmountChange;
     }
 
     /**
      * Gets the totalNetTransferBaseAmount
-     * 
+     *
      * @return Returns the totalNetTransferBaseAmount.
      */
-    public Integer getTotalNetTransferBaseAmount() {
+    public KualiInteger getTotalNetTransferBaseAmount() {
         return totalNetTransferBaseAmount;
     }
 
     /**
      * Sets the totalNetTransferBaseAmount
-     * 
+     *
      * @param totalNetTransferBaseAmount The totalNetTransferBaseAmount to set.
      */
-    public void setTotalNetTransferBaseAmount(Integer totalNetTransferBaseAmount) {
+    public void setTotalNetTransferBaseAmount(KualiInteger totalNetTransferBaseAmount) {
         this.totalNetTransferBaseAmount = totalNetTransferBaseAmount;
     }
 
     /**
      * Gets the totalNetTransferPercentChange
-     * 
+     *
      * @return Returns the totalNetTransferPercentChange.
      */
     public BigDecimal getTotalNetTransferPercentChange() {
@@ -685,7 +687,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the totalNetTransferPercentChange
-     * 
+     *
      * @param totalNetTransferPercentChange The totalNetTransferPercentChange to set.
      */
     public void setTotalNetTransferPercentChange(BigDecimal totalNetTransferPercentChange) {
@@ -694,61 +696,61 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the totalNetTransferReqAmount
-     * 
+     *
      * @return Returns the totalNetTransferReqAmount.
      */
-    public Integer getTotalNetTransferReqAmount() {
+    public KualiInteger getTotalNetTransferReqAmount() {
         return totalNetTransferReqAmount;
     }
 
     /**
      * Sets the totalNetTransferReqAmount
-     * 
+     *
      * @param totalNetTransferReqAmount The totalNetTransferReqAmount to set.
      */
-    public void setTotalNetTransferReqAmount(Integer totalNetTransferReqAmount) {
+    public void setTotalNetTransferReqAmount(KualiInteger totalNetTransferReqAmount) {
         this.totalNetTransferReqAmount = totalNetTransferReqAmount;
     }
 
     /**
      * Gets the totalRevenueAmountChange
-     * 
+     *
      * @return Returns the totalRevenueAmountChange.
      */
-    public Integer getTotalRevenueAmountChange() {
+    public KualiInteger getTotalRevenueAmountChange() {
         return totalRevenueAmountChange;
     }
 
     /**
      * Sets the totalRevenueAmountChange
-     * 
+     *
      * @param totalRevenueAmountChange The totalRevenueAmountChange to set.
      */
-    public void setTotalRevenueAmountChange(Integer totalRevenueAmountChange) {
+    public void setTotalRevenueAmountChange(KualiInteger totalRevenueAmountChange) {
         this.totalRevenueAmountChange = totalRevenueAmountChange;
     }
 
     /**
      * Gets the totalRevenueBaseAmount
-     * 
+     *
      * @return Returns the totalRevenueBaseAmount.
      */
-    public Integer getTotalRevenueBaseAmount() {
+    public KualiInteger getTotalRevenueBaseAmount() {
         return totalRevenueBaseAmount;
     }
 
     /**
      * Sets the totalRevenueBaseAmount
-     * 
+     *
      * @param totalRevenueBaseAmount The totalRevenueBaseAmount to set.
      */
-    public void setTotalRevenueBaseAmount(Integer totalRevenueBaseAmount) {
+    public void setTotalRevenueBaseAmount(KualiInteger totalRevenueBaseAmount) {
         this.totalRevenueBaseAmount = totalRevenueBaseAmount;
     }
 
     /**
      * Gets the totalRevenuePercentChange
-     * 
+     *
      * @return Returns the totalRevenuePercentChange.
      */
     public BigDecimal getTotalRevenuePercentChange() {
@@ -757,7 +759,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the totalRevenuePercentChange
-     * 
+     *
      * @param totalRevenuePercentChange The totalRevenuePercentChange to set.
      */
     public void setTotalRevenuePercentChange(BigDecimal totalRevenuePercentChange) {
@@ -766,61 +768,61 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the payrollEndDateFiscalPeriod
-     * 
+     *
      * @return Returns the payrollEndDateFiscalPeriod.
      */
-    public Integer getTotalRevenueReqAmount() {
+    public KualiInteger getTotalRevenueReqAmount() {
         return totalRevenueReqAmount;
     }
 
     /**
      * Sets the payrollEndDateFiscalPeriod
-     * 
+     *
      * @param payrollEndDateFiscalPeriod The payrollEndDateFiscalPeriod to set.
      */
-    public void setTotalRevenueReqAmount(Integer totalRevenueReqAmount) {
+    public void setTotalRevenueReqAmount(KualiInteger totalRevenueReqAmount) {
         this.totalRevenueReqAmount = totalRevenueReqAmount;
     }
 
     /**
      * Gets the totalTransferAmountChange
-     * 
+     *
      * @return Returns the totalTransferAmountChange.
      */
-    public Integer getTotalTransferAmountChange() {
+    public KualiInteger getTotalTransferAmountChange() {
         return totalTransferAmountChange;
     }
 
     /**
      * Sets the totalTransferAmountChange
-     * 
+     *
      * @param totalTransferAmountChange The totalTransferAmountChange to set.
      */
-    public void setTotalTransferAmountChange(Integer totalTransferAmountChange) {
+    public void setTotalTransferAmountChange(KualiInteger totalTransferAmountChange) {
         this.totalTransferAmountChange = totalTransferAmountChange;
     }
 
     /**
      * Gets the totalTransferInBaseAmount
-     * 
+     *
      * @return Returns the totalTransferInBaseAmount.
      */
-    public Integer getTotalTransferInBaseAmount() {
+    public KualiInteger getTotalTransferInBaseAmount() {
         return totalTransferInBaseAmount;
     }
 
     /**
      * Sets the totalTransferInBaseAmount
-     * 
+     *
      * @param totalTransferInBaseAmount The totalTransferInBaseAmount to set.
      */
-    public void setTotalTransferInBaseAmount(Integer totalTransferInBaseAmount) {
+    public void setTotalTransferInBaseAmount(KualiInteger totalTransferInBaseAmount) {
         this.totalTransferInBaseAmount = totalTransferInBaseAmount;
     }
 
     /**
      * Gets the totalTransferInPercentChange
-     * 
+     *
      * @return Returns the totalTransferInPercentChange.
      */
     public BigDecimal getTotalTransferInPercentChange() {
@@ -829,7 +831,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the totalTransferInPercentChange
-     * 
+     *
      * @param totalTransferInPercentChange The totalTransferInPercentChange to set.
      */
     public void setTotalTransferInPercentChange(BigDecimal totalTransferInPercentChange) {
@@ -838,25 +840,25 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the totalTransferInReqAmount
-     * 
+     *
      * @return Returns the totalTransferInReqAmount.
      */
-    public Integer getTotalTransferInReqAmount() {
+    public KualiInteger getTotalTransferInReqAmount() {
         return totalTransferInReqAmount;
     }
 
     /**
      * Sets the totalTransferInReqAmount
-     * 
+     *
      * @param totalTransferInReqAmount The totalTransferInReqAmount to set.
      */
-    public void setTotalTransferInReqAmount(Integer totalTransferInReqAmount) {
+    public void setTotalTransferInReqAmount(KualiInteger totalTransferInReqAmount) {
         this.totalTransferInReqAmount = totalTransferInReqAmount;
     }
 
     /**
      * Gets the fundGroupName
-     * 
+     *
      * @return Returns the fundGroupName.
      */
     public String getFundGroupName() {
@@ -865,7 +867,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the fundGroupName
-     * 
+     *
      * @param fundGroupName The fundGroupName to set.
      */
     public void setFundGroupName(String fundGroupName) {
@@ -874,7 +876,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the chartOfAccountDescription
-     * 
+     *
      * @return Returns the chartOfAccountDescription.
      */
     public String getChartOfAccountDescription() {
@@ -883,7 +885,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the chartOfAccountDescription
-     * 
+     *
      * @param chartOfAccountDescription The chartOfAccountDescription to set.
      */
     public void setChartOfAccountDescription(String chartOfAccountDescription) {
@@ -892,7 +894,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the chartOfAccountsCode
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -901,7 +903,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the chartOfAccountsCode
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -910,7 +912,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the orgChartOfAccountDescription
-     * 
+     *
      * @return Returns the orgChartOfAccountDescription.
      */
     public String getOrgChartOfAccountDescription() {
@@ -919,7 +921,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the orgChartOfAccountDescription
-     * 
+     *
      * @param orgChartOfAccountDescription The orgChartOfAccountDescription to set.
      */
     public void setOrgChartOfAccountDescription(String orgChartOfAccountDescription) {
@@ -928,7 +930,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Gets the orgChartOfAccountsCode
-     * 
+     *
      * @return Returns the orgChartOfAccountsCode.
      */
     public String getOrgChartOfAccountsCode() {
@@ -937,7 +939,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
     /**
      * Sets the orgChartOfAccountsCode
-     * 
+     *
      * @param orgChartOfAccountsCode The orgChartOfAccountsCode to set.
      */
     public void setOrgChartOfAccountsCode(String orgChartOfAccountsCode) {

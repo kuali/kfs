@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
+
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Budget Construction Organization Account Summary Report Business Object.
@@ -37,11 +39,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String subFundGroupDescription;
     private String baseFy;
     private String reqFy;
-    
+
     private String accountNumber;
     private String accountName;
     private String subAccountName;
-    
+
     // Groups
     private String subAccountNumber;
     private String incomeExpenseCode;
@@ -50,94 +52,94 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private String financialSubObjectCode;
     // page break org_fin_coa_cd, org_cd, sub_fund_grp_cd)%\
     private String pageBreak;
-    
-    private String subAccountNumberAndName;  
+
+    private String subAccountNumberAndName;
     private String accountNumberAndName;
-    private String divider; 
-    
+    private String divider;
+
     // Body parts
     private String financialObjectName;
-    
+
     //when the values are zero, below fields should be blank, so make them as string.
     private BigDecimal positionCsfLeaveFteQuantity;
     private BigDecimal positionFullTimeEquivalencyQuantity;
-    private Integer financialBeginningBalanceLineAmount = new Integer(0);
+    private KualiInteger financialBeginningBalanceLineAmount = KualiInteger.ZERO;
     private BigDecimal appointmentRequestedCsfFteQuantity;
     private BigDecimal appointmentRequestedFteQuantity;
-    private Integer accountLineAnnualBalanceAmount = new Integer(0);
-    private Integer amountChange = new Integer(0);
+    private KualiInteger accountLineAnnualBalanceAmount = KualiInteger.ZERO;
+    private KualiInteger amountChange = KualiInteger.ZERO;
     private BigDecimal percentChange = BigDecimal.ZERO;
 
     // Total parts
-    
+
     private String totalObjectDescription;
-    
+
     private BigDecimal totalObjectPositionCsfLeaveFteQuantity;
     private BigDecimal totalObjectPositionFullTimeEquivalencyQuantity;
-    private Integer totalObjectFinancialBeginningBalanceLineAmount;
+    private KualiInteger totalObjectFinancialBeginningBalanceLineAmount;
     private BigDecimal totalObjectAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalObjectAppointmentRequestedFteQuantity;
-    private Integer totalObjectAccountLineAnnualBalanceAmount;
-    private Integer totalObjectAmountChange;
+    private KualiInteger totalObjectAccountLineAnnualBalanceAmount;
+    private KualiInteger totalObjectAmountChange;
     private BigDecimal totalObjectPercentChange;
-    
+
     private String totalLevelDescription;
-    
+
     private BigDecimal totalLevelPositionCsfLeaveFteQuantity;
     private BigDecimal totalLevelPositionFullTimeEquivalencyQuantity;
-    private Integer totalLevelFinancialBeginningBalanceLineAmount;
+    private KualiInteger totalLevelFinancialBeginningBalanceLineAmount;
     private BigDecimal totalLevelAppointmentRequestedCsfFteQuantity;
     private BigDecimal totalLevelAppointmentRequestedFteQuantity;
-    private Integer totalLevelAccountLineAnnualBalanceAmount;
-    private Integer totalLevelAmountChange;
+    private KualiInteger totalLevelAccountLineAnnualBalanceAmount;
+    private KualiInteger totalLevelAmountChange;
     private BigDecimal totalLevelPercentChange;
 
     private String grossDescription;
-    private Integer grossFinancialBeginningBalanceLineAmount;
-    private Integer grossAccountLineAnnualBalanceAmount;
-    private Integer grossAmountChange;
+    private KualiInteger grossFinancialBeginningBalanceLineAmount;
+    private KualiInteger grossAccountLineAnnualBalanceAmount;
+    private KualiInteger grossAmountChange;
     private BigDecimal grossPercentChange;
-    
+
     private String typeDesc;
     private BigDecimal typePositionCsfLeaveFteQuantity;
     private BigDecimal typePositionFullTimeEquivalencyQuantity;
-    private Integer typeFinancialBeginningBalanceLineAmount;
+    private KualiInteger typeFinancialBeginningBalanceLineAmount;
     private BigDecimal typeAppointmentRequestedCsfFteQuantity;
     private BigDecimal typeAppointmentRequestedFteQuantity;
-    private Integer typeAccountLineAnnualBalanceAmount;
-    private Integer typeAmountChange;
+    private KualiInteger typeAccountLineAnnualBalanceAmount;
+    private KualiInteger typeAmountChange;
     private BigDecimal typePercentChange;
-    
+
     // account total
     private String accountNameForAccountTotal;
     private BigDecimal accountPositionCsfLeaveFteQuantity;
     private BigDecimal accountPositionFullTimeEquivalencyQuantity;
     private BigDecimal accountAppointmentRequestedCsfFteQuantity;
     private BigDecimal accountAppointmentRequestedFteQuantity;
-    
-    private Integer accountRevenueFinancialBeginningBalanceLineAmount;
-    private Integer accountRevenueAccountLineAnnualBalanceAmount;
-    private Integer accountRevenueAmountChange;
+
+    private KualiInteger accountRevenueFinancialBeginningBalanceLineAmount;
+    private KualiInteger accountRevenueAccountLineAnnualBalanceAmount;
+    private KualiInteger accountRevenueAmountChange;
     private BigDecimal accountRevenuePercentChange;
-    
-    private Integer accountGrossFinancialBeginningBalanceLineAmount;
-    private Integer accountGrossAccountLineAnnualBalanceAmount;
-    private Integer accountGrossAmountChange;
+
+    private KualiInteger accountGrossFinancialBeginningBalanceLineAmount;
+    private KualiInteger accountGrossAccountLineAnnualBalanceAmount;
+    private KualiInteger accountGrossAmountChange;
     private BigDecimal accountGrossPercentChange;
-    
-    private Integer accountTrnfrInFinancialBeginningBalanceLineAmount;
-    private Integer accountTrnfrInAccountLineAnnualBalanceAmount;
-    private Integer accountTrnfrInAmountChange;
+
+    private KualiInteger accountTrnfrInFinancialBeginningBalanceLineAmount;
+    private KualiInteger accountTrnfrInAccountLineAnnualBalanceAmount;
+    private KualiInteger accountTrnfrInAmountChange;
     private BigDecimal accountTrnfrInPercentChange;
-    
-    private Integer accountExpenditureFinancialBeginningBalanceLineAmount;
-    private Integer accountExpenditureAccountLineAnnualBalanceAmount;
-    private Integer accountExpenditureAmountChange;
+
+    private KualiInteger accountExpenditureFinancialBeginningBalanceLineAmount;
+    private KualiInteger accountExpenditureAccountLineAnnualBalanceAmount;
+    private KualiInteger accountExpenditureAmountChange;
     private BigDecimal accountExpenditurePercentChange;
-    
-    private Integer accountDifferenceFinancialBeginningBalanceLineAmount;
-    private Integer accountDifferenceAccountLineAnnualBalanceAmount;
-    private Integer accountDifferenceAmountChange;
+
+    private KualiInteger accountDifferenceFinancialBeginningBalanceLineAmount;
+    private KualiInteger accountDifferenceAccountLineAnnualBalanceAmount;
+    private KualiInteger accountDifferenceAmountChange;
     private BigDecimal accountDifferencePercentChange;
 
     //subFund total
@@ -146,53 +148,53 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     private BigDecimal subFundPositionFullTimeEquivalencyQuantity;
     private BigDecimal subFundAppointmentRequestedCsfFteQuantity;
     private BigDecimal subFundAppointmentRequestedFteQuantity;
-    
-    private Integer subFundRevenueFinancialBeginningBalanceLineAmount;
-    private Integer subFundRevenueAccountLineAnnualBalanceAmount;
-    private Integer subFundRevenueAmountChange;
+
+    private KualiInteger subFundRevenueFinancialBeginningBalanceLineAmount;
+    private KualiInteger subFundRevenueAccountLineAnnualBalanceAmount;
+    private KualiInteger subFundRevenueAmountChange;
     private BigDecimal subFundRevenuePercentChange;
-    
-    private Integer subFundGrossFinancialBeginningBalanceLineAmount;
-    private Integer subFundGrossAccountLineAnnualBalanceAmount;
-    private Integer subFundGrossAmountChange;
+
+    private KualiInteger subFundGrossFinancialBeginningBalanceLineAmount;
+    private KualiInteger subFundGrossAccountLineAnnualBalanceAmount;
+    private KualiInteger subFundGrossAmountChange;
     private BigDecimal subFundGrossPercentChange;
-    
-    private Integer subFundTrnfrInFinancialBeginningBalanceLineAmount;
-    private Integer subFundTrnfrInAccountLineAnnualBalanceAmount;
-    private Integer subFundTrnfrInAmountChange;
+
+    private KualiInteger subFundTrnfrInFinancialBeginningBalanceLineAmount;
+    private KualiInteger subFundTrnfrInAccountLineAnnualBalanceAmount;
+    private KualiInteger subFundTrnfrInAmountChange;
     private BigDecimal subFundTrnfrInPercentChange;
-    
-    private Integer subFundExpenditureFinancialBeginningBalanceLineAmount;
-    private Integer subFundExpenditureAccountLineAnnualBalanceAmount;
-    private Integer subFundExpenditureAmountChange;
+
+    private KualiInteger subFundExpenditureFinancialBeginningBalanceLineAmount;
+    private KualiInteger subFundExpenditureAccountLineAnnualBalanceAmount;
+    private KualiInteger subFundExpenditureAmountChange;
     private BigDecimal subFundExpenditurePercentChange;
-    
-    private Integer subFundDifferenceFinancialBeginningBalanceLineAmount;
-    private Integer subFundDifferenceAccountLineAnnualBalanceAmount;
-    private Integer subFundDifferenceAmountChange;
+
+    private KualiInteger subFundDifferenceFinancialBeginningBalanceLineAmount;
+    private KualiInteger subFundDifferenceAccountLineAnnualBalanceAmount;
+    private KualiInteger subFundDifferenceAmountChange;
     private BigDecimal subFundDifferencePercentChange;
-    
+
     /**
      * Gets the amountChange
-     * 
+     *
      * @return Returns the amountChange.
      */
-    public Integer getAmountChange() {
+    public KualiInteger getAmountChange() {
         return amountChange;
     }
 
     /**
      * Sets the amountChange
-     * 
+     *
      * @param amountChange The amountChange to set.
      */
-    public void setAmountChange(Integer amountChange) {
+    public void setAmountChange(KualiInteger amountChange) {
         this.amountChange = amountChange;
     }
 
     /**
      * Gets the baseFy
-     * 
+     *
      * @return Returns the baseFy.
      */
     public String getBaseFy() {
@@ -201,7 +203,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the baseFy
-     * 
+     *
      * @param baseFy The baseFy to set.
      */
     public void setBaseFy(String baseFy) {
@@ -210,7 +212,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the consHdr
-     * 
+     *
      * @return Returns the consHdr.
      */
     public String getConsHdr() {
@@ -219,7 +221,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the consHdr
-     * 
+     *
      * @param consHdr The consHdr to set.
      */
     public void setConsHdr(String consHdr) {
@@ -228,7 +230,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the fiscalYear
-     * 
+     *
      * @return Returns the fiscalYear.
      */
     public String getFiscalYear() {
@@ -237,7 +239,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the fiscalYear
-     * 
+     *
      * @param fiscalYear The fiscalYear to set.
      */
     public void setFiscalYear(String fiscalYear) {
@@ -246,7 +248,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the fundGroupCode
-     * 
+     *
      * @return Returns the fundGroupCode.
      */
     public String getFundGroupCode() {
@@ -255,17 +257,17 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the fundGroupCode
-     * 
+     *
      * @param fundGroupCode The fundGroupCode to set.
      */
     public void setFundGroupCode(String fundGroupCode) {
         this.fundGroupCode = fundGroupCode;
     }
 
-   
+
     /**
      * Gets the organizationCode
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -274,7 +276,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the organizationCode
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -283,7 +285,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the organizationName
-     * 
+     *
      * @return Returns the organizationName.
      */
     public String getOrganizationName() {
@@ -292,7 +294,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the organizationName
-     * 
+     *
      * @param organizationName The organizationName to set.
      */
     public void setOrganizationName(String organizationName) {
@@ -301,7 +303,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the percentChange
-     * 
+     *
      * @return Returns the percentChange.
      */
     public BigDecimal getPercentChange() {
@@ -310,7 +312,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the percentChange
-     * 
+     *
      * @param percentChange The percentChange to set.
      */
     public void setPercentChange(BigDecimal percentChange) {
@@ -319,7 +321,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the reqFy
-     * 
+     *
      * @return Returns the reqFy.
      */
     public String getReqFy() {
@@ -328,7 +330,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the reqFy
-     * 
+     *
      * @param reqFy The reqFy to set.
      */
     public void setReqFy(String reqFy) {
@@ -337,7 +339,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the subFundGroupCode
-     * 
+     *
      * @return Returns the subFundGroupCode.
      */
     public String getSubFundGroupCode() {
@@ -346,7 +348,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the subFundGroupCode
-     * 
+     *
      * @param subFundGroupCode The subFundGroupCode to set.
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
@@ -355,7 +357,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the subFundGroupDescription
-     * 
+     *
      * @return Returns the subFundGroupDescription.
      */
     public String getSubFundGroupDescription() {
@@ -364,7 +366,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the subFundGroupDescription
-     * 
+     *
      * @param subFundGroupDescription The subFundGroupDescription to set.
      */
     public void setSubFundGroupDescription(String subFundGroupDescription) {
@@ -373,7 +375,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the fundGroupName
-     * 
+     *
      * @return Returns the fundGroupName.
      */
     public String getFundGroupName() {
@@ -382,7 +384,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the fundGroupName
-     * 
+     *
      * @param fundGroupName The fundGroupName to set.
      */
     public void setFundGroupName(String fundGroupName) {
@@ -391,7 +393,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the chartOfAccountDescription
-     * 
+     *
      * @return Returns the chartOfAccountDescription.
      */
     public String getChartOfAccountDescription() {
@@ -400,7 +402,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the chartOfAccountDescription
-     * 
+     *
      * @param chartOfAccountDescription The chartOfAccountDescription to set.
      */
     public void setChartOfAccountDescription(String chartOfAccountDescription) {
@@ -409,7 +411,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the chartOfAccountsCode
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -418,7 +420,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the chartOfAccountsCode
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -427,7 +429,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the orgChartOfAccountDescription
-     * 
+     *
      * @return Returns the orgChartOfAccountDescription.
      */
     public String getOrgChartOfAccountDescription() {
@@ -436,7 +438,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the orgChartOfAccountDescription
-     * 
+     *
      * @param orgChartOfAccountDescription The orgChartOfAccountDescription to set.
      */
     public void setOrgChartOfAccountDescription(String orgChartOfAccountDescription) {
@@ -445,7 +447,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Gets the orgChartOfAccountsCode
-     * 
+     *
      * @return Returns the orgChartOfAccountsCode.
      */
     public String getOrgChartOfAccountsCode() {
@@ -454,18 +456,18 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
 
     /**
      * Sets the orgChartOfAccountsCode
-     * 
+     *
      * @param orgChartOfAccountsCode The orgChartOfAccountsCode to set.
      */
     public void setOrgChartOfAccountsCode(String orgChartOfAccountsCode) {
         this.orgChartOfAccountsCode = orgChartOfAccountsCode;
     }
 
-    public Integer getAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountLineAnnualBalanceAmount() {
         return accountLineAnnualBalanceAmount;
     }
 
-    public void setAccountLineAnnualBalanceAmount(Integer accountLineAnnualBalanceAmount) {
+    public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
     }
 
@@ -485,27 +487,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.accountAppointmentRequestedFteQuantity = accountAppointmentRequestedFteQuantity;
     }
 
-    public Integer getAccountDifferenceAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountDifferenceAccountLineAnnualBalanceAmount() {
         return accountDifferenceAccountLineAnnualBalanceAmount;
     }
 
-    public void setAccountDifferenceAccountLineAnnualBalanceAmount(Integer accountDifferenceAccountLineAnnualBalanceAmount) {
+    public void setAccountDifferenceAccountLineAnnualBalanceAmount(KualiInteger accountDifferenceAccountLineAnnualBalanceAmount) {
         this.accountDifferenceAccountLineAnnualBalanceAmount = accountDifferenceAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getAccountDifferenceAmountChange() {
+    public KualiInteger getAccountDifferenceAmountChange() {
         return accountDifferenceAmountChange;
     }
 
-    public void setAccountDifferenceAmountChange(Integer accountDifferenceAmountChange) {
+    public void setAccountDifferenceAmountChange(KualiInteger accountDifferenceAmountChange) {
         this.accountDifferenceAmountChange = accountDifferenceAmountChange;
     }
 
-    public Integer getAccountDifferenceFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getAccountDifferenceFinancialBeginningBalanceLineAmount() {
         return accountDifferenceFinancialBeginningBalanceLineAmount;
     }
 
-    public void setAccountDifferenceFinancialBeginningBalanceLineAmount(Integer accountDifferenceFinancialBeginningBalanceLineAmount) {
+    public void setAccountDifferenceFinancialBeginningBalanceLineAmount(KualiInteger accountDifferenceFinancialBeginningBalanceLineAmount) {
         this.accountDifferenceFinancialBeginningBalanceLineAmount = accountDifferenceFinancialBeginningBalanceLineAmount;
     }
 
@@ -517,27 +519,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.accountDifferencePercentChange = accountDifferencePercentChange;
     }
 
-    public Integer getAccountExpenditureAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountExpenditureAccountLineAnnualBalanceAmount() {
         return accountExpenditureAccountLineAnnualBalanceAmount;
     }
 
-    public void setAccountExpenditureAccountLineAnnualBalanceAmount(Integer accountExpenditureAccountLineAnnualBalanceAmount) {
+    public void setAccountExpenditureAccountLineAnnualBalanceAmount(KualiInteger accountExpenditureAccountLineAnnualBalanceAmount) {
         this.accountExpenditureAccountLineAnnualBalanceAmount = accountExpenditureAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getAccountExpenditureAmountChange() {
+    public KualiInteger getAccountExpenditureAmountChange() {
         return accountExpenditureAmountChange;
     }
 
-    public void setAccountExpenditureAmountChange(Integer accountExpenditureAmountChange) {
+    public void setAccountExpenditureAmountChange(KualiInteger accountExpenditureAmountChange) {
         this.accountExpenditureAmountChange = accountExpenditureAmountChange;
     }
 
-    public Integer getAccountExpenditureFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getAccountExpenditureFinancialBeginningBalanceLineAmount() {
         return accountExpenditureFinancialBeginningBalanceLineAmount;
     }
 
-    public void setAccountExpenditureFinancialBeginningBalanceLineAmount(Integer accountExpenditureFinancialBeginningBalanceLineAmount) {
+    public void setAccountExpenditureFinancialBeginningBalanceLineAmount(KualiInteger accountExpenditureFinancialBeginningBalanceLineAmount) {
         this.accountExpenditureFinancialBeginningBalanceLineAmount = accountExpenditureFinancialBeginningBalanceLineAmount;
     }
 
@@ -549,27 +551,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.accountExpenditurePercentChange = accountExpenditurePercentChange;
     }
 
-    public Integer getAccountGrossAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountGrossAccountLineAnnualBalanceAmount() {
         return accountGrossAccountLineAnnualBalanceAmount;
     }
 
-    public void setAccountGrossAccountLineAnnualBalanceAmount(Integer accountGrossAccountLineAnnualBalanceAmount) {
+    public void setAccountGrossAccountLineAnnualBalanceAmount(KualiInteger accountGrossAccountLineAnnualBalanceAmount) {
         this.accountGrossAccountLineAnnualBalanceAmount = accountGrossAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getAccountGrossAmountChange() {
+    public KualiInteger getAccountGrossAmountChange() {
         return accountGrossAmountChange;
     }
 
-    public void setAccountGrossAmountChange(Integer accountGrossAmountChange) {
+    public void setAccountGrossAmountChange(KualiInteger accountGrossAmountChange) {
         this.accountGrossAmountChange = accountGrossAmountChange;
     }
 
-    public Integer getAccountGrossFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getAccountGrossFinancialBeginningBalanceLineAmount() {
         return accountGrossFinancialBeginningBalanceLineAmount;
     }
 
-    public void setAccountGrossFinancialBeginningBalanceLineAmount(Integer accountGrossFinancialBeginningBalanceLineAmount) {
+    public void setAccountGrossFinancialBeginningBalanceLineAmount(KualiInteger accountGrossFinancialBeginningBalanceLineAmount) {
         this.accountGrossFinancialBeginningBalanceLineAmount = accountGrossFinancialBeginningBalanceLineAmount;
     }
 
@@ -621,27 +623,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.accountPositionFullTimeEquivalencyQuantity = accountPositionFullTimeEquivalencyQuantity;
     }
 
-    public Integer getAccountRevenueAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountRevenueAccountLineAnnualBalanceAmount() {
         return accountRevenueAccountLineAnnualBalanceAmount;
     }
 
-    public void setAccountRevenueAccountLineAnnualBalanceAmount(Integer accountRevenueAccountLineAnnualBalanceAmount) {
+    public void setAccountRevenueAccountLineAnnualBalanceAmount(KualiInteger accountRevenueAccountLineAnnualBalanceAmount) {
         this.accountRevenueAccountLineAnnualBalanceAmount = accountRevenueAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getAccountRevenueAmountChange() {
+    public KualiInteger getAccountRevenueAmountChange() {
         return accountRevenueAmountChange;
     }
 
-    public void setAccountRevenueAmountChange(Integer accountRevenueAmountChange) {
+    public void setAccountRevenueAmountChange(KualiInteger accountRevenueAmountChange) {
         this.accountRevenueAmountChange = accountRevenueAmountChange;
     }
 
-    public Integer getAccountRevenueFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getAccountRevenueFinancialBeginningBalanceLineAmount() {
         return accountRevenueFinancialBeginningBalanceLineAmount;
     }
 
-    public void setAccountRevenueFinancialBeginningBalanceLineAmount(Integer accountRevenueFinancialBeginningBalanceLineAmount) {
+    public void setAccountRevenueFinancialBeginningBalanceLineAmount(KualiInteger accountRevenueFinancialBeginningBalanceLineAmount) {
         this.accountRevenueFinancialBeginningBalanceLineAmount = accountRevenueFinancialBeginningBalanceLineAmount;
     }
 
@@ -653,27 +655,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.accountRevenuePercentChange = accountRevenuePercentChange;
     }
 
-    public Integer getAccountTrnfrInAccountLineAnnualBalanceAmount() {
+    public KualiInteger getAccountTrnfrInAccountLineAnnualBalanceAmount() {
         return accountTrnfrInAccountLineAnnualBalanceAmount;
     }
 
-    public void setAccountTrnfrInAccountLineAnnualBalanceAmount(Integer accountTrnfrInAccountLineAnnualBalanceAmount) {
+    public void setAccountTrnfrInAccountLineAnnualBalanceAmount(KualiInteger accountTrnfrInAccountLineAnnualBalanceAmount) {
         this.accountTrnfrInAccountLineAnnualBalanceAmount = accountTrnfrInAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getAccountTrnfrInAmountChange() {
+    public KualiInteger getAccountTrnfrInAmountChange() {
         return accountTrnfrInAmountChange;
     }
 
-    public void setAccountTrnfrInAmountChange(Integer accountTrnfrInAmountChange) {
+    public void setAccountTrnfrInAmountChange(KualiInteger accountTrnfrInAmountChange) {
         this.accountTrnfrInAmountChange = accountTrnfrInAmountChange;
     }
 
-    public Integer getAccountTrnfrInFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getAccountTrnfrInFinancialBeginningBalanceLineAmount() {
         return accountTrnfrInFinancialBeginningBalanceLineAmount;
     }
 
-    public void setAccountTrnfrInFinancialBeginningBalanceLineAmount(Integer accountTrnfrInFinancialBeginningBalanceLineAmount) {
+    public void setAccountTrnfrInFinancialBeginningBalanceLineAmount(KualiInteger accountTrnfrInFinancialBeginningBalanceLineAmount) {
         this.accountTrnfrInFinancialBeginningBalanceLineAmount = accountTrnfrInFinancialBeginningBalanceLineAmount;
     }
 
@@ -701,11 +703,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
     }
 
-    public Integer getFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getFinancialBeginningBalanceLineAmount() {
         return financialBeginningBalanceLineAmount;
     }
 
-    public void setFinancialBeginningBalanceLineAmount(Integer financialBeginningBalanceLineAmount) {
+    public void setFinancialBeginningBalanceLineAmount(KualiInteger financialBeginningBalanceLineAmount) {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
@@ -741,19 +743,19 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.financialSubObjectCode = financialSubObjectCode;
     }
 
-    public Integer getGrossAccountLineAnnualBalanceAmount() {
+    public KualiInteger getGrossAccountLineAnnualBalanceAmount() {
         return grossAccountLineAnnualBalanceAmount;
     }
 
-    public void setGrossAccountLineAnnualBalanceAmount(Integer grossAccountLineAnnualBalanceAmount) {
+    public void setGrossAccountLineAnnualBalanceAmount(KualiInteger grossAccountLineAnnualBalanceAmount) {
         this.grossAccountLineAnnualBalanceAmount = grossAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getGrossAmountChange() {
+    public KualiInteger getGrossAmountChange() {
         return grossAmountChange;
     }
 
-    public void setGrossAmountChange(Integer grossAmountChange) {
+    public void setGrossAmountChange(KualiInteger grossAmountChange) {
         this.grossAmountChange = grossAmountChange;
     }
 
@@ -765,11 +767,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.grossDescription = grossDescription;
     }
 
-    public Integer getGrossFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getGrossFinancialBeginningBalanceLineAmount() {
         return grossFinancialBeginningBalanceLineAmount;
     }
 
-    public void setGrossFinancialBeginningBalanceLineAmount(Integer grossFinancialBeginningBalanceLineAmount) {
+    public void setGrossFinancialBeginningBalanceLineAmount(KualiInteger grossFinancialBeginningBalanceLineAmount) {
         this.grossFinancialBeginningBalanceLineAmount = grossFinancialBeginningBalanceLineAmount;
     }
 
@@ -845,27 +847,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundAppointmentRequestedFteQuantity = subFundAppointmentRequestedFteQuantity;
     }
 
-    public Integer getSubFundDifferenceAccountLineAnnualBalanceAmount() {
+    public KualiInteger getSubFundDifferenceAccountLineAnnualBalanceAmount() {
         return subFundDifferenceAccountLineAnnualBalanceAmount;
     }
 
-    public void setSubFundDifferenceAccountLineAnnualBalanceAmount(Integer subFundDifferenceAccountLineAnnualBalanceAmount) {
+    public void setSubFundDifferenceAccountLineAnnualBalanceAmount(KualiInteger subFundDifferenceAccountLineAnnualBalanceAmount) {
         this.subFundDifferenceAccountLineAnnualBalanceAmount = subFundDifferenceAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getSubFundDifferenceAmountChange() {
+    public KualiInteger getSubFundDifferenceAmountChange() {
         return subFundDifferenceAmountChange;
     }
 
-    public void setSubFundDifferenceAmountChange(Integer subFundDifferenceAmountChange) {
+    public void setSubFundDifferenceAmountChange(KualiInteger subFundDifferenceAmountChange) {
         this.subFundDifferenceAmountChange = subFundDifferenceAmountChange;
     }
 
-    public Integer getSubFundDifferenceFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getSubFundDifferenceFinancialBeginningBalanceLineAmount() {
         return subFundDifferenceFinancialBeginningBalanceLineAmount;
     }
 
-    public void setSubFundDifferenceFinancialBeginningBalanceLineAmount(Integer subFundDifferenceFinancialBeginningBalanceLineAmount) {
+    public void setSubFundDifferenceFinancialBeginningBalanceLineAmount(KualiInteger subFundDifferenceFinancialBeginningBalanceLineAmount) {
         this.subFundDifferenceFinancialBeginningBalanceLineAmount = subFundDifferenceFinancialBeginningBalanceLineAmount;
     }
 
@@ -877,27 +879,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundDifferencePercentChange = subFundDifferencePercentChange;
     }
 
-    public Integer getSubFundExpenditureAccountLineAnnualBalanceAmount() {
+    public KualiInteger getSubFundExpenditureAccountLineAnnualBalanceAmount() {
         return subFundExpenditureAccountLineAnnualBalanceAmount;
     }
 
-    public void setSubFundExpenditureAccountLineAnnualBalanceAmount(Integer subFundExpenditureAccountLineAnnualBalanceAmount) {
+    public void setSubFundExpenditureAccountLineAnnualBalanceAmount(KualiInteger subFundExpenditureAccountLineAnnualBalanceAmount) {
         this.subFundExpenditureAccountLineAnnualBalanceAmount = subFundExpenditureAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getSubFundExpenditureAmountChange() {
+    public KualiInteger getSubFundExpenditureAmountChange() {
         return subFundExpenditureAmountChange;
     }
 
-    public void setSubFundExpenditureAmountChange(Integer subFundExpenditureAmountChange) {
+    public void setSubFundExpenditureAmountChange(KualiInteger subFundExpenditureAmountChange) {
         this.subFundExpenditureAmountChange = subFundExpenditureAmountChange;
     }
 
-    public Integer getSubFundExpenditureFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getSubFundExpenditureFinancialBeginningBalanceLineAmount() {
         return subFundExpenditureFinancialBeginningBalanceLineAmount;
     }
 
-    public void setSubFundExpenditureFinancialBeginningBalanceLineAmount(Integer subFundExpenditureFinancialBeginningBalanceLineAmount) {
+    public void setSubFundExpenditureFinancialBeginningBalanceLineAmount(KualiInteger subFundExpenditureFinancialBeginningBalanceLineAmount) {
         this.subFundExpenditureFinancialBeginningBalanceLineAmount = subFundExpenditureFinancialBeginningBalanceLineAmount;
     }
 
@@ -909,27 +911,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundExpenditurePercentChange = subFundExpenditurePercentChange;
     }
 
-    public Integer getSubFundGrossAccountLineAnnualBalanceAmount() {
+    public KualiInteger getSubFundGrossAccountLineAnnualBalanceAmount() {
         return subFundGrossAccountLineAnnualBalanceAmount;
     }
 
-    public void setSubFundGrossAccountLineAnnualBalanceAmount(Integer subFundGrossAccountLineAnnualBalanceAmount) {
+    public void setSubFundGrossAccountLineAnnualBalanceAmount(KualiInteger subFundGrossAccountLineAnnualBalanceAmount) {
         this.subFundGrossAccountLineAnnualBalanceAmount = subFundGrossAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getSubFundGrossAmountChange() {
+    public KualiInteger getSubFundGrossAmountChange() {
         return subFundGrossAmountChange;
     }
 
-    public void setSubFundGrossAmountChange(Integer subFundGrossAmountChange) {
+    public void setSubFundGrossAmountChange(KualiInteger subFundGrossAmountChange) {
         this.subFundGrossAmountChange = subFundGrossAmountChange;
     }
 
-    public Integer getSubFundGrossFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getSubFundGrossFinancialBeginningBalanceLineAmount() {
         return subFundGrossFinancialBeginningBalanceLineAmount;
     }
 
-    public void setSubFundGrossFinancialBeginningBalanceLineAmount(Integer subFundGrossFinancialBeginningBalanceLineAmount) {
+    public void setSubFundGrossFinancialBeginningBalanceLineAmount(KualiInteger subFundGrossFinancialBeginningBalanceLineAmount) {
         this.subFundGrossFinancialBeginningBalanceLineAmount = subFundGrossFinancialBeginningBalanceLineAmount;
     }
 
@@ -965,27 +967,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundPositionFullTimeEquivalencyQuantity = subFundPositionFullTimeEquivalencyQuantity;
     }
 
-    public Integer getSubFundRevenueAccountLineAnnualBalanceAmount() {
+    public KualiInteger getSubFundRevenueAccountLineAnnualBalanceAmount() {
         return subFundRevenueAccountLineAnnualBalanceAmount;
     }
 
-    public void setSubFundRevenueAccountLineAnnualBalanceAmount(Integer subFundRevenueAccountLineAnnualBalanceAmount) {
+    public void setSubFundRevenueAccountLineAnnualBalanceAmount(KualiInteger subFundRevenueAccountLineAnnualBalanceAmount) {
         this.subFundRevenueAccountLineAnnualBalanceAmount = subFundRevenueAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getSubFundRevenueAmountChange() {
+    public KualiInteger getSubFundRevenueAmountChange() {
         return subFundRevenueAmountChange;
     }
 
-    public void setSubFundRevenueAmountChange(Integer subFundRevenueAmountChange) {
+    public void setSubFundRevenueAmountChange(KualiInteger subFundRevenueAmountChange) {
         this.subFundRevenueAmountChange = subFundRevenueAmountChange;
     }
 
-    public Integer getSubFundRevenueFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getSubFundRevenueFinancialBeginningBalanceLineAmount() {
         return subFundRevenueFinancialBeginningBalanceLineAmount;
     }
 
-    public void setSubFundRevenueFinancialBeginningBalanceLineAmount(Integer subFundRevenueFinancialBeginningBalanceLineAmount) {
+    public void setSubFundRevenueFinancialBeginningBalanceLineAmount(KualiInteger subFundRevenueFinancialBeginningBalanceLineAmount) {
         this.subFundRevenueFinancialBeginningBalanceLineAmount = subFundRevenueFinancialBeginningBalanceLineAmount;
     }
 
@@ -997,27 +999,27 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundRevenuePercentChange = subFundRevenuePercentChange;
     }
 
-    public Integer getSubFundTrnfrInAccountLineAnnualBalanceAmount() {
+    public KualiInteger getSubFundTrnfrInAccountLineAnnualBalanceAmount() {
         return subFundTrnfrInAccountLineAnnualBalanceAmount;
     }
 
-    public void setSubFundTrnfrInAccountLineAnnualBalanceAmount(Integer subFundTrnfrInAccountLineAnnualBalanceAmount) {
+    public void setSubFundTrnfrInAccountLineAnnualBalanceAmount(KualiInteger subFundTrnfrInAccountLineAnnualBalanceAmount) {
         this.subFundTrnfrInAccountLineAnnualBalanceAmount = subFundTrnfrInAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getSubFundTrnfrInAmountChange() {
+    public KualiInteger getSubFundTrnfrInAmountChange() {
         return subFundTrnfrInAmountChange;
     }
 
-    public void setSubFundTrnfrInAmountChange(Integer subFundTrnfrInAmountChange) {
+    public void setSubFundTrnfrInAmountChange(KualiInteger subFundTrnfrInAmountChange) {
         this.subFundTrnfrInAmountChange = subFundTrnfrInAmountChange;
     }
 
-    public Integer getSubFundTrnfrInFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getSubFundTrnfrInFinancialBeginningBalanceLineAmount() {
         return subFundTrnfrInFinancialBeginningBalanceLineAmount;
     }
 
-    public void setSubFundTrnfrInFinancialBeginningBalanceLineAmount(Integer subFundTrnfrInFinancialBeginningBalanceLineAmount) {
+    public void setSubFundTrnfrInFinancialBeginningBalanceLineAmount(KualiInteger subFundTrnfrInFinancialBeginningBalanceLineAmount) {
         this.subFundTrnfrInFinancialBeginningBalanceLineAmount = subFundTrnfrInFinancialBeginningBalanceLineAmount;
     }
 
@@ -1029,19 +1031,19 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.subFundTrnfrInPercentChange = subFundTrnfrInPercentChange;
     }
 
-    public Integer getTotalLevelAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTotalLevelAccountLineAnnualBalanceAmount() {
         return totalLevelAccountLineAnnualBalanceAmount;
     }
 
-    public void setTotalLevelAccountLineAnnualBalanceAmount(Integer totalLevelAccountLineAnnualBalanceAmount) {
+    public void setTotalLevelAccountLineAnnualBalanceAmount(KualiInteger totalLevelAccountLineAnnualBalanceAmount) {
         this.totalLevelAccountLineAnnualBalanceAmount = totalLevelAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getTotalLevelAmountChange() {
+    public KualiInteger getTotalLevelAmountChange() {
         return totalLevelAmountChange;
     }
 
-    public void setTotalLevelAmountChange(Integer totalLevelAmountChange) {
+    public void setTotalLevelAmountChange(KualiInteger totalLevelAmountChange) {
         this.totalLevelAmountChange = totalLevelAmountChange;
     }
 
@@ -1069,11 +1071,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.totalLevelDescription = totalLevelDescription;
     }
 
-    public Integer getTotalLevelFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTotalLevelFinancialBeginningBalanceLineAmount() {
         return totalLevelFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTotalLevelFinancialBeginningBalanceLineAmount(Integer totalLevelFinancialBeginningBalanceLineAmount) {
+    public void setTotalLevelFinancialBeginningBalanceLineAmount(KualiInteger totalLevelFinancialBeginningBalanceLineAmount) {
         this.totalLevelFinancialBeginningBalanceLineAmount = totalLevelFinancialBeginningBalanceLineAmount;
     }
 
@@ -1101,19 +1103,19 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.totalLevelPositionFullTimeEquivalencyQuantity = totalLevelPositionFullTimeEquivalencyQuantity;
     }
 
-    public Integer getTotalObjectAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTotalObjectAccountLineAnnualBalanceAmount() {
         return totalObjectAccountLineAnnualBalanceAmount;
     }
 
-    public void setTotalObjectAccountLineAnnualBalanceAmount(Integer totalObjectAccountLineAnnualBalanceAmount) {
+    public void setTotalObjectAccountLineAnnualBalanceAmount(KualiInteger totalObjectAccountLineAnnualBalanceAmount) {
         this.totalObjectAccountLineAnnualBalanceAmount = totalObjectAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getTotalObjectAmountChange() {
+    public KualiInteger getTotalObjectAmountChange() {
         return totalObjectAmountChange;
     }
 
-    public void setTotalObjectAmountChange(Integer totalObjectAmountChange) {
+    public void setTotalObjectAmountChange(KualiInteger totalObjectAmountChange) {
         this.totalObjectAmountChange = totalObjectAmountChange;
     }
 
@@ -1141,11 +1143,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.totalObjectDescription = totalObjectDescription;
     }
 
-    public Integer getTotalObjectFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTotalObjectFinancialBeginningBalanceLineAmount() {
         return totalObjectFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTotalObjectFinancialBeginningBalanceLineAmount(Integer totalObjectFinancialBeginningBalanceLineAmount) {
+    public void setTotalObjectFinancialBeginningBalanceLineAmount(KualiInteger totalObjectFinancialBeginningBalanceLineAmount) {
         this.totalObjectFinancialBeginningBalanceLineAmount = totalObjectFinancialBeginningBalanceLineAmount;
     }
 
@@ -1173,19 +1175,19 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.totalObjectPositionFullTimeEquivalencyQuantity = totalObjectPositionFullTimeEquivalencyQuantity;
     }
 
-    public Integer getTypeAccountLineAnnualBalanceAmount() {
+    public KualiInteger getTypeAccountLineAnnualBalanceAmount() {
         return typeAccountLineAnnualBalanceAmount;
     }
 
-    public void setTypeAccountLineAnnualBalanceAmount(Integer typeAccountLineAnnualBalanceAmount) {
+    public void setTypeAccountLineAnnualBalanceAmount(KualiInteger typeAccountLineAnnualBalanceAmount) {
         this.typeAccountLineAnnualBalanceAmount = typeAccountLineAnnualBalanceAmount;
     }
 
-    public Integer getTypeAmountChange() {
+    public KualiInteger getTypeAmountChange() {
         return typeAmountChange;
     }
 
-    public void setTypeAmountChange(Integer typeAmountChange) {
+    public void setTypeAmountChange(KualiInteger typeAmountChange) {
         this.typeAmountChange = typeAmountChange;
     }
 
@@ -1213,11 +1215,11 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
         this.typeDesc = typeDesc;
     }
 
-    public Integer getTypeFinancialBeginningBalanceLineAmount() {
+    public KualiInteger getTypeFinancialBeginningBalanceLineAmount() {
         return typeFinancialBeginningBalanceLineAmount;
     }
 
-    public void setTypeFinancialBeginningBalanceLineAmount(Integer typeFinancialBeginningBalanceLineAmount) {
+    public void setTypeFinancialBeginningBalanceLineAmount(KualiInteger typeFinancialBeginningBalanceLineAmount) {
         this.typeFinancialBeginningBalanceLineAmount = typeFinancialBeginningBalanceLineAmount;
     }
 
@@ -1246,7 +1248,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     }
 
     /**
-     * Gets the subAccountNumberAndName attribute. 
+     * Gets the subAccountNumberAndName attribute.
      * @return Returns the subAccountNumberAndName.
      */
     public String getSubAccountNumberAndName() {
@@ -1262,7 +1264,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     }
 
     /**
-     * Gets the accountNumberAndName attribute. 
+     * Gets the accountNumberAndName attribute.
      * @return Returns the accountNumberAndName.
      */
     public String getAccountNumberAndName() {
@@ -1278,7 +1280,7 @@ public class BudgetConstructionOrgAccountObjectDetailReport {
     }
 
     /**
-     * Gets the divider attribute. 
+     * Gets the divider attribute.
      * @return Returns the divider.
      */
     public String getDivider() {

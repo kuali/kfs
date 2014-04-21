@@ -22,6 +22,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
@@ -57,6 +59,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
@@ -452,7 +455,26 @@ public class TravelEntertainmentAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward newEntertainment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final TravelEntertainmentDocument entDoc = ((TravelEntertainmentForm)form).getEntertainmentDocument();
+        final String url = buildNewEntertainmentUrl(entDoc);
+        return new ActionForward(url, true);
+    }
+
+    /**
+     * Builds a new entertainment url for the given travel document
+     * @param travelDoc the travel document to create a new reimbursement for
+     * @return the url to redirect to to create a new entertainment
+     */
+    protected String buildNewEntertainmentUrl(TravelEntertainmentDocument entDoc) {
+        Properties props = new Properties();
+        props.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, entDoc.getTravelDocumentIdentifier());
+        props.put(KFSConstants.DOCUMENT_TYPE_NAME, TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
+        props.put(TemPropertyConstants.EntertainmentFields.FROM_DOCUMENT_NUMBER, entDoc.getDocumentNumber());
+        props.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+
+        final String docUrlBase = getResolvedUrlForDocumentType(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
+        final String url = UrlFactory.parameterizeUrl(docUrlBase, props);
+        return url;
     }
 
     /**

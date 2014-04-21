@@ -20,13 +20,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="DebarredVendorUnmatched" parent="DebarredVendorUnmatched-parentBean" />
-	<bean id="DebarredVendorUnmatched-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+	<bean id="DebarredVendorUnmatched-parentBean" abstract="true" parent="VendorDetail">
 		<property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.DebarredUnmatchedVendor"/>
-		<property name="boNotesEnabled" value="true" />
 		<property name="lookupDefinition">
 			<ref bean="DebarredVendorUnmatched-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="vendorName" />
 		<property name="objectLabel" value="Debarred Unmatched Vendors" />
 		<property name="attributes">
 			<list>
@@ -37,51 +36,7 @@
       			<ref bean="DebarredVendorUnmatched-defaultAddressCountryCode"/>
       			<ref bean="DebarredVendorUnmatched-vendorTypeCode"/>
       		</list>
-      	</property>
-      	<property name="collections">
-			<list>
-				<bean parent="CollectionDefinition" p:name="vendorAddresses"
-					p:label="Vendor Addresses" p:shortLabel="Addresses" p:elementLabel="Address" />
-				<bean parent="CollectionDefinition" p:name="vendorHeader.vendorSupplierDiversities"
-					p:label="Supplier Diversities" p:shortLabel="Supplier Diversities" />
-				<bean parent="CollectionDefinition" p:name="vendorShippingSpecialConditions"
-					p:label="Vendor Shipping Special Conditions" p:shortLabel="Shipping Special Conditions" />
-				<bean parent="CollectionDefinition" p:name="vendorPhoneNumbers"
-					p:label="Vendor Phone Numbers" p:shortLabel="Phone Numbers"
-					p:elementLabel="Phone Numbers" />
-				<bean parent="CollectionDefinition" p:name="vendorCustomerNumbers"
-					p:label="Vendor Customer Numbers" p:shortLabel="Customer Numbers"
-					p:elementLabel="Customer Numbers" />
-				<bean parent="CollectionDefinition" p:name="vendorAliases"
-					p:label="Search Alias" p:shortLabel="Search Alias" p:elementLabel="Search Alias" />
-				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
-					p:shortLabel="Notes" p:elementLabel="Notes" />		 
-				<bean parent="CollectionDefinition" p:name="vendorCommodities"
-					p:label="Commodity Codes" p:shortLabel="Commodity Codes" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="vendorRestrictedPerson" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorRestrictedPersonIdentifier"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="vendorRestrictedPerson.principalName"
-								p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="vendorRestrictedPerson.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
+      	</property>	
 	</bean>
 	
 	<bean id="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier" parent="DebarredVendorUnmatched-vendorHeaderGeneratedIdentifier-parentBean"/>

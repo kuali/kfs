@@ -46,4 +46,4 @@
 "KFS10251","KFS-TEM-TYP-004","1","TEM Profile Arranger Organization Hierarchy","{http://kfs.kuali.org/kfs/v5_0}temProfileArrangerOrganizationHierarchyRoleTypeService","Y","KFS-TEM"
 "KFS10252","KFS-TEM-TYP-005","1","Derived Role: TEM Profile Arranger","{http://kfs.kuali.org/kfs/v5_0}arrangerDerivedRoleTypeService","Y","KFS-TEM"
 "KFS10254","KFS-TEM-TYP-007","1","Job Classification","{http://kfs.kuali.org/kfs/v5_0}temExecutiveManagerRoleTypeService","Y","KFS-TEM"
-"KFS10681","KFS-TEM-TYP-008","1",""Chart"," Organization"," and Reimburesment Overage Percentage"","{http://kfs.kuali.org/kfs/v5_0}reimbursementOverageOrganizationHierarchyRoleTypeService","Y","KFS-TEM"
+"KFS10681","KFS-TEM-TYP-008","1","Chart, Organization, and Reimburesment Overage Percentage","{http://kfs.kuali.org/kfs/v5_0}reimbursementOverageOrganizationHierarchyRoleTypeService","Y","KFS-TEM"

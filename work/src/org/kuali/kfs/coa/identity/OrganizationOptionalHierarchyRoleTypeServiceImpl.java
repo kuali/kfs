@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -24,9 +22,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
-    public static final List<String> TRUE_VALUES = Arrays.asList(new String[] { "yes", "y", "true", "t", "on", "1", "enabled" });
-    public static final List<String> FALSE_VALUES = Arrays.asList(new String[] { "no", "n", "false", "f", "off", "0", "disabled" });
-    
     private boolean qualificationDeterminesDescendHierarchy;
 
     /***
@@ -47,12 +42,10 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImpl extends Organizati
         else {
             descendHierarchy = roleQualifier.get(KfsKimAttributes.DESCEND_HIERARCHY);
         }
-        descendHierarchy = descendHierarchy == null ? DESCEND_HIERARCHY_FALSE_VALUE : descendHierarchy;
-        
         return isParentOrg(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE),
                 qualification.get(KfsKimAttributes.ORGANIZATION_CODE),
                 roleQualifier.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE),
-                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), TRUE_VALUES.contains(descendHierarchy.toLowerCase()));
+                roleQualifier.get(KfsKimAttributes.ORGANIZATION_CODE), DESCEND_HIERARCHY_TRUE_VALUE.equals(descendHierarchy));
     }
 
     public void setQualificationDeterminesDescendHierarchy(boolean qualificationDeterminesDescendHierarchy) {

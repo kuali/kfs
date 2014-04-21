@@ -172,10 +172,6 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         String sourceDocumentHeaderId = getDocumentNumber();
         setNewDocumentHeader();
         getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(sourceDocumentHeaderId);
-
-        //clear out notes from previous bo
-        getNotes().clear();
-
         addCopyErrorDocumentNote("error-correction for document " + sourceDocumentHeaderId);
     }
 

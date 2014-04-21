@@ -103,7 +103,7 @@
 		<!-- add the KFS-SYS profilePrincipalId attribute -->
 		<insert tableName="KRIM_ATTR_DEFN_T">
 			<column name="KIM_ATTR_DEFN_ID" value="KFS10236" />
-			<column name="OBJ_ID" value="KFS-ATTR-DEFN-001" />
+			<column name="OBJ_ID" value="KFS-TEM-ATTR-DEFN-001" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="profilePrincipalId" />
 			<column name="NMSPC_CD" value="KFS-SYS" />

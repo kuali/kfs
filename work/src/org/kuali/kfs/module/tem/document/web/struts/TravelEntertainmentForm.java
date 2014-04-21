@@ -28,14 +28,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMvcWrapperBean {
@@ -116,12 +113,6 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         newEntertainmentButton.setExtraButtonProperty("methodToCall.newEntertainment");
         newEntertainmentButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_newentertainment.png");
         newEntertainmentButton.setExtraButtonAltText("New Entertainment");
-        final DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
-        String newEntertainmentJavascript = String.format("javascript: window.open('%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s');",
-                docType.getResolvedDocumentHandlerUrl(),
-                ((TravelDocumentBase) getDocument()).getTravelDocumentIdentifier(),
-                TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
-        newEntertainmentButton.setExtraButtonOnclick(newEntertainmentJavascript);
 
         result.put(newEntertainmentButton.getExtraButtonProperty(), newEntertainmentButton);
 

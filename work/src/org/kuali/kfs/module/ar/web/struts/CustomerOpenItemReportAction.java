@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -126,6 +127,7 @@ public class CustomerOpenItemReportAction extends KualiAction {
         Map<String, String> qualification =  super.getRoleQualification(form, methodToCall);
         final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         qualification.put(KfsKimAttributes.PROFILE_PRINCIPAL_ID, currentUserPrincipalId);
+        qualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, currentUserPrincipalId);
         return qualification;
     }
 

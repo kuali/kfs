@@ -21,7 +21,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -29,20 +28,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
  */
 public class AgencyMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
-
-    /**
-     * Overriding method to set further fields as required based on the condition that the CG Module Enhanced validations are turned
-     * on.
-     *
-     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyRequiredPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyRequiredPropertyNames(MaintenanceDocument document) {
-
-        Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
-
-        return requiredPropertyNames;
-    }
 
     /**
      * Hiding the Customer tab when CGB is turned off to avoid confusion.

@@ -1,5 +1,4 @@
 payee_typ_cd|obj_id|ver_nbr|payee_typ_desc|ach_elgbl_ind|
-C|BD96AA24159B5898E040540A5EFD3A74|1.0|AR Customers|Y|
 E|59DD323FB195B3EFE0404F8189D83BC1|1.0|Employee ID|Y|
 F|59DD323FB196B3EFE0404F8189D83BC1|1.0|Federal Employer Identification Number|N|
 S|59DD323FB194B3EFE0404F8189D83BC1|1.0|Social Security Number|N|

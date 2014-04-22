@@ -176,6 +176,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
     protected String assetMergeOrRetirementDocumentLookup;
     protected String camsComplexMaintenanceDocumentLookup;
     protected boolean tagged;
+    protected String lastInventoryDateUpdateButton; 
 
     /**
      * Default constructor.
@@ -2009,7 +2010,24 @@ public class AssetBase extends PersistableBusinessObjectBase {
     public void setBorrowerStorageLocation(AssetLocation borrowerStorageLocation) {
         this.borrowerStorageLocation = borrowerStorageLocation;
     }
+    
+    /**
+     * Gets the lastInventoryDateUpdateButton  attribute.
+     *
+     * @return Returns the lastInventoryDateUpdateButton.
+     */
+    public String getLastInventoryDateUpdateButton () {
+        return lastInventoryDateUpdateButton ;
+    }
 
+    /**
+     * Sets the lastInventoryDateUpdateButton  attribute value.
+     *
+     * @param lastInventoryDateUpdateButton-  The lastInventoryDateUpdateButton  to set.
+     */
+    public void setLastInventoryDateUpdateButton(String lastInventoryDateUpdateButton) {
+        this.lastInventoryDateUpdateButton = lastInventoryDateUpdateButton;
+    }
 
     /**
      * Return the link for payment lookup

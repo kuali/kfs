@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -50,4 +51,16 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
             attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
         }
     }
+
+    /**
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addPermissionDetails(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
+     */
+    @Override
+    protected void addPermissionDetails(Object dataObject, Map<String, String> permissionDetails) {
+        super.addPermissionDetails(dataObject, permissionDetails);
+        if (dataObject instanceof Asset) {
+            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, "lastInventoryDateUpdateButton");
+        }
+    }
+
 }

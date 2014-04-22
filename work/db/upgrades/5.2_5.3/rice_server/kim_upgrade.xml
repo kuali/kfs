@@ -2,4 +2,70 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
+    <changeSet author="KFS53" id="KFSCNTRB-640">
+        <comment>KFSCNTRB-640 Create permission to use the lastInventoryDateUpdateButton button on Asset edit and grant to KFS-SYS Asset Processor, KFS-CAM Manager, KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant, KFS-CAM Processor</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-PERM1" />
+            <column name="VER_NBR" value="1" />
+            <column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd='KR-NS' and nm='Perform Custom Maintenance Document Function') " />
+            <column name="NMSPC_CD" value="KFS-CAM" />
+            <column name="NM" value="Perform Custom Maintenance Document Function lastInventoryDateUpdateButton" />
+            <column name="DESC_TXT" value="Users who can view and click the lastInventoryDateUpdateButton." />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KFSCNTRB640-PRMATTR1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-PERMATTR1-1" />
+            <column name="VER_NBR" valueNumeric="1" />
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where srvc_nm='buttonPermissionTypeService') " />
+            <column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm='buttonName') " />
+            <column name="ATTR_VAL" value="lastInventoryDateUpdateButton" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFSCNTRB640-RLPRM1-1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-ROLEPERM1-1" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Asset Manager') " />
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFSCNTRB640-RLPRM1-1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-ROLEPERM1-1" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Asset Processor') " />
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFSCNTRB640-RLPRM1-1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-ROLEPERM1-1" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Plant Fund Accountant') " />
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KFSCNTRB640-RLPRM1-1" />
+            <column name="OBJ_ID" value="KFSCNTRB640-ROLEPERM1-1" />
+            <column name="VER_NBR" value="1" />
+            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-CAM' and role_nm='Manager') " />
+            <column name="PERM_ID" value="KFSCNTRB640-PRM1" />
+            <column name="ACTV_IND" value="Y" />
+        </insert>
+
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T"><where>PERM_ID='KFSCNTRB640-PRM1'</where></delete>
+            <delete tableName="KRIM_PERM_ATTR_DATA_T"><where>PERM_ID='KFSCNTRB640-PRM1'</where></delete>
+            <delete tableName="KRIM_PERM_T"><where>PERM_ID='KFSCNTRB640-PRM1'</where></delete>         
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>

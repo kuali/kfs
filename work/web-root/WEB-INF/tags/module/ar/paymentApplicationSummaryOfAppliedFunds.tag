@@ -118,26 +118,26 @@
 								    <c:if test="${!showCCAndBtbA}">
 		                        	    <c:if test="${readOnly ne true}">
 											<td style="text-align: right;">
-												${totalFromControl}
+												${KualiForm.totalFromControl}
 												<!--$<c:out value="${KualiForm.totalFromControl}" />-->
 											</td>
 											<td style="text-align: right;">
-												${unallocatedBalance}												
+												${KualiForm.unallocatedBalance}												
 												<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 											</td>
 										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
 										<td style="text-align: right;">											 
-											 ${financialDocumentTotalAmount}
+											 ${KualiForm.document.documentHeader.financialDocumentTotalAmount}
 										</td>
 										<td style="text-align: right;">
-											${unallocatedBalance}									
+											${KualiForm.unallocatedBalance}									
 											<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 										</td>
 									</c:if>
 									<td style="text-align: right;">
-										${totalApplied}								
+										${KualiForm.totalApplied}								
 										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
 								</tr>

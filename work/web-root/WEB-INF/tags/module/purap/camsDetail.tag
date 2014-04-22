@@ -26,7 +26,7 @@
 <%@ attribute name="poItemInactive" required="false" description="True if the item this is part of is inactive."%>
 
 
-<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
+<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && not empty KualiForm.editingMode['allowCapitalAssetEdit']}" />
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
 <c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.line${camsItemIndex}.(((${ctr})))" />
 <c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByItem.line${ctr}" />

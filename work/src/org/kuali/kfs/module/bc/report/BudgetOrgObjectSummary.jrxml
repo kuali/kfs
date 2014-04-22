@@ -70,56 +70,56 @@
 	<field name="financialObjectName" class="java.lang.String"/>
 	<field name="positionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
 	<field name="csfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
-	<field name="financialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="financialBeginningBalanceLineAmount" class="java.lang.Integer"/>
 	<field name="appointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
 	<field name="appointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
-	<field name="accountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="amountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="accountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="amountChange" class="java.lang.Integer"/>
 	<field name="percentChange" class="java.math.BigDecimal"/>
 	<field name="totalLevelDescription" class="java.lang.String"/>
 	<field name="totalLevelPositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalLevelPositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
-	<field name="totalLevelFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="totalLevelFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
 	<field name="totalLevelAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalLevelAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
-	<field name="totalLevelAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="totalLevelAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="totalLevelAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="totalLevelAmountChange" class="java.lang.Integer"/>
 	<field name="totalLevelPercentChange" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationDescription" class="java.lang.String"/>
 	<field name="totalConsolidationPositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationPositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
-	<field name="totalConsolidationFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="totalConsolidationFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
 	<field name="totalConsolidationAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
 	<field name="totalConsolidationAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
-	<field name="totalConsolidationAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="totalConsolidationAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="totalConsolidationAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="totalConsolidationAmountChange" class="java.lang.Integer"/>
 	<field name="totalConsolidationPercentChange" class="java.math.BigDecimal"/>
 	<field name="grossDescription" class="java.lang.String"/>
-	<field name="grossFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="grossAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="grossAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="grossFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
+	<field name="grossAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="grossAmountChange" class="java.lang.Integer"/>
 	<field name="grossPercentChange" class="java.math.BigDecimal"/>
 	<field name="typeDesc" class="java.lang.String"/>
 	<field name="typePositionCsfLeaveFteQuantity" class="java.math.BigDecimal"/>
 	<field name="typePositionCsfFullTimeEmploymentQuantity" class="java.math.BigDecimal"/>
-	<field name="typeFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="typeFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
 	<field name="typeAppointmentRequestedCsfFteQuantity" class="java.math.BigDecimal"/>
 	<field name="typeAppointmentRequestedFteQuantity" class="java.math.BigDecimal"/>
-	<field name="typeAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="typeAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="typeAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="typeAmountChange" class="java.lang.Integer"/>
 	<field name="typePercentChange" class="java.math.BigDecimal"/>
 	<field name="totalSubFundGroupDesc" class="java.lang.String"/>
-	<field name="revenueFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="revenueAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="revenueAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="revenueFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
+	<field name="revenueAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="revenueAmountChange" class="java.lang.Integer"/>
 	<field name="revenuePercentChange" class="java.math.BigDecimal"/>
-	<field name="expenditureFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="expenditureAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="expenditureAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="expenditureFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
+	<field name="expenditureAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="expenditureAmountChange" class="java.lang.Integer"/>
 	<field name="expenditurePercentChange" class="java.math.BigDecimal"/>
-	<field name="differenceFinancialBeginningBalanceLineAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="differenceAccountLineAnnualBalanceAmount" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
-	<field name="differenceAmountChange" class="org.kuali.rice.core.api.util.type.KualiInteger"/>
+	<field name="differenceFinancialBeginningBalanceLineAmount" class="java.lang.Integer"/>
+	<field name="differenceAccountLineAnnualBalanceAmount" class="java.lang.Integer"/>
+	<field name="differenceAmountChange" class="java.lang.Integer"/>
 	<field name="differencePercentChange" class="java.math.BigDecimal"/>
 
 
@@ -181,7 +181,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{revenueFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revenueFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -194,7 +194,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{revenueAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revenueAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -207,7 +207,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{revenueAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{revenueAmountChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -259,7 +259,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{expenditureFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{expenditureFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -272,7 +272,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{expenditureAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{expenditureAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -285,7 +285,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{expenditureAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{expenditureAmountChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -324,7 +324,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{differenceFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{differenceFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -337,7 +337,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{differenceAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{differenceAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -368,7 +368,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{differenceAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{differenceAmountChange}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -487,7 +487,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{grossFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{grossFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -503,7 +503,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{grossAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{grossAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -537,7 +537,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{grossAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{grossAmountChange}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -633,7 +633,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{typeFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{typeFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -672,7 +672,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{typeAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{typeAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0;-#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -685,7 +685,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{typeAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{typeAmountChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -787,7 +787,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalConsolidationFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalConsolidationFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -826,7 +826,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalConsolidationAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalConsolidationAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -857,7 +857,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalConsolidationAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalConsolidationAmountChange}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -964,7 +964,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalLevelFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalLevelFinancialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1003,7 +1003,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalLevelAccountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalLevelAccountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -1034,7 +1034,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{totalLevelAmountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{totalLevelAmountChange}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -1703,7 +1703,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{financialBeginningBalanceLineAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{financialBeginningBalanceLineAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1742,7 +1742,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{accountLineAnnualBalanceAmount}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{accountLineAnnualBalanceAmount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1768,7 +1768,7 @@
 					<textElement textAlignment="Right">
 						<font fontName="Courier New" pdfFontName="Courier"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{amountChange}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{amountChange}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

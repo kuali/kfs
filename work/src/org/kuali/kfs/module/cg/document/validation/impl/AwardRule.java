@@ -87,9 +87,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkForDuplicateAccoutnts();
         success &= checkForDuplicateAwardProjectDirector();
         success &= checkForDuplicateAwardOrganization();
-        if(contractsGrantsBillingEnhancementsInd){
-        success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
-        }
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkFundManagersExist(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS);
@@ -98,9 +95,12 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkFederalPassThrough();
         success &= checkSuspendedAwardInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
-        success &= checkInvoicingOptions();
-        success &= checkAwardInvoiceAccounts();
-        success &= checkNumberOfAccountsForBillingFrequency();
+        if(contractsGrantsBillingEnhancementsInd){
+            success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
+            success &= checkInvoicingOptions();
+            success &= checkAwardInvoiceAccounts();
+            success &= checkNumberOfAccountsForBillingFrequency();
+        }
         LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
@@ -581,7 +581,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
     /**
      * This method checks the number of active accounts set for the Award based on the billing frequency.
      * Awards with Predetermine or Milestone billing frequencies must have only one Award Account.
@@ -591,16 +591,16 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     protected boolean checkNumberOfAccountsForBillingFrequency() {
         boolean success = true;
         int numberOfActiveAccounts = 0;
-        
+
         // Determine billing frequency
         BillingFrequency billingFrequency = newAwardCopy.getBillingFrequency();
         String billingFrequencyCode = billingFrequency.getFrequency();
-        
+
         // Check for Predetermined and Milestone billing schedules
-        if (ObjectUtils.isNotNull(billingFrequencyCode) && 
+        if (ObjectUtils.isNotNull(billingFrequencyCode) &&
                 (CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode) ||
                  CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equalsIgnoreCase(billingFrequencyCode))){
-            
+
             // Get count of active accounts on Award
             Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
             for (AwardAccount account : awardAccounts) {
@@ -615,7 +615,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 }
             }
         }
-        
+
         return success;
     }
 }

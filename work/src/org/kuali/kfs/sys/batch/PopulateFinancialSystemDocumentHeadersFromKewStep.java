@@ -17,7 +17,10 @@ package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This step will populate the initiator principal id, document status code, application document status, and document type name
@@ -26,46 +29,50 @@ import org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationSe
 public class PopulateFinancialSystemDocumentHeadersFromKewStep extends AbstractStep implements TestingStep {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PopulateFinancialSystemDocumentHeadersFromKewStep.class);
 
-    protected boolean logMode = false;
-    protected int batchSize = 500;
+    protected final int DEFAULT_BATCH_SIZE = 1000;
     protected FinancialSystemDocumentHeaderPopulationService populationService;
+    protected ParameterService parameterSize;
 
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        populationService.populateFinancialSystemDocumentHeadersFromKew(isLogMode(), getBatchSize(), LOG);
+        populationService.populateFinancialSystemDocumentHeadersFromKew(getBatchSize(), getPopulationLimit());
         return true;
     }
 
     /**
-     * @return true if instead of updating financial system document headers, the job should simply log what values it would like to set
-     */
-    public boolean isLogMode() {
-        return logMode;
-    }
-
-    /**
-     * Changes step behavior so that instead of updating the FinancialSystemDocumentHeader records, it simply logs the changes to make
-     * out to the system log.  This defaults to false, but can be overridden easily via the populate.financial.system.headers.from.kew.log.mode
-     * system property
-     * @param logMode true if the step should simply log the changes it wishes to make; false if the step will actually make the changes.
-     */
-    public void setLogMode(boolean logMode) {
-        this.logMode = logMode;
-    }
-
-    /**
-     * @return the number of document header records which should be processed at once
+     * @return the number of document header records which should be processed at once, based on the KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / BATCH_SIZE parameter
      */
     public int getBatchSize() {
-        return batchSize;
+        final String batchSizeString = getParameterService().getParameterValueAsString(PopulateFinancialSystemDocumentHeadersFromKewStep.class, KFSParameterKeyConstants.PopulateFinancialSystemDocumentHeaderParameterNames.BATCH_SIZE, Integer.toString(DEFAULT_BATCH_SIZE));
+        if (!StringUtils.isEmpty(batchSizeString)) {
+            try {
+                final int batchSize = Integer.parseInt(batchSizeString);
+                if (batchSize > 0) {
+                    return batchSize;
+                }
+            } catch (NumberFormatException nfe) {
+                LOG.warn("This is legal, but the value of KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / BATCH_SIZE is not numeric; that should likely be corrected.  Process will continue using batch size of "+DEFAULT_BATCH_SIZE);
+            }
+        }
+        return DEFAULT_BATCH_SIZE;
     }
 
     /**
-     * Sets the number of document header records which should be processed in a batch.  The default is 500
-     * @param batchSize the batch size to process
+     * @return the number of document header records which should be processed in the course of the current job run, based on the KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / POPULATION_LIMIT parameter
      */
-    public void setBatchSize(int batchSize) {
-        this.batchSize = batchSize;
+    public Integer getPopulationLimit() {
+        final String populationLimitString = getParameterService().getParameterValueAsString(PopulateFinancialSystemDocumentHeadersFromKewStep.class, KFSParameterKeyConstants.PopulateFinancialSystemDocumentHeaderParameterNames.POPULATION_LIMIT, "");
+        if (!StringUtils.isEmpty(populationLimitString)) {
+            try {
+                final int populationLimit = Integer.parseInt(populationLimitString);
+                if (populationLimit > 0) {
+                    return populationLimit;
+                }
+            } catch (NumberFormatException nfe) {
+                LOG.warn("This is legal, but the value of KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / POPULATION_LIMIT is not numeric; that should likely be corrected.  Process will continue, populating all available records");
+            }
+        }
+        return null;
     }
 
     public FinancialSystemDocumentHeaderPopulationService getPopulationService() {
@@ -74,5 +81,13 @@ public class PopulateFinancialSystemDocumentHeadersFromKewStep extends AbstractS
 
     public void setPopulationService(FinancialSystemDocumentHeaderPopulationService populationService) {
         this.populationService = populationService;
+    }
+
+    public ParameterService getParameterSize() {
+        return parameterSize;
+    }
+
+    public void setParameterSize(ParameterService parameterSize) {
+        this.parameterSize = parameterSize;
     }
 }

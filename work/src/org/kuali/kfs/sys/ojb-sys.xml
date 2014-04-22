@@ -750,18 +750,22 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.UniversityDate" table="SH_UNIV_DATE_T">
-    <field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
-    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalAccountingPeriod" />
-    </reference-descriptor>
-    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-    </reference-descriptor>
-</class-descriptor>
+	    <field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
+	    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
+	    <field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="universityFiscalYear" />
+	        <foreignkey field-ref="universityFiscalAccountingPeriod" />
+	    </reference-descriptor>
+	    <reference-descriptor name="options" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="universityFiscalYear" />
+	    </reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeaderMissingFromWorkflow" table="FS_DOC_HDRS_MSNG_IN_KEW_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	</class-descriptor>
 	
 </descriptor-repository>

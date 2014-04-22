@@ -18,11 +18,14 @@ package org.kuali.kfs.sys.batch.dataaccess.impl;
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.dataaccess.FinancialSystemDocumentHeaderPopulationDao;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeaderMissingFromWorkflow;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
@@ -64,6 +67,16 @@ public class FinancialSystemDocumentHeaderPopulationDaoOjb extends PlatformAware
     protected Criteria buildFinancialSystemDocumentHeaderCriteria() {
         Criteria c = new Criteria();
         c.addIsNull(KFSPropertyConstants.INITIATOR_PRINCIPAL_ID);
+        c.addNotIn(KFSPropertyConstants.DOCUMENT_NUMBER, buildFinancialSystemDocumentHeadersWithNoWorkflowHeadersSubQuery());
         return c;
+    }
+
+    /**
+     * @return a query which returns all data objects of class FinancialSystemDocumentHeaderMissingFromWorkflow
+     */
+    protected Query buildFinancialSystemDocumentHeadersWithNoWorkflowHeadersSubQuery() {
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(FinancialSystemDocumentHeaderMissingFromWorkflow.class, new Criteria());
+        query.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        return query;
     }
 }

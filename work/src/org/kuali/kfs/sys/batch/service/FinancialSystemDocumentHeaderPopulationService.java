@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.batch.service;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 
 /**
@@ -28,20 +27,17 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 public interface FinancialSystemDocumentHeaderPopulationService {
     /**
      * In groups of size batchSize at a time, reads FinancialSystemDocumentHeaders, finds their matching KEW document headers,
-     * and then, if logMode is on, writes the proposed changes out to the log; if logMode is off, updates the changes in the database
-     * @param logMode whether the process should simply log desired changes, or actually run them
+     * and then updates the changes in the database
      * @param batchSize the size of the batch to process at once
-     * @param log the log from the step to write out to
+     * @param jobRunSize the total number of records to process in this run; if the value is null or negative, then all records will be run
      */
-    public abstract void populateFinancialSystemDocumentHeadersFromKew(boolean logMode, int batchSize, org.apache.log4j.Logger log);
+    public abstract void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize);
 
     /**
      * Handles a single batch of document headers; exposed on the interface so that Spring can proxy it properly
      * @param documentHeaders the Map of document headers, keyed by document number, that make up the batch
-     * @param logMode whether we are running in log mode
-     * @param log the log to write messages out to in log mode
      */
-    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders, boolean logMode, Logger log);
+    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders);
 
     /**
      * Reads in a batch of FinancialSystemDocumentHeader records which exist within the given start index and end index

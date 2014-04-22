@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.dataaccess.FinancialSystemDocumentHeaderPopulationDao;
 import org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeaderMissingFromWorkflow;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -51,15 +52,15 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
     protected volatile String systemUserPrincipalId;
 
     /**
-     *
-     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#populateFinancialSystemDocumentHeadersFromKew(boolean, int, org.apache.log4j.Logger)
+     * Populates financial system document header records, at a count of batchSize at a time, until the jobRunSize number of records have been processed
+     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#populateFinancialSystemDocumentHeadersFromKew(int, int)
      */
     @Override
-    public void populateFinancialSystemDocumentHeadersFromKew(boolean logMode, int batchSize, Logger log) {
+    public void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize) {
         final long startTime = System.currentTimeMillis();
-        for (Collection<FinancialSystemDocumentHeader> documentHeaderBatch : getFinancialSystemDocumentHeaderBatchIterable(batchSize)) {
+        for (Collection<FinancialSystemDocumentHeader> documentHeaderBatch : getFinancialSystemDocumentHeaderBatchIterable(batchSize, jobRunSize)) {
             Map<String, FinancialSystemDocumentHeader> documentHeaderMap = convertDocumentHeaderBatchToMap(documentHeaderBatch);
-            handleBatch(documentHeaderMap, logMode, log);
+            handleBatch(documentHeaderMap);
         }
         final long endTime = System.currentTimeMillis();
         final double runTimeSeconds = (endTime - startTime) / 1000.0;
@@ -67,51 +68,55 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
     }
 
     /**
-     * Reads in the matching KEW document headers for the given batch of FinancialSystemDocumentHeader records and either updates or logs output
-     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#handleBatch(java.util.Map, boolean, org.apache.log4j.Logger)
+     * Reads in the matching KEW document headers for the given batch of FinancialSystemDocumentHeader records and updates
+     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#handleBatch(java.util.Map)
      */
     @Override
     @Transactional
-    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders, boolean logMode, Logger log) {
+    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders) {
         List<Document> workflowDocuments = getWorkflowDocuments(documentHeaders);
         List<FinancialSystemDocumentHeader> documentHeadersToSave = new ArrayList<FinancialSystemDocumentHeader>();
 
         for (Document kewDocHeader : workflowDocuments) {
             final FinancialSystemDocumentHeader fsDocHeader = documentHeaders.get(kewDocHeader.getDocumentId());
             if (fsDocHeader != null) {
-                if (logMode) {
-                    logChanges(fsDocHeader, kewDocHeader, log);
-                } else {
-                    updateDocumentHeader(fsDocHeader, kewDocHeader);
-                    documentHeadersToSave.add(fsDocHeader);
-                }
+                updateDocumentHeader(fsDocHeader, kewDocHeader);
+                documentHeadersToSave.add(fsDocHeader);
             } else {
-                log.error("Document ID: "+kewDocHeader.getDocumentId()+" was returned from search but no financial system document header could be found in the map");
+                // how would this even happen????
+                LOG.error("Document ID: "+kewDocHeader.getDocumentId()+" was returned from search but no financial system document header could be found in the map");
+
             }
         }
-        if (!logMode) {
-            // save the changes
-            getBusinessObjectService().save(documentHeadersToSave);
-        }
+        // save the changes
+        getBusinessObjectService().save(documentHeadersToSave);
     }
 
-    /*protected List<Document> getWorkflowDocuments(Map<String, FinancialSystemDocumentHeader> documentHeaders) {
-        final String documentIdForDocSearch = pipeDocumentIds(documentHeaders.keySet());
-        final DocumentSearchCriteria docSearchCriteria = buildDocumentSearchCriteria(documentIdForDocSearch);
-        final DocumentSearchResults results = getWorkflowDocumentService().documentSearch(getSystemUserPrincipalId(), docSearchCriteria);
-        List<Document> workflowDocuments = new ArrayList<Document>();
-        for (DocumentSearchResult result: results.getSearchResults()) {
-            workflowDocuments.add(result.getDocument());
-        }
-
-        return workflowDocuments;
-    }*/
-
+    /**
+     * Returns a List of KEW document headers to match the given FinancialSystemDocumentHeader records.  If a workflow document header cannot be found
+     * for a financial system document header, the document number will be saved as a FinancialSystemDocumentHeaderMissingFromWorkflow record and skipped
+     * from subsequent runs of the job
+     * @param documentHeaders a Map of FS document headers
+     * @return a List of matching workflow document header records
+     */
     protected List<Document> getWorkflowDocuments(Map<String, FinancialSystemDocumentHeader> documentHeaders) {
         List<Document> workflowDocuments = new ArrayList<Document>();
+        List<FinancialSystemDocumentHeaderMissingFromWorkflow> missingWorkflowHeaders = new ArrayList<FinancialSystemDocumentHeaderMissingFromWorkflow>();
+
         for (String documentNumber : documentHeaders.keySet()) {
             final Document workflowDoc = getWorkflowDocumentService().getDocument(documentNumber);
-            workflowDocuments.add(workflowDoc);
+            if (workflowDoc != null) {
+                workflowDocuments.add(workflowDoc);
+            } else {
+                LOG.error("Could not find a workflow document record for financial system document header #"+documentNumber);
+                FinancialSystemDocumentHeaderMissingFromWorkflow missingWorkflowHeader = new FinancialSystemDocumentHeaderMissingFromWorkflow();
+                missingWorkflowHeader.setDocumentNumber(documentNumber);
+                missingWorkflowHeaders.add(missingWorkflowHeader);
+            }
+        }
+
+        if (!missingWorkflowHeaders.isEmpty()) {
+            getBusinessObjectService().save(missingWorkflowHeaders);
         }
         return workflowDocuments;
     }
@@ -176,13 +181,16 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
      */
     protected class FinancialSystemDocumentHeaderBatchIterator implements Iterator<Collection<FinancialSystemDocumentHeader>> {
         protected int batchSize;
-        protected int currentStartIndex = 0;
+        protected int currentStartIndex = 1;
         protected int documentHeaderCount;
 
-        protected FinancialSystemDocumentHeaderBatchIterator(int batchSize) {
+        protected FinancialSystemDocumentHeaderBatchIterator(int batchSize, Integer jobRunSize) {
             this.batchSize = batchSize;
             Map<String, Object> fieldValues = new HashMap<String, Object>(); // there's no "countAll" so we'll just pass in an empty Map for the count
             this.documentHeaderCount = getFinancialSystemDocumentHeaderCount();
+            if (jobRunSize != null && jobRunSize.intValue() > 0 && jobRunSize.intValue() < this.documentHeaderCount) {
+                this.documentHeaderCount = jobRunSize; // use jobRunSize to limit
+            }
         }
 
         @Override
@@ -226,13 +234,14 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
     /**
      * Returns a new Iterable to iterate over batches of FinancialSystemDocumentHeaders
      * @param batchSize the size of the batches to build
+     * @param jobRunSize the number of records
      * @return the newly created Iterable
      */
-    protected Iterable<Collection<FinancialSystemDocumentHeader>> getFinancialSystemDocumentHeaderBatchIterable(final int batchSize) {
+    protected Iterable<Collection<FinancialSystemDocumentHeader>> getFinancialSystemDocumentHeaderBatchIterable(final int batchSize, final Integer jobRunSize) {
         return new Iterable<Collection<FinancialSystemDocumentHeader>>() {
             @Override
             public Iterator<Collection<FinancialSystemDocumentHeader>> iterator() {
-                return new FinancialSystemDocumentHeaderBatchIterator(batchSize);
+                return new FinancialSystemDocumentHeaderBatchIterator(batchSize, jobRunSize);
             }
         };
     }

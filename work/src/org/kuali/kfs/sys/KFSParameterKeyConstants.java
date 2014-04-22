@@ -32,6 +32,11 @@ public class KFSParameterKeyConstants {
         public static final String YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE = "YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE";
     }
 
+    public static class PopulateFinancialSystemDocumentHeaderParameterNames {
+        public static final String POPULATION_LIMIT = "POPULATION_LIMIT";
+        public static final String BATCH_SIZE = "BATCH_SIZE";
+    }
+
     public static class PurapPdpParameterConstants {
         public static final String PURAP_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_SUB_UNIT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";

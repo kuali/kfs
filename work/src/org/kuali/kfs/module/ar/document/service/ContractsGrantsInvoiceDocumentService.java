@@ -297,13 +297,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      */
     public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsBillingAward award);
 
-    /**
-     * Check if Award Organization is incomplete
-     *
-     * @return
-     */
-    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsBillingAward award);
-
 
     /**
      * Get award accounts's control accounts

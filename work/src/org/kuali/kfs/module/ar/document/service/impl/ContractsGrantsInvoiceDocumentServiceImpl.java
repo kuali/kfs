@@ -2083,16 +2083,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardOrganizationIncomplete(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsBillingAward award) {
-
-        return false;
-    }
-
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardPassedStopDate(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override

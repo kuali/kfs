@@ -39,25 +39,13 @@
 					<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 						<div align="right">
 							<kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerNumber}"
-								labelFor="document.accountsReceivableDocumentHeader.customerNumber" forceRequired="true" />
+								labelFor="document.accountsReceivableDocumentHeader.customerNumber" />
 						</div>
 					</th>
-					<td align=left valign=middle class="datacell" style="width: 25%;"><c:choose>
-							<c:when test="${!readOnly}">
-								<c:set var="onblurForCustomer"
-									value="loadCustomerInfo( this.name, 'document.accountsReceivableDocumentHeader.customer.customerName'); loadCustomerAddressInfo( this.name );" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="onblurForCustomer" value="" />
-							</c:otherwise>
-						</c:choose> <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}"
-							property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}"
-							onchange="${onblurForCustomer}" forceRequired="true" /> <c:if test="${not readOnly}">
-	                    &nbsp;
-	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
-								fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber"
-								lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
-						</c:if></td>
+					<td align=left valign=middle class="datacell" style="width: 25%;">
+						<kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}"
+							property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="true" />
+					</td>
 					<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 						<div align="right">
 							<kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" />

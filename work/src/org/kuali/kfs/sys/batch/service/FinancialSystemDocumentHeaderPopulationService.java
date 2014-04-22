@@ -46,4 +46,9 @@ public interface FinancialSystemDocumentHeaderPopulationService {
      * @return the batch of records
      */
     public Collection<FinancialSystemDocumentHeader> readBatchOfFinancialSystemDocumentHeaders(int startIndex, int endIndex);
+
+    /**
+     * @return the total count of yet unpopulated financial system document header records
+     */
+    public int getFinancialSystemDocumentHeaderCount();
 }

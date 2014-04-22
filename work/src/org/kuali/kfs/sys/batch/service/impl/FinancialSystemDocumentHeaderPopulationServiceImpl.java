@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.batch.dataaccess.FinancialSystemDocumentHeaderPopulatio
 import org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeaderMissingFromWorkflow;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -56,6 +57,7 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
      * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#populateFinancialSystemDocumentHeadersFromKew(int, int)
      */
     @Override
+    @NonTransactional
     public void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize) {
         final long startTime = System.currentTimeMillis();
         for (Collection<FinancialSystemDocumentHeader> documentHeaderBatch : getFinancialSystemDocumentHeaderBatchIterable(batchSize, jobRunSize)) {
@@ -216,8 +218,13 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
         }
     }
 
+    /**
+     * Counts the number of Financial System Document Header records without initiator principal id's set
+     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#getFinancialSystemDocumentHeaderCount()
+     */
     @Transactional
-    protected int getFinancialSystemDocumentHeaderCount() {
+    @Override
+    public int getFinancialSystemDocumentHeaderCount() {
         return getFinancialSystemDocumentHeaderPopulationDao().countTotalFinancialSystemDocumentHeadersToProcess();
     }
 
@@ -259,34 +266,42 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
         return documentHeaderMap;
     }
 
+    @NonTransactional
     public WorkflowDocumentService getWorkflowDocumentService() {
         return workflowDocumentService;
     }
 
+    @NonTransactional
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @NonTransactional
     public IdentityService getIdentityService() {
         return identityService;
     }
 
+    @NonTransactional
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
 
+    @NonTransactional
     public FinancialSystemDocumentHeaderPopulationDao getFinancialSystemDocumentHeaderPopulationDao() {
         return financialSystemDocumentHeaderPopulationDao;
     }
 
+    @NonTransactional
     public void setFinancialSystemDocumentHeaderPopulationDao(FinancialSystemDocumentHeaderPopulationDao financialSystemDocumentHeaderPopulationDao) {
         this.financialSystemDocumentHeaderPopulationDao = financialSystemDocumentHeaderPopulationDao;
     }

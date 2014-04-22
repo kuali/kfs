@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,8 +47,12 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
@@ -198,6 +203,26 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(asset);
         }
+    }
+
+    /**
+    * @see  org.kuali.kfs.sys.document.FinancialSystemMaintainable.processAfterPost
+    */
+    @Override
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        String[] customAction = parameters.get(KRADConstants.CUSTOM_ACTION);
+        if (customAction != null && CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON.equals(customAction[0])) {
+            WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            if(workflowDoc != null && workflowDoc.isInitiated()) {
+                asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));            
+                String userPrincipalName= GlobalVariables.getUserSession().getPrincipalName();               
+                String noteText = "User " + userPrincipalName + " changed Asset " + asset.getCapitalAssetNumber().toString() + ": "  + CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_BASIC_TEXT;
+                Note LastInventoryDateUpdatedNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+                document.addNote(LastInventoryDateUpdatedNote);
+                SpringContext.getBean(DocumentService.class).saveDocumentNotes(document);
+            }
+        }
+        super.processAfterPost(document, parameters);
     }
 
     @Override

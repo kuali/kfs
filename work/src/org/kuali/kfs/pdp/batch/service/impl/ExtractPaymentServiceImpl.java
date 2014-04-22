@@ -64,6 +64,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+
 
 @Transactional
 public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements ExtractPaymentService {
@@ -299,14 +301,19 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
                         totalNetAmount = totalNetAmount.add(pd.getNetPaymentAmount());
                     }
 
+                    List<KualiInteger> paymentGroupIdsSaved = new ArrayList<KualiInteger>();
+
                     Iterator<PaymentDetail> paymentDetails = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
                     while (paymentDetails.hasNext()) {
                         PaymentDetail detail = paymentDetails.next();
                         PaymentGroup group = detail.getPaymentGroup();
                         if (!testMode) {
-                            group.setDisbursementDate(new java.sql.Date(processDate.getTime()));
-                            group.setPaymentStatus(extractedStatus);
-                            this.businessObjectService.save(group);
+                            if (!paymentGroupIdsSaved.contains(group.getId())) {
+                                group.setDisbursementDate(new java.sql.Date(processDate.getTime()));
+                                group.setPaymentStatus(extractedStatus);
+                                this.businessObjectService.save(group);
+                                paymentGroupIdsSaved.add(group.getId());
+                            }
                         }
 
                         if (first) {

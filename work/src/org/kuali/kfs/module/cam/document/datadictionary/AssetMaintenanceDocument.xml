@@ -146,6 +146,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationStateCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationZipCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="offCampusLocation.assetLocationCountryCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lastInventoryDateUpdateButton"/> 
       </list>
     </property>
   </bean>

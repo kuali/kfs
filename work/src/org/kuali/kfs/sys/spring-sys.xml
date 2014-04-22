@@ -1219,8 +1219,8 @@
     
     <bean name="populateFinancialSystemDocumentHeadersFromKewStep" parent="populateFinancialSystemDocumentHeadersFromKewStep-parentBean"/>
     <bean name="populateFinancialSystemDocumentHeadersFromKewStep-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.PopulateFinancialSystemDocumentHeadersFromKewStep">
-    	<property name="logMode" value="${populate.financial.system.headers.from.kew.log.mode}"/>
     	<property name="populationService" ref="financialSystemDocumentHeaderPopulationService"/>
+    	<property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean name="populateFinancialSystemDocumentHeadersFromKewJob" parent="populateFinancialSystemDocumentHeadersFromKewJob-parentBean"/>

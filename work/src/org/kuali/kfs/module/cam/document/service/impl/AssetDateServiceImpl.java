@@ -26,6 +26,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -81,7 +82,16 @@ public class AssetDateServiceImpl implements AssetDateService {
      */
     @Override
     public void checkAndUpdateLastInventoryDate(Asset oldAsset, Asset newAsset) {
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingSubRoomNumber(), newAsset.getBuildingSubRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber())) {
+        AssetLocation oldOffCampusLocation = oldAsset.getOffCampusLocation();
+        AssetLocation newOffCampusLocation = newAsset.getOffCampusLocation();
+        if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || 
+                !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingSubRoomNumber(), newAsset.getBuildingSubRoomNumber()) || 
+                !StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber()) || !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationContactName(), newOffCampusLocation.getAssetLocationContactName()) || 
+                !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationStreetAddress(), newOffCampusLocation.getAssetLocationStreetAddress()) || 
+                !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationCityName(), newOffCampusLocation.getAssetLocationCityName()) || 
+                !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationStateCode(), newOffCampusLocation.getAssetLocationStateCode()) || 
+                !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationZipCode(), newOffCampusLocation.getAssetLocationZipCode()) || 
+                !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationCountryCode(), newOffCampusLocation.getAssetLocationCountryCode()) ) {
             Timestamp timestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
             newAsset.setLastInventoryDate(timestamp);
         }

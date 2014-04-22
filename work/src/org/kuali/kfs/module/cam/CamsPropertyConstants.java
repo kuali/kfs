@@ -67,6 +67,8 @@ public class CamsPropertyConstants {
         public static final String REPLACEMENT_AMOUNT = "replacementAmount";
         public static final String SERIAL_NUMBER = "serialNumber";
         public static final String LAST_INVENTORY_DATE = "lastInventoryDate";
+        public static final String LAST_INVENTORY_DATE_UPDATE_BUTTON = "lastInventoryDateUpdateButton";
+        public static final String LAST_INVENTORY_DATE_UPDATE_NOTE_BASIC_TEXT= "last Inventory date updated, no change to location.";
         public static final String TOTAL_COST_AMOUNT = "totalCostAmount";
         public static final String ACCUMULATED_DEPRECIATION = "accumulatedDepreciation";
         public static final String BOOK_VALUE = "bookValue";
@@ -266,6 +268,7 @@ public class CamsPropertyConstants {
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
+        public static final String LAST_INVENTORY_DATE_UPDATE_BUTTON = Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON;
     }
 
     public static class EquipmentLoanOrReturnDocument {

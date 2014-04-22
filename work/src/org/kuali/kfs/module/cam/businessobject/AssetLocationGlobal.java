@@ -116,6 +116,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         // the list of persist-ready BOs
         List<PersistableBusinessObject> persistables = new ArrayList();
+        boolean isCampusCodeChanged = false, isBuildingCodeChanged = false, isBuildingRoomNumberChanged = false, isBuildingSubRoomNumberChanged = false, isCampusTagNumberChanged = false; 
 
         // walk over each change detail record
         for (AssetLocationGlobalDetail detail : assetLocationGlobalDetails) {
@@ -123,34 +124,56 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
             // load the object by keys
             Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, detail.getPrimaryKeys());
 
-            // if we got a valid account, do the processing
+            // if we got a valid asset, do the processing
             if (asset != null) {
 
-                if (StringUtils.isNotBlank(detail.getCampusCode())) {
+                if (!StringUtils.equalsIgnoreCase(asset.getCampusCode(), detail.getCampusCode()) ) {
                     asset.setCampusCode(detail.getCampusCode());
+                    isCampusCodeChanged = true;
+                }
+                else{
+                    isCampusCodeChanged = false;
                 }
                 
-                if (StringUtils.isNotBlank(detail.getBuildingCode())) {
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingCode(), detail.getBuildingCode()) ) {
                     asset.setBuildingCode(detail.getBuildingCode());
+                    isBuildingCodeChanged = true;
+                }
+                else{
+                    isBuildingCodeChanged = false;                    
                 }
                 
-                if (StringUtils.isNotBlank(detail.getBuildingRoomNumber())) {
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingRoomNumber(), detail.getBuildingRoomNumber()) ) {
                     asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
+                    isBuildingRoomNumberChanged = true;
+                }
+                else{
+                    isBuildingRoomNumberChanged = false;
                 }
                 
-                if (StringUtils.isNotBlank(detail.getBuildingSubRoomNumber())) {
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingSubRoomNumber(), detail.getBuildingSubRoomNumber()) ) {
                     asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
+                    isBuildingSubRoomNumberChanged = true;
+                }
+                else{
+                    isBuildingSubRoomNumberChanged = false;
                 }
 
-                // set tag number to null if no data in field
-                if (StringUtils.isNotBlank(detail.getCampusTagNumber()) && !StringUtils.equalsIgnoreCase(detail.getCampusTagNumber(), asset.getCampusTagNumber())) {
+                if (!StringUtils.equalsIgnoreCase(detail.getCampusTagNumber(), asset.getCampusTagNumber())) {
                     asset.setOldTagNumber(asset.getCampusTagNumber());
                     asset.setCampusTagNumber(detail.getCampusTagNumber());
+                    isCampusTagNumberChanged = true;
+                }
+                else{
+                    isCampusTagNumberChanged = false;
                 }
                 
                 updateOffCampusWithOnCampusValues(asset);
                 
-                asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
+                if(isCampusCodeChanged || isBuildingCodeChanged || isBuildingRoomNumberChanged || isBuildingSubRoomNumberChanged || isCampusTagNumberChanged)
+                {
+                    asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
+                }
 
                 persistables.add(asset);
             }

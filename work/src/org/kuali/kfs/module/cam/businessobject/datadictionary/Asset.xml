@@ -158,6 +158,7 @@
         <ref bean="Asset-borrowerStorageLocation.assetLocationState.stateCode"/>
         <ref bean="Asset-borrowerStorageLocation.postalZipCode.postalCode"/>
         <ref bean="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName"/>
+        <ref bean="Asset-lastInventoryDateUpdateButton"/>
         <ref bean="Asset-quantity"/>
         <ref bean="Asset-assetPayments.paymentSequenceNumber"/>
         <ref bean="Asset-assetPayments.purchaseOrderNumber"/>
@@ -1021,6 +1022,16 @@
     </property>
   </bean>
 
+  <bean id="Asset-lastInventoryDateUpdateButton" parent="Asset-lastInventoryDateUpdateButton-parentBean"/>
+  <bean id="Asset-lastInventoryDateUpdateButton-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="lastInventoryDateUpdateButton"/>
+    <property name="label" value="Update Last Inventory Date"/>
+    <property name="shortLabel" value="Update Last Inventory Date"/>
+    <property name="control">
+      <bean parent="ButtonControlDefinition" p:imageSrc="buttonsmall_update.gif" p:styleClass="globalbuttons"/>
+    </property>
+ </bean>
+  
   <bean id="Asset-quantity" parent="Asset-quantity-parentBean"/>
   <bean id="Asset-quantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="quantity"/>

@@ -1,4 +1,4 @@
-dv_doc_loc_cd|obj_id|ver_nbr|dv_doc_loc_nm|dv_doc_loc_addr|row_actv_ind|
+pmt_doc_loc_cd|obj_id|ver_nbr|pmt_doc_loc_nm|pmt_doc_loc_addr|row_actv_ind|
 A|519DA571FE3562E1E0404F8189D85A64|1.0|East Campus|Purchasing Department 
  WZ 101K 
  EAST CAMPUS|Y|

@@ -1,0 +1,3 @@
+code|nm|advances_ind|actv_ind|ver_nbr|obj_id|
+EMP|Employee|Y|Y|1.0|BD96AA2415805898E040540A5EFD3A74|
+NON|Non-Employee|N|Y|1.0|BD96AA2415815898E040540A5EFD3A74|

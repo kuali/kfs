@@ -1,0 +1,4 @@
+code|nm|gen_enc_ind|enc_bal_typ|enc_obj_cd|cont_info_req_ind|blanket_ind|auto_tr_limit|use_per_diem|ta_required|per_diem_calc_method|actv_ind|ver_nbr|obj_id|
+IN|In-State|Y|EX|6000|N|Y|0.0|Y|N|P|Y|1.0|BD96AA2415825898E040540A5EFD3A74|
+INT|International|Y|EX|6200|Y|N|0.0|Y|N|P|Y|1.0|BD96AA2415845898E040540A5EFD3A74|
+OUT|Out of State|Y|EX|6100|N|N|0.0|Y|N|P|Y|1.0|BD96AA2415835898E040540A5EFD3A74|

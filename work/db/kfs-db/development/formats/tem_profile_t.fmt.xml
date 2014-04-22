@@ -1,0 +1,35 @@
+<Record name="tem_profile_t" type="delimited">
+  <Field name="profile_id"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prncpl_id"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cust_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="drive_lic_num"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="drive_lic_state"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="drive_lic_exp_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="citizenship"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="updated_by"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_update"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="traveler_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="date_of_birth"                   type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="gender"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mot_veh_rec_chk"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="non_res_alien"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="notify_ta_final"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="notify_ta_status_change"         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="notify_ter_final"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="notify_ter_status_change"        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="home_dept_org_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="home_dept_coa_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="chart_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_account_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="proj_cd"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="first_nm"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="middle_nm"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_nm"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="phone_nbr"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="email_addr"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="emp_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
@@ -46,14 +47,14 @@ import org.kuali.rice.krad.util.MessageMap;
  */
 public class BudgetConstructionRequestImportAction extends BudgetConstructionImportExportAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionRequestImportAction.class);
-    
+
     public ActionForward start(ActionMapping arg0, ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3) throws Exception {
         return arg0.findForward("import_export");
     }
 
     /**
      * Imports file
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -67,22 +68,22 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         Integer budgetYear = budgetConstructionImportForm.getUniversityFiscalYear();
         List<String> messageList = new ArrayList<String>();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
-        
+
         boolean isValid = validateFormData(budgetConstructionImportForm);
-        
+
         if (!isValid) {
             return mapping.findForward(BCConstants.MAPPING_IMPORT_EXPORT);
         }
-        
+
         Person user = GlobalVariables.getUserSession().getPerson();
         String principalId = user.getPrincipalId();
         Date startTime = new Date();
         messageList.add("Import run started " + dateFormatter.format(startTime));
         messageList.add(" ");
         messageList.add("Text file load phase - parsing");
-        
+
         List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), principalId, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType(), budgetYear);
-     
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (!parsingErrors.isEmpty()) {
             messageList.addAll(parsingErrors);
@@ -91,44 +92,52 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.REQUEST_IMPORT_OUTPUT_FILE);
             return null;
         }
-        
+
         messageList.add("Text file load complete");
         messageList.add(" ");
         messageList.add("Validate data phase");
-        
+
         List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear, principalId);
 
         if (!dataValidationErrorList.isEmpty()) {
             messageList.add("Errors found during data validation");
             messageList.addAll(dataValidationErrorList);
         }
-        
+
         messageList.add("Validate data complete");
         messageList.add(" ");
         messageList.add("Update budget phase");
-        
+
         List<String> updateErrorMessages = budgetRequestImportService.loadBudget(user, budgetConstructionImportForm.getFileType(), budgetYear);
-        
+
         messageList.addAll(updateErrorMessages);
         messageList.add("Update budget complete");
         messageList.add(" ");
         Date endTime = new Date();
         messageList.add("Import run finished at " + dateFormatter.format(endTime));
-        
+
         budgetRequestImportService.generatePdf(messageList, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.REQUEST_IMPORT_OUTPUT_FILE);
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportAction#validateFormData(org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionImportExportForm)
      */
+    @Override
     public boolean validateFormData(BudgetConstructionImportExportForm form) {
         boolean isValid = super.validateFormData(form);
         BudgetConstructionRequestImportForm requestImportForm = (BudgetConstructionRequestImportForm) form;
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        
+
+        // can't create BC documents when in system view only mode
+        // let the user know this up front
+        if (!SpringContext.getBean(FiscalYearFunctionControlService.class).isBudgetUpdateAllowed(requestImportForm.getUniversityFiscalYear())) {
+            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
+            isValid &= false;
+        }
+
         if ( requestImportForm.getFile() == null || requestImportForm.getFile().getFileSize() == 0 ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_IS_REQUIRED);
             isValid = false;
@@ -141,21 +150,15 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILENAME_REQUIRED);
             isValid = false;
         }
-        
+
         //file type validation
         if ( StringUtils.isBlank(requestImportForm.getFileType()) ) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
             isValid = false;
         }
-        /*if (!StringUtils.isBlank(requestImportForm.getFileType()) && 
-                !requestImportForm.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString()) &&
-                !requestImportForm.getFileType().equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FILE_TYPE_IS_REQUIRED);
-            isValid = false;
-        }*/
-        
+
         return isValid;
     }
-    
+
 }
 

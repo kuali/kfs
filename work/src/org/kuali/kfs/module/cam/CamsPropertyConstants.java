@@ -268,7 +268,6 @@ public class CamsPropertyConstants {
         public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
         public static final String BUILDING_SUB_ROOM_NUMBER = "buildingSubRoomNumber";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
-        public static final String LAST_INVENTORY_DATE_UPDATE_BUTTON = Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON;
     }
 
     public static class EquipmentLoanOrReturnDocument {

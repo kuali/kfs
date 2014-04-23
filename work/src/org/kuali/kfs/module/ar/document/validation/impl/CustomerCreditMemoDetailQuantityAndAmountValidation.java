@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -28,8 +29,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerCreditMemoDetailQuantityAndAmountValidation extends GenericValidation {
 
-    protected KualiDecimal getAllowedQtyDeviation() {
-        return new KualiDecimal("0.10");
+    protected BigDecimal getAllowedQtyDeviation() {
+        return new BigDecimal("0.10");
     }
 
     private CustomerCreditMemoDetail customerCreditMemoDetail;
@@ -40,13 +41,13 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
         KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         BigDecimal quantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         BigDecimal unitPrice = customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
-        boolean isValid;
+        boolean validValue;
 
         if (ObjectUtils.isNotNull(quantity) && ObjectUtils.isNotNull(creditAmount)) {
 
             //  determine the expected exact total credit memo quantity, based on actual credit amount entered
-            KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
-            KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
+            BigDecimal creditQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
+            BigDecimal expectedCreditQuantity = creditAmount.bigDecimalValue().divide(unitPrice, ArConstants.ITEM_QUANTITY_SCALE, BigDecimal.ROUND_HALF_UP);
 
             // return false if the expected quantity is 0 while the actual quantity is not
             if (expectedCreditQuantity.compareTo(BigDecimal.ZERO) == 0 && creditQuantity.compareTo(BigDecimal.ZERO) != 0) {
@@ -54,11 +55,11 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
             }
 
             //  determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
-            KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
+            BigDecimal deviationPercentage = creditQuantity.subtract(expectedCreditQuantity).divide(expectedCreditQuantity, ArConstants.ITEM_QUANTITY_SCALE, BigDecimal.ROUND_HALF_UP).abs();
 
             // only allow a certain deviation of creditQuantity from the expectedCreditQuantity
-            isValid = (deviationPercentage.isLessEqual(getAllowedQtyDeviation()));
-            if (!isValid){
+            validValue = deviationPercentage.compareTo(getAllowedQtyDeviation()) < 1;
+            if (!validValue){
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
             }

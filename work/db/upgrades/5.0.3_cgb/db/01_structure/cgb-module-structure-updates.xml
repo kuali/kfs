@@ -424,9 +424,7 @@
 			<column name="CUST_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="CUST_ADDR_NM" type="varchar(40)" />
 			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
-			<column name="PREF_CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
-			<column name="PREF_INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
 			<column name="NOTE_ID" type="DECIMAL(14,0)" />
 		</createTable>
 		<modifySql dbms="oracle">

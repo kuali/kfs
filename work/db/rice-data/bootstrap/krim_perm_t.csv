@@ -413,3 +413,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10811","KFS-TEM-PERM-118","1","1","KFS-AR","Report","The ability to view the Customer Report.","Y"
 "KFS10817","KFS-TEM-PERM-119","1","40","KFS-AR","Open Document INV","The permission to open a Customer Invoice document.","Y"
 "KFS10821","KFS-TEM-PERM-120","1","29","KFS-AR","Use Screen KFS-AR CustomerOpenItemReportAction","The ability to view the Customer Open Item Report.","Y"
+"KFS10828","KFS-PERM-121","1","30","KFS-CAM","Perform Custom Maintenance Document Function lastInventoryDateUpdateButton","Users who can view and click the lastInventoryDateUpdateButton.","Y"

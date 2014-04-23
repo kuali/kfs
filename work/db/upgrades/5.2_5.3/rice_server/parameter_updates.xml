@@ -10,7 +10,7 @@
 			<column name="NMSPC_CD" value="KFS-SYS"/>
 			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
 			<column name="PARM_NM" value="POPULATION_LIMIT"/>
-			<column name="OBJ_ID" value="KFSTP1210_PARM_001"/>
+			<column name="OBJ_ID" value="KFS-PARM-167"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="100000"/>
 			<column name="PARM_DESC_TXT" value="Determines the maximum number of documents that the PopulateFinancialSystemDocumentHeadersFromKewJob will handle in a given run.  Any non-numeric, zero, negative, or empty value will be treated as if the job should convert all available Financial System document header records."/>
@@ -21,7 +21,7 @@
 			<column name="NMSPC_CD" value="KFS-SYS"/>
 			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
 			<column name="PARM_NM" value="BATCH_SIZE"/>
-			<column name="OBJ_ID" value="KFSTP1210_PARM_002"/>
+			<column name="OBJ_ID" value="KFS-PARM-168"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="1000"/>
 			<column name="PARM_DESC_TXT" value="Determines the maximum number of document headers that the PopulateFinancialSystemDocumentHeadersFromKewJob will read at once.  Any non-numeric, zero, negative, or empty value will be treated as if the default value of 1000 has been chosen."/>

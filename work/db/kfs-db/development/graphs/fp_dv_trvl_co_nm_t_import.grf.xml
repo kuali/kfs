@@ -23,6 +23,7 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
+        $0.frgn_cmpny := replace(nvl($frgn_cmpny, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

@@ -24,6 +24,7 @@
         $0.dv_exp_nm := replace(nvl($dv_exp_nm, ""), "~!~", "|" );
         $0.dv_exp_prpy_ind := replace(nvl($dv_exp_prpy_ind, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
+        $0.fin_object_cd := replace(nvl($fin_object_cd, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

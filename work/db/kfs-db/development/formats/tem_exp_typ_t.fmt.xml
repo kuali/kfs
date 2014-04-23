@@ -1,0 +1,13 @@
+<Record name="tem_exp_typ_t" type="delimited">
+  <Field name="exp_typ_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="exp_typ_nm"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="grp_trvl_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="exp_detail_req_ind"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="exp_prpy_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hosted_ind"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="exp_typ_meta_ctgry_cd"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ctgry_dflt_ind"                  type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

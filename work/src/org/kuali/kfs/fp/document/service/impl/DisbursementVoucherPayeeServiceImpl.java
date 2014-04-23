@@ -72,17 +72,20 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     public String getPayeeTypeDescription(String payeeTypeCode) {
         String payeeTypeDescription = StringUtils.EMPTY;
 
-        if (DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(payeeTypeCode)) {
+        if (KFSConstants.PaymentPayeeTypes.EMPLOYEE.equals(payeeTypeCode)) {
             payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM);
         }
-        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR.equals(payeeTypeCode)) {
+        else if (KFSConstants.PaymentPayeeTypes.VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM);
         }
-        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR.equals(payeeTypeCode)) {
+        else if (KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.REVOLVING_FUND);
         }
-        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR.equals(payeeTypeCode)) {
+        else if (KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.SUBJECT_PAYMENT);
+        }
+        else if (KFSConstants.PaymentPayeeTypes.CUSTOMER.equals(payeeTypeCode)) {
+            payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYEE_TYPE_NAME);
         }
 
         return payeeTypeDescription;

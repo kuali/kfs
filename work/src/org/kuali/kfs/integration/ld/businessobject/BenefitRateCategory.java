@@ -23,7 +23,6 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 /**
  * BO for the Labor Benefit Rate Category Fringe Benefit
  *
- * @author Allan Sonkin
  */
 public class BenefitRateCategory implements LaborBenefitRateCategory, MutableInactivatable {
 

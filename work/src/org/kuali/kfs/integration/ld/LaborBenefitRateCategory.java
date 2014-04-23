@@ -20,7 +20,6 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 /**
  * BO for the Labor Benefit Rate Category Fringe Benefit
  *
- * @author Allan Sonkin
  */
 public interface LaborBenefitRateCategory extends  ExternalizableBusinessObject {
 

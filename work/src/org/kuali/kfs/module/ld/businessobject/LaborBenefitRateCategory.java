@@ -23,7 +23,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * BO for the Labor Benefit Rate Category Fringe Benefit
  *
- * @author Allan Sonkin
  */
 public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, MutableInactivatable {
 

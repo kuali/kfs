@@ -23,9 +23,6 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 
 
-/**
- * @author tdurkin
- */
 public class PaymentRequestInitializationValidationErrors implements Serializable {
 
 //    public List errorMessages = new ArrayList();

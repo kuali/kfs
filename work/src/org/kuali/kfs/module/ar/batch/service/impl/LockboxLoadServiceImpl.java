@@ -35,9 +35,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  *
- * @author mramawat
  * @see org.kuali.kfs.module.ar.batch.service.LockboxLoadService
- * FSKD-688 iu-custom
  */
 public class LockboxLoadServiceImpl implements LockboxLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockboxLoadServiceImpl.class);

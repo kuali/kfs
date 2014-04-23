@@ -23,8 +23,6 @@ import org.kuali.kfs.gl.batch.BatchSortUtil;
 
 /**
  * General purpose sort step which can be configured with any Comparator class.
- *
- * @author jonathan
  */
 public class FlatFileSortStep extends AbstractStep {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FlatFileSortStep.class);

@@ -7,8 +7,6 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**
  *
- * @author mramawat
- * FSKD-688 iu-custom
  * Lockbox Load step to load lockbox payment files
  *
  */

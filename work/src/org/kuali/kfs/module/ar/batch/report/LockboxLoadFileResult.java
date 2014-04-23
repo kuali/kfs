@@ -8,13 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
-* @author mramawat
-* FSKD-686 iu-custom
-* 
-* Store result of each lock box payment batch file.
-*
-*/
-
+ *
+ * Store result of each lock box payment batch file.
+ *
+ */
 public class LockboxLoadFileResult {
 
 

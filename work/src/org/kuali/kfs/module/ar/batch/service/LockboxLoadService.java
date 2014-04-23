@@ -4,8 +4,6 @@ import org.kuali.kfs.sys.batch.FlatFileDataHandler;
 
 /**
  *
- * @author mramawat
- *
  * Defines methods for loading Lockbox payment files
  */
 

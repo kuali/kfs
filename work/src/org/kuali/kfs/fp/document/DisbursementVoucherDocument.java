@@ -1266,36 +1266,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
-     * should not be persisted.
-     */
-    protected void cleanDocumentData() {
-        // TODO: warren: this method ain't called!!! maybe this should be called by prepare for save above
-        if (!DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
-            getBusinessObjectService().delete(wireTransfer);
-            wireTransfer = null;
-        }
-
-        if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
-            getBusinessObjectService().delete(dvNonResidentAlienTax);
-            dvNonResidentAlienTax = null;
-        }
-
-        DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
-        String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        if (!paymentReasonService.isNonEmployeeTravelPaymentReason(paymentReasonCode)) {
-            getBusinessObjectService().delete(dvNonEmployeeTravel);
-            dvNonEmployeeTravel = null;
-        }
-
-        if (!paymentReasonService.isPrepaidTravelPaymentReason(paymentReasonCode)) {
-            getBusinessObjectService().delete(dvPreConferenceDetail);
-            dvPreConferenceDetail = null;
-        }
-    }
-
-
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
     @Override
@@ -1843,14 +1813,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             vendorService = SpringContext.getBean(VendorService.class);
         }
         return vendorService;
-    }
-
-    @Override
-    protected BusinessObjectService getBusinessObjectService() {
-        if ( businessObjectService == null ) {
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        }
-        return businessObjectService;
     }
 
     /**

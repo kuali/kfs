@@ -122,9 +122,9 @@ public class PdpConstants {
     public static final String MAPPING_RUNNING = "running";
     public static final String MAPPING_FINISHED = "finished";
     
-/*    public static class PDPEditMode extends EditModes {
+    public static class PDPEditMode {
         public static final String ENTRY = "entry";
-    }*/
+    }
     
     public static class AchBankOfficeCodes {
         public static final String AchBankOfficeCode_O = "O";

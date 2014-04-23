@@ -1069,11 +1069,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             return null;
         }
         return docIdStrings;
-//        List<Long> docIds = new ArrayList<Long>();
-//        for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
-//            docIds.add(new Long(docIdStrings.get(i)));
-//        }
-//        return docIds;
     }
 
     /**
@@ -1190,8 +1185,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
         }
 
-        // generate GLPEs only when routing, approving or blanket approving
-        if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent || event instanceof ApproveDocumentEvent) {
+        //  generate GLPEs only when routing or blanket approving
+        if (event instanceof RouteDocumentEvent || event instanceof BlanketApproveDocumentEvent) {
             // if this document is not generated thru CashControl,
             // create nonApplied and nonInvoiced Distributions
             if (!this.hasCashControlDetail()) {

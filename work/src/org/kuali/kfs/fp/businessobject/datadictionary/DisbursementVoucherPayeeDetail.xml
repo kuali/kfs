@@ -19,7 +19,7 @@
 
   <bean id="DisbursementVoucherPayeeDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail"/>
-    <property name="titleAttribute" value="dvPayeeDetail"/>
+    <property name="titleAttribute" value="disbVchrPayeeIdNumber"/>
     <property name="objectLabel" value="DV Payee Detail"/>
     <property name="attributes">
       <list>
@@ -59,8 +59,8 @@
         <dd:relationship objectAttribute="disbVchrPayeeCountry">
             <dd:primitiveAttribute source="disbVchrPayeeCountryCode" target="code"/>
         </dd:relationship>
-      </list>
-    </property> 
+    	</list>
+    </property>        
   </bean>
 
 <!-- Attribute Definitions -->

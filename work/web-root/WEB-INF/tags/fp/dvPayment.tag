@@ -38,7 +38,41 @@
               	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}"/>           	
               </div></th>
               <td colspan="3" class="datacell">              	
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
+              	<c:choose>             
+	          	  <c:when test="${not empty KualiForm.document.dvPayeeDetail.disbVchrVendorHeaderIdNumber and 
+	          				  		not empty KualiForm.document.dvPayeeDetail.disbVchrVendorDetailAssignedIdNumber}">
+		        	<kul:inquiry boClassName="org.kuali.kfs.vnd.businessobject.VendorDetail" 
+		               	keyValues="vendorHeaderGeneratedIdentifier=${KualiForm.document.dvPayeeDetail.disbVchrVendorHeaderIdNumber}&vendorDetailAssignedIdentifier=${KualiForm.document.dvPayeeDetail.disbVchrVendorDetailAssignedIdNumber}" 
+		               	render="true">
+		                <kul:htmlControlAttribute 
+		                    attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" 
+		                    property="document.dvPayeeDetail.disbVchrPayeeIdNumber" 
+		                    readOnly="true" />
+		            </kul:inquiry>
+	              </c:when> 
+	              <c:when test="${not empty KualiForm.document.dvPayeeDetail.employeePrincipalId}"> 
+		        	<kul:inquiry boClassName="org.kuali.rice.kim.api.identity.Person" 
+		               	keyValues="principalId=${KualiForm.document.dvPayeeDetail.employeePrincipalId}" 
+		               	render="true">
+		                <kul:htmlControlAttribute 
+		                    attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" 
+		                    property="document.dvPayeeDetail.disbVchrPayeeIdNumber" 
+		                    readOnly="true" />
+		            </kul:inquiry>
+		 		  </c:when>          
+		 		  <%-- returned payee shall be either Vendor or Employee, otherwise empty --%>
+		 		  <%-- 
+		 		  	Note: We currently don't handle the potential case that DV payee might be a Customer.
+		 		  	If in the future we decide otherwise, logic could be added here to handle hyper link for 
+		 		  	Customer inquiry when the returned payee is a Customer.
+		 		  --%>
+	              <c:otherwise> 
+		                <kul:htmlControlAttribute 
+		                    attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" 
+		                    property="document.dvPayeeDetail.disbVchrPayeeIdNumber" 
+		                    readOnly="true" />
+		 		  </c:otherwise>          
+	            </c:choose>                                    
                 <c:if test="${fullEntryMode}">
 	                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
 	                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"

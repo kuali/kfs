@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +27,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
@@ -934,4 +937,21 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
         return address.toString();
     }
+
+    public String getEmployeePrincipalId() {
+        if (StringUtils.isBlank(disbVchrPayeeIdNumber) || !isEmployee()) {
+            return null;
+        }
+
+        List<Principal> plist = SpringContext.getBean(IdentityService.class).getPrincipalsByEmployeeId(disbVchrPayeeIdNumber);
+        if (!plist.isEmpty()) {
+            // we can only return on principal for inquiry link, choose the first one in the list as default
+            Principal principal = plist.get(0);
+            if (ObjectUtils.isNotNull(principal)) {
+                return principal.getPrincipalId();
+            }
+        }
+        return null;
+    }
+
 }

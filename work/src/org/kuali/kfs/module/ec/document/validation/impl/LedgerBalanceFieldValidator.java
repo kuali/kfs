@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ec.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +152,7 @@ public class LedgerBalanceFieldValidator {
     public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, Collection<String> federalAgencyTypeCodes) {
         for (LaborLedgerBalance balance : ledgerBalances) {
             Account account = balance.getAccount();
-            if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(),new ArrayList<String>(federalAgencyTypeCodes))) {
+            if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(), federalAgencyTypeCodes)) {
                 return null;
             }
         }

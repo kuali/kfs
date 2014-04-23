@@ -1122,7 +1122,7 @@
 			<foreignkey field-ref="processingChartOfAccountCode" />
 			<foreignkey field-ref="refundFinancialObjectCode" />
 		</reference-descriptor>
-		<reference-descriptor name="refundDocumentationLocation" class-ref="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation"
+		<reference-descriptor name="refundDocumentationLocation" class-ref="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="refundDocumentationLocationCode" />
 		</reference-descriptor>

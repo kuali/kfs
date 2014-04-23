@@ -26,11 +26,11 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
+import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -96,7 +96,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     /* Start TEM REFUND Merge */
     private PaymentReasonCode refundPaymentReason;
     private ObjectCode refundObjectCode;
-    private DisbursementVoucherDocumentationLocation refundDocumentationLocation;
+    private PaymentDocumentationLocation refundDocumentationLocation;
     /* End TEM REFUND Merge */
     /* Start TEM REFUND Merge */
     private String refundPaymentReasonCode;
@@ -109,11 +109,11 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
         return financialDocumentInitiator;
     }
 
-    public DisbursementVoucherDocumentationLocation getRefundDocumentationLocation() {
+    public PaymentDocumentationLocation getRefundDocumentationLocation() {
         return refundDocumentationLocation;
     }
 
-    public void setRefundDocumentationLocation(DisbursementVoucherDocumentationLocation refundDocumentationLocation) {
+    public void setRefundDocumentationLocation(PaymentDocumentationLocation refundDocumentationLocation) {
         this.refundDocumentationLocation = refundDocumentationLocation;
     }
 

@@ -127,8 +127,8 @@
 	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="accessRestrictedIndicator" />
-		<property name="label" value="Access Restricted" />
-		<property name="shortLabel" value="Access Restricted" />
+		<property name="label" value="Restrict Use by Chart/Org" />
+		<property name="shortLabel" value="Restrict Use by Chart/Org" />
 		<property name="maxLength" value="1" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />

@@ -639,6 +639,8 @@
 	<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	<field-descriptor name="autoInactivationIndicator" column="AUTO_INACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
 	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>

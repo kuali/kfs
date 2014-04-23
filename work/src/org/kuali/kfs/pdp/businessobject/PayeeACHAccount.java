@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -35,12 +36,11 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.datadictionary.AttributeSecurity;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class PayeeACHAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class PayeeACHAccount extends TimestampedBusinessObjectBase implements MutableInactivatable {
 
     private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
@@ -52,6 +52,8 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
     private String achTransactionType;
     private String bankAccountTypeCode;
     private boolean active;
+    private boolean autoInactivationIndicator;
+
 
     private ACHBank bankRouting;
     private ACHTransactionType transactionType;
@@ -284,6 +286,14 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
     @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isAutoInactivationIndicator() {
+        return autoInactivationIndicator;
+    }
+
+    public void setAutoInactivationIndicator(boolean autoInactivationIndicator) {
+        this.autoInactivationIndicator = autoInactivationIndicator;
     }
 
     /**

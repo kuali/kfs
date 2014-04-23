@@ -75,11 +75,16 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
                 if (ObjectUtils.isNull(entity) || !entity.isActive()) {
                     LOG.info("Inactivating Payee ACH account for employee with ID # " + idNumber);
                     account.setActive(false);
+
+                    // set autoInactivationIndicator, and lastUpdate will be set by TimestampsBusinessObjectBase#prePersist called by OJB
+                    account.setAutoInactivationIndicator(true);
+
                     businessObjectService.save(account);
                     countEmployee++;
                     reportWriterService.writeTableRow(account);
                 }
             }
+
             // for Entity, retrieve from Entity table by entity ID
             else if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.ENTITY)) {
                 EntityDefault entity = identityManagementService.getEntityDefaultInfo(idNumber);
@@ -87,11 +92,16 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
                 if (ObjectUtils.isNull(entity) || !entity.isActive()) {
                     LOG.info("Inactivating Payee ACH account for entity with ID # " + idNumber);
                     account.setActive(false);
+
+                    // set autoInactivationIndicator, and lastUpdate will be set by TimestampsBusinessObjectBase#prePersist called by OJB
+                    account.setAutoInactivationIndicator(true);
+
                     businessObjectService.save(account);
                     countEntity++;
                     reportWriterService.writeTableRow(account);
                 }
             }
+
             // for Vendor, retrieve from Vendor table by vendor number
             else if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.VENDOR_ID)) {
                 /*
@@ -103,11 +113,16 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
                 }
                 VendorDetail vendor = vendorService.getVendorDetail(vendorNumber);
                 */
+
                 VendorDetail vendor = vendorService.getVendorDetail(idNumber);
                 // inactivate the account if the vendor doesn't exist anymore or is inactive
                 if (ObjectUtils.isNull(vendor) || !vendor.isActiveIndicator()) {
                     LOG.info("Inactivating Payee ACH account for vendor with vendor # " + idNumber);
                     account.setActive(false);
+
+                    // set autoInactivationIndicator, and lastUpdate will be set by TimestampsBusinessObjectBase#prePersist called by OJB
+                    account.setAutoInactivationIndicator(true);
+
                     businessObjectService.save(account);
                     countVendor++;
                     reportWriterService.writeTableRow(account);

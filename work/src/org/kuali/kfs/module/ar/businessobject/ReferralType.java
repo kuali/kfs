@@ -22,7 +22,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used for Referral Type
- * @author jignasha.
  */
 public class ReferralType extends PersistableBusinessObjectBase implements MutableInactivatable {
 

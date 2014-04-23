@@ -24,7 +24,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Defines collection activity that can be taken on an outstanding debt.
  *
- * @author mpritmani
  */
 public class CollectionActivityType extends PersistableBusinessObjectBase implements MutableInactivatable {
 

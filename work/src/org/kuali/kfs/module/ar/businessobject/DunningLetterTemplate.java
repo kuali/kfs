@@ -28,7 +28,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines the letter templates that will be assigned to the appropriate dunning letter campaigns.
  *
- * @author mpritmani
  */
 public class DunningLetterTemplate extends PersistableBusinessObjectBase implements MutableInactivatable {
 

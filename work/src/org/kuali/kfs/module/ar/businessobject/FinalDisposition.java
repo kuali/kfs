@@ -23,7 +23,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * This class is used on the Refer to Collections eDoc to record how each invoice as finally disposed.
  *
- * @author jignasha.
  */
 public class FinalDisposition extends PersistableBusinessObjectBase implements MutableInactivatable {
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,12 +23,11 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * @author yozkan
  *
  */
 public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
@@ -92,21 +91,21 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
         this.customer = customer;
     }
 
-    
+
     /**
      * Gets the proposal attribute.
      *
-     * @return Returns the proposal. 
+     * @return Returns the proposal.
      */
     public ContractAndGrantsProposal getProposal() {
-        return proposal = (ContractAndGrantsProposal) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractAndGrantsProposal.class).retrieveExternalizableBusinessObjectIfNecessary(this, proposal, "proposal");
+        return proposal = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractAndGrantsProposal.class).retrieveExternalizableBusinessObjectIfNecessary(this, proposal, "proposal");
     }
 
-    
+
     /**
      * Gets the documentNumber attribute.
      *
-     * @return Returns the documentNumber. 
+     * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -124,7 +123,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      *
-     * @return Returns the proposalNumber. 
+     * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
         return proposalNumber;
@@ -160,7 +159,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the invoiceDate attribute.
      *
-     * @return Returns the invoiceDate. 
+     * @return Returns the invoiceDate.
      */
     public Date getInvoiceDate() {
         return invoiceDate;
@@ -178,7 +177,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the invoiceDueDate attribute.
      *
-     * @return Returns the invoiceDueDate. 
+     * @return Returns the invoiceDueDate.
      */
     public Date getInvoiceDueDate() {
         return invoiceDueDate;
@@ -196,7 +195,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the openInvoiceIndicator attribute.
      *
-     * @return Returns the openInvoiceIndicator. 
+     * @return Returns the openInvoiceIndicator.
      */
     public String getOpenInvoiceIndicator() {
         return openInvoiceIndicator;
@@ -214,7 +213,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the customerNumber attribute.
      *
-     * @return Returns the customerNumber. 
+     * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
         return customerNumber;
@@ -232,7 +231,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the customerName attribute.
      *
-     * @return Returns the customerName 
+     * @return Returns the customerName
      */
     public String getCustomerName() {
         return customerName;
@@ -250,7 +249,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the invoiceAmount attribute.
      *
-     * @return Returns the invoiceAmount. 
+     * @return Returns the invoiceAmount.
      */
     public KualiDecimal getInvoiceAmount() {
         return invoiceAmount;
@@ -268,7 +267,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the paymentAmount attribute.
      *
-     * @return Returns the paymentAmount. 
+     * @return Returns the paymentAmount.
      */
     public KualiDecimal getPaymentAmount() {
         return paymentAmount;
@@ -286,7 +285,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the remainingAmount attribute.
      *
-     * @return Returns the remainingAmount. 
+     * @return Returns the remainingAmount.
      */
     public KualiDecimal getRemainingAmount() {
         return remainingAmount;
@@ -304,7 +303,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the ageInDays attribute.
      *
-     * @return Returns the ageInDays. 
+     * @return Returns the ageInDays.
      */
     public Long getAgeInDays() {
         return ageInDays;
@@ -322,7 +321,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
     /**
      * Gets the dummyBusinessObject attribute.
      *
-     * @return Returns the dummyBusinessObject. 
+     * @return Returns the dummyBusinessObject.
      */
     public TransientContractsGrantsAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
@@ -346,7 +345,7 @@ public class ContractsGrantsInvoiceReport extends TransientBusinessObjectBase {
         this.proposal = proposal;
     }
 
-    
+
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

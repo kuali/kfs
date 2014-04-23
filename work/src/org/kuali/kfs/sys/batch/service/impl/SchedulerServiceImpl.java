@@ -47,7 +47,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.service.ModuleService;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.quartz.CronExpression;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -133,13 +132,6 @@ public class SchedulerServiceImpl implements SchedulerService {
                     }
                     else {
                         jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
-                        if (ObjectUtils.isNull(jobDescriptor)) {
-                            jobDescriptor = new JobDescriptor();
-                            jobDescriptor.setBeanName(jobName);
-                            jobDescriptor.setGroup(SCHEDULED_GROUP);
-                            jobDescriptor.setDurable(false);
-                            externalizedJobDescriptors.put(jobName, jobDescriptor);
-                        }
                     }
                     jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
                     loadJob(jobDescriptor);

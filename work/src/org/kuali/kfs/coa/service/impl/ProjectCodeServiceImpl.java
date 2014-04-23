@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.service.impl;
 
 
 import org.kuali.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -31,9 +30,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 @NonTransactional
 public class ProjectCodeServiceImpl implements ProjectCodeService {
-    
-    private ProjectCodeDao projectCodeDao;
-    
     /**
      *
      * @see org.kuali.kfs.coa.service.ProjectCodeService#getByPrimaryId(java.lang.String)
@@ -43,13 +39,6 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
     @Cacheable(value=ProjectCode.CACHE_NAME, key="'projectCode='+#p0")
     public ProjectCode getByPrimaryId(String projectCode) {
         return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProjectCode.class, projectCode);
-    }
-    
-    /**
-     * @param projectDao The projectDao to set.
-     */
-    public void setProjectCodeDao(ProjectCodeDao projectCodeDao) {
-        this.projectCodeDao = projectCodeDao;
     }
 
 }

@@ -25,7 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
@@ -44,7 +43,6 @@ import org.springframework.cache.annotation.Cacheable;
 public class OrganizationServiceImpl implements OrganizationService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationServiceImpl.class);
 
-    private OrganizationDao organizationDao;
     protected ParameterService parameterService;
     protected ChartService chartService;
     protected BusinessObjectService boService;
@@ -258,20 +256,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
-    }
-    
-    /**
-     * @return Returns the organizationDao.
-     */
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    /**
-     * @param organizationDao The organizationDao to set.
-     */
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
 
 }

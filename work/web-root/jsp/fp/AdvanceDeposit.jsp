@@ -57,5 +57,5 @@
 	<kul:superUserActions />
 	<kul:panelFooter />
 	<sys:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
+		transactionalDocument="${documentEntry.transactionalDocument}"  extraButtons="${KualiForm.extraButtons}" />
 </kul:documentPage>

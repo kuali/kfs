@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,11 +27,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Copyable;
@@ -46,7 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * document, only accepting funds into the university, the accounting line data will be held in the source accounting line data
  * structure only.
  */
-public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
+public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling, Correctable {
     public static final String CREDIT_CARD_RECEIPT_DOCUMENT_TYPE_CODE = "CCR";
 
     // holds details about each credit card receipt
@@ -59,13 +61,13 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     protected KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
     protected String creditCardReceiptBankCode;
     protected Bank bank;
-    
+
     /**
      * Default constructor that calls super.
      */
     public CreditCardReceiptDocument() {
         super();
-        
+
         bank = new Bank();
     }
 
@@ -80,7 +82,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
             this.bank = defaultBank;
         }
     }
-    
+
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
         return false;
@@ -88,7 +90,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Gets the total credit card amount.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTotalCreditCardAmount() {
@@ -97,7 +99,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * This method returns the credit card total amount as a currency formatted string.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTotalCreditCardAmount() {
@@ -106,7 +108,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Sets the total credit card amount which is the sum of all credit card receipts on this document.
-     * 
+     *
      * @param creditCardAmount
      */
     public void setTotalCreditCardAmount(KualiDecimal creditCardAmount) {
@@ -115,7 +117,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Gets the list of credit card receipts which is a list of CreditCardDetail business objects.
-     * 
+     *
      * @return List
      */
     public List<CreditCardDetail> getCreditCardReceipts() {
@@ -124,7 +126,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Sets the credit card receipts list.
-     * 
+     *
      * @param creditCardReceipts
      */
     public void setCreditCardReceipts(List<CreditCardDetail> creditCardReceipts) {
@@ -133,7 +135,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Adds a new credit card receipt to the list.
-     * 
+     *
      * @param creditCardReceiptDetail
      */
     public void addCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
@@ -153,7 +155,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     /**
      * This is a helper method that automatically populates document specfic information into the credit card receipt
      * (CreditCardDetail) instance.
-     * 
+     *
      * @param creditCardReceiptDetail
      */
     public final void prepareNewCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
@@ -164,7 +166,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Retrieve a particular credit card receipt at a given index in the list of credit card receipts.
-     * 
+     *
      * @param index
      * @return CreditCardReceiptDetail
      */
@@ -177,7 +179,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * This method removes a credit card receipt from the list and updates the total appropriately.
-     * 
+     *
      * @param index
      */
     public void removeCreditCardReceipt(int index) {
@@ -201,7 +203,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * This method returns the overall total of the document - the credit card total.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
@@ -212,7 +214,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * This method returns the sum of all of the credit card receipts for this document.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal calculateCreditCardReceiptTotal() {
@@ -228,7 +230,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     /**
      * Overrides super to call super and then also add in the new list of credit card receipts that have to be managed.
-     * 
+     *
      * @see org.kuali.rice.krad.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
@@ -238,26 +240,26 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
         return managedLists;
     }
-    
+
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
-     * 
+     *
      * @param financialDocument submitted accounting document
      * @param sequenceHelper helper class for keep track of sequence for GLPEs
      * @return true if generation of GLPE's is successful for credit card receipt document
-     * 
+     *
      * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        
+
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        
+
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            
+
             Bank offsetBank = getOffsetBank();
             if (ObjectUtils.isNull(offsetBank)) {
                 success = false;
@@ -265,8 +267,8 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
             }
             else {
                 success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBank, bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
-               
-                // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it 
+
+                // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it
                 if (success) {
                     AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
                     bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
@@ -280,10 +282,10 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
                 }
             }
         }
-        
+
         return success;
     }
-    
+
     /**
      * Assigns default bank code
      */
@@ -295,16 +297,16 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
             this.bank = defaultBank;
         }
     }
-    
+
     /**
      * Returns the default bank code for Credit Card Receipt documents.
      */
     protected Bank getOffsetBank() {
         return SpringContext.getBean(BankService.class).getByPrimaryId(creditCardReceiptBankCode);
     }
-    
+
     /**
-     * Gets the creditCardReceiptBankCode attribute. 
+     * Gets the creditCardReceiptBankCode attribute.
      * @return Returns the creditCardReceiptBankCode.
      */
     public String getCreditCardReceiptBankCode() {
@@ -322,7 +324,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
 
     /**
-     * Gets the bank attribute. 
+     * Gets the bank attribute.
      * @return Returns the bank.
      */
     public Bank getBank() {
@@ -345,12 +347,38 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
             this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
-        }        
+        }
     }
-    
+
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this); 
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException {
+        super.toErrorCorrection();
+        correctCreditCardReceipts();
+        //correctAccountingLines();
+        //TODO ??? do we need correctCapitalAccountingLines
+        correctCapitalAccountingLines();
+    }
+
+    /**
+     * Upon error correction, negates amount in each credit card receipt, and updates the documentNumber to point to the new document.
+     */
+    protected void correctCreditCardReceipts() {
+        for (CreditCardDetail receipt: creditCardReceipts) {
+            receipt.setVersionNumber(new Long(1));
+            receipt.setDocumentNumber(documentNumber);
+            receipt.setCreditCardAdvanceDepositAmount(receipt.getCreditCardAdvanceDepositAmount().negated());
+        }
+        //TODO ??? we don't need to negate totalCreditCardAmount since that is recalculated in CreditCardReceiptAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+        //setTotalCreditCardAmount(totalCreditCardAmount.negated());
+    }
+
 }

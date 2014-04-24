@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,19 +15,23 @@
  */
 package org.kuali.kfs.fp.document;
 
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
+
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -50,7 +54,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Documents in the CashReceiptFamily do not perform Sufficient Funds checking
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
      */
     @Override
@@ -60,7 +64,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Gets the campusLocationCode attribute.
-     * 
+     *
      * @return Returns the campusLocationCode.
      */
     public String getCampusLocationCode() {
@@ -69,7 +73,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Sets the campusLocationCode attribute value.
-     * 
+     *
      * @param campusLocationCode The campusLocationCode to set.
      */
     public void setCampusLocationCode(String campusLocationCode) {
@@ -78,7 +82,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Gets the depositDate attribute.
-     * 
+     *
      * @return Returns the depositDate.
      */
     public Date getDepositDate() {
@@ -87,7 +91,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Sets the depositDate attribute value.
-     * 
+     *
      * @param depositDate The depositDate to set.
      */
     public void setDepositDate(Date depositDate) {
@@ -99,7 +103,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
      * Total for a Cash Receipt according to the spec should be the sum of the amounts on accounting lines belonging to object codes
      * having the 'income' object type, less the sum of the amounts on accounting lines belonging to object codes having the
      * 'expense' object type.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceTotal()
      */
     @Override
@@ -134,7 +138,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Cash Receipts only have source lines, so this should always return 0.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetTotal()
      */
     @Override
@@ -144,7 +148,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Overrides the base implementation to return an empty string.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
@@ -154,7 +158,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Overrides the base implementation to return an empty string.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
@@ -164,7 +168,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     /**
      * Returns true if accounting line is debit
-     * 
+     *
      * @param financialDocument
      * @param accountingLine
      * @param true if accountline line
@@ -172,16 +176,18 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
      * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
      *      org.kuali.rice.krad.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         // error corrections are not allowed
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
-        return isDebitUtils.isDebitConsideringType(this, (AccountingLine) postable);
+        //TODO ??? we now allow error correction on AD and CCR, so can't do this checking here; do it in subclasses if needed.
+        //isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
+        return isDebitUtils.isDebitConsideringType(this, postable);
     }
 
     /**
      * Overrides to set the entry's description to the description from the accounting line, if a value exists.
-     * 
+     *
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line in accounting document
      * @param explicitEntry general ledger pending entry
@@ -199,6 +205,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
+    @Override
     public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
     }
@@ -206,6 +213,7 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
+    @Override
     public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
@@ -213,4 +221,41 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
+
+    /**
+     * Note: This method is only shared by subclasses which implement Correctable.
+     * Upon error correction, flips debit/credit code in all source accounting lines.
+     */
+    protected void correctAccountingLines() {
+        //TODO ??? it appears that in AD/CCR, accounting lines don't have D/C code set. So we shouldn't flip here.
+        List<SourceAccountingLine> srclines = getSourceAccountingLines();
+        int index = 0;
+        for (SourceAccountingLine srcline: srclines) {
+            String debitCreditCode = srcline.getDebitCreditCode();
+            if (GL_DEBIT_CODE.equals(debitCreditCode)) {
+                srcline.setDebitCreditCode(GL_CREDIT_CODE);
+            }
+            else if (GL_CREDIT_CODE.equals(debitCreditCode)) {
+                srcline.setDebitCreditCode(GL_DEBIT_CODE);
+            }
+            else {
+                throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " + "code associated with it.  This should never have occured. Please contact your system administrator.");
+
+            }
+            index++;
+        }
+    }
+
+    /**
+     * Note: This method is only shared by subclasses which implement Correctable.
+     * Upon error correction, negates amount in each capital asset accounting line,
+     * and updates the documentNumber to point to the new document.
+     */
+    protected void correctCapitalAccountingLines() {
+        for (CapitalAccountingLines capacctline: capitalAccountingLines) {
+            capacctline.setDocumentNumber(documentNumber);
+            capacctline.setAmount(capacctline.getAmount().negated());
+        }
+    }
+
 }

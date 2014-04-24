@@ -8722,6 +8722,9 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="FS_DOC_HDRS_MSNG_IN_KEW_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+    </table>
     <table name="FS_DOC_HEADER_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="FDOC_STATUS_CD" size="2" type="VARCHAR"/>

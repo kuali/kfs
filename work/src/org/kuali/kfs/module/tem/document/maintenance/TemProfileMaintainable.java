@@ -404,7 +404,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
 
-    public TemRoleService getTEMRoleService(){
+    public TemRoleService getTemRoleService(){
         return SpringContext.getBean(TemRoleService.class);
     }
 

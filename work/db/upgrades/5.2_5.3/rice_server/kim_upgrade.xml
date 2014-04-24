@@ -8,7 +8,7 @@
             <column name="PERM_ID" value="KFS10828" />
             <column name="OBJ_ID" value="KFS-PERM-121" />
             <column name="VER_NBR" value="1" />
-            <column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd='KR-NS' and nm='Perform Custom Maintenance Document Function') " />
+            <column name="PERM_TMPL_ID" value="30" />
             <column name="NMSPC_CD" value="KFS-CAM" />
             <column name="NM" value="Perform Custom Maintenance Document Function lastInventoryDateUpdateButton" />
             <column name="DESC_TXT" value="Users who can view and click the lastInventoryDateUpdateButton." />
@@ -20,8 +20,8 @@
             <column name="OBJ_ID" value="KFS-PERM-ATTR-DATA-220" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="PERM_ID" value="KFS10828" />
-            <column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where srvc_nm='buttonPermissionTypeService') " />
-            <column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm='buttonName') " />
+            <column name="KIM_TYP_ID" value="13" />
+            <column name="KIM_ATTR_DEFN_ID" value="3" />
             <column name="ATTR_VAL" value="lastInventoryDateUpdateButton" />
         </insert>
 
@@ -29,7 +29,7 @@
             <column name="ROLE_PERM_ID" value="KFS10830" />
             <column name="OBJ_ID" value="KFS-ROLE-PERM-360" />
             <column name="VER_NBR" value="1" />
-            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Asset Manager') " />
+            <column name="ROLE_ID" value="34" />
             <column name="PERM_ID" value="KFS10828" />
             <column name="ACTV_IND" value="Y" />
         </insert>
@@ -38,7 +38,7 @@
             <column name="ROLE_PERM_ID" value="KFS10831" />
             <column name="OBJ_ID" value="KFS-ROLE-PERM-361" />
             <column name="VER_NBR" value="1" />
-            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Asset Processor') " />
+            <column name="ROLE_ID" value="35" />
             <column name="PERM_ID" value="KFS10828" />
             <column name="ACTV_IND" value="Y" />
         </insert>
@@ -47,7 +47,7 @@
             <column name="ROLE_PERM_ID" value="KFS10832" />
             <column name="OBJ_ID" value="KFS-ROLE-PERM-362" />
             <column name="VER_NBR" value="1" />
-            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-SYS' and role_nm='Plant Fund Accountant') " />
+            <column name="ROLE_ID" value="46" />
             <column name="PERM_ID" value="KFS10828" />
             <column name="ACTV_IND" value="Y" />
         </insert>
@@ -56,7 +56,7 @@
             <column name="ROLE_PERM_ID" value="KFS10833" />
             <column name="OBJ_ID" value="KFS-ROLE-PERM-363" />
             <column name="VER_NBR" value="1" />
-            <column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd='KFS-CAM' and role_nm='Manager') " />
+            <column name="ROLE_ID" value="5" />
             <column name="PERM_ID" value="KFS10828" />
             <column name="ACTV_IND" value="Y" />
         </insert>

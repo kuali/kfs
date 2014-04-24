@@ -18,7 +18,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
-	<changeSet author="KFS50" id="KFSCNTRB-1771_JV_BB_TYPES">
+	<changeSet author="KFS521" id="KFSCNTRB-1771_JV_BB_TYPES">
         <comment>Adds parameter for KFSCNTRB-1771 for BB types</comment>
         <insert tableName="KRCR_PARM_T">
             <column name="NMSPC_CD" value="KFS-FP" />

@@ -40,7 +40,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -57,7 +56,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBatchInputFileSetAction.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableInvoiceTemplateUploadAction.class);
     private static CurrentUserChartValueFinder currentUserChartValueFinder;
     private static CurrentUserOrgValueFinder currentUserOrgValueFinder;
     private ModuleConfiguration systemConfiguration;

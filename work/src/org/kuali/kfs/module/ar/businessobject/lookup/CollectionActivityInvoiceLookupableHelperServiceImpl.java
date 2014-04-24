@@ -65,7 +65,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferralToCollectionsReportLookupableHelperServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
 
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
@@ -228,7 +228,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
                     }
                     lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                     HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-                    CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow((List<Column>) columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+                    CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
                         row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                         row.setRowId(returnUrl.getName());
                         row.setReturnUrlHtmlData(returnUrl);
@@ -289,6 +289,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

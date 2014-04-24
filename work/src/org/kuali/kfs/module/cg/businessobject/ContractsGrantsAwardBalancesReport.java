@@ -28,6 +28,8 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
  */
 public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectBase {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAwardBalancesReport.class);
+
     private String awardPrimaryProjectDirectorName;
     private String awardPrimaryFundManagerName;
 
@@ -37,7 +39,6 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     private KualiDecimal awardTotalAmountForReport;
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Award.class);
     private Long proposalNumber;
     private Date awardBeginningDate;
     private Date awardEndingDate;

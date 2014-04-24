@@ -42,7 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArKeyConstants.InvoiceItemCode.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceItemCodeRule.class);
 
     protected CustomerInvoiceItemCode newInvoiceItemCode;
 

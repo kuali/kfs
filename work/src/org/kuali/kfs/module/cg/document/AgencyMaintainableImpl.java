@@ -49,7 +49,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardMaintainableImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyMaintainableImpl.class);
 
     private static final String CREATED_BY_AGENCY_DOC = "message.ar.createdByAgencyDocument";
 

@@ -17,14 +17,13 @@ package org.kuali.kfs.module.ar.dataaccess.impl;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerDao {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerDaoOjb.class);
 
     @Override
     public Customer getByTaxNumber(String taxNumber) {

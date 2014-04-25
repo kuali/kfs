@@ -1,0 +1,5 @@
+purpose_code|purpose_name|purpose_description|review_required_ind|row_actv_ind|ver_nbr|obj_id|
+PD|Prospective Donor Events|Prospective Donor Events|Y|Y|1.0|BD96AA2416595898E040540A5EFD3A74|
+RC|Recruitment|Recruitment|Y|Y|1.0|BD96AA24165A5898E040540A5EFD3A74|
+RR|Reception or Retirement|Reception or retirement|Y|Y|1.0|BD96AA2416585898E040540A5EFD3A74|
+SA|Student or Administrative Meetings|Student or Administrative Meetings|Y|Y|1.0|BD96AA2416575898E040540A5EFD3A74|

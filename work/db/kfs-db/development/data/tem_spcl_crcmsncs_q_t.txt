@@ -1,0 +1,8 @@
+id|document_type|text|txt_ind|actv_ind|ver_nbr|obj_id|
+1.0|TA|Question for TA - is anyone traveling with you?|Y|Y|1.0|KFS-TEM-SPCM-001|
+2.0|TR|Question for TR documents - did you stay overnight with family or friends?:|Y|Y|1.0|KFS-TEM-SPCM-002|
+3.0|ENT|Question for Entertainment documents - was alcohol served?:|Y|Y|1.0|KFS-TEM-SPCM-003|
+4.0|RELO|Question for Relocation documents - do you have pets moving with you?:|Y|Y|1.0|KFS-TEM-SPCM-004|
+5.0|TA|Question for TA documents - not free form: Carrying Fruit?|N|Y|1.0|KFS-TEM-SPCM-005|
+6.0|TA|Inactive Question for search testing|N|N|1.0|KFS-TEM-SPCM-006|
+7.0|TA|Do you have large pets traveling with you?:|Y|Y|1.0|KFS-TEM-SPCM-007|

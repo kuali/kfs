@@ -201,7 +201,7 @@
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-logging-1.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/howl-1.0.1-1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/jta-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool-1.5.0-patch3.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool-1.5.0-patch4.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/cobertura.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jakarta-oro-2.0.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-6.1.1.jar" /><!-- KFS lib -->
@@ -364,6 +364,16 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="test/lib/connector-api-1.5.jar"><!-- Runtime Only lib -->
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="/Users/kkronenb/dev/drivers/mysql-connector-java-5.1.25-bin.jar"><!-- Runtime Only lib -->
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="/Users/kkronenb/dev/drivers/ojdbc6.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

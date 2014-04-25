@@ -237,6 +237,8 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_BOOKVALUE_AMOUNT = "error.asset.bookValue.amount.not.valid";
         
         // for use with Asset Edit
+        public static final String LAST_INVENTORY_DATE_UPDATE_NOTE_TEXT= "note.last.inventory.date.updated";
+        
         public static final String ERROR_OWNER_INVALID = "error.owner.invalid";
         public static final String ERROR_ACQUISITION_TYPE_CODE_INVALID = "error.acquisition.type.code.invalid";
         public static final String ERROR_ASSET_STATUS_INVALID = "error.asset.status.invalid";

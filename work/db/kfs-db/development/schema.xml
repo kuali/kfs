@@ -7855,6 +7855,9 @@
         <column name="DV_PDP_BNK_CD" size="4" type="VARCHAR"/>
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="FP_DV_DOC_TR2">
+            <reference foreign="PMT_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
+        </foreign-key>
         <unique name="FP_DV_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16547,6 +16550,15 @@
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
+            <reference foreign="ID" local="TRAVELER_DTL_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR2">
+            <reference foreign="CODE" local="TRIP_TYP_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR3">
+            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        </foreign-key>
         <unique name="TEM_TRVL_AUTH_AMEND_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16576,6 +16588,15 @@
         <column name="TR_FDOC_NBR" size="14" type="VARCHAR"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <column default="N" name="PRGNTR_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR1">
+            <reference foreign="ID" local="TRAVELER_DTL_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR2">
+            <reference foreign="CODE" local="TRIP_TYP_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR3">
+            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        </foreign-key>
         <unique name="TEM_TRVL_AUTH_CLOSE_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

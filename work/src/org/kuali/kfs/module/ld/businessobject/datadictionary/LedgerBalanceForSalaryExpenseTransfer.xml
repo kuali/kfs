@@ -461,10 +461,18 @@
 		<property name="lookupableID"
 			value="laborLedgerBalanceForSalaryExpenseTransferLookupable" />
 
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
-		</property>
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>accountNumber</value>
+                        <value>subAccountNumber</value>
+                        <value>financialObjectCode</value>
+                        <value>financialSubObjectCode</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:required="true"

@@ -426,10 +426,17 @@
 		<property name="title"
 			value="Ledger Balance Lookup for Benefit Expense Transfer Document" />
 		<property name="lookupableID"
-			value="laborLedgerBalanceForBenefitExpenseTransferLookupable" />
-
+				value="laborLedgerBalanceForBenefitExpenseTransferLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>accountNumber</value>
+						<value>subAccountNumber</value>
+						<value>financialObjectCode</value>
+						<value>financialSubObjectCode</value>
+					</list>
+				</property>
 			</bean>
 		</property>
 		<property name="lookupFields">

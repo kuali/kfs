@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,12 +26,14 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Copyable;
@@ -44,9 +46,9 @@ import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
  * transactional document, only accepting funds into the university, the accounting line data will be held in the source accounting
  * line data structure only.
  */
-public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
+public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling, Correctable {
     public static final String ADVANCE_DEPOSIT_DOCUMENT_TYPE_CODE = "AD";
-    
+
     // holds details about each advance deposit
     protected List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
@@ -65,7 +67,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Gets the total advance deposit amount.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTotalAdvanceDepositAmount() {
@@ -74,7 +76,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * This method returns the advance deposit total amount as a currency formatted string.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTotalAdvanceDepositAmount() {
@@ -83,7 +85,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Sets the total advance deposit amount which is the sum of all advance deposits on this document.
-     * 
+     *
      * @param advanceDepositAmount
      */
     public void setTotalAdvanceDepositAmount(KualiDecimal advanceDepositAmount) {
@@ -92,7 +94,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Gets the list of advance deposits which is a list of AdvanceDepositDetail business objects.
-     * 
+     *
      * @return List
      */
     public List<AdvanceDepositDetail> getAdvanceDeposits() {
@@ -101,7 +103,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Sets the advance deposits list.
-     * 
+     *
      * @param advanceDeposits
      */
     public void setAdvanceDeposits(List<AdvanceDepositDetail> advanceDeposits) {
@@ -110,7 +112,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Adds a new advance deposit to the list.
-     * 
+     *
      * @param advanceDepositDetail
      */
     public void addAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
@@ -130,7 +132,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     /**
      * This is a helper method that automatically populates document specfic information into the advance deposit
      * (AdvanceDepositDetail) instance.
-     * 
+     *
      * @param advanceDepositDetail
      */
     public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
@@ -141,7 +143,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Retrieve a particular advance deposit at a given index in the list of advance deposits.
-     * 
+     *
      * @param index
      * @return AdvanceDepositDetail
      */
@@ -154,7 +156,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * This method removes an advance deposit from the list and updates the total appropriately.
-     * 
+     *
      * @param index
      */
     public void removeAdvanceDeposit(int index) {
@@ -178,7 +180,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * This method returns the overall total of the document - the advance deposit total.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
@@ -190,7 +192,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     /**
      * This method defers to its parent's version of handleRouteStatusChange, but then, if the document is processed, it creates
      * ElectronicPaymentClaim records for any qualifying accountings lines in the document.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
@@ -199,13 +201,13 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(ElectronicPaymentClaimingService.class).generateElectronicPaymentClaimRecords(this);
         }
-        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this); 
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
     }
 
 
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
-     * 
+     *
      * @see org.kuali.rice.krad.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
@@ -218,7 +220,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
 
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
-     * 
+     *
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
      * @return true if there are no issues creating GLPE's
@@ -262,6 +264,32 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
             this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
-        }        
+        }
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toErrorCorrection()
+     */
+    @Override
+    public void toErrorCorrection() throws WorkflowException {
+        super.toErrorCorrection();
+        correctAdvanceDepositDetails();
+        //correctAccountingLines();
+        //TODO ??? do we need correctCapitalAccountingLines
+        correctCapitalAccountingLines();
+    }
+
+    /**
+     * Upon error correction, negates amount in each advance deposit detail, and updates the documentNumber to point to the new document.
+     */
+    protected void correctAdvanceDepositDetails() {
+        for (AdvanceDepositDetail deposit: advanceDeposits) {
+            deposit.setVersionNumber(new Long(1));
+            deposit.setDocumentNumber(documentNumber);
+            deposit.setFinancialDocumentAdvanceDepositAmount(deposit.getFinancialDocumentAdvanceDepositAmount().negated());
+        }
+        //TODO ??? we don't need to negate totalAdvanceDepositAmount since that is recalculated in AdvanceDepositAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+        //setTotalAdvanceDepositAmount(totalAdvanceDepositAmount.negated());
+    }
+
 }

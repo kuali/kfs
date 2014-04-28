@@ -38,6 +38,8 @@
         <ref bean="PayeeACHAccount-achTransactionType"/>
         <ref bean="PayeeACHAccount-bankRoutingNumber"/>
         <ref bean="PayeeACHAccount-active"/>
+        <ref bean="PayeeACHAccount-autoInactivationIndicator"/>
+        <ref bean="PayeeACHAccount-lastUpdate"/>
         <ref bean="PayeeACHAccount-bankRouting.bankName"/>
       </list>
     </property>
@@ -182,6 +184,23 @@
     <property name="required" value="true"/>
   </bean>
   
+  <bean id="PayeeACHAccount-autoInactivationIndicator" parent="PayeeACHAccount-autoInactivationIndicator-parentBean"/>
+
+  <bean id="PayeeACHAccount-autoInactivationIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="autoInactivationIndicator"/>
+    <property name="label" value="Auto-Inactivation Indicator"/>
+    <property name="shortLabel" value="Auto-Inactivation"/>
+  </bean>
+  
+  <bean id="PayeeACHAccount-lastUpdate" parent="PayeeACHAccount-lastUpdate-parentBean"/>
+
+  <bean id="PayeeACHAccount-lastUpdate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+	<property name="name" value="lastUpdate"/>
+	<property name="label" value="Last Update Time"/>
+	<property name="shortLabel" value="Last Update"/>
+	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
+  </bean> 
+ 
   <bean id="PayeeACHAccount-bankRouting.bankName" parent="PayeeACHAccount-bankRouting.bankName-parentBean"/>
 
   <bean id="PayeeACHAccount-bankRouting.bankName-parentBean" abstract="true" parent="ACHBank-bankName">
@@ -218,6 +237,8 @@
         <bean parent="FieldDefinition" p:attributeName="payeeEmailAddress"/>
         <bean parent="FieldDefinition" p:attributeName="achTransactionType"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="autoInactivationIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="lastUpdate"/>
         <bean parent="FieldDefinition" p:attributeName="bankAccountTypeCode"/>
       </list>
     </property>

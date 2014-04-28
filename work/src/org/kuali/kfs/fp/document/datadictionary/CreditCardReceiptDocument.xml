@@ -28,7 +28,7 @@
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
-	<property name="allowsErrorCorrection" value="false"/>
+	<property name="allowsErrorCorrection" value="true"/>
 
     <property name="attributes">
       <list>

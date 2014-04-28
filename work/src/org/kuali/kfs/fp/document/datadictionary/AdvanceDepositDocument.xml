@@ -29,7 +29,7 @@
     <property name="sessionDocument" value="true"/>
     
     <property name="allowsCopy" value="true"/>
-    <property name="allowsErrorCorrection" value="false"/>
+    <property name="allowsErrorCorrection" value="true"/>
     
     <property name="validationMap" ref="AdvanceDepositDocument-validations"/>
      <property name="accountingLineGroups">

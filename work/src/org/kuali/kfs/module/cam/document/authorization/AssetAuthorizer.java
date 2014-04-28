@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.Map;
 
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -59,7 +60,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     protected void addPermissionDetails(Object dataObject, Map<String, String> permissionDetails) {
         super.addPermissionDetails(dataObject, permissionDetails);
         if (dataObject instanceof Asset) {
-            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, "lastInventoryDateUpdateButton");
+            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON);
         }
     }
 

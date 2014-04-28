@@ -115,16 +115,6 @@ public interface TemRoleService {
     public boolean isTravelManager(final Person user);
 
     /**
-     * Check TEM specific user role w/o qualification
-     *
-     * @param user
-     * @param role
-     * @param parameterNamespace
-     * @return
-     */
-    public boolean checkUserTEMRole(final Person user, String role);
-
-    /**
      *
      * @param user
      * @param role

@@ -84,6 +84,9 @@ public class AssetDateServiceImpl implements AssetDateService {
     public void checkAndUpdateLastInventoryDate(Asset oldAsset, Asset newAsset) {
         AssetLocation oldOffCampusLocation = oldAsset.getOffCampusLocation();
         AssetLocation newOffCampusLocation = newAsset.getOffCampusLocation();
+        if(ObjectUtils.isNull(oldOffCampusLocation) || ObjectUtils.isNull(newOffCampusLocation)){
+            return;
+        }
         if (!StringUtils.equalsIgnoreCase(oldAsset.getCampusCode(), newAsset.getCampusCode()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingCode(), newAsset.getBuildingCode()) || 
                 !StringUtils.equalsIgnoreCase(oldAsset.getBuildingRoomNumber(), newAsset.getBuildingRoomNumber()) || !StringUtils.equalsIgnoreCase(oldAsset.getBuildingSubRoomNumber(), newAsset.getBuildingSubRoomNumber()) || 
                 !StringUtils.equalsIgnoreCase(oldAsset.getCampusTagNumber(), newAsset.getCampusTagNumber()) || !StringUtils.equalsIgnoreCase(oldOffCampusLocation.getAssetLocationContactName(), newOffCampusLocation.getAssetLocationContactName()) || 

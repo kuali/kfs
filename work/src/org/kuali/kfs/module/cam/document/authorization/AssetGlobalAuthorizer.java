@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
@@ -48,7 +49,6 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         }                
     }
     
-    // CSU 6702 BEGIN
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
      */
@@ -69,7 +69,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         
         return documentActionsToReturn;
     }
-    // CSU 6702 END    
+
 
     /**
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addPermissionDetails(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
@@ -78,8 +78,8 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
     protected void addPermissionDetails(Object dataObject, Map<String, String> permissionDetails) {
         super.addPermissionDetails(dataObject, permissionDetails);
         if (dataObject instanceof AssetGlobal) {
-            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, "calculateEqualSourceAmountsButton");
-            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, "calculateSeparateSourceRemainingAmountButton");
+            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, CamsConstants.AssetSeparate.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON);
+            permissionDetails.put(KimConstants.AttributeConstants.BUTTON_NAME, CamsConstants.AssetSeparate.CALCULATE_SEPARATE_SOURCE_REMAINING_AMOUNT_BUTTON);
         }
     }
 

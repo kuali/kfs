@@ -16,15 +16,18 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
@@ -39,6 +42,8 @@ import org.kuali.kfs.module.cam.util.MaintainableWorkflowUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -66,6 +71,9 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     private Asset copyAsset;
     private boolean fabricationOn;
 
+    private static volatile DocumentService documentService;
+    
+    
     private static final Map<String, String> FINANCIAL_DOC_NAME_MAP = new HashMap<String, String>();
     static {
         FINANCIAL_DOC_NAME_MAP.put(KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT, KFSConstants.FinancialDocumentTypeNames.CASH_RECEIPT);
@@ -211,15 +219,18 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         String[] customAction = parameters.get(KRADConstants.CUSTOM_ACTION);
-        if (customAction != null && CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON.equals(customAction[0])) {
+        if (customAction != null && customAction.length > 0 && StringUtils.equals(CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_BUTTON,customAction[0])) {
             WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
             if(workflowDoc != null && workflowDoc.isInitiated()) {
                 asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));            
-                String userPrincipalName= GlobalVariables.getUserSession().getPrincipalName();               
-                String noteText = "User " + userPrincipalName + " changed Asset " + asset.getCapitalAssetNumber().toString() + ": "  + CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_BASIC_TEXT;
-                Note LastInventoryDateUpdatedNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+                String userPrincipalName= GlobalVariables.getUserSession().getPrincipalName();
+                final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CamsKeyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_TEXT);
+                Object[] arguments = { userPrincipalName, asset.getCapitalAssetNumber().toString() };
+                String noteText = MessageFormat.format(noteTextPattern, arguments);
+                //String noteText = "User " + userPrincipalName + " changed Asset " + asset.getCapitalAssetNumber().toString() + ": "  + CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_BASIC_TEXT;
+                Note LastInventoryDateUpdatedNote = getDocumentService().createNoteFromDocument(document, noteText);
                 document.addNote(LastInventoryDateUpdatedNote);
-                SpringContext.getBean(DocumentService.class).saveDocumentNotes(document);
+                getDocumentService().saveDocumentNotes(document);
             }
         }
         super.processAfterPost(document, parameters);
@@ -284,7 +295,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         while (fpDocumentNumbers.hasNext()) {
             String aDocumentNumber = fpDocumentNumbers.next();
             try {
-                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+                String docTypeName = getDocumentService().getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 documentInfo.add(FINANCIAL_DOC_NAME_MAP.get(docTypeName) + "-" + aDocumentNumber);
             }
             catch (WorkflowException e) {
@@ -308,5 +319,15 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
 
     private AssetLocationService getAssetLocationService() {
         return SpringContext.getBean(AssetLocationService.class);
+    }
+
+    /**
+     * @return the default implementation of the DocumentService
+     */
+    protected static DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        return documentService;
     }
 }

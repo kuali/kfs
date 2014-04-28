@@ -666,17 +666,18 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         // if this doc is final or will be final
         if (CollectionUtils.isEmpty(nodeNames) || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
-            documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
+            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
         }
         else {
             PurApAccountingLine theAccount = getFirstAccount();
             String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
             String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
-            String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
+            String payDate = getDateTimeService().toDateString(getPaymentRequestPayDate());
             String indicator = getTitleIndicator();
-
             // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
-            documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+            documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).
+                    append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).
+                    append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
         }
         return documentTitle;
     }

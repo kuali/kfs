@@ -671,13 +671,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         else {
             PurApAccountingLine theAccount = getFirstAccount();
             String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
+            String subAccountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getSubAccountNumber()) : "");
             String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
             String payDate = getDateTimeService().toDateString(getPaymentRequestPayDate());
             String indicator = getTitleIndicator();
             // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
             documentTitle = (new StringBuilder("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).
-                    append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).
-                    append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+                    append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" ").append(subAccountNumber)
+                    .append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
         }
         return documentTitle;
     }

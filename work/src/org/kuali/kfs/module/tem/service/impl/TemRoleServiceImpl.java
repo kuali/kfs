@@ -222,14 +222,6 @@ public class TemRoleServiceImpl implements TemRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TemRoleService#checkUserTemRole(org.kuali.rice.kim.bo.Person, java.lang.String)
-     */
-    @Override
-    public boolean checkUserTEMRole(final Person user, String role){
-        return checkUserRole(user, role, TemConstants.PARAM_NAMESPACE, null);
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.service.TemRoleService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
      */
     @Override

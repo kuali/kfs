@@ -33,7 +33,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer;
 import org.kuali.kfs.module.tem.service.TemProfileService;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -401,19 +400,6 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
 
         return SpringContext.getBean(AccountsReceivableModuleService.class);
-    }
-
-
-    public TemRoleService getTemRoleService(){
-        return SpringContext.getBean(TemRoleService.class);
-    }
-
-    public TravelerService getTravelerService(){
-        return SpringContext.getBean(TravelerService.class);
-    }
-
-    public DocumentService getDocumentService(){
-        return SpringContext.getBean(DocumentService.class);
     }
 
     public NoteService getNoteService(){

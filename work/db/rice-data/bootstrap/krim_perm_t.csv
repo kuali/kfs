@@ -415,4 +415,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10821","KFS-TEM-PERM-120","1","29","KFS-AR","Use Screen KFS-AR CustomerOpenItemReportAction","The ability to view the Customer Open Item Report.","Y"
 "KFS10828","KFS-PERM-121","1","30","KFS-CAM","Perform Custom Maintenance Document Function lastInventoryDateUpdateButton","Users who can view and click the lastInventoryDateUpdateButton.","Y"
 "KFS10834","KFS-PERM-122","1","31","KFS-FP","Use Transactional Document DV extractNow","Allows users to use the extractNow button on an approved but not yet extracted DV document. Note: If the permission is set to inactive, then no one can use the extractNow button.","Y"
-"KFS10838","KFS-PERM-121","1","31","KFS-PURAP","Edit Capital Asset Info","Users who can edit capital asset information","Y"
+"KFS10838","KFS-PERM-123","1","31","KFS-PURAP","Edit Capital Asset Info","Users who can edit capital asset information","Y"

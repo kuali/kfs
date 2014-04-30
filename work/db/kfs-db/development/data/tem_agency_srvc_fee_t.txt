@@ -1,0 +1,2 @@
+dist_cd|dist_desc|chart_cd|acct_nbr|fin_object_cd|srvc_fee|actv_ind|ver_nbr|obj_id|
+VC|VC Service Fee|UA|9323001|5055|25.0|Y|1.0|KFS_TEM_AGENCY_SRVC_FEE_001|

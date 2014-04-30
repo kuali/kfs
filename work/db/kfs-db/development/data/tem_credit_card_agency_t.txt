@@ -1,0 +1,8 @@
+credit_card_agency_code|travel_card_type_cd|payment_ind|credit_card_agency_name|address1|address2|city|state|zipcode|email|phone|contact_name|pre_reconciled|enable_non_reimbursable|foreign_company|actv_ind|ver_nbr|obj_id|bnk_cd|vndr_hdr_gnrtd_id|vndr_dtl_asnd_id|
+CNXS|CTS|N|UCD Connexus Ghost Card|Address 1|Address 2|Davis|CA|92869|kaosborne@ucdavis.edu|800-555-1212|Karen Osborne|N|N|N|Y|1.0|C8E881D4F0C618B4E040540A891E02B5||||
+CTSC|CTS|N|UCI APL-E Card|Address 1|Address 2|Irvine|CA|12345|email@email.edu|800-123-1234|Test User|N|N|N|Y|1.0|CBE6DB1675731D4BE040540A891E6536||||
+GHST|CTS|N|IU Ghost Card-USB|Address 1|Address 2|Indiannapolis|IN|46113|dcrabree@indiana.edu|800-555-1212|Dave Crabtree|N|N|N|Y|1.0|C8E881D4F0C418B4E040540A891E02B5||||
+HOTL|CTS|N|hotel.com|Address 1|Address 2|Indiannapolis|IN|46113|dcrabree@indiana.edu|800-555-1212|Dave Crabtree|N|N|N|Y|1.0|C8E881D4F0C218B4E040540A891E02B5||||
+MPOL|CTS|N|Motor Pool|Address 1|Address 2|Indiannapolis|IN|46113|dcrabree@indiana.edu|800-555-1212|Dave Crabtree|Y|N|N|Y|1.0|C8E881D4F0C318B4E040540A891E02B5||||
+ORBT|CTS|N|orbitz.com|Address 1|Address 2|Indiannapolis|IN|46113|dcrabree@indiana.edu|800-555-1212|Dave Crabtree|N|N|N|Y|1.0|C8E881D4F0C118B4E040540A891E02B5||||
+USBC|CORP|Y|UCD Corp Card|Address 1|Address 2|Davis|CA|92869|kaosborne@ucdavis.edu|800-555-1212|Karen Osborne|N|Y|N|Y|1.0|C8E881D4F0C518B4E040540A891E02B5|TEST|1001.0|0.0|

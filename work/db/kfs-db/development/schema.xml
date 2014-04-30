@@ -16173,6 +16173,7 @@
     <sequence name="SEC_SCRTY_PRNCPL_DEFN_ID_SEQ" nextval="1"/>
     <sequence name="SHPMNT_RCVNG_ID" nextval="1002"/>
     <sequence name="TEM_ACCT_DOC_REL_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_AGENCY_STAGING_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_ATTENDEE_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" nextval="1001"/>
     <sequence name="TEM_CREDIT_CARD_STAGING_ID_SEQ" nextval="1001"/>

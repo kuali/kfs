@@ -16181,36 +16181,27 @@
     <sequence name="SEC_SCRTY_MDL_ID_SEQ" nextval="1"/>
     <sequence name="SEC_SCRTY_PRNCPL_DEFN_ID_SEQ" nextval="1"/>
     <sequence name="SHPMNT_RCVNG_ID" nextval="1002"/>
-    <sequence name="TEM_ACCT_DOC_REL_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_ACCT_LINES_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_AGENCY_STAGING_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_ATTENDEE_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" nextval="1"/>
-    <sequence name="TEM_CREDIT_CARD_AGENCY_ID_SEQ" nextval="8"/>
-    <sequence name="TEM_CREDIT_CARD_STAGING_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_EM_CONT_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_ENTERTAINMENT_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_EXP_OBJ_CD_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ" nextval="100"/>
-    <sequence name="TEM_GRP_TRVLR_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_HIST_EXP_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_MILEAGE_RT_ID_SEQ" nextval="13"/>
-    <sequence name="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ" nextval="1024"/>
-    <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1000"/>
-    <sequence name="TEM_PRI_DEST_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="3"/>
-    <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="3"/>
-    <sequence name="TEM_PROFILE_ID_SEQ" nextval="12"/>
-    <sequence name="TEM_RELO_DOC_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_SPCL_CRCMSNCS_Q_ID_SEQ" nextval="8"/>
-    <sequence name="TEM_SPCL_CRCMSNCS_S" nextval="1"/>
-    <sequence name="TEM_TRAVELER_DTL_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_TRAVELER_PROF_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_TRIP_DTL_EST_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_TRP_ACCT_INFO_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_TRVL_EXP_ID_SEQ" nextval="1"/>
+    <sequence name="TEM_ACCT_DOC_REL_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_AGENCY_STAGING_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_ATTENDEE_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" nextval="1001"/>
+    <sequence name="TEM_CREDIT_CARD_STAGING_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_EM_CONT_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_GRP_TRVLR_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_HIST_EXP_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_MILEAGE_RT_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PRI_DEST_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_PROFILE_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_SPCL_CRCMSNCS_Q_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_SPCL_CRCMSNCS_S" nextval="1001"/>
+    <sequence name="TEM_TRAVELER_DTL_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_TRP_ACCT_INFO_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_TRVL_EXP_ID_SEQ" nextval="1002"/>
     <sequence name="TRVL_ID_SEQ" nextval="1"/>
     <sequence name="VNDR_ADDR_GNRTD_ID" nextval="12105"/>
     <sequence name="VNDR_CNTCT_GNRTD_ID" nextval="12005"/>

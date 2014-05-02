@@ -46,6 +46,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -92,7 +93,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
         // KFSCNTRB-1735: no need to check for identity and issue a message per KFSMI-8935 if there's no payeeId and the document is saved. On other statuses (e.g. enroute) throw exception if there's no payee
         if( (payeeIdNumber != null && !payeeIdNumber.isEmpty()) || (!dvDoc.getDocumentHeader().getWorkflowDocument().checkStatus(DocumentStatus.SAVED)) ){
-            
+
             Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(payeeIdNumber);
 
             //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
@@ -814,4 +815,18 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             GlobalVariables.getMessageMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
         }
     }
+
+    /**
+     * Extracts the DV as immediate payment upon user's request after it routes to FINAL.
+     */
+    public ActionForward extractNow(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        PaymentSourceExtractionService disbursementVoucherExtractService = DisbursementVoucherDocument.getDisbursementVoucherExtractService();
+        disbursementVoucherExtractService.extractDvAsImmediatePayment(dvDocument);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }
+

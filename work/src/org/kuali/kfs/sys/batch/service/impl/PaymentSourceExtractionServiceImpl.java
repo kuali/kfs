@@ -313,6 +313,16 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         }
     }
 
+
+    /**
+     * @see PaymentSourceExtractionService#extractDvAsImmediatePayment(DisbursementVoucherDocument)
+     */
+    @Override
+    public void extractDvAsImmediatePayment(DisbursementVoucherDocument dvDoc) {
+        dvDoc.setImmediatePaymentIndicator(true);
+        extractSingleImmediatePayment(dvDoc);
+    }
+
     /**
      * This method sets the dateTimeService instance.
      *

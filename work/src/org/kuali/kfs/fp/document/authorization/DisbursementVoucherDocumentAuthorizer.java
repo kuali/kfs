@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -35,6 +36,48 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Adds extra role qualifiers for funky travel edit mode permission
  */
 public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+
+    /**
+     * Overridden to check if extract now action is allowed on the DV for the give user, based on permission checking.
+     *
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
+     *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
+        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
+
+        /* remove following logic since we are using "Use Transactional Document"
+        if (documentActionsToReturn.contains(KFSConstants.EXTRACT_NOW_ACTION) && !canExtractNow(document, user)) {
+            documentActionsToReturn.remove(KFSConstants.EXTRACT_NOW_ACTION);
+        }
+        */
+
+        return documentActionsToReturn;
+    }
+
+    /** remove following logic since we are using "Use Transactional Document"
+     *
+     * Determines if the give user has the permission of performing ExtractNow action on the given document.
+     *
+     * @param document the document to correct
+     * @param user the user to check error correction for
+     * @return true if the user can extract now, false otherwise
+     *
+    public boolean canExtractNow(Document document, Person user) {
+        // first check if the Permission “Use DV Document editPreExtract” exists and is active; if not nobody can perform the action
+        Permission permission = getPermissionService().findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.FINANCIAL, KFSConstants.EXTRACT_NOW_ACTION_PERMISSION);
+        if (ObjectUtils.isNull(permission) || !permission.isActive()) {
+            return false;
+        }
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_CLASS, KFSConstants.EXTRACT_NOW_ACTION_CLASS);
+        Map<String,String> qualification = getRoleQualification(document, user.getPrincipalId());
+        boolean isAuthrized = getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.USE_SCREEN, permissionDetails, qualification);
+        return isAuthrized;
+    }
+    */
 
     /**
      * Adds chart codes and account numbers for accounting lines if we're at Account level, so that the fiscal officer gets travel edit mode

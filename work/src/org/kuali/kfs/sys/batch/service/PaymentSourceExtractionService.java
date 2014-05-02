@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.document.PaymentSource;
 
 /**
@@ -41,4 +42,10 @@ public interface PaymentSourceExtractionService {
      * @param disbursementVoucher the voucher to immediately extract
      */
     public abstract void extractSingleImmediatePayment(PaymentSource paymentSource);
+
+    /**
+     * Extracts the DV as immediate payment upon user's request after it routes to FINAL.
+     */
+    public void extractDvAsImmediatePayment(DisbursementVoucherDocument dvDoc);
+
 }

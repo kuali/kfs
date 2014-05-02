@@ -22,11 +22,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Layout;
 import org.apache.log4j.PatternLayout;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.sys.KfsAuthorizationConstants.DisbursementVoucherEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.KimConstants.PermissionTemplateNames;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -1367,7 +1369,9 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_PERMISSION = "View Accounting Period";
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
-    // CSU 6702 END
+    public static final String EXTRACT_NOW_ACTION_PERMISSION = PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT + " DV " + DisbursementVoucherEditMode.EXTRACT_NOW;
+    //public static final String EXTRACT_NOW_ACTION = "ExtractNowAction";
+    //public static final String EXTRACT_NOW_ACTION_CLASS = "org.kuali.kfs.fp.document.web.struts.DisbursementVoucherAction";
 
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
 

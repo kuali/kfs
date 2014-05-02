@@ -29,7 +29,9 @@ import org.kuali.kfs.fp.businessobject.TravelPerDiem;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants.DisbursementVoucherEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -37,6 +39,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.KRADConstants;
 /**
@@ -455,4 +458,31 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
         return paymentSourceHelperService.getDisbursementInfoUrl();
     }
+
+    /**
+     * Adds ExtractNow as an extra button if the ExtractNowAction is allowed.
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        List<ExtraButton> buttons = super.getExtraButtons();
+        //if (getDocumentActions().containsKey(KFSConstants.EXTRACT_NOW_ACTION)) {
+        if (getEditingMode().containsKey(DisbursementVoucherEditMode.EXTRACT_NOW)) {
+            buttons.add(createExtractNowButton());
+        }
+        return buttons;
+    }
+
+    /**
+     * Creates ExtractNow as an extra button.
+     */
+    protected ExtraButton createExtractNowButton(){
+        ExtraButton button = new ExtraButton();
+        button.setExtraButtonProperty("methodToCall.extractNow");
+        button.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_extractnow.gif");
+        button.setExtraButtonAltText("Extract Immediate Payments Now");
+        return button;
+    }
+
+
 }

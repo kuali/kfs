@@ -1468,7 +1468,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see if invoice type is missing from award
-        if (isAwardInvoiceTypeMissing(award)) {
+        if (StringUtils.isEmpty(award.getInvoicingOptions())) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.INVOICE_TYPE_IS_MISSING);
         }
         else {
@@ -1677,15 +1677,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     public boolean isAwardMarkedStopWork(ContractsAndGrantsBillingAward award) {
         return award.isStopWorkIndicator();
-    }
-
-
-    /**
-     * @param award
-     * @return
-     */
-    public boolean isAwardInvoiceTypeMissing(ContractsAndGrantsBillingAward award) {
-        return StringUtils.isEmpty(award.getInvoicingOptions());
     }
 
     /**
@@ -2017,20 +2008,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         return cumAmt;
     }
-
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardInvoicingOptionMissing(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsBillingAward award) {
-        String invOption = award.getInvoicingOptions();
-        if (invOption == null || invOption.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardClosed(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)

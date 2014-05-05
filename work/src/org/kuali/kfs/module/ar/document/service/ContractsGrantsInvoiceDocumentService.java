@@ -291,14 +291,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean hasExpiredAccounts(ContractsAndGrantsBillingAward award);
 
     /**
-     * Check if Award Invoicing Option is missing
-     *
-     * @return
-     */
-    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsBillingAward award);
-
-
-    /**
      * Get award accounts's control accounts
      *
      * @return

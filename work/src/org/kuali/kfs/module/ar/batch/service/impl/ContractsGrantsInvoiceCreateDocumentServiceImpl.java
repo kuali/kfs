@@ -475,7 +475,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
 
                 // 4. Award invoicing option is missing
-                if (contractsGrantsInvoiceDocumentService.isAwardInvoicingOptionMissing(award)) {
+                if (StringUtils.isEmpty(award.getInvoicingOptions())) {
                     errorList.add(configService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
                     invalidGroup.put(award, errorList);
 

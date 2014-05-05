@@ -33,7 +33,7 @@
 					  p:required="false" />
 					  
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemQuantity"                   p:required="true" />
-				<bean parent="AccountingLineView-field"	p:name="invoiceItemDescription"	               p:required="false" />
+				<bean parent="AccountingLineView-field"	p:name="invoiceItemDescription"	               p:required="false" p:explodable="true" />
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemServiceDate"	               p:required="false" />
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemUnitOfMeasureCode"          p:required="false" />
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemUnitPrice"                  p:required="true" />

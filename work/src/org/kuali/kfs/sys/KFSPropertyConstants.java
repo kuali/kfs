@@ -1240,6 +1240,8 @@ public class KFSPropertyConstants {
     public static final String VERSION_NUMBER = KRADPropertyConstants.VERSION_NUMBER;
     public static final String WORKFLOW_DOCUMENT = KRADPropertyConstants.WORKFLOW_DOCUMENT;
     public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
+    public static final String WORKFLOW_DOCUMENT_STATUS_CODE = "workflowDocumentStatusCode";
+    public static final String WORKFLOW_DOCUMENT_TYPE_NAME = "workflowDocumentTypeName";
     public static final String XML_DOCUMENT_CONTENTS = KRADPropertyConstants.XML_DOCUMENT_CONTENTS;
     public static final String ZIP_CODE = "zipCode";
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";

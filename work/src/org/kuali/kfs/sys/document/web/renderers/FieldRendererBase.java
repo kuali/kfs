@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,28 +42,30 @@ public abstract class FieldRendererBase implements FieldRenderer {
     /**
      * Sets the field to render
      * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setField(org.kuali.rice.kns.web.ui.Field)
-     * 
+     *
      * KRAD Conversion - Setting the field - No Use of data dictionary
      */
     public void setField(Field field) {
         this.field = field;
     }
-    
+
     /**
      * Returns the field to render
      * @return the field to render
-     * 
+     *
      * KRAD Conversion - Getting the field - No Use of data dictionary
      */
     public Field getField() {
         return this.field;
     }
-    
+
     /**
      * @return the name this field should have on the form
      */
     protected String getFieldName() {
-        if (!StringUtils.isBlank(field.getPropertyPrefix())) return field.getPropertyPrefix()+"."+field.getPropertyName();
+        if (!StringUtils.isBlank(field.getPropertyPrefix())) {
+            return field.getPropertyPrefix() + "." + field.getPropertyName();
+        }
         return field.getPropertyName();
     }
 
@@ -76,7 +78,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
         this.arbitrarilyHighTabIndex = -1;
         this.onBlur = null;
     }
-    
+
     /**
      * Returns an accessible title for the field being rendered
      * @return an accessible title for the field to render
@@ -84,15 +86,15 @@ public abstract class FieldRendererBase implements FieldRenderer {
     protected String getAccessibleTitle() {
         return accessibleTitle;
     }
-    
+
     /**
-     * Sets the accessible title of the current field 
-     * @param accessibleTitle the given the accessible title 
+     * Sets the accessible title of the current field
+     * @param accessibleTitle the given the accessible title
      */
     public void setAccessibleTitle(String accessibleTitle) {
         this.accessibleTitle = accessibleTitle;
     }
-    
+
     /**
      * Renders a quick finder for the field if one is warranted
      * @param pageContext the page context to render to
@@ -110,7 +112,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
             renderer.clear();
         }
     }
-    
+
     /**
      * Writes the onblur call for the wrapped field
      * @return a value for onblur=
@@ -132,7 +134,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
         }
         return onBlur;
     }
-    
+
     /**
      * Overrides the onBlur setting for this renderer
      * @param onBlur the onBlur value to set and return from buildOnBlur
@@ -140,15 +142,15 @@ public abstract class FieldRendererBase implements FieldRenderer {
     public void overrideOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-    
+
     /**
      * @return the dynamic name label field
      */
     protected String getDynamicNameLabel() {
         return dynamicNameLabel;
     }
-    
-    /** 
+
+    /**
      * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setDynamicNameLabel(java.lang.String)
      */
     public void setDynamicNameLabel(String dynamicNameLabel) {
@@ -159,9 +161,9 @@ public abstract class FieldRendererBase implements FieldRenderer {
      * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setArbitrarilyHighTabIndex(int)
      */
     public void setArbitrarilyHighTabIndex(int tabIndex) {
-        this.arbitrarilyHighTabIndex = tabIndex;   
+        this.arbitrarilyHighTabIndex = tabIndex;
     }
-    
+
     /**
      * @return the tab index the quick finder should use - which, by default, is the arbitrarily high tab index
      */
@@ -194,7 +196,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
     }
 
     /**
-     * Gets the showError attribute. 
+     * Gets the showError attribute.
      * @return Returns the showError.
      */
     public boolean isShowError() {
@@ -208,7 +210,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
     public void setShowError(boolean showError) {
         this.showError = showError;
     }
-    
+
     /**
      * Renders the error icon
      * @param pageContext the page context to render to
@@ -222,21 +224,21 @@ public abstract class FieldRendererBase implements FieldRenderer {
             throw new JspException("Could not render error icon", ioe);
         }
     }
-    
+
     /**
      * @return the tag for the error icon
      */
     protected String getErrorIconImageTag() {
         return "<img src=\""+getErrorIconImageSrc()+"\" alt=\"error\" />";
     }
-    
+
     /**
      * @return the source of the error icon
      */
     private String getErrorIconImageSrc() {
         return getRiceImageBase()+"errormark.gif";
     }
-    
+
     /**
      * @return the source of rice images
      */
@@ -245,5 +247,27 @@ public abstract class FieldRendererBase implements FieldRenderer {
             riceImageBase = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return riceImageBase;
+    }
+
+    @Override
+    public void renderExplodableLink(PageContext context) throws JspException {
+        String textAreaLabel="Description";
+        String docFormKey="88888888";
+        String readonly="false";
+        String maxLength=Integer.toString(field.getMaxLength());
+        String actionName=((String)context.getRequest().getAttribute("org.apache.struts.globals.ORIGINAL_URI_KEY"));
+        /* Here we get the action url without decoration turning
+         *  /arCustomerInvoiceDocument.do    into    arCustomerInvoiceDocument
+         */
+        actionName=actionName.substring(1,actionName.length() - 3);
+        String title="Description";
+        String imageUrl = String.format("%s%s", getRiceImageBase(), "pencil_add.png");
+        try {
+            context.getOut().write(String.format("<input type=\"image\" name=\"methodToCall.updateTextArea.((`%s`))\" src=\"%s\" " +
+                "onclick=\"javascript: textAreaPop('%s', '%s', '%s', '%s', '%s', '%s'); return false\" class=\"tinybutton\" title=\"%s\" alt=\"Expand Text Area\">",
+                getFieldName(), imageUrl, getFieldName(), actionName, textAreaLabel, docFormKey, readonly, maxLength, title));
+        } catch (IOException ex) {
+            throw new JspException("Could not render Explodable Link", ex);
+        }
     }
 }

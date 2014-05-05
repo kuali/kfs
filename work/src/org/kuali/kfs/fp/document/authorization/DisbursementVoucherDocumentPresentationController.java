@@ -22,9 +22,14 @@ import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants.DisbursementVoucherEditMode;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 
@@ -39,12 +44,38 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
 
     @Override
     public Set<String> getDocumentActions(Document document) {
-
         Set<String> documentActions = super.getDocumentActions(document);
-
         documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
 
+        /*
+        // if DV can be extracted now (based on document status), add the EXTRACT_NOW_ACTION
+        if (canExtractNow(document)) {
+            documentActions.add(KFSConstants.EXTRACT_NOW_ACTION);
+        }
+        */
+
         return documentActions;
+    }
+
+    /**
+     * Returns true if DV is approved (FINAL) and hasn't been extracted,
+     * and the permission to use the extractNow button exists and is active.
+     *
+     * @param document
+     * @return
+     */
+    protected boolean canExtractNow(Document document) {
+        DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument)document;
+        boolean canExtractNow = true;
+        canExtractNow &= dvDoc.getDocumentHeader().getWorkflowDocument().isApproved();
+        canExtractNow &= ObjectUtils.isNull(dvDoc.getExtractDate());
+
+        // check if the Permission "Use Transactional Document DV extractNow" exists and is active; if not nobody can perform this action
+        PermissionService permissionService = KimApiServiceLocator.getPermissionService();
+        Permission permission = permissionService.findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.FINANCIAL, KFSConstants.EXTRACT_NOW_ACTION_PERMISSION);
+        canExtractNow &= ObjectUtils.isNotNull(permission) && permission.isActive();
+
+        return canExtractNow;
     }
 
     /**
@@ -66,6 +97,11 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         addVoucherDeadlineEntryMode(document, editModes);
         addSpecialHandlingChagingEntryMode(document, editModes);
         addPaymentReasonEditMode(document, editModes);
+
+        // if DV can be extracted now (based on document status), add the EXTRACT_NOW_ACTION
+        if (canExtractNow(document)) {
+            editModes.add(DisbursementVoucherEditMode.EXTRACT_NOW);
+        }
 
         return editModes;
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,27 +33,28 @@ import org.kuali.rice.krad.util.MessageMap;
 public class DisbursementVoucherEmployeeInformationValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherEmployeeInformationValidation.class);
 
-    private AccountingDocument accountingDocumentForValidation;
-    
+    protected AccountingDocument accountingDocumentForValidation;
+
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         boolean isValid = true;
-        
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
-        
+
         if(!payeeDetail.isEmployee() || payeeDetail.isVendor() || !(document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved())) {
             return true;
         }
-        
+
         String employeeId = payeeDetail.getDisbVchrPayeeIdNumber();
         Person employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(employeeId);
-        
+
         MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
@@ -62,21 +63,21 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER);
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EXISTENCE, label);
             isValid = false;
-        } 
+        }
         else if(!KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode())) {
             // If employee is found, then check that employee is active
             String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER);
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, label);
             isValid = false;
         }
-        
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT); 
+
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return isValid;
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {
@@ -85,7 +86,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * 
+     *
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {

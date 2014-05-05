@@ -21,12 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
-import org.kuali.kfs.module.cg.dataaccess.AgencyAddressDao;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class AgencyAddressServiceImpl implements AgencyAddressService {
-    private AgencyAddressDao agencyAddressDao;
 
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
@@ -46,6 +43,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
     /**
      * @see org.kuali.kfs.module.cg.document.service.AgencyAddressService#getByPrimaryKey(java.lang.String, java.lang.Integer)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public AgencyAddress getByPrimaryKey(String agencyNumber, Integer agencyAddressIdentifier) {
 
@@ -55,7 +53,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
             criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
             criteria.put("agencyAddressIdentifier", agencyAddressIdentifier);
 
-            agencyAddress = (AgencyAddress) businessObjectService.findByPrimaryKey(AgencyAddress.class, criteria);
+            agencyAddress = businessObjectService.findByPrimaryKey(AgencyAddress.class, criteria);
         }
         return agencyAddress;
     }
@@ -63,6 +61,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
     /**
      * @see org.kuali.kfs.module.cg.document.service.AgencyAddressService#getPrimaryAddress(java.lang.String)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public AgencyAddress getPrimaryAddress(String agencyNumber) {
         AgencyAddress primaryAddress = null;
@@ -84,6 +83,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
      * @param agencyAddressIdentifier
      * @return
      */
+    @Override
     public boolean agencyAddressActive(String agencyNumber, Integer agencyAddressIdentifier) {
 
         AgencyAddress agencyAddress = getByPrimaryKey(agencyNumber, agencyAddressIdentifier);
@@ -117,32 +117,15 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
     /**
      * @see org.kuali.kfs.module.cg.document.service.AgencyAddressService#agencyAddressExists(java.lang.String, java.lang.Integer)
      */
+    @Override
     public boolean agencyAddressExists(String agencyNumber, Integer agencyAddressIdentifier) {
         return ObjectUtils.isNotNull(getByPrimaryKey(agencyNumber, agencyAddressIdentifier));
-    }
-
-
-    /**
-     * This method sets agency address dao
-     *
-     * @return
-     */
-    public AgencyAddressDao getAgencyAddressDao() {
-        return agencyAddressDao;
-    }
-
-    /**
-     * This method gets agency address dao
-     *
-     * @param agencyAddressDao
-     */
-    public void setAgencyAddressDao(AgencyAddressDao agencyAddressDao) {
-        this.agencyAddressDao = agencyAddressDao;
     }
 
     /**
      * @see org.kuali.kfs.module.cg.document.service.AgencyAddressService#getNextAgencyAddressIdentifier()
      */
+    @Override
     public Integer getNextAgencyAddressIdentifier() {
 
         Long nextId = sequenceAccessorService.getNextAvailableSequenceNumber(AGENCY_ADDR_ID_SEQ, AgencyAddress.class);

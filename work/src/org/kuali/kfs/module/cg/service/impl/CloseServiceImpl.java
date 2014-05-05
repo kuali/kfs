@@ -24,12 +24,9 @@ import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
-import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
-import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -40,15 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CloseServiceImpl implements CloseService {
 
-    private AwardDao awardDao;
-    private ProposalDao proposalDao;
     private CloseDao closeDao;
     private DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CloseServiceImpl.class);
     private ConfigurationService configService;
-    
+
     /**
      * <ul>
      * <li>Get the max proposal_close_number in cg_prpsl_close_t.</li>
@@ -85,14 +80,14 @@ public class CloseServiceImpl implements CloseService {
 
             try {
 
-                Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
+                Collection<Proposal> proposals = closeDao.getProposalsToClose(max);
                 Long proposalCloseCount = new Long(proposals.size());
                 for (Proposal p : proposals) {
                     p.setProposalClosingDate(today);
                     businessObjectService.save(p);
                 }
 
-                Collection<Award> awards = awardDao.getAwardsToClose(max);
+                Collection<Award> awards = closeDao.getAwardsToClose(max);
                 Long awardCloseCount = new Long(awards.size());
                 for (Award a : awards) {
                     a.setAwardClosingDate(today);
@@ -173,20 +168,12 @@ public class CloseServiceImpl implements CloseService {
         }
     }
 
-    public void setAwardDao(AwardDao awardDao) {
-        this.awardDao = awardDao;
-    }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
     public void setCloseDao(CloseDao closeDao) {
         this.closeDao = closeDao;
-    }
-
-    public void setProposalDao(ProposalDao proposalDao) {
-        this.proposalDao = proposalDao;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

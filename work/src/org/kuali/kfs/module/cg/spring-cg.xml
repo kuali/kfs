@@ -142,22 +142,12 @@
 	</bean>
 
 	<!-- DAOs -->
-	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />
-
-	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.ProposalDaoOjb" />
 
 	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
 
-	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
 	<!-- Services -->
 	<bean id="closeService"  parent="closeService-parentBean"/>
 	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">
-		<property name="awardDao">
-			<ref bean="awardDao" />
-		</property>
-		<property name="proposalDao">
-			<ref bean="proposalDao" />
-		</property>
 		<property name="closeDao">
 			<ref bean="closeDao" />
 		</property>

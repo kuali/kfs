@@ -140,9 +140,7 @@
 	
 	<bean id="objectLevelService"  parent="objectLevelService-parentBean"/>
 	<bean id="objectLevelService-parentBean" class="org.kuali.kfs.coa.service.impl.ObjectLevelServiceImpl" abstract="true">
-		<property name="objectLevelDao">
-			<ref bean="objectLevelDao" />
-		</property>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 	
 	<bean id="objectConsService"  parent="objectConsService-parentBean"/>
@@ -277,9 +275,6 @@
 
 	<bean id="a21SubAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
-		
-	<bean id="objectLevelDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ObjectLevelDaoOjb" />
 		
 	<bean id="accountLookupableHelperService" parent="accountLookupableHelperService-parentBean" scope="prototype" />		
 	<bean id="accountLookupableHelperService-parentBean" abstract="true" 

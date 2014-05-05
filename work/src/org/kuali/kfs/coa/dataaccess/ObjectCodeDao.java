@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
-import java.util.Collection;
 import java.util.List;
-
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 
 
 /**
@@ -34,7 +31,4 @@ public interface ObjectCodeDao {
      * @return list of years that match the chart and object code passed in
      */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
-
-    public Collection<ObjectCode> getObjectCodesByLevelCodes(List<String> levelCodes);
-
 }

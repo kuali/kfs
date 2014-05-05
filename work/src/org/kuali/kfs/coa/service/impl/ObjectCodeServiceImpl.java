@@ -43,6 +43,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     protected ObjectCodeDao objectCodeDao;
     protected UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
@@ -123,7 +124,19 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
 
     @Override
     public List<ObjectCode> getObjectCodesByLevelIds(List<String> levelCodes){
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, levelCodes);
 
-        return (List<ObjectCode>) objectCodeDao.getObjectCodesByLevelCodes(levelCodes);
+        List<ObjectCode> results = new ArrayList<ObjectCode>();
+        results.addAll(businessObjectService.findMatching(ObjectCode.class, fieldValues));
+        return results;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

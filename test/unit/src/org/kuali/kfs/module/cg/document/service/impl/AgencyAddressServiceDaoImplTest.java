@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cg.document.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
-import org.kuali.kfs.module.cg.dataaccess.AgencyAddressDao;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -42,11 +41,10 @@ public class AgencyAddressServiceDaoImplTest extends KualiTestBase {
     private String state = "CA";
     private String zipcode = "92115";
     private String agencyNumber = "11500";
-    private AgencyAddressDao daoService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
-        daoService = SpringContext.getBean(AgencyAddressDao.class);
         service = SpringContext.getBean(AgencyAddressService.class);
         boService = SpringContext.getBean(BusinessObjectService.class);
         agencyAddress = new AgencyAddress();
@@ -68,13 +66,6 @@ public class AgencyAddressServiceDaoImplTest extends KualiTestBase {
         assertTrue(service.agencyAddressActive(agencyNumber, agencyAddressIdentifier.intValue()));
         test = service.getPrimaryAddress(agencyNumber);
         assertNotNull(test);
-        assertTrue(compare(test));
-    }
-
-    public void testGetPrimaryAddress() {
-        buildAgencyAddress();
-        boService.save(agencyAddress);
-        AgencyAddress test = daoService.getPrimaryAddress(agencyNumber);
         assertTrue(compare(test));
     }
 

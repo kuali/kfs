@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,11 +43,20 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     private int overrideColSpan = -1;
     private Class<? extends AccountingLineViewField> accountingLineViewFieldClass = org.kuali.kfs.sys.document.web.AccountingLineViewField.class;
     private String overrideLookupParameters;
-    
+    protected boolean explodable;
+
     private DynamicNameLabelGenerator dynamicNameLabelGenerator;
 
+    public boolean isExplodable() {
+        return this.explodable;
+    }
+
+    public void setExplodable(boolean explodable) {
+        this.explodable = explodable;
+    }
+
     /**
-     * Gets the dynamicLabelProperty attribute. 
+     * Gets the dynamicLabelProperty attribute.
      * @return Returns the dynamicLabelProperty.
      */
     public String getDynamicLabelProperty() {
@@ -61,9 +70,9 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     public void setDynamicLabelProperty(String dynamicLabelProperty) {
         this.dynamicLabelProperty = dynamicLabelProperty;
     }
-    
+
     /**
-     * Gets the useShortLabel attribute. 
+     * Gets the useShortLabel attribute.
      * @return Returns the useShortLabel.
      */
     public boolean shouldUseShortLabel() {
@@ -79,7 +88,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
-     * Gets the hidden attribute. 
+     * Gets the hidden attribute.
      * @return Returns the hidden.
      */
     public boolean isHidden() {
@@ -95,7 +104,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
-     * Gets the overrideFields attribute. 
+     * Gets the overrideFields attribute.
      * @return Returns the overrideFields.
      */
     public List<AccountingLineViewOverrideFieldDefinition> getOverrideFields() {
@@ -111,7 +120,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
-     * Gets the dynamicNameLabelGeneratorBeanName attribute. 
+     * Gets the dynamicNameLabelGeneratorBeanName attribute.
      * @return Returns the dynamicNameLabelGeneratorBeanName.
      */
     public String getDynamicNameLabelGeneratorBeanName() {
@@ -125,9 +134,9 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     public void setDynamicNameLabelGeneratorBeanName(String dynamicNameLabelGeneratorBeanName) {
         this.dynamicNameLabelGeneratorBeanName = dynamicNameLabelGeneratorBeanName;
     }
-    
+
     /**
-     * Gets the overrideColSpan attribute. 
+     * Gets the overrideColSpan attribute.
      * @return Returns the overrideColSpan.
      */
     public int getOverrideColSpan() {
@@ -143,7 +152,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
-     * Gets the accountingLineViewFieldClass attribute. 
+     * Gets the accountingLineViewFieldClass attribute.
      * @return Returns the accountingLineViewFieldClass.
      */
     public Class<? extends AccountingLineViewField> getAccountingLineViewFieldClass() {
@@ -174,14 +183,16 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     /**
      * @see org.kuali.kfs.sys.document.datadictionary.AccountingLineViewRenderableElementDefinition#createLayoutElement()
      */
+    @Override
     public TableJoining createLayoutElement(Class<? extends AccountingLine> accountingLineClass) {
         AccountingLineViewField layoutElement = getNewAccountingLineViewField();
         layoutElement.setDefinition(this);
         layoutElement.setField(getKNSFieldForDefinition(accountingLineClass));
         layoutElement.setOverrideFields(getFieldsForOverrideFields(layoutElement, accountingLineClass));
+        layoutElement.setExplodable(this.isExplodable());
         return layoutElement;
     }
-    
+
     /**
      * Creates a new instance of the accounting line view field class this definition uses
      * @return a new AccountingLineViewField instance or child class instance
@@ -199,7 +210,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
         }
         return layoutElement;
     }
-    
+
     /**
      * Creates a KNS Field for an AccountingLineViewField definition
      * @param accountingLineClass the class of the accounting line used by this definition
@@ -217,7 +228,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
         }
         return realField;
     }
-    
+
     /**
      * For each defined override field within this definition, creates a Field and puts them together as a List
      * @param parentField the AccountingLineViewField which will own all of the override fields
@@ -235,7 +246,7 @@ public class AccountingLineViewFieldDefinition extends MaintainableFieldDefiniti
     }
 
     /**
-     * Gets the overrideLookupParameters attribute. 
+     * Gets the overrideLookupParameters attribute.
      * @return Returns the overrideLookupParameters.
      */
     public String getOverrideLookupParameters() {

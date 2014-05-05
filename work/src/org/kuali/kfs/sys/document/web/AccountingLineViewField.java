@@ -56,6 +56,16 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private int arbitrarilyHighIndex;
     private List<AccountingLineViewOverrideField> overrideFields;
     private PersistenceStructureService persistenceStructureService;
+    protected boolean explodable;
+
+    public boolean isExplodable() {
+        return this.explodable;
+    }
+
+    public void setExplodable(boolean explodable) {
+        this.explodable = explodable;
+    }
+
 
     /**
      * Gets the definition attribute.
@@ -237,6 +247,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
             renderer.render(pageContext, parentTag);
             if (!isHidden()) {
+                if (this.isExplodable()) {
+                    renderer.renderExplodableLink(pageContext);
+                }
                 renderer.closeNoWrapSpan(pageContext, parentTag);
             }
             renderer.clear();

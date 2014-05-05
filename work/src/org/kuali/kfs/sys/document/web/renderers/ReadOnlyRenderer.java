@@ -224,4 +224,11 @@ public class ReadOnlyRenderer extends FieldRendererBase {
         // do nothing - read onlys don't need "no wrap"
     }
 
+     @Override
+     public void renderExplodableLink(PageContext context) throws JspException {
+         /* No thanks */
+     }
+
+
+
 }

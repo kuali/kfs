@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
-import org.kuali.kfs.module.ar.dataaccess.ReferralToCollectionsDao;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
@@ -42,7 +41,6 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.report.ReportInfo;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -65,7 +63,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
     private ReportInfo refToCollReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
-    private ReferralToCollectionsDao referralToCollectionsDao;
     private DocumentService documentService;
     private String proposalNumber;
     private String accountNumber;
@@ -81,7 +78,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @return Returns the refToCollReportInfo.
      */
-    @NonTransactional
     public ReportInfo getRefToCollReportInfo() {
         return refToCollReportInfo;
     }
@@ -91,7 +87,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @return Returns the refToCollReportInfo.
      */
-    @NonTransactional
     public void setRefToCollReportInfo(ReportInfo refToCollReportInfo) {
         this.refToCollReportInfo = refToCollReportInfo;
     }
@@ -101,7 +96,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @return Returns the businessObjectService.
      */
-    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -111,7 +105,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @param businessObjectService The businessObjectService to set.
      */
-    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -121,7 +114,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
-    @NonTransactional
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
@@ -131,29 +123,8 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
-    @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Gets the referralToCollectionsDao attribute.
-     *
-     * @return Returns the referralToCollectionsDao.
-     */
-    @NonTransactional
-    public ReferralToCollectionsDao getReferralToCollectionsDao() {
-        return referralToCollectionsDao;
-    }
-
-    /**
-     * Sets the referralToCollectionsDao attribute value.
-     *
-     * @param referralToCollectionsDao The referralToCollectionsDao to set.
-     */
-    @NonTransactional
-    public void setReferralToCollectionsDao(ReferralToCollectionsDao referralToCollectionsDao) {
-        this.referralToCollectionsDao = referralToCollectionsDao;
     }
 
     /**
@@ -161,7 +132,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @return Returns the documentService.
      */
-    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -171,7 +141,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *
      * @param documentService The documentService to set.
      */
-    @NonTransactional
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -181,7 +151,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      *      java.io.ByteArrayOutputStream)
      */
     @Override
-    @NonTransactional
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
         return generateReport(reportDataHolder, refToCollReportInfo, baos);
     }
@@ -231,7 +200,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         }
 
         // filter by criteria
-        Collection<ReferralToCollectionsDocument> referralToCollectionsDocs = referralToCollectionsDao.getRefToCollDocs(fieldValues);
+        Collection<ReferralToCollectionsDocument> referralToCollectionsDocs = getBusinessObjectService().findMatching(ReferralToCollectionsDocument.class, fieldValues);
         referralToCollectionsDocs = this.populateWorkflowHeaders(referralToCollectionsDocs);
 
         // filter by collector
@@ -522,12 +491,10 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         return null;
     }
 
-    @NonTransactional
     public PersonService getPersonService() {
         return personService;
     }
 
-    @NonTransactional
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

@@ -92,7 +92,6 @@ import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocume
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
-import org.kuali.kfs.module.ar.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -118,6 +117,7 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.AttachmentService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -134,13 +134,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected AccountService accountService;
     protected AttachmentService attachmentService;
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
+    protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
     protected ConfigurationService configurationService;
     protected CustomerService customerService;
     protected KualiModuleService kualiModuleService;
-    protected MilestoneDao milestoneDao;
     protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
@@ -253,24 +253,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     public void setAwardAccountObjectCodeTotalBilledDao(AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao) {
         this.awardAccountObjectCodeTotalBilledDao = awardAccountObjectCodeTotalBilledDao;
-    }
-
-    /**
-     * Gets the milestoneDao attribute.
-     *
-     * @return Returns the milestoneDao.
-     */
-    public MilestoneDao getMilestoneDao() {
-        return milestoneDao;
-    }
-
-    /**
-     * Sets the milestoneDao attribute value.
-     *
-     * @param milestoneDao The milestoneDao to set.
-     */
-    public void setMilestoneDao(MilestoneDao milestoneDao) {
-        this.milestoneDao = milestoneDao;
     }
 
     public BillDao getBillDao() {
@@ -641,7 +623,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             if (awardAccountObjectCodeTotalBilledList != null && !awardAccountObjectCodeTotalBilledList.isEmpty()) {
                 AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = awardAccountObjectCodeTotalBilledList.get(0);
                 awardAccountObjectCodeTotalBilled.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
-                awardAccountObjectCodeTotalBilledDao.save(awardAccountObjectCodeTotalBilled);
+                getBusinessObjectService().save(awardAccountObjectCodeTotalBilled);
             }
             else {
                 AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = new AwardAccountObjectCodeTotalBilled();
@@ -650,7 +632,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 awardAccountObjectCodeTotalBilled.setAccountNumber(invoiceDetailAccountObjectCode.getAccountNumber());
                 awardAccountObjectCodeTotalBilled.setFinancialObjectCode(invoiceDetailAccountObjectCode.getFinancialObjectCode());
                 awardAccountObjectCodeTotalBilled.setTotalBilled(invoiceDetailAccountObjectCode.getCurrentExpenditures());
-                awardAccountObjectCodeTotalBilledDao.save(awardAccountObjectCodeTotalBilled);
+                getBusinessObjectService().save(awardAccountObjectCodeTotalBilled);
             }
         }
     }
@@ -897,7 +879,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
 
         // retrieve the set of documents without workflow headers
-        invoices = contractsGrantsInvoiceDocumentDao.getAllOpen();
+        invoices = getAllOpenContractsGrantsInvoiceDocuments();
 
         // if we dont need workflow headers, then we're done
         if (!includeWorkflowHeaders || invoices.isEmpty()) {
@@ -909,6 +891,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
+     * @return all open, approved ContractsGrantsInvoiceDocuments
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, Boolean.TRUE);
+        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+
+        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+    }
+
+    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllCGInvoiceDocuments(boolean)
      */
     @Override
@@ -916,7 +909,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
 
         // retrieve the set of documents without workflow headers
-        invoices = contractsGrantsInvoiceDocumentDao.getAllCGInvoiceDocuments();
+        invoices = getAllCGInvoiceDocuments();
 
         // if we dont need workflow headers, then we're done
         if (!includeWorkflowHeaders || invoices.isEmpty()) {
@@ -925,6 +918,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         else {
             return populateWorkflowHeaders(invoices);
         }
+    }
+
+    /**
+     * @return all approved ContractsGrantsInvoiceDocuments
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+
+        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
     }
 
     /**
@@ -1874,7 +1877,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
         Collection<Milestone> milestones = null;
         try {
-            milestones = getMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
+            milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
         }
         catch (Exception ex) {
             LOG.error("problem during lgetMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId()", ex);
@@ -1887,6 +1890,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             getBusinessObjectService().save(milestone);
         }
+    }
+
+    /**
+     * Returns milestones identified by one of the given milestone ids and associated with the given proposal number
+     * @param proposalNumber the proposal number to check for milestones in
+     * @param milestoneIds a List of milestone identifiers to search for
+     * @return a Collection of Milestones
+     */
+    protected Collection<Milestone> getMatchingMilestoneByProposalIdAndInListOfMilestoneId(Long proposalNumber, List<Long> milestoneIds) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        fieldValues.put("milestoneIdentifier", milestoneIds);
+
+        Collection<Milestone> milestones = getBusinessObjectService().findMatching(Milestone.class, fieldValues);
+        return milestones;
     }
 
 
@@ -4594,6 +4612,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    @Override
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    @Override
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     @Override

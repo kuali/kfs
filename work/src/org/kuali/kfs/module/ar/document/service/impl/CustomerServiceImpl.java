@@ -17,11 +17,12 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
@@ -32,12 +33,9 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
-    protected CustomerDao customerDao;
     protected SequenceAccessorService sequenceAccessorService;
     protected BusinessObjectService businessObjectService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -54,15 +52,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getByTaxNumber(String taxNumber) {
-        return customerDao.getByTaxNumber(taxNumber);
-    }
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("customerTaxNbr", taxNumber);
 
-    public CustomerDao getCustomerDao() {
-        return customerDao;
-    }
 
-    public void setCustomerDao(CustomerDao customerDao) {
-        this.customerDao = customerDao;
+        Collection<Customer> customers = getBusinessObjectService().findMatching(Customer.class, fieldValues);
+        Customer customer = null;
+        for (Customer c: customers) {
+            customer = c;
+        }
+
+        return customer;
     }
 
     /**
@@ -106,7 +106,16 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer getCustomerByName(String customerName) {
-        return customerDao.getByName(customerName);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("customerName", customerName);
+
+        Collection<Customer> customers = getBusinessObjectService().findMatching(Customer.class, fieldValues);
+        Customer customer = null;
+        for (Customer c: customers) {
+            customer = c;
+        }
+
+        return customer;
 	}
 
     public BusinessObjectService getBusinessObjectService() {

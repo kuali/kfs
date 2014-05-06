@@ -33,20 +33,6 @@ public class LockboxDaoOjb extends PlatformAwareDaoBaseOjb implements LockboxDao
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockboxDaoOjb.class);
 
     @Override
-    public Iterator<Lockbox> getByLockboxNumber(String lockboxNumber) {
-        LOG.debug("getbyLockboxNumber() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("lockboxNumber", lockboxNumber);
-
-        QueryByCriteria query = new QueryByCriteria(Lockbox.class, criteria);
-        query.addOrderByAscending("processedInvoiceDate");
-        query.addOrderByAscending("batchSequenceNumber");
-
-        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
-    }
-
-    @Override
     public Collection<Lockbox> getAllLockboxes() {
         LOG.debug("getAllLockboxes() started");
         Criteria criteria = new Criteria();

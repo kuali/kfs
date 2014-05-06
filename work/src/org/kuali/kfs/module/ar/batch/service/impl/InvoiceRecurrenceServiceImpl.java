@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,14 +19,16 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.batch.service.InvoiceRecurrenceService;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
-import org.kuali.kfs.module.ar.dataaccess.InvoiceRecurrenceDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -44,18 +46,17 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *  
- * Lockbox Iterators are sorted by processedInvoiceDate and batchSequenceNumber. 
- * Potentially there could be many batches on the same date. 
- * For each set of records with the same processedInvoiceDate and batchSequenceNumber, 
+ *
+ * Lockbox Iterators are sorted by processedInvoiceDate and batchSequenceNumber.
+ * Potentially there could be many batches on the same date.
+ * For each set of records with the same processedInvoiceDate and batchSequenceNumber,
  * there will be one Cash-Control document. Each record within this set will create one Application document.
- * 
+ *
  */
 
 @Transactional
 public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
-    public InvoiceRecurrenceDao invoiceRecurrenceDao;
     private static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceServiceImpl.class);
     private DocumentService documentService;
     private DateTimeService dateTimeService;
@@ -76,13 +77,13 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         this.documentService = documentService;
     }
 
+    @Override
     public boolean processInvoiceRecurrence() throws WorkflowException {
-        
-        Iterator<InvoiceRecurrence> itr = invoiceRecurrenceDao.getAllActiveInvoiceRecurrences();
+
+        Collection<InvoiceRecurrence> recurrences = getAllActiveInvoiceRecurrences();
         CustomerInvoiceDocument customerInvoiceDocument = new CustomerInvoiceDocument();
-        while (itr.hasNext()) {
-            InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence)itr.next();
-            
+        for (InvoiceRecurrence invoiceRecurrence : recurrences) {
+
             /* Get some dates and calendars  */
             Date currentDate = getDateTimeService().getCurrentSqlDate();
             Calendar currentCalendar = Calendar.getInstance();
@@ -93,7 +94,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
             Date nextProcessDate;
             Calendar nextProcessCalendar = Calendar.getInstance();
-            
+
             Date lastProcessDate;
             Calendar lastProcessCalendar = Calendar.getInstance();
 
@@ -106,7 +107,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             String intervalCode = invoiceRecurrence.getDocumentRecurrenceIntervalCode();
             Integer totalRecurrenceNumber = invoiceRecurrence.getDocumentTotalRecurrenceNumber();
 
-            
+
             /* Calculate currentMonthProcessDate*/
             currentMonthProcessCalendar = currentCalendar;
             int day = beginCalendar.get(Calendar.DAY_OF_MONTH);
@@ -117,14 +118,14 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             if (currentDate.after(currentMonthProcessDate)) {
                 nextProcessCalendar = currentMonthProcessCalendar;
                 nextProcessCalendar.add(Calendar.MONTH, 1);
-            } 
+            }
             else {
                 /* currentDate is less than or equal to currentMonthProcessDate
                  * so the nextProcessDate is equal to the currentMonthProcessDate */
                 nextProcessCalendar = currentMonthProcessCalendar;
             }
             nextProcessDate = KfsDateUtils.convertToSqlDate(nextProcessCalendar.getTime());
-            
+
             /* Calculate the lastProcessDate by subtracting one month from nextProcessingDate */
             lastProcessCalendar = nextProcessCalendar;
             lastProcessCalendar.add(Calendar.MONTH, -1);
@@ -146,7 +147,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                 invoiceRecurrence.setDocumentLastCreateDate(currentDate);
                 boService.save(invoiceRecurrence);
-                
+
             }
 
             /* if nextProcessDate is greater than currentDate BUT less than or equal to endDate */
@@ -166,7 +167,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     boService.save(invoiceRecurrence);
                 }
             }
-            
+
             /* Check if this is the last recurrence. If yes, inactivate the INVR and send an FYI to the initiator and workgroup.  */
             if (!nextProcessDate.before(endDate)) {
                 /* Change the active indicator to 'N' and send an FYI */
@@ -191,13 +192,24 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         return true;
 
     }
-    
+
+    /**
+     * @return returns all active invoice recurrences
+     */
+    protected Collection<InvoiceRecurrence> getAllActiveInvoiceRecurrences() {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        final Collection<InvoiceRecurrence> recurrences = boService.findMatchingOrderBy(InvoiceRecurrence.class, fieldValues, "invoiceNumber", true);
+        return recurrences;
+    }
+
     protected String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
         return "INVR";
     }
 
     /**
-     * 
+     *
      * This method builds a FYI recipient.
      * @param userId
      * @return
@@ -208,9 +220,9 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }
-    
+
     /**
-     * 
+     *
      * This method builds a recipient for Approval.
      * @param userId
      * @return
@@ -221,9 +233,9 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         adHocRouteRecipient.setId(userId);
         return adHocRouteRecipient;
     }
-    
+
     /**
-     * 
+     *
      * This method builds a FYI workgroup recipient.
      * @param userId
      * @return
@@ -234,9 +246,9 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         adHocRouteRecipient.setId(workgroupId);
         return adHocRouteRecipient;
     }
-    
+
     /**
-     * 
+     *
      * This method builds a workgroup recipient for Approval.
      * @param userId
      * @return
@@ -247,15 +259,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
         adHocRouteRecipient.setId(workgroupId);
         return adHocRouteRecipient;
     }
-    
-    public InvoiceRecurrenceDao getInvoiceRecurrenceDao() {
-        return invoiceRecurrenceDao;
-    }
 
-    public void setInvoiceRecurrenceDao(InvoiceRecurrenceDao invoiceRecurrenceDao) {
-        this.invoiceRecurrenceDao = invoiceRecurrenceDao;
-    }
-    
     public void setBusinessObjectService (BusinessObjectService boService)
     {
         this.boService = boService;

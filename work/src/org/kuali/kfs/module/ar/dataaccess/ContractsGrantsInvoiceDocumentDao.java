@@ -28,20 +28,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 public interface ContractsGrantsInvoiceDocumentDao {
 
     /**
-     * Retrieve all CG Open Invoices
-     *
-     * @return Returns the all Open CG Invoices.
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpen();
-
-    /**
-     * Retrieve All CG Invoices which are final.
-     *
-     * @return Returns the all cg invoices which are final.
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments();
-
-    /**
      * Retrieve CG Invoices which are open, with param customer number.
      *
      * @return CG Invoices.

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,18 +33,10 @@ public class AwardAccountObjectCodeTotalBilledDaoOjb extends PlatformAwareDaoBas
 
     /*
      * (non-Javadoc)
-     * @see org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao#save(org.kuali.kfs.module.ar.businessobject.
-     * AwardAccountObjectCodeTotalBilled)
-     */
-    public void save(AwardAccountObjectCodeTotalBilled invoiceAccountTotalBilled) {
-        getPersistenceBrokerTemplate().store(invoiceAccountTotalBilled);
-    }
-
-    /*
-     * (non-Javadoc)
      * @see org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao#
      * getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(java.util.List)
      */
+    @Override
     public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         Criteria criteria = new Criteria();
 

@@ -209,14 +209,10 @@
 	</bean>
 	
 	<!--  AR DAOs  -->
-	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
-	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />
-	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.SystemInformationDaoOjb" />
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
 	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
 	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
 	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />
-	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
 	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
 	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
 	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
@@ -224,8 +220,6 @@
 	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
 	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
-	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
-	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
@@ -344,6 +338,9 @@
 		<property name="awardAccountObjectCodeTotalBilledDao">
 			<ref bean="awardAccountObjectCodeTotalBilledDao" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 		<property name="billDao">
 			<ref bean="billDao" />
 		</property>
@@ -364,9 +361,6 @@
 		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
-		</property>
-		<property name="milestoneDao">
-			<ref bean="milestoneDao" />
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
@@ -947,8 +941,8 @@
 	<!--  AR Services  -->
 	<bean id="systemInformationService"  parent="systemInformationService-parentBean"/>
 	<bean id="systemInformationService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl" abstract="true">
-		<property name="systemInformationDao">
-			<ref bean="systemInformationDao" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
@@ -1088,9 +1082,6 @@
 
 	<bean id="invoiceRecurrenceService"  parent="invoiceRecurrenceService-parentBean"/>
 	<bean id="invoiceRecurrenceService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl" abstract="true">
-		<property name="invoiceRecurrenceDao">
-			<ref bean="invoiceRecurrenceDao" />
-		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -1118,9 +1109,6 @@
 	<!-- Used for DWR call to get Customer Name -->
 	<bean id="customerService"  parent="customerService-parentBean"/>
 	<bean id="customerService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl" abstract="true">
-		<property name="customerDao">
-			<ref bean="customerDao" />
-		</property>
 		<property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
 		</property>
@@ -1244,9 +1232,6 @@
 		</property>
 		<property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
-		</property>
-		<property name="customerAddressDao">
-			<ref bean="customerAddressDao" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -2150,9 +2135,6 @@
 		</property>
 		<property name="personService">
 			<ref bean="personService" />
-		</property>
-		<property name="referralToCollectionsDao">
-			<ref bean="referralToCollectionsDao" />
 		</property>
 	</bean>
 	

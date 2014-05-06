@@ -26,13 +26,6 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
  */
 public interface AwardAccountObjectCodeTotalBilledDao {
 
-    /**
-     * Save an {@link Award}.
-     *
-     * @param award
-     */
-    public void save(AwardAccountObjectCodeTotalBilled invoiceAccountTotalBilled);
-
     public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
 }

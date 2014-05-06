@@ -16,13 +16,10 @@
 package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.kuali.kfs.module.ar.businessobject.Lockbox;
 
 public interface LockboxDao {
-
-    public Iterator<Lockbox> getByLockboxNumber(String lockboxNumber);
 
     public Collection<Lockbox> getAllLockboxes();
 

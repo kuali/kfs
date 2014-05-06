@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.OJBUtility;
@@ -40,35 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Implementation class for ContractsGrantsInvoiceDocumentDao DAO.
  */
 public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements ContractsGrantsInvoiceDocumentDao {
-
-    /**
-     * @see org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao#getAllOpen()
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpen() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, true);
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria);
-
-        Collection<ContractsGrantsInvoiceDocument> customerinvoicedocuments = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        return customerinvoicedocuments;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao#getAllCGInvoiceDocuments()
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria);
-
-        Collection<ContractsGrantsInvoiceDocument> customerinvoicedocuments = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        return customerinvoicedocuments;
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao#getMatchingInvoicesByCollection(java.util.Map)

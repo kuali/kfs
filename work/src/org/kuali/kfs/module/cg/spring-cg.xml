@@ -274,9 +274,6 @@
 		<property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
 		</property>
-		<property name="agencyAddressDao">
-			<ref bean="agencyAddressDao" />
-		</property>
    		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

@@ -133,6 +133,9 @@
 		<property name="objectCodeDao">
 			<ref bean="objectCodeDao" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>

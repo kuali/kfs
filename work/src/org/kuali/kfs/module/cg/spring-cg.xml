@@ -266,19 +266,6 @@
 		</property>
 	</bean>
 
-	<bean id="agencyAddressService" parent="agencyAddressService-parentBean" scope="prototype"/>
-	<bean id="agencyAddressService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.AgencyAddressServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="sequenceAccessorService">
-			<ref bean="sequenceAccessorService" />
-		</property>
-   		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-	</bean>
-
 	<bean id="letterOfCreditFundService" parent="letterOfCreditFundService-parentBean" scope="prototype"/>
 	<bean id="letterOfCreditFundService-parentBean" class="org.kuali.kfs.module.cg.service.impl.LetterOfCreditFundServiceImpl" abstract="true">
 		<property name="businessObjectService">

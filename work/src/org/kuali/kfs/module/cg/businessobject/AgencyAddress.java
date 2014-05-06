@@ -23,7 +23,6 @@ import java.util.Map;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -563,13 +562,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
             return -1;
         }
         return 0;
-    }
-
-    @Override protected void prePersist() {
-        super.prePersist();
-        AgencyAddressService agencyAddressService = SpringContext.getBean(AgencyAddressService.class);
-        long agencyAddressIdentifier = agencyAddressService.getNextAgencyAddressIdentifier();
-        this.setAgencyAddressIdentifier(agencyAddressIdentifier);
     }
 
     @Override

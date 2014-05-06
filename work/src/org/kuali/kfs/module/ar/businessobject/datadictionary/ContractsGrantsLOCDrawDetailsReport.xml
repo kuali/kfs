@@ -97,7 +97,7 @@
 	<bean id="ContractsGrantsLOCDrawDetailsReport-lookupDefinition" parent="ContractsGrantsLOCDrawDetailsReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsLOCDrawDetailsReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="ContractsGrantsLOCDrawDetailsReport Lookup" />
+		<property name="title" value="LOC Draw Details Report" />
 		<property name="lookupableID" value="contractsGrantsLOCDrawDetailsReportLookupResultLookupable" />
 
 

@@ -1431,6 +1431,7 @@ public class KFSConstants {
         public static final String CUSTOMER = "C";
         public static final String SUBJECT_PAYMENT_VENDOR = "VSP";
         public static final String REVOLVING_FUND_VENDOR = "VRF";
+        public static final String REFUND_VENDOR = "VRV";
     }
 
     public static enum PaymentMethod {

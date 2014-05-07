@@ -69,7 +69,7 @@ public interface DisbursementVoucherConstants {
     @Deprecated
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
 
-    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(KFSConstants.PaymentPayeeTypes.VENDOR, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR);
+    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(KFSConstants.PaymentPayeeTypes.VENDOR, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR, KFSConstants.PaymentPayeeTypes.REFUND_VENDOR);
 
     // document location
     public static final String NO_DOCUMENTATION_LOCATION = "N";

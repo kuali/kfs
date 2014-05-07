@@ -41,12 +41,13 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
         boolean matches = false;
 
         matches = doesCustomerMatch(qualification, roleQualifier);
-        String chartOfAccountsCode = qualification.get(ArKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String organizationCode = qualification.get(ArKimAttributes.ORGANIZATION_CODE);
+        String billingChartOfAccountsCode = qualification.get(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE);
+        String billingOrganizationCode = qualification.get(ArKimAttributes.BILLING_ORGANIZATION_CODE);
+        String processingChartOfAccountsCode = qualification.get(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE);
+        String processingOrganizationCode = qualification.get(ArKimAttributes.PROCESSING_ORGANIZATION_CODE);
 
-        if (StringUtils.isNotEmpty(chartOfAccountsCode) && StringUtils.isNotEmpty(organizationCode)) {
-            matches &= doesOrgMatch(chartOfAccountsCode, organizationCode, roleQualifier);
-        }
+        matches &= (doesOrgMatch(billingChartOfAccountsCode, billingOrganizationCode, ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.BILLING_ORGANIZATION_CODE, roleQualifier)
+                || doesOrgMatch(processingChartOfAccountsCode, processingOrganizationCode, ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.PROCESSING_ORGANIZATION_CODE, roleQualifier));
 
         return matches;
     }
@@ -60,20 +61,17 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
      * @param roleQualifier role qualifier containing either billing chart/org or processing chart/org
      * @return true if the passed in chart/org match, false otherwise
      */
-    protected boolean doesOrgMatch(String chartOfAccountsCode, String organizationCode, Map<String, String> roleQualifier) {
+    protected boolean doesOrgMatch(String chartOfAccountsCode, String organizationCode, String chartOfAccountsCodeKey, String organizationCodeKey, Map<String, String> roleQualifier) {
         boolean orgMatches = false;
 
-        String billingChart = roleQualifier.get(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE);
-        String billingOrg = roleQualifier.get(ArKimAttributes.BILLING_ORGANIZATION_CODE);
-        String processingChart = roleQualifier.get(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE);
-        String processingOrg = roleQualifier.get(ArKimAttributes.PROCESSING_ORGANIZATION_CODE);
+        String chart = roleQualifier.get(chartOfAccountsCodeKey);
+        String org = roleQualifier.get(organizationCodeKey);
 
         // only billing chart/org or processing chart/org will be populated, and we don't want to call isParentOrg
         // with null values, so we need to check for empty values first before calling isParentOrg
-        if ((StringUtils.isNotEmpty(billingChart) && StringUtils.isNotEmpty(billingOrg) &&
-                isParentOrg(chartOfAccountsCode, organizationCode, billingChart, billingOrg, true)) ||
-            (StringUtils.isNotEmpty(processingChart) && StringUtils.isNotEmpty(processingOrg) &&
-                isParentOrg(chartOfAccountsCode, organizationCode, processingChart, processingOrg, true))) {
+        if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(org) &&
+                StringUtils.isNotEmpty(chartOfAccountsCode) && StringUtils.isNotEmpty(organizationCode) &&
+                isParentOrg(chartOfAccountsCode, organizationCode, chart, org, true)) {
             orgMatches = true;
         }
 

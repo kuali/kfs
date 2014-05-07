@@ -2909,8 +2909,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualification = new HashMap<String, String>(3);
-        qualification.put(ArKimAttributes.CHART_OF_ACCOUNTS_CODE, invoice.getBillByChartOfAccountCode());
-        qualification.put(ArKimAttributes.ORGANIZATION_CODE, invoice.getBilledByOrganizationCode());
+        qualification.put(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, invoice.getBillByChartOfAccountCode());
+        qualification.put(ArKimAttributes.BILLING_ORGANIZATION_CODE, invoice.getBilledByOrganizationCode());
+        qualification.put(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
+        qualification.put(ArKimAttributes.PROCESSING_ORGANIZATION_CODE, invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
 
         String customerName = invoice.getCustomerName();
         if (StringUtils.isNotEmpty(customerName)) {

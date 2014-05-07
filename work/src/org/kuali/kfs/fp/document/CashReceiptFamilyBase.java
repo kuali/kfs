@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
-
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +28,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -220,30 +216,6 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
 
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
-    }
-
-    /**
-     * Note: This method is only shared by subclasses which implement Correctable.
-     * Upon error correction, flips debit/credit code in all source accounting lines.
-     */
-    protected void correctAccountingLines() {
-        //TODO ??? it appears that in AD/CCR, accounting lines don't have D/C code set. So we shouldn't flip here.
-        List<SourceAccountingLine> srclines = getSourceAccountingLines();
-        int index = 0;
-        for (SourceAccountingLine srcline: srclines) {
-            String debitCreditCode = srcline.getDebitCreditCode();
-            if (GL_DEBIT_CODE.equals(debitCreditCode)) {
-                srcline.setDebitCreditCode(GL_CREDIT_CODE);
-            }
-            else if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-                srcline.setDebitCreditCode(GL_DEBIT_CODE);
-            }
-            else {
-                throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " + "code associated with it.  This should never have occured. Please contact your system administrator.");
-
-            }
-            index++;
-        }
     }
 
     /**

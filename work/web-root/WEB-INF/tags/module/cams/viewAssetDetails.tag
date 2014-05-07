@@ -66,7 +66,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.agencyNumber}" readOnly="true" /></th>
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="${assetValueObj}.agencyNumber" attributeEntry="${assetAttributes.agencyNumber}" readOnly="true" readOnlyBody="true">								
-						<kul:inquiry boClassName="org.kuali.kfs.module.cg.businessobject.Agency" keyValues="agencyNumber=${assetValue.agencyNumber}" render="true">
+						<kul:inquiry boClassName="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" keyValues="agencyNumber=${assetValue.agencyNumber}" render="true">
                 			<html:hidden write="true" property="${assetValueObj}.agencyNumber" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>

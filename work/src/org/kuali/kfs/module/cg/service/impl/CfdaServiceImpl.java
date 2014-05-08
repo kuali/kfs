@@ -35,11 +35,11 @@ import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Transactional;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -50,7 +50,7 @@ public class CfdaServiceImpl implements CfdaService {
     protected static Comparator cfdaComparator;
     private DateTimeService dateTimeService;
     protected ParameterService parameterService;
-    
+
     static {
         cfdaComparator = new Comparator() {
             @Override
@@ -66,7 +66,7 @@ public class CfdaServiceImpl implements CfdaService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
      * Sets the parameterService attribute value.
      *
@@ -75,7 +75,7 @@ public class CfdaServiceImpl implements CfdaService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     /**
      * @return
      * @throws IOException
@@ -170,8 +170,9 @@ public class CfdaServiceImpl implements CfdaService {
     }
 
     /**
-     *
+     * This method updates the KFS CFDA table from the US federal government record
      */
+    @Transactional
     @Override
     public CfdaUpdateResults update() throws IOException {
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
 
     protected ReportGenerationService reportGenerationService;
 
-    
+    @Override
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
 
         return generateReport(reportDataHolder, contractsGrantsAwardBalancesReportInfo, baos);
@@ -49,9 +49,10 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
 
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.cg.report.service.ContractsGrantsAwardBalancesReportService#generateReport(org.kuali.kfs.module.cg.report.ContractsGrantsReportDataHolder, org.kuali.kfs.sys.report.ReportInfo, java.io.ByteArrayOutputStream)
      */
+    @Override
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ReportInfo reportInfo, ByteArrayOutputStream baos) {
         Date runDate = new Date();
 
@@ -85,7 +86,7 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
     }
 
     /**
-     * 
+     *
      * @return reportGenerationService
      */
     public ReportGenerationService getReportGenerationService() {
@@ -93,7 +94,7 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
     }
 
     /**
-     * 
+     *
      * @param reportGenerationService
      */
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
@@ -103,7 +104,7 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
     private ReportInfo contractsGrantsAwardBalancesReportInfo;
 
     /**
-     * 
+     *
      * @return contractsGrantsAwardBalancesReportInfo
      */
     public ReportInfo getContractsGrantsAwardBalancesReportInfo() {
@@ -111,7 +112,7 @@ public class ContractsGrantsAwardBalancesReportServiceImpl implements ContractsG
     }
 
     /**
-     * 
+     *
      * @param contractsGrantsInvoiceReportInfo
      */
     public void setContractsGrantsAwardBalancesReportInfo(ReportInfo contractsGrantsInvoiceReportInfo) {

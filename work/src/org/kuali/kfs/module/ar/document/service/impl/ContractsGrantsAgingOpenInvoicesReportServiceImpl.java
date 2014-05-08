@@ -38,12 +38,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for Contracts Grants Aging open Invoices report
  */
-@Transactional
 public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements ContractsGrantsAgingOpenInvoicesReportService {
 
     private ContractsGrantsAgingReportService contractsGrantsAgingReportService;

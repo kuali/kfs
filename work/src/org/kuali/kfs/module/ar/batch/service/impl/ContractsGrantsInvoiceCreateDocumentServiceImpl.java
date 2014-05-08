@@ -382,12 +382,25 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return null;
     }
 
-
     /**
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#retrieveAwards()
+     * Retrieves the awards, validates them, and then creates documents for all valid awards
+     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#processBatchInvoiceDocumentCreation(java.lang.String, java.lang.String)
      */
     @Override
-    public Collection<ContractsAndGrantsBillingAward> retrieveAwards() {
+    public boolean processBatchInvoiceDocumentCreation(String validationErrorOutputFileName, String invoiceDocumentErrorOutputFileName) {
+        final Collection<ContractsAndGrantsBillingAward> awards = retrieveAwards();
+        final Collection<ContractsAndGrantsBillingAward> validAwards = validateAwards(awards, validationErrorOutputFileName);
+        return createCGInvoiceDocumentsByAwards(validAwards, invoiceDocumentErrorOutputFileName);
+    }
+
+
+    /**
+     * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
+     *
+     * @param fileNaem Name of file to be uploaded and processed.
+     * @return True if the file load and store was successful, false otherwise.
+     */
+    protected Collection<ContractsAndGrantsBillingAward> retrieveAwards() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.ACTIVE, true);
         return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, map);

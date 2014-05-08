@@ -326,6 +326,7 @@
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
 	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true" parent="customerInvoiceDocumentService">
+		<property name="arEmailService" ref="arEmailService" />
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -464,11 +465,6 @@
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
-		<property name="arEmailService" ref="arEmailService" />
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
 	<bean id="upcomingMilestoneNotificationStep" class="org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep" parent="step">

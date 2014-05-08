@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -98,6 +101,7 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
+import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -129,6 +133,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDocumentServiceImpl implements ContractsGrantsInvoiceDocumentService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocumentServiceImpl.class);
 
+    protected AREmailService arEmailService;
     protected AccountingPeriodService accountingPeriodService;
     protected AccountService accountService;
     protected AttachmentService attachmentService;
@@ -4725,11 +4730,45 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
 
-        if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (CollectionUtils.isNotEmpty(invoiceMilestones));
     }
 
+
+    /**
+     * Finds all in process contracts & grants invoice docs and then uses the AR e-mail service to send out e-mails about them
+     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#emailInProcessContractsGrantsInvoiceDocuments()
+     */
+    @Override
+    public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException {
+        List<ContractsGrantsInvoiceDocument> collection = new ArrayList<ContractsGrantsInvoiceDocument>();
+
+        // Get the list of CG Invoice Documents that have the marked for processing flag set
+        Collection<ContractsGrantsInvoiceDocument> invoices = contractsGrantsInvoiceDocumentService.getAllCGInvoiceDocuments(false);
+        for (ContractsGrantsInvoiceDocument invoice : invoices) {
+            // invoice has been marked for processing
+            if (ArConstants.INV_RPT_PRCS_IN_PROGRESS.equalsIgnoreCase(invoice.getMarkedForProcessing())) {
+                collection.add(invoice);
+            }
+        }
+        arEmailService.sendInvoicesViaEmail(collection);
+    }
+
+
+    /**
+     * Gets the arEmailService attribute.
+     *
+     * @return Returns the arEmailService.
+     */
+    public AREmailService getArEmailService() {
+        return arEmailService;
+    }
+
+    /**
+     * Sets the arEmailService attribute value.
+     *
+     * @param arEmailService The arEmailService to set.
+     */
+    public void setArEmailService(AREmailService arEmailService) {
+        this.arEmailService = arEmailService;
+    }
 }

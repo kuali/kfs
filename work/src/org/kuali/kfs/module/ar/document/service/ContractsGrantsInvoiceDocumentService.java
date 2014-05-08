@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -577,5 +580,11 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the Milestone has been copied, false if otherwise
      */
     public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId);
+
+
+    /**
+     * Sends out e-mails about all in process Contrancts & Grants Invoice documents
+     */
+    public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException;
 
 }

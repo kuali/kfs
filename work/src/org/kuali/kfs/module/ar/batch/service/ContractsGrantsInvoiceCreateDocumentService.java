@@ -68,6 +68,4 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @return
      */
     public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode);
-
-
 }

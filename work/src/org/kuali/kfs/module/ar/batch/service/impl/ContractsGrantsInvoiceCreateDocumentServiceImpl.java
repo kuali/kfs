@@ -18,15 +18,14 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.rmi.RemoteException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -44,16 +43,13 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -149,18 +145,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     controlAccounts = (List<Account>) contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
                     controlAccountsTemp = (List<Account>) contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
 
-                    if (controlAccounts == null || (controlAccounts.size() != awd.getActiveAwardAccounts().size())) {// to check if
-                                                                                                                     // the number
-                                                                                                                     // of contract
-                                                                                                                     // control
-                                                                                                                     // accounts is
-                                                                                                                     // same as the
-                                                                                                                     // number of
-                                                                                                                     // accounts
+                    if (controlAccounts == null || (controlAccounts.size() != awd.getActiveAwardAccounts().size())) {// to check if the number of contract control accounts is same as the number of accounts
                         errLines.add("Award/Proposal#" + awd.getProposalNumber().toString() + " is Bill By Contract Control Account, but no control account is found for some/all award accounts.");
                     }
                     else {
-                        HashSet<Account> controlAccountSet = new HashSet<Account>();
+                        Set<Account> controlAccountSet = new HashSet<Account>();
                         for (int i = 0; i < controlAccountsTemp.size(); i++) {
                             if (ObjectUtils.isNotNull(controlAccountsTemp.get(i))) {
                                 for (int j = i + 1; j < controlAccounts.size(); j++) {
@@ -693,18 +682,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     @Override
     public boolean routeContractsGrantsInvoiceDocuments() {
-        List<String> documentIdList = null;
-        try {
-            documentIdList = retrieveContractsGrantsInvoiceDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        }
-        catch (WorkflowException e1) {
-            LOG.error("Error retrieving cgin documents for routing: " + e1.getMessage(), e1);
-            throw new RuntimeException(e1.getMessage(), e1);
-        }
-        catch (RemoteException re) {
-            LOG.error("Error retrieving cgin documents for routing: " + re.getMessage(), re);
-            throw new RuntimeException(re.getMessage(), re);
-        }
+        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        List<String> documentIdList = retrieveContractsGrantsInvoiceDocumentsToRoute(DocumentStatus.ENROUTE, currentUserPrincipalId);
 
         if (LOG.isInfoEnabled()) {
             LOG.info("CGinvoice to Route: " + documentIdList);
@@ -714,16 +693,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             try {
                 ContractsGrantsInvoiceDocument cgInvoicDoc = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(cgInvoiceDocId);
                 // To route documents only if the user in the session is same as the initiator.
-                if (cgInvoicDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
-
-                    if (LOG.isInfoEnabled()) {
-                        LOG.info("Routing Contracts Grants Invoice document # " + cgInvoiceDocId + ".");
-                    }
-                    documentService.prepareWorkflowDocument(cgInvoicDoc);
-
-                    // calling workflow service to bypass business rule checks
-                    workflowDocumentService.route(cgInvoicDoc.getDocumentHeader().getWorkflowDocument(), "", null);
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Routing Contracts Grants Invoice document # " + cgInvoiceDocId + ".");
                 }
+                documentService.prepareWorkflowDocument(cgInvoicDoc);
+
+                // calling workflow service to bypass business rule checks
+                workflowDocumentService.route(cgInvoicDoc.getDocumentHeader().getWorkflowDocument(), "", null);
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + cgInvoiceDocId + " " + e.getMessage());
@@ -740,30 +716,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      *
      * @return a list of contracts grants invoice documents to route
      */
-    protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+    protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(DocumentStatus statusCode, String initiatorPrincipalId) {
         List<String> documentIds = new ArrayList<String>();
 
-        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-        DocumentSearchCriteria crit = criteria.build();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        fieldValues.put(KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, statusCode.getCode());
+        fieldValues.put(KFSPropertyConstants.INITIATOR_PRINCIPAL_ID, initiatorPrincipalId);
+        Collection<FinancialSystemDocumentHeader> docHeaders = businessObjectService.findMatching(FinancialSystemDocumentHeader.class, fieldValues);
 
-        int maxResults = financialSystemDocumentService.getMaxResultCap(crit);
-        int iterations = financialSystemDocumentService.getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            LOG.debug("Fetch Iteration: " + i);
-            criteria.setStartAtIndex(maxResults * i);
-            crit = criteria.build();
-            LOG.debug("Max Results: " + criteria.getStartAtIndex());
-            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-            for (DocumentSearchResult resultRow : results.getSearchResults()) {
-                documentIds.add(resultRow.getDocument().getDocumentId());
-                LOG.debug(resultRow.getDocument().getDocumentId());
-            }
+        for (FinancialSystemDocumentHeader docHeader : docHeaders) {
+            documentIds.add(docHeader.getDocumentNumber());
         }
         return documentIds;
     }
@@ -1046,5 +1009,4 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
-
 }

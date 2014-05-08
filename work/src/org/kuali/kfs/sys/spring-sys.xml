@@ -905,7 +905,7 @@
 		<property name="documentAdHocService" ref="documentAdHocService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
-		
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
     <!-- Create an unscheduled Daily Mail job -->

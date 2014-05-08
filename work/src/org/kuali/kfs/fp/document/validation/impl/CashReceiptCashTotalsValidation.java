@@ -28,11 +28,11 @@ public class CashReceiptCashTotalsValidation extends GenericValidation {
     private CashReceiptService cashReceiptService;
 
     /**
-     * Uses the CashReceiptService.areCashTotalsInvalid method to check the cash totals.
+     * Uses the CashReceiptService.areCashAmountsInvalid method to check the cash detail and total amounts.
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        return !getCashReceiptService().areCashTotalsInvalid(getCashReceiptDocumentForValidation());
+        return !getCashReceiptService().areCashAmountsInvalid(getCashReceiptDocumentForValidation());
     }
 
     /**

@@ -30,7 +30,6 @@ import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
@@ -205,7 +204,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
             DocumentHeader docHeader = cr.getDocumentHeader();
             WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), docHeader.getDocumentNumber());
-    
+
             docHeader.setWorkflowDocument(workflowDocument);
         }
     }
@@ -225,20 +224,18 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         if (crDoc.getCurrencyDetail() != null && !crDoc.getCurrencyDetail().isEmpty()) {
             CurrencyDetail cumulativeCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCurrencyDetail.add(crDoc.getConfirmedCurrencyDetail());
-            cumulativeCurrencyDetail.subtract(crDoc.getChangeCurrencyDetail());
+            cumulativeCurrencyDetail.subtract(crDoc.getConfirmedChangeCurrencyDetail());
             businessObjectService.save(cumulativeCurrencyDetail);
-
             drawer.addCurrency(crDoc.getConfirmedCurrencyDetail());
-            drawer.removeCurrency(crDoc.getChangeCurrencyDetail());
+            drawer.removeCurrency(crDoc.getConfirmedChangeCurrencyDetail());
         }
         if (crDoc.getCoinDetail() != null && !crDoc.getCoinDetail().isEmpty()) {
             CoinDetail cumulativeCoinDetail = cashManagementDao.findCoinDetailByCashieringStatus(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCoinDetail.add(crDoc.getConfirmedCoinDetail());
-            cumulativeCoinDetail.subtract(crDoc.getChangeCoinDetail());
+            cumulativeCoinDetail.subtract(crDoc.getConfirmedChangeCoinDetail());
             businessObjectService.save(cumulativeCoinDetail);
-
             drawer.addCoin(crDoc.getConfirmedCoinDetail());
-            drawer.removeCoin(crDoc.getChangeCoinDetail());
+            drawer.removeCoin(crDoc.getConfirmedChangeCoinDetail());
         }
         businessObjectService.save(drawer);
     }
@@ -266,48 +263,101 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
     @Override
-    public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
-        String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+    public boolean areCashAmountsInvalid(CashReceiptDocument cashReceiptDocument) {
+        /* FIXME FIXED by KFSCNTRB-1793
+         * The previous code didn't validate change amounts, and there was no validation on each currency/coin detail amount either.
+         * We need to make sure that amount of each denomination in any currency or coin detail is non-negative, not just the total.
+         * The previous code didn't consider whether check/cash/change have been confirmed or not, when checking the amounts are checked.
+         * We need to distinguish the confirmation status here, because when CR is routed, Cash Manger can adjust these amounts before
+         * approval, so the confirmed amounts shall be checked; otherwise, if CR is preroute, we should check the original amounts.
+         */
 
-        boolean isInvalid = isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCheckAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CHECK_AMOUNT);
-        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCashAmount(), documentEntryName, KFSPropertyConstants.TOTAL_CASH_AMOUNT);
-        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalCoinAmount(), documentEntryName, KFSPropertyConstants.TOTAL_COIN_AMOUNT);
-
-        isInvalid |= isTotalInvalid(cashReceiptDocument, cashReceiptDocument.getTotalDollarAmount(), documentEntryName, KFSPropertyConstants.SUM_TOTAL_AMOUNT);
-
+        boolean isInvalid = false;
+        isInvalid |= isDetailOrTotalInvalid(cashReceiptDocument, KFSPropertyConstants.CHECK);
+        isInvalid |= isDetailOrTotalInvalid(cashReceiptDocument, KFSPropertyConstants.CURRENCY);
+        isInvalid |= isDetailOrTotalInvalid(cashReceiptDocument, KFSPropertyConstants.COIN);
+        isInvalid |= isDetailOrTotalInvalid(cashReceiptDocument, KFSPropertyConstants.CHANGE_CURRENCY);
+        isInvalid |= isDetailOrTotalInvalid(cashReceiptDocument, KFSPropertyConstants.CHANGE_COIN);
         return isInvalid;
     }
 
     /**
-     * Puts an error message in the error map for that property if the amount is negative.
+     * Returns true if any cash detail or total amount of the specified cash category is invalid,
+     * and puts an error message in the error map for the corresponding detail/total property.
      *
      * @param cashReceiptDocument submitted cash receipt document
-     * @param totalAmount total amount (cash total, check total, etc)
-     * @param documentEntryName document type
-     * @param propertyName property type (i.e totalCashAmount, totalCheckAmount, etc)
-     * @return true if the totalAmount is an invalid value
+     * @param cashCategory cash category (i.e. check, currency, coin)
+     * @return true if any amount of the category is an invalid value
      */
-    protected boolean isTotalInvalid(CashReceiptFamilyBase cashReceiptDocument, KualiDecimal totalAmount, String documentEntryName, String propertyName) {
+    protected boolean isDetailOrTotalInvalid(CashReceiptDocument cashReceiptDocument, String cashCategory) {
         boolean isInvalid = false;
-        String errorProperty = DOCUMENT_ERROR_PREFIX + propertyName;
+        boolean detailNegative = false;
+        boolean totalNegative = false;
+        KualiDecimal totalAmount = null;
 
-        if (totalAmount != null) {
-            if (totalAmount.isNegative()) {
-                String errorLabel = dataDictionaryService.getAttributeLabel(documentEntryName, propertyName);
-                GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, errorLabel);
+        boolean isPreRoute = cashReceiptDocument.isPreRoute();
+        String detailPrefix = isPreRoute ? cashCategory : KFSPropertyConstants.CONFIRMED + StringUtils.capitalize(cashCategory);
+        String detailProperty = DOCUMENT_ERROR_PREFIX + detailPrefix + KFSPropertyConstants.DETAIL_PREFIX + KFSPropertyConstants.TOTAL_AMOUNT;
+        String totalProperty = DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.TOTAL + StringUtils.capitalize(detailPrefix) + StringUtils.capitalize(KFSPropertyConstants.AMOUNT);
+        String detailErrorProperty = KFSPropertyConstants.TOTAL_AMOUNT;
+        String totalErrorProperty = KFSPropertyConstants.TOTAL + StringUtils.capitalize(cashCategory) + StringUtils.capitalize(KFSPropertyConstants.AMOUNT);
+        String detailErrorLabel = "";
+        String totalErrorLabel = dataDictionaryService.getAttributeErrorLabel(CashReceiptDocument.class, totalErrorProperty);
+        totalErrorLabel = isPreRoute ? totalErrorLabel : StringUtils.capitalize(KFSPropertyConstants.CONFIRMED) + totalErrorLabel;
 
-                isInvalid = true;
-            } else {
-                int precount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
+        if (StringUtils.equalsIgnoreCase(KFSPropertyConstants.CHECK, cashCategory)) {
+            totalAmount = isPreRoute ? cashReceiptDocument.getTotalCheckAmount() : cashReceiptDocument.getTotalConfirmedCheckAmount();
+            // we don't validate each check here, since that should have been validated when checks are added
+        }
+        else if (StringUtils.equalsIgnoreCase(KFSPropertyConstants.CURRENCY, cashCategory)) {
+            CurrencyDetail currencyDetail = isPreRoute ? cashReceiptDocument.getCurrencyDetail() : cashReceiptDocument.getConfirmedCurrencyDetail();
+            detailNegative = ObjectUtils.isNull(currencyDetail) ? false : currencyDetail.hasNegativeAmount();
+            totalAmount = isPreRoute ? cashReceiptDocument.getTotalCurrencyAmount() : cashReceiptDocument.getTotalConfirmedCurrencyAmount();
+            detailErrorLabel = dataDictionaryService.getAttributeErrorLabel(CurrencyDetail.class, detailErrorProperty);
+        }
+        else if (StringUtils.equalsIgnoreCase(KFSPropertyConstants.COIN, cashCategory)) {
+            CoinDetail coinDetail = isPreRoute ? cashReceiptDocument.getCoinDetail() : cashReceiptDocument.getConfirmedCoinDetail();
+            detailNegative = ObjectUtils.isNull(coinDetail) ? false : coinDetail.hasNegativeAmount();
+            totalAmount = isPreRoute ? cashReceiptDocument.getTotalCoinAmount() : cashReceiptDocument.getTotalConfirmedCoinAmount();
+            detailErrorLabel = dataDictionaryService.getAttributeErrorLabel(CoinDetail.class, detailErrorProperty);
+        }
+        else if (StringUtils.equalsIgnoreCase(KFSPropertyConstants.CHANGE_CURRENCY, cashCategory)) {
+            CurrencyDetail currencyDetail = isPreRoute ? cashReceiptDocument.getChangeCurrencyDetail() : cashReceiptDocument.getConfirmedChangeCurrencyDetail();
+            detailNegative = ObjectUtils.isNull(currencyDetail) ? false : currencyDetail.hasNegativeAmount();
+            totalAmount = isPreRoute ? cashReceiptDocument.getTotalChangeCurrencyAmount() : cashReceiptDocument.getTotalConfirmedChangeCurrencyAmount();
+            detailErrorLabel = dataDictionaryService.getAttributeErrorLabel(CurrencyDetail.class, detailErrorProperty);
+        }
+        else if (StringUtils.equalsIgnoreCase(KFSPropertyConstants.CHANGE_COIN, cashCategory)) {
+            CoinDetail coinDetail = isPreRoute ? cashReceiptDocument.getChangeCoinDetail() : cashReceiptDocument.getConfirmedChangeCoinDetail();
+            detailNegative = ObjectUtils.isNull(coinDetail) ? false : coinDetail.hasNegativeAmount();
+            totalAmount = isPreRoute ? cashReceiptDocument.getTotalChangeCoinAmount() : cashReceiptDocument.getTotalConfirmedChangeCoinAmount();
+            detailErrorLabel = dataDictionaryService.getAttributeErrorLabel(CoinDetail.class, detailErrorProperty);
+        }
 
-                dictionaryValidationService.validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
+        totalNegative = (totalAmount == null) ? false : totalAmount.isNegative();
+        detailErrorLabel = isPreRoute ? detailErrorLabel : StringUtils.capitalize(KFSPropertyConstants.CONFIRMED) + detailErrorLabel;
 
-                String errorLabel = dataDictionaryService.getAttributeLabel(documentEntryName, propertyName);
+        // if cash detail has negative amount(s), put error message on its total amount field in detail tab
+        if (detailNegative) {
+            GlobalVariables.getMessageMap().putError(detailProperty, CashReceipt.ERROR_NEGATIVE_CASH_DETAIL_AMOUNT, detailErrorLabel);
+            isInvalid = true;
+        }
+
+        // if cash total amount is negative, put error message on its total amount field in reconciliation tab
+        if (totalNegative) {
+            GlobalVariables.getMessageMap().putError(totalProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, totalErrorLabel);
+            isInvalid = true;
+        } else {
+            int precount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
+            // only run DD validation on the total amount if it's define in the DD
+            if (dataDictionaryService.isAttributeDefined(CashReceiptDocument.class, totalProperty)) {
+                dictionaryValidationService.validateDocumentAttribute(cashReceiptDocument, totalProperty, DOCUMENT_ERROR_PREFIX);
+            }
+            int postcount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
+            if (postcount > precount) {
                 // replace generic error message, if any, with something more readable
-                GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
-
-                int postcount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
-                isInvalid = (postcount > precount);
+                GlobalVariables.getMessageMap().replaceError(totalProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, totalErrorLabel);
+                isInvalid = true;
             }
         }
 

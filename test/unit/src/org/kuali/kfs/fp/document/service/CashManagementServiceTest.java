@@ -711,7 +711,6 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
-        crDoc.setTotalConfirmedCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
         crDoc.setTotalConfirmedCheckAmount(checkAmount);
 
         crDoc.setCampusLocationCode(campusCode);

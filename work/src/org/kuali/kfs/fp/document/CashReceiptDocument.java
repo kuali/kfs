@@ -33,6 +33,8 @@ import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -82,15 +84,17 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     protected Integer nextConfirmedCheckSequenceId = new Integer(1);
 
     // monetary attributes
-    protected KualiDecimal totalCashAmount = KualiDecimal.ZERO;
+
+    // TODO KFSCNTRB-1793 fields not used or needed:
+    // These total amount fields except the check ones aren't needed, since their values are computed by the getters;
+    // the setters are never used and aren't needed; also these fields exist in DB, but the values are never set.
+    protected KualiDecimal totalCurrencyAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
     protected KualiDecimal sumTotalAmount = KualiDecimal.ZERO;
-
-    protected KualiDecimal totalConfirmedCashAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalConfirmedCurrencyAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalConfirmedCheckAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalConfirmedCoinAmount = KualiDecimal.ZERO;
-
     protected KualiDecimal totalChangeAmount = KualiDecimal.ZERO;
 
     protected CurrencyDetail currencyDetail;
@@ -101,6 +105,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     protected CurrencyDetail changeCurrencyDetail;
     protected CoinDetail changeCoinDetail;
+
+    protected CurrencyDetail confirmedChangeCurrencyDetail;
+    protected CoinDetail confirmedChangeCoinDetail;
 
     protected boolean recategorized;
 
@@ -113,41 +120,50 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         super();
 
         initializeCampusLocationCode();
-
-        currencyDetail = new CurrencyDetail();
-        coinDetail = new CoinDetail();
-
-        confirmedCurrencyDetail = new CurrencyDetail();
-        confirmedCoinDetail = new CoinDetail();
-
-        changeCurrencyDetail = new CurrencyDetail();
-        changeCoinDetail = new CoinDetail();
+        initializeCashChangeDetails();
     }
 
     /**
-     * Gets the totalCashAmount attribute.
-     *
-     * @return Returns the totalCashAmount.
+     * Initializes all currency/coin and change currency/coin details.
      */
-    public KualiDecimal getTotalCashAmount() {
+    public void initializeCashChangeDetails() {
+        currencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
+        coinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
+
+        confirmedCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        confirmedCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+
+        changeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
+        changeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
+
+        confirmedChangeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+        confirmedChangeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+    }
+
+    /**
+     * Gets the totalCurrencyAmount attribute.
+     *
+     * @return Returns the totalCurrencyAmount.
+     */
+    public KualiDecimal getTotalCurrencyAmount() {
         return (currencyDetail != null) ? currencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
 
     /**
-     * Gets the totalConfirmedCashAmount attribute.
+     * Gets the totalConfirmedCurrencyAmount attribute.
      *
-     * @return Returns the totalConfirmedCashAmount.
+     * @return Returns the totalConfirmedCurrencyAmount.
      */
-    public KualiDecimal getTotalConfirmedCashAmount() {
+    public KualiDecimal getTotalConfirmedCurrencyAmount() {
         return (confirmedCurrencyDetail != null) ? confirmedCurrencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
 
     /**
-     * Gets the totalChangeCashAmount attribute.
+     * Gets the totalChangeCurrencyAmount attribute.
      *
-     * @return Returns the totalChangeCashAmount.
+     * @return Returns the totalChangeCurrencyAmount.
      */
-    public KualiDecimal getTotalChangeCashAmount() {
+    public KualiDecimal getTotalChangeCurrencyAmount() {
         return (changeCurrencyDetail != null) ? changeCurrencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
 
@@ -190,31 +206,31 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      *
      * @return String
      */
-    public String getCurrencyFormattedTotalCashAmount() {
-        return (String) new CurrencyFormatter().format(getTotalCashAmount());
+    public String getCurrencyFormattedTotalCurrencyAmount() {
+        return (String) new CurrencyFormatter().format(getTotalCurrencyAmount());
     }
 
 
-    public String getCurrencyFormattedTotalConfirmedCashAmount() {
-        return (String) new CurrencyFormatter().format(getTotalConfirmedCashAmount());
-    }
-
-    /**
-     * Sets the totalCashAmount attribute value.
-     *
-     * @param cashAmount The totalCashAmount to set.
-     */
-    public void setTotalCashAmount(KualiDecimal cashAmount) {
-        this.totalCashAmount = cashAmount;
+    public String getCurrencyFormattedTotalConfirmedCurrencyAmount() {
+        return (String) new CurrencyFormatter().format(getTotalConfirmedCurrencyAmount());
     }
 
     /**
-     * Sets the totalConfirmedCashAmount attribute value.
+     * Sets the totalCurrencyAmount attribute value.
      *
-     * @param cashAmount The totalConfirmedCashAmount to set.
+     * @param totalCurrencyAmount The totalCurrencyAmount to set.
      */
-    public void setTotalConfirmedCashAmount(KualiDecimal confirmedCashAmount) {
-        this.totalConfirmedCashAmount = confirmedCashAmount;
+    public void setTotalCurrencyAmount(KualiDecimal totalCurrencyAmount) {
+        this.totalCurrencyAmount = totalCurrencyAmount;
+    }
+
+    /**
+     * Sets the totalConfirmedCurrencyAmount attribute value.
+     *
+     * @param totalConfirmedCurrencyAmount The totalConfirmedCurrencyAmount to set.
+     */
+    public void setTotalConfirmedCurrencyAmount(KualiDecimal totalConfirmedCurrencyAmount) {
+        this.totalConfirmedCurrencyAmount = totalConfirmedCurrencyAmount;
     }
 
 
@@ -551,20 +567,23 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * Deprecated: Use getTotalConfirmedNetAmount() instead.
      * returns (confirmed currency + confirmed coin - change amount)
      *
      * @return
      */
+    @Deprecated
     public KualiDecimal getGrandTotalConfirmedCashAmount() {
-        return getTotalConfirmedCashAmount().add(getTotalConfirmedCoinAmount()).subtract(getTotalChangeAmount());
+        return getTotalConfirmedNetAmount();
     }
+
 
     /**
      * returns (confirmed currency + confirmed coin - change amount) as a currency formatted string
      * @return
      */
     public String getCurrencyFormattedGrandTotalConfirmedCashAmount() {
-        return (String) new CurrencyFormatter().format(getGrandTotalConfirmedCashAmount());
+        return (String) new CurrencyFormatter().format(getTotalConfirmedNetAmount());
     }
 
     /**
@@ -586,32 +605,33 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * This method returns the overall total of the document - coin plus check plus cash.
+     * Gets the overall total dollar amount of the document.
+     * This is the amount displayed in the document header, and used as one of the document search criteria.
+     * It is the net deposit total amount of the CR, and should equal to the accounting line total amount.
+     *  net deposit = money in - money out;
+     *  money in = check + currency + coin;
+     *  money out = change currency + change coin = change total.
      *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        if(getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
-            return getTotalConfirmedDollarAmount();
-        } else {
-            return getTotalCoinAmount().add(getTotalCheckAmount()).add(getTotalCashAmount());
+        /* FIXME FIXED by KFSCNTRB-1793
+         * The previous code returns Money In total, which doesn't match the accounting line total when change request is not zero.
+         * This will cause inconsistency when accounting line is validate/modified. We should return the net deposit total instead.
+         */
+        // if CR is preroute, use the original amount;
+        if(isPreRoute()) {
+            return getTotalNetAmount();        }
+        // otherwise, otherwise use the confirmed amount
+        else {
+            return getTotalConfirmedNetAmount();
         }
     }
 
-    /**
-     * This method returns the overall confirmed total of the document - coin plus check plus cash.
-     *
-     * @return KualiDecimal
-     */
-    public KualiDecimal getTotalConfirmedDollarAmount() {
-        KualiDecimal sumTotalAmount = getTotalConfirmedCoinAmount().add(getTotalConfirmedCheckAmount()).add(getTotalConfirmedCashAmount());
-        return sumTotalAmount;
-    }
-
     public KualiDecimal getTotalChangeAmount() {
-        return getTotalChangeCoinAmount().add(getTotalChangeCashAmount());
+        return getTotalChangeCoinAmount().add(getTotalChangeCurrencyAmount());
     }
 
     /**
@@ -723,39 +743,12 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * Retrieves the summed total amount in a currency format with commas.
-     *
-     * @return String
-     */
-    public String getCurrencyFormattedSumTotalAmount() {
-        return (String) new CurrencyFormatter().format(getTotalDollarAmount());
-    }
-
-    /**
-     * Retrieves the confirmed summed total amount in a currency format with commas.
-     *
-     * @return String
-     */
-    public String getCurrencyFormattedConfirmedSumTotalAmount() {
-        return (String) new CurrencyFormatter().format(getTotalConfirmedDollarAmount());
-    }
-
-    /**
-     * Retrieves the final summed total amount (after subtracting change amount)in currency format with commas.
-     *
-     * @return String
-     */
-    public String getCurrencyFormattedFinalSumTotalAmount() {
-        return (String) new CurrencyFormatter().format(getTotalConfirmedDollarAmount().subtract(getTotalChangeAmount()));
-    }
-
-
-    /**
      * Retrieves the change total amount in a currency format with commas.
      *
      * @return String
      */
-    public String getCurrencyFormattedChangeTotalAmount() {
+    @Deprecated
+    public String getCurrencyFormattedTotalChangeAmount() {
         return (String) new CurrencyFormatter().format(getTotalChangeAmount());
     }
 
@@ -870,49 +863,92 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
-        boolean cM_veifies = (getTotalConfirmedDollarAmount().compareTo(KualiDecimal.ZERO) != 0);
-        if (retrieveCurrencyDetail() == null) {
-            getCurrencyDetail().setDocumentNumber(this.getDocumentNumber());
-            getCurrencyDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            getCurrencyDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
-        }
+        //TODO KFSCNTRB-1793 why do we need to save the details separately, instead of let OJB do it?
+        /* FIXME FIXED by KFSCNTRB-1793
+         * The previous code has a bug: it only saves a detail when its total is not zero.
+         * This means that when the detail was non-zero and saved before, and now it is cleared to 0,
+         * it won't be saved, leaving the previously saved non-zero detail still in DB.
+         * Next time CR is loaded, the old value will show up again. Basically it won't allow clearing a detail to 0.
+         */
 
-        if (retrieveCoinDetail() == null) {
-            getCoinDetail().setDocumentNumber(this.getDocumentNumber());
-            getCoinDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            getCoinDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
-        }
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
-        if(cM_veifies) {
-            getConfirmedCurrencyDetail().setDocumentNumber(this.getDocumentNumber());
-            getConfirmedCurrencyDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            getConfirmedCurrencyDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-
-            getConfirmedCoinDetail().setDocumentNumber(this.getDocumentNumber());
-            getConfirmedCoinDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            getConfirmedCoinDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-
-            SpringContext.getBean(BusinessObjectService.class).save(getConfirmedCurrencyDetail());
-            SpringContext.getBean(BusinessObjectService.class).save(getConfirmedCoinDetail());
-        }
-        if(!(getTotalChangeAmount().compareTo(KualiDecimal.ZERO) == 0)) {
-            getChangeCurrencyDetail().setDocumentNumber(this.getDocumentNumber());
-            getChangeCurrencyDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            getChangeCoinDetail().setDocumentNumber(this.getDocumentNumber());
-            getChangeCoinDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-            if (cM_veifies) {
-                getChangeCurrencyDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_CHANGE_GRANTED);
-                getChangeCoinDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_CHANGE_GRANTED);
-            } else {
-                getChangeCurrencyDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_CHANGE_REQUEST);
-                getChangeCoinDetail().setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_CHANGE_REQUEST);
+        // if CR is not enroute yet, confirmed details aren't filled yet, so only need to save original details
+        if (isPreRoute()) {
+            // if currencyDetail not empty, save it
+            if (!currencyDetail.isEmpty()) {
+                boService.save(currencyDetail);
             }
-            SpringContext.getBean(BusinessObjectService.class).save(getChangeCurrencyDetail());
-            SpringContext.getBean(BusinessObjectService.class).save(getChangeCoinDetail());
-        }
+            // otherwise, check if it is previously saved, if yes, delete old currencyDetail
+            else if (retrieveCurrencyDetail() != null) {
+                boService.delete(currencyDetail);
+            }
 
-        SpringContext.getBean(BusinessObjectService.class).save(getCurrencyDetail());
-        SpringContext.getBean(BusinessObjectService.class).save(getCoinDetail());
+            // if coinDetail not empty, save it
+            if (!coinDetail.isEmpty()) {
+                boService.save(coinDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old coinDetail
+            else if (retrieveCoinDetail() != null) {
+                boService.delete(coinDetail);
+            }
+
+            // if changeCurrencyDetail not empty, save it
+            if (!changeCurrencyDetail.isEmpty()) {
+                boService.save(changeCurrencyDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old changeCurrencyDetail
+            else if (retrieveChangeCurrencyDetail() != null) {
+                boService.delete(changeCurrencyDetail);
+            }
+
+            // if changeCoinDetail not empty, save it
+            if (!changeCoinDetail.isEmpty()) {
+                boService.save(changeCoinDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old changeCoinDetail
+            else if (retrieveChangeCoinDetail() != null) {
+                boService.delete(changeCoinDetail);
+            }
+        }
+        // if CR is enroute, original details are not editable, so only need to save the confirmed details
+        else {
+            // if confirmedCurrencyDetail not empty, save it
+            if (!confirmedCurrencyDetail.isEmpty()) {
+                boService.save(confirmedCurrencyDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old confirmedCurrencyDetail
+            else if (retrieveConfirmedCurrencyDetail() != null) {
+                boService.delete(confirmedCurrencyDetail);
+            }
+
+            // if confirmedCoinDetail not empty, save it
+            if (!confirmedCoinDetail.isEmpty()) {
+                boService.save(confirmedCoinDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old confirmedCoinDetail
+            else if (retrieveConfirmedCoinDetail() != null) {
+                boService.delete(confirmedCoinDetail);
+            }
+
+            // if confirmedChangeCurrencyDetail not empty, save it
+            if (!confirmedChangeCurrencyDetail.isEmpty()) {
+                boService.save(confirmedChangeCurrencyDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old confirmedChangeCurrencyDetail
+            else if (retrieveConfirmedChangeCurrencyDetail() != null) {
+                boService.delete(confirmedChangeCurrencyDetail);
+            }
+
+            // if confirmedChangeCoinDetail not empty, save it
+            if (!confirmedChangeCoinDetail.isEmpty()) {
+                boService.save(confirmedChangeCoinDetail);
+            }
+            // otherwise, check if it is previously saved, if yes, delete old confirmedChangeCoinDetail
+            else if (retrieveConfirmedChangeCoinDetail() != null) {
+                boService.delete(confirmedChangeCoinDetail);
+            }
+        }
 
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
@@ -924,24 +960,65 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * This method refreshes the currency/coin details for this cash receipt document
      */
     public void refreshCashDetails() {
-        this.currencyDetail = retrieveCurrencyDetail();
-        this.coinDetail = retrieveCoinDetail();
-        CurrencyDetail retrievedCurrencyDetail = retrieveConfirmedCurrencyDetail();
-        CoinDetail retrievedCoinDetail = retrieveConfirmedCoinDetail();
-        CurrencyDetail retrievedChangeCurrDetail = retrieveChangeCurrencyDetail();
+        CurrencyDetail retrievedCurrencyDetail = retrieveCurrencyDetail();
+        CoinDetail retrievedCoinDetail = retrieveCoinDetail();
+        CurrencyDetail retrievedConfirmedCurrencyDetail = retrieveConfirmedCurrencyDetail();
+        CoinDetail retrievedConfirmedCoinDetail = retrieveConfirmedCoinDetail();
+        CurrencyDetail retrievedChangeCurrencyDetail = retrieveChangeCurrencyDetail();
         CoinDetail retrievedChangeCoinDetail = retrieveChangeCoinDetail();
-        //If this method is called before the cash-in record is inserted into the DB, it should not assign null
+        CurrencyDetail retrievedConfirmedChangeCurrencyDetail = retrieveConfirmedChangeCurrencyDetail();
+        CoinDetail retrievedConfirmedChangeCoinDetail = retrieveConfirmedChangeCoinDetail();
+
+        // If this method is called before the cash detail records are inserted into the DB, reset the detail to initial values.
+        // In normal cases, when this happens, the details shall be in initial status anyways, since this method should only be called
+        // as a post-process after retrieving CR from DB.
         if(retrievedCurrencyDetail != null) {
-            this.confirmedCurrencyDetail = retrievedCurrencyDetail;
+            currencyDetail = retrievedCurrencyDetail;
+        }
+        else {
+            currencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
         }
         if(retrievedCoinDetail != null) {
-            this.confirmedCoinDetail = retrievedCoinDetail;
+            coinDetail = retrievedCoinDetail;
         }
-        if(retrievedChangeCurrDetail != null) {
-            this.changeCurrencyDetail = retrievedChangeCurrDetail;
+        else {
+            coinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
+        }
+        if(retrievedConfirmedCurrencyDetail != null) {
+            confirmedCurrencyDetail = retrievedConfirmedCurrencyDetail;
+        }
+        else {
+            confirmedCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        }
+        if(retrievedConfirmedCoinDetail != null) {
+            confirmedCoinDetail = retrievedConfirmedCoinDetail;
+        }
+        else {
+            confirmedCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        }
+        if(retrievedChangeCurrencyDetail != null) {
+            changeCurrencyDetail = retrievedChangeCurrencyDetail;
+        }
+        else {
+            changeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
         }
         if(retrievedChangeCoinDetail != null) {
-            this.changeCoinDetail = retrievedChangeCoinDetail;
+            changeCoinDetail = retrievedChangeCoinDetail;
+        }
+        else {
+            changeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
+        }
+        if(retrievedConfirmedChangeCurrencyDetail != null) {
+            confirmedChangeCurrencyDetail = retrievedConfirmedChangeCurrencyDetail;
+        }
+        else {
+            confirmedChangeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+        }
+        if(retrievedConfirmedChangeCoinDetail != null) {
+            confirmedChangeCoinDetail = retrievedConfirmedChangeCoinDetail;
+        }
+        else {
+            confirmedChangeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
         }
     }
 
@@ -1000,6 +1077,24 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * Get this document's confirmed change currency detail from the database
+     *
+     * @return the change currency detail record for this cash receipt document
+     */
+    protected CurrencyDetail retrieveConfirmedChangeCurrencyDetail() {
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CurrencyDetail.class, getConfirmedChangeCashDetailPrimaryKey());
+    }
+
+    /**
+     * Get this document's confirmed change coin detail from the database
+     *
+     * @return the change coin detail record for this cash receipt document
+     */
+    protected CoinDetail retrieveConfirmedChangeCoinDetail() {
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getConfirmedChangeCashDetailPrimaryKey());
+    }
+
+    /**
      *
      * This method...
      * @return
@@ -1034,6 +1129,14 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         pk.put("documentNumber", this.getDocumentNumber());
         pk.put("financialDocumentTypeCode", CashReceiptDocument.DOCUMENT_TYPE);
         pk.put("cashieringStatus", KFSConstants.CurrencyCoinSources.CASH_CHANGE_REQUEST);
+        return pk;
+    }
+
+    protected Map getConfirmedChangeCashDetailPrimaryKey() {
+        Map pk = new HashMap();
+        pk.put("documentNumber", this.getDocumentNumber());
+        pk.put("financialDocumentTypeCode", CashReceiptDocument.DOCUMENT_TYPE);
+        pk.put("cashieringStatus", KFSConstants.CurrencyCoinSources.CASH_CHANGE_GRANTED);
         return pk;
     }
 
@@ -1191,6 +1294,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
+        /* TODO Discovered by KFSCNTRB-1793
+         * Currently copying a CR always copies the pre-verified cash details, even after CR is already verified.
+         * We probably should copy the confirmed details after CR is verified.
+         */
         initializeCampusLocationCode();
 
         if ((getChecks() == null || getChecks().isEmpty()) && getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
@@ -1200,7 +1307,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Initializes the campus location code based on kfs user role chart org
-     *
      */
     public void initializeCampusLocationCode(){
 
@@ -1223,23 +1329,198 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         }
     }
 
-    /**
+    /** Deprecated: never used
      * Gets the sumTotalAmount attribute.
      *
      * @return Returns the sumTotalAmount
      */
-
+    @Deprecated
     public KualiDecimal getSumTotalAmount() {
         return sumTotalAmount;
     }
 
-    /**
+    /** Deprecated: never used
      * Sets the sumTotalAmount attribute.
      *
      * @param sumTotalAmount The sumTotalAmount to set.
      */
+    @Deprecated
     public void setSumTotalAmount(KualiDecimal sumTotalAmount) {
         this.sumTotalAmount = sumTotalAmount;
+    }
+
+
+    public CurrencyDetail getConfirmedChangeCurrencyDetail() {
+        return confirmedChangeCurrencyDetail;
+    }
+
+    public void setConfirmedChangeCurrencyDetail(CurrencyDetail confirmedChangeCurrencyDetail) {
+        this.confirmedChangeCurrencyDetail = confirmedChangeCurrencyDetail;
+    }
+
+    public CoinDetail getConfirmedChangeCoinDetail() {
+        return confirmedChangeCoinDetail;
+    }
+
+    public void setConfirmedChangeCoinDetail(CoinDetail confirmedChangeCoinDetail) {
+        this.confirmedChangeCoinDetail = confirmedChangeCoinDetail;
+    }
+
+    /**
+     * Gets the original (i.e. before Cash Manager adjustment) cash in total amount:
+     *  cash in = currency + coin;
+     */
+    public KualiDecimal getTotalCashInAmount() {
+        return getTotalCurrencyAmount().add(getTotalCoinAmount());
+    }
+
+    /**
+     * Gets the original (i.e. before Cash Manager adjustment) money in total amount:
+     *  money in = check + cash in;
+     *  cash in = currency + coin;
+     */
+    public KualiDecimal getTotalMoneyInAmount() {
+        return getTotalCheckAmount().add(getTotalCashInAmount());
+    }
+
+    /**
+     * Gets the original (i.e. before Cash Manager adjustment) reconciliation net total amount:
+     *  recon net = money in - money out = net deposit;
+     *  money in = check + currency + coin;
+     *  money out = change currency + change coin = change total.
+     */
+    public KualiDecimal getTotalNetAmount() {
+        return getTotalMoneyInAmount().subtract(getTotalChangeAmount());
+    }
+
+    /**
+     * Gets the total confirmed change currency amount.
+     */
+    public KualiDecimal getTotalConfirmedChangeCurrencyAmount() {
+        return (confirmedChangeCurrencyDetail != null) ? confirmedChangeCurrencyDetail.getTotalAmount() : KualiDecimal.ZERO;
+    }
+
+    /**
+     * Gets the total confirmed change coin amount.
+     */
+    public KualiDecimal getTotalConfirmedChangeCoinAmount() {
+        return (confirmedChangeCoinDetail != null) ? confirmedChangeCoinDetail.getTotalAmount() : KualiDecimal.ZERO;
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) change request (money out) total amount:
+     *  money out = change currency + change coin = change total.
+     */
+    public KualiDecimal getTotalConfirmedChangeAmount() {
+        return getTotalConfirmedChangeCurrencyAmount().add(getTotalConfirmedChangeCoinAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. before Cash Manager adjustment) cash in total amount:
+     *  cash in = currency + coin;
+     */
+    public KualiDecimal getTotalConfirmedCashInAmount() {
+        return getTotalConfirmedCurrencyAmount().add(getTotalConfirmedCoinAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) money in total amount:
+     *  money in = check + cash in;
+     *  cash in = currency + coin;
+     */
+    public KualiDecimal getTotalConfirmedMoneyInAmount() {
+        return getTotalConfirmedCheckAmount().add(getTotalConfirmedCashInAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) net currency total amount:
+     *  net currency = currency - change currency
+     */
+    public KualiDecimal getTotalConfirmedNetCurrencyAmount() {
+        return getTotalConfirmedCurrencyAmount().subtract(getTotalConfirmedChangeCurrencyAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) net coin total amount:
+     *  net coin = coin - change coin
+     */
+    public KualiDecimal getTotalConfirmedNetCoinAmount() {
+        return getTotalConfirmedCoinAmount().subtract(getTotalConfirmedChangeCoinAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) net cash total amount:
+     *  net cash = net currency + net coin
+     *  net currency = currency - change currency
+     *  net coin = coin - change coin
+     *  or:
+     *  net cash = cash in - cash out
+     *  cash in = currency + coin;
+     *  cash out = change currency + change coin = change total.
+     */
+    public KualiDecimal getTotalConfirmedNetCashAmount() {
+        return getTotalConfirmedNetCurrencyAmount().add(getTotalConfirmedNetCoinAmount());
+    }
+
+    /**
+     * Gets the confirmed (i.e. after Cash Manager adjustment) reconciliation net total amount:
+     *  recon net = money in - money out = net deposit;
+     *  money in = check + currency + coin;
+     *  money out = change currency + change coin = change total.
+     */
+    public KualiDecimal getTotalConfirmedNetAmount() {
+        return getTotalConfirmedMoneyInAmount().subtract(getTotalConfirmedChangeAmount());
+    }
+
+    /**
+     * Returns true if the original change request has any field populated.
+     */
+    public boolean isOriginalChangeRequested() {
+        return !changeCurrencyDetail.isEmpty() || !changeCoinDetail.isEmpty();
+        //return getTotalChangeAmount().isNonZero();
+    }
+
+    /**
+     * Returns true if the confirmed change request has any field populated.
+     */
+    public boolean isConfirmedChangeRequested() {
+        return !confirmedChangeCurrencyDetail.isEmpty() || !confirmedChangeCoinDetail.isEmpty();
+        //return getTotalConfirmedChangeAmount().isNonZero();
+    }
+
+    /**
+     * Returns true if the change request tab is used, i.e. the original and/or the confirmed change request has any field populated.
+     */
+    public boolean isChangeRequested() {
+        return isOriginalChangeRequested() || isConfirmedChangeRequested();
+    }
+
+    /**
+     * Returns true if CR document status code is pre-route, i.e. it hasn't been routed for CashManager approval.
+     * The impact is that, during this stage, any amount we use for actions (for ex, for validation or deposit)
+     * should be pointing to the original one; otherwise, it should be pointing to the confirmed one.
+     */
+    public boolean isPreRoute() {
+        // pre-route status should be INITIATED or CANCELLED; during CM routing the status is "R".
+        String statusCode = getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
+        boolean isPreRoute = DocumentStatusCodes.INITIATED.equals(statusCode) || DocumentStatusCodes.CANCELLED.equals(statusCode);
+        return isPreRoute;
+    }
+
+    /**
+     * Returns true if CR document has been confirmed, i.e. approved by CashManagerstatus.
+     * The impact is that, after CM confirmation, the confirmed checks and cash details won't be editable anymore,
+     * but they still should be shown on the CR doc along with the original one.
+     * Note that we don't include DISAPPROVED status here, since when CM disapproves the CR, CR doesn't get saved,
+     * so no confirmed details will be saved anyways, thus no need to consider them.
+     */
+    public boolean isConfirmed() {
+        // post CM approval status could be VERIFIED, INTERIM, FINAL.
+        String statusCode = getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
+        boolean isConfirmed = CashReceipt.VERIFIED.equals(statusCode) ||
+                CashReceipt.INTERIM.equals(statusCode) ||
+                CashReceipt.FINAL.equals(statusCode);
+        return isConfirmed;
     }
 
     /**

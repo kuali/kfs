@@ -769,13 +769,14 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER" />
 
+	<!-- TODO Why do we need persisting these total amounts? We never populate these fields, their getters always compute values instead of reading from DB. -->
     <!--   cash receipt specfic attributes -->
     <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
     <field-descriptor name="postingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="totalCashAmount" column="FDOC_CASH_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalCurrencyAmount" column="FDOC_CASH_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalCheckAmount" column="FDOC_TOTL_CHCK_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalCoinAmount" column="FDOC_TOTL_COIN_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
-    <field-descriptor name="totalConfirmedCashAmount" column="FDOC_CNFRMD_CASH_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalConfirmedCurrencyAmount" column="FDOC_CNFRMD_CASH_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalConfirmedCheckAmount" column="FDOC_CNFRMD_CHCK_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalConfirmedCoinAmount" column="FDOC_CNFRMD_COIN_AMT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <!--

@@ -25,23 +25,26 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ExpiredAccountOverridePreRules"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentPresentationController"/>    
-    
-    <property name="sessionDocument" value="true"/>
-    
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentPresentationController"/>        
+
+    <property name="sessionDocument" value="true"/>    
     <property name="allowsCopy" value="true"/>
 	<property name="allowsErrorCorrection" value="false"/>
 
     <property name="attributes">
       <list>
-        <ref bean="CashReceiptDocument-totalCheckAmount"/>
-        <ref bean="CashReceiptDocument-totalCashAmount"/>
-        <ref bean="CashReceiptDocument-totalCoinAmount"/>
-        <ref bean="CashReceiptDocument-totalDollarAmount"/>
-        <ref bean="CashReceiptDocument-sumTotalAmount"/>
         <ref bean="CashReceiptDocument-documentNumber"/>
         <ref bean="CashReceiptDocument-createDate"/>
         <ref bean="CashReceiptDocument-checkEntryMode"/>
+        <ref bean="CashReceiptDocument-totalCheckAmount"/>
+        <ref bean="CashReceiptDocument-totalCurrencyAmount"/>
+        <ref bean="CashReceiptDocument-totalCoinAmount"/>
+        <ref bean="CashReceiptDocument-totalCashInAmount"/>
+        <ref bean="CashReceiptDocument-totalMoneyInAmount"/>
+        <ref bean="CashReceiptDocument-totalChangeCurrencyAmount"/>
+        <ref bean="CashReceiptDocument-totalChangeCoinAmount"/>
+        <ref bean="CashReceiptDocument-totalChangeAmount"/>
+        <ref bean="CashReceiptDocument-totalNetAmount"/>
       </list>
     </property>
     <property name="validationMap" ref="CashReceiptDocument-validations"/>
@@ -60,69 +63,11 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean"/>
-
-  <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCheckAmount"/>
-    <property name="label" value="Total Check Amount"/>
-    <property name="shortLabel" value="Total Check Amount"/>
-    
-  </bean>
-
-  <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean"/>
-  <bean id="CashReceiptDocument-checkEntryMode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="checkEntryMode"/>
-    <property name="label" value="Check Entry Mode"/>
-    <property name="shortLabel" value="Check Entry Mode"/>
-    <property name="maxLength" value="200"/>
-    
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    
-  </bean>
-    
-  <bean id="CashReceiptDocument-totalCashAmount" parent="CashReceiptDocument-totalCashAmount-parentBean"/>
-
-  <bean id="CashReceiptDocument-totalCashAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCashAmount"/>
-    <property name="label" value="Total Currency Amount"/>
-    <property name="shortLabel" value="Total Currency Amount"/>
-    
-  </bean>
-  <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean"/>
-
-  <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalCoinAmount"/>
-    <property name="label" value="Total Coin Amount"/>
-    <property name="shortLabel" value="Total Coin Amount"/>
-    
-  </bean>
-  <bean id="CashReceiptDocument-totalDollarAmount" parent="CashReceiptDocument-totalDollarAmount-parentBean"/>
-
-  <bean id="CashReceiptDocument-totalDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalDollarAmount"/>
-    <property name="label" value="Cash Reconciliation Total"/>
-    <property name="shortLabel" value="Cash Reconciliation Total"/>
-    
-  </bean>
-  
-  <bean id="CashReceiptDocument-sumTotalAmount" parent="CashReceiptDocument-sumTotalAmount-parentBean"/>
-  
-  <bean id="CashReceiptDocument-sumTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="sumTotalAmount"/>
-    <property name="label" value="Sum Total Amount"/>
-    <property name="shortLabel" value="Sum Total Amount"/>
-    
-  </bean>
-  
   <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean"/>
-
   <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
+  
   <bean id="CashReceiptDocument-createDate" parent="CashReceiptDocument-createDate-parentBean"/>
-
   <bean id="CashReceiptDocument-createDate-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="createDate" />
 		<property name="forceUppercase" value="true" />
@@ -135,6 +80,81 @@
 		</property>
   </bean>
 
+  <bean id="CashReceiptDocument-checkEntryMode" parent="CashReceiptDocument-checkEntryMode-parentBean"/>
+  <bean id="CashReceiptDocument-checkEntryMode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="checkEntryMode"/>
+    <property name="label" value="Check Entry Mode"/>
+    <property name="shortLabel" value="Check Entry Mode"/>
+    <property name="maxLength" value="200"/>    
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CashReceiptCheckEntryModeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalCheckAmount" parent="CashReceiptDocument-totalCheckAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalCheckAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalCheckAmount"/>
+    <property name="label" value="Total Check Amount"/>
+    <property name="shortLabel" value="Total Check"/>   
+  </bean>  
+    
+  <bean id="CashReceiptDocument-totalCurrencyAmount" parent="CashReceiptDocument-totalCurrencyAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalCurrencyAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalCurrencyAmount"/>
+    <property name="label" value="Total Currency Amount"/>
+    <property name="shortLabel" value="Total Currency"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalCoinAmount" parent="CashReceiptDocument-totalCoinAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalCoinAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalCoinAmount"/>
+    <property name="label" value="Total Coin Amount"/>
+    <property name="shortLabel" value="Total Coin"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalCashInAmount" parent="CashReceiptDocument-totalCashInAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalCashInAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalCashInAmount"/>
+    <property name="label" value="Cash Submission SubTotal"/>
+    <property name="shortLabel" value="Cash In SubTotal"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalMoneyInAmount" parent="CashReceiptDocument-totalMoneyInAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalMoneyInAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalMoneyInAmount"/>
+    <property name="label" value="Money Submission Total"/>
+    <property name="shortLabel" value="Money In Total"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalChangeCurrencyAmount" parent="CashReceiptDocument-totalChangeCurrencyAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalChangeCurrencyAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalChangeCurrencyAmount"/>
+    <property name="label" value="Total Change Currency Amount"/>
+    <property name="shortLabel" value="Total Change Currency"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalChangeCoinAmount" parent="CashReceiptDocument-totalChangeCoinAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalChangeCoinAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalChangeCoinAmount"/>
+    <property name="label" value="Total Change Coin Amount"/>
+    <property name="shortLabel" value="Total Change Coin"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalChangeAmount" parent="CashReceiptDocument-totalChangeAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalChangeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalChangeAmount"/>
+    <property name="label" value="Change Request Total"/>
+    <property name="shortLabel" value="Change Out Total"/>    
+  </bean>
+  
+  <bean id="CashReceiptDocument-totalNetAmount" parent="CashReceiptDocument-totalNetAmount-parentBean"/>
+  <bean id="CashReceiptDocument-totalNetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalNetAmount"/>
+    <property name="label" value="Reconciliation Net Total"/>
+    <property name="shortLabel" value="Net Total"/>    
+  </bean>
+  
+    
   <!-- validations -->
   
   <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean"/>

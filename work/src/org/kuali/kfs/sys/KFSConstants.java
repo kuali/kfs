@@ -543,16 +543,6 @@ public class KFSConstants {
     // CashManagement tab errors
     public static final String CASH_MANAGEMENT_DEPOSIT_ERRORS = "document.deposit*";
 
-    // Coin and Currency Amounts
-    public static class CoinTypeAmounts {
-        public static final KualiDecimal HUNDRED_CENT_AMOUNT = new KualiDecimal(1.0);
-        public static final KualiDecimal FIFTY_CENT_AMOUNT = new KualiDecimal(0.5);
-        public static final KualiDecimal TWENTY_FIVE_CENT_AMOUNT = new KualiDecimal(0.25);
-        public static final KualiDecimal TEN_CENT_AMOUNT = new KualiDecimal(0.1);
-        public static final KualiDecimal FIVE_CENT_AMOUNT = new KualiDecimal(0.05);
-        public static final KualiDecimal ONE_CENT_AMOUNT = new KualiDecimal(0.01);
-    }
-
     public static class CurrencyTypeAmounts {
         public static final KualiDecimal HUNDRED_DOLLAR_AMOUNT = new KualiDecimal(100.0);
         public static final KualiDecimal FIFTY_DOLLAR_AMOUNT = new KualiDecimal(50.0);
@@ -563,13 +553,28 @@ public class KFSConstants {
         public static final KualiDecimal ONE_DOLLAR_AMOUNT = new KualiDecimal(1.0);
     }
 
+    // Coin and Currency Amounts
+    public static class CoinTypeAmounts {
+        public static final KualiDecimal HUNDRED_CENT_AMOUNT = new KualiDecimal(1.0);
+        public static final KualiDecimal FIFTY_CENT_AMOUNT = new KualiDecimal(0.5);
+        public static final KualiDecimal TWENTY_FIVE_CENT_AMOUNT = new KualiDecimal(0.25);
+        public static final KualiDecimal TEN_CENT_AMOUNT = new KualiDecimal(0.1);
+        public static final KualiDecimal FIVE_CENT_AMOUNT = new KualiDecimal(0.05);
+        public static final KualiDecimal ONE_CENT_AMOUNT = new KualiDecimal(0.01);
+    }
+
+    public final static String[] COIN_DENOMINATIONS = new String[]{"100c", "50c", "25c", "10c", "5c", "1c"};
+    public final static KualiDecimal[] COIN_AMOUNTS = new KualiDecimal[]{
+        CoinTypeAmounts.HUNDRED_CENT_AMOUNT, CoinTypeAmounts.FIFTY_CENT_AMOUNT, CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT,
+        CoinTypeAmounts.TEN_CENT_AMOUNT, CoinTypeAmounts.FIFTY_CENT_AMOUNT, CoinTypeAmounts.ONE_CENT_AMOUNT};
+
     // Cashiering source constants
     public static class CurrencyCoinSources {
         public static final String CASH_MANAGEMENT_IN = "R"; // money coming in through cashiering activity
-        public static final String DEPOSITS = "D"; // money going out through deposits
-        public static final String CASH_RECEIPTS = "C"; // money coming in through cash receipts
         public static final String CASH_MANAGEMENT_OUT = "O"; // money going out through cashiering activity
         public static final String CASH_MANAGEMENT_MASTER = "M"; // an amalgamation of a cashiering transaction
+        public static final String DEPOSITS = "D"; // money going out through deposits
+        public static final String CASH_RECEIPTS = "C"; // money coming in through cash receipts
         public static final String CASH_CHANGE_REQUEST = "Q"; // requesting some change money back
         public static final String CASH_CHANGE_GRANTED = "G"; // verified change request
     }
@@ -586,9 +591,10 @@ public class KFSConstants {
     public static final String CASHIERING_TRANSACTION_OPEN_ITEM_IN_PROCESS_PROPERTY = "document.currentTransaction.openItemInProcess";
 
     // Tab error patterns must be at the top level; JSPs do not have access to the nested classes.
-    public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCashAmount,document.totalCheckAmount,document.totalCoinAmount,document.sumTotalAmount";
+    public static final String EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS = "document.totalCheckAmount,document.totalCurrencyAmount,document.totalCoinAmount,document.totalChange*,document.totalConfirmed*";
     public static final String EDIT_CASH_RECEIPT_CHECK_DETAIL_ERRORS = "newCheck*,document.check*";
-    public static final String EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS = "document.currencyDetail.*,document.coinDetail.*";
+    public static final String EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS = "document.currencyDetail.*,document.coinDetail.*,document.confirmedCurrencyDetail.*,document.confirmedCoinDetail.*";
+    public static final String EDIT_CASH_RECEIPT_CHANGE_REQUEST_ERRORS = "document.changeCurrencyDetail.*,document.changeCoinDetail.*,document.confirmedChangeCurrencyDetail.*,document.confirmedChangeCoinDetail.*";
     public static final String EDIT_CASH_MANAGEMENT_CASHIERING_TRANSACTION_ERRORS = "document.currentTransaction.*";
     public static final String EDIT_CAPITAL_ASSET_INFORMATION_ERRORS = "document.capitalAssetInformation*";
     public static final String EDIT_CAPITAL_ASSET_MODIFY_ERRORS = "document.capitalAssetModify*";

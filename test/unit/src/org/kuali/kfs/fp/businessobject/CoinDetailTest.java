@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,27 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
+import java.util.List;
+
+import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
+// We need to add @ConfigureContext now since most tests here involve calling a service bean to load some parameter.
+@ConfigureContext(session = khuntley)
 public class CoinDetailTest extends KualiTestBase {
     public enum CoinDetailAmountFixture {
-        GOOD_COIN_AMOUNT(5.0, 5.5, 0.75, 0.60, 0.45, 0.07), BAD_COIN_AMOUNT(5.5, 5.25, 0.80, 0.65, 0.63, 0.07), ALL_FIVES_COIN_AMOUNT(5.0, 5.0, 5.0, 5.0, 5.0, 5.0), ZERO_COIN_AMOUNT(0.0, 0.0, 0.0, 0.0, 0.0, 0.0), NEGATIVE_COIN_AMOUNT(-5.0, -5.0, -5.0, -5.0, -5.0, -5.0), NULL_COIN_AMOUNT(), ALL_TENS_COIN_AMOUNT(10.0, 10.0, 10.0, 10.0, 10.0, 10.0);
+        GOOD_COIN_AMOUNT(30.0, 15.5, 10.75, 5.60, 2.45, 0.57),
+        BAD_COIN_AMOUNT(5.5, 5.25, 0.80, 0.65, 0.63, 0.07),
+        ALL_TENS_COIN_AMOUNT(10.0, 10.0, 10.0, 10.0, 10.0, 10.0),
+        ALL_FIVES_COIN_AMOUNT(5.0, 5.0, 5.0, 5.0, 5.0, 5.0),
+        ZERO_COIN_AMOUNT(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        NEGATIVE_COIN_AMOUNT(-5.0, -5.0, -5.0, -5.0, -5.0, -5.0),
+        NULL_COIN_AMOUNT();
 
         private KualiDecimal hundredCentAmount;
         private KualiDecimal fiftyCentAmount;
@@ -54,8 +69,16 @@ public class CoinDetailTest extends KualiTestBase {
         }
     }
 
-    public enum CoinDetailCountFixture {
-        GOOD_COIN_AMOUNT(new Integer(5), new Integer(7), new Integer(3), new Integer(6), new Integer(9), new Integer(7)), ALL_FIVES_COIN_AMOUNT(new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5)), ZERO_COIN_AMOUNT(new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)), NULL_COIN_AMOUNT(null, null, null, null, null, null), NEGATIVE_COIN_AMOUNT(new Integer(-5), new Integer(-7), new Integer(-3), new Integer(-6), new Integer(-9), new Integer(-7));
+    public enum CoinDetailCountRollFixture {
+        GOOD_COIN_AMOUNT(new Integer(5), new Integer(7), new Integer(3), new Integer(6), new Integer(9), new Integer(7),
+                new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(1)),
+        ALL_FIVES_COIN_AMOUNT(new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5),
+                new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)),
+        ZERO_COIN_AMOUNT(new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0),
+                    new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)),
+        NEGATIVE_COIN_AMOUNT(new Integer(-5), new Integer(-7), new Integer(-3), new Integer(-6), new Integer(-9), new Integer(-7),
+                new Integer(-1), new Integer(-1), new Integer(-1), new Integer(-1), new Integer(-1), new Integer(-1)),
+        NULL_COIN_AMOUNT(null, null, null, null, null, null, null, null, null, null, null, null);
 
         private Integer hundredCentCount;
         private Integer fiftyCentCount;
@@ -63,14 +86,30 @@ public class CoinDetailTest extends KualiTestBase {
         private Integer tenCentCount;
         private Integer fiveCentCount;
         private Integer oneCentCount;
+        // Since we introduced roll counts for coins, we need to include them in test
+        private Integer hundredCentRollCount;
+        private Integer fiftyCentRollCount;
+        private Integer twentyFiveCentRollCount;
+        private Integer tenCentRollCount;
+        private Integer fiveCentRollCount;
+        private Integer oneCentRollCount;
 
-        private CoinDetailCountFixture(Integer hundredCentCount, Integer fiftyCentCount, Integer twentyFiveCentCount, Integer tenCentCount, Integer fiveCentCount, Integer oneCentCount) {
+        private CoinDetailCountRollFixture(Integer hundredCentCount, Integer fiftyCentCount, Integer twentyFiveCentCount,
+                Integer tenCentCount, Integer fiveCentCount, Integer oneCentCount,
+                Integer hundredCentRollCount, Integer fiftyCentRollCount, Integer twentyFiveCentRollCount,
+                Integer tenCentRollCount, Integer fiveCentRollCount, Integer oneCentRollCount) {
             this.hundredCentCount = hundredCentCount;
             this.fiftyCentCount = fiftyCentCount;
             this.twentyFiveCentCount = twentyFiveCentCount;
             this.tenCentCount = tenCentCount;
             this.fiveCentCount = fiveCentCount;
             this.oneCentCount = oneCentCount;
+            this.hundredCentRollCount = hundredCentRollCount;
+            this.fiftyCentRollCount = fiftyCentRollCount;
+            this.twentyFiveCentRollCount = twentyFiveCentRollCount;
+            this.tenCentRollCount = tenCentRollCount;
+            this.fiveCentRollCount = fiveCentRollCount;
+            this.oneCentRollCount = oneCentRollCount;
         }
 
         public CoinDetail convertToCoinDetail() {
@@ -80,34 +119,75 @@ public class CoinDetailTest extends KualiTestBase {
             coinDetail.setTwentyFiveCentCount(this.twentyFiveCentCount);
             coinDetail.setTenCentCount(this.tenCentCount);
             coinDetail.setFiveCentCount(this.fiveCentCount);
-            coinDetail.setOneCentCount(this.oneCentCount);
+            coinDetail.setOneCentRollCount(this.oneCentRollCount);
+            coinDetail.setHundredCentRollCount(this.hundredCentRollCount);
+            coinDetail.setFiftyCentRollCount(this.fiftyCentRollCount);
+            coinDetail.setTwentyFiveCentRollCount(this.twentyFiveCentRollCount);
+            coinDetail.setTenCentRollCount(this.tenCentRollCount);
+            coinDetail.setFiveCentRollCount(this.fiveCentRollCount);
+            coinDetail.setOneCentRollCount(this.oneCentRollCount);
             return coinDetail;
         }
     }
 
     public void testAmountToCountConversion() {
         CoinDetail goodDetail = CoinDetailAmountFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
-        assertEquals(goodDetail.getHundredCentCount(), new Integer(5));
-        assertEquals(goodDetail.getFiftyCentCount(), new Integer(11));
-        assertEquals(goodDetail.getTwentyFiveCentCount(), new Integer(3));
-        assertEquals(goodDetail.getTenCentCount(), new Integer(6));
-        assertEquals(goodDetail.getFiveCentCount(), new Integer(9));
-        assertEquals(goodDetail.getOneCentCount(), new Integer(7));
+
+        // since coin count and roll count is computed based on amount and count per roll values, and the latter is stored in parameter,
+        // we can only test by hard coded values if the parameter is consistent with  assumed default values
+        if (isCountPerRollParameterSameAsDefault()) {
+            assertEquals(goodDetail.getHundredCentCount(), new Integer(5));
+            assertEquals(goodDetail.getFiftyCentCount(), new Integer(11));
+            assertEquals(goodDetail.getTwentyFiveCentCount(), new Integer(3));
+            assertEquals(goodDetail.getTenCentCount(), new Integer(6));
+            assertEquals(goodDetail.getFiveCentCount(), new Integer(9));
+            assertEquals(goodDetail.getOneCentCount(), new Integer(7));
+            assertEquals(goodDetail.getHundredCentRollCount(), new Integer(1));
+            assertEquals(goodDetail.getFiftyCentRollCount(), new Integer(1));
+            assertEquals(goodDetail.getTwentyFiveCentRollCount(), new Integer(1));
+            assertEquals(goodDetail.getTenCentRollCount(), new Integer(1));
+            assertEquals(goodDetail.getFiveCentRollCount(), new Integer(1));
+            assertEquals(goodDetail.getOneCentRollCount(), new Integer(1));
+        }
+
+
+//        // but we can always test based on the invariant formula by which count/roll/amount are computed, as follows:
+//        // create CoinDetail with good amounts, retrieve counts from it, and convert
+//        Integer hundredCentCount = goodDetail.getHundredCentCount();
+//        Integer fiftyCentCount = goodDetail.getFiftyCentCount();
+//        Integer twentyFiveCentCount = goodDetail.getTwentyFiveCentCount();
+//        Integer tenCentCount = goodDetail.getTenCentCount();
+//        Integer fiveCentCount = goodDetail.getFiftyCentCount();
+//        Integer oneCentCount = goodDetail.getOneCentCount();
+//        Integer hundredCentRollCount = goodDetail.getHundredCentRollCount();
+//        Integer fiftyCentRollCount = goodDetail.getFiftyCentRollCount();
+//        Integer twentyFiveCentRollCount = goodDetail.getTwentyFiveCentRollCount();
+//        Integer tenCentRollCount = goodDetail.getTenCentRollCount();
+//        Integer fiveCentRollCount = goodDetail.getFiftyCentRollCount();
+//        Integer oneCentRollCount = goodDetail.getOneCentRollCount();
+//
+//        // use the above counts to create CoinDetail copy, and compute amounts of the copy;
+//        // the result amounts should equal to the original amounts.
+
     }
 
     public void testCountToAmountConversion() {
-        CoinDetail goodDetail = CoinDetailCountFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
-        assertEquals(goodDetail.getFinancialDocumentHundredCentAmount(), new KualiDecimal(5.0));
-        assertEquals(goodDetail.getFinancialDocumentFiftyCentAmount(), new KualiDecimal(3.5));
-        assertEquals(goodDetail.getFinancialDocumentTwentyFiveCentAmount(), new KualiDecimal(0.75));
-        assertEquals(goodDetail.getFinancialDocumentTenCentAmount(), new KualiDecimal(0.6));
-        assertEquals(goodDetail.getFinancialDocumentFiveCentAmount(), new KualiDecimal(0.45));
-        assertEquals(goodDetail.getFinancialDocumentOneCentAmount(), new KualiDecimal(0.07));
+        CoinDetail goodDetail = CoinDetailCountRollFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
+
+        // since coin count and roll count is computed based on amount and count per roll values, and the latter is stored in parameter,
+        // we can only test by hard coded values if the parameter is consistent with  assumed default values
+        if (isCountPerRollParameterSameAsDefault()) {
+            assertEquals(goodDetail.getFinancialDocumentHundredCentAmount(), new KualiDecimal(30.0));
+            assertEquals(goodDetail.getFinancialDocumentFiftyCentAmount(), new KualiDecimal(13.5));
+            assertEquals(goodDetail.getFinancialDocumentTwentyFiveCentAmount(), new KualiDecimal(10.75));
+            assertEquals(goodDetail.getFinancialDocumentTenCentAmount(), new KualiDecimal(5.6));
+            assertEquals(goodDetail.getFinancialDocumentFiveCentAmount(), new KualiDecimal(2.45));
+            assertEquals(goodDetail.getFinancialDocumentOneCentAmount(), new KualiDecimal(0.57));
+        }
     }
 
     public void testZeroOutAmounts() {
         CoinDetail zeroAmount = CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail();
-
         CoinDetail goodAmount = CoinDetailAmountFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
         CoinDetail goodZeroAmount = CoinDetailAmountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail();
         CoinDetail nullAmount = CoinDetailAmountFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
@@ -121,9 +201,9 @@ public class CoinDetailTest extends KualiTestBase {
         nullAmount.zeroOutAmounts();
         assertDetailAmountsEqual(nullAmount, zeroAmount);
 
-        CoinDetail goodCount = CoinDetailCountFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
-        CoinDetail goodZeroCount = CoinDetailCountFixture.ZERO_COIN_AMOUNT.convertToCoinDetail();
-        CoinDetail nullCount = CoinDetailCountFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
+        CoinDetail goodCount = CoinDetailCountRollFixture.GOOD_COIN_AMOUNT.convertToCoinDetail();
+        CoinDetail goodZeroCount = CoinDetailCountRollFixture.ZERO_COIN_AMOUNT.convertToCoinDetail();
+        CoinDetail nullCount = CoinDetailCountRollFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
 
         goodZeroCount.zeroOutAmounts();
         assertDetailAmountsEqual(goodZeroCount, zeroAmount);
@@ -155,8 +235,8 @@ public class CoinDetailTest extends KualiTestBase {
         goodAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(goodAmount, semiPopulatedAmount);
 
-        CoinDetail goodCount = CoinDetailCountFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail();
-        CoinDetail nullCount = CoinDetailCountFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
+        CoinDetail goodCount = CoinDetailCountRollFixture.ALL_FIVES_COIN_AMOUNT.convertToCoinDetail();
+        CoinDetail nullCount = CoinDetailCountRollFixture.NULL_COIN_AMOUNT.convertToCoinDetail();
 
         nullCount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(nullCount, zeroAmount);
@@ -264,4 +344,11 @@ public class CoinDetailTest extends KualiTestBase {
         assertFalse(tweedleDee.getFinancialDocumentFiveCentAmount().equals(tweedleDum.getFinancialDocumentFiveCentAmount()));
         assertFalse(tweedleDee.getFinancialDocumentOneCentAmount().equals(tweedleDum.getFinancialDocumentOneCentAmount()));
     }
+
+    private boolean isCountPerRollParameterSameAsDefault() {
+        List<Integer> countsPerRoll = SpringContext.getBean(CashDrawerService.class).getCoinCountsPerRoll();
+        return (countsPerRoll.get(0) == 25 && countsPerRoll.get(1) == 20 && countsPerRoll.get(0) == 40 &&
+                countsPerRoll.get(0) == 50 && countsPerRoll.get(0) == 40 && countsPerRoll.get(0) == 50);
+    }
+
 }

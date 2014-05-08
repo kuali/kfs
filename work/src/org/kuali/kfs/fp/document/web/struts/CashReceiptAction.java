@@ -26,8 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.Check;
-import org.kuali.kfs.fp.businessobject.CoinDetail;
-import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
@@ -74,8 +72,8 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
                 processChecks(cdoc, cform);
             }
 
-            // generate errors for negative cash totals (especially for the recalculate button)
-            SpringContext.getBean(CashReceiptService.class).areCashTotalsInvalid(cdoc);
+            // generate errors for negative cash detail and total amounts (especially for the recalculate button)
+            SpringContext.getBean(CashReceiptService.class).areCashAmountsInvalid(cdoc);
         }
 
         // proceed as usual
@@ -371,33 +369,8 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
         CashReceiptForm crForm = (CashReceiptForm) kualiDocumentFormBase;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
-        CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);
-        crDoc.initializeCampusLocationCode();
-
-        /* initialize currency and coin detail */
-        CurrencyDetail currencyDetail = new CurrencyDetail();
-        currencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
-        currencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        currencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.setCurrencyDetail(currencyDetail);
-
-        CoinDetail coinDetail = new CoinDetail();
-        coinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
-        coinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        coinDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.setCoinDetail(coinDetail);
-
-        CurrencyDetail confirmedCurrencyDetail = new CurrencyDetail();
-        confirmedCurrencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confirmedCurrencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confirmedCurrencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.setConfirmedCurrencyDetail(confirmedCurrencyDetail);
-
-        CoinDetail confirmedCoinDetail = new CoinDetail();
-        confirmedCoinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confirmedCoinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confirmedCoinDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        crDoc.setConfirmedCoinDetail(confirmedCoinDetail);
+        // We don't need to call initializeCampusLocationCode or initializeCashChangeDetails anymore,
+        // because they are called in CashReceiptDocument().
 
         initDerivedCheckValues(crForm);
     }
@@ -445,7 +418,8 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     }
 
     /**
-     * Copy all original currency and coin to cash manager confirmed currency and coin
+     * Copies all original currency and coin amounts to cash manager confirmed currency and coin amounts,
+     * in both Currency and Coin Detail tab and Change Request tab.
      *
      * @param mapping
      * @param form
@@ -457,38 +431,11 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     public ActionForward copyAllCurrencyAndCoin(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
-        CurrencyDetail currencyDetail = crDoc.getCurrencyDetail();
-        CoinDetail coinDetail = crDoc.getCoinDetail();
 
-        //populate new confirmedCurrencyDetail object
-        CurrencyDetail confCurrencyDetail = new CurrencyDetail();
-        confCurrencyDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        confCurrencyDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confCurrencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confCurrencyDetail.setFinancialDocumentHundredDollarAmount(currencyDetail.getFinancialDocumentHundredDollarAmount());
-        confCurrencyDetail.setFinancialDocumentFiftyDollarAmount(currencyDetail.getFinancialDocumentFiftyDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTwentyDollarAmount(currencyDetail.getFinancialDocumentTwentyDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTenDollarAmount(currencyDetail.getFinancialDocumentTenDollarAmount());
-        confCurrencyDetail.setFinancialDocumentFiveDollarAmount(currencyDetail.getFinancialDocumentFiveDollarAmount());
-        confCurrencyDetail.setFinancialDocumentTwoDollarAmount(currencyDetail.getFinancialDocumentTwoDollarAmount());
-        confCurrencyDetail.setFinancialDocumentOneDollarAmount(currencyDetail.getFinancialDocumentOneDollarAmount());
-        confCurrencyDetail.setFinancialDocumentOtherDollarAmount(currencyDetail.getFinancialDocumentOtherDollarAmount());
-
-        //populate new confirmedCoinDetail object
-        CoinDetail confCoinDetail = new CoinDetail();
-        confCoinDetail.setDocumentNumber(crDoc.getDocumentNumber());
-        confCoinDetail.setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
-        confCoinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
-        confCoinDetail.setFinancialDocumentHundredCentAmount(coinDetail.getFinancialDocumentHundredCentAmount());
-        confCoinDetail.setFinancialDocumentFiftyCentAmount(coinDetail.getFinancialDocumentFiftyCentAmount());
-        confCoinDetail.setFinancialDocumentTwentyFiveCentAmount(coinDetail.getFinancialDocumentTwentyFiveCentAmount());
-        confCoinDetail.setFinancialDocumentTenCentAmount(coinDetail.getFinancialDocumentTenCentAmount());
-        confCoinDetail.setFinancialDocumentFiveCentAmount(coinDetail.getFinancialDocumentFiveCentAmount());
-        confCoinDetail.setFinancialDocumentOneCentAmount(coinDetail.getFinancialDocumentOneCentAmount());
-        confCoinDetail.setFinancialDocumentOtherCentAmount(coinDetail.getFinancialDocumentOtherCentAmount());
-
-        crDoc.setConfirmedCurrencyDetail(confCurrencyDetail);
-        crDoc.setConfirmedCoinDetail(confCoinDetail);
+        crDoc.getConfirmedCurrencyDetail().copyAmounts(crDoc.getCurrencyDetail());
+        crDoc.getConfirmedCoinDetail().copyAmounts(crDoc.getCoinDetail());
+        crDoc.getConfirmedChangeCurrencyDetail().copyAmounts(crDoc.getChangeCurrencyDetail());
+        crDoc.getConfirmedChangeCoinDetail().copyAmounts(crDoc.getChangeCoinDetail());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

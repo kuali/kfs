@@ -305,7 +305,7 @@ public class DepositWizardForm extends KualiForm {
      * @return KualiDecimal
      */
     public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal sumTotalAmount = getTotalCoinAmount().add(getTotalCashAmount());
+        KualiDecimal sumTotalAmount = getTotalCoinAmount().add(getTotalCurrencyAmount());
         return sumTotalAmount;
     }
 
@@ -319,11 +319,11 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Gets the totalCashAmount attribute.
+     * Gets the totalCurrencyAmount attribute.
      *
-     * @return Returns the totalCashAmount.
+     * @return Returns the totalCurrencyAmount.
      */
-    public KualiDecimal getTotalCashAmount() {
+    public KualiDecimal getTotalCurrencyAmount() {
         return (currencyDetail != null) ? currencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
 
@@ -476,7 +476,7 @@ public class DepositWizardForm extends KualiForm {
         if (crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED) || crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
             targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedCheckAmount());
         }
-        targetDepositAmount = targetDepositAmount.add(crDoc.getConfirmedCurrencyDetail().getTotalAmount()).subtract(crDoc.getChangeCurrencyDetail().getTotalAmount()).add(crDoc.getConfirmedCoinDetail().getTotalAmount()).subtract(crDoc.getChangeCoinDetail().getTotalAmount());
+        targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedNetCashAmount());
     }
 
     /**

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,25 +31,79 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String financialDocumentTypeCode;
     private String cashieringStatus;
-    private KualiDecimal financialDocumentHundredDollarAmount;
-    private KualiDecimal financialDocumentFiftyDollarAmount;
-    private KualiDecimal financialDocumentTwentyDollarAmount;
-    private KualiDecimal financialDocumentTenDollarAmount;
-    private KualiDecimal financialDocumentFiveDollarAmount;
-    private KualiDecimal financialDocumentTwoDollarAmount;
-    private KualiDecimal financialDocumentOneDollarAmount;
-    private KualiDecimal financialDocumentOtherDollarAmount;
+    private KualiDecimal financialDocumentHundredDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentFiftyDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentTwentyDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentTenDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentFiveDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentTwoDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentOneDollarAmount = KualiDecimal.ZERO;
+    private KualiDecimal financialDocumentOtherDollarAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor.
      */
     public CurrencyDetail() {
+    }
 
+    /**
+     * Constructs a new CurrencyDetail with the given documentNumber, financialDocumentTypeCode, and cashieringStatus;
+     * with all amount fields default to zero.
+     */
+    public CurrencyDetail(String documentNumber, String financialDocumentTypeCode, String cashieringStatus) {
+        this.documentNumber = documentNumber;
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+        this.cashieringStatus = cashieringStatus;
+    }
+
+    /**
+     * Constructs a new CurrencyDetail by copying the coin amounts from the given CashDrawer, ignoring other non-amount fields.
+     */
+    public CurrencyDetail(CashDrawer cashDrawer) {
+        financialDocumentHundredDollarAmount = cashDrawer.getFinancialDocumentHundredDollarAmount();
+        financialDocumentFiftyDollarAmount = cashDrawer.getFinancialDocumentFiftyDollarAmount();
+        financialDocumentTwentyDollarAmount = cashDrawer.getFinancialDocumentTwentyDollarAmount();
+        financialDocumentTenDollarAmount = cashDrawer.getFinancialDocumentTenDollarAmount();
+        financialDocumentFiveDollarAmount = cashDrawer.getFinancialDocumentFiveDollarAmount();
+        financialDocumentTwoDollarAmount = cashDrawer.getFinancialDocumentTwoDollarAmount();
+        financialDocumentOneDollarAmount = cashDrawer.getFinancialDocumentOneDollarAmount();
+        financialDocumentOtherDollarAmount = cashDrawer.getFinancialDocumentOtherDollarAmount();
+    }
+
+    /**
+     * Constructs a new CurrencyDetail as a complete copy of the given CurrencyDetail.
+     */
+    public CurrencyDetail(CurrencyDetail currencyDetail) {
+        documentNumber = currencyDetail.getDocumentNumber();
+        financialDocumentTypeCode = currencyDetail.getFinancialDocumentTypeCode();
+        cashieringStatus = currencyDetail.getCashieringStatus();
+        financialDocumentHundredDollarAmount = currencyDetail.getFinancialDocumentHundredDollarAmount();
+        financialDocumentFiftyDollarAmount = currencyDetail.getFinancialDocumentFiftyDollarAmount();
+        financialDocumentTwentyDollarAmount = currencyDetail.getFinancialDocumentTwentyDollarAmount();
+        financialDocumentTenDollarAmount = currencyDetail.getFinancialDocumentTenDollarAmount();
+        financialDocumentFiveDollarAmount = currencyDetail.getFinancialDocumentFiveDollarAmount();
+        financialDocumentTwoDollarAmount = currencyDetail.getFinancialDocumentTwoDollarAmount();
+        financialDocumentOneDollarAmount = currencyDetail.getFinancialDocumentOneDollarAmount();
+        financialDocumentOtherDollarAmount = currencyDetail.getFinancialDocumentOtherDollarAmount();
+    }
+
+    /**
+     * Copies all amounts from the given CoinDetail to this CoinDetail.
+     */
+    public void copyAmounts(CurrencyDetail currencyDetail) {
+        financialDocumentHundredDollarAmount = currencyDetail.getFinancialDocumentHundredDollarAmount();
+        financialDocumentFiftyDollarAmount = currencyDetail.getFinancialDocumentFiftyDollarAmount();
+        financialDocumentTwentyDollarAmount = currencyDetail.getFinancialDocumentTwentyDollarAmount();
+        financialDocumentTenDollarAmount = currencyDetail.getFinancialDocumentTenDollarAmount();
+        financialDocumentFiveDollarAmount = currencyDetail.getFinancialDocumentFiveDollarAmount();
+        financialDocumentTwoDollarAmount = currencyDetail.getFinancialDocumentTwoDollarAmount();
+        financialDocumentOneDollarAmount = currencyDetail.getFinancialDocumentOneDollarAmount();
+        financialDocumentOtherDollarAmount = currencyDetail.getFinancialDocumentOtherDollarAmount();
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -58,7 +112,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -68,7 +122,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
     public String getFinancialDocumentTypeCode() {
@@ -77,7 +131,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -87,7 +141,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the cashieringStatus attribute.
-     * 
+     *
      * @return Returns the cashieringStatus
      */
     public String getCashieringStatus() {
@@ -96,7 +150,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the cashieringStatus attribute.
-     * 
+     *
      * @param cashieringStatus The cashieringStatus to set.
      */
     public void setCashieringStatus(String financialDocumentColumnTypeCode) {
@@ -106,7 +160,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentHundredDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentHundredDollarAmount
      */
     public KualiDecimal getFinancialDocumentHundredDollarAmount() {
@@ -115,7 +169,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentHundredDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
      */
     public void setFinancialDocumentHundredDollarAmount(KualiDecimal financialDocumentHundredDollarAmount) {
@@ -124,7 +178,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of hundred dollar bills
-     * 
+     *
      * @return the number of hundred dollar bills present in the drawer
      */
     public Integer getHundredDollarCount() {
@@ -133,7 +187,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of hundred dollar bills present in the drawer
-     * 
+     *
      * @param count the number of hundred dollar bills present in the drawer
      */
     public void setHundredDollarCount(Integer count) {
@@ -144,7 +198,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentFiftyDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentFiftyDollarAmount
      */
     public KualiDecimal getFinancialDocumentFiftyDollarAmount() {
@@ -153,7 +207,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentFiftyDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
      */
     public void setFinancialDocumentFiftyDollarAmount(KualiDecimal financialDocumentFiftyDollarAmount) {
@@ -162,7 +216,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of fifty dollar bills
-     * 
+     *
      * @return the number of fifty dollar bills present in the drawer
      */
     public Integer getFiftyDollarCount() {
@@ -171,7 +225,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of hundred dollar bills present in the drawer
-     * 
+     *
      * @param count the number of hundred dollar bills present in the drawer
      */
     public void setFiftyDollarCount(Integer count) {
@@ -182,7 +236,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentTwentyDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentTwentyDollarAmount
      */
     public KualiDecimal getFinancialDocumentTwentyDollarAmount() {
@@ -191,7 +245,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentTwentyDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
      */
     public void setFinancialDocumentTwentyDollarAmount(KualiDecimal financialDocumentTwentyDollarAmount) {
@@ -200,7 +254,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of twenty dollar bills
-     * 
+     *
      * @return the number of twenty dollar bills present in the drawer
      */
     public Integer getTwentyDollarCount() {
@@ -209,7 +263,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of twenty dollar bills present in the drawer
-     * 
+     *
      * @param count the number of twenty dollar bills present in the drawer
      */
     public void setTwentyDollarCount(Integer count) {
@@ -220,7 +274,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentTenDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentTenDollarAmount
      */
     public KualiDecimal getFinancialDocumentTenDollarAmount() {
@@ -229,7 +283,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentTenDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
      */
     public void setFinancialDocumentTenDollarAmount(KualiDecimal financialDocumentTenDollarAmount) {
@@ -238,7 +292,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of ten dollar bills
-     * 
+     *
      * @return the number of ten dollar bills present in the drawer
      */
     public Integer getTenDollarCount() {
@@ -247,7 +301,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of ten dollar bills present in the drawer
-     * 
+     *
      * @param count the number of ten dollar bills present in the drawer
      */
     public void setTenDollarCount(Integer count) {
@@ -258,7 +312,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentFiveDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentFiveDollarAmount
      */
     public KualiDecimal getFinancialDocumentFiveDollarAmount() {
@@ -267,7 +321,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentFiveDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
      */
     public void setFinancialDocumentFiveDollarAmount(KualiDecimal financialDocumentFiveDollarAmount) {
@@ -276,7 +330,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of five dollar bills
-     * 
+     *
      * @return the number of five dollar bills present in the drawer
      */
     public Integer getFiveDollarCount() {
@@ -285,7 +339,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of five dollar bills present in the drawer
-     * 
+     *
      * @param count the number of five dollar bills present in the drawer
      */
     public void setFiveDollarCount(Integer count) {
@@ -296,7 +350,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentTwoDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentTwoDollarAmount
      */
     public KualiDecimal getFinancialDocumentTwoDollarAmount() {
@@ -305,7 +359,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentTwoDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
      */
     public void setFinancialDocumentTwoDollarAmount(KualiDecimal financialDocumentTwoDollarAmount) {
@@ -314,7 +368,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of two dollar bills
-     * 
+     *
      * @return the number of two dollar bills present in the drawer
      */
     public Integer getTwoDollarCount() {
@@ -323,7 +377,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of two dollar bills present in the drawer
-     * 
+     *
      * @param count the number of two dollar bills present in the drawer
      */
     public void setTwoDollarCount(Integer count) {
@@ -334,7 +388,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentOneDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentOneDollarAmount
      */
     public KualiDecimal getFinancialDocumentOneDollarAmount() {
@@ -343,7 +397,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentOneDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
      */
     public void setFinancialDocumentOneDollarAmount(KualiDecimal financialDocumentOneDollarAmount) {
@@ -352,7 +406,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the actual count of one dollar bills
-     * 
+     *
      * @return the number of one dollar bills present in the drawer
      */
     public Integer getOneDollarCount() {
@@ -361,7 +415,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This sets the count of one dollar bills present in the drawer
-     * 
+     *
      * @param count the number of one dollar bills present in the drawer
      */
     public void setOneDollarCount(Integer count) {
@@ -372,7 +426,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentOtherDollarAmount attribute.
-     * 
+     *
      * @return Returns the financialDocumentOtherDollarAmount
      */
     public KualiDecimal getFinancialDocumentOtherDollarAmount() {
@@ -381,7 +435,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentOtherDollarAmount attribute.
-     * 
+     *
      * @param financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
      */
     public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {
@@ -390,7 +444,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This method calculates the total amount represented by all the currency listed in this detail record
-     * 
+     *
      * @return total amount of this detail
      */
     public KualiDecimal getTotalAmount() {
@@ -468,7 +522,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This method adds the amounts from the given currency detail record to this one
-     * 
+     *
      * @param detail the currency detail to add onto this
      */
     public void add(CurrencyDetail detail) {
@@ -540,7 +594,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * This method subtracts the given currency detail from this one
-     * 
+     *
      * @param detail the detail to subtract
      */
     public void subtract(CurrencyDetail detail) {
@@ -612,11 +666,33 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     /**
      * Does this currency detail actually have any information in it?
-     * 
+     *
      * @return true if any field at all is not null and not zero, false if otherwise
      */
     public boolean isEmpty() {
-        return ((this.financialDocumentHundredDollarAmount == null || this.financialDocumentHundredDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentFiftyDollarAmount == null || this.financialDocumentFiftyDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentTwentyDollarAmount == null || this.financialDocumentTwentyDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentTenDollarAmount == null || this.financialDocumentTenDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentFiveDollarAmount == null || this.financialDocumentFiveDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentTwoDollarAmount == null || this.financialDocumentTwoDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentOneDollarAmount == null || this.financialDocumentOneDollarAmount.equals(KualiDecimal.ZERO)) && (this.financialDocumentOtherDollarAmount == null || this.financialDocumentOtherDollarAmount.equals(KualiDecimal.ZERO)));
+        return ((this.financialDocumentHundredDollarAmount == null || this.financialDocumentHundredDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentFiftyDollarAmount == null || this.financialDocumentFiftyDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentTwentyDollarAmount == null || this.financialDocumentTwentyDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentTenDollarAmount == null || this.financialDocumentTenDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentFiveDollarAmount == null || this.financialDocumentFiveDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentTwoDollarAmount == null || this.financialDocumentTwoDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentOneDollarAmount == null || this.financialDocumentOneDollarAmount.equals(KualiDecimal.ZERO)) &&
+                (this.financialDocumentOtherDollarAmount == null || this.financialDocumentOtherDollarAmount.equals(KualiDecimal.ZERO)));
+    }
+
+    /**
+     * Checks if this CurrencyDetail contains any negative amount field.
+     * @return true if any amount is negative
+     */
+    public boolean hasNegativeAmount() {
+        return ((financialDocumentHundredDollarAmount != null && financialDocumentHundredDollarAmount.isNegative()) ||
+                (financialDocumentFiftyDollarAmount != null && financialDocumentFiftyDollarAmount.isNegative()) ||
+                (financialDocumentTwentyDollarAmount != null && financialDocumentTwentyDollarAmount.isNegative()) ||
+                (financialDocumentTenDollarAmount != null && financialDocumentTenDollarAmount.isNegative()) ||
+                (financialDocumentFiveDollarAmount != null && financialDocumentFiveDollarAmount.isNegative()) ||
+                (financialDocumentTwoDollarAmount != null && financialDocumentTwoDollarAmount.isNegative()) ||
+                (financialDocumentOneDollarAmount != null && financialDocumentOneDollarAmount.isNegative()) ||
+                (financialDocumentOtherDollarAmount != null && financialDocumentOtherDollarAmount.isNegative()));
     }
 
     /**

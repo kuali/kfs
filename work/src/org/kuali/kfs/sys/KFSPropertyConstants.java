@@ -1115,7 +1115,6 @@ public class KFSPropertyConstants {
     public static final String SUBFUNDGRP_ACTIVITY_INDICATOR = "subfundgrpActivityIndicator";
     public static final String SUFFICIENT_FUNDS_CODE = "sufficientFundsCode";
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
-    public static final String SUM_TOTAL_AMOUNT = "sumTotalAmount";
     public static final String SUPERVISOR_USER = "supervisorUser";
     public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
@@ -1137,9 +1136,12 @@ public class KFSPropertyConstants {
     public static final String TOTAL = "total";
     public static final String TOTAL_ACTUAL_DIRECT_COST_AMOUNT = "totalActualDirectCostAmount";
     public static final String TOTAL_AMOUNT = "totalAmount";
-    public static final String TOTAL_CASH_AMOUNT = "totalCashAmount";
-    public static final String TOTAL_CHECK_AMOUNT = "totalCheckAmount";
-    public static final String TOTAL_COIN_AMOUNT = "totalCoinAmount";
+    public static final String CONFIRMED = "confirmed";
+    public static final String CURRENCY = "currency";
+    public static final String COIN = "coin";
+    public static final String CHANGE_CURRENCY = "changeCurrency";
+    public static final String CHANGE_COIN = "changeCoin";
+    public static final String DETAIL_PREFIX = "Detail.";
     public static final String TOTAL_DIRECT_COST_AMOUNT = "totalDirectCostAmount";
     public static final String TOTAL_DOLLAR_AMOUNT = "totalDollarAmount";
     public static final String TOTAL_EXPENSE_AMOUNT = "totalExpenseAmount";

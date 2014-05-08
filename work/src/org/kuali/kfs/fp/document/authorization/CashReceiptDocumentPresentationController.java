@@ -115,6 +115,15 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         }
     }
 
+    /*
+     * TODO Discovered by KFSCNTRB-1793
+     * Currently we don't have permission set or do any authorization for editing confirmed fields when CR is enroute.
+     * This means that any user can see and edit the confirmed fields on a CR enroute.
+     * It won't cause serious problem since non-CM users won't be able to approve or save the doc;
+     * but still it's confusing to be able to edit these fields when they shouldn't even show up. Once the CR is approved by CM,
+     * the non-CM users should be able to see the confirmed fields as well as readOnly, just like CM himself.
+     * To fix this, we need to add new permission CashManagement, and check this in CR authorizer to remove confirmMode for users without the permission.
+     */
     /**
      * determine whether the given document is in cash management confirm edit mode
      */

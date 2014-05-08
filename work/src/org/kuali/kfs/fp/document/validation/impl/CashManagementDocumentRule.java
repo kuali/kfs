@@ -38,6 +38,7 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.CashManagingRule;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -190,7 +191,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
 
     private static final List INITIATED_STATES = Arrays.asList(new String[] { CashReceipt.VERIFIED });
-    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, CashReceipt.FINAL });
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, DocumentStatusCodes.PROCESSED, DocumentStatusCodes.FINAL});
 
     /**
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given
@@ -415,11 +416,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
         // money in currency
         // improved previous code: reduce redundant code by calling the shared method checkCurrencyNoNegatives on trans.getMoneyInCurrency()
-        checkCurrencyNoNegatives(trans.getMoneyInCurrency(), "document.currentTransaction.moneyInCurrency.");
+        success &= checkCurrencyNoNegatives(trans.getMoneyInCurrency(), "document.currentTransaction.moneyInCurrency.");
 
         // money in coin
         // improved previous code: reduce redundant code by calling the shared method checkCoinNoNegatives on trans.getMoneyInCoin()
-        checkCoinNoNegatives(trans.getMoneyInCoin(), "document.currentTransaction.moneyInCoin.");
+        success &= checkCoinNoNegatives(trans.getMoneyInCoin(), "document.currentTransaction.moneyInCoin.");
 
         // newItemInProcess amount
         if (trans.getNewItemInProcess() != null && trans.getNewItemInProcess().isPopulated() && trans.getNewItemInProcess().getItemAmount().isNegative()) {
@@ -454,11 +455,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
          * Fixed this bug, also improved previous code: reduce redundant code by calling the shared method checkCurrencyNoNegatives on trans.getMoneyOutCurrency()
          */
         // money out currency
-        checkCurrencyNoNegatives(trans.getMoneyOutCurrency(), "document.currentTransaction.moneyOutCurrency.");
+        success &= checkCurrencyNoNegatives(trans.getMoneyOutCurrency(), "document.currentTransaction.moneyOutCurrency.");
 
         // money out coin
         // improved previous code: reduce redundant code by calling the shared method checkCoinNoNegatives on trans.getMoneyOutCoin()
-        checkCoinNoNegatives(trans.getMoneyOutCoin(), "document.currentTransaction.moneyOutCoin.");
+        success &= checkCoinNoNegatives(trans.getMoneyOutCoin(), "document.currentTransaction.moneyOutCoin.");
 
         // open items in process amounts
         int count = 0;

@@ -36,7 +36,7 @@
             <column name="CMPNT_CD" value="Account" />
             <column name="PARM_NM" value="EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
             <column name="APPL_ID" value="KFS" />
-            <column name="OBJ_ID" valueNumeric="KFSCNTRB1761_EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
+            <column name="OBJ_ID" valueNumeric="KFS-PARM-169" />
             <column name="VER_NBR" value="1" />
             <column name="PARM_TYP_CD" value="VALID" />
             <column name="VAL" value="" />
@@ -51,7 +51,7 @@
             <column name="NMSPC_CD" value="KFS-FP" />
             <column name="CMPNT_CD" value="CoinDetail" />
             <column name="PARM_NM" value="COUNT_PER_ROLL_BY_DENOMINATION" />
-            <column name="OBJ_ID" value="KFSCNTRB-1793_COUNT_PER_ROLL" />
+            <column name="OBJ_ID" value="KFS-PARM-170" />
             <column name="VER_NBR" value="1" />
             <column name="PARM_TYP_CD" value="CONFG" />
             <column name="VAL" value="100c=25;50c=20;25c=40;10c=50;5c=40;1c=50" />
@@ -69,7 +69,7 @@
             <column name="NMSPC_CD" value="KFS-PURAP"/>
             <column name="CMPNT_CD" value="Requisition"/>
             <column name="PARM_NM" value="AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND"/>
-            <column name="OBJ_ID" value="KFSCNTRB_1536_AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND"/>
+            <column name="OBJ_ID" value="KFS-PARM-171"/>
             <column name="PARM_TYP_CD" value="CONFG"/>
             <column name="VAL" value="Yes"/>
             <column name="PARM_DESC_TXT" value="If yes, commodity codes are automatically added to vendors when a REQS becomes a PO."/>

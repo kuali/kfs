@@ -29,5 +29,20 @@
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 	</changeSet>
-
+	<changeSet author="KFS54" id="KFSCNTRB1761_EXPIRATION_DATE_BACKDATING_FUND_GROUPS">
+        <comment>Adds parameter for KFSCNTRB-1761- Fund groups that allow backdating of the expiration date</comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-COA" />
+            <column name="CMPNT_CD" value="Account" />
+            <column name="PARM_NM" value="EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" valueNumeric="KFSCNTRB1761_EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="VALID" />
+            <column name="VAL" value="" />
+            <column name="PARM_DESC_TXT" value="Fund groups that allow backdating of the expiration date." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+    </changeSet>
+    
 </databaseChangeLog>

@@ -1102,15 +1102,13 @@
 		<createSequence sequenceName="TEM_EM_CONT_ID_SEQ"
 			startValue="1001" />
 		<createSequence sequenceName="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ"
-			startValue="100" />
+			startValue="1001" />
 		<createSequence sequenceName="TEM_GRP_TRVLR_ID_SEQ"
 			startValue="1001" />
 		<createSequence sequenceName="TEM_HIST_EXP_ID_SEQ"
 			startValue="1001" />
 		<createSequence sequenceName="TEM_MILEAGE_RT_ID_SEQ"
 			startValue="1001" />
-		<createSequence sequenceName="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ"
-			startValue="1024" />
 		<createSequence sequenceName="TEM_PER_DIEM_EXP_ID_SEQ"
 			startValue="1001" />
 		<createSequence sequenceName="TEM_PER_DIEM_ID_SEQ"
@@ -1166,6 +1164,11 @@
 	  		</column>
 	  	</createTable>
 	  	<createTable tableName="TEM_EM_CONT_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ">
 	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>

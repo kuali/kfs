@@ -15,29 +15,27 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Batch step for sending ACH Advice notifications to payees receiving an ACH payment
  */
 public class UpcomingMilestoneNotificationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpcomingMilestoneNotificationStep.class);
-    public final static double MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
     protected UpcomingMilestoneNotificationService upcomingMilestoneNotificationService;
-    protected BusinessObjectService businessObjectService;
-    protected ParameterService parameterService;
+
+    /**
+     *
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
+     */
+    @Override
+    public boolean execute(String jobName, java.util.Date jobRunDate) throws InterruptedException {
+        LOG.debug("UpcomingMilestoneNotificationStep: execute() started");
+        getUpcomingMilestoneNotificationService().sendNotificationsForMilestones();
+
+        return true;
+    }
 
     /**
      * Gets the upcomingMilestoneNotificationService attribute.
@@ -56,67 +54,4 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
     public void setUpcomingMilestoneNotificationService(UpcomingMilestoneNotificationService upcomingMilestoneNotificationService) {
         this.upcomingMilestoneNotificationService = upcomingMilestoneNotificationService;
     }
-
-    /**
-     * Sets the parameterService attribute value.
-     *
-     * @param parameterService The parameterService to set.
-     */
-    @Override
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    /**
-     *
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
-     */
-    @Override
-    public boolean execute(String jobName, java.util.Date jobRunDate) throws InterruptedException {
-        LOG.debug("UpcomingMilestoneNotificationStep: execute() started");
-        // Get the limit value to check for upcoming milestones
-        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.CHECK_LIMIT_DAYS));
-
-        // Get todays date for comparison.
-        Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        Date today = new Date(ts.getTime());
-
-
-        // To retrieve all milestones. Using key value service here so it retreives the externalizable business object.
-
-        List<Milestone> milestones = (List<Milestone>) businessObjectService.findAll(Milestone.class);
-        List<Milestone> milestonesToNotify = new ArrayList<Milestone>();
-        if (CollectionUtils.isNotEmpty(milestones)) {
-            for (Milestone mil : milestones) {
-                if (ObjectUtils.isNotNull(mil.getMilestoneExpectedCompletionDate())) {
-                    Date milestoneDate = mil.getMilestoneExpectedCompletionDate();
-                    double days = (today.getTime() - milestoneDate.getTime()) / MILLISECONDS_IN_DAY;
-                    if (days <= limitDays && !mil.isBilledIndicator() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
-                        milestonesToNotify.add(mil);
-                    }
-                }
-
-            }
-
-            if (CollectionUtils.isNotEmpty(milestonesToNotify)) {
-                // get the award from the milestones
-                upcomingMilestoneNotificationService.sendAdviceNotifications(milestonesToNotify, milestonesToNotify.get(0).getAward());
-            }
-
-
-        }
-
-
-        return true;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-
 }

@@ -15,36 +15,74 @@
  */
 package org.kuali.kfs.module.ar.batch.service.impl;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
+import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService
  */
+@Transactional
 public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilestoneNotificationService {
+    public final static double MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
-    private AREmailService arEmailService;
-    private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
+    protected AREmailService arEmailService;
+    protected DateTimeService dateTimeService;
+    protected BusinessObjectService businessObjectService;
+    protected ParameterService parameterService;
 
     /**
-     * Set to NonTransactional
-     *
-     * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService#sendAdviceNotifications()
+     * @see org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService#sendNotificationsForMilestones()
      */
     @Override
-    @NonTransactional
-    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
+    public void sendNotificationsForMilestones() {
+        // Get the limit value to check for upcoming milestones
+        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.CHECK_LIMIT_DAYS));
 
+        // Get todays date for comparison.
+        Timestamp ts = new Timestamp(new java.util.Date().getTime());
+        Date today = new Date(ts.getTime());
+
+        // To retrieve all milestones.
+        List<Milestone> milestones = (List<Milestone>) businessObjectService.findAll(Milestone.class);
+        List<Milestone> milestonesToNotify = new ArrayList<Milestone>();
+        if (CollectionUtils.isNotEmpty(milestones)) {
+            for (Milestone mil : milestones) {
+                if (mil.isActive() && ObjectUtils.isNotNull(mil.getMilestoneExpectedCompletionDate())) {
+                    Date milestoneDate = mil.getMilestoneExpectedCompletionDate();
+                    double days = (today.getTime() - milestoneDate.getTime()) / MILLISECONDS_IN_DAY;
+                    if (days <= limitDays && !mil.isBilledIndicator() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
+                        milestonesToNotify.add(mil);
+                    }
+                }
+            }
+            if (CollectionUtils.isNotEmpty(milestonesToNotify)) {
+                // get the award from the milestones
+                sendAdviceNotifications(milestonesToNotify, milestonesToNotify.get(0).getAward());
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService#sendAdviceNotifications()
+     */
+    protected void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
         arEmailService.sendEmail(milestones, award);
-
     }
 
     /**
@@ -77,5 +115,13 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
         this.businessObjectService = businessObjectService;
     }
 
+    @NonTransactional
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
 
+    @NonTransactional
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

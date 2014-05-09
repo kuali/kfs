@@ -453,12 +453,6 @@
 		<property name="upcomingMilestoneNotificationService">
 			<ref bean="upcomingMilestoneNotificationService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
 	</bean>
 
 	<bean id="upcomingMilestoneNotificationService" parent="upcomingMilestoneNotificationService-parentBean"/>
@@ -471,6 +465,9 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 	</bean>
 	

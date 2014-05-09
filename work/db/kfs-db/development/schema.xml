@@ -16187,6 +16187,7 @@
     <sequence name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" nextval="1001"/>
     <sequence name="TEM_CREDIT_CARD_STAGING_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_EM_CONT_ID_SEQ" nextval="1001"/>
+    <sequence name="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_GRP_TRVLR_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_HIST_EXP_ID_SEQ" nextval="1001"/>
     <sequence name="TEM_MILEAGE_RT_ID_SEQ" nextval="1001"/>

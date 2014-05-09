@@ -40,6 +40,7 @@ import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
@@ -539,7 +540,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
 
-        protected static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL };
+        protected static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL };
 
         public void resummarize(CashManagementDocument cmDoc) {
             //
@@ -564,7 +565,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
                 else if (status.equals(CashReceipt.INTERIM)) {
                     interimReceiptStats.add(receipt);
                 }
-                else if (status.equals(CashReceipt.FINAL)) {
+                else if (status.equals(DocumentStatusCodes.FINAL)) {
                     finalReceiptStats.add(receipt);
                 }
                 else {

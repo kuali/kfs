@@ -70,6 +70,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public static final String CHECK_ENTRY_TOTAL = "totals";
 
     public static final String DOCUMENT_TYPE = "CR";
+    public static final String REQUIRE_REVIEW_SPLIT = "RequireReview";
 
     // child object containers - for all the different reconciliation detail sections
     protected String checkEntryMode = CHECK_ENTRY_DETAIL;
@@ -125,8 +126,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Initializes all currency/coin and change currency/coin details.
+     * This ensures that these details won't be null.
      */
-    public void initializeCashChangeDetails() {
+    protected void initializeCashChangeDetails() {
         currencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
         coinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
 
@@ -138,6 +140,24 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         confirmedChangeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
         confirmedChangeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+    }
+
+    /**
+     * Sets the non-amount primary key fields for all currency/coin and change currency/coin details.
+     * This ensures that the key fields of these details are populated properly, in case they weren't during initialization.
+     */
+    protected void setCashChangeDetailKeys() {
+        currencyDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
+        coinDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_RECEIPTS);
+
+        confirmedCurrencyDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        confirmedCoinDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+
+        changeCurrencyDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
+        changeCoinDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_REQUEST);
+
+        confirmedChangeCurrencyDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+        confirmedChangeCoinDetail.setKeys(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
     }
 
     /**
@@ -848,7 +868,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
         if (workflowDocument.isProcessed()) {
-            this.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            this.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(CashReceipt.VERIFIED);
             LOG.info("Adding Cash to Cash Drawer");
             SpringContext.getBean(CashReceiptService.class).addCashDetailsToCashDrawer(this);
         }
@@ -871,6 +891,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
          * Next time CR is loaded, the old value will show up again. Basically it won't allow clearing a detail to 0.
          */
 
+        // Set primary keys for all cash/change details, in case the documentNumber was null when it was set during document initialization.
+        // The documentNumber would be null if the CR was created from scratch (instead of from copying, or retrieved from DB)
+        // and is being saved for the first time at this point.
+        setCashChangeDetailKeys();
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
         // if CR is not enroute yet, confirmed details aren't filled yet, so only need to save original details
@@ -1308,7 +1332,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     /**
      * Initializes the campus location code based on kfs user role chart org
      */
-    public void initializeCampusLocationCode(){
+    protected void initializeCampusLocationCode(){
 
         if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null) {
 
@@ -1515,11 +1539,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * so no confirmed details will be saved anyways, thus no need to consider them.
      */
     public boolean isConfirmed() {
-        // post CM approval status could be VERIFIED, INTERIM, FINAL.
+        // post CM approval status could be VERIFIED, INTERIM, FINAL, APPROVED
         String statusCode = getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
-        boolean isConfirmed = CashReceipt.VERIFIED.equals(statusCode) ||
-                CashReceipt.INTERIM.equals(statusCode) ||
-                CashReceipt.FINAL.equals(statusCode);
+        boolean isConfirmed = CashReceipt.VERIFIED.equals(statusCode) || CashReceipt.INTERIM.equals(statusCode) ||
+                DocumentStatusCodes.FINAL.equals(statusCode) || DocumentStatusCodes.APPROVED.equals(statusCode);
         return isConfirmed;
     }
 
@@ -1540,5 +1563,17 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return super.isDebit(postable);
     }
 
+    /**
+     * Provides answers to the following splits: AcknowledgeChangeRequest
+     * @returns true if change request is used, false otherwise.
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(REQUIRE_REVIEW_SPLIT)) {
+            return isChangeRequested();
+        }
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
 }
 

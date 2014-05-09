@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
@@ -113,7 +113,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List receipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.VERIFIED);
         assertEquals(0, receipts.size());
     }
 
@@ -123,7 +123,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List receipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.INTERIM);
         assertEquals(0, receipts.size());
     }
 
@@ -137,16 +137,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only interim CRs
-        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.VERIFIED);
         assertEquals(0, vreceipts.size());
 
-        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.INTERIM);
         assertEquals(2, ireceipts.size());
 
         // clean up afterwards
@@ -162,16 +162,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only verified CRs
-        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.INTERIM);
         assertEquals(0, ireceipts.size());
 
-        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.VERIFIED);
         assertEquals(2, vreceipts.size());
 
         // clean up afterwards
@@ -187,16 +187,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are some of each
-        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.INTERIM);
         assertEquals(1, ireceipts.size());
 
-        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(workgroup, CashReceipt.VERIFIED);
         assertEquals(1, vreceipts.size());
 
 
@@ -205,9 +205,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    private static final String[] BOTH_STATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
-    private static final String[] ISTATII = { KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
-    private static final String[] VSTATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED };
+    private static final String[] BOTH_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM };
+    private static final String[] ISTATII = { CashReceipt.INTERIM };
+    private static final String[] VSTATII = { CashReceipt.VERIFIED };
 
 
     public final void testGetCashReceipts2_blankUnitName() {
@@ -296,9 +296,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only interim CRs
@@ -321,9 +321,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only verified CRs
@@ -346,9 +346,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.ineff);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are some of each

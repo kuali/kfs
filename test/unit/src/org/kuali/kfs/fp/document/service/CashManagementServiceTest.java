@@ -35,6 +35,8 @@ import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -181,9 +183,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3",CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -218,9 +220,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals( "the number of receipt control records does not match", 3, depositedReceiptControls.size());
 
                 // CRs are in appropriate state
-                assertEquals( "cash receipt state is incorrect for CR #1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals( "cash receipt state is incorrect for CR #2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals( "cash receipt state is incorrect for CR #3", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals( "cash receipt state is incorrect for CR #1",CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals( "cash receipt state is incorrect for CR #2",CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals( "cash receipt state is incorrect for CR #3",CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
 
         }
@@ -316,8 +318,8 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
-            //CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.FINAL, new KualiDecimal("75.00"));
+            //CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR",CashReceipt.INTERIM, new KualiDecimal("75.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", DocumentStatusCodes.FINAL, new KualiDecimal("75.00"));
             changeCurrentUser(twatson);
 
             List crList = new ArrayList();
@@ -366,7 +368,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST noncheck CR",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             changeCurrentUser(UserNameFixture.twatson);
 
             List crList = new ArrayList();
@@ -417,9 +419,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("10.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1",CashReceipt.VERIFIED, new KualiDecimal("10.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3",CashReceipt.VERIFIED, new KualiDecimal("23.00"));
 
             List<CashReceiptDocument> crList = new ArrayList<CashReceiptDocument>();
             crList.add(cr1);
@@ -455,9 +457,9 @@ public class CashManagementServiceTest extends KualiTestBase {
             assertEquals( "number of cash receipts on the deposit is incorrect", 3, depositedReceiptControls.size());
 
             // CRs are in appropriate state
-            assertEquals( "status code on CR #1 is incorrect", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-            assertEquals( "status code on CR #2 is incorrect", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-            assertEquals( "status code on CR #3 is incorrect", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals( "status code on CR #1 is incorrect",CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals( "status code on CR #2 is incorrect",CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals( "status code on CR #3 is incorrect",CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
 
             // total value of the deposit is the sum of the values of the 3 CRs
             assertEquals( "deposit amount is incorrect", new KualiDecimal("58.00"), deposit.getDepositAmount());
@@ -513,9 +515,9 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipts
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR1",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR2",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
+            CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST CR3",CashReceipt.VERIFIED, new KualiDecimal("25.00"));
 
             List crList = new ArrayList();
             crList.add(cr1);
@@ -550,9 +552,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals( "number of cash receipts on the deposit is incorrect", 3, depositedReceiptControls.size());
 
                 // CRs are in appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.INTERIM, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
 
 
@@ -580,9 +582,9 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(0, SpringContext.getBean(BusinessObjectService.class).countMatching(Deposit.class, depositPK));
 
                 // cash receipts have been restored to appropriate state
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
-                assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.VERIFIED, lookupCR(cr1.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.VERIFIED, lookupCR(cr2.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
+                assertEquals(CashReceipt.VERIFIED, lookupCR(cr3.getDocumentNumber()).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
             }
         }
         finally {
@@ -692,7 +694,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         SpringContext.getBean(BusinessObjectService.class).save(cd);
     }
 
-    private static final String[] BOTH_STATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] BOTH_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM };
 
     private void denatureCashReceipts(String campusCode) {
         List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, BOTH_STATII);

@@ -261,11 +261,7 @@
     		</map>
     	</property>
 	</bean>
-	
-	<bean id="CashReceiptDocument-RoutingAttribute-CashReceiptCampus" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-    	<property name="qualificationAttributeName" value="campusCode"/>
-	</bean>
-	
+	 
 	<bean id="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
@@ -285,5 +281,6 @@
     			<ref bean="CashReceiptDocument-DocumentValuePathGroup-CashReceiptCampus"/>
     		</list>
     	</property>
-    </bean>
+    </bean>    
+     
 </beans>

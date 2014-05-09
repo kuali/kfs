@@ -48,6 +48,8 @@ import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.sys.KFSConstants.DepositConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -150,7 +152,7 @@ public class DepositWizardAction extends KualiAction {
 
         dform.setDepositTypeCode(depositTypeCode);
 
-        if (depositTypeCode.equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
+        if (depositTypeCode.equals(DepositConstants.DEPOSIT_TYPE_FINAL)) {
             // hey, we're the magical final deposit. We get currency and coin details!
             CurrencyDetail currencyDetail = new CurrencyDetail();
             currencyDetail.setDocumentNumber(cmDoc.getDocumentNumber());
@@ -229,7 +231,7 @@ public class DepositWizardAction extends KualiAction {
     private void calculateTargetFinalDepositAmount(DepositWizardForm dwform) {
         final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
         final List<CashReceiptDocument> interestingReceipts =
-                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
         for (CashReceiptDocument crDoc : interestingReceipts) {
             crDoc.refreshCashDetails();
             dwform.addCashReceiptToTargetTotal(crDoc);
@@ -540,7 +542,7 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {

@@ -191,7 +191,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
 
     private static final List INITIATED_STATES = Arrays.asList(new String[] { CashReceipt.VERIFIED });
-    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, DocumentStatusCodes.PROCESSED, DocumentStatusCodes.FINAL});
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, DocumentStatusCodes.FINAL});
 
     /**
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given
@@ -228,7 +228,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     protected boolean verifyAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
         boolean allCRsDeposited = true;
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), CashReceipt.VERIFIED);
         for (Object o : verifiedReceipts) {
             if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument) o)) {
                 allCRsDeposited = false;

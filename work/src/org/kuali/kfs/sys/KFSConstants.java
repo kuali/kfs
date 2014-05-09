@@ -628,14 +628,19 @@ public class KFSConstants {
         public static final String FINAL = "F";
 
         public static class CashReceipt {
-            // once a CashReceipt gets approved, its financialDocumentStatus goes to "verified"
+            // Once a CashReceipt gets approved, its financialDocumentStatus is set to VERIFIED;
+            // this is true whether or not acknowledgment from initiator is required or done.
             public static final String VERIFIED = "V";
 
-            // when a CashReceipt associated with a Deposit, its financialDocumentStatus changes to "interim" or "final"
+            // When a CashReceipt is associated with a Deposit, its financialDocumentStatus changes to INTERIM
+            // when the deposit type is INTERIM;
             public static final String INTERIM = "I";
-            public static final String FINAL = "F";
 
-            // when the CMDoc is finalized, the CRs of its Deposits change to status "approved"
+            // or FINAL when the deposit type becomes FINAL. We can use DocumentStatusCodes.FINAL for this status,
+            // since it's not used for other purposes. Note: don't confuse this with workflow status FINAL.
+
+            // When the CMDoc is finalized, the CRs of its deposits change to status APPROVED. We can use
+            // DocumentStatusCodes.APPROVED for this status, just like most other FinancialSystemTransactionalDocuments.
         }
 
         public static class Payments {

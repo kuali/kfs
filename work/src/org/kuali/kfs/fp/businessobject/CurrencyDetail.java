@@ -88,6 +88,15 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Sets the non-amount primary key fields with the given documentNumber, financialDocumentTypeCode, and cashieringStatus.
+     */
+    public void setKeys(String documentNumber, String financialDocumentTypeCode, String cashieringStatus) {
+        this.documentNumber = documentNumber;
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+        this.cashieringStatus = cashieringStatus;
+    }
+
+    /**
      * Copies all amounts from the given CoinDetail to this CoinDetail.
      */
     public void copyAmounts(CurrencyDetail currencyDetail) {

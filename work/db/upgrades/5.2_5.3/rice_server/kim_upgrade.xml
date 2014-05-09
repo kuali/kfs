@@ -64,6 +64,7 @@
 	
 	<changeSet author="KFS53" id="KFSCNTRB-1785">
 		<comment>KFSCNTRB-1785 Create Permission to allow usage of extractNow button on DV, and grant to Disbursement Manager</comment>
+		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFS10834" />
 			<column name="OBJ_ID" value="KFSCNTRB1785-PERM1" />
@@ -102,8 +103,88 @@
 			<column name="ROLE_ID" valueNumeric="12" />
 			<column name="PERM_ID" value="KFS10834" />
 			<column name="ACTV_IND" value="Y" />
-		</insert>
-		
+		</insert>		
 	</changeSet>	
 	
+	<changeSet author="KFS53" id="KFSCNTRB-1793">
+		<comment>KFSCNTRB-1793 Add new responsibility AcknowledgeChangeRequest and assign it to CR initiator. </comment>
+	
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="NM" value="Review CR ChangeRequest" />
+			<column name="DESC_TXT" value="The Cash Receipt initiator will receive a workflow action request after Cash Manager approval if change request was used on the Cash Receipt." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-1793-RSPATT1" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RSPATT1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />	<!-- DocTypeCode -->
+			<column name="ATTR_VAL" value="CR" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-1793-RSPATT2" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RSPATT2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />	<!-- RouteNodeName -->
+			<column name="ATTR_VAL" value="ChangeRequest" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-1793-RSPATT3" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RSPATT3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />	<!-- Required true/false -->
+			<column name="ATTR_VAL" value="false" /> <!-- it doesn't matter true/false here, as doc initiator always exists -->
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-1793-RSPATT4" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RSPATT4" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />	<!-- actionDetailsAtRoleMemberLevel true/false -->
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB-1793-ROLERSP1" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RR1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<!-- Cash Receipt Initiator: We should not route to CR Initiator, because this is the role used for permission
+				of who can initiate CR. What we need is THE initiator of the current CR, not any CR initiator. The proper
+				role to use it KR-WKFLW Initiator, which is the generic initiator role derived per document. -->
+			<column name="ROLE_ID" value="60" />	<!-- KR-WKFLW Initiator -->
+			<column name="RSP_ID" value="KFSCNTRB-1793-RSP1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>	
+		
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB-1793-ROLERSPACTN1" />
+			<column name="OBJ_ID" value="KFSCNTRB-1793-RRA1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="K" />		<!-- K: Acknowledgment -->
+			<column name="PRIORITY_NBR" valueNumeric="1" />
+			<column name="ACTN_PLCY_CD" value="F" />
+			<column name="ROLE_MBR_ID" value="*" />		<!-- *: apply to all members -->
+			<column name="ROLE_RSP_ID" value="KFSCNTRB-1793-ROLERSP1" />
+			<!-- need to force action since otherwise workflow request won't be sent to people who already 
+				 took actions on the document, and the initiator will be one of them -->
+			<column name="FRC_ACTN" value="Y" /> 
+		</insert>		
+	</changeSet>			
+		
 </databaseChangeLog>

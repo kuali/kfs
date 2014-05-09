@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ public interface LetterOfCreditCreateService {
 
     /**
      * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
-     * 
+     *
      * @param customerNumber
      * @param locCreationType
      * @param locValue
@@ -39,7 +39,7 @@ public interface LetterOfCreditCreateService {
 
     /**
      * The method validates if there are any existing cash control documents for the same locValue and customer number combination.
-     * 
+     *
      * @param customerNumber
      * @param locCreationType
      * @param locValue
@@ -47,14 +47,26 @@ public interface LetterOfCreditCreateService {
      * @return
      */
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream);
-    
+
     /**
      * This method retrieves all the cash control and payment application docs with a status of 'I' and routes them to the next step in the
      * routing path.
-     * 
+     *
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
-     * 
+     *
      */
-    public boolean routeLOCDocuments() ;
+    public boolean routeLOCDocuments();
+
+    /**
+     * Processes Letters of Credit sorted by Fund
+     * @param batchFileDirectoryName the directory to write the report out to
+     */
+    public void processLettersOfCreditByFund(String batchFileDirectoryName);
+
+    /**
+     * Processes Letters of Credit sorted by Fund Group
+     * @param batchFileDirectoryName the directory to write the report out to
+     */
+    public void processLettersOfCreditByFundGroup(String batchFileDirectoryName);
 
 }

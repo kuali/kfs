@@ -244,6 +244,9 @@ public class ArConstants{
     // Probably refactor these two constants out to pull them from a service, system parameter or something.
     public static final String PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE = "APP";
     public static final String INVOICE_WRITEOFF_DOCUMENT_TYPE_CODE = "INVW";
+    public static final String CASH_CONTROL_DOCUMENT_TYPE_CODE = "CTRL";
+    public static final String CUSTOMER_CREDIT_MEMO_DOCUMENT_TYPE_CODE = "CRM";
+    public static final String CUSTOMER_INVOICE_DOCUMENT_TYPE_CODE = "INV";
 
     // Organization Options Section Ids
     public static class OrganizationOptionsSections {

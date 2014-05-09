@@ -15,34 +15,43 @@
  */
 package org.kuali.kfs.module.ar.batch.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDocumentDao;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -50,6 +59,7 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -58,6 +68,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Defines a service class for creating Cash Control documents from the LOC Review Document.
  */
+@Transactional
 public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LetterOfCreditCreateServiceImpl.class);
     public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
@@ -65,8 +76,11 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected CashControlDocumentDao cashControlDocumentDao;
     protected CashControlDocumentService cashControlDocumentService;
     protected ConfigurationService configService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected KualiModuleService kualiModuleService;
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
 
@@ -100,7 +114,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     @Override
-    @Transactional
     public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream) {
         String documentNumber = null;
 
@@ -174,7 +187,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     @Override
-    @Transactional
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
 
@@ -230,13 +242,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      */
     @Override
-    @NonTransactional
     public boolean routeLOCDocuments() {
         List<String> cashControlDocumentIdList = null;
         List<String> payAppDocumentIdList = null;
         try {
-            cashControlDocumentIdList = retrieveCashControlDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
-            payAppDocumentIdList = retrievePayAppDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+            cashControlDocumentIdList = retrieveCashControlDocumentsToRoute(DocumentStatus.SAVED);
+            payAppDocumentIdList = retrievePayAppDocumentsToRoute(DocumentStatus.SAVED);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving LOC documents for routing: " + e1.getMessage(), e1);
@@ -304,13 +315,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return a list of documents to route
      */
-    @SuppressWarnings("deprecation")
-    protected List<String> retrieveCashControlDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+    protected List<String> retrieveCashControlDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL);
-        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
+        criteria.setDocumentStatuses(Collections.singletonList(statusCode));
 
         DocumentSearchCriteria crit = criteria.build();
 
@@ -341,13 +351,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return a list of documents to route
      */
-    @SuppressWarnings("deprecation")
-    protected List<String> retrievePayAppDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+    protected List<String> retrievePayAppDocumentsToRoute(DocumentStatus statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
-        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
+        criteria.setDocumentStatuses(Collections.singletonList(statusCode));
 
         DocumentSearchCriteria crit = criteria.build();
 
@@ -385,7 +394,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         return routeDocHeader.substring(rightBound, leftBound);
     }
 
-
     /**
      * This method writes issues to the error file.
      *
@@ -394,14 +402,122 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @throws IOException
      */
     protected void writeErrorEntry(String line, PrintStream printStream) throws IOException {
+        printStream.printf("%s\n", line);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#processLettersOfCreditByFund(java.lang.String)
+     */
+    @Override
+    public void processLettersOfCreditByFund(String batchFileDirectoryName) {
         try {
-            printStream.printf("%s\n", line);
+            String customerNumber = null;
+            String locValue = null;
+            String locCreationType = null;
+            boolean cashControlDocumentExists = false;
+            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+
+            String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCF_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+            // To create error file and store all the errors in it.
+            File errOutPutFile = new File(errOutputFile);
+            PrintStream outputFileStream = new PrintStream(errOutPutFile);
+
+            // Case 2. set locCreationType = By Letter of Credit Fund
+            locCreationType = ArConstants.LOC_BY_LOC_FUND;
+            // Get the list of LOC Funds from the Maintenance document.
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.ACTIVE, true);
+            Collection<ContractsAndGrantsLetterOfCreditFund> letterOfCreditFunds = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFund.class, map);
+            Iterator<ContractsAndGrantsLetterOfCreditFund> it = letterOfCreditFunds.iterator();
+            while (it.hasNext()) {
+                ContractsAndGrantsLetterOfCreditFund letterOfCreditFund = it.next();
+                // Retrieve invoices per loc fund and loc creation type specification.
+                Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
+                // When all the invoices are final.
+                if (!CollectionUtils.isEmpty(cgInvoices)) {
+                    KualiDecimal totalAmount = KualiDecimal.ZERO;
+                    // Get the total amount for the cash control document.
+                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                    }
+                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                    // If this is LOC by fund, then the way to retrieve invoices in payment application form is locfundCode
+                    locValue = letterOfCreditFund.getLetterOfCreditFundCode();
+                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                    // number combination.
+
+                    cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
+
+                    if (!cashControlDocumentExists) {
+                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                    }
+                }
+            }
+            // Close the error file.
+            outputFileStream.close();
         }
-        catch (Exception e) {
-            throw new IOException(e.toString());
+        catch (FileNotFoundException fnfe) {
+            throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService#processLettersOfCreditByFundGroup(java.lang.String)
+     */
+    @Override
+    public void processLettersOfCreditByFundGroup(String batchFileDirectoryName) {
+        try {
+            String customerNumber = null;
+            String locValue = null;
+            String locCreationType = null;
+            boolean cashControlDocumentExists = false;
+            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
+
+            String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCFG_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+            // To create error file and store all the errors in it.
+            File errOutPutFile = new File(errOutputFile);
+            PrintStream outputFileStream = new PrintStream(errOutPutFile);
+            // Case 2. set locCreationType = By Letter of Credit Fund
+            locCreationType = ArConstants.LOC_BY_LOC_FUND_GRP;
+            // Retrieve list of letter of credit Fund groups from the Maintenance document.
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.ACTIVE, true);
+            Collection<ContractsAndGrantsLetterOfCreditFundGroup> letterOfCreditFundGroups = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFundGroup.class, map);
+
+            Iterator<ContractsAndGrantsLetterOfCreditFundGroup> it = letterOfCreditFundGroups.iterator();
+            while (it.hasNext()) {
+                ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
+
+                // Retrieve invoices per loc fund group and loc creation type specification.
+                Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
+                if (!CollectionUtils.isEmpty(cgInvoices)) {
+                    KualiDecimal totalAmount = KualiDecimal.ZERO;
+                    // Get the total amount for the cash control document.
+                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                    }
+                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                    // If this is LOC by fund group, then the way to retrieve invoices in payment application form is locfundGroupCode
+                    locValue = letterOfCreditFundGroup.getLetterOfCreditFundGroupCode();
+                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                    // number combination.
+
+                    cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
+
+                    if (!cashControlDocumentExists) {
+                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                    }
+                }
+            }
+            // Close the error file.
+            outputFileStream.close();
+        }
+        catch (FileNotFoundException fnfe) {
+            throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
+        }
+    }
 
     /**
      * Gets the documentService attribute.
@@ -510,4 +626,33 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
+    @NonTransactional
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    @NonTransactional
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    @NonTransactional
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    @NonTransactional
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    @NonTransactional
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
 }

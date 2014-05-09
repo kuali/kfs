@@ -427,30 +427,12 @@
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
 		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
 	<bean id="letterOfCreditByLOCFundGroupBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundGroupBatchStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
-		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
@@ -509,8 +491,17 @@
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />

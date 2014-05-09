@@ -19,6 +19,7 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class LockboxStep extends AbstractStep {
 
@@ -30,8 +31,9 @@ public class LockboxStep extends AbstractStep {
         boolean resultInd = true;
         try {
             resultInd = lockboxService.processLockboxes();
-        } catch (Exception e) {
+        } catch (WorkflowException e) {
             LOG.error("problem during lockboxService.processLockboxes()", e);
+            throw new RuntimeException("Could not process lockbox documents", e);
         }
         return resultInd;
     }

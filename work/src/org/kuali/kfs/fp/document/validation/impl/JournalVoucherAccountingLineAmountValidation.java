@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,6 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
 import static org.kuali.kfs.sys.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
@@ -34,7 +31,6 @@ import static org.kuali.kfs.sys.KFSKeyConstants.JournalVoucher.ERROR_NEGATIVE_NO
 import static org.kuali.kfs.sys.KFSPropertyConstants.BALANCE_TYPE;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.JournalVoucherDocument;
@@ -55,13 +51,14 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
     private AccountingLine accountingLineForValidation;
 
     /**
-     * Accounting lines for Journal Vouchers can be positive or negative, just not "$0.00".  
-     * 
-     * Additionally, accounting lines cannot have negative dollar amounts if the balance type of the 
-     * journal voucher allows for general ledger pending entry offset generation or the balance type 
+     * Accounting lines for Journal Vouchers can be positive or negative, just not "$0.00".
+     *
+     * Additionally, accounting lines cannot have negative dollar amounts if the balance type of the
+     * journal voucher allows for general ledger pending entry offset generation or the balance type
      * is not a budget type code.
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         KualiDecimal amount = getAccountingLineForValidation().getAmount();
 
@@ -102,28 +99,28 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
 
         return true;
     }
-    
+
     /**
      * This method retrieves the parameter values that define the allowable balance type codes and determines if negative amounts
      * are allowed for the associated accounting line.
-     * 
+     *
      * @param acctLine The accounting line which will be used to determine if negative amounts are allowed.
      * @return True if the accounting line has a balance type found in the associated parameter, false otherwise.
      */
     private boolean allowNegativeAmounts(AccountingLine acctLine) {
-    	Collection<String> budgetTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(JournalVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.FP_ALLOWED_BUDGET_BALANCE_TYPES);
+    	Collection<String> budgetTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(JournalVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.FP_BUDGET_BALANCE_TYPES);
     	return budgetTypes.contains(acctLine.getBalanceTypeCode());
     }
-    
+
     /**
-     * This method looks at the current full key path that exists in the MessageMap structure to determine how to build 
-     * the error map for the special journal voucher credit and debit fields since they don't conform to the standard 
+     * This method looks at the current full key path that exists in the MessageMap structure to determine how to build
+     * the error map for the special journal voucher credit and debit fields since they don't conform to the standard
      * pattern of accounting lines.
-     * 
-     * The error map key path is also dependent on whether or not the accounting line containing an error is a new 
-     * accounting line or an existing line that is being updated.  This determination is made by searching for 
+     *
+     * The error map key path is also dependent on whether or not the accounting line containing an error is a new
+     * accounting line or an existing line that is being updated.  This determination is made by searching for
      * NEW_SOURCE_ACCT_LINE_PROPERTY_NAME in the error path of the global error map.
-     * 
+     *
      * @param isDebit Identifies whether or not the line we are returning an error path for is a debit accounting line or not.
      * @return The full error map key path for the appropriate amount type.
      */
@@ -143,7 +140,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
     }
 
     /**
-     * Gets the accountingLineForValidation attribute. 
+     * Gets the accountingLineForValidation attribute.
      * @return Returns the accountingLineForValidation.
      */
     public AccountingLine getAccountingLineForValidation() {
@@ -159,7 +156,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
     }
 
     /**
-     * Gets the journalVoucherForValidation attribute. 
+     * Gets the journalVoucherForValidation attribute.
      * @return Returns the journalVoucherForValidation.
      */
     public JournalVoucherDocument getJournalVoucherForValidation() {

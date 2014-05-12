@@ -274,8 +274,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
         correctAdvanceDepositDetails();
-        //correctAccountingLines();
-        //TODO ??? do we need correctCapitalAccountingLines
         correctCapitalAccountingLines();
     }
 
@@ -288,8 +286,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
             deposit.setDocumentNumber(documentNumber);
             deposit.setFinancialDocumentAdvanceDepositAmount(deposit.getFinancialDocumentAdvanceDepositAmount().negated());
         }
-        //TODO ??? we don't need to negate totalAdvanceDepositAmount since that is recalculated in AdvanceDepositAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
-        //setTotalAdvanceDepositAmount(totalAdvanceDepositAmount.negated());
     }
 
 }

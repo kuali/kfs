@@ -59,42 +59,50 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
             return false;
         }
 
-        //check whether cash manager confirmed amount equals to the old amount
-        CashReceiptDocument crDoc = (CashReceiptDocument)cashReceiptDocumentForValidation; 
         //check whether the change request is valid
-        if (crDoc.getChangeCurrencyDetail() != null && crDoc.getChangeCoinDetail() != null) {
+        /* FIXME FIXED by KFSCNTRB-1793:
+         * The previous code only does validation when neither change currency nor coin detail is null.
+         * It should do validation when either one of them is not null. In fact, since these details are always
+         * initialized to default 0, they are never null, so we should check if they are empty instead.
+         */
+        CashReceiptDocument crDoc = (CashReceiptDocument)cashReceiptDocumentForValidation;
+        if (crDoc.isConfirmedChangeRequested()) {
             return checkChangeRequestIsValid();
         }
         return true;
     }
 
     /**
-     *
-     * This method checks whether the change request is valid by comparing the currency/coin counts in the request with the
-     * counts in the cash drawer + currency/coin counts sent with the cash receipt itself.
+     * This method checks whether the change request in the cash receipt is valid, i.e. for each currency/coin denomination,
+     * the change requested must not be greater than the sum of cash drawer + currency/coin from the cash receipt itself.
      * @return Returns true if the request is valid.
      */
     public boolean checkChangeRequestIsValid() {
-        CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
-        CurrencyDetail changeCurrency = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getChangeCurrencyDetail();
-        CoinDetail changeCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getChangeCoinDetail();
-        CurrencyDetail confirmedCurrency = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCurrencyDetail();
-        CoinDetail confirmedCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCoinDetail();
+        // we should use the confirmed amounts for this validation
+        CashReceiptDocument crDoc = (CashReceiptDocument)cashReceiptDocumentForValidation;
+        CurrencyDetail confirmedCurrency = crDoc.getConfirmedCurrencyDetail();
+        CoinDetail confirmedCoin = crDoc.getConfirmedCoinDetail();
+        CurrencyDetail confirmedChangeCurrency = crDoc.getConfirmedChangeCurrencyDetail();
+        CoinDetail confirmedChangeCoin = crDoc.getConfirmedChangeCoinDetail();
 
-        if(changeCurrency.getHundredDollarCount() > cd.getHundredDollarCount() + confirmedCurrency.getHundredDollarCount() ||
-                changeCurrency.getFiftyDollarCount() > cd.getFiftyDollarCount() + confirmedCurrency.getFiftyDollarCount() ||
-                changeCurrency.getTwentyDollarCount() > cd.getTwentyDollarCount() + confirmedCurrency.getTwentyDollarCount() ||
-                changeCurrency.getTenDollarCount() > cd.getTenDollarCount() + confirmedCurrency.getTenDollarCount() ||
-                changeCurrency.getFiveDollarCount() > cd.getFiveDollarCount() + confirmedCurrency.getFiveDollarCount() ||
-                changeCurrency.getTwoDollarCount() > cd.getTwoDollarCount() + confirmedCurrency.getTwoDollarCount() ||
-                changeCurrency.getOneDollarCount() > cd.getOneDollarCount() + confirmedCurrency.getOneDollarCount() ||
-                changeCoin.getHundredCentCount() > cd.getHundredCentCount() + confirmedCoin.getHundredCentCount() ||
-                changeCoin.getFiftyCentCount() > cd.getFiftyCentCount() + confirmedCoin.getFiftyCentCount() ||
-                changeCoin.getTwentyFiveCentCount() > cd.getTwentyFiveCentCount() + confirmedCoin.getTwentyFiveCentCount() ||
-                changeCoin.getTenCentCount() > cd.getTenCentCount() + confirmedCoin.getTenCentCount() ||
-                changeCoin.getFiveCentCount() > cd.getFiveCentCount() + confirmedCoin.getFiveCentCount() ||
-                changeCoin.getOneCentCount() > cd.getOneCentCount() + confirmedCoin.getOneCentCount()) {
+        // create CurrencyDetail and CoinDetail from the cash drawer Currency and Coin amount, respectively
+        CashDrawer cashDrawer = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
+        CurrencyDetail drawerCurrency = new CurrencyDetail(cashDrawer);
+        CoinDetail drawerCoin = new CoinDetail(cashDrawer);
 
+        /* Note:
+         * The original logic use coin count for comparison; but this won't work anymore, since we now include roll count into the amount.
+         * It's more straight-forward to compare the amounts directly: The change request is valid if the following formula satisfy:
+         * drawerCurrency + confirmedCurrency - changeCurrency >= 0
+         * drawerCoin + confirmedCoin - changeCoin >= 0
+         */
+        drawerCurrency.add(confirmedCurrency);
+        drawerCurrency.subtract(confirmedChangeCurrency);
+        drawerCoin.add(confirmedCoin);
+        drawerCoin.subtract(confirmedChangeCoin);
+
+        // if the final result contains any negative amount, throw error
+        if (drawerCurrency.hasNegativeAmount() || drawerCoin.hasNegativeAmount()) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CHANGE_REQUEST, "");
             return false;
         }

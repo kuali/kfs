@@ -19,10 +19,17 @@
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 <c:set var="confirmMode" value="${KualiForm.editingMode['cmConfirm']}" />
 <c:set var="changeRequestMode" value="${KualiForm.editingMode['changeRequestOn']}" />
-<c:set var="cashReceiptAttributes"
-	value="${DataDictionary['CashReceiptDocument'].attributes}" />
-<c:set var="readOnly"
-	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="confirmed" value="${KualiForm.document.confirmed}" />
+<c:set var="cashReceiptAttributes" value="${DataDictionary['CashReceiptDocument'].attributes}" />
+
+<%-- FIXME FIXED by KFSCNTRB-1793 
+	The previous code would display only original currency/coin details after the CR is verified, while the confirmed details will never have
+	a chance to be shown again. This fails to achieve the functional need to view the confirmed details, which is what matters after that point. 
+	The correct solution is to show both the original and confirmed details after CashManagerment confirmation; 
+	only that neither column would be editable.
+--%>	
+<c:set var="showConfirm" value="${confirmMode || confirmed}" />
 
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCashReceipt"
@@ -50,13 +57,14 @@
         }
     //-->
     </SCRIPT>
+        
 	<kul:tab tabTitle="Cash Reconciliation" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}">
 		<div class="tab-container" align=center>
 		<h3>Cash Reconciliation</h3>
 		<table>
 			<tbody>
-				<c:if test="${confirmMode}">
+				<c:if test="${showConfirm}">
 					<tr>
 						<th>&nbsp;</th>
 						<th>Original</th>
@@ -80,44 +88,31 @@
 					</c:if>
 					<c:if test="${!readOnly}">
 						<kul:htmlControlAttribute property="document.checkEntryMode"
-								attributeEntry="${cashReceiptAttributes.checkEntryMode}" onchange="submitForm()" />
-						
+								attributeEntry="${cashReceiptAttributes.checkEntryMode}" onchange="submitForm()" />						
 						<noscript><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif"
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>
 					</c:if>
-					<c:if test="${confirmMode}">
+					<c:if test="${showConfirm}">
 						<c:if test="${!checkDetailMode}">
 						<td>
 							<kul:htmlControlAttribute property="document.totalConfirmedCheckAmount"
-								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" /></td>
+								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" readOnly="${!confirmMode}"/></td>
 						</c:if>
 						<c:if test="${checkDetailMode}">
 							<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
 						</c:if>
-					</c:if>
-					<!--  
-						<c:if test="${confirmMode}">
-							<c:if test="${!checkDetailMode}">
-							<td>
-								<kul:htmlControlAttribute property="document.totalConfirmedCheckAmount"
-									attributeEntry="${cashReceiptAttributes.totalCheckAmount}" /></td>
-							</c:if>
-							<c:if test="${checkDetailMode}">
-								<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
-							</c:if>
-						</c:if>
-					-->					
+					</c:if>			
 				</tr>
 				<tr>
 					<th>
 					<div align="right"><strong><kul:htmlAttributeLabel
-						attributeEntry="${cashReceiptAttributes.totalCashAmount}"
+						attributeEntry="${cashReceiptAttributes.totalCurrencyAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCashAmount}" /></td>
-					<c:if test="${confirmMode}">
-						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalConfirmedCashAmount}" /></td>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalCurrencyAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedCurrencyAmount" /></td>
 					</c:if>
 				</tr>
 				<tr>
@@ -126,43 +121,108 @@
 						attributeEntry="${cashReceiptAttributes.totalCoinAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCoinAmount}" /></td>
-					<c:if test="${confirmMode}">
-						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalConfirmedCoinAmount}" /></td>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalCoinAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedCoinAmount" /></td>
 					</c:if>
-				</tr>
+				</tr>												
 				<tr>
 					<th>
 					<div align="right"><strong><kul:htmlAttributeLabel
-						attributeEntry="${cashReceiptAttributes.totalDollarAmount}"
+						attributeEntry="${cashReceiptAttributes.totalCashInAmount}"
 						useShortLabel="false" /></strong></div>
 					</th>
-					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedSumTotalAmount}" />&nbsp;&nbsp;&nbsp;
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalCashInAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedCashInAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
+					<th>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.totalMoneyInAmount}"
+						useShortLabel="false" /></strong></div>
+					</th>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalMoneyInAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedMoneyInAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
+					<th>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.totalChangeCurrencyAmount}"
+						useShortLabel="false" /></strong></div>
+					</th>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalChangeCurrencyAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedChangeCurrencyAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
+					<th>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.totalChangeCoinAmount}"
+						useShortLabel="false" /></strong></div>
+					</th>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalChangeCoinAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedChangeCoinAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
+					<th>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.totalChangeAmount}"
+						useShortLabel="false" /></strong></div>
+					</th>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalChangeAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedChangeAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
+					<th>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.totalNetAmount}"
+						useShortLabel="false" /></strong></div>
+					</th>
+					<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalNetAmount" /></td>
+					<c:if test="${showConfirm}">
+						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedNetAmount" /></td>
+					</c:if>
+				</tr>												
+				<tr>
 					<c:if test="${!readOnly}">
+          			<td class="total-line" colspan="1">&nbsp;</td>
+          			<td>
 						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
-					</c:if> <c:if test="${confirmMode}"> &nbsp; 
-						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedConfirmedSumTotalAmount}" />
-						&nbsp;&nbsp;&nbsp;
-						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+					</td>
+					</c:if> 
+					<c:if test="${confirmMode}">  <%-- we only show these buttons in CashManager Confirm Mode --%>
+	          		<td class="total-line" colspan="2">
+						<html:image align="center" property="methodToCall.copyAllCurrencyAndCoin" 
+						 	src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" 
+						 	title="Copy all original currency and coin" alt="Copy all currency and coin" styleClass="tinybutton"/>
+						&nbsp; &nbsp; &nbsp;
+						<html:image align="center" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
-					</c:if></td>
+					</td>					
+					</c:if>
+					</td>
 				</tr>
 			</tbody>
 		</table>
 		</div>
 	</kul:tab>
+	
   <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
     <div class="tab-container" align="center">
-  	  <c:if test="${confirmMode}">
-  	    <div>
-	  	  <html:image align="left" property="methodToCall.copyAllCurrencyAndCoin" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all original currency and coin" alt="Copy all currency and coin" styleClass="tinybutton"/>
-	    </div>
-	  </c:if>
-    </div>
-    <div class="tab-container" align="center">
         <h3>Currency and Coin Detail</h3>
-      <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" confirmedCurrencyProperty="document.confirmedCurrencyDetail" confirmedCoinProperty="document.confirmedCoinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}"/>
+      <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" 
+		confirmedCurrencyProperty="document.confirmedCurrencyDetail" confirmedCoinProperty="document.confirmedCoinDetail" 
+      	readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}" confirmed="${confirmed}" />
     </div>
   </kul:tab>
 	
@@ -174,12 +234,14 @@
 		confirmMode="${confirmMode}"/>
 		
 	<c:if test="${changeRequestMode}">	
-	<kul:tab tabTitle="Change Request" defaultOpen="false">
-		<div class="tab-container" align="center">
-			<h3>Requesting</h3>
-      		<fp:currencyCoinLine currencyProperty="document.changeCurrencyDetail" coinProperty="document.changeCoinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}" totalChangeAmount="${KualiForm.document.currencyFormattedChangeTotalAmount}"/>
-      	</div>
-	</kul:tab>	
+		<kul:tab tabTitle="Change Request" defaultOpen="${KualiForm.document.changeRequested}" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CHANGE_REQUEST_ERRORS}">
+			<div class="tab-container" align="center">
+				<h3>Requesting</h3>
+	      		<fp:currencyCoinLine currencyProperty="document.changeCurrencyDetail" coinProperty="document.changeCoinDetail" 
+					confirmedCurrencyProperty="document.confirmedChangeCurrencyDetail" confirmedCoinProperty="document.confirmedChangeCoinDetail" 
+	      			readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}" confirmed="${confirmed}" />
+	      	</div>
+		</kul:tab>	
 	</c:if>
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">

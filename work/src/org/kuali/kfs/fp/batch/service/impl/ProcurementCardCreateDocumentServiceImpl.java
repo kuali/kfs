@@ -35,11 +35,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
@@ -82,11 +80,7 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -353,18 +347,17 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     @Override
     public boolean routeProcurementCardDocuments() {
 
-        Collection<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+        Collection<ProcurementCardDocument> procurementCardDocumentList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
 
         //Collections.reverse(documentIdList);
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("PCards to Route: "+documentIdList);
+            LOG.info("Number of PCards to Route: "+procurementCardDocumentList.size());
         }
 
-        for (String pcardDocumentId: documentIdList) {
+        for (ProcurementCardDocument pcardDocument: procurementCardDocumentList) {
             try {
-                ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
                 if ( LOG.isInfoEnabled() ) {
-                    LOG.info("Routing PCDO document # " + pcardDocumentId + ".");
+                    LOG.info("Routing PCDO document # " + pcardDocument.getDocumentNumber() + ".");
                 }
                 documentService.prepareWorkflowDocument(pcardDocument);
 
@@ -376,7 +369,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 workflowDocumentService.route( pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
              }
             catch (WorkflowException e) {
-                LOG.error("Error routing document # " + pcardDocumentId + " " + e.getMessage());
+                LOG.error("Error routing document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage(),e);
             }
         }
@@ -388,36 +381,15 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    protected Collection<String> retrieveProcurementCardDocumentsToRoute(String statusCode){
-        Set<String> documentIds = new HashSet<String>();
+    protected Collection<ProcurementCardDocument> retrieveProcurementCardDocumentsToRoute(String statusCode){
 
-        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
-        criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
-        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-
-        DocumentSearchCriteria crit = criteria.build();
-
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            LOG.debug("Fetch Iteration: "+ i);
-            criteria.setStartAtIndex(maxResults * i);
-            crit = criteria.build();
-            LOG.debug("Max Results: "+criteria.getStartAtIndex());
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-        for (DocumentSearchResult resultRow: results.getSearchResults()) {
-            documentIds.add(resultRow.getDocument().getDocumentId());
-                LOG.debug(resultRow.getDocument().getDocumentId());
-        }
+        try {
+            return SpringContext.getBean(FinancialSystemDocumentService.class).findByWorkflowStatusCode(ProcurementCardDocument.class, DocumentStatus.fromCode(statusCode));
+        } catch (WorkflowException e) {
+            LOG.error("Error searching for enroute procurement card documents " + e.getMessage());
+            throw new RuntimeException(e.getMessage(),e);
         }
 
-
-        return documentIds;
     }
 
     /**
@@ -439,15 +411,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             return true;
         }
 
-        Collection<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        Collection<ProcurementCardDocument> pcardDocumentList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
 
         // get number of days and type for auto approve
         int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));
 
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
-        for (String pcardDocumentId: documentIdList) {
+        for (ProcurementCardDocument pcardDocument: pcardDocumentList) {
             try {
-                ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
 
                 // prevent PCard documents from auto approving if they have capital asset info to collect
                 if(capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(pcardDocument)) {
@@ -466,7 +437,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                     documentService.superUserApproveDocument(pcardDocument, "");
                 }
             } catch (WorkflowException e) {
-                LOG.error("Error auto approving document # " + pcardDocumentId + " " + e.getMessage(),e);
+                LOG.error("Error auto approving document # " + pcardDocument.getDocumentNumber() + " " + e.getMessage(),e);
                 throw new RuntimeException(e.getMessage(),e);
             }
         }

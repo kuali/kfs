@@ -26,6 +26,7 @@ public class VendorConstants {
         public static final String PURCHASE_ORDER = "PO";
         public static final String SUBJECT_PAYMENT = "SP";
         public static final String REVOLVING_FUND = "RF";
+        public static final String REFUND_PAYMENT = "RV";
     }
 
     public static final String CHANGE_TO_PARENT_QUESTION_ID = "confirmVendorChangeToParent";

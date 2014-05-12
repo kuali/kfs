@@ -1427,9 +1427,16 @@
 
 	<bean id="temProfileExportStep" parent="temProfileExportStep-parentBean" />
 	<bean id="temProfileExportStep-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.TemProfileExportStep" parent="step">
+		<property name="temProfileExportService" ref="temProfileExportService" />
+	</bean>
+  
+	<bean id="temProfileExportService" parent="temProfileExportService-parentBean" />
+	<bean id="temProfileExportService-parentBean" abstract="true"  class="org.kuali.kfs.module.tem.batch.service.impl.TemProfileExportServiceImpl" >
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="personService" ref="personService" />
-        <property name="fileDirectoryName" value="${staging.directory}/tem/profileExport" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService"/>
+		<property name="fileDirectoryName" value="${staging.directory}/tem/profileExport" />
         <property name="fileName" value="temProfileExport" />
 	</bean>
 	

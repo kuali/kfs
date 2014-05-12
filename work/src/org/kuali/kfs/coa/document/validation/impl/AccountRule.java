@@ -935,9 +935,12 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // If creating a new account if acct_expiration_dt is set then
         // the acct_expiration_dt must be changed to a date that is today or later
         if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
-            if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                success &= false;
+            Collection<String> fundGroups = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.EXPIRATION_DATE_BACKDATING_FUND_GROUPS);
+            if (fundGroups == null || !fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
+                if (!newExpDate.after(today) && !newExpDate.equals(today)) {
+                    putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                    success &= false;
+                }
             }
         }
 
@@ -1013,13 +1016,15 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // make a shortcut to the newAccount
         Account newAccount = (Account) maintDoc.getNewMaintainableObject().getBusinessObject();
 
-        // expirationDate must be today or later than today (cannot be before today)
-        if (newExpDate.equals(today) || newExpDate.after(today)) {
+        /* expirationDate must be today or later than today (cannot be before today).
+         * This rule doesn't apply to certain fund groups (C&G perhaps) according to
+         * the parameter.
+         */
+        Collection<String> fundGroups = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.EXPIRATION_DATE_BACKDATING_FUND_GROUPS);
+        if (fundGroups != null && !ObjectUtils.isNull(newAccount.getSubFundGroup()) && fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
             return false;
         }
-        else {
-            return true;
-        }
+        return newExpDate.before(today);
     }
 
     /**

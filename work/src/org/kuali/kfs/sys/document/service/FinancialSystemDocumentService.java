@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
@@ -29,8 +30,23 @@ import org.kuali.rice.krad.document.Document;
 public interface FinancialSystemDocumentService {
 
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException;
+    public <T extends Document> Collection<T> findByWorkflowStatusCode(Class<T> clazz, DocumentStatus docStatus) throws WorkflowException;
+    public <T extends Document> Collection<T> findByApplicationDocumentStatus(Class<T> clazz, String applicationDocumentStatus) throws WorkflowException;
     public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document);
+    public Collection<FinancialSystemDocumentHeader> findByWorkflowStatusCode(DocumentStatus docStatus);
+    /**
+     * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,
+     *             the FinancialSystemDocumentHeader should now have properties which allow the selection of documents without a document search.
+     *             This method will be removed in KFS 6
+     */
+    @Deprecated
     public int getFetchMoreIterationLimit();
+    /**
+     * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,
+     *             the FinancialSystemDocumentHeader should now have properties which allow the selection of documents without a document search.
+     *             This method will be removed in KFS 6
+     */
+    @Deprecated
     public int getMaxResultCap(DocumentSearchCriteria criteria);
 
 }

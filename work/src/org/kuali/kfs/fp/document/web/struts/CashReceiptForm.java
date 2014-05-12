@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,7 @@ import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -72,7 +73,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         checkEntryModes = new ArrayList();
         checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_DETAIL));
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
-        
+
         baselineChecks = new ArrayList();
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
@@ -82,7 +83,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     protected String getDefaultDocumentTypeName() {
         return "CR";
     }
-    
+
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
@@ -176,7 +177,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
 
     /**
      * Sets the current List of baseline checks to the given List
-     * 
+     *
      * @param baselineChecks
      */
     public void setBaselineChecks(List baselineChecks) {
@@ -200,7 +201,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     /**
      * Implementation creates empty Checks as a side-effect, so that Struts' efforts to set fields of lines which haven't been
      * created will succeed rather than causing a NullPointerException.
-     * 
+     *
      * @param index
      * @return baseline Check at the given index
      */
@@ -213,7 +214,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
 
     /**
      * Gets the financialDocumentStatusMessage which is dependent upon document state.
-     * 
+     *
      * @return Returns the financialDocumentStatusMessage.
      */
     public String getFinancialDocumentStatusMessage() {
@@ -223,7 +224,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
             financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
-        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL)) {
+        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(DocumentStatusCodes.FINAL)) {
             CashManagementDocument cmd = SpringContext.getBean(CashManagementService.class).getCashManagementDocumentForCashReceiptId(crd.getDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getDocumentNumber();
@@ -252,7 +253,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
 
     /**
      * This method will build out a message in the case the document is ENROUTE and the cash drawer is closed.
-     * 
+     *
      * @return String
      */
     public String getCashDrawerStatusMessage() {
@@ -281,7 +282,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
 
     /**
      * determines if the <code>{@link CashReceiptDocument}</code> is in a state that allows printing of the cover sheet.
-     * 
+     *
      * @return boolean
      */
     public boolean isCoverSheetPrintingAllowed() {
@@ -303,7 +304,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getExcludedmethodToCall()
      */
@@ -311,7 +312,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     protected List<String> getExcludedmethodToCall() {
         List<String> execludedMethodToCall = super.getExcludedmethodToCall();
         execludedMethodToCall.add("printCoverSheet");
-        
+
         return execludedMethodToCall;
-    } 
+    }
 }

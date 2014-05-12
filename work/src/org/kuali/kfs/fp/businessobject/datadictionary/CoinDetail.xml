@@ -38,6 +38,7 @@
         <ref bean="CoinDetail-financialDocumentOneCentAmount"/>
         <ref bean="CoinDetail-oneCentCount"/>
         <ref bean="CoinDetail-financialDocumentOtherCentAmount"/>
+        <ref bean="CoinDetail-totalAmount"/>
       </list>
     </property>
   </bean>
@@ -95,8 +96,9 @@
     <property name="label" value="Hundred Cent Count"/>
     <property name="shortLabel" value="HunCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <!-- TODO KFSCNTRB-1793 IntegerPatternConstraint currently doesn't work ? -->
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -122,8 +124,8 @@
     <property name="label" value="Fifty Cent Count"/>
     <property name="shortLabel" value="FtyCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -149,8 +151,8 @@
     <property name="label" value="Twenty Five Cent Count"/>
     <property name="shortLabel" value="TwyFvCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -176,8 +178,8 @@
     <property name="label" value="Ten Cent Count"/>
     <property name="shortLabel" value="TnCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -203,8 +205,8 @@
     <property name="label" value="Five Cent Count"/>
     <property name="shortLabel" value="FvCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -230,8 +232,8 @@
     <property name="label" value="One Cent Count"/>
     <property name="shortLabel" value="OneCntCnt"/>
     <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
     <property name="required" value="false"/>
     <property name="control">
@@ -246,8 +248,18 @@
     <property name="shortLabel" value="OthrCntAmt"/>
     <property name="maxLength" value="6"/>
     <property name="required" value="false"/>
+    <!-- FIXED by KFSCNTRB-1793: validation was missing; validation is needed here since this is an input field -->
+    <property name="validationPattern" ref="GenericAmountValiationPattern" />
     <property name="control">
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="8" p:size="6"/>
     </property>
   </bean>
+  
+  <bean id="CoinDetail-totalAmount" parent="CoinDetail-totalAmount-parentBean"/>
+  <bean id="CoinDetail-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalAmount"/>
+    <property name="label" value="Coin Detail Amount"/>
+    <property name="shortLabel" value="Coin Detail"/>    
+  </bean>
+    
 </beans>

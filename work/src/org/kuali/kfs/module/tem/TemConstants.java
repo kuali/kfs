@@ -517,7 +517,6 @@ public class TemConstants {
     public static final String TEM_TRAVELER_DETAIL_SEQ_NAME = "TEM_TRAVELER_DTL_ID_SEQ";
     public static final String TEM_TRAVELER_DETAIL_EM_CONTACT_SEQ_NAME = "TEM_EM_CONT_ID_SEQ";
     public static final String TEM_TRAVELER_DETAIL_ACCOUNT_SEQ_NAME = "TEM_TRVLR_DTL_ACCOUNT_ID_SEQ";
-    public static final String TEM_CREDIT_CARD_AGENCY_SEQ_NAME = "TEM_CREDIT_CARD_AGENCY_ID_SEQ";
     public static final String TEM_ACTUAL_EXPENSE_SEQ_NAME = "TEM_TRVL_EXP_ID_SEQ";
     public static final String TEM_CORP_CARD_PSEUDO_NUM_SEQ_NAME = "TEM_CORP_CARD_PSEUDO_NUM_SEQ";
 

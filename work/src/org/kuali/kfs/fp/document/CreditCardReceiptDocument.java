@@ -363,8 +363,6 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
         correctCreditCardReceipts();
-        //correctAccountingLines();
-        //TODO ??? do we need correctCapitalAccountingLines
         correctCapitalAccountingLines();
     }
 
@@ -377,8 +375,6 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
             receipt.setDocumentNumber(documentNumber);
             receipt.setCreditCardAdvanceDepositAmount(receipt.getCreditCardAdvanceDepositAmount().negated());
         }
-        //TODO ??? we don't need to negate totalCreditCardAmount since that is recalculated in CreditCardReceiptAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
-        //setTotalCreditCardAmount(totalCreditCardAmount.negated());
     }
 
 }

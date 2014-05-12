@@ -422,6 +422,9 @@
 		<property name="autoDisapproveErrorReportWriterService">
 			<ref bean="autoDisapproveErrorReportWriterService" />
 		</property>
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
+		</property>
 	</bean>
     <bean id="autoDisapproveErrorReportWriterService" parent="autoDisapproveErrorReportWriterService-parentBean"/>
 	

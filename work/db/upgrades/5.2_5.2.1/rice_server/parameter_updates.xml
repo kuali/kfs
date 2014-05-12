@@ -23,7 +23,7 @@
         <insert tableName="KRCR_PARM_T">
             <column name="NMSPC_CD" value="KFS-FP" />
             <column name="CMPNT_CD" value="JournalVoucher" />
-            <column name="PARM_NM" value="ALLOWED_BUDGET_BALANCE_TYPES" />
+            <column name="PARM_NM" value="BUDGET_BALANCE_TYPES" />
             <column name="APPL_ID" value="KFS" />
             <column name="OBJ_ID" value="KFSCNTRB-1771_JV_BB_TYPES" />
             <column name="VER_NBR" value="1" />

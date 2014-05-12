@@ -80,8 +80,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         List results = new ArrayList();
 
-        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
-        if (arDocumentHeaders.size() == 0) {
+        List<String> documentNumbers = accountsReceivableDocumentHeaderDao.getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(customerNumber);
+        if (documentNumbers.size() == 0) {
             return results;
         }
 
@@ -93,12 +93,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Hashtable details = new Hashtable();
         WorkflowDocument workflowDocument;
 
-        for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
-            AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
+        for (String docNumber : documentNumbers) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
 
             // populate workflow document
-            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, docNumber);
 
             // do not display not approved documents
             if (ObjectUtils.isNull(workflowDocument.getDateApproved())) {
@@ -111,28 +110,27 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentType(documentType);
 
             // Document Number
-            String documentNumber = documentHeader.getDocumentNumber();
-            detail.setDocumentNumber(documentNumber);
+            detail.setDocumentNumber(docNumber);
 
 
             if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE) || documentType.equals(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
-                invoiceIds.add(documentNumber);
+                invoiceIds.add(docNumber);
             }
             else {
                 // Approved Date -> for invoices Due Date, for all other documents Approved Date
                 detail.setDueApprovedDate(approvedDate);
 
                 if (documentType.equals(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE)) {
-                    paymentApplicationIds.add(documentNumber);
+                    paymentApplicationIds.add(docNumber);
                 }
                 else {
-                    finSysDocHeaderIds.add(documentNumber);
+                    finSysDocHeaderIds.add(docNumber);
                 }
             }
-            details.put(documentNumber, detail);
+            details.put(docNumber, detail);
         }
 
-     // add Unapplied Payment Applications
+        // add Unapplied Payment Applications
         Collection<NonAppliedHolding> arNonAppliedHoldings = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
         for (NonAppliedHolding nonAppliedHolding : arNonAppliedHoldings) {
             // populate workflow document

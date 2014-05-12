@@ -94,6 +94,18 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
     }
 
     /**
+     *
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByWorkflowStatusCode(org.kuali.rice.kew.api.document.DocumentStatus)
+     */
+    @Override
+    public Collection<FinancialSystemDocumentHeader> findByWorkflowStatusCode(DocumentStatus docStatus) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, docStatus.getCode());
+
+        return this.getBusinessObjectService().findMatching(FinancialSystemDocumentHeader.class, fieldValues);
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByApplicationDocumentStatus(java.lang.Class, java.lang.String)
      */
     @Override

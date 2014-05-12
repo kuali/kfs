@@ -93,11 +93,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Hashtable details = new Hashtable();
         WorkflowDocument workflowDocument;
 
-        for (String docNumber : documentNumbers) {
+        for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
+            AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
 
             // populate workflow document
-            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, docNumber);
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
             if (ObjectUtils.isNull(workflowDocument.getDateApproved())) {
@@ -110,7 +111,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDocumentType(documentType);
 
             // Document Number
-            detail.setDocumentNumber(docNumber);
+            String documentNumber = documentHeader.getDocumentNumber();
+            detail.setDocumentNumber(documentNumber);
 
 
             if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE) || documentType.equals(ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
@@ -127,7 +129,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     finSysDocHeaderIds.add(documentNumber);
                 }
             }
-            details.put(docNumber, detail);
+            details.put(documentNumber, detail);
         }
 
      // add Unapplied Payment Applications
@@ -313,7 +315,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             else {
                 detail.setDocumentDescription("");
             }
-                }
 
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
@@ -608,7 +609,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         else {
             populateReportDetails(selectedInvoices, results);
         }
-        }
 
         return results;
     }
@@ -730,7 +730,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             else {
                 detail.setDocumentDescription("");
             }
-                }
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date
@@ -762,7 +761,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             else {
                 detail.setDocumentDescription("");
             }
-                }
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date

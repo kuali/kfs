@@ -113,6 +113,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected DateTimeService dateTimeService;
     protected AccountingLineRuleHelperService accountingLineRuleUtil;
     protected CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
     private VelocityEmailService procurementCardCreateEmailService;
 
     public static final String DOCUMENT_DESCRIPTION_PATTERN = "{0}-{1}-{2}-{3}";
@@ -384,7 +385,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected Collection<ProcurementCardDocument> retrieveProcurementCardDocumentsToRoute(String statusCode){
 
         try {
-            return SpringContext.getBean(FinancialSystemDocumentService.class).findByWorkflowStatusCode(ProcurementCardDocument.class, DocumentStatus.fromCode(statusCode));
+            return this.getFinancialSystemDocumentService().findByWorkflowStatusCode(ProcurementCardDocument.class, DocumentStatus.fromCode(statusCode));
         } catch (WorkflowException e) {
             LOG.error("Error searching for enroute procurement card documents " + e.getMessage());
             throw new RuntimeException(e.getMessage(),e);
@@ -1179,4 +1180,24 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public void setProcurementCardCreateEmailService(VelocityEmailService procurementCardCreateEmailService) {
         this.procurementCardCreateEmailService = procurementCardCreateEmailService;
     }
+
+    /**
+     * Gets the financialSystemDocumentHeaderSerivce attribute
+     *
+     * @return
+     */
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    /**
+     * Spring hook to inject financialSystemDocumentHeaderService
+     *
+     * @param financialSystemDocumentService
+     */
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+
 }

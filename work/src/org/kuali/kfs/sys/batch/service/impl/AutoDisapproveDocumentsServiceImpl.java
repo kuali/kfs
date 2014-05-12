@@ -66,6 +66,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     private PersonService personService;
 
     private ReportWriterService autoDisapproveErrorReportWriterService;
+    private FinancialSystemDocumentService financialSystemDocumentService;
 
     /**
      * Constructs a AutoDisapproveDocumentsServiceImpl instance
@@ -239,7 +240,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     protected boolean processAutoDisapproveDocuments(String principalId, String annotation, Date documentCompareDate) {
         boolean success = true;
 
-        Collection<FinancialSystemDocumentHeader> documentList = SpringContext.getBean(FinancialSystemDocumentService.class).findByWorkflowStatusCode(DocumentStatus.ENROUTE);
+        Collection<FinancialSystemDocumentHeader> documentList = this.getFinancialSystemDocumentService().findByWorkflowStatusCode(DocumentStatus.ENROUTE);
 
         for (FinancialSystemDocumentHeader financialSystemDocumentHeader : documentList) {
 
@@ -517,5 +518,25 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     public void setAutoDisapproveErrorReportWriterService(ReportWriterService autoDisapproveErrorReportWriterService) {
         this.autoDisapproveErrorReportWriterService = autoDisapproveErrorReportWriterService;
     }
+
+    /**
+     * Gets the financialSystemDocumentHeaderSerivce attribute
+     *
+     * @return
+     */
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    /**
+     * Spring hook to inject financialSystemDocumentHeaderService
+     *
+     * @param financialSystemDocumentService
+     */
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+
 
 }

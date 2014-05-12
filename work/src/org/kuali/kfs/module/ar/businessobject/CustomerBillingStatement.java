@@ -17,10 +17,7 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerBillingStatement extends PersistableBusinessObjectBase {
@@ -70,23 +67,4 @@ public class CustomerBillingStatement extends PersistableBusinessObjectBase {
     public void setReportedDate(Date reportedDate) {
         this.reportedDate = reportedDate;
     }
-
-    /**
-     * Gets the default statement format value
-     * @return
-     */
-    public String getStatementFormat() {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        return parameterService.getParameterValueAsString(CustomerBillingStatement.class, ArConstants.DEFAULT_FORMAT);
-    }
-
-    /**
-     * Gets the default include zero balance customer value
-     * @return
-     */
-    public String getIncludeZeroBalanceCustomers() {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        return parameterService.getParameterValueAsString(CustomerBillingStatement.class, ArConstants.INCLUDE_ZERO_BALANCE_CUSTOMERS);
-    }
-
 }

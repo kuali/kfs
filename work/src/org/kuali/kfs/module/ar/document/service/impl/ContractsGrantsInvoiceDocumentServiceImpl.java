@@ -3849,7 +3849,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invoiceGeneralDetail.setLastBilledDate(pair[1]);
 
 
-            invoiceGeneralDetail.populateInvoiceFromAward(award);
+            populateInvoiceDetailFromAward(invoiceGeneralDetail, award);
             document.setInvoiceGeneralDetail(invoiceGeneralDetail);
             // To set Bill by address identifier because it is a required field - set the value to 1 as it is never being used.
             document.setCustomerBillToAddressIdentifier(Integer.parseInt("1"));
@@ -3887,12 +3887,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
 
             java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();
-            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(milestones)) {// To
-                // check
-                // if
-                // award
-                // has
-                // milestones
+            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(milestones)) {// To check if award has milestones
 
                 // copy award milestones to invoice milestones
                 document.getInvoiceMilestones().clear();
@@ -3963,6 +3958,38 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
     }
 
+    /**
+     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
+     * corresponding invoice attributes.
+     * @param invoiceGeneralDetail the invoice detail to populate
+     * @param award The associated award that the invoice will be linked to.
+     */
+    protected void populateInvoiceDetailFromAward(InvoiceGeneralDetail invoiceGeneralDetail, ContractsAndGrantsBillingAward award) {
+        // copy General details from award to the invoice
+        invoiceGeneralDetail.setAwardTotal(award.getAwardTotalAmount());
+        invoiceGeneralDetail.setAgencyNumber(award.getAgencyNumber());
+        if (ObjectUtils.isNotNull(award.getPreferredBillingFrequency())) {
+            invoiceGeneralDetail.setBillingFrequency(award.getPreferredBillingFrequency());
+        }
+        if (ObjectUtils.isNotNull(award.getInstrumentTypeCode())) {
+            invoiceGeneralDetail.setInstrumentTypeCode(award.getInstrumentTypeCode());
+        }
+        // To set Award Date range - this would be (Award Start Date to Award Stop Date)
+        String awdDtRange = award.getAwardBeginningDate() + " to " + award.getAwardEndingDate();
+        invoiceGeneralDetail.setAwardDateRange(awdDtRange);
+
+        // set the billed to Date Field
+        // To check if award has milestones
+        if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
+        }
+        else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
+        }
+        else {
+            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
+        }
+    }
 
     /**
      * This method helps in setting up basic values for Contracts Grants Invoice Document

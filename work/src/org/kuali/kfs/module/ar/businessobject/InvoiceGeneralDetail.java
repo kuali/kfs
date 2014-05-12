@@ -19,12 +19,8 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -75,41 +71,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    /**
-     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
-     * corresponding invoice attributes.
-     *
-     * @param award The associated award that the invoice will be linked to.
-     */
-    public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award) {
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        // copy General details from award to the invoice
-        this.setAwardTotal(award.getAwardTotalAmount());
-        this.setAgencyNumber(award.getAgencyNumber());
-        if (ObjectUtils.isNotNull(award.getPreferredBillingFrequency())) {
-            this.setBillingFrequency(award.getPreferredBillingFrequency());
-        }
-        if (ObjectUtils.isNotNull(award.getInstrumentTypeCode())) {
-            this.setInstrumentTypeCode(award.getInstrumentTypeCode());
-        }
-        // To set Award Date range - this would be (Award Start Date to Award Stop Date)
-        String awdDtRange = award.getAwardBeginningDate() + " to " + award.getAwardEndingDate();
-        this.setAwardDateRange(awdDtRange);
-
-        // set the billed to Date Field
-        // To check if award has milestones
-        if (this.getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
-        }
-        else if (this.getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
-        }
-        else {
-            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
-        }
-
     }
 
     /**

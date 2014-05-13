@@ -1,3 +1,75 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+ 	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	
+    <documentType>
+      <name>
+        CR
+      </name>
+      <parent>
+        FP
+      </parent>
+      <label>
+        Cash Receipt
+      </label>
+      <docHandler>
+        ${kfs.url}/financialCashReceipt.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcashreceipt.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CashManagement"/>
+          <role name="CashManagement" nextNode="RequireReview"/>
+		  <split name="RequireReview">
+  			<branch name="True">
+    			<role name="ChangeRequest" nextNode="JoinRequireReview"/>
+  			</branch>
+  			<branch name="False">
+    			<simple name="NoOp" nextNode="JoinRequireReview"/>
+  			</branch>
+  			<join name="JoinRequireReview"/>
+		  </split>	
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="CashManagement">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <!-- don't need mandatoryRoute -->
+        </role>
+        <split name="RequireReview">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>     
+        <role name="ChangeRequest">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P				<!-- P means workflow action request is sent in parallel to all qualified role members -->
+          </activationType>                  
+        </role>	
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+		<join name="JoinRequireReview"/>                           
+      </routeNodes>
+    </documentType>
+	
+	</documentTypes>	
 </data>

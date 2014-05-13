@@ -172,7 +172,7 @@ public class TemProfileExportServiceImpl implements TemProfileExportService {
     }
 
 
-    private Element createElement(Document doc, String elementName, String elementValue) {
+    protected Element createElement(Document doc, String elementName, String elementValue) {
         //create element
         Element element = doc.createElement(elementName);
 
@@ -183,7 +183,7 @@ public class TemProfileExportServiceImpl implements TemProfileExportService {
         return element;
     }
 
-    private String generateCSVEntry(TemProfile profile) {
+    protected String generateCSVEntry(TemProfile profile) {
         StringBuffer line = new StringBuffer();
 
         line.append(profile.getProfileId().toString()).append(",");
@@ -219,7 +219,7 @@ public class TemProfileExportServiceImpl implements TemProfileExportService {
         return line.toString();
     }
 
-    private String getPrincipalName(String principalId) {
+    protected String getPrincipalName(String principalId) {
         String principalName = "";
 
         if(StringUtils.isNotEmpty(principalId)) {

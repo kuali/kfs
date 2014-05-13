@@ -47,7 +47,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -84,22 +83,18 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
 
-    @NonTransactional
     public ConfigurationService getConfigService() {
         return configService;
     }
 
-    @NonTransactional
     public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 
-    @NonTransactional
     public ParameterService getParameterService() {
         return parameterService;
     }
 
-    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -524,7 +519,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the documentService.
      */
-    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -535,7 +529,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param documentService The documentService to set.
      */
-    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -546,7 +539,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDocumentService.
      */
-    @NonTransactional
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
     }
@@ -557,7 +549,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDocumentService The cashControlDocumentService to set.
      */
-    @NonTransactional
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
     }
@@ -568,7 +559,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDocumentDao.
      */
-    @NonTransactional
     public CashControlDocumentDao getCashControlDocumentDao() {
         return cashControlDocumentDao;
     }
@@ -579,7 +569,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDocumentDao The cashControlDocumentDao to set.
      */
-    @NonTransactional
     public void setCashControlDocumentDao(CashControlDocumentDao cashControlDocumentDao) {
         this.cashControlDocumentDao = cashControlDocumentDao;
     }
@@ -590,7 +579,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDetailDao.
      */
-    @NonTransactional
     public CashControlDetailDao getCashControlDetailDao() {
         return cashControlDetailDao;
     }
@@ -601,57 +589,46 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDetailDao The cashControlDetailDao to set.
      */
-    @NonTransactional
     public void setCashControlDetailDao(CashControlDetailDao cashControlDetailDao) {
         this.cashControlDetailDao = cashControlDetailDao;
     }
 
-    @NonTransactional
     public WorkflowDocumentService getWorkflowDocumentService() {
         return workflowDocumentService;
     }
 
-    @NonTransactional
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    @NonTransactional
     public FinancialSystemDocumentService getFinancialSystemDocumentService() {
         return financialSystemDocumentService;
     }
 
-    @NonTransactional
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
-    @NonTransactional
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    @NonTransactional
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
 
-    @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
-    @NonTransactional
     public KualiModuleService getKualiModuleService() {
         return kualiModuleService;
     }
 
-    @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }

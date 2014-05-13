@@ -53,7 +53,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -75,6 +74,7 @@ import com.lowagie.text.pdf.PdfReader;
 /**
  * Implementation class for DunningLetterDistributionService.
  */
+@Transactional
 public class DunningLetterDistributionServiceImpl implements DunningLetterDistributionService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionServiceImpl.class);
     private BusinessObjectService businessObjectService;
@@ -90,7 +90,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *      org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult)
      */
     @Override
-    @Transactional
     public byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult) {
 
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
@@ -259,7 +258,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @throws Exception
      */
     @Override
-    @NonTransactional
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {
 
         ZipOutputStream zos = new ZipOutputStream(baos);
@@ -295,7 +293,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesPdfToPrint(java.util.Collection)
      */
-    @NonTransactional
     public byte[] generateListOfInvoicesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list, byte[] report) throws DocumentException, IOException {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -362,7 +359,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *
      * @return Returns the businessObjectService.
      */
-    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -372,7 +368,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *
      * @param businessObjectService The businessObjectService to set.
      */
-    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -382,7 +377,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *
      * @return Returns the contractsGrantsInvoiceDocumentDao.
      */
-    @NonTransactional
     public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
         return contractsGrantsInvoiceDocumentDao;
     }
@@ -392,17 +386,14 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *
      * @param contractsGrantsInvoiceDocumentDao The contractsGrantsInvoiceDocumentDao to set.
      */
-    @NonTransactional
     public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
         this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
     }
 
-    @NonTransactional
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -412,17 +403,14 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      *
      * @param kualiModuleService The kualiModuleService to set.
      */
-    @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
 
-    @NonTransactional
     public NoteService getNoteService() {
         return noteService;
     }
 
-    @NonTransactional
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }

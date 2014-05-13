@@ -143,17 +143,15 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
 
         int indexOfLineToRecalculate = getSelectedLine(request);
         ContractsGrantsLetterOfCreditReviewDetail contractsGrantsLetterOfCreditReviewDetail = contractsGrantsLetterOfCreditReviewDocument.getHeaderReviewDetails().get(indexOfLineToRecalculate);
-        contractsGrantsLetterOfCreditReviewDetail.setAmountToDraw(KualiDecimal.ZERO);// clear the cca amount to draw.
-        contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(KualiDecimal.ZERO);// clear the cca claim on cash balance
+        contractsGrantsLetterOfCreditReviewDetail.setAmountToDraw(KualiDecimal.ZERO); // clear the cca amount to draw.
+        contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(KualiDecimal.ZERO); // clear the cca claim on cash balance
         for (ContractsGrantsLetterOfCreditReviewDetail detail : contractsGrantsLetterOfCreditReviewDocument.getAccountReviewDetails()) {
             // To set amount to Draw to 0 if there are blank values, to avoid exceptions.
             if (ObjectUtils.isNull(detail.getAmountToDraw())) {
                 detail.setAmountToDraw(KualiDecimal.ZERO);
             }
 
-            if (detail.getProposalNumber().equals(contractsGrantsLetterOfCreditReviewDetail.getProposalNumber())) {// To get the appropriate
-                                                                                                        // individual award account
-                                                                                                        // rows.
+            if (detail.getProposalNumber().equals(contractsGrantsLetterOfCreditReviewDetail.getProposalNumber())) { // To get the appropriate individual award account rows.
                 contractsGrantsLetterOfCreditReviewDetail.setAmountToDraw(contractsGrantsLetterOfCreditReviewDetail.getAmountToDraw().add(detail.getAmountToDraw()));
                 contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(contractsGrantsLetterOfCreditReviewDetail.getClaimOnCashBalance().add(detail.getClaimOnCashBalance()));
 

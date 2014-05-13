@@ -79,13 +79,4 @@ public interface AccountsReceivableInvoiceTemplate extends ExternalizableBusines
     public String getInvoiceTemplateCode();
 
     public String getInvoiceTemplateDescription();
-
-    /**
-     * This method returns if the current user has a valid organization as compared to the organization associated with this invoice
-     * template
-     *
-     * @return
-     */
-    public boolean isValidOrganization();
-
 }

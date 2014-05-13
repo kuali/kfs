@@ -23,14 +23,17 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -39,6 +42,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterTemplateLookupableHelperServiceImpl.class);
 
     private KualiModuleService kualiModuleService;
+    protected DunningLetterDistributionService dunningLetterDistributionService;
 
     /***
      * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
@@ -48,6 +52,8 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+
         DunningLetterTemplate letterTemplate = (DunningLetterTemplate) businessObject;
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject)) {
@@ -56,7 +62,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
         if (allowsMaintenanceNewOrCopyAction()) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
-        if (letterTemplate.isValidOrganization() || !letterTemplate.isAccessRestrictedInd()) {
+        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(letterTemplate, currentUser) || !letterTemplate.isAccessRestrictedInd()) {
             // can upload file and do changes.
             htmlDataList.add(getDunningLetterTemplateUploadUrl(businessObject));
         }
@@ -131,5 +137,13 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    public DunningLetterDistributionService getDunningLetterDistributionService() {
+        return dunningLetterDistributionService;
+    }
+
+    public void setDunningLetterDistributionService(DunningLetterDistributionService dunningLetterDistributionService) {
+        this.dunningLetterDistributionService = dunningLetterDistributionService;
     }
 }

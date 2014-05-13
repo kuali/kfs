@@ -36,10 +36,12 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class defines all the service methods for Contracts and Grants invoice Document.
@@ -586,5 +588,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * Sends out e-mails about all in process Contrancts & Grants Invoice documents
      */
     public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException;
+
+    /**
+     * Determines if the given invoice template can be utilized by the given current user
+     * @param invoiceTemplate the invoice template to check
+     * @param user the user to check if they can utilize the template
+     * @return true if the user can utilize the template, false otherwise
+     */
+    public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user);
 
 }

@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -55,6 +56,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceTemplateLookupableHelperServiceImpl.class);
 
     private KualiModuleService kualiModuleService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
     /***
      * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
@@ -67,9 +69,9 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) businessObject;
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         boolean isValid = true;
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         if (invoiceTemplate.isAccessRestrictedIndicator()) {
-            Person currentUser = GlobalVariables.getUserSession().getPerson();
             // check for KFS-SYS User Role's membership
             Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
             if(userOrg == null) {
@@ -97,7 +99,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
             if (allowsMaintenanceNewOrCopyAction()) {
                 htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
             }
-            if (invoiceTemplate.isValidOrganization()) {
+            if (getContractsGrantsInvoiceDocumentService().isTemplateValidForUser(invoiceTemplate, currentUser)) {
                 htmlDataList.add(getInvoiceTemplateUploadUrl(businessObject));
             }
             if (StringUtils.isNotBlank(invoiceTemplate.getFilename()) && templateFileExists(invoiceTemplate.getFilename())) {
@@ -196,5 +198,13 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

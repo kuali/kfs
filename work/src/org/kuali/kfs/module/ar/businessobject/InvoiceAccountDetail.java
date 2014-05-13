@@ -16,27 +16,14 @@
 
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used to represent an invoice agency address detail business object.
@@ -326,68 +313,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         super.preUpdate();
 
         balanceAmount = getBalanceAmount();
-
-    }
-
-    /**
-     * This method will set Budgets and Cumulative Expenditure amounts for each invoice account detail.
-     *
-     * @param lastBilledDate
-     */
-    public void setBudgetsAndCumulatives(java.sql.Date lastBilledDate, String billingFrequency, java.sql.Date awardBeginningDate) {
-
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
-        List<Balance> glBalances = new ArrayList<Balance>();
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        List<Integer> fiscalYears = new ArrayList<Integer>();
-        Calendar c = Calendar.getInstance();
-
-
-        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
-
-        for (Integer i = fiscalYear; i <= currentYear; i++) {
-            fiscalYears.add(i);
-        }
-        List<String> balanceTypeCodeList = new ArrayList<String>();
-        balanceTypeCodeList.add(ArPropertyConstants.BUDGET_BALANCE_TYPE);
-        balanceTypeCodeList.add(ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-        for (Integer eachFiscalYr : fiscalYears) {
-            Map<String, Object> balanceKeys = new HashMap<String, Object>();
-            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
-            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
-            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
-            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
-        }
-        KualiDecimal budAmt = KualiDecimal.ZERO;
-        KualiDecimal balAmt = KualiDecimal.ZERO;
-        KualiDecimal cumAmt = KualiDecimal.ZERO;
-
-        for (Balance bal : glBalances) {
-            if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.BUDGET_BALANCE_TYPE)) {
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                    budAmt = budAmt.add(balAmt);
-                }
-                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
-                    if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
-
-                        cumAmt = cumAmt.add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(lastBilledDate, bal));
-                    }
-                    else {// For other billing frequencies
-                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                        cumAmt = cumAmt.add(balAmt);
-                    }
-                }
-
-            }
-        }
-        // To set Budgets and cumulative amounts
-        setBudgetAmount(budAmt);
-        setCumulativeAmount(cumAmt);
-
     }
 
     /**

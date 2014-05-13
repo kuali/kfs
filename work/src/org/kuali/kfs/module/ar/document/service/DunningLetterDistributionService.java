@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface DunningLetterDistributionService {
 
@@ -43,5 +44,13 @@ public interface DunningLetterDistributionService {
      * @throws Exception
      */
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException;
+
+    /**
+     * Determines if the given DunningLetterTemplate's organization is valid for the given user
+     * @param template the template to check the organization of
+     * @param user the user attempting to use the template
+     * @return true if the current user can use the template, false otherwise
+     */
+    public boolean isValidOrganizationForTemplate(DunningLetterTemplate template, Person user);
 
 }

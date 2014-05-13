@@ -15,27 +15,12 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -311,85 +296,6 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
     public void setAdjustedBalance(KualiDecimal adjustedBalance) {
         this.adjustedBalance = adjustedBalance;
     }
-
-
-    /**
-     * The budget calculations for individual Invoice Detail object are calculated here. Values are retrieved from GL Balance table
-     * and manipulated.
-     *
-     * @param awardAccounts - accounts for a particular award.
-     * @param objectCodes - set of object codes pertaining to a single category
-     */
-    public void performBudgetCalculations(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
-        KualiDecimal budAmt = KualiDecimal.ZERO;
-        KualiDecimal balAmt = KualiDecimal.ZERO;
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            // To retrieve the complete set of object codes and then categorize them based on object codes and BalanceType
-            List<Balance> glBalances = new ArrayList<Balance>();
-            Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-            List<Integer> fiscalYears = new ArrayList<Integer>();
-            Calendar c = Calendar.getInstance();
-
-
-            Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
-
-            for (Integer i = fiscalYear; i <= currentYear; i++) {
-                fiscalYears.add(i);
-            }
-
-            List<String> objectList = new ArrayList<String>(completeObjectCodeArrayForSingleCategory);
-            for (Integer eachFiscalYr : fiscalYears) {
-                Map<String, Object> balanceKeys = new HashMap<String, Object>();
-                balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-                balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-                balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-                balanceKeys.put("balanceTypeCode", ArPropertyConstants.BUDGET_BALANCE_TYPE);
-                balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-                balanceKeys.put(KFSPropertyConstants.OBJECT_CODE, objectList);
-                glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
-            }
-            for (Balance glBalance : glBalances) {
-                if (ObjectUtils.isNull(glBalance.getSubAccount()) || ObjectUtils.isNull(glBalance.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(glBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                    balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
-                    budAmt = budAmt.add(balAmt);
-                }
-            }
-        }
-
-
-        setBudget(budAmt);// Setting current budget value here
-
-    }
-
-    // get the total from the total table, and put them into buckets
-    public void performTotalBilledCalculation(List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, Set<String> objectCodesForCategory) {
-        for (AwardAccountObjectCodeTotalBilled accountObjectCodeTotalBilled : awardAccountObjectCodeTotalBilleds) {
-            if (objectCodesForCategory.contains(accountObjectCodeTotalBilled.getFinancialObjectCode())) {
-                setBilled(getBilled().add(accountObjectCodeTotalBilled.getTotalBilled())); // this adds up all the total billed
-                                                                                           // based on object code into categories;
-                                                                                           // sum for this category.
-            }
-        }
-    }
-
-    public void performCumulativeExpenditureCalculation(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
-        setCumulative(KualiDecimal.ZERO); // clear
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
-            if (objectCodesForCategory.contains(invoiceDetailAccountObjectCode.getFinancialObjectCode())) {
-                setCumulative(getCumulative().add(invoiceDetailAccountObjectCode.getCumulativeExpenditures()));
-            }
-        }
-    }
-
-    public void performCurrentExpenditureCalculation(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
-        setExpenditures(KualiDecimal.ZERO); // clear
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
-            if (objectCodesForCategory.contains(invoiceDetailAccountObjectCode.getFinancialObjectCode())) {
-                setExpenditures(getExpenditures().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
-            }
-        }
-    }
-
 
     /**
      * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data

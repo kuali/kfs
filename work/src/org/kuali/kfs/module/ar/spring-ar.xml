@@ -187,6 +187,9 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
+		<property name="dunningLetterDistributionService">
+			<ref bean="dunningLetterDistributionService"/>
+		</property>
 	</bean>
 
 	<bean id="letterTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -199,6 +202,9 @@
 		scope="prototype" parent="lookupableHelperService">
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService"/>
 		</property>
 	</bean>
 
@@ -360,6 +366,9 @@
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService"/>
+		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
@@ -371,6 +380,9 @@
 		</property>
 		<property name="objectLevelService">
 			<ref bean="objectLevelService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService"/>
 		</property>
 		<property name="verifyBillingFrequencyService">
 			<ref bean="verifyBillingFrequencyService" />
@@ -2284,6 +2296,9 @@
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
+		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService"/>
 		</property>
 	</bean>
 	

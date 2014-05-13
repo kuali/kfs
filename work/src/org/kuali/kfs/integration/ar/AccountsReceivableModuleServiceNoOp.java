@@ -383,4 +383,9 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return false;
     }
 
+    @Override
+    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return false;
+    }
 }

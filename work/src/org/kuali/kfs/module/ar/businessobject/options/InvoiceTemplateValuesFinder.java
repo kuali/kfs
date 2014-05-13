@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * ValuesFinder that returns a list of InvoiceTemplates.
@@ -38,6 +41,8 @@ public class InvoiceTemplateValuesFinder extends KeyValuesBase {
     @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
+        final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         List<InvoiceTemplate> boList = (List<InvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(InvoiceTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
@@ -47,7 +52,7 @@ public class InvoiceTemplateValuesFinder extends KeyValuesBase {
                     keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                 }
                 else {
-                    if (element.isValidOrganization()) {
+                    if (contractsGrantsInvoiceDocumentService.isTemplateValidForUser(element, currentUser)) {
                         keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                     }
                 }

@@ -20,14 +20,17 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is used to test Invoice template class
@@ -46,6 +49,7 @@ public class InvoiceTemplateTest extends KualiTestBase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("ITM");
@@ -74,10 +78,13 @@ public class InvoiceTemplateTest extends KualiTestBase {
     }
 
     public void testValidOrganization() {
-        assertFalse(invoiceTemplate.isValidOrganization());
+        final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+
+        assertFalse(contractsGrantsInvoiceDocumentService.isTemplateValidForUser(invoiceTemplate, currentUser));
         invoiceTemplate.setBillByChartOfAccountCode((new CurrentUserChartValueFinder()).getValue());
         invoiceTemplate.setBilledByOrganizationCode((new CurrentUserOrgValueFinder()).getValue());
-        assertTrue(invoiceTemplate.isValidOrganization());
+        assertTrue(contractsGrantsInvoiceDocumentService.isTemplateValidForUser(invoiceTemplate, currentUser));
     }
 
 }

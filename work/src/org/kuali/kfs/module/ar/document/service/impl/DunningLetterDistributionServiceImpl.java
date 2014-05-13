@@ -51,6 +51,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -81,6 +83,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
     protected DateTimeService dateTimeService;
     private KualiModuleService kualiModuleService;
     protected NoteService noteService;
+    protected FinancialSystemUserService financialSystemUserService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#createDunningLetters(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate,
@@ -341,6 +344,20 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
     }
 
     /**
+     *
+     * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#isValidOrganizationForTemplate(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public boolean isValidOrganizationForTemplate(DunningLetterTemplate template, Person user) {
+        final ChartOrgHolder userChartOrg = getFinancialSystemUserService().getPrimaryOrganization(user, ArConstants.AR_NAMESPACE_CODE);
+
+        if (!StringUtils.isBlank(template.getBillByChartOfAccountCode()) && !StringUtils.isBlank(template.getBilledByOrganizationCode())) {
+            return StringUtils.equals(template.getBillByChartOfAccountCode(), userChartOrg.getChartOfAccountsCode()) && StringUtils.equals(template.getBilledByOrganizationCode(), userChartOrg.getOrganizationCode());
+        }
+        return false;
+    }
+
+    /**
      * Gets the businessObjectService attribute.
      *
      * @return Returns the businessObjectService.
@@ -410,4 +427,11 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
         this.noteService = noteService;
     }
 
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
+    }
 }

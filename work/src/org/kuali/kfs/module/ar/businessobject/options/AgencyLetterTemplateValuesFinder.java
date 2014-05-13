@@ -19,16 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Value finder class for Ageny Letter Template.
  */
 public class AgencyLetterTemplateValuesFinder extends KeyValuesBase {
+    protected static volatile DunningLetterDistributionService dunningLetterDistributionService;
 
     protected List<KeyValue> keyValues = new ArrayList();
 
@@ -38,6 +42,7 @@ public class AgencyLetterTemplateValuesFinder extends KeyValuesBase {
     @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         List<DunningLetterTemplate> boList = (List<DunningLetterTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(DunningLetterTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
@@ -46,7 +51,7 @@ public class AgencyLetterTemplateValuesFinder extends KeyValuesBase {
                 keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));
             }
             else {
-                if (element.isValidOrganization() && element.isActive()) {
+                if (getDunningLetterDistributionService().isValidOrganizationForTemplate(element, currentUser) && element.isActive()) {
                     keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));
                 }
             }
@@ -62,5 +67,10 @@ public class AgencyLetterTemplateValuesFinder extends KeyValuesBase {
         keyValues = null;
     }
 
-
+    public DunningLetterDistributionService getDunningLetterDistributionService() {
+        if (dunningLetterDistributionService == null) {
+            dunningLetterDistributionService = SpringContext.getBean(DunningLetterDistributionService.class);
+        }
+        return dunningLetterDistributionService;
+    }
 }

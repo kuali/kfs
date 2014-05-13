@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
-import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class defines the link for Billing Frequency
@@ -41,14 +41,17 @@ public class AgencyInvoiceTemplateValuesFinder extends KeyValuesBase {
     @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        final AccountsReceivableModuleService arModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
+
         List<AccountsReceivableInvoiceTemplate> boList = (List<AccountsReceivableInvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(AccountsReceivableInvoiceTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (AccountsReceivableInvoiceTemplate element : boList) {
-            if (!element.isAccessRestrictedIndicator() && element.isActive()) {
+            if (!element.isAccessRestrictedIndicator()) {
                 keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
             }
             else {
-                if (element.isValidOrganization() && element.isActive()) {
+                if (arModuleService.isTemplateValidForUser(element, currentUser)) {
                     keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                 }
             }

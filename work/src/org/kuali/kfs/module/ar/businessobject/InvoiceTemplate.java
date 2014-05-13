@@ -19,12 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Invoice Types under Contracts and Grants section.
@@ -211,23 +208,6 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
     @Override
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * This method returns if the current user has a valid organization as compared to the organization associated with this invoice
-     * template
-     *
-     * @return
-     */
-    @Override
-    public boolean isValidOrganization() {
-        if (ObjectUtils.isNotNull(this.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(this.getBilledByOrganizationCode())) {
-            if (this.getBillByChartOfAccountCode().equals((new CurrentUserChartValueFinder()).getValue()) && this.getBilledByOrganizationCode().equals((new CurrentUserOrgValueFinder()).getValue())) {
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 
     /**

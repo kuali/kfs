@@ -89,6 +89,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
         super.setUp();
     }
 

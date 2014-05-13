@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -80,6 +81,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
 
         category = new ContractsAndGrantsCategories();
         category.setCategoryCode("testCode");

@@ -32,11 +32,13 @@ import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @see org.kuali.kfs.module.ar.batch.service.LockboxLoadService
  */
+@Transactional
 public class LockboxLoadServiceImpl implements LockboxLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockboxLoadServiceImpl.class);
 

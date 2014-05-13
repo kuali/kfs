@@ -25,7 +25,6 @@ import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServic
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.CfdaService;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
@@ -34,7 +33,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This Class provides the implementation to the services required for inter module communication.
  */
-@NonTransactional
 public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAndGrantsModuleRetrieveService {
 
     private AwardService awardService;

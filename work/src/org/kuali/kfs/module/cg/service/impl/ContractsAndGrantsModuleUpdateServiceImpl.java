@@ -23,7 +23,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AwardService;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -31,7 +30,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This Class provides implementation to the services required for inter module communication.
  */
-@NonTransactional
 public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGrantsModuleUpdateService {
     private AwardService awardService;
     private BusinessObjectService businessObjectService;

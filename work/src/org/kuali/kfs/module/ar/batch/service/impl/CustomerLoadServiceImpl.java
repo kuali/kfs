@@ -71,6 +71,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -82,6 +83,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+@Transactional
 public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
@@ -109,6 +111,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFiles()
      */
+    @Override
     public boolean loadFiles() {
 
         LOG.info("Beginning processing of all available files for AR Customer Batch Upload.");
@@ -204,6 +207,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String, org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult, org.kuali.kfs.sys.batch.BatchInputFileType, java.util.List, java.util.List)
      */
+    @Override
     public boolean loadFile(String fileName, CustomerLoadFileResult reporter, BatchInputFileType batchInputFileType,
             List<String> routedDocumentNumbers, List<String> failedDocumentNumbers) {
 
@@ -368,6 +372,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
      *
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
      */
+    @Override
     public boolean validate(List<CustomerDigesterVO> customerUploads) {
         return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>(), true);
     }
@@ -375,6 +380,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validateAndPrepare(java.util.List, java.util.List, boolean)
      */
+    @Override
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalMessageMap) {
         return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalMessageMap);
     }

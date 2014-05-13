@@ -30,8 +30,6 @@ import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -41,7 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This Class provides implementation to the services required for inter module communication.
  */
-@NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
@@ -50,11 +47,12 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     private AgencyService agencyService;
     private CfdaService cfdaService;
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
         Map<String, Object> awardAccountMap = new HashMap<String, Object>();
         awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
@@ -73,6 +71,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     /**
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public Person getProjectDirectorForAccount(Account account) {
 
         if (ObjectUtils.isNotNull(account)) {
@@ -88,6 +87,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
      *      java.lang.String, java.util.List)
      */
+    @Override
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {
         AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
         if (primaryAward == null) {
@@ -132,6 +132,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getAllAccountReponsiblityIds()
      */
+    @Override
     public List<Integer> getAllAccountReponsiblityIds() {
         int maxResponsibilityId = this.getMaxiumAccountResponsibilityId();
 
@@ -146,6 +147,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#hasValidAccountReponsiblityIdIfExists(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account) {
         Integer accountResponsiblityId = account.getContractsAndGrantsAccountResponsibilityId();
 
@@ -205,6 +207,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getParentUnits(java.lang.String)
      */
+    @Override
     public List<String> getParentUnits(String unitNumber) {
         return null;
     }
@@ -213,6 +216,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProposalNumberForAccountAndProjectDirector(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId) {
         String proposalNumber = null;
 

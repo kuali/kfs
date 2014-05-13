@@ -42,10 +42,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * implement the customer notification service
  */
+@Transactional
 public class CustomerNotificationServiceImpl implements CustomerNotificationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerNotificationServiceImpl.class);
 

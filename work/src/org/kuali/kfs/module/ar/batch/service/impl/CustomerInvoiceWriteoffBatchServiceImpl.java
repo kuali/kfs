@@ -48,6 +48,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,6 +61,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+@Transactional
 public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceWriteoffBatchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffBatchServiceImpl.class);
 
@@ -74,7 +76,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType batchInputFileType;
     private String reportsDirectory;
-    
+
     public CustomerInvoiceWriteoffBatchServiceImpl() {}
 
     @Override

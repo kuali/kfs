@@ -104,7 +104,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
      * @param searchCriteria
      * @param fieldsForLookup
      */
-    protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
 

@@ -135,7 +135,7 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         cgInvoiceReportDataHolder.setReportTitle(ArConstants.OUTSTANDING_INVOICE_REPORT);
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsGrantsInvoiceReport.class);
+        buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsGrantsInvoiceReport.class);
 
         //To avoid opening pdf if search results = none.
         if(CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){

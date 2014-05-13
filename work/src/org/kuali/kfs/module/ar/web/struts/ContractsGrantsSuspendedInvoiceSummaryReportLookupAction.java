@@ -122,7 +122,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         }
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), cgSuspendedInvoiceSummaryReportLookupForm.getFieldsForLookup(), ContractsGrantsSuspendedInvoiceSummaryReport.class);
+        buildReportForSearchCriteria(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), cgSuspendedInvoiceSummaryReportLookupForm.getFieldsForLookup(), ContractsGrantsSuspendedInvoiceSummaryReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsSuspendedInvoiceSummaryReportService.class).generateReport(cgSuspendedInvoiceSummaryReportDataHolder, baos);

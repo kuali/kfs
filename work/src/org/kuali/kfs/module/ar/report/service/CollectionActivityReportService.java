@@ -46,7 +46,7 @@ public interface CollectionActivityReportService extends ContractsGrantsReportSe
      * @param fieldValues
      * @return Returns List of Events.
      */
-    public List<CollectionActivityReport> filterEventsForColletionActivity(Map fieldValues);
+    public List<CollectionActivityReport> filterEventsForCollectionActivity(Map fieldValues);
 
 
 }

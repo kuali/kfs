@@ -131,7 +131,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         cgInvoiceReportDataHolder.setReportTitle("Collection Activity Report");
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgInvoiceReportDataHolder.getSearchCriteria(), collActReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
+        buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), collActReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(CollectionActivityReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
@@ -147,7 +147,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
      * @param fieldsForLookup
      */
     @Override
-    protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();

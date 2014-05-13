@@ -134,7 +134,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
      */
     @Override
     @Transactional
-    public List<CollectionActivityReport> filterEventsForColletionActivity(Map lookupFormFields) {
+    public List<CollectionActivityReport> filterEventsForCollectionActivity(Map lookupFormFields) {
 
         List<CollectionActivityReport> displayList = new ArrayList<CollectionActivityReport>();
 

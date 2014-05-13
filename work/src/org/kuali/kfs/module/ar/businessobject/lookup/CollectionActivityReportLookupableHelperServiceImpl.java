@@ -90,7 +90,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         List<CollectionActivityReport> results = new ArrayList<CollectionActivityReport>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        results = collectionActivityReportService.filterEventsForColletionActivity(fieldValues);
+        results = collectionActivityReportService.filterEventsForCollectionActivity(fieldValues);
         return new CollectionIncomplete<CollectionActivityReport>(results, (long) results.size());
     }
 
@@ -106,7 +106,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         List<CollectionActivityReport> results = new ArrayList<CollectionActivityReport>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        results = collectionActivityReportService.filterEventsForColletionActivity(fieldValues);
+        results = collectionActivityReportService.filterEventsForCollectionActivity(fieldValues);
         return new CollectionIncomplete<CollectionActivityReport>(results, (long) results.size());
     }
 

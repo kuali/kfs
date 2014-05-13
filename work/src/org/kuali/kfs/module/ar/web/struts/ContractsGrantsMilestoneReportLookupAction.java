@@ -105,7 +105,7 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
 
             details.add(reportDetail);
         }
-        buildReportForSearchCriteia(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);
+        buildReportForSearchCriteria(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsMilestoneReportService.class).generateReport(cgMilestoneReportDataHolder, baos);

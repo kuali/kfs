@@ -126,7 +126,7 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
         cgLOCDrawDetailsReportDataHolder.setDetails(details);
 
         // build search criteria for report
-        buildReportForSearchCriteia(cgLOCDrawDetailsReportDataHolder.getSearchCriteria(), cgLOCDrawDetailsReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCDrawDetailsReport.class);
+        buildReportForSearchCriteria(cgLOCDrawDetailsReportDataHolder.getSearchCriteria(), cgLOCDrawDetailsReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCDrawDetailsReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsLOCDrawDetailsReportService.class).generateReport(cgLOCDrawDetailsReportDataHolder, baos);

@@ -177,9 +177,9 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
                     fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
                 }
-                replacementList.put("#agency.fullAddressInline", returnProperStringValue(fullAddress));
-                replacementList.put("#agency.fullName", returnProperStringValue(address.getCustomer().getCustomerName()));
-                replacementList.put("#agency.contactName", returnProperStringValue(address.getCustomer().getCustomerContactName()));
+                replacementList.put("agency.fullAddressInline", returnProperStringValue(fullAddress));
+                replacementList.put("agency.fullName", returnProperStringValue(address.getCustomer().getCustomerName()));
+                replacementList.put("agency.contactName", returnProperStringValue(address.getCustomer().getCustomerContactName()));
                 if(CollectionUtils.isNotEmpty(selectedInvoices)){
                 reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
 

@@ -143,7 +143,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
     protected ConfigurationService configurationService;
     protected CustomerService customerService;
@@ -158,15 +157,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
-
-    /**
-     * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     *
-     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
-     */
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
 
     /**
      * Sets the accountService attribute value.
@@ -3392,8 +3382,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         if (ObjectUtils.isNotNull(award)) {
-            KualiDecimal billing = contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
-            KualiDecimal payments = contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
+            KualiDecimal billing = getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
+            KualiDecimal payments = calculateTotalPaymentsToDateByAward(award);
             KualiDecimal receivable = billing.subtract(payments);
             parameterMap.put("award.billings", returnProperStringValue(billing));
             parameterMap.put("award.payments", returnProperStringValue(payments));
@@ -3641,7 +3631,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
 
             try {
-                contractsGrantsInvoiceDocumentService.retrieveAndUpdateMilestones(invoiceMilestones, string);
+                retrieveAndUpdateMilestones(invoiceMilestones, string);
 
             }
             catch (Exception ex) {
@@ -3661,7 +3651,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (invoiceBills != null && !invoiceBills.isEmpty()) {
 
             try {
-                contractsGrantsInvoiceDocumentService.retrieveAndUpdateBills(invoiceBills, string);
+                retrieveAndUpdateBills(invoiceBills, string);
 
             }
             catch (Exception ex) {
@@ -3773,7 +3763,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // award
             // has
             // milestones
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
@@ -3783,12 +3773,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // award
             // has
             // bills
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
         else {
-            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
             // update the new total billed for the invoice.
             InvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalCostInvoiceDetail)){
@@ -3986,13 +3976,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // set the billed to Date Field
         // To check if award has milestones
         if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(), ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
+            invoiceGeneralDetail.setBilledToDateAmount(getMilestonesBilledToDateAmount(award.getProposalNumber()));
         }
         else if (StringUtils.equalsIgnoreCase(invoiceGeneralDetail.getBillingFrequency(),ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
+            invoiceGeneralDetail.setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
         }
         else {
-            invoiceGeneralDetail.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
+            invoiceGeneralDetail.setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
         }
     }
 
@@ -4205,7 +4195,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         // Retrieve cumulative amounts based on the biling period.
 
                         if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
-                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(retrieveAccurateBalanceAmount(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
                         }
                         else {// This code should be removed. This is temporary - just to make sure the amounts are pulled up.
                             invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
@@ -4313,7 +4303,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
                     if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
 
-                        cumAmt = cumAmt.add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(lastBilledDate, bal));
+                        cumAmt = cumAmt.add(retrieveAccurateBalanceAmount(lastBilledDate, bal));
                     }
                     else {// For other billing frequencies
                         balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
@@ -4345,7 +4335,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Iterator<ContractsAndGrantsCategories> it = contractsAndGrantsCategories.iterator();
 
         // query database for award account object code details. then divi them up into categories
-        List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = contractsGrantsInvoiceDocumentService.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
+        List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
         while (it.hasNext()) {
             ContractsAndGrantsCategories category = it.next();
@@ -4749,10 +4739,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return accountService;
     }
 
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
     /**
      * Gets the configurationService attribute.
      *
@@ -4900,7 +4886,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<ContractsGrantsInvoiceDocument> collection = new ArrayList<ContractsGrantsInvoiceDocument>();
 
         // Get the list of CG Invoice Documents that have the marked for processing flag set
-        Collection<ContractsGrantsInvoiceDocument> invoices = contractsGrantsInvoiceDocumentService.getAllCGInvoiceDocuments(false);
+        Collection<ContractsGrantsInvoiceDocument> invoices = getAllCGInvoiceDocuments(false);
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             // invoice has been marked for processing
             if (ArConstants.INV_RPT_PRCS_IN_PROGRESS.equalsIgnoreCase(invoice.getMarkedForProcessing())) {

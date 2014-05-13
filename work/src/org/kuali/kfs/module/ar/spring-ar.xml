@@ -360,9 +360,6 @@
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
 		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>

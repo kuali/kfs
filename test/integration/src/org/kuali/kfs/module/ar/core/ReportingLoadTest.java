@@ -41,7 +41,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
@@ -144,7 +143,7 @@ public class ReportingLoadTest extends KualiTestBase {
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(KFSConstants.BACK_LOCATION, "");
         fieldValues.put(KFSConstants.DOC_FORM_KEY, "");
-        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION, AGING_RPT_OPTION);
+        fieldValues.put(ArPropertyConstants.REPORT_OPTION, AGING_RPT_OPTION);
         fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.ACCOUNT_CHART_CODE, AGING_RPT_ACCOUNT_CHART);
         fieldValues.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, AGING_RPT_ACCOUNT);
         fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE, AGING_RPT_PROCESSING_OR_BILLING_CHART);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class is an empty derived class
@@ -33,7 +33,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
     private String accountChartOfAccountsCode;
     private String organizationCode;
     private String accountNumber;
-    private String reportOption = ArConstants.CustomerAgingReportFields.PROCESSING_ORG;
+    private String reportOption = ArConstants.ReportOptionFieldValues.PROCESSING_ORG;
     private Date reportRunDate;
     private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
     private KualiDecimal unpaidBalance31to60 = KualiDecimal.ZERO;
@@ -51,7 +51,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
         super();
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("customerNumber", this.customerNumber);
@@ -62,7 +62,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName.
      */
     public String getCustomerName() {
@@ -71,7 +71,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerName attribute value.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -80,7 +80,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -89,7 +89,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -98,7 +98,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the processingOrBillingChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the processingOrBillingChartOfAccountsCode.
      */
     public String getProcessingOrBillingChartOfAccountsCode() {
@@ -107,7 +107,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the processingOrBillingChartOfAccountsCode attribute value.
-     * 
+     *
      * @param processingOrBillingChartOfAccountsCode The processingOrBillingChartOfAccountsCode to set.
      */
     public void setProcessingOrBillingChartOfAccountsCode(String processingOrBillingChartOfAccountsCode) {
@@ -116,7 +116,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the accountChartOfAccountsCode.
      */
     public String getAccountChartOfAccountsCode() {
@@ -125,7 +125,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the accountChartOfAccountsCode attribute value.
-     * 
+     *
      * @param accountChartOfAccountsCode The accountChartOfAccountsCode to set.
      */
     public void setAccountChartOfAccountsCode(String accountChartOfAccountsCode) {
@@ -134,7 +134,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -143,7 +143,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -152,7 +152,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -161,7 +161,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -170,7 +170,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the reportOption attribute.
-     * 
+     *
      * @return Returns the reportOption.
      */
     public String getReportOption() {
@@ -179,7 +179,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the reportOption attribute value.
-     * 
+     *
      * @param reportOption The reportOption to set.
      */
     public void setReportOption(String reportOption) {
@@ -188,7 +188,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the reportRunDate attribute.
-     * 
+     *
      * @return Returns the reportRunDate.
      */
     public Date getReportRunDate() {
@@ -197,7 +197,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the reportRunDate attribute value.
-     * 
+     *
      * @param reportRunDate The reportRunDate to set.
      */
     public void setReportRunDate(Date reportRunDate) {
@@ -206,7 +206,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance0to30 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance0to30.
      */
     public KualiDecimal getUnpaidBalance0to30() {
@@ -215,7 +215,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance0to30 attribute value.
-     * 
+     *
      * @param unpaidBalance0to30 The unpaidBalance0to30 to set.
      */
     public void setUnpaidBalance0to30(KualiDecimal unpaidBalance0to30) {
@@ -224,7 +224,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance31to60 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance31to60.
      */
     public KualiDecimal getUnpaidBalance31to60() {
@@ -233,7 +233,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance31to60 attribute value.
-     * 
+     *
      * @param unpaidBalance31to60 The unpaidBalance31to60 to set.
      */
     public void setUnpaidBalance31to60(KualiDecimal unpaidBalance31to60) {
@@ -242,7 +242,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance61to90 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance61to90.
      */
     public KualiDecimal getUnpaidBalance61to90() {
@@ -251,7 +251,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance61to90 attribute value.
-     * 
+     *
      * @param unpaidBalance61to90 The unpaidBalance61to90 to set.
      */
     public void setUnpaidBalance61to90(KualiDecimal unpaidBalance61to90) {
@@ -260,7 +260,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance91toSYSPR attribute.
-     * 
+     *
      * @return Returns the unpaidBalance91toSYSPR.
      */
     public KualiDecimal getUnpaidBalance91toSYSPR() {
@@ -269,7 +269,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance91toSYSPR attribute value.
-     * 
+     *
      * @param unpaidBalance91toSYSPR The unpaidBalance91toSYSPR to set.
      */
     public void setUnpaidBalance91toSYSPR(KualiDecimal unpaidBalance91toSYSPR) {
@@ -278,7 +278,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalanceSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the unpaidBalanceSYSPRplus1orMore.
      */
     public KualiDecimal getUnpaidBalanceSYSPRplus1orMore() {
@@ -287,7 +287,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalanceSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param unpaidBalanceSYSPRplus1orMore The unpaidBalanceSYSPRplus1orMore to set.
      */
     public void setUnpaidBalanceSYSPRplus1orMore(KualiDecimal unpaidBalanceSYSPRplus1orMore) {
@@ -296,7 +296,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the totalOpenInvoices attribute.
-     * 
+     *
      * @return Returns the totalOpenInvoices.
      */
     public KualiDecimal getTotalOpenInvoices() {
@@ -305,7 +305,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the totalOpenInvoices attribute value.
-     * 
+     *
      * @param totalOpenInvoices The totalOpenInvoices to set.
      */
     public void setTotalOpenInvoices(KualiDecimal totalOpenInvoices) {
@@ -314,7 +314,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Gets the totalWriteOff attribute.
-     * 
+     *
      * @return Returns the totalWriteOff.
      */
     public KualiDecimal getTotalWriteOff() {
@@ -323,7 +323,7 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
     /**
      * Sets the totalWriteOff attribute value.
-     * 
+     *
      * @param totalWriteOff The totalWriteOff to set.
      */
     public void setTotalWriteOff(KualiDecimal totalWriteOff) {

@@ -158,10 +158,12 @@ public class ArConstants{
         public static final String CREDIT_CARD = "CR";
     }
 
-    public static class CustomerAgingReportFields {
-        // Report Options
+    public static class ReportOptionFieldValues {
         public static final String PROCESSING_ORG = "Processing Organization";
         public static final String BILLING_ORG = "Billing Organization";
+    }
+
+    public static class CustomerAgingReportFields {
         public static final String ACCT = "Account";
 
         public static final String TOTAL_0_TO_30 = "total0to30";

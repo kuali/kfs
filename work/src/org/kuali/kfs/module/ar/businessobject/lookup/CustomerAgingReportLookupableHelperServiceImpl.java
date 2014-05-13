@@ -135,12 +135,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        reportOption = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-        accountNumber = fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        processingOrBillingChartCode = fieldValues.get("processingOrBillingChartOfAccountsCode");
-        accountChartCode = fieldValues.get("accountChartOfAccountsCode");
-        orgCode = fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-
+        reportOption = fieldValues.get(ArPropertyConstants.REPORT_OPTION);
+        accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        processingOrBillingChartCode = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.PROCESSING_OR_BILLING_CHART_ACCOUNT_CODE);
+        accountChartCode = fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.ACCOUNT_CHART_CODE);
+        orgCode = fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
 
         total0to30 = KualiDecimal.ZERO;
         total31to60 = KualiDecimal.ZERO;
@@ -173,7 +172,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Map<String, CustomerAgingReportDetail> knownCustomers = new HashMap<String, CustomerAgingReportDetail>();
 
         CustomerAgingReportDetail custDetail;
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
+        if (reportOption.equalsIgnoreCase(ArConstants.ReportOptionFieldValues.PROCESSING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
             // 30 days
             computeFor0To30DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
             // 60 days
@@ -185,7 +184,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             // 120 + older
             computeForSYSPRplus1orMoreDaysByProcessingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate121.getTime()), knownCustomers);
         }
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
+        if (reportOption.equalsIgnoreCase(ArConstants.ReportOptionFieldValues.BILLING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
             // 30 days
             computeFor0To30DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
             // 60 days

@@ -102,7 +102,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
         String agencyNumber = (String) fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
         String proposalNumber = (String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-        String invoiceDocumentNumber = (String) fieldValues.get(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_DOCUMENT_NUMBER);
+        String invoiceDocumentNumber = (String) fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
         String customerNumber = (String) fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
         String customerName = (String) fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
 

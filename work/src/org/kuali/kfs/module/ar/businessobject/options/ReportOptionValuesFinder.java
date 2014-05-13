@@ -15,26 +15,36 @@
  */
 package org.kuali.kfs.module.ar.businessobject.options;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
- * Option Finder for Report Option in Customer Aging Report
+ * Option Finder for Report Option in Dunning Letter Campaign
  */
-public class CustomerAgingReportValuesFinder extends ReportOptionValuesFinder implements ValueFinder {
+public class ReportOptionValuesFinder extends KeyValuesBase implements ValueFinder {
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = super.getKeyValues();
-        keyValues.add(new ConcreteKeyValue(ArConstants.CustomerAgingReportFields.ACCT, ArConstants.CustomerAgingReportFields.ACCT));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue(ArConstants.ReportOptionFieldValues.PROCESSING_ORG, ArConstants.ReportOptionFieldValues.PROCESSING_ORG));
+        keyValues.add(new ConcreteKeyValue(ArConstants.ReportOptionFieldValues.BILLING_ORG, ArConstants.ReportOptionFieldValues.BILLING_ORG));
         return keyValues;
     }
 
+    /**
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
+     */
+    @Override
+    public String getValue() {
+        return ArConstants.ReportOptionFieldValues.PROCESSING_ORG;
+    }
 }

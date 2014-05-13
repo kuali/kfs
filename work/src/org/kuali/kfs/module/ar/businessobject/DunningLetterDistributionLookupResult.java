@@ -20,10 +20,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -51,105 +50,13 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Customer customer;
-    private Chart billingChart;
-    private Organization billingOrganization;
-    private String billingChartCode;
-    private String billingOrganizationCode;
-    private Chart processingChart;
-    private Organization processingOrganization;
-    private String processingChartCode;
-    private String processingOrganizationCode;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String reportOption = ArConstants.ReportOptionFieldValues.PROCESSING_ORG;
 
     private Person collector;
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
-
-    /**
-     * Default constructor.
-     */
-    public DunningLetterDistributionLookupResult() {
-
-    }
-
-
-    public Chart getBillingChart() {
-        return billingChart;
-    }
-
-
-    public void setBillingChart(Chart chart) {
-        this.billingChart = chart;
-    }
-
-
-    public Organization getBillingOrganization() {
-        return billingOrganization;
-    }
-
-
-    public void setBillingOrganization(Organization organization) {
-        this.billingOrganization = organization;
-    }
-
-
-    public String getBillingChartCode() {
-        return billingChartCode;
-    }
-
-
-    public void setBillingChartCode(String billingChartCode) {
-        this.billingChartCode = billingChartCode;
-    }
-
-
-    public String getBillingOrganizationCode() {
-        return billingOrganizationCode;
-    }
-
-
-    public void setBillingOrganizationCode(String billingOrganizationCode) {
-        this.billingOrganizationCode = billingOrganizationCode;
-    }
-
-    public Chart getProcessingChart() {
-        return processingChart;
-    }
-
-
-    public void setProcessingChart(Chart chart) {
-        this.processingChart = chart;
-    }
-
-
-    public Organization getProcessingOrganization() {
-        return processingOrganization;
-    }
-
-
-    public void setProcessingOrganization(Organization organization) {
-        this.processingOrganization = organization;
-    }
-
-
-    public String getProcessingChartCode() {
-        return processingChartCode;
-    }
-
-
-    public void setProcessingChartCode(String processingChartCode) {
-        this.processingChartCode = processingChartCode;
-    }
-
-
-    public String getProcessingOrganizationCode() {
-        return processingOrganizationCode;
-    }
-
-
-    public void setProcessingOrganizationCode(String processingOrganizationCode) {
-        this.processingOrganizationCode = processingOrganizationCode;
-    }
-
 
     /**
      * Gets the principalId attribute.
@@ -451,6 +358,36 @@ public class DunningLetterDistributionLookupResult extends TransientBusinessObje
         this.accountNumber = accountNumber;
     }
 
+
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+
+
+    public String getReportOption() {
+        return reportOption;
+    }
+
+
+    public void setReportOption(String reportOption) {
+        this.reportOption = reportOption;
+    }
 
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {

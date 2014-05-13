@@ -540,7 +540,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
 
         // Billing Organization
-        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.BILLING_ORG)) {
+        if (StringUtils.equals(reportOption, ArConstants.ReportOptionFieldValues.BILLING_ORG)) {
             // All days
             // 1. invoice open amount > 0
             // 2. billingDate <= reportRunDate
@@ -623,7 +623,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
         String customerNumber = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
 
-        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.PROCESSING_ORG)) {
+        if (StringUtils.equals(reportOption, ArConstants.ReportOptionFieldValues.PROCESSING_ORG)) {
             String processingChartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.PROCESSING_OR_BILLING_CHART_CODE))[0];
             String processingOrganizationCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ORGANIZATION_CODE))[0];
             arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(customerNumber, processingChartCode, processingOrganizationCode);

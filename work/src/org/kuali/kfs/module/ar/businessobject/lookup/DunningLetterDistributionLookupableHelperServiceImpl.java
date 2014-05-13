@@ -30,8 +30,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
-import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
@@ -54,7 +52,6 @@ import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -136,39 +133,6 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
         }
 
         return displayList;
-    }
-
-    @Override
-    public void validateSearchParameters(Map<String, String> fieldValues) {
-        super.validateSearchParameters(fieldValues);
-        //  put validation
-        String billingChartCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.BILLING_CHART_CODE);
-        String billingOrgCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.BILLING_ORGANIZATION_CODE);
-        String processingChartCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_CHART_CODE);
-        String processingOrgCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_ORGANIZATION_CODE);
-
-        //  validation logic comes here..
-        if (ObjectUtils.isNotNull(billingChartCode) && StringUtils.isNotEmpty(billingChartCode)
-                && (ObjectUtils.isNull(billingOrgCode) || StringUtils.isEmpty(billingOrgCode))) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.BILLING_ORGANIZATION_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_BILLING_ORGANIZATION_CODE_REQUIRED);
-        }
-        if (ObjectUtils.isNotNull(billingOrgCode) && StringUtils.isNotEmpty(billingOrgCode)
-                && (ObjectUtils.isNull(billingChartCode) || StringUtils.isEmpty(billingChartCode))) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.BILLING_CHART_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_BILLING_CHART_CODE_REQUIRED);
-        }
-        if (ObjectUtils.isNotNull(processingOrgCode) && StringUtils.isNotEmpty(processingOrgCode)
-                && (ObjectUtils.isNull(processingChartCode) || StringUtils.isEmpty(processingChartCode))) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_CHART_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_PROCESSING_CHART_CODE_REQUIRED);
-        }
-        if (ObjectUtils.isNotNull(processingChartCode) && StringUtils.isNotEmpty(processingChartCode)
-                && (ObjectUtils.isNull(processingOrgCode) || StringUtils.isEmpty(processingOrgCode))) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_ORGANIZATION_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_PROCESSING_ORGANIZATION_CODE_REQUIRED);
-        }
-
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            throw new ValidationException("errors in search criteria");
-        }
-
     }
 
     /**

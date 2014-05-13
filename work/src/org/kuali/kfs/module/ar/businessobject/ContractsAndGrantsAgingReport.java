@@ -33,7 +33,7 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
  * This class is an empty derived class
  */
 public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
-    private String reportOption = ArConstants.CustomerAgingReportFields.PROCESSING_ORG;
+    private String reportOption = ArConstants.ReportOptionFieldValues.PROCESSING_ORG;
     private String organizationCode;
     private String processingOrBillingChartCode;
 

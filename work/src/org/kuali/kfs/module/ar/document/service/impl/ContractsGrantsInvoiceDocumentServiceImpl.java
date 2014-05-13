@@ -128,6 +128,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -2596,10 +2597,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // to get the search criteria
         String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
         String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
-        String invoiceDocumentNumber = fieldValues.get("invoiceDocumentNumber");
+        String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
         String awardTotal = fieldValues.get("awardTotal");
         String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-
+        String reportOption = fieldValues.get(ArPropertyConstants.REPORT_OPTION);
+        String chartCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String orgCode = fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
 
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments;
         Map<String, String> fieldValuesForInvoice = new HashMap<String, String>();
@@ -2610,28 +2613,34 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }
         if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
-            fieldValuesForInvoice.put("documentNumber", invoiceDocumentNumber);
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
         }
         if (ObjectUtils.isNotNull(awardTotal) && StringUtils.isNotBlank(awardTotal) && StringUtils.isNotEmpty(awardTotal)) {
             fieldValuesForInvoice.put("invoiceGeneralDetail.awardTotal", awardTotal);
         }
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
-            fieldValuesForInvoice.put("accountDetails.accountNumber", accountNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
         }
-        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
         fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
+        if (StringUtils.equalsIgnoreCase(reportOption, ArConstants.ReportOptionFieldValues.PROCESSING_ORG)) {
+            if (StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, orgCode);
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_CHART_OF_ACCOUNT_CODE, chartCode);
+            }
+        } else {
+            if (StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, orgCode);
+                fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartCode);
+            }
+        }
 
         cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(fieldValuesForInvoice);
-
-
-        // attach headers
         cgInvoiceDocuments = attachWorkflowHeadersToCGInvoices(cgInvoiceDocuments);
 
         // To validate the invoices for any additional parameters.
-
         Collection<ContractsGrantsInvoiceDocument> eligibleInvoiceDocuments = validateInvoicesForDunningLetters(fieldValues, cgInvoiceDocuments);
-
 
         return DunningLetterDistributionLookupUtil.getPopulatedDunningLetterDistributionLookupResults(eligibleInvoiceDocuments);
     }
@@ -2654,38 +2663,34 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         Integer cutoffdateFinal = new Integer(finalCutOffDate);
         String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
-        String campaignID = fieldValues.get("campaignID");
-        String collector = fieldValues.get("principalId");
+        String campaignID = fieldValues.get(ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID);
+        String collector = fieldValues.get(KFSPropertyConstants.PRINCIPAL_ID);
         String agingBucket = fieldValues.get("agingBucket");
         String collectorPrincName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 
-        boolean checkAgingBucket = ObjectUtils.isNotNull(agingBucket) && StringUtils.isNotBlank(agingBucket) && StringUtils.isNotEmpty(agingBucket);
-
-
-        if (checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
-            agingBucketStartValue = 0;
-            agingBucketEndValue = 30;
-        }
-        // Including State agency final here just to get some default value in place. The value will be overriden later after
-        // checking with the agency.
-        else if (checkAgingBucket && (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL))) {
-            agingBucketStartValue = cutoffdateFinal + 1;
-            agingBucketEndValue = 0;
-        }
-        else if (checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
-            agingBucketStartValue = 121;
-            agingBucketEndValue = cutoffdateFinal;
-        }
-        else if (checkAgingBucket && StringUtils.isNotBlank(agingBucket)) {
-            agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
-            agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
+        if (StringUtils.isNotBlank(agingBucket)) {
+            if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
+                agingBucketStartValue = 0;
+                agingBucketEndValue = 30;
+            }
+            // Including State agency final here just to get some default value in place. The value will be overridden later after
+            // checking with the agency.
+            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                agingBucketStartValue = cutoffdateFinal + 1;
+                agingBucketEndValue = 0;
+            }
+            else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+                agingBucketStartValue = 121;
+                agingBucketEndValue = cutoffdateFinal;
+            }
+            else if (StringUtils.isNotBlank(agingBucket)) {
+                agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
+                agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
+            }
         }
 
         // check other categories
-        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber) && StringUtils.isNotEmpty(agencyNumber);
-
-        boolean checkDunningCampaign = ObjectUtils.isNotNull(campaignID) && StringUtils.isNotBlank(campaignID) && StringUtils.isNotEmpty(campaignID);
-        boolean checkCollector = ObjectUtils.isNotNull(collector) && StringUtils.isNotBlank(collector) && StringUtils.isNotEmpty(collector);
+        boolean checkCollector = StringUtils.isNotBlank(collector);
         boolean isCollector = true;
 
         if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
@@ -2737,11 +2742,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     continue;
                 }
 
-                if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                if (StringUtils.isNotBlank(agencyNumber) && (!StringUtils.equals(invoice.getAward().getAgencyNumber(), agencyNumber))) {
                     eligibleInvoiceFlag = false;
                     continue;
                 }
-                if (checkDunningCampaign && ((invoice.getAward().getDunningCampaign() == null || !invoice.getAward().getDunningCampaign().equals(campaignID)))) {
+                if (StringUtils.isNotBlank(campaignID) && (!StringUtils.equals(invoice.getAward().getDunningCampaign(), campaignID))) {
                     eligibleInvoiceFlag = false;
                     continue;
                 }
@@ -2763,7 +2768,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     agingBucketEndValue = new Integer(stateAgencyFinalCutOffDate);
                 }
                 // Now to validate based on agingbucket and make sure the agency = stateagency is applied.
-                if (ObjectUtils.isNotNull(agingBucketStartValue) && ObjectUtils.isNotNull(agingBucketStartValue)) {
+                if (ObjectUtils.isNotNull(agingBucketStartValue)) {
                     if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
                         if (agency.isStateAgencyIndicator()) {
                             eligibleInvoiceFlag = false;
@@ -3020,7 +3025,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
         String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
         String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-        String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_DOCUMENT_NUMBER);
+        String invoiceDocumentNumber = fieldValues.get(ArPropertyConstants.INVOICE_DOCUMENT_NUMBER);
         String awardDocumentNumber = fieldValues.get(ArPropertyConstants.ReferralToCollectionsFields.AWARD_DOCUMENT_NUMBER);
         String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
         String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
@@ -3032,7 +3037,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             fieldValuesForInvoice.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())) {
-            fieldValuesForInvoice.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
+            fieldValuesForInvoice.put(ArPropertyConstants.ACCOUNT_DETAILS_ACCOUNT_NUMBER, accountNumber);
         }
         if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
             fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);

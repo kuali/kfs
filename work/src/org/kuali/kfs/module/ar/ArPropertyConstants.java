@@ -178,7 +178,6 @@ public class ArPropertyConstants{
     // CustomerAgingReport
     public static class CustomerAgingReportFields {
         public static final String REPORT_RUN_DATE = "reportRunDate";
-        public static final String REPORT_OPTION = "reportOption";
         public static final String PROCESSING_OR_BILLING_CHART_ACCOUNT_CODE = "processingOrBillingChartOfAccountsCode";
         public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
         public static final String ACCOUNT_CHART_CODE = "accountChartCode";
@@ -279,6 +278,9 @@ public class ArPropertyConstants{
     }
 
     // Contracts and Grants Invoicing
+    public static final String ACCOUNT_DETAILS_ACCOUNT_NUMBER = "accountDetails.accountNumber";
+    public static final String INVOICE_DOCUMENT_NUMBER = "invoiceDocumentNumber";
+    public static final String REPORT_OPTION = "reportOption";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String BILLING_SCHEDULE_SECTION = "Predetermined Billing Schedule";
     public static final String BILL_SECTION = "Bills";
@@ -353,7 +355,6 @@ public class ArPropertyConstants{
         public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String REPORT_RUN_DATE = "reportRunDate";
-        public static final String REPORT_OPTION = "reportOption";
         public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
         public static final String FORM_ORGANIZATION_CODE = "organizationCode";
         public static final String FORM_CHART_CODE = "billingChartCode";
@@ -375,10 +376,7 @@ public class ArPropertyConstants{
     }
 
     public static class ReferralToCollectionsFields {
-        // other constants
-        public static final String INVOICE_DOCUMENT_NUMBER = "invoiceDocumentNumber";
         public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
-        public static final String ACCOUNT_DETAILS_ACCOUNT_NUMBER = "accountDetails.accountNumber";
         public static final String REFERRAL_TYPE = "referralType";
         public static final String ACCOUNTS_RECEIVABLE_CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
         public static final String PROPOSAL_NUMBER = "referralToCollectionsDetails.proposalNumber";

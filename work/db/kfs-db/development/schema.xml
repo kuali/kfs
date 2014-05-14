@@ -859,7 +859,7 @@
         <column name="PRPSL_NBR" required="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="AGENCY_NM" size="50" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_NM" size="60" type="VARCHAR"/>
@@ -1521,7 +1521,7 @@
         <column name="COST_SHR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="LST_BILLED_DT" type="TIMESTAMP"/>
         <column name="COMMENT_TXT" size="255" type="VARCHAR"/>
-        <column name="AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="DUN_LTR_ASSGNED" size="20" type="VARCHAR"/>
         <column name="DUN_LTR_SNT_DT" type="TIMESTAMP"/>
         <unique name="AR_INV_GNRL_DTL_TC1">
@@ -1726,7 +1726,7 @@
         <column default="0" name="HDN_AMT_TO_DRW" scale="2" size="19" type="DECIMAL"/>
         <column name="AWD_BEG_DT" type="TIMESTAMP"/>
         <column name="AWD_END_DT" type="TIMESTAMP"/>
-        <column name="AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <foreign-key foreignTable="AR_LTRCR_RVW_DOC_T" name="AR_LTRCR_RVW_DTL_R1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
@@ -2078,7 +2078,7 @@
     </table>
     <table name="AR_RFRL_TO_CLCTNS_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="AGENCY_NM" size="50" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="CUST_NM" size="60" type="VARCHAR"/>
@@ -2095,7 +2095,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="RFRL_TO_CLCTNS_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="INV_FDOC_NBR" size="14" type="VARCHAR"/>
-        <column name="AGENCY_NBR" size="6" type="VARCHAR"/>
+        <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="ACCT_NBR" size="7" type="VARCHAR"/>

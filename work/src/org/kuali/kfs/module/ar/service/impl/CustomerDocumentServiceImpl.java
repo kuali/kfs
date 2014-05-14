@@ -37,10 +37,12 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the Customer Document Service.
  */
+@Transactional
 public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
     protected CustomerService customerService;

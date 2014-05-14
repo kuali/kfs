@@ -28,10 +28,12 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class...
  */
+@Transactional
 public class SystemInformationServiceImpl implements SystemInformationService {
 
     protected BusinessObjectService businessObjectService;

@@ -119,7 +119,7 @@ public class CoinDetailTest extends KualiTestBase {
             coinDetail.setTwentyFiveCentCount(this.twentyFiveCentCount);
             coinDetail.setTenCentCount(this.tenCentCount);
             coinDetail.setFiveCentCount(this.fiveCentCount);
-            coinDetail.setOneCentRollCount(this.oneCentRollCount);
+            coinDetail.setOneCentCount(this.oneCentCount);
             coinDetail.setHundredCentRollCount(this.hundredCentRollCount);
             coinDetail.setFiftyCentRollCount(this.fiftyCentRollCount);
             coinDetail.setTwentyFiveCentRollCount(this.twentyFiveCentRollCount);

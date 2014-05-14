@@ -415,13 +415,15 @@ public class InvoiceReportDeliveryAction extends KualiAction {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
             byte[] envelopes = reportService.generateListOfInvoicesEnvelopesPdfToPrint(list);
             byte[] report = reportService.generateListOfInvoicesPdfToPrint(list);
+            boolean invoiceFileWritten = false;
+            boolean envelopeFileWritten = false;
 
             ZipOutputStream zos = new ZipOutputStream(baos);
             int bytesRead;
             byte[] buffer = new byte[1024];
             CRC32 crc = new CRC32();
 
-            if (ObjectUtils.isNotNull(report)) {
+            if (ObjectUtils.isNotNull(report) && report.length > 0) {
                 BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(report));
                 crc.reset();
                 while ((bytesRead = bis.read(buffer)) != -1) {
@@ -440,9 +442,10 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     zos.write(buffer, 0, bytesRead);
                 }
                 bis.close();
+                invoiceFileWritten = true;
             }
 
-            if (ObjectUtils.isNotNull(envelopes)) {
+            if (ObjectUtils.isNotNull(envelopes) && envelopes.length > 0) {
                 BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(envelopes));
                 crc.reset();
                 while ((bytesRead = bis.read(buffer)) != -1) {
@@ -461,9 +464,10 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     zos.write(buffer, 0, bytesRead);
                 }
                 bis.close();
+                envelopeFileWritten = true;
             }
             zos.close();
-            return true;
+            return invoiceFileWritten || envelopeFileWritten;
         }
         return false;
     }

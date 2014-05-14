@@ -770,9 +770,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     CustomerAddress address = agencyAddress.getCustomerAddress();
 
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
-                    if(ObjectUtils.isNotNull(address.getCustomerCopiesToPrint())){
-                    for (int i = 0; i < address.getCustomerCopiesToPrint(); i++) {
+                    Integer numberOfCopiesToPrint = address.getCustomerCopiesToPrint();
+                    if (ObjectUtils.isNull(numberOfCopiesToPrint)) {
+                        numberOfCopiesToPrint = 1;
+                    }
 
+                    for (int i = 0; i < numberOfCopiesToPrint; i++) {
                         if (ObjectUtils.isNotNull(note)) {
                             if (!pageAdded) {
                                 copy.open();
@@ -780,7 +783,6 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                             pageAdded = true;
                             copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                         }
-                    }
                     }
                 }
             }
@@ -814,9 +816,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 if (ArConstants.InvoiceTransmissionMethod.MAIL.equals(agencyAddress.getInvoiceTransmissionMethodCode())) {
                     CustomerAddress address = agencyAddress.getCustomerAddress();
 
-                    //If envelopes to print is empty - donot print them.
-                    if(ObjectUtils.isNotNull(address.getCustomerPrintEnvelopesNumber())){
-                    for (int i = 0; i < address.getCustomerPrintEnvelopesNumber(); i++) {
+                    Integer numberOfEnvelopesToPrint = address.getCustomerPrintEnvelopesNumber();
+                    if (ObjectUtils.isNull(numberOfEnvelopesToPrint)) {
+                        numberOfEnvelopesToPrint = 1;
+                    }
+                    for (int i = 0; i < numberOfEnvelopesToPrint; i++) {
                         // if a page has not already been added then open the document.
                         if (!pageAdded) {
                             document.open();
@@ -877,22 +881,21 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                         document.add(sentBy);
                         document.add(sendTo);
                     }
-                    }
                 }
             }
         }
         if (pageAdded) {
             document.close();
         }
-        else { // in case the document is empty, no envelopes to print
-            document.open();
-            document.newPage();
-            Paragraph sendTo = new Paragraph(" ");
-            Paragraph sentBy = new Paragraph(" ");
-            document.add(sentBy);
-            document.add(sendTo);
-            document.close();
-        }
+//        else { // in case the document is empty, no envelopes to print
+//            document.open();
+//            document.newPage();
+//            Paragraph sendTo = new Paragraph(" ");
+//            Paragraph sentBy = new Paragraph(" ");
+//            document.add(sentBy);
+//            document.add(sendTo);
+//            document.close();
+//        }
     }
 
     /**

@@ -1338,7 +1338,7 @@
  	<class-descriptor class="org.kuali.kfs.module.ar.document.CollectionActivityDocument" table="AR_CLCTN_ACTVTY_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" />
-		<field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyName" column="AGENCY_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
@@ -1353,7 +1353,7 @@
 	
  	<class-descriptor class="org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument" table="AR_RFRL_TO_CLCTNS_DOC_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyFullName" column="AGENCY_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
@@ -1380,7 +1380,7 @@
             autoincrement="true" sequence-name="RFRL_TO_CLCTNS_DTL_SEQ" />
         <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
         <field-descriptor name="invoiceNumber" column="INV_FDOC_NBR" jdbc-type="VARCHAR" />
-        <field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
         <field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" />
         <field-descriptor name="chart" column="FIN_COA_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="accountNumber" column="ACCT_NBR" jdbc-type="VARCHAR" />
@@ -1608,7 +1608,7 @@
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardDateRange" column="AWD_DT_RNG" jdbc-type="VARCHAR" />
 		<field-descriptor name="comment" column="COMMENT_TXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="billingFrequency" column="BILL_FREQ" jdbc-type="VARCHAR" />
@@ -1984,7 +1984,7 @@
 		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" index="true" />
 		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="awardDocumentNumber" column="AWD_DOC_NBR" jdbc-type="VARCHAR" />
-		<field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="accountDescription" column="ACCOUNT_DESC" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="DATE" />

@@ -53,7 +53,7 @@
 
 	<changeSet author="KFSCGB" id="CG_AGENCY_ADDR_T">
 		<createTable tableName="CG_AGENCY_ADDR_T">
-			<column name="CG_AGENCY_NBR" type="varchar(5)" defaultValue="">
+			<column name="CG_AGENCY_NBR" type="varchar(6)" defaultValue="">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="CG_AGENCY_ADDR_ID" type="decimal(12,0)"
@@ -512,7 +512,7 @@
 			<column name="COST_SHR_AMT" type="DECIMAL(19,2)" />
 			<column name="LST_BILLED_DT" type="datetime" />
 			<column name="COMMENT_TXT" type="VARCHAR(255)" defaultValue="" />
-			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="CG_AGENCY_NBR" type="varchar(6)" />
 			<column name="DUN_LTR_ASSGNED" type="varchar(20)" />
 			<column name="DUN_LTR_SNT_DT" type="datetime" />
 		</createTable>
@@ -1054,7 +1054,7 @@
 				defaultValue="0" />
 			<column name="AWD_BEG_DT" type="datetime" />
 			<column name="AWD_END_DT" type="datetime" />
-			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="CG_AGENCY_NBR" type="varchar(6)" />
 			<column name="CUST_NBR" type="varchar(9)" />
 		</createTable>
 		<modifySql dbms="oracle">
@@ -1328,7 +1328,7 @@
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_05">
 
 		<addColumn tableName="AR_CLCTN_ACTVTY_DOC_T">
-			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="CG_AGENCY_NBR" type="varchar(6)" />
 			<column name="AGENCY_NM" type="varchar(50)" />
 			<column name="CUST_NBR" type="varchar(9)" />
 			<column name="CUST_NM" type="varchar(60)" />
@@ -1391,7 +1391,7 @@
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TO_CLCTNS_DOC_TP1" />
 			</column>
-			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="CG_AGENCY_NBR" type="varchar(6)" />
 			<column name="AGENCY_NM" type="varchar(50)" />
 			<column name="CUST_NBR" type="varchar(9)" />
 			<column name="CUST_NM" type="varchar(60)" />
@@ -1423,7 +1423,7 @@
 				<constraints primaryKey="true" primaryKeyName="RFRL_TO_CLCTNS_DTL_TP1" />
 			</column>
 			<column name="INV_FDOC_NBR" type="varchar(14)" />
-			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="CG_AGENCY_NBR" type="varchar(6)" />
 			<column name="PRPSL_NBR" type="decimal(12,0)" />
 			<column name="FIN_COA_CD" type="varchar(2)" />
 			<column name="ACCT_NBR" type="varchar(7)" />
@@ -1580,4 +1580,13 @@
 			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>	
+
+	<changeSet author="KFSCGB" id="KFSTP1222_INCREASE_COLUMN_SIZES_TO_BE_CONSISTENT_WITH_KC">
+    	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CG_AGENCY_T"/>
+    	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CG_AWD_T"/>
+    	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CG_PRPSL_T"/>
+    	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CM_CPTLAST_DOC_T"/>
+    	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CM_CPTLAST_T"/>
+    	<modifyDataType columnName="NEXT_CG_AGENCY_NBR" newDataType="varchar(6)" tableName="FS_ORIGIN_CODE_T"/>
+	</changeSet>
 </databaseChangeLog>

@@ -683,7 +683,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     @Override
     public boolean routeContractsGrantsInvoiceDocuments() {
         final String currentUserPrincipalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        List<String> documentIdList = retrieveContractsGrantsInvoiceDocumentsToRoute(DocumentStatus.ENROUTE, currentUserPrincipalId);
+        List<String> documentIdList = retrieveContractsGrantsInvoiceDocumentsToRoute(DocumentStatus.SAVED, currentUserPrincipalId);
 
         if (LOG.isInfoEnabled()) {
             LOG.info("CGinvoice to Route: " + documentIdList);

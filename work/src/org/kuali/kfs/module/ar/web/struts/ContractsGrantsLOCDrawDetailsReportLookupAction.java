@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,21 +35,15 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsLOCDrawDetailsRepor
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action Class for the Contracts Grants LOC Draw Details Report Lookup.
  */
 public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGrantsReportLookupAction {
-
     /**
      * This method implements the print functionality for the Contracts Grants LOC Draw Details Report Lookup.
-     *
      * @param mapping
      * @param form
      * @param request
@@ -61,37 +54,8 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsLOCDrawDetailsReportLookupForm cgLOCDrawDetailsReportLookupForm = (ContractsGrantsLOCDrawDetailsReportLookupForm) form;
 
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase("search")) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
-
-        Lookupable kualiLookupable = cgLOCDrawDetailsReportLookupForm.getLookupable();
-        if (kualiLookupable == null) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<ContractsGrantsLOCDrawDetailsReport> displayList = new ArrayList<ContractsGrantsLOCDrawDetailsReport>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(cgLOCDrawDetailsReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<ContractsGrantsLOCDrawDetailsReport>) kualiLookupable.performLookup(cgLOCDrawDetailsReportLookupForm, resultTable, bounded);
-
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
-        // set default sort index as 0 (Proposal Number)
-        if (ObjectUtils.isNull(sortIndexObject)) {
-            sortIndexObject = "0";
-        }
-        // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "ContractsGrantsLOCDrawDetailsReport");
-
-        // sort list
-        sortReport(displayList, sortPropertyName);
+        List<ContractsGrantsLOCDrawDetailsReport> displayList = lookupReportValues(cgLOCDrawDetailsReportLookupForm, request, true);
+        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCDrawDetailsReport");
 
         // check field is valid for subtotal
         boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgLOCDrawDetailsReportSubtotalFieldsList.contains(sortPropertyName);
@@ -164,7 +128,6 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
      * @param reportDetail
      */
     private void setReportDate(ContractsGrantsLOCDrawDetailsReport cgLOCDrawDetailsReportEntry, ContractsGrantsLOCDrawDetailsReportDetailDataHolder reportDetail) {
-
         reportDetail.setDocumentNumber(cgLOCDrawDetailsReportEntry.getDocumentNumber());
         reportDetail.setLetterOfCreditFundCode(cgLOCDrawDetailsReportEntry.getLetterOfCreditFundCode());
         reportDetail.setLetterOfCreditFundGroupCode(cgLOCDrawDetailsReportEntry.getLetterOfCreditFundGroupCode());

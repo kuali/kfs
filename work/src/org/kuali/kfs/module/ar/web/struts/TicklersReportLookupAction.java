@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,13 +34,9 @@ import org.kuali.kfs.module.ar.report.TicklersReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.TicklersReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * LookupAction file for Ticklers Report.
@@ -50,7 +45,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
 
     /**
      * implements the print service for Ticklers Lookup.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -59,40 +54,10 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         TicklersReportLookupForm ticklersReportLookupForm = (TicklersReportLookupForm) form;
 
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase("search")) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
-
-        Lookupable kualiLookupable = ticklersReportLookupForm.getLookupable();
-        if (ObjectUtils.isNull(kualiLookupable)) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<TicklersReport> displayList = new ArrayList<TicklersReport>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(ticklersReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<TicklersReport>) kualiLookupable.performLookup(ticklersReportLookupForm, resultTable, bounded);
-
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
-
-        if (ObjectUtils.isNull(sortIndexObject) || sortIndexObject.toString() == "0") {
-            sortIndexObject = "0";
-        }
-        // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "TicklersReport");
-
-        // sort list
-        sortReport(displayList, sortPropertyName);
+        List<TicklersReport> displayList = lookupReportValues(ticklersReportLookupForm, request, true);
+        final String sortPropertyName = sortReportValues(displayList, "TicklersReport");
 
         // build report
         ContractsGrantsReportDataHolder arTicklersReportDataHolder = new ContractsGrantsReportDataHolder();
@@ -101,7 +66,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
             TicklersReportDetailDataHolder trDataHolder = new TicklersReportDetailDataHolder(tr);
             ticklersReportDetails.add(trDataHolder);
         }
-        this.buildReportForSearchCriteia(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
+        buildReportForSearchCriteia(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(TicklersReportService.class).generateReport(arTicklersReportDataHolder, baos);
@@ -112,7 +77,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
 
     /**
      * This method Prepares the list of search criteria given in lookupscreen for displaying it PDF file.
-     * 
+     *
      * @param searchCriteria
      * @param fieldsForLookup
      */

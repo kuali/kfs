@@ -31,9 +31,14 @@ import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -104,7 +109,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
      * @param searchCriteria
      * @param fieldsForLookup
      */
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> detailClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
 
@@ -113,7 +118,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
                 ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
+                String label = dataDictionaryService.getAttributeLabel(detailClass, fieldString);
                 criteriaData.setSearchFieldLabel(label);
                 criteriaData.setSearchFieldValue(valueString);
                 searchCriteria.add(criteriaData);
@@ -135,4 +140,59 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
         }
     }
 
+    /**
+     * Looks up the values for the report
+     * @param form the LookupForm to help us with the lookup
+     * @param request the request to get the search method from
+     * @param performValidate if true, will perform validation on the values before performing the lookup
+     * @return a List of the report values for the given action
+     * @throws Exception thrown if findMethodToCall gets ticked
+     */
+    protected <B extends BusinessObject> List<B> lookupReportValues(LookupForm form, HttpServletRequest request, boolean performValidate) throws Exception {
+        String methodToCall = findMethodToCall(form, request);
+        if (methodToCall.equalsIgnoreCase(KRADConstants.SEARCH_METHOD)) {
+            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
+        }
+
+        Lookupable kualiLookupable = form.getLookupable();
+        if (ObjectUtils.isNull(kualiLookupable)) {
+            throw new RuntimeException("Lookupable is null.");
+        }
+
+        if (performValidate) {
+            kualiLookupable.validateSearchParameters(form.getFields());
+        }
+
+        List<B> displayList = new ArrayList<B>();
+        List<ResultRow> resultTable = new ArrayList<ResultRow>();
+
+        // this is for 200 limit. turn it off for report.
+        boolean bounded = false;
+
+        displayList = (List<B>) kualiLookupable.performLookup(form, resultTable, bounded);
+        return displayList;
+    }
+
+    /**
+     * Sorts the values for a report
+     * @param displayList the List of report values to sort (in List)
+     * @param sortFieldName the field name that the List should be sorted by
+     * @return the name of the property to be sorted against
+     */
+    protected <B extends BusinessObject> String sortReportValues(List<B> displayList, String sortFieldName) {
+        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
+
+        // set default sort index as 0 (Proposal Number)
+        if (ObjectUtils.isNull(sortIndexObject)) {
+            sortIndexObject = "0";
+        }
+
+        // get sort property
+        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), sortFieldName);
+
+        // sort list
+        sortReport(displayList, sortPropertyName);
+
+        return sortPropertyName;
+    }
 }

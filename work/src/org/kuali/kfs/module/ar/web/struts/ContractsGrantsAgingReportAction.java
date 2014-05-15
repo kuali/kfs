@@ -65,10 +65,10 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -80,13 +80,6 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportAction.class);
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
-
-    /**
-     * Default Constructor
-     */
-    public ContractsGrantsAgingReportAction() {
-        super();
-    }
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
@@ -311,28 +304,9 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ContractsGrantsAgingReportForm cgInvoiceReportLookupForm = (ContractsGrantsAgingReportForm) form;
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase(KRADConstants.SEARCH_METHOD)) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
 
-        Lookupable kualiLookupable = cgInvoiceReportLookupForm.getLookupable();
-        if (ObjectUtils.isNull(kualiLookupable)) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<ContractsGrantsInvoiceDocument> displayList = new ArrayList<ContractsGrantsInvoiceDocument>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(cgInvoiceReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<ContractsGrantsInvoiceDocument>) kualiLookupable.performLookup(cgInvoiceReportLookupForm, resultTable, bounded);
+        List<ContractsGrantsInvoiceDocument> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
 
         // get sort property
         String sortPropertyName = ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY;
@@ -495,7 +469,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @param fieldsForLookup
      */
     @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> dataObjectClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
@@ -525,26 +499,8 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      */
     public ActionForward export(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsAgingReportForm cgInvoiceReportLookupForm = (ContractsGrantsAgingReportForm) form;
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase(KRADConstants.SEARCH_METHOD)) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
 
-        Lookupable kualiLookupable = cgInvoiceReportLookupForm.getLookupable();
-        if (ObjectUtils.isNull(kualiLookupable)) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<ContractsGrantsInvoiceDocument> displayList = new ArrayList<ContractsGrantsInvoiceDocument>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(cgInvoiceReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<ContractsGrantsInvoiceDocument>) kualiLookupable.performLookup(cgInvoiceReportLookupForm, resultTable, bounded);
+        List<ContractsGrantsInvoiceDocument> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
 
         // get sort property
         String sortPropertyName = ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY;
@@ -639,5 +595,4 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         response.getOutputStream().flush();
         return null;
     }
-
 }

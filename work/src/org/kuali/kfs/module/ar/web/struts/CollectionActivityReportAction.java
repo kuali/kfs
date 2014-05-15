@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +37,10 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -53,15 +49,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 
 public class CollectionActivityReportAction extends ContractsGrantsReportLookupAction {
-
     private static final String TOTALS_TABLE_KEY = "totalsTable";
-
-    /**
-     * Default Constructor.
-     */
-    public CollectionActivityReportAction() {
-        super();
-    }
 
     /**
      * This method implements the print functionality for the Collection Activity Report.
@@ -74,38 +62,10 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CollectionActivityReportForm collActReportLookupForm = (CollectionActivityReportForm) form;
+        CollectionActivityReportForm collActReportLookupForm = (CollectionActivityReportForm)form;
 
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase(KRADConstants.SEARCH_METHOD)) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
-
-        Lookupable kualiLookupable = collActReportLookupForm.getLookupable();
-        if (ObjectUtils.isNull(kualiLookupable)) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<CollectionActivityReport> displayList = new ArrayList<CollectionActivityReport>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<CollectionActivityReport>) kualiLookupable.performLookup(collActReportLookupForm, resultTable, bounded);
-
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
-
-        // set default sort index as 0 (Proposal Number)
-        if (ObjectUtils.isNull(sortIndexObject)) {
-            sortIndexObject = "0";
-        }
-
-        // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "CollectionActivityReport");
-
-        // sort list
-        sortReport(displayList, sortPropertyName);
+        List<CollectionActivityReport> displayList = lookupReportValues(collActReportLookupForm, request, false);
+        sortReportValues(displayList, "CollectionActivityReport");
 
         // build report
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
@@ -147,16 +107,16 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
      * @param fieldsForLookup
      */
     @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> detailClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(dataObjectClass, fieldString);
+                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(detailClass, fieldString);
                 if (!(controldef instanceof HiddenControlDefinition)) {
                     ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
+                    String label = dataDictionaryService.getAttributeLabel(detailClass, fieldString);
                     criteriaData.setSearchFieldLabel(label);
                     criteriaData.setSearchFieldValue(valueString);
                     searchCriteria.add(criteriaData);
@@ -164,5 +124,4 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
             }
         }
     }
-
 }

@@ -42,13 +42,11 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -57,16 +55,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 
 public class ReferralToCollectionsReportAction extends ContractsGrantsReportLookupAction {
-
     private static final String TOTALS_TABLE_KEY = "totalsTable";
-
-    /**
-     * Default Constructor.
-     */
-    public ReferralToCollectionsReportAction() {
-        super();
-    }
-
     /**
      * This method implements the print pdf report functionality for the Referral To Collections Report.
      *
@@ -80,26 +69,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReferralToCollectionsReportForm refToCollReportLookupForm = (ReferralToCollectionsReportForm) form;
 
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase(KRADConstants.SEARCH_METHOD)) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
-
-        Lookupable kualiLookupable = refToCollReportLookupForm.getLookupable();
-        if (ObjectUtils.isNull(kualiLookupable)) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<ReferralToCollectionsReport> displayList = new ArrayList<ReferralToCollectionsReport>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(refToCollReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<ReferralToCollectionsReport>) kualiLookupable.performLookup(refToCollReportLookupForm, resultTable, bounded);
+        List<ReferralToCollectionsReport> displayList = lookupReportValues(refToCollReportLookupForm, request, true);
 
         Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
         // set default sort index as 0 (Proposal Number)
@@ -182,7 +152,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
      * @param fieldsForLookup
      */
     @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> dataObjectClass) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
@@ -233,5 +203,4 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         }
         return returnSubTotalMap;
     }
-
 }

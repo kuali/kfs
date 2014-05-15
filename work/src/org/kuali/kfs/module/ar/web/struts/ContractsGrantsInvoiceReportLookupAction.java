@@ -39,21 +39,15 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Contracts Grants Invoice Report Lookup.
  */
 public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsReportLookupAction {
-
     /**
      * This method implements the print functionality for the Contracts and Grants Invoice Report.
-     *
      * @param mapping
      * @param form
      * @param request
@@ -64,37 +58,8 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsInvoiceReportLookupForm cgInvoiceReportLookupForm = (ContractsGrantsInvoiceReportLookupForm) form;
 
-        String methodToCall = findMethodToCall(form, request);
-        if (methodToCall.equalsIgnoreCase("search")) {
-            GlobalVariables.getUserSession().removeObjectsByPrefix(KRADConstants.SEARCH_METHOD);
-        }
-
-        Lookupable kualiLookupable = cgInvoiceReportLookupForm.getLookupable();
-        if (kualiLookupable == null) {
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        List<ContractsGrantsInvoiceReport> displayList = new ArrayList<ContractsGrantsInvoiceReport>();
-        List<ResultRow> resultTable = new ArrayList<ResultRow>();
-
-        // validate search parameters
-        kualiLookupable.validateSearchParameters(cgInvoiceReportLookupForm.getFields());
-
-        // this is for 200 limit. turn it off for report.
-        boolean bounded = false;
-
-        displayList = (List<ContractsGrantsInvoiceReport>) kualiLookupable.performLookup(cgInvoiceReportLookupForm, resultTable, bounded);
-
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
-        // set default sort index as 0 (Proposal Number)
-        if (ObjectUtils.isNull(sortIndexObject)) {
-            sortIndexObject = "0";
-        }
-        // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), "ContractsGrantsInvoiceReport");
-
-        // sort list
-        sortReport(displayList, sortPropertyName);
+        List<ContractsGrantsInvoiceReport> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
+        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsInvoiceReport");
 
         // check field is valid for subtotal
         boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgInvoiceReportSubtotalFieldsList.contains(sortPropertyName);
@@ -147,10 +112,6 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         String reportFileName = SpringContext.getBean(ContractsGrantsInvoiceReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
-
-
-
-
     }
 
     /**
@@ -192,7 +153,6 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
      * @param reportDetail
      */
     private void setReportDate(ContractsGrantsInvoiceReport cgInvoiceReportEntry, ContractsGrantsInvoiceReportDetailDataHolder reportDetail) {
-
         reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber());
         reportDetail.setDocumentNumber(cgInvoiceReportEntry.getDocumentNumber());
         reportDetail.setInvoiceType(cgInvoiceReportEntry.getInvoiceType());
@@ -208,6 +168,5 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         BigDecimal remainingAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getRemainingAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getRemainingAmount().bigDecimalValue();
         reportDetail.setRemainingAmount(remainingAmount);
         reportDetail.setAgeInDays(cgInvoiceReportEntry.getAgeInDays());
-
     }
 }

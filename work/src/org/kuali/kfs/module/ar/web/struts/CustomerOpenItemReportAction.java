@@ -130,34 +130,4 @@ public class CustomerOpenItemReportAction extends KualiAction {
         qualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, currentUserPrincipalId);
         return qualification;
     }
-
-    /**
-     * Handling for screen close. Default action is return to caller.
-     *
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
-     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    /*
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return returnToCaller(mapping, form, request, response);
-    }
-
-    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-        parameters.put(KFSConstants.DOC_FORM_KEY, budgetExpansionForm.getReturnFormKey());
-
-        if (StringUtils.isNotEmpty(budgetExpansionForm.getReturnAnchor())) {
-            parameters.put(KFSConstants.ANCHOR, budgetExpansionForm.getReturnAnchor());
-        }
-        parameters.put(KFSConstants.REFRESH_CALLER, this.getClass().getName());
-
-        this.addCallBackMessagesAsObjectInSession(budgetExpansionForm);
-
-        String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
-        return new ActionForward(backUrl, true);
-    }*/
-
 }

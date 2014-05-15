@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,15 +48,7 @@ public class CustomerInvoiceAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceAction.class);
 
     /**
-     * 
-     * Constructs a CustomerInvoiceAction.java.
-     */
-    public CustomerInvoiceAction() {
-        super();
-    }
-
-    /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -70,7 +62,7 @@ public class CustomerInvoiceAction extends KualiAction {
     }
 
     /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -82,10 +74,10 @@ public class CustomerInvoiceAction extends KualiAction {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }   
+    }
 
     /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -98,14 +90,14 @@ public class CustomerInvoiceAction extends KualiAction {
         CustomerInvoiceForm ciForm = (CustomerInvoiceForm)form;
         ciForm.setChartCode(null);
         ciForm.setOrgCode(null);
-        ciForm.setOrgType(null); 
+        ciForm.setOrgType(null);
         ciForm.setRunDate(null);
         ciForm.setMessage(null);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }   
+    }
 
     /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -120,9 +112,9 @@ public class CustomerInvoiceAction extends KualiAction {
         String org = ciForm.getOrgCode();
         String chart = ciForm.getChartCode();
         Date date = ciForm.getRunDate();
-        
+
         StringBuilder fileName = new StringBuilder();
-        
+
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
         if (ciForm.getOrgType() != null && chart != null && org != null) {
@@ -135,7 +127,7 @@ public class CustomerInvoiceAction extends KualiAction {
             fileName.append(chart);
             fileName.append(org);
             if (date != null) {
-                fileName.append(date);  
+                fileName.append(date);
             }
         } else if (ciForm.getUserId() != null) {
             reports = reportService.generateInvoicesByInitiator(ciForm.getUserId(), date);
@@ -184,17 +176,19 @@ public class CustomerInvoiceAction extends KualiAction {
                     f++;
                 }
                 if (!master.isEmpty())
+                 {
                     writer.setOutlines(master);
                 // step 5: we close the document
+                }
 
                 document.close();
                 // csForm.setReports(file);
             }
             catch(Exception e) {
                 LOG.error("problem during CustomerInvoiceAction.print()", e);
-            } 
+            }
             fileName.append("-InvoiceBatchPDFs.pdf");
-            
+
 
             WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
             ciForm.setMessage(reports.size()+" Reports Generated");

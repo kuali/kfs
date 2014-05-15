@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,13 +47,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
 /**
  * This class handles Actions for lookup flow
  */
-
 public class CustomerStatementAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerStatementAction.class);
-
-    public CustomerStatementAction() {
-        super();
-    }
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -95,19 +90,19 @@ public class CustomerStatementAction extends KualiAction {
         if(StringUtils.isNotBlank(statementFormat)) {
             params.put("statementFormat", statementFormat);
         } else {
-            params.put("statementFormat", "Summary");   
+            params.put("statementFormat", "Summary");
         }
         if(StringUtils.isNotBlank(includeZeroBalanceCustomers)) {
             params.put("includeZeroBalanceCustomers", includeZeroBalanceCustomers);
         } else {
             params.put("includeZeroBalanceCustomers", "No");
         }
-                
+
         String methodToCallPrintPDF = "printStatementPDF";
         String methodToCallStart = "start";
         String printPDFUrl = getUrlForPrintStatement(basePath, methodToCallPrintPDF, params);
         String displayTabbedPageUrl = getUrlForPrintStatement(basePath, methodToCallStart, params);
-        
+
         request.setAttribute("printPDFUrl", printPDFUrl);
         request.setAttribute("displayTabbedPageUrl", displayTabbedPageUrl);
         if(!StringUtils.isBlank(chartCode)) {
@@ -124,11 +119,11 @@ public class CustomerStatementAction extends KualiAction {
         }
         request.setAttribute("printLabel", "Customer Statement");
         return mapping.findForward("arPrintPDF");
-        
+
     }
-    
+
     public ActionForward printStatementPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         CustomerStatementForm csForm = (CustomerStatementForm)form;
         String chartCode = request.getParameter("chartCode");
         chartCode = chartCode==null?"":chartCode;
@@ -140,15 +135,15 @@ public class CustomerStatementAction extends KualiAction {
         accountNumber = accountNumber==null?"":accountNumber;
         String statementFormat = request.getParameter("statementFormat");
         String includeZeroBalanceCustomers = request.getParameter("includeZeroBalanceCustomers");
-        
+
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<CustomerStatementResultHolder> reports = new ArrayList<CustomerStatementResultHolder>();
-        
+
         StringBuilder fileName = new StringBuilder();
         String contentDisposition = "";
-        
+
         if ( !StringUtils.isBlank(chartCode) && !StringUtils.isBlank(orgCode)) {
-            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode, statementFormat, includeZeroBalanceCustomers); 
+            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode, statementFormat, includeZeroBalanceCustomers);
             fileName.append(chartCode);
             fileName.append(orgCode);
         } else if (!StringUtils.isBlank(customerNumber)) {
@@ -202,14 +197,16 @@ public class CustomerStatementAction extends KualiAction {
                     writer.freeReader(reader);
                     f++;
                 }
-                
+
                 if (!master.isEmpty())
+                 {
                     writer.setOutlines(master);
                 // step 5: we close the document
+                }
 
                 document.close();
                 // csForm.setReports(file);
-                
+
                 StringBuffer sbContentDispValue = new StringBuffer();
                 String useJavascript = request.getParameter("useJavascript");
                 if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
@@ -220,12 +217,12 @@ public class CustomerStatementAction extends KualiAction {
                 }
                 sbContentDispValue.append("; filename=");
                 sbContentDispValue.append(fileName);
-                
+
                 contentDisposition = sbContentDispValue.toString();
             }
             catch(Exception e) {
                 LOG.error("problem during printStatementPDF()", e);
-            } 
+            }
 
             fileName.append("-StatementBatchPDFs.pdf");
 
@@ -241,32 +238,32 @@ public class CustomerStatementAction extends KualiAction {
             baos.writeTo(sos);
             sos.flush();
             sos.close();
-            
+
             // update reported data for the detailed statement
             if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) {
-                CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);                                
-                for (CustomerStatementResultHolder data : reports) {                    
+                CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+                for (CustomerStatementResultHolder data : reports) {
                     // update reported invoice info
                     if (data.getInvoiceNumbers() != null) {
                         List<String> invoiceNumbers = data.getInvoiceNumbers();
                         for (String number : invoiceNumbers) {
                             customerInvoiceDocumentService.updateReportedDate(number);
-                        }                        
+                        }
                     }
                     // update reported customer info
                     customerInvoiceDocumentService.updateReportedInvoiceInfo(data);
-                }                               
+                }
             }
-            
+
             return null;
         }
         csForm.setMessage("No Reports Generated");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Creates a URL to be used in printing the purchase order.
-     * 
+     *
      * @param basePath String: The base path of the current URL
      * @param methodToCall String: The name of the method that will be invoked to do this particular print
      * @return The URL

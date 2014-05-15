@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry;
 import org.kuali.kfs.module.ar.document.FinalBilledIndicatorDocument;
 import org.kuali.kfs.module.ar.document.validation.impl.FinalBilledIndicatorValidation;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -53,7 +54,7 @@ public class FinalBilledIndicatorDocumentAction extends KualiTransactionalDocume
             document.addInvoiceEntry(newUnfinalizeInvoiceEntry);
             form.setInvoiceEntry(new FinalBilledIndicatorEntry());
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -71,7 +72,7 @@ public class FinalBilledIndicatorDocumentAction extends KualiTransactionalDocume
         FinalBilledIndicatorDocument document = form.getFinalBilledIndicatorDocument();
         int deleteIndex = getLineToDelete(request);
         document.removeInvoiceEntry(deleteIndex);
-        return mapping.findForward("basic");
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -88,6 +89,7 @@ public class FinalBilledIndicatorDocumentAction extends KualiTransactionalDocume
             }
             catch (WorkflowException ex) {
                 LOG.error("problem during FinalBilledIndicatorDocumentAction.doProcessingAfterPost()", ex);
+                throw new RuntimeException("Could not update Contracts and Grants Invoice Document for Final Billed Indicator Document",ex);
             }
         }
         super.doProcessingAfterPost(actionForm, request);

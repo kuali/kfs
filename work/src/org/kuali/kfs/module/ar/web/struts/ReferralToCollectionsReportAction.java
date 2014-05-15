@@ -49,11 +49,9 @@ import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-
 /**
  * This class handles Actions for lookup flow for Referral To Collections Report
  */
-
 public class ReferralToCollectionsReportAction extends ContractsGrantsReportLookupAction {
     private static final String TOTALS_TABLE_KEY = "totalsTable";
     /**

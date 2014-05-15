@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.rmi.server.ObjID;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -32,25 +28,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
-import org.kuali.kfs.fp.document.web.struts.CapitalAccountingLinesFormBase;
-import org.kuali.kfs.fp.document.web.struts.CapitalAssetInformationFormBase;
-import org.kuali.kfs.integration.cam.businessobject.Asset;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -59,12 +44,8 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Action class for Referral To Collections Lookup.
  */
 public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLookupAction {
-
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupAction.class);
 
-
-    
-  
     @Override
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.search(mapping, form, request, response);
@@ -77,7 +58,7 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
 
     /**
      * This method performs the operations necessary for a multiple value lookup to select all of the results and rerender the page
-     * 
+     *
      * @param multipleValueLookupForm
      * @param maxRowsPerPage
      * @return a list of result rows, used by the UI to render the page
@@ -124,7 +105,7 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
 
     /**
      * This method does the processing necessary to return selected results and sends a redirect back to the lookup caller
-     * 
+     *
      * @param mapping
      * @param form must be an instance of MultipleValueLookupForm
      * @param request
@@ -168,8 +149,4 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
     }
-
-
-
-
 }

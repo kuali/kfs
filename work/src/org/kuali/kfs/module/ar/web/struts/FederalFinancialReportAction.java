@@ -64,13 +64,6 @@ public class FederalFinancialReportAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FederalFinancialReportAction.class);
 
     /**
-     * Constructs a FederalFinancialReportAction.java.
-     */
-    public FederalFinancialReportAction() {
-        super();
-    }
-
-    /**
      * @param mapping
      * @param form
      * @param request

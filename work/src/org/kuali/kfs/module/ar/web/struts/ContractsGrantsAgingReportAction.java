@@ -75,7 +75,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class handles Actions for lookup flow for ContractsGrantsAging Report.
  */
-
 public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportAction.class);
 

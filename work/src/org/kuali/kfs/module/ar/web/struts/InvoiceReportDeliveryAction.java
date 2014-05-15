@@ -72,13 +72,6 @@ public class InvoiceReportDeliveryAction extends KualiAction {
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
 
     /**
-     * Constructs a InvoiceReportDeliveryAction.java.
-     */
-    public InvoiceReportDeliveryAction() {
-        super();
-    }
-
-    /**
      * @param mapping
      * @param form
      * @param request

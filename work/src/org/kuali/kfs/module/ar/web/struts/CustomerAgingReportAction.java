@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,21 +30,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -56,42 +55,34 @@ public class CustomerAgingReportAction extends KualiAction {
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
-
-    /*
-     * Default Constructor
-     */
-    public CustomerAgingReportAction() {
-        super();
-    }
-
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
      * @throws Exception
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the results.
-     * 
+     *
      * Fields are in data dictionary.
      */
    public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
-        Lookupable lookupable = lookupForm.getLookupable();    
+        Lookupable lookupable = lookupForm.getLookupable();
 
         if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
-        
+
         LookupableHelperService lookupablehelper =  lookupable.getLookupableHelperService();
         Collection displayList = new ArrayList();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
@@ -108,7 +99,7 @@ public class CustomerAgingReportAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
-           
+
             String resultsKey = request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY);
             if (resultsKey != null) {
                 GlobalVariables.getUserSession().removeObject(resultsKey);
@@ -131,11 +122,11 @@ public class CustomerAgingReportAction extends KualiAction {
 
     /**
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *      
+     *
      * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
-     *  
+     *
      * Data dictionary is used to retrieve the field properties.
      */
     @Override
@@ -193,7 +184,7 @@ public class CustomerAgingReportAction extends KualiAction {
 
     /**
      * Returns as if return with no value was selected.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -212,7 +203,7 @@ public class CustomerAgingReportAction extends KualiAction {
 
     /**
      * Clears the values of all the fields on the jsp.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -220,9 +211,9 @@ public class CustomerAgingReportAction extends KualiAction {
      * @return
      * @throws IOException
      * @throws ServletException
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the fields.
-     *  
+     *
      * Data dictionary is used to retrieve the field properties.
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -248,7 +239,7 @@ public class CustomerAgingReportAction extends KualiAction {
 
     /**
      * View results from balance inquiry action
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

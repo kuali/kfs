@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,9 @@ import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocume
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Action class for Referral To Collections Document.
@@ -37,15 +37,8 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class ReferralToCollectionsDocumentAction extends KualiTransactionalDocumentActionBase {
 
     /**
-     * Default Constructor.
-     */
-    public ReferralToCollectionsDocumentAction() {
-        super();
-    }
-
-    /**
      * Do initialization for a new Referral to Collections Document.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -56,7 +49,7 @@ public class ReferralToCollectionsDocumentAction extends KualiTransactionalDocum
 
     /**
      * This method is used to show invoices.
-     * 
+     *
      * @param referralToCollectionsDocumentForm
      */
     public void showInvoices(ReferralToCollectionsDocumentForm referralToCollectionsDocumentForm) {
@@ -71,7 +64,7 @@ public class ReferralToCollectionsDocumentAction extends KualiTransactionalDocum
 
     /**
      * Deletes the invoice from document list.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

@@ -54,8 +54,6 @@ import com.lowagie.text.pdf.PdfReader;
  * Action class for Dunning Letter Distribution Summary.
  */
 public class DunningLetterDistributionSummaryAction extends KualiAction {
-
-
     /**
      * 1. This method passes the control from Dunning Letter Distribution lookup to the Dunning Letter Distribution
      * Summary page. 2. Retrieves the list of selected awards by agency for sending Dunning Letters

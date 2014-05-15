@@ -55,12 +55,7 @@ import com.lowagie.text.pdf.SimpleBookmark;
  * Action class for Contracts Grants LetterOfCredit Review Document.
  */
 public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTransactionalDocumentActionBase {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocumentAction.class);
-
-    public ContractsGrantsLetterOfCreditReviewDocumentAction() {
-        super();
-    }
 
     /**
      * Do initialization for a new Contracts Grants LetterOfCredit Review Document

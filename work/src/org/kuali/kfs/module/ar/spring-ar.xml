@@ -2319,5 +2319,11 @@
 		</property>
 	</bean>
 	
+	<bean id="invoiceReportDeliveryService" parent="invoiceReportDeliveryService-parentBean"/>
+	<bean id="invoiceReportDeliveryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.InvoiceReportDeliveryServiceImpl">
+		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+		<property name="contractsGrantsInvoiceReportService" ref="contractsGrantsInvoiceReportService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="personService" ref="personService"/>
+	</bean>
 </beans>
-

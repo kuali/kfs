@@ -566,7 +566,7 @@ public class KFSConstants {
     public final static String[] COIN_DENOMINATIONS = new String[]{"100c", "50c", "25c", "10c", "5c", "1c"};
     public final static KualiDecimal[] COIN_AMOUNTS = new KualiDecimal[]{
         CoinTypeAmounts.HUNDRED_CENT_AMOUNT, CoinTypeAmounts.FIFTY_CENT_AMOUNT, CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT,
-        CoinTypeAmounts.TEN_CENT_AMOUNT, CoinTypeAmounts.FIFTY_CENT_AMOUNT, CoinTypeAmounts.ONE_CENT_AMOUNT};
+        CoinTypeAmounts.TEN_CENT_AMOUNT, CoinTypeAmounts.FIVE_CENT_AMOUNT, CoinTypeAmounts.ONE_CENT_AMOUNT};
 
     // Cashiering source constants
     public static class CurrencyCoinSources {

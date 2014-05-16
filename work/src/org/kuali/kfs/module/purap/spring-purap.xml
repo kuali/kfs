@@ -301,6 +301,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="vendorService" ref="vendorService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
     </bean>
     <bean id="printService" parent="printService-parentBean"/>
     
@@ -341,6 +342,7 @@
         <property name="mailService" ref="mailService" />
         <property name="printService" ref="printService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
 	</bean>
     <bean id="negativePaymentRequestApprovalLimitService" parent="negativePaymentRequestApprovalLimitService-parentBean"/>
 
@@ -433,6 +435,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="receivingDao" ref="receivingDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="financialSystemDocumentService" ref="financialSystemDocumentService" />
 	</bean>
 	<bean id="bulkReceivingService" parent="bulkReceivingService-parentBean"/>
 	

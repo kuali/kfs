@@ -27,18 +27,14 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
 
@@ -127,41 +123,22 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
 
 
     //needs refactoring to move to service layer.
+    @SuppressWarnings("restriction")
     protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
-        List<String> receivingDocumentNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-        documentSearchCriteriaDTO.setApplicationDocumentStatus(CabConstants.PO_STATUS_CODE_OPEN);
-
-        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
-
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Fetch Iteration: "+ i);
-            }
-
-            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
-            crit = documentSearchCriteriaDTO.build();
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
-            }
-
-            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-            for (DocumentSearchResult resultRow: results.getSearchResults()) {
-                receivingDocumentNumbers.add(resultRow.getDocument().getDocumentId());
-            }
+        List<String> poDocumentNumbers = new ArrayList<String>();
+        List<PurchaseOrderDocument> poDocuments = new ArrayList<PurchaseOrderDocument>();
+        try {
+            // This should pick up all types of POs (Amendments, Voids, etc)
+            poDocuments = (List<PurchaseOrderDocument>) SpringContext.getBean(FinancialSystemDocumentService.class).findByApplicationDocumentStatus(
+                PurchaseOrderDocument.class, CabConstants.PO_STATUS_CODE_OPEN);
         }
-
-        return receivingDocumentNumbers;
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+        for (PurchaseOrderDocument poDocument : poDocuments) {
+            poDocumentNumbers.add(poDocument.getDocumentNumber());
+        }
+        return poDocumentNumbers;
     }
 
     /**

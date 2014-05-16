@@ -32,8 +32,10 @@ public interface FinancialSystemDocumentService {
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException;
     public <T extends Document> Collection<T> findByWorkflowStatusCode(Class<T> clazz, DocumentStatus docStatus) throws WorkflowException;
     public <T extends Document> Collection<T> findByApplicationDocumentStatus(Class<T> clazz, String applicationDocumentStatus) throws WorkflowException;
+    public Collection<FinancialSystemDocumentHeader> findByApplicationDocumentStatus(String applicationDocumentStatus);
     public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document);
     public Collection<FinancialSystemDocumentHeader> findByWorkflowStatusCode(DocumentStatus docStatus);
+    public FinancialSystemDocumentHeader findByDocumentNumber(String documentNumber);
     /**
      * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,
      *             the FinancialSystemDocumentHeader should now have properties which allow the selection of documents without a document search.

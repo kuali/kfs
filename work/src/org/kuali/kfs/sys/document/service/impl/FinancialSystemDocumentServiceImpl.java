@@ -122,6 +122,29 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
     }
 
     /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByApplicationDocumentStatus(java.lang.String)
+     */
+    @Override
+    public Collection<FinancialSystemDocumentHeader> findByApplicationDocumentStatus(String applicationDocumentStatus) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS, applicationDocumentStatus);
+
+        return getBusinessObjectService().findMatching(FinancialSystemDocumentHeader.class, fieldValues);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentNumber(java.lang.String)
+     */
+    @Override
+    public FinancialSystemDocumentHeader findByDocumentNumber(String documentNumber) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+
+        return getBusinessObjectService().findByPrimaryKey(FinancialSystemDocumentHeader.class, fieldValues);
+    }
+
+
+    /**
      * Returns the maximum number of results that should be returned from the document search.
      *
      * @param criteria the criteria in which to check for a max results value

@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -32,7 +29,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
+import org.kuali.kfs.module.ar.service.FederalFinancialReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,27 +40,13 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
-
 /**
  * Action class for Federal Financial Report service.
  */
 public class FederalFinancialReportAction extends KualiAction {
-
-    private static final String REPORTING_PERIOD = "reportingPeriod";
-    private static final String FEDERAL_FORM = "federalForm";
-    private static final String FISCAL_YEAR = "fiscalYear";
-    private static final String FINANCIAL_FORM_REQUIRED = "Please select a Financial Form to generate.";
-    private static final Object FEDERAL_FORM_425 = "425";
-    private static final Object FEDERAL_FORM_425A = "425A";
-    private static final String FISCAL_YEAR_AND_PERIOD_REQUIRED = "Enter both period and fiscal year.";
-    private static final String PROPOSAL_NUMBER_REQUIRED = "Please enter a proposal Number for SF425.";
-    private static final String AGENCY_REQUIRED = "Please enter an Agency for SF425A.";
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FederalFinancialReportAction.class);
+
+    private static volatile FederalFinancialReportService federalFinancialReportService;
 
     /**
      * @param mapping
@@ -84,7 +69,6 @@ public class FederalFinancialReportAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -116,7 +100,7 @@ public class FederalFinancialReportAction extends KualiAction {
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FederalFinancialReportForm ffrForm = (FederalFinancialReportForm) form;
-        String message = this.validate(ffrForm);
+        String message = getFederalFinancialReportService().validate(ffrForm.getFederalForm(), ffrForm.getProposalNumber(), ffrForm.getFiscalYear(), ffrForm.getReportingPeriod(), ffrForm.getAgencyNumber());
         if (StringUtils.isEmpty(message)) {
             String basePath = getApplicationBaseUrl();
             String docId = ffrForm.getProposalNumber();
@@ -127,8 +111,8 @@ public class FederalFinancialReportAction extends KualiAction {
 
             String methodToCallPrintInvoicePDF = "printInvoicePDF";
             String methodToCallDocHandler = "start";
-            String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, period, year, agencyNumber, formType, methodToCallPrintInvoicePDF);
-            String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, "", "", "", "", "", methodToCallDocHandler);
+            String printInvoicePDFUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, docId, period, year, agencyNumber, formType, methodToCallPrintInvoicePDF);
+            String displayInvoiceTabbedPageUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, "", "", "", "", "", methodToCallDocHandler);
 
             request.setAttribute("printPDFUrl", printInvoicePDFUrl);
             request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
@@ -138,35 +122,6 @@ public class FederalFinancialReportAction extends KualiAction {
             ffrForm.setError(message);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-    }
-
-    /**
-     * Validates the user input.
-     *
-     * @param form
-     * @return
-     */
-    private String validate(FederalFinancialReportForm form) {
-        if (StringUtils.isNotEmpty(form.getFederalForm())) {
-            if (FEDERAL_FORM_425.equals(form.getFederalForm()) && ObjectUtils.isNotNull(form.getProposalNumber())) {
-                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod())) {
-                    return FISCAL_YEAR_AND_PERIOD_REQUIRED;
-                }
-            }
-            else if (FEDERAL_FORM_425.equals(form.getFederalForm()) && ObjectUtils.isNull(form.getProposalNumber())) {
-                return PROPOSAL_NUMBER_REQUIRED;
-            }
-            else if (FEDERAL_FORM_425A.equals(form.getFederalForm()) && ObjectUtils.isNotNull(form.getAgencyNumber())) {
-                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod())) {
-                    return FISCAL_YEAR_AND_PERIOD_REQUIRED;
-                }
-            }
-            else if (FEDERAL_FORM_425A.equals(form.getFederalForm()) && ObjectUtils.isNull(form.getAgencyNumber())) {
-                return AGENCY_REQUIRED;
-            }
-            return "";
-        }
-        return FINANCIAL_FORM_REQUIRED;
     }
 
     /**
@@ -181,9 +136,9 @@ public class FederalFinancialReportAction extends KualiAction {
      */
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String proposalNumber = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
-        String period = request.getParameter(REPORTING_PERIOD);
-        String year = request.getParameter(FISCAL_YEAR);
-        String formType = request.getParameter(FEDERAL_FORM);
+        String period = request.getParameter(FederalFinancialReportService.REPORTING_PERIOD);
+        String year = request.getParameter(FederalFinancialReportService.FISCAL_YEAR);
+        String formType = request.getParameter(FederalFinancialReportService.FEDERAL_FORM);
         String agencyNumber = request.getParameter(KFSPropertyConstants.AGENCY_NUMBER);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
@@ -199,92 +154,27 @@ public class FederalFinancialReportAction extends KualiAction {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
             File report = reportService.generateFederalFinancialForm(award, period, year, formType, agency);
 
-            StringBuilder fileName = new StringBuilder();
-            fileName.append(formType);
-            fileName.append("-");
-            fileName.append(period);
-            if (ObjectUtils.isNotNull(proposalNumber)) {
-                fileName.append("-");
-                fileName.append(proposalNumber);
-            }
-            else if (ObjectUtils.isNotNull(agencyNumber)) {
-                fileName.append("-");
-                fileName.append(agencyNumber);
-            }
-            fileName.append(".pdf");
-
             if (report.length() == 0) {
                 System.out.println("No Report Generated");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            String contentDisposition = "";
-            try {
-                ArrayList master = new ArrayList();
-                PdfCopy writer = null;
+            final String useJavascriptParameter = request.getParameter("useJavascript");
+            final boolean useJavascript = !(StringUtils.isBlank(useJavascriptParameter) || StringUtils.equalsIgnoreCase(useJavascriptParameter, "false"));
 
-                // create a reader for the document
-                String reportName = report.getAbsolutePath();
-                PdfReader reader = new PdfReader(reportName);
-                reader.consolidateNamedDestinations();
-
-                // retrieve the total number of pages
-                int n = reader.getNumberOfPages();
-                List bookmarks = SimpleBookmark.getBookmark(reader);
-                if (bookmarks != null) {
-                    master.addAll(bookmarks);
-                }
-
-                // step 1: create a document-object
-                Document document = new Document(reader.getPageSizeWithRotation(1));
-                // step 2: create a writer that listens to the document
-                writer = new PdfCopy(document, baos);
-                // step 3: open the document
-                document.open();
-                // step 4: add content
-                PdfImportedPage page;
-                for (int i = 0; i < n;) {
-                    ++i;
-                    page = writer.getImportedPage(reader, i);
-                    writer.addPage(page);
-                }
-                writer.freeReader(reader);
-                if (!master.isEmpty()) {
-                    writer.setOutlines(master);
-                }
-                // step 5: we close the document
-                document.close();
-
-                StringBuffer sbContentDispValue = new StringBuffer();
-                String useJavascript = request.getParameter("useJavascript");
-                if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                    sbContentDispValue.append("attachment");
-                }
-                else {
-                    sbContentDispValue.append("inline");
-                }
-                sbContentDispValue.append("; filename=");
-                sbContentDispValue.append(fileName);
-
-                contentDisposition = sbContentDispValue.toString();
-
-            }
-            catch (Exception e) {
-                LOG.error("problem during printInvoicePDF()", e);
-            }
+            final ReportPDFHolder pdfHolder = getFederalFinancialReportService().pdferizeReport(report, formType, period, proposalNumber, agencyNumber, useJavascript);
 
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", contentDisposition);
+            response.setHeader("Content-Disposition", pdfHolder.getContentDisposition());
             response.setHeader("Expires", "0");
             response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
             response.setHeader("Pragma", "public");
-            response.setContentLength(baos.size());
+            response.setContentLength(pdfHolder.getReportBytes().size());
 
             // write to output
             ServletOutputStream sos;
             sos = response.getOutputStream();
-            baos.writeTo(sos);
+            pdfHolder.getReportBytes().writeTo(sos);
             sos.flush();
             sos.close();
         }
@@ -292,40 +182,10 @@ public class FederalFinancialReportAction extends KualiAction {
 
     }
 
-    /**
-     * Creates a URL to be used in printing the federal forms.
-     *
-     * @param basePath String: The base path of the current URL
-     * @param docId String: The document ID of the document to be printed
-     * @param methodToCall String: The name of the method that will be invoked to do this particular print
-     * @return The URL
-     */
-    protected String getUrlForPrintInvoice(String basePath, String docId, String period, String year, String agencyNumber, String formType, String methodToCall) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arFederalFinancialReport.do?methodToCall=");
-        result.append(methodToCall);
-        if (StringUtils.isNotEmpty(formType)) {
-            result.append("&" + FEDERAL_FORM + "=");
-            result.append(formType);
+    public FederalFinancialReportService getFederalFinancialReportService() {
+        if (federalFinancialReportService == null) {
+            federalFinancialReportService = SpringContext.getBean(FederalFinancialReportService.class);
         }
-        if (StringUtils.isNotEmpty(agencyNumber)) {
-            result.append("&" + KFSPropertyConstants.AGENCY_NUMBER + "=");
-            result.append(agencyNumber);
-        }
-        if (StringUtils.isNotEmpty(period)) {
-            result.append("&" + REPORTING_PERIOD + "=");
-            result.append(period);
-        }
-        if (StringUtils.isNotEmpty(year)) {
-            result.append("&" + FISCAL_YEAR + "=");
-            result.append(year);
-        }
-        if (StringUtils.isNotEmpty(docId)) {
-            result.append("&docId=");
-            result.append(docId);
-            result.append("&command=displayDocSearchView");
-        }
-
-        return result.toString();
+        return federalFinancialReportService;
     }
 }

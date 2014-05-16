@@ -2326,4 +2326,9 @@
 		<property name="documentService" ref="documentService"/>
 		<property name="personService" ref="personService"/>
 	</bean>
+	
+	<bean id="federalFinancialReportService" parent="federalFinancialReportService-parentBean"/>
+	<bean id="federalFinancialReportService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.FederalFinancialReportServiceImpl">
+	
+	</bean>
 </beans>

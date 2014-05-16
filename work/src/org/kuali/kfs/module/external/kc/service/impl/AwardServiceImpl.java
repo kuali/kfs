@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
@@ -42,7 +43,6 @@ import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectServ
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -61,10 +61,11 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
-    private AccountDefaultsService accountDefaultsService;
-    private ParameterService parameterService;
-    private BillingFrequencyService billingFrequencyService;
-    private PersonService personService;
+    protected AccountDefaultsService accountDefaultsService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected BillingFrequencyService billingFrequencyService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
 
     protected AwardWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -218,9 +219,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     }
 
     protected Collection<String> getDoNotInvoiceStatuses() {
-        Collection<String> statuses = getParameterService().getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.CONTRACTS_AND_GRANTS, KcConstants.Award.PARAMETER_COMPONENT_CONTRACTS_GRANTS_INVOICE,
-                KcConstants.Award.PARAMETER_KC_DO_NOT_INVOICE_AWARD_STATUS_CODES);
-        return statuses;
+        return accountsReceivableModuleService.getDoNotInvoiceStatuses();
     }
 
     protected AccountDefaultsService getAccountDefaultsService() {
@@ -229,6 +228,14 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
         this.accountDefaultsService = accountDefaultsService;
+    }
+
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
+    }
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
 
     protected ParameterService getParameterService() {

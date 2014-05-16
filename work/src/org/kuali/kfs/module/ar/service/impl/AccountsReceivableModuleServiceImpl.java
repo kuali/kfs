@@ -862,4 +862,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         }
         return getContractsGrantsInvoiceDocumentService().isTemplateValidForUser((InvoiceTemplate)invoiceTemplate, user);
     }
+
+    @Override
+    public Collection<String> getDoNotInvoiceStatuses() {
+        return parameterService.getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.AWARD_STATUS_CODES);
+    }
 }

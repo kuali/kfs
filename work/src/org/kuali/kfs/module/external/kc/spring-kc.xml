@@ -193,8 +193,9 @@
     <bean id="awardWebService" parent="awardWebService-parentBean"/>
     <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">
       <property name="accountDefaultsService" ref="accountDefaultsService"/>
-      <property name="parameterService" ref="parameterService"/>
+   	  <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService"/>
       <property name="billingFrequencyService" ref="billingFrequencyService" />
+      <property name="parameterService" ref="parameterService"/>
       <property name="personService" ref="personService" />
     </bean>
 

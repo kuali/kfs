@@ -23,7 +23,6 @@ public class ArConstants{
 
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
-    public static final String CG_NAMESPACE_CODE = "KFS-CG";
 
     // Parameter name for the CG Billing Enhancements Indicator
     public static final String CG_BILLING_IND = "CG_BILLING_IND";
@@ -61,6 +60,10 @@ public class ArConstants{
     public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
     public static final String CG_INVOICE_EMAIL_BODY = "CG_INVOICE_EMAIL_BODY";
     public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
+
+    public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
+    public static final String AWARD_STATUS_CODES = "AWARD_STATUS_CODES";
+
 
     // Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;

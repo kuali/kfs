@@ -388,4 +388,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return false;
     }
+
+    @Override
+    public Collection<String> getDoNotInvoiceStatuses() {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
 }

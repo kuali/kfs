@@ -409,4 +409,13 @@ public interface AccountsReceivableModuleService {
      * @return true if the template is utilizable, false otherwise
      */
     public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user);
+
+    /**
+     * Obtain list Kuali Coeus Award Status Codes that indicate the award should not be invoiced
+     * from parameter. Used by Kuali Coeus module when Contracts and Grants Billing is enabled.
+     *
+     * @return list of award status codes
+     */
+    public Collection<String> getDoNotInvoiceStatuses();
+
 }

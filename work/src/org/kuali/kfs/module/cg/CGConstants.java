@@ -24,8 +24,6 @@ import java.util.List;
  */
 public class CGConstants{
 
-    public static final String CG_NAMESPACE_CODE = "KFS-CG";
-
     /**
      * The key for the document error map to grab errors for the close document.
      */

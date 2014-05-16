@@ -20,8 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +31,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
-import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupUtil;
 import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -42,18 +39,15 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-
-import com.lowagie.text.pdf.PdfCopyFields;
-import com.lowagie.text.pdf.PdfReader;
 
 /**
  * Action class for Dunning Letter Distribution Summary.
  */
 public class DunningLetterDistributionSummaryAction extends KualiAction {
+    private static volatile DunningLetterDistributionService dunningLetterDistributionService;
+
     /**
      * 1. This method passes the control from Dunning Letter Distribution lookup to the Dunning Letter Distribution
      * Summary page. 2. Retrieves the list of selected awards by agency for sending Dunning Letters
@@ -93,7 +87,6 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
 
         DunningLetterDistributionSummaryForm dunningLetterDistributionSummaryForm = (DunningLetterDistributionSummaryForm) form;
         SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy-hh-mm-ss");
-        byte[] report = null;
 
         Person person = GlobalVariables.getUserSession().getPerson();
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -104,26 +97,9 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         }
 
         Collection<DunningLetterDistributionLookupResult> lookupResults = DunningLetterDistributionLookupUtil.getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        ByteArrayOutputStream zos = new ByteArrayOutputStream();
-        PdfCopyFields reportCopy = new PdfCopyFields(zos);
-        reportCopy.open();
-        List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(DunningLetterTemplate.class);
-        Iterator<DunningLetterTemplate> iterator = dunningLetterTemplates.iterator();
-        while (iterator.hasNext()) {
-            DunningLetterTemplate dunningLetterTemplate = iterator.next();
-            for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : lookupResults) {
-
-                report = SpringContext.getBean(DunningLetterDistributionService.class).createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
-                if (ObjectUtils.isNotNull(report)) {
-                    reportCopy.addDocument(new PdfReader(report));
-                }
-            }
-        }
-        reportCopy.close();
-
-        byte[] finalReport = zos.toByteArray();
+        byte[] finalReport = getDunningLetterDistributionService().createDunningLettersForAllResults(lookupResults);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        if (finalReport.length > 0 && SpringContext.getBean(DunningLetterDistributionService.class).createZipOfPDFs(finalReport, baos)) {
+        if (finalReport.length > 0 && getDunningLetterDistributionService().createZipOfPDFs(finalReport, baos)) {
             response.setContentType("application/zip");
             response.setHeader("Content-disposition", "attachment; filename=Dunning_Letters_" + FILE_NAME_TIMESTAMP.format(new Date()) + ".zip");
             response.setHeader("Expires", "0");
@@ -142,7 +118,6 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         }
     }
 
-
     /**
      * To cancel the document, invoices are not created when the cancel method is called.
      *
@@ -157,5 +132,10 @@ public class DunningLetterDistributionSummaryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
 
-
+    public DunningLetterDistributionService getDunningLetterDistributionService() {
+        if (dunningLetterDistributionService == null) {
+            dunningLetterDistributionService = SpringContext.getBean(DunningLetterDistributionService.class);
+        }
+        return dunningLetterDistributionService;
+    }
 }

@@ -17,22 +17,21 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.rice.kim.api.identity.Person;
 
+import com.lowagie.text.DocumentException;
+
 public interface DunningLetterDistributionService {
-
-
     /**
-     * This method generates the actual pdf file with related invoices to the template to print.
-     *
-     * @param dunningLetterTemplate
-     * @param dunningLetterDistributionLookupResult
-     * @return
+     * Creates a byte stream of pdfs for all dunning letters created for the given DunningLetterDistributionLookupResults
+     * @param results the dunning letter lookup results to create pdfs for
+     * @return a byte stream of PDFS
      */
-    public byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult);
+    public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException;
 
     /**
      * This method generates the actual pdf files to print.

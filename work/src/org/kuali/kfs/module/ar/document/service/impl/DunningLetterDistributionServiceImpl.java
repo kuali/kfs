@@ -86,11 +86,13 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
     protected FinancialSystemUserService financialSystemUserService;
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#createDunningLetters(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate,
-     *      org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult)
+     * This method generates the actual pdf file with related invoices to the template to print.
+     *
+     * @param dunningLetterTemplate
+     * @param dunningLetterDistributionLookupResult
+     * @return
      */
-    @Override
-    public byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult) {
+    protected byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult) {
 
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         byte[] reportStream = null;
@@ -198,6 +200,30 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
         }
 
         return finalReportStream;
+    }
+
+    /**
+     * Loops through the collection of lookup results, creating pdfs for each and appending the bytes of the pdfs onto the returned "finalReport"
+     * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService#createDunningLettersForAllResults(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate, java.util.Collection)
+     */
+    @Override
+    public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException {
+        ByteArrayOutputStream zos = new ByteArrayOutputStream();
+        PdfCopyFields reportCopy = new PdfCopyFields(zos);
+        reportCopy.open();
+        List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
+        for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
+            for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
+                final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
+                if (ObjectUtils.isNotNull(report)) {
+                    reportCopy.addDocument(new PdfReader(report));
+                }
+            }
+        }
+        reportCopy.close();
+
+        final byte[] finalReport = zos.toByteArray();
+        return finalReport;
     }
 
     /**

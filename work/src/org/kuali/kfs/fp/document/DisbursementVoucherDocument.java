@@ -1160,6 +1160,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                 getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
             }
         }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
+            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
 
         if (wireTransfer != null) {
             wireTransfer.setDocumentNumber(this.documentNumber);
@@ -1639,8 +1646,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             	List<Person> priorApprovers = new ArrayList<Person>(getAllPriorApprovers());
                 // The payee cannot be the only approver
                 String payeeEmployeeId = this.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
- 
-                if (priorApprovers.size() == 1 && 
+
+                if (priorApprovers.size() == 1 &&
                         priorApprovers.get(0).getEmployeeId().equals(payeeEmployeeId)) {
                     return true;
                 }

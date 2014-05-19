@@ -682,13 +682,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     @Override
     public void prepareForSave() {
-        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
-            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        }
-        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
-            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-        }
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
+        captureWorkflowHeaderInformation();
 
         // remove all the cash control detail records from the db in prep for the save,
         // where they'll get re-persisted. This is necessary to make sure that details

@@ -85,6 +85,14 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if (this instanceof AmountTotaling) {
             getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
+        captureWorkflowHeaderInformation();
+        super.prepareForSave();
+    }
+
+    /**
+     * Attempts to capture the document type name, initiator principal id, and KEW document status code to the Financial System Document Header
+     */
+    protected void captureWorkflowHeaderInformation() {
         if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
             getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         }
@@ -92,7 +100,6 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
         }
         getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
-        super.prepareForSave();
     }
 
     /**

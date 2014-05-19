@@ -1160,13 +1160,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                 getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
             }
         }
-        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
-            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        }
-        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
-            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-        }
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
+        captureWorkflowHeaderInformation();
 
         if (wireTransfer != null) {
             wireTransfer.setDocumentNumber(this.documentNumber);

@@ -46,13 +46,7 @@ public class HoldingAdjustmentDocument extends EndowmentTaxLotLinesDocumentBase 
         if (this instanceof AmountTotaling) {
             getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
-        if (org.apache.commons.lang.StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
-            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        }
-        if (org.apache.commons.lang.StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
-            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
-        }
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
+        captureWorkflowHeaderInformation();
 
         sourceTransactionSecurities.clear();
         targetTransactionSecurities.clear();

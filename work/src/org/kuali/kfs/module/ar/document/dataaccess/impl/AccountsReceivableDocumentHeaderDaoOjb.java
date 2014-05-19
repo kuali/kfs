@@ -33,6 +33,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBaseOjb implements AccountsReceivableDocumentHeaderDao {
 
+    @Override
     public Collection getARDocumentHeadersByCustomerNumber(String customerNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER, customerNumber);
@@ -40,6 +41,7 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria));
     }
 
+    @Override
     public Collection getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(String customerNumber, String processingChartOfAccountCode, String processingOrganizationCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER, customerNumber);
@@ -49,7 +51,8 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria));
     }
 
-    public List<String> getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(String customerNumber){
+    @Override
+    public Collection<String> getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(String customerNumber){
         // get the AR documents by the customer b=number
         List<String> documentNumbers = new ArrayList<String>();
         Criteria criteria1 = new Criteria();
@@ -80,8 +83,9 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         return documentNumbers;
     }
 
+    @Override
     public Collection<AccountsReceivableDocumentHeader> getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(String customerNumber) {
-        List<String> documentNumbers = getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(customerNumber);
+        Collection<String> documentNumbers = getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(customerNumber);
 
         // get the final AR documents
         if (!documentNumbers.isEmpty()) {

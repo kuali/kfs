@@ -40,6 +40,8 @@
 				<ref bean="CustomerBillingStatement-customerNumber" />
 				<ref bean="CustomerBillingStatement-previouslyBilledAmount" />
 				<ref bean="CustomerBillingStatement-reportedDate" />
+				<ref bean="CustomerBillingStatement-statementFormat" />
+				<ref bean="CustomerBillingStatement-includeZeroBalanceCustomers" />
 			</list>
 		</property>
 	</bean>
@@ -95,6 +97,28 @@
 		<property name="name" value="reportedDate" />
 		<property name="label" value="reported Date" />
 		<property name="shortLabel" value="reported Date" />
+	</bean>
+	
+	<bean id="CustomerBillingStatement-statementFormat" parent="CustomerBillingStatement-statementFormat-parentBean" />		
+
+	<bean id="CustomerBillingStatement-statementFormat-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="statementFormat" />
+		<property name="label" value="Statement Format" />
+		<property name="maxLength" value="20" />
+	    <property name="control">
+	      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.StatementFormatOptionFinder" p:includeKeyInLabel="false"/>
+	    </property>
+	</bean>
+
+	<bean id="CustomerBillingStatement-includeZeroBalanceCustomers" parent="CustomerBillingStatement-includeZeroBalanceCustomers-parentBean" />		
+	
+	<bean id="CustomerBillingStatement-includeZeroBalanceCustomers-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="includeZeroBalanceCustomers" />
+		<property name="label" value="Include Zero Balance Customers" />
+		<property name="maxLength" value="20" />
+	    <property name="control">
+	      <bean parent="RadioControlDefinition"	p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.IncludeZeroBalanceCustomersOptionFinder" p:includeKeyInLabel="false"/>
+	    </property> 
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

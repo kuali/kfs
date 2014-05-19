@@ -886,7 +886,6 @@ dress is a PO type address.","A","KFS"
 "KFS-COA","Account","EXPIRATION_DATE_BACKDATING_FUND_GROUPS","KFS-PARM-169","1","VALID","","Fund groups that allow backdating of the expiration date.","A","KFS"
 "KFS-FP","CoinDetail","COUNT_PER_ROLL_BY_DENOMINATION","KFS-PARM-170","1","CONFG","100c=25;50c=20;25c=40;10c=50;5c=40;1c=50","Counts of coins per roll for each standard roll. Note: each roll is defined in the format of denomination =countPerRoll; countPerRoll must be a positive integer; all 6 rolls shall be defined, separated by semicolon; the order of them does not matter.","A","KFS"
 "KFS-PURAP","Requisition","AUTO_ADD_COMMODITY_CODES_TO_VENDOR_IND","KFS-PARM-171","1","CONFG","Yes","If yes, commodity codes are automatically added to vendors when a REQS becomes a PO.","A","KFS"
-
 "KFS-CG","Award","DEFAULT_BILLING_FREQUENCY","KFSCG100","1","CONFG","MNTH","The default value for the preferred billing frequency code for Awards.","A","KFS"
 "KFS-CG","Award","DEFAULT_INVOICING_OPTION","KFSCG07","1","CONFG","2","The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account.","A","KFS"
 "KFS-AR","All","CG_BILLING_IND","KFSCG03","1","CONFG","Y","Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents.","A","KFS"

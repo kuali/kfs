@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -35,14 +36,19 @@ public class ContractsGrantsInvoiceDocumentValidation extends GenericValidation 
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+
+        boolean isValid = true;
+
         int i = 0;
         for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
-            if (StringUtils.isNotBlank(address.getInvoiceTransmissionMethodCode()) && address.getInvoiceTransmissionMethodCode().equals("EMAIL") && StringUtils.isBlank(address.getCustomerEmailAddress()) ) {
+            if (StringUtils.isNotBlank(address.getInvoiceTransmissionMethodCode()) && address.getInvoiceTransmissionMethodCode().equals(ArConstants.InvoiceTransmissionMethod.EMAIL) && StringUtils.isBlank(address.getCustomerEmailAddress()) ) {
                 GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerEmailAddress", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE);
+                isValid = false;
             }
             i++;
         }
-        return true;
+
+        return isValid;
     }
 
     /**

@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountService;
@@ -82,6 +81,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -105,9 +105,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -161,6 +158,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected MailService mailService;
     protected B2BPurchaseOrderService b2bPurchaseOrderService;
     protected DataDictionaryService dataDictionaryService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
 
 
     @Override
@@ -996,7 +994,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     /**
-     * First we check that vendor commodity codes should indeed be added, and of so- 
+     * First we check that vendor commodity codes should indeed be added, and of so-
      * If there are commodity codes on the items on the PurchaseOrderDocument that haven't existed yet on the vendor that the
      * PurchaseOrderDocument is using, then we will spawn a new VendorDetailMaintenanceDocument automatically to update the vendor
      * with the commodity codes that aren't already existing on the vendor.
@@ -1009,7 +1007,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Boolean shouldUpdate= params.getParameterValueAsBoolean(RequisitionDocument.class, PurapParameterConstants.UPDATE_VENDOR_SETTING, Boolean.TRUE);
         if(shouldUpdate){
             updateVendorCommodityCodeImpl(po);
-        }        
+        }
     }
 
     /**
@@ -2282,64 +2280,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Wrapper class to the filterPaymentRequestByAppDocStatus This class first extract the payment request document numbers from
-     * the Payment Request Collections, then perform the filterPaymentRequestByAppDocStatus function. Base on the filtered payment
-     * request doc number, reconstruct the filtered Payment Request Collection
+     * This method queries financialSystemDocumentHeader and filter payment requests against the provided status.
      *
      * @param paymentRequestDocuments
      * @param appDocStatus
      * @return
      */
     protected List<PurchaseOrderDocument> filterPurchaseOrderDocumentByAppDocStatus(Collection<PurchaseOrderDocument> purchaseOrderDocuments, String... appDocStatus) {
-        List<String> purchaseOrderDocNumbers = new ArrayList<String>();
-        for (PurchaseOrderDocument purchaseOrder : purchaseOrderDocuments) {
-            purchaseOrderDocNumbers.add(purchaseOrder.getDocumentNumber());
-        }
-
-        List<String> filteredPurchaseOrderDocNumbers = filterPurchaseOrderDocumentNumbersByAppDocStatus(purchaseOrderDocNumbers, appDocStatus);
-
+        List<String> appDocStatusList = Arrays.asList(appDocStatus);
         List<PurchaseOrderDocument> filteredPaymentRequestDocuments = new ArrayList<PurchaseOrderDocument>();
-        // add to filtered collection if it is in the filtered payment request doc number list
+        // add to filtered collection if the app doc list contains payment request's application document status.
         for (PurchaseOrderDocument po : purchaseOrderDocuments) {
-            if (filteredPurchaseOrderDocNumbers.contains(po.getDocumentNumber())) {
+            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(po.getDocumentNumber()).getApplicationDocumentStatus())) {
                 filteredPaymentRequestDocuments.add(po);
             }
         }
         return filteredPaymentRequestDocuments;
-    }
-
-    /**
-     * Since PaymentRequest does not have the app doc status, perform an additional lookup through doc search by using list of
-     * PaymentRequest Doc numbers. Query appDocStatus from workflow document and filter against the provided status DocumentSearch
-     * allows for multiple docNumber lookup by docId|docId|docId conversion
-     *
-     * @param lookupDocNumbers
-     * @param appDocStatus
-     * @return List<String> purchaseOrderDocumentNumbers
-     */
-    protected List<String> filterPurchaseOrderDocumentNumbersByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
-        boolean valid = false;
-
-        final String DOC_NUM_DELIM = "|";
-        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
-
-        List<String> purchaseOrderDocNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
-
-        DocumentSearchResults poDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
-
-        for (DocumentSearchResult poDocument : poDocumentsList.getSearchResults()) {
-            // /use the appDocStatus from the KeyValueDTO result to look up custom status
-            if (Arrays.asList(appDocStatus).contains(poDocument.getDocument().getApplicationDocumentStatus())) {
-                // found the matching status, retrieve the routeHeaderId and add to the list
-                purchaseOrderDocNumbers.add(poDocument.getDocument().getDocumentId());
-            }
-        }
-
-        return purchaseOrderDocNumbers;
     }
 
     @Override
@@ -2453,5 +2409,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 }

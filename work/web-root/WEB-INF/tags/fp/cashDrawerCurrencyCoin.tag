@@ -173,63 +173,59 @@
             <tr>
               <td colspan="7" class="tab-subhead">Cash Management Closing Drawer</td>
             </tr>
-
-		    				<tr>
+		    <tr>
                 <td rowspan="4">&nbsp;</td>
-			  				<td colspan="4" class="infoline">Currency</td>
-			  				<td style="text-align: right" colspan="2"></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline">Coin</td>
-			  				<td style="text-align: right" colspan="2"></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline">Items in Process</td>
-			  				<td style="text-align: right" colspan="2"></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
-			  				<td style="text-align: right" colspan="2"></td>
-		    				</tr>
+				<td colspan="4" class="infoline">Currency</td>
+				<td style="text-align: right" colspan="2"></td>
+		    </tr>
+			<tr>
+ 				<td colspan="4" class="infoline">Coin</td>
+ 				<td style="text-align: right" colspan="2"></td>
+			</tr>
+			<tr>
+  				<td colspan="4" class="infoline">Items in Process</td>
+  				<td style="text-align: right" colspan="2"></td>
+			</tr>
+			<tr>
+ 				<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
+  				<td style="text-align: right" colspan="2"></td>
+			</tr>
           </c:when>
           <c:otherwise>
             <tr>
-              <td colspan="7" class="tab-subhead">Cash Drawer Totals</td>
+              	<td colspan="7" class="tab-subhead">Cash Drawer Totals</td>
             </tr>
-
-		    				<tr>
-			  				<td rowspan="5">&nbsp;</td>
-			  				<td colspan="4" class="infoline">Miscellaneous Checks</td>
-			  				<td style="text-align: right" colspan="2">$
-			  				<bean:write name="KualiForm" property="cashDrawerSummary.undepositedCashieringChecksTotal"/></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline">Currency</td>
-			  				<td style="text-align: right" colspan="2">$
-			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCurrencyTotal"/></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline">Coin</td>
-			  				<td style="text-align: right" colspan="2">$
-			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCoinTotal"/></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline">Items in Process</td>
-			  				<td style="text-align: right" colspan="2">$
-			  				<bean:write name="KualiForm" property="cashDrawerSummary.openItemsTotal"/></td>
-		    				</tr>
-
-		    				<tr>
-			  				<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
-			  				<td style="text-align: right" colspan="2">$
-			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerTotal"/></td>
-		    				</tr>
+		    <tr>
+			  	<td rowspan="5">&nbsp;</td>
+			  	<td colspan="4" class="infoline">Miscellaneous Checks</td>
+			  	<td style="text-align: right" colspan="2">$
+			  		<bean:write name="KualiForm" property="cashDrawerSummary.undepositedCashieringChecksTotal"/>
+			  	</td>
+		    </tr>
+		    <tr>
+				<td colspan="4" class="infoline">Currency</td>
+			  	<td style="text-align: right" colspan="2">$
+			  		<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCurrencyTotal"/>
+			  	</td>
+		    </tr>
+		    <tr>
+			  	<td colspan="4" class="infoline">Coin</td>
+			  	<td style="text-align: right" colspan="2">$
+			  		<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCoinTotal"/>
+			  	</td>
+		    </tr>
+		    <tr>
+			  	<td colspan="4" class="infoline">Items in Process</td>
+			  	<td style="text-align: right" colspan="2">$
+			  		<bean:write name="KualiForm" property="cashDrawerSummary.openItemsTotal"/>
+			  	</td>
+		    </tr>
+		    <tr>
+			  	<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
+			  	<td style="text-align: right" colspan="2">$
+			  		<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerTotal"/>
+			  	</td>
+		    </tr>
           </c:otherwise>
         </c:choose>
         </c:if>

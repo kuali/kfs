@@ -1214,6 +1214,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         // probably a better way to fix this that can be pursued later.
         getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(getTotalDollarAmount());
 
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
+            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
+
         //  invoice recurrence stuff, if there is a recurrence object
         if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails()) && getProcessRecurrenceFlag()) {
 

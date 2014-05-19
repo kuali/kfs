@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -58,6 +57,7 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
@@ -70,11 +70,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -109,6 +105,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     private PurchaseOrderService purchaseOrderService;
     private VendorService vendorService;
     private WorkflowDocumentService workflowDocumentService;
+    private FinancialSystemDocumentService financialSystemDocumentService;
 
 
     public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
@@ -163,6 +160,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
+    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
@@ -203,78 +203,18 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
-     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
-     *  from workflow document and filter against the provided status
+     * This method queries financialSystemDocumentHeader and filter credit memos against the provided status.
      *
-     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
-     *
-     * @param lookupDocNumbers
-     * @param appDocStatus
-     * @return
-     */
-    protected List<String> filterCreditMemoByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
-        boolean valid = false;
-
-        final String DOC_NUM_DELIM = "|";
-        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
-
-        List<String> creditMemoDocNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT);
-        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
-
-        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
-
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Fetch Iteration: "+ i);
-            }
-            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
-            }
-            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-            for (DocumentSearchResult resultRow: results.getSearchResults()) {
-                creditMemoDocNumbers.add(resultRow.getDocument().getDocumentId());
-            }
-        }
-
-        return creditMemoDocNumbers;
-    }
-
-    /**
-     * Wrapper class to the filterPaymentRequestByAppDocStatus
-     *
-     * This class first extract the payment request document numbers from the Payment Request Collections,
-     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
-     * doc number, reconstruct the filtered Payment Request Collection
-     *
-     * @param paymentRequestDocuments
+     * @param creditMemoDocuments
      * @param appDocStatus
      * @return
      */
     private Collection<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Collection<VendorCreditMemoDocument> creditMemoDocuments, String... appDocStatus) {
-        List<String> creditMemoDocNumbers = new ArrayList<String>();
-        for (VendorCreditMemoDocument creditMemo : creditMemoDocuments){
-            creditMemoDocNumbers.add(creditMemo.getDocumentNumber());
-        }
-
-        List<String> filteredCreditMemoDocNumbers = filterCreditMemoByAppDocStatus(creditMemoDocNumbers, appDocStatus);
-
+        List<String> appDocStatusList = Arrays.asList(appDocStatus);
         Collection<VendorCreditMemoDocument> filteredCreditMemoDocuments = new ArrayList<VendorCreditMemoDocument>();
-        //add to filtered collection if it is in the filtered payment request doc number list
+        //add to filtered collection if the app doc list contains credit memo's app doc status
         for (VendorCreditMemoDocument creditMemo : creditMemoDocuments){
-            if (filteredCreditMemoDocNumbers.contains(creditMemo.getDocumentNumber())){
+            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(creditMemo.getDocumentNumber()).getApplicationDocumentStatus())) {
                 filteredCreditMemoDocuments.add(creditMemo);
             }
         }
@@ -772,29 +712,30 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public boolean hasActiveCreditMemosForPurchaseOrder(Integer purchaseOrderIdentifier){
 
         boolean hasActiveCreditMemos = false;
-        List<String> docNumbers= null;
         WorkflowDocument workflowDocument = null;
 
-        docNumbers= creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-        docNumbers = filterCreditMemoByAppDocStatus(docNumbers, CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE);
-
-        for (String docNumber : docNumbers) {
-            try{
-                workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
-            }catch(WorkflowException we){
-                throw new RuntimeException(we);
-            }
-
-            //if the document is not in a non-active status then return true and stop evaluation
-            if(!(workflowDocument.isCanceled() ||
-                    workflowDocument.isException() ||
-                    workflowDocument.isFinal()) ){
-                hasActiveCreditMemos = true;
-                break;
-            }
-
+        List<String> docNumbers= creditMemoDao.getActiveCreditMemoDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
+        List<FinancialSystemDocumentHeader> docHeaders = new ArrayList<FinancialSystemDocumentHeader>();
+        for (String appDocStatus : CreditMemoStatuses.STATUSES_POTENTIALLY_ACTIVE) {
+            docHeaders.addAll(financialSystemDocumentService.findByApplicationDocumentStatus(appDocStatus));
         }
+        for (FinancialSystemDocumentHeader docHeader : docHeaders) {
+            if (docNumbers.contains(docHeader.getDocumentNumber())) {
+                try{
+                    workflowDocument = workflowDocumentService.loadWorkflowDocument(docHeader.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                }catch(WorkflowException we){
+                    throw new RuntimeException(we);
+                }
 
+                //if the document is not in a non-active status then return true and stop evaluation
+                if(!(workflowDocument.isCanceled() ||
+                        workflowDocument.isException() ||
+                        workflowDocument.isFinal()) ){
+                    hasActiveCreditMemos = true;
+                    break;
+                }
+            }
+        }
         return hasActiveCreditMemos;
     }
 

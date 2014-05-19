@@ -51,14 +51,11 @@ import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
@@ -82,6 +79,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     protected ConfigurationService configurationService;
     protected PurapService purapService;
     protected NoteService noteService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -109,6 +107,10 @@ public class ReceivingServiceImpl implements ReceivingService {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
     /**
@@ -910,24 +912,16 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     @Override
-    public void approveReceivingDocsForPOAmendment(){
-        List<String> docNumbers = getDocumentsNumbersAwaitingPurchaseOrderOpenStatus();
-        List<LineItemReceivingDocument> docs = new ArrayList<LineItemReceivingDocument>();
-        for (String docNumber : docNumbers) {
-            LineItemReceivingDocument lreq = getLineItemReceivingByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(lreq)) {
-                docs.add(lreq);
-            }
-        }
-        if (docs != null){
-            for (LineItemReceivingDocument receivingDoc: docs) {
+    public void approveReceivingDocsForPOAmendment() {
+        List<LineItemReceivingDocument> docs = getDocumentsAwaitingPurchaseOrderOpenStatus();
+        if (docs != null) {
+            for (LineItemReceivingDocument receivingDoc : docs) {
                 Set<String> currentNodes = receivingDoc.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
-                if (CollectionUtils.isNotEmpty(currentNodes) && currentNodes.contains(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)){
-                          approveReceivingDoc(receivingDoc);
-                    }
+                if (CollectionUtils.isNotEmpty(currentNodes) && currentNodes.contains(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS)) {
+                    approveReceivingDoc(receivingDoc);
+                }
             }
         }
-
     }
 
     /**
@@ -964,31 +958,20 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
-     * Gets a list of strings of receiving line item document numbers from
-     * workflow documents where  applicationdocumentstatus = 'Awaiting Purchase Order Open Status'
-     * If there are documents then the document number is added to the list
-     *
-     * NOTE: simplify using DocSearch lookup with AppDocStatus
-     *
-     * @return list of documentNumbers to retrieve line item receiving documents.
+     * Gets a list of receiving line item documents where  applicationdocumentstatus = 'Awaiting Purchase Order Open Status'
+     * @return list of line item receiving documents.
      */
-    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
-        List<String> receivingDocumentNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.RECEIVING_LINE_ITEM_DOCUMENT_TYPE);
-        documentSearchCriteriaDTO.setApplicationDocumentStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
-        documentSearchCriteriaDTO.setSaveName(null);
-
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
-
-        String documentHeaderId = null;
-
-        for (DocumentSearchResult result : results.getSearchResults()) {
-            receivingDocumentNumbers.add(result.getDocument().getDocumentId());
+    protected List<LineItemReceivingDocument> getDocumentsAwaitingPurchaseOrderOpenStatus() {
+        List<LineItemReceivingDocument> receivingDocuments;
+        try {
+            receivingDocuments = (List<LineItemReceivingDocument>) financialSystemDocumentService.findByApplicationDocumentStatus(
+                    LineItemReceivingDocument.class, PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
         }
-
-        return receivingDocumentNumbers;
+        catch (WorkflowException we) {
+            String errorMsg = "Unable to retrieve LineItemReceivingDocuments with status " + PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS + " " + we.getMessage();
+            throw new RuntimeException(errorMsg, we);
+        }
+        return receivingDocuments;
     }
 
 }

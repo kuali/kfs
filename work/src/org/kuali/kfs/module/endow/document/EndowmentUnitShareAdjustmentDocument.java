@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -50,6 +49,13 @@ public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDo
         if (this instanceof AmountTotaling) {
             getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
+        if (org.apache.commons.lang.StringUtils.isBlank(getFinancialSystemDocumentHeader().getInitiatorPrincipalId())) {
+            getFinancialSystemDocumentHeader().setInitiatorPrincipalId(getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        if (org.apache.commons.lang.StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+            getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
 
         sourceTransactionSecurities.clear();
         targetTransactionSecurities.clear();
@@ -81,7 +87,7 @@ public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDo
     public EndowmentTransactionSecurity getSourceTransactionSecurity() {
 
         if (this.sourceTransactionSecurities.size() > 0) {
-            this.sourceTransactionSecurity = (EndowmentSourceTransactionSecurity) this.sourceTransactionSecurities.get(0);
+            this.sourceTransactionSecurity = this.sourceTransactionSecurities.get(0);
         }
         // functionality specific to the EndowmentUnitShareAdjustmentDocument. The document will have a source or target security
         // detail depending on whether the user has entered source or target transaction lines (Decrease or Increase). The UI
@@ -99,13 +105,13 @@ public class EndowmentUnitShareAdjustmentDocument extends EndowmentTaxLotLinesDo
     @Override
     public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

@@ -936,7 +936,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // the acct_expiration_dt must be changed to a date that is today or later
         if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
             Collection<String> fundGroups = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.EXPIRATION_DATE_BACKDATING_FUND_GROUPS);
-            if (fundGroups == null || !fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
+            if (fundGroups == null || ObjectUtils.isNull(newAccount.getSubFundGroup()) || !fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
                 if (!newExpDate.after(today) && !newExpDate.equals(today)) {
                     putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
                     success &= false;

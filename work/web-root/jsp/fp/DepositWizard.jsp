@@ -121,7 +121,7 @@ function checkCheckAllOrNone() {
 						<tr>
 							<th width="23%">
 							<div align="right"><strong><kul:htmlAttributeLabel
-								attributeEntry="${cashReceiptAttributes.totalDollarAmount}"
+								attributeEntry="${cashReceiptAttributes.totalCashInAmount}"
 								useShortLabel="false" /></strong></div>
 							</th>
 							<td width="11%" align="left" valign="middle"><c:out

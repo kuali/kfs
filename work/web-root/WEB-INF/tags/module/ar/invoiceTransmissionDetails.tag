@@ -19,7 +19,7 @@
 <c:if test="${!empty KualiForm.document.proposalNumber}">
 	<kul:tab tabTitle="Transmission Details" defaultOpen="true" tabErrorKey="document.invoiceAddressDetails*">
 		<c:set var="invoiceAddressDetailsAttributes" value="${DataDictionary.InvoiceAddressDetail.attributes}" />
-
+		
 		<div class="tab-container" align="center">
 			<h3>Transmission Details</h3>
 			<table cellpadding=0 class="datatable" summary="Transmission Details section">
@@ -28,19 +28,26 @@
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerEmailAddress}" useShortLabel="false" />
 				</tr>
-				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceAddressDetails" id="invoiceAddressDetail">
-					<tr>
+				
+				
+				<c:forEach var="invoiceAddressDetail" items="${KualiForm.document.invoiceAddressDetails}" varStatus="loopCounter" >
+    				
+    				<tr>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressTypeCode}"
-								property="document.invoiceAddressDetails[${ctr}].customerAddressTypeCode" readOnly="true" /></td>
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressTypeCode" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}"
-								property="document.invoiceAddressDetails[${ctr}].customerAddressName" readOnly="true" /></td>
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerAddressName" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}"
-								property="document.invoiceAddressDetails[${ctr}].customerInvoiceTemplateCode" readOnly="${readOnly}" /></td>
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerInvoiceTemplateCode" readOnly="${readOnly}" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.invoiceTransmissionMethodCode}"
-								property="document.invoiceAddressDetails[${ctr}].invoiceTransmissionMethodCode" readOnly="${readOnly}" /></td>
+								property="document.invoiceAddressDetails[${loopCounter.index}].invoiceTransmissionMethodCode" readOnly="${readOnly}"/></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerEmailAddress}"
+								property="document.invoiceAddressDetails[${loopCounter.index}].customerEmailAddress" readOnly="${readOnly}" forceRequired="true"/></td>
 					</tr>
-				</logic:iterate>
+				</c:forEach>
+				
 			</table>
 		</div>
 		<SCRIPT type="text/javascript">

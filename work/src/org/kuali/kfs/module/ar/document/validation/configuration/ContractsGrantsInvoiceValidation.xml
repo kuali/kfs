@@ -33,5 +33,27 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="ContractsGrantsInvoice-saveDocumentValidation"
+		parent="ContractsGrantsInvoice-routeDocumentValidation-parentBean"
+		scope="prototype" />
+
+	<bean id="ContractsGrantsInvoice-saveDocumentValidation-parentBean"
+		parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="ContractsGrantsInvoice-documentValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="contractsGrantsInvoiceDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 </beans>

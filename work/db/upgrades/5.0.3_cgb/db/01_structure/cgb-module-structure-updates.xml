@@ -426,6 +426,7 @@
 			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="INV_TRNS_MTHD_CD" type="VARCHAR(10)" />
 			<column name="NOTE_ID" type="DECIMAL(14,0)" />
+			<column name="CUST_EMAIL_ADDR" type="varchar(60)" />
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />

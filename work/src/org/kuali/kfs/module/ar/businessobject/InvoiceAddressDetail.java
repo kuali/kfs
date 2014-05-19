@@ -33,6 +33,8 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private String customerAddressName;
     private String customerInvoiceTemplateCode;
     private String invoiceTransmissionMethodCode;
+    private String customerEmailAddress;
+
     private long noteId;
 
     private CustomerAddress customerAddress;
@@ -176,6 +178,14 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     public String getCustomerInvoiceTemplateCode() {
 
         return customerInvoiceTemplateCode;
+    }
+
+    public String getCustomerEmailAddress() {
+        return customerEmailAddress;
+    }
+
+    public void setCustomerEmailAddress(String customerEmailAddress) {
+        this.customerEmailAddress = customerEmailAddress;
     }
 
     /**

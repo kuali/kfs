@@ -1277,6 +1277,7 @@
         <column name="CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="INV_TRNS_MTHD_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
+        <column name="CUST_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>

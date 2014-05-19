@@ -31,6 +31,7 @@
 				<ref bean="InvoiceAddressDetail-customerAddressName" />
 				<ref bean="InvoiceAddressDetail-customerInvoiceTemplateCode" />
 				<ref bean="InvoiceAddressDetail-invoiceTransmissionMethodCode" />
+				<ref bean="InvoiceAddressDetail-customerEmailAddress" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -148,7 +149,23 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
+	
+	<bean id="InvoiceAddressDetail-customerEmailAddress" parent="InvoiceAddressDetail-customerEmailAddress-parentBean" />
 
+	<bean id="InvoiceAddressDetail-customerEmailAddress-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerEmailAddress" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Email Address" />
+		<property name="shortLabel" value="Email" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<bean parent="EmailAddressValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="62" />
+		</property>
+	</bean>
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -170,6 +187,7 @@
 							<bean parent="FieldDefinition" p:attributeName="customerAddressName" />
 							<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="invoiceTransmissionMethodCode" />
+							<bean parent="FieldDefinition" p:attributeName="customerEmailAddress" />
 						</list>
 					</property>
 				</bean>

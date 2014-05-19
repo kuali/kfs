@@ -260,6 +260,7 @@ public class ArKeyConstants {
         public static final String ERROR_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO = "error.total.amount.less.than.equal.to.zero";
         public static final String ERROR_DOCUMENT_GLPE_GENERATION_FAILED = "error.document.glpe.generation.failed";
         public static final String ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID = "error.document.amount.to.draw.invalid";
+        public static final String ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE = "error.document.email.address.required";
     }
 
     // Final Billed Indicator Error

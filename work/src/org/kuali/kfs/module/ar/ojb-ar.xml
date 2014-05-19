@@ -1689,6 +1689,7 @@
 		<field-descriptor name="customerAddressName" column="CUST_ADDR_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerInvoiceTemplateCode" column="CUST_INV_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="invoiceTransmissionMethodCode" column="INV_TRNS_MTHD_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="noteId" column="NOTE_ID" jdbc-type="BIGINT" />

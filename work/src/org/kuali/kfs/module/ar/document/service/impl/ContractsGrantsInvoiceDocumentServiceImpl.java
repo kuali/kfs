@@ -3876,6 +3876,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     invoiceAddressDetail.setCustomerAddressTypeCode(customerAddress.getCustomerAddressTypeCode());
                     invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
                     invoiceAddressDetail.setInvoiceTransmissionMethodCode(customerAddress.getInvoiceTransmissionMethodCode());
+                    invoiceAddressDetail.setCustomerEmailAddress(customerAddress.getCustomerEmailAddress());
                     if (StringUtils.isNotBlank(customerAddress.getCustomerInvoiceTemplateCode())) {
                         invoiceAddressDetail.setCustomerInvoiceTemplateCode(customerAddress.getCustomerInvoiceTemplateCode());
                     } else {

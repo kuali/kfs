@@ -276,7 +276,7 @@
 	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
 
 	<bean id="Agency-customerNumber-parentBean" abstract="true"
-		parent="Customer-customerNumber">
+		parent="SharedAttributes-customerNumber">
 		<property name="name" value="customerNumber" />
 		<property name="label" value="Customer Number" />
 		<property name="shortLabel" value="Customer Number" />

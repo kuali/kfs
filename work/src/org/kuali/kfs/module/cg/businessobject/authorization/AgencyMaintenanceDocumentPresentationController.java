@@ -47,7 +47,7 @@ public class AgencyMaintenanceDocumentPresentationController extends FinancialSy
     }
 
     /**
-     * Checks to see if the Contracts and Grants Billing enhancement is enabled (controlled by KFS-AR/CG_BILLING_IND parameter).
+     * Checks to see if the Contracts and Grants Billing enhancement is enabled.
      *
      * @return true if Contracts and Grants Billing enhancement is enabled
      */

@@ -293,22 +293,11 @@
 			<bean parent="TextControlDefinition" p:size="62" />
 		</property>
 	</bean>
+
 	<bean id="Customer-customerNumber" parent="Customer-customerNumber-parentBean" />
 
 	<bean id="Customer-customerNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="customerNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Number" />
-		<property name="shortLabel" value="Number" />
-		<property name="maxLength" value="9" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="11" />
-		</property>
-	</bean>
+		parent="SharedAttributes-customerNumber" />
 
 	<bean id="Customer-customerParentCompanyNumber" parent="Customer-customerParentCompanyNumber-parentBean" />
 	<bean id="Customer-customerParentCompanyNumber-parentBean"

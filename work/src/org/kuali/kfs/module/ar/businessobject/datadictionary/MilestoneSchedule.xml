@@ -140,16 +140,7 @@
 		parent="MilestoneSchedule-milestoneScheduleInquiryTitle-parentBean" />
 
 	<bean id="MilestoneSchedule-milestoneScheduleInquiryTitle-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="milestoneScheduleInquiryTitle" />
-		<property name="label" value="Milestone Schedule" />
-		<property name="shortLabel" value="Milestone Schedule" />
-		<property name="maxLength" value="255" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
-	</bean>
-
+		abstract="true" parent="SharedAttributes-milestoneScheduleInquiryTitle" />
 
 	<bean id="MilestoneSchedule-award.awardEndingDate" parent="MilestoneSchedule-award.awardEndingDate-parentBean" />
 

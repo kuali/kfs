@@ -22,7 +22,9 @@
 	 	<strong>Accounts Receivable</strong><br/>
 	    <ul class="chan">
 	        <li><portal:portalLink displayTitle="true" title='Cash Controls' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTRL'/></li>
-	        <li><portal:portalLink displayTitle="true" title='Contracts & Grants Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CINV'/></li>
+			<c:if test="${contractsGrantsBillingEnabled}">
+		        <li><portal:portalLink displayTitle="true" title='Contracts & Grants Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CINV'/></li>
+			</c:if>
 	        <li><portal:portalLink displayTitle="true" title='Customer Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CRM'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Customer Invoices' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INV'/></li>
 	        <li><portal:portalLink displayTitle="true" title='Customer Invoice Writeoffs' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=INVW'/></li>

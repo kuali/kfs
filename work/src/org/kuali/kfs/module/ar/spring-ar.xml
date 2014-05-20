@@ -2320,7 +2320,7 @@
 	</bean>
 	
 	<bean id="invoiceReportDeliveryService" parent="invoiceReportDeliveryService-parentBean"/>
-	<bean id="invoiceReportDeliveryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.InvoiceReportDeliveryServiceImpl">
+	<bean id="invoiceReportDeliveryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.InvoiceReportDeliveryServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 		<property name="contractsGrantsInvoiceReportService" ref="contractsGrantsInvoiceReportService"/>
 		<property name="documentService" ref="documentService"/>
@@ -2328,7 +2328,11 @@
 	</bean>
 	
 	<bean id="federalFinancialReportService" parent="federalFinancialReportService-parentBean"/>
-	<bean id="federalFinancialReportService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.service.impl.FederalFinancialReportServiceImpl">
+	<bean id="federalFinancialReportService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.FederalFinancialReportServiceImpl"/>
 	
-	</bean>
+	<bean id="contractsGrantsReportHelperService" parent="contractsGrantsReportHelperService-parentBean"/>
+	<bean id="contractsGrantsReportHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsReportHelperServiceImpl"/>
+	
+	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService" parent="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl"/>
 </beans>

@@ -29,7 +29,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsSuspendedInvoiceSummaryReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -65,19 +66,8 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
 
         // build report
-        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder> details = cgSuspendedInvoiceSummaryReportDataHolder.getDetails();
-
-        for (ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry : displayList) {
-            ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail = new ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder();
-            // set report data
-            setReportDate(cgSuspendedInvoiceSummaryReportEntry, reportDetail);
-
-            reportDetail.setDisplaySubtotalInd(false);
-
-            details.add(reportDetail);
-        }
-        cgSuspendedInvoiceSummaryReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataBuilderService<ContractsGrantsSuspendedInvoiceSummaryReport> reportDataBuilderService = SpringContext.getBean(ContractsGrantsReportHelperService.class).getReportBuilderService(ContractsGrantsSuspendedInvoiceSummaryReport.class);
+        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgSuspendedInvoiceSummaryReportDataHolder.getDetails())){
@@ -93,15 +83,5 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         String reportFileName = SpringContext.getBean(ContractsGrantsSuspendedInvoiceSummaryReportService.class).generateReport(cgSuspendedInvoiceSummaryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
-    }
-
-    /**
-     * @param cgSuspendedInvoiceSummaryReportEntry
-     * @param reportDetail
-     */
-    private void setReportDate(ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry, ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail) {
-        reportDetail.setSuspenseCategory(cgSuspendedInvoiceSummaryReportEntry.getSuspensionCategoryCode());
-        reportDetail.setCategoryDescription(cgSuspendedInvoiceSummaryReportEntry.getCategoryDescription());
-        reportDetail.setTotalInvoicesSuspended(cgSuspendedInvoiceSummaryReportEntry.getTotalInvoicesSuspended());
     }
 }

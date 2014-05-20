@@ -66,7 +66,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
             TicklersReportDetailDataHolder trDataHolder = new TicklersReportDetailDataHolder(tr);
             ticklersReportDetails.add(trDataHolder);
         }
-        buildReportForSearchCriteia(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
+        buildReportForSearchCriteria(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(TicklersReportService.class).generateReport(arTicklersReportDataHolder, baos);
@@ -81,7 +81,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
      * @param searchCriteria
      * @param fieldsForLookup
      */
-    protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
 

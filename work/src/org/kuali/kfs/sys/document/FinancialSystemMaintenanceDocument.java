@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -177,8 +178,11 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
             getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
         }
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
-        super.prepareForSave();
+        // we're preparing to save here.  If the save fails, the transaction should roll back - so the fact that the doc header is in saved mode shouldn't
+        // cause problems.  And since org.kuali.rice.krad.service.impl.PostProcessorServiceImpl#doRouteStatusChange will NOT save the document when the
+        // DocStatus is saved, let's simply pre-anticipate that
+        final String statusCode = getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.INITIATED) ? DocumentStatus.SAVED.getCode() : getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusCode);        super.prepareForSave();
     }
 }
 

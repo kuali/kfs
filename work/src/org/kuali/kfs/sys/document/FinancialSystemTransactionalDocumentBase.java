@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -99,7 +100,23 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
             getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
         }
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode());
+        final String statusCode = getWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus());
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusCode);
+    }
+
+    /**
+     * Given a DocumentStatus, returns the code for that status.  Allows us a shim to change initiated's into saved's
+     * @param status the status to return a code for
+     * @return the code for that stat
+     */
+    protected String getWorkflowDocumentStatusCode(DocumentStatus status) {
+        // we're preparing to save here.  If the save fails, the transaction should roll back - so the fact that the doc header is in saved mode shouldn't
+        // cause problems.  And since org.kuali.rice.krad.service.impl.PostProcessorServiceImpl#doRouteStatusChange will NOT save the document when the
+        // DocStatus is saved, let's simply pre-anticipate that
+        final String statusCode = status.equals(DocumentStatus.INITIATED) ?
+                DocumentStatus.SAVED.getCode() :
+                getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        return statusCode;
     }
 
     /**
@@ -133,7 +150,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         // set the route status
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusChangeEvent.getNewRouteStatus());
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(getWorkflowDocumentStatusCode(DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus())));
         getFinancialSystemDocumentHeader().setApplicationDocumentStatus(getFinancialSystemDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus());
 
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {

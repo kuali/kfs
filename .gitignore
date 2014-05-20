@@ -1,4 +1,5 @@
 build/
+test/classes/
 work/src/OJB-logging.properties
 work/src/OJB-repository.xml
 work/src/OJB.properties

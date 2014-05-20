@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,20 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import java.lang.reflect.Method;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
+import org.kuali.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl;
+import org.kuali.kfs.module.purap.fixture.PaymentRequestDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -39,11 +45,12 @@ public class PaymentRequestServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
 
     private DocumentService documentService;
-    // private PaymentRequestDocument document;
     private KualiDecimal defaultMinimumLimit;
     private ParameterService parameterService;
     private NegativePaymentRequestApprovalLimitService npras;
     private PaymentRequestService paymentRequestService;
+    private PaymentRequestDocumentTest preqDocTest;
+    private PaymentRequestDao paymentRequestDao;
 
     @Override
     public void setUp() throws Exception {
@@ -62,128 +69,92 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         if (null == paymentRequestService) {
             paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
         }
+        if (null == preqDocTest) {
+            preqDocTest = new PaymentRequestDocumentTest();
+        }
+        if (null == paymentRequestDao) {
+            paymentRequestDao = SpringContext.getBean(PaymentRequestDao.class);;
+        }
+
     }
 
     private void cancelDocument(Document document) throws WorkflowException {
         documentService.cancelDocument(document, "testing complete");
     }
 
-    private void header(Document document) {
-        document.getDocumentHeader().setDocumentDescription("test");
+    private PaymentRequestDocument createBasicDocument() throws Exception {
+        return createBasicDocument(preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED,false));
     }
 
-    private PaymentRequestDocument createBasicDocument() throws WorkflowException {
+    private PaymentRequestDocument createBasicDocument(PurchaseOrderDocument po) throws Exception {
+        PaymentRequestDocument preq = preqDocTest.createPaymentRequestDocument(
+                PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED,
+                po,
+                true, new KualiDecimal[] {new KualiDecimal(100)});
 
-        RequisitionDocument requisitionDocument = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);
-        requisitionDocument.initiateDocument();
-        header(requisitionDocument);
-        documentService.saveDocument(requisitionDocument);
-        requisitionDocument.refreshNonUpdateableReferences();
-
-        PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocument.class);
-        purchaseOrderDocument.populatePurchaseOrderFromRequisition(requisitionDocument);
-        header(purchaseOrderDocument);
-        documentService.saveDocument(purchaseOrderDocument);
-        purchaseOrderDocument.refreshNonUpdateableReferences();
-
-        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
-        Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        // paymentRequestDocument.initiateDocument();
-        paymentRequestDocument.setInvoiceDate(today);
-        paymentRequestDocument.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);// IN_PROCESS);
-        paymentRequestDocument.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
-        purchaseOrderDocument.setPurchaseOrderCreateTimestamp(new Timestamp(today.getTime()));
-        // purchaseOrderDocument.setDefaultValuesForAPO();
-        // purchaseOrderDocument.setP
-
-        paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
-        header(paymentRequestDocument);
-        documentService.saveDocument(paymentRequestDocument);
-        paymentRequestDocument.refreshNonUpdateableReferences();
-
-        // paymentRequestDocument.setPurchaseOrderIdentifier(1);
-        // paymentRequestDocument.setInvoiceDate(today);
-        // Person currentUser = (Person)GlobalVariables.getUserSession().getKfsUser();
-        // paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
-        // paymentRequestDocument.getDocumentHeader().setDocumentDescription("test description");
-
-        // PurchaseOrderDocument purchaseOrderDocument =
-        // SpringContext.getBean(DocumentService.class).getNewDocument(PurchaseOrderDocument.class);
-        // purchaseOrderDocument.getDocumentHeader().setDocumentDescription("test");
-        // documentService.saveDocument(purchaseOrderDocument);
-        //        
-        // paymentRequestDocument.setPurchaseOrderDocument(purchaseOrderDocument);
-        // Integer poid = purchaseOrderDocument.getPurapDocumentIdentifier();
-        // paymentRequestDocument.setPurchaseOrderIdentifier(poid);
-        // documentService.saveDocument(paymentRequestDocument);
-        return paymentRequestDocument;
+        return preq;
     }
 
-    @ConfigureContext(session = UserNameFixture.appleton)
-    public void testFoo() throws Exception {
-        // PaymentRequestDocument document = createBasicDocument();
-        // boolean isApprovalRequested = document.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
-        // documentService.routeDocument(document, "", new ArrayList());
-        // document.setChartOfAccountsCode("BA");
-        // //changeCurrentUser(UserNameFixture.khuntley);
-        // boolean approved = SpringContext.getBean(PaymentRequestService.class).autoApprovePaymentRequest(document,
-        // defaultMinimumLimit);
-        // Map map = GlobalVariables.getMessageMap();
-        // boolean breakonme = approved;
+    public void testGetPaymentRequestDocNumberForAutoApprove() throws Exception {
+        Date todayAtMidnight = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
+
+        PaymentRequestDocument preqShouldAutoApprove = createBasicDocument();
+        preqShouldAutoApprove.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW);
+        preqShouldAutoApprove.setPaymentRequestPayDate(todayAtMidnight);
+        documentService.saveDocument(preqShouldAutoApprove);
+        String docIdShouldAutoApprove = preqShouldAutoApprove.getDocumentNumber();
+
+        PaymentRequestDocument preqShouldNotAutoApprove = createBasicDocument();
+        preqShouldNotAutoApprove.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+        preqShouldNotAutoApprove.setPaymentRequestPayDate(todayAtMidnight);
+        documentService.saveDocument(preqShouldNotAutoApprove);
+        String docIdShouldNotAutoApprove = preqShouldNotAutoApprove.getDocumentNumber();
+
+        PaymentRequestServiceImpl prsi = new PaymentRequestServiceImpl();
+        prsi.setDateTimeService(SpringContext.getBean(DateTimeService.class));
+        prsi.setPaymentRequestDao(SpringContext.getBean(PaymentRequestDao.class));
+
+        Method method = PaymentRequestServiceImpl.class.getDeclaredMethod("getPaymentRequestDocNumberForAutoApprove", null);
+        method.setAccessible(true);
+        List<String> docIds = (List<String>) method.invoke(prsi, null);
+
+
+        assertTrue(docIds.contains(docIdShouldAutoApprove));
+        assertTrue(!docIds.contains(docIdShouldNotAutoApprove));
     }
 
-    /**
-     * Payment requests with a negative payment request approval limit higher than the default limit should be auto-approved.
-     * 
-     * @throws Exception
-     */
-    public void testAutoApprovePaymentRequests_defaultLimit() throws Exception {
+    public void testGetPaymentRequestsByStatusAndPurchaseOrderId() throws Exception {
 
-        // (laran) This is just sample code that doesn't really do anything.
-        // I was trying to come up with a good testing strategy. This code
-        // probably shouldn't be used for real tests. But it may be helpful to
-        // look at.
-        /*
-         * Collection<NegativePaymentRequestApprovalLimit> notOverriddenByChart = new HashSet<NegativePaymentRequestApprovalLimit>();
-         * Collection<NegativePaymentRequestApprovalLimit> limits = npras.findAboveLimit(defaultMinimumLimit);
-         * for(NegativePaymentRequestApprovalLimit limit : limits) { LOG.info("Creating PayReq for limit."); PaymentRequestDocument
-         * document = createBasicDocument(); PurchasingApItem item = new PaymentRequestItem(); item.setItemQuantity(new
-         * KualiDecimal(1)); // Set the total for this document below the default minimum. // item.setItemUnitPrice(new
-         * BigDecimal(defaultMinimumLimit.intValue() - 1)); document.addItem(item); String preSaveStatusCode =
-         * document.getStatusCode(); paymentRequestService.autoApprovePaymentRequests(); // Status should have changed if document
-         * was approved. LOG.info("Pre-save status code is " + preSaveStatusCode + ". Post-save status code is " +
-         * document.getStatusCode()); assertNotSame(preSaveStatusCode, document.getStatusCode()); cancelDocument(document); }
-         */
-    }
+        Map <String, String> result = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(
+                PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS, 0);
+        assertEquals("N", result.get("hasInProcess"));
+        assertEquals("N", result.get("checkInProcess"));
 
-    /**
-     * When the chart negative payment request approval limit is lower than the default limit, and lower than the limit according to
-     * (chart + account) and the limit according to (chart and org) the payreq should be auto-approved.
-     * 
-     * @throws Exception
-     */
-    public void testAutoApprovePaymentRequests_chartLimit() throws Exception {
-    }
+        PaymentRequestDocument preq2 = createBasicDocument();
+        preq2.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+        documentService.saveDocument(preq2);
 
-    /**
-     * When the (chart+account) negative payment request approval limit is lower than the default limit, and lower than the limit
-     * according to chart and the limit according to (chart and org) the payreq should be auto-approved.
-     * 
-     * @throws Exception
-     */
-    public void testAutoApprovePaymentRequests_chartAndAccountLimit() throws Exception {
-    }
+        result = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(
+                PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS, preq2.getPurchaseOrderIdentifier());
+        assertEquals("Y", result.get("hasInProcess"));
+        assertEquals("N", result.get("checkInProcess"));
 
-    public void testAutoApprovePaymentRequests_chartAndOrganizationLimit() throws Exception {
-    }
+        PaymentRequestDocument preq1 = createBasicDocument(preq2.getPurchaseOrderDocument());
+        preq1.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW);
+        documentService.saveDocument(preq1);
 
-    public void testAutoApprovePaymentRequests_held() throws Exception {
-    }
+        result = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(
+                PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS, preq2.getPurchaseOrderIdentifier());
+        assertEquals("Y", result.get("hasInProcess"));
+        assertEquals("Y", result.get("checkInProcess"));
 
-    public void testAutoApprovePaymentRequests_cancelled() throws Exception {
-    }
+        preq2.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW);
+        documentService.saveDocument(preq2);
 
-    public void testAutoApprovePaymentRequests_futurePayDate() throws Exception {
+        result = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(
+                PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS, preq2.getPurchaseOrderIdentifier());
+        assertEquals("N", result.get("hasInProcess"));
+        assertEquals("Y", result.get("checkInProcess"));
     }
 
 }

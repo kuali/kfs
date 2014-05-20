@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
@@ -192,8 +194,10 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public List<String> getEligibleForAutoApproval(Date todayAtMidnight) {
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
-        criteria.addNotEqualTo("holdIndicator", "Y");
-        criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
+        criteria.addEqualTo("holdIndicator", "N");
+        criteria.addEqualTo("paymentRequestedCancelIndicator", "N");
+        criteria.addIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS,
+                Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
 
         List<String> returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
 
@@ -355,7 +359,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
-        
+
     }
     @Override
     public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {

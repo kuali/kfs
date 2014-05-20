@@ -83,7 +83,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String analystTelephoneNumber;
     private String preferredBillingFrequency;
     private String awardProjectTitle;
-    private String awardCommentText;
     private String awardPurposeCode;
     private boolean active;
     private String kimGroupNames;
@@ -111,9 +110,9 @@ public class Award implements ContractsAndGrantsBillingAward {
     private ContractsAndGrantsProjectDirector awardPrimaryProjectDirector;
     private ContractsAndGrantsOrganization primaryAwardOrganization;
     private Date fundingExpirationDate;
-    private String commentText;
     private String dunningCampaign;
     private boolean stopWorkIndicator;
+    private String stopWorkReason;
 
     /**
      * Default no-args constructor.
@@ -540,15 +539,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getAwardCommentText() {
-        return awardCommentText;
-    }
-
-    public void setAwardCommentText(String awardCommentText) {
-        this.awardCommentText = awardCommentText;
-    }
-
-    @Override
     public String getAwardPurposeCode() {
         return awardPurposeCode;
     }
@@ -709,6 +699,7 @@ public class Award implements ContractsAndGrantsBillingAward {
         return letterOfCreditFund;
     }
 
+    @Override
     public void setLetterOfCreditFund(ContractsAndGrantsLetterOfCreditFund letterOfCreditFund) {
         this.letterOfCreditFund = letterOfCreditFund;
     }
@@ -768,15 +759,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public String getCommentText() {
-        return commentText;
-    }
-
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
-    }
-
-    @Override
     public String getDunningCampaign() {
         return dunningCampaign;
     }
@@ -792,6 +774,15 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     public void setStopWorkIndicator(boolean stopWorkIndicator) {
         this.stopWorkIndicator = stopWorkIndicator;
+    }
+
+    @Override
+    public String getStopWorkReason() {
+        return stopWorkReason;
+    }
+
+    public void setStopWorkReason(String stopWorkReason) {
+        this.stopWorkReason = stopWorkReason;
     }
 
     @Override

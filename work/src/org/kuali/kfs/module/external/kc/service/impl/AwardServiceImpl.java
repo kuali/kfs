@@ -171,7 +171,6 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         award.setAwardStatusCode(kcAward.getAwardStatusCode());
         award.setAgencyNumber(kcAward.getSponsorCode());
         award.setAwardTitle(kcAward.getTitle());
-        award.setAwardCommentText(kcAward.getAwardCommentText());
         award.setAgency(new Agency(kcAward.getSponsor()));
         if (kcAward.getProposal() != null) {
             award.setProposal(new Proposal(kcAward.getProposal()));
@@ -182,7 +181,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         award.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
         award.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
         award.setStopWorkIndicator(kcAward.isStopWork());
-        award.setCommentText(kcAward.getStopWorkReason());
+        award.setStopWorkReason(kcAward.getStopWorkReason());
         award.setInvoicingOptions(kcAward.getInvoicingOption());
         award.setDunningCampaign(kcAward.getDunningCampaignId());
         if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {

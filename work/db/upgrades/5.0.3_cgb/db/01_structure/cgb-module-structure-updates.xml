@@ -196,13 +196,13 @@
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)" />
 			<column name="AUTO_APP" type="varchar(1)" />
 			<column name="FUNDING_EXP_DT" type="datetime" />
-			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />
 			<column name="CG_INV_OPT" type="varchar(120)" />
 			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
 			<column name="SUSP_REASON_TXT" type="VARCHAR(255)" defaultValue="" />
 			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />
 			<column name="CMPGN_ID" type="varchar(4)" />
 			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
+			<column name="STOP_WRK_REASON_TXT" type="varchar(120)" />
 		</addColumn>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -1590,4 +1590,9 @@
     	<modifyDataType columnName="CG_AGENCY_NBR" newDataType="varchar(6)" tableName="CM_CPTLAST_T"/>
     	<modifyDataType columnName="NEXT_CG_AGENCY_NBR" newDataType="varchar(6)" tableName="FS_ORIGIN_CODE_T"/>
 	</changeSet>
+
+	<changeSet author="KFSCGB" id="KFSTP1160_REMOVE_UNUSED_COMMENTS_FIELD_FROM_FROM_AWARD">
+		<dropColumn tableName="CG_AWD_T" columnName="CGAWD_COMMENT_TXT" />	
+	</changeSet>
+
 </databaseChangeLog>

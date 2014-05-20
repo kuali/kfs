@@ -95,6 +95,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkFederalPassThrough();
         success &= checkSuspendedAwardInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+        success &= checkStopWorkReason();
         if(contractsGrantsBillingEnhancementsInd){
             success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
             success &= checkInvoicingOptions();
@@ -618,4 +619,22 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
         return success;
     }
+
+    /**
+     * This method checks if the Stop Work Reason has been entered if the Stop Work flag has been checked.
+     *
+     * @return true if Stop Work flag hasn't been checked, or if it has been checked and the Stop Work Reason has been entered,
+     * false otherwise
+     */
+    protected boolean checkStopWorkReason() {
+        boolean success = true;
+        if (newAwardCopy.isStopWorkIndicator()) {
+            if (StringUtils.isBlank(newAwardCopy.getStopWorkReason())) {
+                success = false;
+                putFieldError(KFSPropertyConstants.STOP_WORK_REASON, KFSKeyConstants.ERROR_STOP_WORK_REASON_REQUIRED);
+            }
+        }
+        return success;
+    }
+
 }

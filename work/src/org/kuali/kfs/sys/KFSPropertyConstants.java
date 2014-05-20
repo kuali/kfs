@@ -1106,6 +1106,7 @@ public class KFSPropertyConstants {
     public static final String STATE = "state";
     public static final String STATE_CODE = "stateCode";
     public static final String STATE_INCOME_TAX_PERCENT = "stateIncomeTaxPercent";
+    public static final String STOP_WORK_REASON = "stopWorkReason";
     public static final String SUB_ACCOUNT = "subAccount";
     public static final String SUB_ACCOUNT_ACTIVE_INDICATOR = "active";
     public static final String SUB_ACCOUNT_NAME = "subAccountName";

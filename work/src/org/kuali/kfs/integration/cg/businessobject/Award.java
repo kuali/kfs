@@ -90,7 +90,6 @@ public class Award implements ContractsAndGrantsBillingAward {
 
 
     private String awardProjectTitle;
-    private String awardCommentText;
     private String awardPurposeCode;
     private boolean active;
     private String kimGroupNames;
@@ -125,8 +124,8 @@ public class Award implements ContractsAndGrantsBillingAward {
 
 
     private Date fundingExpirationDate;
-    private String commentText;
     private boolean stopWorkIndicator;
+    private String stopWorkReason;
     private String dunningCampaign;
 
 
@@ -826,27 +825,6 @@ public class Award implements ContractsAndGrantsBillingAward {
 
 
     /**
-     * Gets the awardCommentText attribute.
-     *
-     * @return Returns the awardCommentText.
-     */
-    @Override
-    public String getAwardCommentText() {
-        return awardCommentText;
-    }
-
-
-    /**
-     * Sets the awardCommentText attribute value.
-     *
-     * @param awardCommentText The awardCommentText to set.
-     */
-    public void setAwardCommentText(String awardCommentText) {
-        this.awardCommentText = awardCommentText;
-    }
-
-
-    /**
      * Gets the awardPurposeCode attribute.
      *
      * @return Returns the awardPurposeCode.
@@ -1280,6 +1258,7 @@ public class Award implements ContractsAndGrantsBillingAward {
      *
      * @param letterOfCreditFund The letterOfCreditFund to set.
      */
+    @Override
     public void setLetterOfCreditFund(ContractsAndGrantsLetterOfCreditFund letterOfCreditFund) {
         this.letterOfCreditFund = letterOfCreditFund;
     }
@@ -1398,25 +1377,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     /**
-     * Gets the commentText attribute.
-     *
-     * @return Returns the commentText.
-     */
-    @Override
-    public String getCommentText() {
-        return commentText;
-    }
-
-    /**
-     * Sets the commentText attribute value.
-     *
-     * @param commentText The commentText to set.
-     */
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
-    }
-
-    /**
      * Sets the proposal attribute value.
      *
      * @param proposal The proposal to set.
@@ -1472,6 +1432,14 @@ public class Award implements ContractsAndGrantsBillingAward {
      */
     public void setStopWorkIndicator(boolean stopWorkIndicator) {
         this.stopWorkIndicator = stopWorkIndicator;
+    }
+
+    public String getStopWorkReason() {
+        return stopWorkReason;
+    }
+
+    public void setStopWorkReason(String stopWorkReason) {
+        this.stopWorkReason = stopWorkReason;
     }
 
     /**

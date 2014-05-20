@@ -269,13 +269,6 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getAwardProjectTitle();
 
     /**
-     * Gets the awardCommentText attribute.
-     *
-     * @return Returns the awardCommentText.
-     */
-    public String getAwardCommentText();
-
-    /**
      * Gets the awardPurposeCode attribute.
      *
      * @return Returns the awardPurposeCode.
@@ -482,13 +475,6 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public Date getFundingExpirationDate();
 
     /**
-     * Gets the commentText attribute.
-     *
-     * @return Returns the commentText.
-     */
-    public String getCommentText();
-
-    /**
      * Gets the activeAwardInvoiceAccounts attribute.
      *
      * @return Returns the activeAwardInvoiceAccounts.
@@ -503,10 +489,16 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getDunningCampaign();
 
     /**
-     * Gets stopWork attribute.
+     * Gets stopWork indicator.
      *
-     * @return Returns the stopWork.
+     * @return Returns the stopWork indicator.
      */
     public boolean isStopWorkIndicator();
 
+    /**
+     * Gets stop work reason.
+     *
+     * @return Returns the stop work reason.
+     */
+    public String getStopWorkReason();
 }

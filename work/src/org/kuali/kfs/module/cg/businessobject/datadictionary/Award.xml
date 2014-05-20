@@ -63,7 +63,6 @@
 				<ref bean="Award-awardBeginningDate" />
 				<ref bean="Award-lastBilledDate" />
 				<ref bean="Award-awardClosingDate" />
-				<ref bean="Award-awardCommentText" />
 				<ref bean="Award-awardCreateTimestamp" />
 				<ref bean="Award-awardDirectCostAmount" />
 				<ref bean="Award-awardDocumentNumber" />
@@ -97,9 +96,9 @@
 				<ref bean="Award-invoicingOptions" />
 				<ref bean="Award-autoApproveIndicator" />
 				<ref bean="Award-fundingExpirationDate" />
-				<ref bean="Award-commentText" />
 				<ref bean="Award-dunningCampaign" />
 				<ref bean="Award-stopWorkIndicator" />
+				<ref bean="Award-stopWorkReason" />
 				<ref bean="Award-active" />
 			</list>
 		</property>
@@ -615,21 +614,6 @@
 		<property name="label" value="Close Date" />
 		<property name="shortLabel" value="Close" />
 	</bean>
-	<bean id="Award-awardCommentText" parent="Award-awardCommentText-parentBean" />
-
-	<bean id="Award-awardCommentText-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="awardCommentText" />
-		<property name="label" value="Comments" />
-		<property name="shortLabel" value="Comments" />
-		<property name="maxLength" value="250" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="80" />
-		</property>
-	</bean>
 	<bean id="Award-awardCreateTimestamp" parent="Award-awardCreateTimestamp-parentBean" />
 
 	<bean id="Award-awardCreateTimestamp-parentBean" abstract="true"
@@ -1018,26 +1002,6 @@
 		<property name="shortLabel" value="Funding Expiration" />
 	</bean>
 
-	<bean id="Award-commentText" parent="Award-commentText-parentBean" />
-
-	<bean id="Award-commentText-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="forceUppercase" value="false" />
-		<property name="shortLabel" value="Comment Text" />
-		<property name="maxLength" value="800" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextareaControlDefinition" p:cols="50" p:rows="3" />
-		</property>
-		<property name="summary" value="&amp;nbsp;" />
-		<property name="name" value="commentText" />
-		<property name="label" value="Comment" />
-		<property name="description" value="A free-form text field for a comment." />
-	</bean>
-
 	<bean id="Award-dunningCampaign" parent="Award-dunningCampaign-parentBean" />
 
 	<bean id="Award-dunningCampaign-parentBean" abstract="true"
@@ -1065,6 +1029,22 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 	</bean>
+
+	<bean id="Award-stopWorkReason" parent="Award-stopWorkReason-parentBean" />
+
+	<bean id="Award-stopWorkReason-parentBean" abstract="true"
+		parent="AttributeDefinition">
+    	<property name="name" value="stopWorkReason"/>
+    	<property name="label" value="Stop Work Reason"/>
+    	<property name="shortLabel" value="stopWorkReason"/>
+    	<property name="maxLength" value="120"/>
+    	<property name="validationPattern">
+      		<ref bean="AnyCharacterWithWhitespaceValidation" />
+    	</property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="2" p:cols="60" />
+		</property>
+  	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -1112,7 +1092,6 @@
 							<bean parent="FieldDefinition" p:attributeName="agencyAnalystName" />
 							<bean parent="FieldDefinition" p:attributeName="analystTelephoneNumber" />
 							<bean parent="FieldDefinition" p:attributeName="awardDocumentNumber" />
-							<bean parent="FieldDefinition" p:attributeName="awardCommentText" />
 							<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
@@ -1165,6 +1144,8 @@
 							<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 							<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
+							<bean parent="FieldDefinition" p:attributeName="stopWorkIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="stopWorkReason" />
 						</list>
 					</property>
 				</bean>

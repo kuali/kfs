@@ -386,7 +386,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign" />
 				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="commentText" />				
+				<bean parent="MaintainableFieldDefinition" p:name="stopWorkReason" />				
 			</list>
 		</property>
 	</bean>

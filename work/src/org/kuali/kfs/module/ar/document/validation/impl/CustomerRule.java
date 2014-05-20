@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -29,18 +28,18 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.AutoPopulatingList;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerRule.class);
@@ -50,7 +49,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method initializes the old and new customer
-     * 
+     *
      * @param document
      */
     protected void initializeAttributes(MaintenanceDocument document) {
@@ -95,6 +94,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                 isValid &= checkNameIsValidLength(newCustomer.getCustomerName());
             }
 
+            if (isValid) {
+                isValid &= checkStopWorkReason();
+            }
+
             // TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation,
             // unless there's some reason not clear why it needs to happen here.
             if (isValid && document.isNew() && StringUtils.isBlank(newCustomer.getCustomerNumber())) {
@@ -107,7 +110,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method sets the new customer number
-     * 
+     *
      * @return Returns true if the customer number is set successfully, false otherwise.
      */
     protected boolean setCustomerNumber() {
@@ -132,7 +135,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks if the new customer has at least one address
-     * 
+     *
      * @param newCustomer the new customer
      * @return true is the new customer has at least one address, false otherwise
      */
@@ -186,14 +189,17 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                             endDate = customer.getCustomerAddresses().get(i).getCustomerAddressEndDate();
                             // check if endDate qualifies this customer address as inactive (if endDate is a passed date or present
                             // date)
-                            if (!checkEndDateIsValid(endDate, false))
+                            if (!checkEndDateIsValid(endDate, false)) {
                                 customer.getCustomerAddresses().get(i).setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
-                            else
+                            }
+                            else {
                                 isActivePrimaryAddress = true;
+                            }
                         }
                     }
-                    if (!isActivePrimaryAddress)
+                    if (!isActivePrimaryAddress) {
                         customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+                    }
                 }
             }
         }
@@ -205,7 +211,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     /**
      * This method checks if customer end date is valid: 1. if a new address is being added, customer end date must be a future date
      * 2. if inactivating an address, customer end date must be current or future date
-     * 
+     *
      * @param endDate
      * @param canBeTodaysDateFlag
      * @return True if endDate is valid.
@@ -213,8 +219,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean checkEndDateIsValid(Date endDate, boolean canBeTodaysDateFlag) {
         boolean isValid = true;
 
-        if (ObjectUtils.isNull(endDate))
+        if (ObjectUtils.isNull(endDate)) {
             return isValid;
+        }
 
         Timestamp today = dateTimeService.getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
@@ -252,7 +259,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         // 2. todays date -> makes address inactive
         // 3. future date
         // 4. if end date is a passed date AND it hasn't been updated <=> oldEndDate = newEndDate
-        // 
+        //
         // invalid end date for an existing customer address
         // 1. if end date is a passed date AND it has been updated <=> oldEndDate != newEndDate
         if (!isValid) {
@@ -272,7 +279,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     /**
      * This method checks if the customer name entered is greater than or equal to three (3) characters long. This rule was
      * implemented to ensure that there are three characters available from the name to be used as a the customer code.
-     * 
+     *
      * @param customerName The name of the customer.
      * @return True if the name is greater than or equal to 3 characters long.
      */
@@ -292,7 +299,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks if the address is valid
-     * 
+     *
      * @param customerAddress
      * @return true if valid, false otherwise
      */
@@ -357,7 +364,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks if the customer addresses are valid: has one and only one primary address
-     * 
+     *
      * @param customer
      * @return true if valid, false otherwise
      */
@@ -404,14 +411,16 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(), i);
             i++;
         }
-        if (GlobalVariables.getMessageMap().getErrorCount() > 0)
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             isValid = false;
+        }
 
         if (isValid) {
             i = 0;
             for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
-                if (customerAddress.getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressEndDate()))
+                if (customerAddress.getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressEndDate())) {
                     isValid &= checkIfPrimaryAddressActive(customerAddress.getCustomerAddressEndDate(), i);
+                }
                 i++;
             }
         }
@@ -433,7 +442,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks if tax number is entered when tax number is required
-     * 
+     *
      * @param customer
      * @return true if tax number is required and tax number is entered or if tax number is not required, false if tax number
      *         required and tax number not entered
@@ -452,7 +461,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks if tax number is required
-     * 
+     *
      * @return true if tax number is required, false otherwise
      */
     public boolean isTaxNumberRequired() {
@@ -460,8 +469,26 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         if (paramExists) {
             return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
         }
-        else
+        else {
             return false;
+        }
+    }
+
+    /**
+     * This method checks if the Stop Work Reason has been entered if the Stop Work flag has been checked.
+     *
+     * @return true if Stop Work flag hasn't been checked, or if it has been checked and the Stop Work Reason has been entered,
+     * false otherwise
+     */
+    protected boolean checkStopWorkReason() {
+        boolean success = true;
+        if (newCustomer.isStopWorkIndicator()) {
+            if (StringUtils.isBlank(newCustomer.getStopWorkReason())) {
+                success = false;
+                putFieldError(KFSPropertyConstants.STOP_WORK_REASON, KFSKeyConstants.ERROR_STOP_WORK_REASON_REQUIRED);
+            }
+        }
+        return success;
     }
 
 }

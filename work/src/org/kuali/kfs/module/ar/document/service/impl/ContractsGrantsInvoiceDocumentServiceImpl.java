@@ -3442,7 +3442,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
             parameterMap.put("award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
             parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
-            parameterMap.put("award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
             parameterMap.put("award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));
             parameterMap.put("award.active", convertBooleanValue(award.isActive()));
             parameterMap.put("award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
@@ -3459,7 +3458,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
             parameterMap.put("award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
             parameterMap.put("award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
-            parameterMap.put("award.commentText", returnProperStringValue(award.getCommentText()));
+            parameterMap.put("award.stopWorkIndicator", returnProperStringValue(award.isStopWorkIndicator()));
+            parameterMap.put("award.stopWorkReason", returnProperStringValue(award.getStopWorkReason()));
             parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
             parameterMap.put("award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
             if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {

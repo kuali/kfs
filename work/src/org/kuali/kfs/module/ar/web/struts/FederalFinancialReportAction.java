@@ -31,7 +31,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
-import org.kuali.kfs.module.ar.service.FederalFinancialReportService;
+import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;

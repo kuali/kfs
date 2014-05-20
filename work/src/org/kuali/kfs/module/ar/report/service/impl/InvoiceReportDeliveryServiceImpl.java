@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.service.impl;
+package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -38,7 +38,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
-import org.kuali.kfs.module.ar.service.InvoiceReportDeliveryService;
+import org.kuali.kfs.module.ar.report.service.InvoiceReportDeliveryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;

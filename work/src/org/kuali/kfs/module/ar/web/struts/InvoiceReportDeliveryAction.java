@@ -37,7 +37,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
-import org.kuali.kfs.module.ar.service.InvoiceReportDeliveryService;
+import org.kuali.kfs.module.ar.report.service.InvoiceReportDeliveryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;

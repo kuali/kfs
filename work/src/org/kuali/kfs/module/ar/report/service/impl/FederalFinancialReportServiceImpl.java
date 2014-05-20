@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.service.impl;
+package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
-import org.kuali.kfs.module.ar.service.FederalFinancialReportService;
+import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 

@@ -261,6 +261,8 @@ public class ArKeyConstants {
         public static final String ERROR_DOCUMENT_GLPE_GENERATION_FAILED = "error.document.glpe.generation.failed";
         public static final String ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID = "error.document.amount.to.draw.invalid";
         public static final String ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE = "error.document.email.address.required";
+        public static final String ERROR_TRANSMISSION_CODE_REQUIRED = "error.document.transmission.code.required";
+        public static final String ERROR_TEMPLATE_REQUIRED = "error.document.template.code.required";
     }
 
     // Final Billed Indicator Error

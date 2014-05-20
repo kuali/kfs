@@ -39,10 +39,58 @@ public class ContractsGrantsInvoiceDocumentValidation extends GenericValidation 
 
         boolean isValid = true;
 
+        if (!hasEmailAddress()) {
+            isValid = false;
+        }
+        if (!hasTrasmissionCode()) {
+            isValid = false;
+        }
+        if (!hasTemplate()) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private boolean hasEmailAddress() {
+        boolean isValid = true;
+
         int i = 0;
         for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
             if (StringUtils.isNotBlank(address.getInvoiceTransmissionMethodCode()) && address.getInvoiceTransmissionMethodCode().equals(ArConstants.InvoiceTransmissionMethod.EMAIL) && StringUtils.isBlank(address.getCustomerEmailAddress()) ) {
                 GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerEmailAddress", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE);
+                isValid = false;
+            }
+            i++;
+        }
+
+        return isValid;
+    }
+
+    private boolean hasTrasmissionCode() {
+
+        boolean isValid = true;
+
+        int i = 0;
+        for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
+            if ( address.getCustomerAddressTypeCode().equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE) && StringUtils.isBlank(address.getInvoiceTransmissionMethodCode()) ) {
+                GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].invoiceTransmissionMethodCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TRANSMISSION_CODE_REQUIRED);
+                isValid = false;
+            }
+            i++;
+        }
+
+        return isValid;
+    }
+
+    private boolean hasTemplate() {
+
+        boolean isValid = true;
+
+        int i = 0;
+        for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
+            if ( address.getCustomerAddressTypeCode().equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE) && StringUtils.isBlank(address.getCustomerInvoiceTemplateCode()) ) {
+                GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TEMPLATE_REQUIRED);
                 isValid = false;
             }
             i++;

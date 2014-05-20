@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -42,10 +41,6 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Date paymentRequestPayDate;
     private Timestamp paymentExtractedTimestamp;
     private Timestamp paymentPaidTimestamp;
-
-    // REFERENCE OBJECTS
-    private FinancialSystemDocumentHeader documentHeader;
-
 
     // GETTERS & SETTERS
     public Object getTotalAmount() {

@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -34,7 +35,6 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Base class for Related View Business Objects.
@@ -49,6 +49,9 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     //create date from the workflow document header...
     private DateTime createDate;
+
+    // REFERENCE OBJECTS
+    protected FinancialSystemDocumentHeader documentHeader;
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
         return accountsPayablePurchasingDocumentLinkIdentifier;
@@ -158,7 +161,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
      * an api call will be added to core Rice to support this in the next release
      */
     public String getApplicationDocumentStatus() {
-        return SpringContext.getBean(FinancialSystemWorkflowHelperService.class).getApplicationDocumentStatus(documentNumber);
+        return documentHeader.getApplicationDocumentStatus();
     }
 
     public org.kuali.rice.kew.api.document.Document findWorkflowDocument(String documentId){
@@ -186,11 +189,8 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return document;
     }
 
-    public void setAppDocStatus(String appDocStatus){
-        Document document = findDocument(this.getDocumentNumber());
-        if (ObjectUtils.isNotNull(document)) {
-            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
-        }
+    public void setAppDocStatus(String applicationDocumentStatus) throws WorkflowException{
+        documentHeader.updateAndSaveAppDocStatus(applicationDocumentStatus);
     }
     /**
      * Gets the createDate attribute.

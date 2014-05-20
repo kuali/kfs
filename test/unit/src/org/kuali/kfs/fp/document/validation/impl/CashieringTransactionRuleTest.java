@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,8 +34,10 @@ import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.FpParameterConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -499,5 +501,16 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         cal.add(Calendar.DATE, 7);
         return new Date(cal.getTimeInMillis());
     }
+
+    /**
+     * Force COUNT_PER_ROLL_BY_DENOMINATION parameter to be set up exactly as the tests needed.
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        TestUtils.setSystemParameter(CoinDetail.class, FpParameterConstants.COUNT_PER_ROLL_BY_DENOMINATION, "100c=25;50c=20;25c=40;10c=50;5c=40;1c=50");
+        super.setUp();
+    }
+
 }
 

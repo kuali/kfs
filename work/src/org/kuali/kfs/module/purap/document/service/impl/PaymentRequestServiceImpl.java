@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
@@ -73,7 +72,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -88,11 +86,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -240,8 +234,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
 
-       // List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
-        List<String> docNumbers = getPaymentRequestDocNumberForAutoApprove();
+        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
+        List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
         if ( LOG.isInfoEnabled() ) {
             LOG.info(" -- Initial filtering complete, returned " + new Integer(docNumbers.size()).toString() + " docs.");
         }
@@ -252,12 +246,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
         }
 
-        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument paymentRequestDocument = getPaymentRequestByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(paymentRequestDocument) && (paymentRequestDocument.getPaymentRequestPayDate().before(todayAtMidnight) || paymentRequestDocument.getPaymentRequestPayDate().equals(todayAtMidnight))) {
+            if (ObjectUtils.isNotNull(paymentRequestDocument)) {
                 hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
             }
         }
@@ -686,6 +678,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         return paymentRequestResults;
     }
+
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
@@ -1844,183 +1837,35 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return hasActivePreqs;
     }
 
-    /**
-     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
-     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
-     *  from workflow document and filter against the provided status
-     *
-     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
-     *
-     * @param lookupDocNumbers
-     * @param appDocStatus
-     * @return
-     */
-//    protected List<String> filterPaymentRequestByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
-//        boolean valid = false;
-//
-//        final String DOC_NUM_DELIM = "|";
-//        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
-//
-//        List<String> paymentRequestDocNumbers = new ArrayList<String>();
-//
-//        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-//        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-//        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-//        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
-//
-//        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
-//
-//        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-//        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
-//
-//        for (int i = 0; i < iterations; i++) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug("Fetch Iteration: "+ i);
-//            }
-//            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
-//            }
-//            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-//                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-//            if (results.getSearchResults().isEmpty()) {
-//                break;
-//            }
-//            for (DocumentSearchResult resultRow: results.getSearchResults()) {
-//                paymentRequestDocNumbers.add(resultRow.getDocument().getDocumentId());
-//            }
-//        }
-//
-//        return paymentRequestDocNumbers;
-//    }
-
+    @Deprecated
     protected List<String> getPaymentRequestDocNumberForAutoApprove() {
-        boolean valid = false;
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-
-        List<String> paymentRequestDocNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
-        documentSearchCriteriaDTO.addDocumentAttributeValue(PurapPropertyConstants.HOLD_INDICATOR_FOR_SEARCHING, "N");
-        documentSearchCriteriaDTO.addDocumentAttributeValue(PurapPropertyConstants.PAYMENT_REQUEST_CANCEL_INDICATOR_FOR_SEARCHING, "N");
-
-        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
-
-        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
-        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
-
-        for (int i = 0; i < iterations; i++) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Fetch Iteration: "+ i);
-            }
-
-            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
-            crit = documentSearchCriteriaDTO.build();
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
-            }
-
-            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
-            if (results.getSearchResults().isEmpty()) {
-                break;
-            }
-            for (DocumentSearchResult resultRow: results.getSearchResults()) {
-                paymentRequestDocNumbers.add(resultRow.getDocument().getDocumentId());
-            }
-        }
-
-
-
-        return paymentRequestDocNumbers;
+        return paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
     }
 
     /**
-     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
-     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
-     *  from workflow document and filter against the provided status
-     *
-     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
-     *
-     * @param include
-     * @param lookupDocNumbers
-     * @param appDocStatus
-     * @return a list of document numbers matching application document status based on
-     */
-//    protected List<String> filterPaymentRequestByAppDocStatus(boolean include, List<String> lookupDocNumbers, String... appDocStatus) {
-//        boolean valid = false;
-//
-//        final String DOC_NUM_DELIM = "|";
-//        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
-//
-//        List<String> paymentRequestDocNumbers = new ArrayList<String>();
-//
-//        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-//        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-//        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-//
-//        //we are passing blank value for principal id since we do not want to
-//        //save the search results.
-//        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-//                "", documentSearchCriteriaDTO.build());
-//
-//        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
-//            ///use the appDocStatus from the KeyValueDTO result to look up custom status
-//            if (include) {
-//                if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-//                    //found the matching status, retrieve the routeHeaderId and add to the list
-//                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
-//                }
-//            } else {
-//                if (!Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-//                    //found the matching status, retrieve the routeHeaderId and add to the list
-//                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
-//                }
-//            }
-//        }
-//
-//        return paymentRequestDocNumbers;
-//    }
-
-
-    /**
-     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
-     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
-     *  from workflow document and filter against the provided status
-     *
-     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     *  Filter the results by application doc status
      *
      * @param lookupDocNumbers
      * @param appDocStatus
      * @return a list of document numbers matching application document status based on
      */
-    protected void filterPaymentRequestByAppDocStatus(Map<String, String> paymentRequestResults, List<String> lookupDocNumbers, String... appDocStatus) {
-        boolean valid = false;
-
-        final String DOC_NUM_DELIM = "|";
-        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
-
+    protected void filterPaymentRequestByAppDocStatus(Map<String, String> paymentRequestResults, List<String> lookupDocNumbers, String... applicationDocumentStatus) {
         List<String> paymentRequestDocNumbersInclude = new ArrayList<String>();
         List<String> paymentRequestDocNumbersExclude = new ArrayList<String>();
 
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-
-        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                "", documentSearchCriteriaDTO.build());
-
-        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
-            ///use the appDocStatus from the KeyValueDTO result to look up custom status
-            if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-                //found the matching status, retrieve the routeHeaderId and add to the list
-                paymentRequestDocNumbersInclude.add(reqDocument.getDocument().getDocumentId());
-            } else {
-                    paymentRequestDocNumbersExclude.add(reqDocument.getDocument().getDocumentId());
+        for (String docId : lookupDocNumbers) {
+            try {
+                PaymentRequestDocument preq = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
+                if(Arrays.asList(applicationDocumentStatus).contains(preq.getApplicationDocumentStatus())) {
+                    paymentRequestDocNumbersInclude.add(docId);
+                } else {
+                    paymentRequestDocNumbersExclude.add(docId);
                 }
+            }
+            catch (WorkflowException ex) {
+                LOG.warn( "Error retrieving doc for doc #" + docId + ". This shouldn't happen.", ex );
+            }
         }
 
         if (!paymentRequestDocNumbersInclude.isEmpty()) {

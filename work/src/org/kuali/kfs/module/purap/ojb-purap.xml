@@ -3353,6 +3353,11 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView" table="PUR_RCVNG_COR_T">
@@ -3360,6 +3365,10 @@
     <field-descriptor name="lineItemReceivingDocumentNumber" column="RCVNG_LN_FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+    
+     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>  
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.BulkReceivingView" table="PUR_BLK_RCVNG_T">
@@ -3368,6 +3377,10 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="deliveryBuildingOtherIndicator" column="DLVY_BLDG_OTHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionView" table="PUR_REQS_T">
@@ -3375,6 +3388,10 @@
     <field-descriptor name="purapDocumentIdentifier" column="REQS_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+    
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectView" table="AP_ELCTRNC_INV_RJT_DOC_T">
@@ -3384,6 +3401,10 @@
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+    
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderView" table="PUR_PO_T">
@@ -3396,6 +3417,11 @@
     <field-descriptor name="vendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="recurringPaymentEndDate" column="PO_END_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="purchaseOrderInitialOpenTimestamp" column="PO_INIT_OPEN_DT" jdbc-type="TIMESTAMP"/>
+    
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestView" table="AP_PMT_RQST_T">

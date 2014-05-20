@@ -32,10 +32,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
-import org.springframework.transaction.annotation.Transactional;
 
 @ConfigureContext
-@Transactional
 public class TravelAuthorizationServiceTest extends KualiTestBase {
 
     private TravelAuthorizationService taService;

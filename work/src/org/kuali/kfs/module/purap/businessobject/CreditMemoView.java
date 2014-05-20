@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.krad.bo.Note;
@@ -38,10 +37,6 @@ public class CreditMemoView extends AbstractRelatedView {
     private Timestamp creditMemoExtractedTimestamp;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
-
-    // REFERENCE OBJECTS
-    private FinancialSystemDocumentHeader documentHeader;
-
 
     // GETTERS & SETTERS
     public Object getTotalAmount() {

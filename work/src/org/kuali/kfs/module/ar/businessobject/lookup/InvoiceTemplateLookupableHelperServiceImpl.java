@@ -68,27 +68,24 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) businessObject;
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        boolean isValid = true;
+        boolean isValid = false;
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
-        if (invoiceTemplate.isAccessRestrictedIndicator()) {
-            // check for KFS-SYS User Role's membership
-            Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
+        // check for KFS-SYS User Role's membership
+        Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
+        if(userOrg == null) {
+            userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS);
             if(userOrg == null) {
-                userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS);
-                if(userOrg == null) {
-                  ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
-                  userOrg =new HashMap<String, String>();
-                  userOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
-                  userOrg.put(KfsKimAttributes.ORGANIZATION_CODE,chartOrg.getOrganizationCode());
-                }
+                ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
+                userOrg =new HashMap<String, String>();
+                userOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
+                userOrg.put(KfsKimAttributes.ORGANIZATION_CODE,chartOrg.getOrganizationCode());
             }
+        }
 
-            if (ObjectUtils.isNotNull(invoiceTemplate.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(invoiceTemplate.getBilledByOrganizationCode())) {
-                if (invoiceTemplate.getBillByChartOfAccountCode().equals(userOrg.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && invoiceTemplate.getBilledByOrganizationCode().equals(userOrg.get(KfsKimAttributes.ORGANIZATION_CODE))) {
-                    isValid = true;
-                }
-                isValid = false;
+        if (ObjectUtils.isNotNull(invoiceTemplate.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(invoiceTemplate.getBilledByOrganizationCode())) {
+            if (invoiceTemplate.getBillByChartOfAccountCode().equals(userOrg.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && invoiceTemplate.getBilledByOrganizationCode().equals(userOrg.get(KfsKimAttributes.ORGANIZATION_CODE))) {
+                isValid = true;
             }
         }
 

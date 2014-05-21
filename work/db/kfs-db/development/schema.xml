@@ -4293,7 +4293,6 @@
         <column name="CG_AGNCY_ANALST_NM" size="123" type="VARCHAR"/>
         <column name="CG_ANALYST_PHN_NBR" size="10" type="VARCHAR"/>
         <column name="CGAWD_PROJ_TTL" size="250" type="VARCHAR"/>
-        <column name="CGAWD_COMMENT_TXT" size="250" type="VARCHAR"/>
         <column name="CGAWD_PURPOSE_CD" size="1" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="PREF_BILL_FREQ_CD" size="10" type="VARCHAR"/>
@@ -4306,13 +4305,13 @@
         <column name="CG_LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="AUTO_APP" size="1" type="VARCHAR"/>
         <column name="FUNDING_EXP_DT" type="TIMESTAMP"/>
-        <column name="COMMENT_TXT" size="800" type="VARCHAR"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="SUSP_REASON_TXT" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR_IND" size="1" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STOP_WRK_IND" size="1" type="VARCHAR"/>
+        <column name="STOP_WRK_REASON_TXT" size="120" type="VARCHAR"/>
         <foreign-key foreignTable="CG_LTRCR_FND_T" name="CG_AWD_R1">
             <reference foreign="CG_LTRCR_FND_CD" local="CG_LTRCR_FND_CD"/>
         </foreign-key>

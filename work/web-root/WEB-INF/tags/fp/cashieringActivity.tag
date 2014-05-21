@@ -23,6 +23,8 @@
 			<fp:cashieringTransaction />
       <p style="padding: 10px">
         <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_applytrans.gif" style="border: none" property="methodToCall.applyCashieringTransaction" title="Apply Cashiering Transaction" alt="Apply Cashiering Transaction" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <html:image src="${ConfigProperties.externalizable.images.url}buttonsmall_calculate.gif" style="border: none" title="Calculate Cashiering Transaction" alt="Calculate Cashiering Transaction" />
       </p>
 		</div>
 	</kul:tab>

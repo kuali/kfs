@@ -358,8 +358,6 @@
 		abstract="true" parent="SharedAttributes-milestoneScheduleInquiryTitle">
 		<property name="name"
 			value="milestoneSchedule.milestoneScheduleInquiryTitle" />
-		<property name="label" value="Milestone Schedule" />
-		<property name="shortLabel" value="MlstnSchdlLink" />
 	</bean>
 
 	<bean id="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle"
@@ -370,8 +368,6 @@
 		abstract="true" parent="SharedAttributes-predeterminedBillingScheduleInquiryTitle">
 		<property name="name"
 			value="predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
-		<property name="label" value="Predetermined Billing Schedule" />
-		<property name="shortLabel" value="PdbsLink" />
 	</bean>
 
 	<bean id="Award-lookupPersonUniversalIdentifier" parent="Award-lookupPersonUniversalIdentifier-parentBean" />

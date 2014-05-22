@@ -466,7 +466,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = super.getExtraButtons();
-        //if (getDocumentActions().containsKey(KFSConstants.EXTRACT_NOW_ACTION)) {
         if (getEditingMode().containsKey(DisbursementVoucherEditMode.EXTRACT_NOW)) {
             buttons.add(createExtractNowButton());
         }

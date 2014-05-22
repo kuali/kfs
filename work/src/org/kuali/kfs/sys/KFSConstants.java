@@ -1382,8 +1382,6 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     public static final String EXTRACT_NOW_ACTION_PERMISSION = PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT + " DV " + DisbursementVoucherEditMode.EXTRACT_NOW;
-    //public static final String EXTRACT_NOW_ACTION = "ExtractNowAction";
-    //public static final String EXTRACT_NOW_ACTION_CLASS = "org.kuali.kfs.fp.document.web.struts.DisbursementVoucherAction";
 
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
 

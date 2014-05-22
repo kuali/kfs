@@ -73,7 +73,7 @@
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="NM" value="Use Transactional Document DV extractNow" />
 			<column name="DESC_TXT" value="Allows users to use the extractNow button on an approved but not yet extracted DV document. Note: If the permission is set to inactive, then no one can use the extractNow button." />
-			<column name="ACTV_IND" value="N" />
+			<column name="ACTV_IND" value="Y" />
 		</insert>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -102,7 +102,7 @@
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" valueNumeric="12" />
 			<column name="PERM_ID" value="KFS10834" />
-			<column name="ACTV_IND" value="Y" />
+			<column name="ACTV_IND" value="N" />
 		</insert>		
 	</changeSet>	
 	

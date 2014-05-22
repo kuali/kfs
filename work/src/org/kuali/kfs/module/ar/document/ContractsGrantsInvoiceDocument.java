@@ -191,7 +191,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        boolean isFinal = getDocumentHeader().getWorkflowDocument().isFinal();
+        boolean isFinal = (getDocumentHeader().getWorkflowDocument().isProcessed() || getDocumentHeader().getWorkflowDocument().isFinal());
         if (!isFinal) {
             // To set the status of the document to award account.
             setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());

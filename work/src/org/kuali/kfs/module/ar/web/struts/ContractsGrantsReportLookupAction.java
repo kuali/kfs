@@ -27,10 +27,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
@@ -40,7 +41,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * This Action Class defines all the core methods for Contracts and Grants Lookup.
@@ -49,6 +49,7 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
     protected static final String SORT_INDEX_SESSION_KEY = "sortIndex";
     protected static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
+    private static volatile ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping,
@@ -67,42 +68,6 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
             GlobalVariables.getUserSession().addObject(SORT_INDEX_SESSION_KEY, sortIndexParameter);
         }
         return super.execute(mapping, form, request, response);
-    }
-
-    /**
-     * @param index
-     * @param businessObjectName
-     * @return
-     */
-    protected String getFieldNameForSorting(int index, String businessObjectName) {
-        BusinessObjectEntry boe = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObjectName);
-        List<String> lookupResultFields = boe.getLookupDefinition().getResultFieldNames();
-        return lookupResultFields.get(index);
-    }
-
-    /**
-     * @param list
-     * @param propertyName
-     * @return
-     */
-    protected List<String> getListOfValuesSortedProperties(List list, String propertyName) {
-        List<String> returnList = new ArrayList<String>();
-        for (Object object : list) {
-            if (!returnList.contains(getPropertyValue(object, propertyName))) {
-                returnList.add(getPropertyValue(object, propertyName));
-            }
-        }
-        return returnList;
-    }
-
-    /**
-     * @param object
-     * @param propertyName
-     * @return
-     */
-    protected String getPropertyValue(Object object, String propertyName) {
-        Object fieldValue = ObjectUtils.getPropertyValue(object, propertyName);
-        return (ObjectUtils.isNull(fieldValue)) ? "" : StringUtils.trimAllWhitespace(fieldValue.toString());
     }
 
     /**
@@ -188,11 +153,27 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
         }
 
         // get sort property
-        String sortPropertyName = getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), sortFieldName);
+        String sortPropertyName = getContractsGrantsReportHelperService().getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), sortFieldName);
 
         // sort list
         sortReport(displayList, sortPropertyName);
 
         return sortPropertyName;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        if (contractsGrantsReportHelperService == null) {
+            contractsGrantsReportHelperService = SpringContext.getBean(ContractsGrantsReportHelperService.class);
+        }
+        return contractsGrantsReportHelperService;
+    }
+
+    /**
+     * Returns the ContractsGrantsReportDataBuilderService which builds reports out of the given detailClass
+     * @param detailClass the detailClass to find a builder service for
+     * @return the ContractsGrantsReportDataBuilderService
+     */
+    public <B extends BusinessObject> ContractsGrantsReportDataBuilderService<B> getContractsGrantsReportDataBuilderService(Class<B> detailClass) {
+        return getContractsGrantsReportHelperService().getReportBuilderService(detailClass);
     }
 }

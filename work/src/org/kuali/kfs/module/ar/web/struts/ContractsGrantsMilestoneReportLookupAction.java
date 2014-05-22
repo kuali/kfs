@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +25,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsMilestoneReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsMilestoneReportService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Contracts Grants Milestone Report Lookup.
@@ -54,45 +50,12 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         List<ContractsGrantsMilestoneReport> displayList = lookupReportValues(milestoneReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsMilestoneReport");
 
-        // build report
-        ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsMilestoneReportDetailDataHolder> details = cgMilestoneReportDataHolder.getDetails();
-        for (ContractsGrantsMilestoneReport cgMilestoneReport : displayList) {
-
-
-            ContractsGrantsMilestoneReportDetailDataHolder reportDetail = new ContractsGrantsMilestoneReportDetailDataHolder();
-            // set report data
-            setReportDate(cgMilestoneReport, reportDetail);
-
-            reportDetail.setDisplaySubtotalInd(false);
-
-            details.add(reportDetail);
-        }
+        ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsMilestoneReport.class).buildReportDataHolder(displayList, sortPropertyName);
         buildReportForSearchCriteria(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsMilestoneReportService.class).generateReport(cgMilestoneReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
-    }
-
-    /**
-     * @param cgInvoiceReportEntry
-     * @param reportDetail
-     */
-    private void setReportDate(ContractsGrantsMilestoneReport cgInvoiceReportEntry, ContractsGrantsMilestoneReportDetailDataHolder reportDetail) {
-        reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber());
-        reportDetail.setAccountNumber(cgInvoiceReportEntry.getAccountNumber());
-        reportDetail.setMilestoneNumber(cgInvoiceReportEntry.getMilestoneNumber());
-        reportDetail.setMilestoneExpectedCompletionDate(cgInvoiceReportEntry.getMilestoneExpectedCompletionDate());
-
-        BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
-        reportDetail.setMilestoneAmount(milestoneAmount);
-        reportDetail.setIsItBilled(cgInvoiceReportEntry.getIsItBilled());
-        if (cgInvoiceReportEntry.isActive()) {
-            reportDetail.setActive(KFSConstants.ParameterValues.YES);
-        } else {
-            reportDetail.setActive(KFSConstants.ParameterValues.NO);
-        }
     }
 }

@@ -16,11 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,16 +27,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsInvoiceReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Contracts Grants Invoice Report Lookup.
@@ -61,40 +54,7 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         List<ContractsGrantsInvoiceReport> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsInvoiceReport");
 
-        // check field is valid for subtotal
-        boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgInvoiceReportSubtotalFieldsList.contains(sortPropertyName);
-        Map<String, List<KualiDecimal>> subTotalMap = new HashMap<String, List<KualiDecimal>>();
-
-        if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-        }
-
-        // build report
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsInvoiceReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
-
-        for (ContractsGrantsInvoiceReport cgInvoiceReportEntry : displayList) {
-            ContractsGrantsInvoiceReportDetailDataHolder reportDetail = new ContractsGrantsInvoiceReportDetailDataHolder();
-            // set report data
-            setReportDate(cgInvoiceReportEntry, reportDetail);
-
-            if (isFieldSubtotalRequired) {
-                // set sortedFieldValue for grouping in the report
-                reportDetail.setSortedFieldValue(getPropertyValue(cgInvoiceReportEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
-                // set subTotal from subTotalMap
-                reportDetail.setInvoiceSubTotal(subTotalMap.get(getPropertyValue(cgInvoiceReportEntry, sortPropertyName)).get(0).bigDecimalValue());
-                reportDetail.setPaymentSubTotal(subTotalMap.get(getPropertyValue(cgInvoiceReportEntry, sortPropertyName)).get(1).bigDecimalValue());
-                reportDetail.setRemainingSubTotal(subTotalMap.get(getPropertyValue(cgInvoiceReportEntry, sortPropertyName)).get(2).bigDecimalValue());
-
-            }
-            else {
-                // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
-            }
-            details.add(reportDetail);
-        }
-        cgInvoiceReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsInvoiceReport.class).buildReportDataHolder(displayList, sortPropertyName);
         // set report name using invoiceReportOption
         String invoiceReportOption = cgInvoiceReportLookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
         cgInvoiceReportDataHolder.setReportTitle(ArConstants.OUTSTANDING_INVOICE_REPORT);
@@ -112,61 +72,5 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         String reportFileName = SpringContext.getBean(ContractsGrantsInvoiceReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
-    }
-
-    /**
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    private Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceReport> displayList, String sortPropertyName) {
-        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
-            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
-            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
-
-            for (ContractsGrantsInvoiceReport cgInvoiceReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
-                    invoiceSubTotal = invoiceSubTotal.add(cgInvoiceReportEntry.getInvoiceAmount());
-                    paymentSubTotal = paymentSubTotal.add(cgInvoiceReportEntry.getPaymentAmount());
-                    remainingSubTotal = remainingSubTotal.add(cgInvoiceReportEntry.getRemainingAmount());
-                }
-            }
-            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
-            allSubTotal.add(0, invoiceSubTotal);
-            allSubTotal.add(1, paymentSubTotal);
-            allSubTotal.add(2, remainingSubTotal);
-
-            returnSubTotalMap.put(value, allSubTotal);
-        }
-        return returnSubTotalMap;
-    }
-
-    /**
-     * @param cgInvoiceReportEntry
-     * @param reportDetail
-     */
-    private void setReportDate(ContractsGrantsInvoiceReport cgInvoiceReportEntry, ContractsGrantsInvoiceReportDetailDataHolder reportDetail) {
-        reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber());
-        reportDetail.setDocumentNumber(cgInvoiceReportEntry.getDocumentNumber());
-        reportDetail.setInvoiceType(cgInvoiceReportEntry.getInvoiceType());
-        reportDetail.setInvoiceDate(cgInvoiceReportEntry.getInvoiceDate());
-        reportDetail.setInvoiceDueDate(cgInvoiceReportEntry.getInvoiceDueDate());
-        reportDetail.setOpenInvoiceIndicator(cgInvoiceReportEntry.getOpenInvoiceIndicator());
-        reportDetail.setCustomerNumber(cgInvoiceReportEntry.getCustomerNumber());
-        reportDetail.setCustomerName(cgInvoiceReportEntry.getCustomerName());
-        BigDecimal invoiceAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getInvoiceAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getInvoiceAmount().bigDecimalValue();
-        reportDetail.setInvoiceAmount(invoiceAmount);
-        BigDecimal paymentAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getPaymentAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getPaymentAmount().bigDecimalValue();
-        reportDetail.setPaymentAmount(paymentAmount);
-        BigDecimal remainingAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getRemainingAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getRemainingAmount().bigDecimalValue();
-        reportDetail.setRemainingAmount(remainingAmount);
-        reportDetail.setAgeInDays(cgInvoiceReportEntry.getAgeInDays());
     }
 }

@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
-import org.kuali.kfs.module.ar.report.CollectionActivityReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
@@ -67,18 +66,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         List<CollectionActivityReport> displayList = lookupReportValues(collActReportLookupForm, request, false);
         sortReportValues(displayList, "CollectionActivityReport");
 
-        // build report
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<CollectionActivityReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
-
-        for (CollectionActivityReport collActReportEntry : displayList) {
-            CollectionActivityReportDetailDataHolder reportDetail = new CollectionActivityReportDetailDataHolder();
-            // set report data
-            reportDetail = new CollectionActivityReportDetailDataHolder(collActReportEntry);
-            details.add(reportDetail);
-        }
-
-        cgInvoiceReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(CollectionActivityReport.class).buildReportDataHolder(displayList, null);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){

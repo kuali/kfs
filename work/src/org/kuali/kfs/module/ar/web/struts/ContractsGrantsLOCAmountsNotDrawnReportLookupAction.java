@@ -16,10 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,16 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsLOCAmountsNotDrawnReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action Class for the Contracts Grants LOC Amounts Not Drawn Report Lookup.
@@ -57,37 +50,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         List<ContractsGrantsLOCAmountsNotDrawnReport> displayList = lookupReportValues(cgLOCAmountsNotDrawnReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCAmountsNotDrawnReport");
 
-        // check field is valid for subtotal
-        boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgLOCAmountsNotDrawnReportSubtotalFieldsList.contains(sortPropertyName);
-        Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
-
-        if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-        }
-
-        // build report
-        ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder> details = cgLOCAmountsNotDrawnReportDataHolder.getDetails();
-
-        for (ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountsNotDrawnReportEntry : displayList) {
-            ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder reportDetail = new ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder();
-            // set report data
-            setReportDate(cgLOCAmountsNotDrawnReportEntry, reportDetail);
-
-            if (isFieldSubtotalRequired) {
-                // set sortedFieldValue for grouping in the report
-                reportDetail.setSortedFieldValue(getPropertyValue(cgLOCAmountsNotDrawnReportEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
-                // set subTotal from subTotalMap
-                reportDetail.setSubTotal(subTotalMap.get(getPropertyValue(cgLOCAmountsNotDrawnReportEntry, sortPropertyName)).bigDecimalValue());
-            }
-            else {
-                // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
-            }
-            details.add(reportDetail);
-        }
-        cgLOCAmountsNotDrawnReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsLOCAmountsNotDrawnReport.class).buildReportDataHolder(displayList, sortPropertyName);
 
         // build search criteria for report
         buildReportForSearchCriteria(cgLOCAmountsNotDrawnReportDataHolder.getSearchCriteria(), cgLOCAmountsNotDrawnReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCAmountsNotDrawnReport.class);
@@ -96,49 +59,5 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         String reportFileName = SpringContext.getBean(ContractsGrantsLOCAmountsNotDrawnReportService.class).generateReport(cgLOCAmountsNotDrawnReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
-    }
-
-    /**
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    private Map<String, KualiDecimal> buildSubTotalMap(List<ContractsGrantsLOCAmountsNotDrawnReport> displayList, String sortPropertyName) {
-        Map<String, KualiDecimal> returnSubTotalMap = new HashMap<String, KualiDecimal>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal subTotal = KualiDecimal.ZERO;
-            for (ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountsNotDrawnReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getPropertyValue(cgLOCAmountsNotDrawnReportEntry, sortPropertyName))) {
-                    subTotal = subTotal.add(cgLOCAmountsNotDrawnReportEntry.getAmountToDraw());
-                }
-            }
-            returnSubTotalMap.put(value, subTotal);
-        }
-        return returnSubTotalMap;
-    }
-
-    /**
-     * @param cgLOCAmountsNotDrawnReportEntry
-     * @param reportDetail
-     */
-    private void setReportDate(ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountsNotDrawnReportEntry, ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder reportDetail) {
-
-        reportDetail.setDocumentNumber(cgLOCAmountsNotDrawnReportEntry.getDocumentNumber());
-        reportDetail.setLetterOfCreditFundCode(cgLOCAmountsNotDrawnReportEntry.getLetterOfCreditFundCode());
-        reportDetail.setLetterOfCreditFundGroupCode(cgLOCAmountsNotDrawnReportEntry.getLetterOfCreditFundGroupCode());
-        reportDetail.setLetterOfCreditReviewCreateDate(cgLOCAmountsNotDrawnReportEntry.getLetterOfCreditReviewCreateDate());
-        BigDecimal amountAvailableToDraw = (ObjectUtils.isNull(cgLOCAmountsNotDrawnReportEntry.getAmountAvailableToDraw())) ? BigDecimal.ZERO : cgLOCAmountsNotDrawnReportEntry.getAmountAvailableToDraw().bigDecimalValue();
-        reportDetail.setAmountAvailableToDraw(amountAvailableToDraw);
-        BigDecimal claimOnCashBalance = (ObjectUtils.isNull(cgLOCAmountsNotDrawnReportEntry.getClaimOnCashBalance())) ? BigDecimal.ZERO : cgLOCAmountsNotDrawnReportEntry.getClaimOnCashBalance().bigDecimalValue();
-        reportDetail.setClaimOnCashBalance(claimOnCashBalance);
-        BigDecimal amountToDraw = (ObjectUtils.isNull(cgLOCAmountsNotDrawnReportEntry.getAmountToDraw())) ? BigDecimal.ZERO : cgLOCAmountsNotDrawnReportEntry.getAmountToDraw().bigDecimalValue();
-        reportDetail.setAmountToDraw(amountToDraw);
-        BigDecimal fundsNotDrawn = (ObjectUtils.isNull(cgLOCAmountsNotDrawnReportEntry.getFundsNotDrawn())) ? BigDecimal.ZERO : cgLOCAmountsNotDrawnReportEntry.getFundsNotDrawn().bigDecimalValue();
-        reportDetail.setFundsNotDrawn(fundsNotDrawn);
     }
 }

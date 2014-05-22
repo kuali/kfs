@@ -2334,8 +2334,49 @@
 	<bean id="federalFinancialReportService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.FederalFinancialReportServiceImpl"/>
 	
 	<bean id="contractsGrantsReportHelperService" parent="contractsGrantsReportHelperService-parentBean"/>
-	<bean id="contractsGrantsReportHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsReportHelperServiceImpl"/>
+	<bean id="contractsGrantsReportHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsReportHelperServiceImpl">
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+	</bean>
 	
 	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService" parent="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl"/>
+	
+	<bean id="contractsGrantsAgingReportBuilderService" parent="contractsGrantsAgingReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsAgingReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="contractsGrantsInvoiceReportBuilderService" parent="contractsGrantsInvoiceReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsInvoiceReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="collectionActivityReportBuilderService" parent="collectionActivityReportBuilderService-parentBean"/>
+	<bean id="collectionActivityReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportBuilderServiceImpl"/>
+	
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService" parent="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="contractsGrantsMilestoneReportBuilderService" parent="contractsGrantsMilestoneReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsMilestoneReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportBuilderServiceImpl"/>
+	
+	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService" parent="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="contractsGrantsPaymentHistoryReportBuilderService" parent="contractsGrantsPaymentHistoryReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsPaymentHistoryReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsPaymentHistoryReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="ticklersReportBuilderService" parent="ticklersReportBuilderService-parentBean"/>
+	<bean id="ticklersReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportBuilderServiceImpl"/>
+	
+	<bean id="referralToCollectionsReportBuilderService" parent="referralToCollectionsReportBuilderService-parentBean"/>
+	<bean id="referralToCollectionsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportBuilderServiceImpl">
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
 </beans>

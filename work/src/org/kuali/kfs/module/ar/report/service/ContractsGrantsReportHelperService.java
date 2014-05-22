@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.report.service;
 
+import java.util.List;
+
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -27,4 +29,28 @@ public interface ContractsGrantsReportHelperService {
      * @return the implementation of ContractsGrantsReportDataBuilderService
      */
     public <B extends BusinessObject> ContractsGrantsReportDataBuilderService<B> getReportBuilderService(Class<B> detailClass);
+
+    /**
+     * Creates a list of the property values of a given property
+     * @param list a List of objects to get property names from
+     * @param propertyName the property name to find values for
+     * @return a List of only those values.  Evidently they're always Strings
+     */
+    public List<String> getListOfValuesSortedProperties(List list, String propertyName);
+
+    /**
+     * Retrieves a String property value from an object
+     * @param object the object to get a property name from
+     * @param propertyName the name of the property to retrieve
+     * @return the property value, turned into a String and with leading and trailing whitespace removed; or a blank String
+     */
+    public String getPropertyValue(Object object, String propertyName);
+
+    /**
+     * Looks up the sort field names for the business object given by the businessObjectName, and returns the index'ed one of those
+     * @param index the sort field name position we want to pull information from
+     * @param businessObjectName the name of the business object to find sort fields for
+     * @return the name of the sort field
+     */
+    public String getFieldNameForSorting(int index, String businessObjectName);
 }

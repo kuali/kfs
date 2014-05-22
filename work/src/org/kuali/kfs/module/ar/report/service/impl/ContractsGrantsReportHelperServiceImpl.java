@@ -15,19 +15,26 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * A service which basically encapsulates a Map of ContractsGrantsReportDataBuilderService to return the right one to an Action
  */
 public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsReportHelperService {
     protected Map<Class<? extends BusinessObject>, ContractsGrantsReportDataBuilderService<? extends BusinessObject>> reportBuilders;
+    protected DataDictionaryService dataDictionaryService;
 
     /**
      * Builds the report data builder services map if needed; returns a service if it can find one
@@ -53,5 +60,46 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         for (ContractsGrantsReportDataBuilderService reportService: services.values()) {
             reportBuilders.put(reportService.getDetailsClass(), reportService);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#getFieldNameForSorting(int, java.lang.String)
+     */
+    @Override
+    public String getFieldNameForSorting(int index, String businessObjectName) {
+        BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(businessObjectName);
+        List<String> lookupResultFields = boe.getLookupDefinition().getResultFieldNames();
+        return lookupResultFields.get(index);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#getListOfValuesSortedProperties(java.util.List, java.lang.String)
+     */
+    @Override
+    public List<String> getListOfValuesSortedProperties(List list, String propertyName) {
+        List<String> returnList = new ArrayList<String>();
+        for (Object object : list) {
+            if (!returnList.contains(getPropertyValue(object, propertyName))) {
+                returnList.add(getPropertyValue(object, propertyName));
+            }
+        }
+        return returnList;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#getPropertyValue(java.lang.Object, java.lang.String)
+     */
+    @Override
+    public String getPropertyValue(Object object, String propertyName) {
+        Object fieldValue = ObjectUtils.getPropertyValue(object, propertyName);
+        return (ObjectUtils.isNull(fieldValue)) ? "" : StringUtils.trimAllWhitespace(fieldValue.toString());
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 }

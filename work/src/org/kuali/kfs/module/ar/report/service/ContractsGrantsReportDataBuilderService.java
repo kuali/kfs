@@ -27,9 +27,10 @@ public interface ContractsGrantsReportDataBuilderService<B extends BusinessObjec
     /**
      * Builds a new ContractsGrantsReportDataHolder object for a set of details
      * @param displayList the set of looked-up data to build a report from
+     * @param sortPropertyName the name of the property to sort everything by
      * @return a ContractsGrantsReportDataHolder for a class
      */
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<B> displayList);
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<B> displayList, String sortPropertyName);
 
     /**
      * @return the class of the details that the given implementation builds report details out of

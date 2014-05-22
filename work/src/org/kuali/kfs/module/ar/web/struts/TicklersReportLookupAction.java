@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.module.ar.report.TicklersReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.TicklersReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,18 +58,12 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
         List<TicklersReport> displayList = lookupReportValues(ticklersReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "TicklersReport");
 
-        // build report
-        ContractsGrantsReportDataHolder arTicklersReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<TicklersReportDetailDataHolder> ticklersReportDetails = arTicklersReportDataHolder.getDetails();
-        for (TicklersReport tr : displayList) {
-            TicklersReportDetailDataHolder trDataHolder = new TicklersReportDetailDataHolder(tr);
-            ticklersReportDetails.add(trDataHolder);
-        }
+        ContractsGrantsReportDataHolder arTicklersReportDataHolder = getContractsGrantsReportDataBuilderService(TicklersReport.class).buildReportDataHolder(displayList, sortPropertyName);
+
         buildReportForSearchCriteria(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(TicklersReportService.class).generateReport(arTicklersReportDataHolder, baos);
-
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }
@@ -97,5 +90,4 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
             }
         }
     }
-
 }

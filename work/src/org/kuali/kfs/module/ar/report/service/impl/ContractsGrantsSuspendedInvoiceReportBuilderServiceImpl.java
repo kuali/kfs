@@ -32,10 +32,10 @@ public class ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl implements 
 
     /**
      * Builds a report from the given list of details
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List)
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList, String sortPropertyName) {
         // check field is valid for subtotal
         // this report doesn't have subtotal
         boolean isFieldSubtotalRequired = false;

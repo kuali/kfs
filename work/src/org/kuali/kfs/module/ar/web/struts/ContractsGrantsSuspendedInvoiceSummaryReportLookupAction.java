@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsSuspendedInvoiceSummaryReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -66,8 +65,8 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
 
         // build report
-        ContractsGrantsReportDataBuilderService<ContractsGrantsSuspendedInvoiceSummaryReport> reportDataBuilderService = SpringContext.getBean(ContractsGrantsReportHelperService.class).getReportBuilderService(ContractsGrantsSuspendedInvoiceSummaryReport.class);
-        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList);
+        ContractsGrantsReportDataBuilderService<ContractsGrantsSuspendedInvoiceSummaryReport> reportDataBuilderService = getContractsGrantsReportDataBuilderService(ContractsGrantsSuspendedInvoiceSummaryReport.class);
+        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgSuspendedInvoiceSummaryReportDataHolder.getDetails())){

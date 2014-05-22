@@ -16,9 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +32,6 @@ import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.module.ar.report.ReferralToCollectionsReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -81,47 +77,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         // sort list
         sortReport(displayList, ArPropertyConstants.ReferralToCollectionsReportFields.LIST_SORT_PROPERTY);
 
-        // check field is valid for subtotal
-        boolean isFieldSubtotalRequired = true;
-        Map<String, List<BigDecimal>> subTotalMap = new HashMap<String, List<BigDecimal>>();
-
-        if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-        }
-
-        BigDecimal invoiceTotal = BigDecimal.ZERO;
-        BigDecimal openTotal = BigDecimal.ZERO;
-
-        // build report
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ReferralToCollectionsReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
-
-        for (ReferralToCollectionsReport refToCollections : displayList) {
-            ReferralToCollectionsReportDetailDataHolder reportDetail = new ReferralToCollectionsReportDetailDataHolder();
-            // set report data
-            reportDetail = new ReferralToCollectionsReportDetailDataHolder(refToCollections);
-
-            if (isFieldSubtotalRequired) {
-                // set sortedFieldValue for grouping in the report
-                reportDetail.setSortedFieldValue(getPropertyValue(refToCollections, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
-                // set subTotal from subTotalMap
-                reportDetail.setInvoiceSubTotal(subTotalMap.get(getPropertyValue(refToCollections, sortPropertyName)).get(0));
-                reportDetail.setOpenSubTotal(subTotalMap.get(getPropertyValue(refToCollections, sortPropertyName)).get(1));
-
-            }
-            else {
-                // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
-            }
-
-            invoiceTotal = invoiceTotal.add(reportDetail.getInvoiceAmount());
-            openTotal = openTotal.add(reportDetail.getOpenAmount());
-
-            details.add(reportDetail);
-        }
-
-        cgInvoiceReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(ReferralToCollectionsReport.class).buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
@@ -166,39 +122,5 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
                 }
             }
         }
-    }
-
-    /**
-     * This method is used to build map for total according to sort property
-     *
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    private Map<String, List<BigDecimal>> buildSubTotalMap(List<ReferralToCollectionsReport> displayList, String sortPropertyName) {
-        Map<String, List<BigDecimal>> returnSubTotalMap = new HashMap<String, List<BigDecimal>>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            BigDecimal invoiceSubTotal = BigDecimal.ZERO;
-            BigDecimal openSubTotal = BigDecimal.ZERO;
-
-            for (ReferralToCollectionsReport refToCollReport : displayList) {
-                if (value.equals(getPropertyValue(refToCollReport, sortPropertyName))) {
-                    BigDecimal totalAmount = refToCollReport.getInvoiceAmount();
-                    BigDecimal openAmount = refToCollReport.getOpenAmount();
-                    invoiceSubTotal = invoiceSubTotal.add(totalAmount);
-                    openSubTotal = openSubTotal.add(openAmount);
-                }
-            }
-            List<BigDecimal> allSubTotal = new ArrayList<BigDecimal>();
-            allSubTotal.add(0, invoiceSubTotal);
-            allSubTotal.add(1, openSubTotal);
-
-            returnSubTotalMap.put(value, allSubTotal);
-        }
-        return returnSubTotalMap;
     }
 }

@@ -81,10 +81,10 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
 
             if (isFieldSubtotalRequired) {
                 // set sortedFieldValue for grouping in the report
-                reportDetail.setSortedFieldValue(getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName));
+                reportDetail.setSortedFieldValue(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName));
                 reportDetail.setDisplaySubtotalInd(true);
                 // set subTotal from subTotalMap
-                reportDetail.setSubTotal(subTotalMap.get(getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName)).bigDecimalValue());
+                reportDetail.setSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName)).bigDecimalValue());
             }
             else {
                 // set this to empty string for not displaying subtotal
@@ -118,7 +118,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
     private Map<String, KualiDecimal> buildSubTotalMap(List<ContractsGrantsSuspendedInvoiceDetailReport> displayList, String sortPropertyName) {
         Map<String, KualiDecimal> returnSubTotalMap = new HashMap<String, KualiDecimal>();
         // get list of sort fields
-        List<String> valuesOfsortProperty = getListOfValuesSortedProperties(displayList, sortPropertyName);
+        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
 
         // calculate sub_total and build subTotalMap
 
@@ -126,7 +126,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
             KualiDecimal subTotal = KualiDecimal.ZERO;
             for (ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReportEntry : displayList) {
                 // set fieldValue as "" when it is null
-                if (value.equals(getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName))) {
+                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName))) {
                     subTotal = subTotal.add(cgSuspendedInvoiceDetailReportEntry.getAwardTotal());
                 }
             }

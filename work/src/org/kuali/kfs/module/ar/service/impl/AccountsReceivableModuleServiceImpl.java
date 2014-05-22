@@ -72,7 +72,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -98,6 +98,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ConfigurationService configurationService;
     protected CustomerCreditMemoDetailService customerCreditMemoDetailService;
     protected CustomerDocumentService customerDocumentService;
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
@@ -840,15 +841,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public boolean isContractsGrantsBillingEnhancementActive() {
-        boolean isContractsGrantsBillingEnhancementActive = false;
-
-        //make sure the parameter exists
-        if(parameterService.parameterExists(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND)){
-            isContractsGrantsBillingEnhancementActive = parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_ALL.class, ArConstants.CG_BILLING_IND);
-            LOG.debug("System Parameter retrieved: " + isContractsGrantsBillingEnhancementActive);
-        }
-
-        return isContractsGrantsBillingEnhancementActive;
+        return configurationService.getPropertyValueAsBoolean(KFSConstants.ENHANCEMENT_CONTRACTS_GRANTS_BILLING_ENABLED);
     }
 
     /**
@@ -866,5 +859,13 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public Collection<String> getDoNotInvoiceStatuses() {
         return parameterService.getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.AWARD_STATUS_CODES);
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

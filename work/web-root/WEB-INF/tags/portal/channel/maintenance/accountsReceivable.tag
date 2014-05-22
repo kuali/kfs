@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Accounts Receivable" />
 <div class="body">
 	<ul class="chan">
-		<c:if test="${contractsGrantsBillingEnabled}">
+		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true" title="Collection Activity Type"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
@@ -43,7 +43,7 @@
 		<li><portal:portalLink displayTitle="true" title="Customer Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${contractsGrantsBillingEnabled}">
+		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true" title="Dunning Campaign"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningCampaign&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
@@ -58,7 +58,7 @@
 				title="Invoice Recurrence"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${contractsGrantsBillingEnabled}">
+		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true"
 					title="Invoice Template"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.InvoiceTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -83,7 +83,7 @@
 		<li><portal:portalLink displayTitle="true" title="Payment Medium"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.PaymentMedium&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${contractsGrantsBillingEnabled}">
+		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true"
 					title="Predetermined Billing Schedule"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

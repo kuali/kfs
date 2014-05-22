@@ -104,6 +104,7 @@ public class KFSConstants {
     public static final String PROD_ENVIRONMENT_CODE_KEY = Config.PROD_ENVIRONMENT_CODE;
     public static final String BATCH_FILE_LOOKUP_ROOT_DIRECTORIES = "batch.file.lookup.root.directories";
     public static final String BATCH_UPLOAD_HELP_SYS_PARAM_NAME = "BATCH_UPLOAD_HELP_URL";
+    public static final String ENHANCEMENT_CONTRACTS_GRANTS_BILLING_ENABLED = "enhancement.contracts.grants.billing.enabled";
 
     public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "RESULTS_LIMIT";
 

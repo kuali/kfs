@@ -24,8 +24,6 @@ public class ArConstants{
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
 
-    // Parameter name for the CG Billing Enhancements Indicator
-    public static final String CG_BILLING_IND = "CG_BILLING_IND";
     public static final String CG_PRORATE_BILL_IND = "CG_PRORATE_BILL_IND";
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String INVOICE_DOC_TYPE = "Invoice";

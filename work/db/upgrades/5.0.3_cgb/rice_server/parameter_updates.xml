@@ -2,25 +2,6 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
-	<!-- Inserting CGB Enhancements Indicator in to the System Parameters table -->
-
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_VALIDATION_SWITCH">
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="All" />
-			<column name="PARM_NM" value="CG_BILLING_IND" />
-			<column name="OBJ_ID" value="KFSCG03" />
-			<column name="VER_NBR" value="1" />
-			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="Y" />
-			<column name="PARM_DESC_TXT"
-				value="Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents." />
-			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
-		</insert>
-	</changeSet>
-
-	
 	<!-- Inserting Default processing chart code and org code to be used for 
 		Cash control in to the System Parameters table -->
 

@@ -83,10 +83,16 @@
 				<bean parent="Requisition-organizationValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>														
+
+			    <bean parent="Requisition-accountingLineExistsValidation" scope="prototype">
+			       <property name="quitOnFail" value="false" />
+			    </bean>
+
   			</list>
   		</property>
   	</bean>
   
+
   	<bean id="Requisition-approveDocumentValidation" parent="Requisition-approveDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="Requisition-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">

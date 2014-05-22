@@ -91,6 +91,8 @@ public class PurapConstants {
     public static final String REMOVE_ACCOUNTS_QUESTION = "RemoveAccounts";
     public static final String CLEAR_COMMODITY_CODES_QUESTION = "ClearCommodityCodes";
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
+    public static final String QUESTION_REQUISITON_ROUTE_WITHOUT_ACCOUNTING_LINES = "This document is missing accounting lines on one or more items. Are you sure you want to continue?";    
+    public static final String REQUISITION_ACCOUNTING_LINES_QUESTION = "RequisitionAccountingLinesQuestion";
     public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
     public static final String QUESTION_CLEAR_ALL_COMMODITY_CODES = "question.document.pur.clearCommodityCodes";
     // TODO - This constant is referenced, but has no corresponding value in ApplicationResources.properties????
@@ -99,7 +101,8 @@ public class PurapConstants {
 
     public static final String REQ_REASON_NOT_APO = "ORDER ROUTED TO PURCHASING FOR PROCESSING: ";
     public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
-
+    public static final String REQ_NO_ACCOUNTING_LINES="message.requisition.no.accounting.lines";
+    
     public static final String TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET_OBJECT_SUB_TYPE = "7070";
     public static final String TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE_OBJECT_SUB_TYPE = "7099";
 

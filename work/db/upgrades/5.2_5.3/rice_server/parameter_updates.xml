@@ -35,12 +35,12 @@
             <column name="NMSPC_CD" value="KFS-COA" />
             <column name="CMPNT_CD" value="Account" />
             <column name="PARM_NM" value="EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
-            <column name="APPL_ID" value="KFS" />
-            <column name="OBJ_ID" valueNumeric="KFS-PARM-169" />
+            <column name="OBJ_ID" value="KFS-PARM-169" />
             <column name="PARM_TYP_CD" value="VALID" />
             <column name="VAL" value="" />
             <column name="PARM_DESC_TXT" value="Fund groups that allow backdating of the expiration date." />
             <column name="EVAL_OPRTR_CD" value="A" />
+            <column name="APPL_ID" value="KFS" />
         </insert>
     </changeSet>
 

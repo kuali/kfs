@@ -146,7 +146,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         message.setFrom(new InternetAddress(sender));
                         // To Address
                         CustomerAddress customerAddress = invoiceAddressDetail.getCustomerAddress();
-                        String recipients = customerAddress.getCustomerEmailAddress();
+                        String recipients = invoiceAddressDetail.getCustomerEmailAddress();
                         if (StringUtils.isNotEmpty(recipients)) {
                             InternetAddress[] recipientAddress = { new InternetAddress(recipients) };
                             message.addRecipients(Message.RecipientType.TO, recipientAddress);

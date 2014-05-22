@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,10 +36,8 @@ import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -58,38 +55,18 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is used to get the services for PDF generation and other services for Referral To Collections Report.
  */
-public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ReferralToCollectionsReportService {
-
-    private ReportInfo refToCollReportInfo;
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+public class ReferralToCollectionsReportServiceImpl implements ReferralToCollectionsReportService {
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private String proposalNumber;
-    private String accountNumber;
-    private String invoiceNumber;
-    private boolean considerProposalNumberInd;
-    private boolean considerAccountNumberInd;
-    private boolean considerinvoiceNumberInd;
+    protected DocumentService documentService;
+    protected String proposalNumber;
+    protected String accountNumber;
+    protected String invoiceNumber;
+    protected boolean considerProposalNumberInd;
+    protected boolean considerAccountNumberInd;
+    protected boolean considerinvoiceNumberInd;
 
-    private PersonService personService;
-
-    /**
-     * Gets the refToCollReportInfo attribute.
-     *
-     * @return Returns the refToCollReportInfo.
-     */
-    public ReportInfo getRefToCollReportInfo() {
-        return refToCollReportInfo;
-    }
-
-    /**
-     * Gets the refToCollReportInfo attribute.
-     *
-     * @return Returns the refToCollReportInfo.
-     */
-    public void setRefToCollReportInfo(ReportInfo refToCollReportInfo) {
-        this.refToCollReportInfo = refToCollReportInfo;
-    }
+    protected PersonService personService;
 
     /**
      * Gets the businessObjectService attribute.
@@ -146,14 +123,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         this.documentService = documentService;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
-     *      java.io.ByteArrayOutputStream)
-     */
-    @Override
-    public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
-        return generateReport(reportDataHolder, refToCollReportInfo, baos);
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#filterContractsGrantsAgingReport(java.util.Map)

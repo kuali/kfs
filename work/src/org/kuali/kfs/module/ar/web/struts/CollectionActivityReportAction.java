@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -82,7 +81,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), collActReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(CollectionActivityReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
+        String reportFileName = generateReportPdf(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }

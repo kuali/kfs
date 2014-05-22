@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,12 +32,10 @@ import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -51,33 +48,11 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is used to get the services for PDF generation and other services for Collection Activity Report
  */
-public class CollectionActivityReportServiceImpl extends ContractsGrantsReportServiceImplBase implements CollectionActivityReportService {
-
-    private ReportInfo collActReportInfo;
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+public class CollectionActivityReportServiceImpl implements CollectionActivityReportService {
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
-    private PersonService personService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
-
-    /**
-     * Gets the collActReportInfo attribute.
-     *
-     * @return Returns the collActReportInfo.
-     */
-    @NonTransactional
-    public ReportInfo getCollActReportInfo() {
-        return collActReportInfo;
-    }
-
-    /**
-     * Sets the collActReportInfo attribute value.
-     *
-     * @param collActReportInfo The collActReportInfo to set.
-     */
-    @NonTransactional
-    public void setCollActReportInfo(ReportInfo collActReportInfo) {
-        this.collActReportInfo = collActReportInfo;
-    }
+    protected PersonService personService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
 
     /**
      * Gets the businessObjectService attribute.
@@ -117,16 +92,6 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
     @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
-     *      java.io.ByteArrayOutputStream)
-     */
-    @Override
-    @NonTransactional
-    public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
-        return generateReport(reportDataHolder, collActReportInfo, baos);
     }
 
     /**

@@ -27,9 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsMilestoneReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.WebUtils;
 
 /**
@@ -55,7 +53,7 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         buildReportForSearchCriteria(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(ContractsGrantsMilestoneReportService.class).generateReport(cgMilestoneReportDataHolder, baos);
+        String reportFileName = generateReportPdf(cgMilestoneReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }

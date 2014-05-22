@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
@@ -161,17 +163,29 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         return sortPropertyName;
     }
 
-    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
-        if (contractsGrantsReportHelperService == null) {
-            contractsGrantsReportHelperService = SpringContext.getBean(ContractsGrantsReportHelperService.class);
-        }
-        return contractsGrantsReportHelperService;
+    /**
+     * Generates the report PDF
+     * @param reportDataHolder the information to report on
+     * @param reportInfo information about where to store the report and formatting
+     * @param baos the stream to write the PDF to
+     * @return the file name of the generated report
+     */
+    protected String generateReportPdf(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
+        final String reportFileName = getContractsGrantsReportHelperService().generateReport(reportDataHolder, getContractsGrantsReportDataBuilderService().getReportInfo(), baos);
+        return reportFileName;
     }
 
     /**
      * @return the name of the bean which helps the child Action build the reports associated
      */
     public abstract String getReportBuilderServiceBeanName();
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        if (contractsGrantsReportHelperService == null) {
+            contractsGrantsReportHelperService = SpringContext.getBean(ContractsGrantsReportHelperService.class);
+        }
+        return contractsGrantsReportHelperService;
+    }
 
     /**
      * Returns the ContractsGrantsReportDataBuilderService which builds reports out of the given detailClass

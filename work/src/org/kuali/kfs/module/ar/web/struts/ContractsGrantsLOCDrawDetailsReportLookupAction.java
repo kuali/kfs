@@ -27,9 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsLOCDrawDetailsReportService;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.WebUtils;
 
 /**
@@ -57,7 +55,7 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
         buildReportForSearchCriteria(cgLOCDrawDetailsReportDataHolder.getSearchCriteria(), cgLOCDrawDetailsReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCDrawDetailsReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(ContractsGrantsLOCDrawDetailsReportService.class).generateReport(cgLOCDrawDetailsReportDataHolder, baos);
+        String reportFileName = generateReportPdf(cgLOCDrawDetailsReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }

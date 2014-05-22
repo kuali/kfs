@@ -19,13 +19,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +39,6 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
@@ -50,7 +46,6 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
@@ -72,6 +67,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportAction.class);
+    private static volatile ContractsGrantsAgingReportService contractsGrantsAgingReportService;
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
@@ -314,7 +310,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
         // export to pdf
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(ContractsGrantsAgingReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
+        String reportFileName = generateReportPdf(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }
@@ -368,49 +364,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         final ContractsGrantsReportDataBuilderService reportBuilderService = getContractsGrantsReportDataBuilderService();
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = reportBuilderService.buildReportDataHolder(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY);
 
-        BigDecimal invoiceTotal = BigDecimal.ZERO;
-        BigDecimal paymentTotal = BigDecimal.ZERO;
-        BigDecimal remainingTotal = BigDecimal.ZERO;
-        Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map = new LinkedHashMap<String, List<ContractsGrantsAgingReportDetailDataHolder>>();
-        for (ContractsGrantsAgingReportDetailDataHolder reportDetail : (List<ContractsGrantsAgingReportDetailDataHolder>)cgInvoiceReportDataHolder.getDetails()) {
-            invoiceTotal = invoiceTotal.add(reportDetail.getInvoiceAmount());
-            paymentTotal = paymentTotal.add(reportDetail.getPaymentAmount());
-            remainingTotal = remainingTotal.add(reportDetail.getRemainingAmount());
-
-            List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(reportDetail.getAgencyNumber());
-            if (ObjectUtils.isNull(list)) {
-                list = new LinkedList<ContractsGrantsAgingReportDetailDataHolder>();
-            }
-            list.add(reportDetail);
-            map.put(reportDetail.getAgencyNumber(), list);
-        }
-
-        Map<String, List<KualiDecimal>> subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-
-        if (ObjectUtils.isNotNull(map) && !map.isEmpty()) {
-            for (String key : map.keySet()) {
-                List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(key);
-                if (ObjectUtils.isNotNull(list) && !list.isEmpty()) {
-                    ContractsGrantsAgingReportDetailDataHolder cGDetailHolderNew = new ContractsGrantsAgingReportDetailDataHolder();
-                    cGDetailHolderNew.setDisplaySubtotalInd(true);
-                    cGDetailHolderNew.setInvoiceSubTotal((subTotalMap.get(key)).get(0).bigDecimalValue());
-                    cGDetailHolderNew.setPaymentSubTotal((subTotalMap.get(key)).get(1).bigDecimalValue());
-                    cGDetailHolderNew.setRemainingSubTotal((subTotalMap.get(key)).get(2).bigDecimalValue());
-                    list.add(cGDetailHolderNew);
-                    map.put(key, list);
-                }
-            }
-        }
-
-        // set total field
-        ContractsGrantsAgingReportDetailDataHolder reportDetail = new ContractsGrantsAgingReportDetailDataHolder();
-        reportDetail.setDisplayTotalInd(true);
-        reportDetail.setInvoiceTotal(invoiceTotal);
-        reportDetail.setPaymentTotal(paymentTotal);
-        reportDetail.setRemainingTotal(remainingTotal);
-
-        ContractsGrantsAgingReportService reportService = SpringContext.getBean(ContractsGrantsAgingReportService.class);
-        byte[] report = reportService.generateCSVToExport(map, reportDetail);
+        byte[] report = getContractsGrantsAgingReportService().generateCSVToExport(cgInvoiceReportDataHolder, displayList, sortPropertyName);
         if (report.length == 0) {
             throw new RuntimeException("Error: non-existent file or directory provided");
         }
@@ -427,47 +381,18 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     }
 
     /**
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    protected Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
-        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
-            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
-            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
-
-            for (ContractsGrantsInvoiceDocument cgInvoiceReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
-                    KualiDecimal sourceTotal = cgInvoiceReportEntry.getSourceTotal();
-                    KualiDecimal paymentAmount = cgInvoiceReportEntry.getPaymentAmount();
-                    invoiceSubTotal = invoiceSubTotal.add(sourceTotal);
-                    paymentSubTotal = paymentSubTotal.add(paymentAmount);
-                    remainingSubTotal = remainingSubTotal.add(sourceTotal.subtract(paymentSubTotal));
-                }
-            }
-            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
-            allSubTotal.add(0, invoiceSubTotal);
-            allSubTotal.add(1, paymentSubTotal);
-            allSubTotal.add(2, remainingSubTotal);
-
-            returnSubTotalMap.put(value, allSubTotal);
-        }
-        return returnSubTotalMap;
-    }
-
-    /**
      * Returns "contractsGrantsAgingReportBuilderService"
      * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
      */
     @Override
     public String getReportBuilderServiceBeanName() {
         return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_AGING;
+    }
+
+    public static ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {
+        if (contractsGrantsAgingReportService == null) {
+            contractsGrantsAgingReportService = SpringContext.getBean(ContractsGrantsAgingReportService.class);
+        }
+        return contractsGrantsAgingReportService;
     }
 }

@@ -46,13 +46,13 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -84,46 +84,23 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * This class implements the methods for report generation services for Contracts and Grants.
  */
-public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ContractsGrantsInvoiceReportService {
-
-    private static final String FF_425_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425";
-    private static final String FF_425A_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425A";
-    private static final Object FEDERAL_FORM_425 = "425";
-    private static final Object FEDERAL_FORM_425A = "425A";
-    private ReportInfo contractsGrantsInvoiceReportInfo;
-    private Map<String, String> replacementList = new HashMap<String, String>();
-    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportServiceImpl.class);
-    private PersonService personService;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-    private ConfigurationService configService;
-    private KualiModuleService kualiModuleService;
-    private DocumentService documentService;
-    private NoteService noteService;
-
-    /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
-     *      java.io.ByteArrayOutputStream)
-     */
-    @Override
-    public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
-        return generateReport(reportDataHolder, contractsGrantsInvoiceReportInfo, baos);
-    }
-
-    /**
-     * @return contractsGrantsInvoiceReportInfo
-     */
-    public ReportInfo getContractsGrantsInvoiceReportInfo() {
-        return contractsGrantsInvoiceReportInfo;
-    }
-
-    /**
-     * @param contractsGrantsInvoiceReportInfo
-     */
-    public void setContractsGrantsInvoiceReportInfo(ReportInfo contractsGrantsInvoiceReportInfo) {
-        this.contractsGrantsInvoiceReportInfo = contractsGrantsInvoiceReportInfo;
-    }
+public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsInvoiceReportService {
+    protected static final String FF_425_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425";
+    protected static final String FF_425A_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425A";
+    protected static final Object FEDERAL_FORM_425 = "425";
+    protected static final Object FEDERAL_FORM_425A = "425A";
+    protected Map<String, String> replacementList = new HashMap<String, String>();
+    protected SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportServiceImpl.class);
+    protected PersonService personService;
+    protected BusinessObjectService businessObjectService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configService;
+    protected KualiModuleService kualiModuleService;
+    protected DocumentService documentService;
+    protected NoteService noteService;
+    protected ReportInfo reportInfo;
+    protected ReportGenerationService reportGenerationService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
@@ -301,8 +278,8 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     @Override
     public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception {
         Date runDate = new Date(new java.util.Date().getTime());
-        String reportFileName = contractsGrantsInvoiceReportInfo.getReportFileName();
-        String reportDirectory = contractsGrantsInvoiceReportInfo.getReportsDirectory();
+        String reportFileName = getReportInfo().getReportFileName();
+        String reportDirectory = getReportInfo().getReportsDirectory();
         if (formType.equals(FEDERAL_FORM_425) && ObjectUtils.isNotNull(award)) {
             String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425") + ".pdf";
             File file = new File(fullReportFileName);
@@ -1029,5 +1006,21 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
+    }
+
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
+    }
+
+    public ReportGenerationService getReportGenerationService() {
+        return reportGenerationService;
+    }
+
+    public void setReportGenerationService(ReportGenerationService reportGenerationService) {
+        this.reportGenerationService = reportGenerationService;
     }
 }

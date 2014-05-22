@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +43,9 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -56,33 +59,12 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class is used to get the services for PDF generation and other services for CG Aging report.
  */
-public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ContractsGrantsAgingReportService {
-
-    private ReportInfo cgAgingReportInfo;
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgingReportService {
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
-    private PersonService personService;
+    protected PersonService personService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
-
-    /**
-     * Gets the cgAgingReportInfo attribute.
-     *
-     * @return Returns the cgAgingReportInfo.
-     */
-    @NonTransactional
-    public ReportInfo getCgAgingReportInfo() {
-        return cgAgingReportInfo;
-    }
-
-    /**
-     * Sets the cgAgingReportInfo attribute value.
-     *
-     * @param cgAgingReportInfo The cgAgingReportInfo to set.
-     */
-    @NonTransactional
-    public void setCgAgingReportInfo(ReportInfo cgAgingReportInfo) {
-        this.cgAgingReportInfo = cgAgingReportInfo;
-    }
 
     /**
      * Gets the businessObjectService attribute.
@@ -122,16 +104,6 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
     @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
-     *      java.io.ByteArrayOutputStream)
-     */
-    @Override
-    @NonTransactional
-    public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
-        return generateReport(reportDataHolder, cgAgingReportInfo, baos);
     }
 
     /**
@@ -532,8 +504,11 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      */
     @Override
     @NonTransactional
-    public byte[] generateCSVToExport(Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> detailsMap, ContractsGrantsAgingReportDetailDataHolder totalDataHolder) {
+    public byte[] generateCSVToExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
         try {
+            final CSVMapAndTotalsHolder totalsHolder = calculateTotalsForCSVExport(cgInvoiceReportDataHolder, displayList, sortPropertyName);
+            final Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> detailsMap = totalsHolder.getMap();
+            final ContractsGrantsAgingReportDetailDataHolder totalDataHolder = totalsHolder.getReportDetail();
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(baos);
@@ -655,6 +630,112 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
         return "";
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#buildSubTotalMap(java.util.List, java.lang.String)
+     */
+    @Override
+    public Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
+        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
+        // get list of sort fields
+        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
+
+        // calculate sub_total and build subTotalMap
+        for (String value : valuesOfsortProperty) {
+            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
+            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
+            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
+
+            for (ContractsGrantsInvoiceDocument cgInvoiceReportEntry : displayList) {
+                // set fieldValue as "" when it is null
+                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
+                    KualiDecimal sourceTotal = cgInvoiceReportEntry.getSourceTotal();
+                    KualiDecimal paymentAmount = cgInvoiceReportEntry.getPaymentAmount();
+                    invoiceSubTotal = invoiceSubTotal.add(sourceTotal);
+                    paymentSubTotal = paymentSubTotal.add(paymentAmount);
+                    remainingSubTotal = remainingSubTotal.add(sourceTotal.subtract(paymentSubTotal));
+                }
+            }
+            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
+            allSubTotal.add(0, invoiceSubTotal);
+            allSubTotal.add(1, paymentSubTotal);
+            allSubTotal.add(2, remainingSubTotal);
+
+            returnSubTotalMap.put(value, allSubTotal);
+        }
+        return returnSubTotalMap;
+    }
+
+    /**
+     * Calculates the sub-totals and totals of the given data holder for the sake of the CSV export
+     * @param cgInvoiceReportDataHolder the report's data
+     * @return a simple class holding a Map of sub-totals and a report detail data holder of totals
+     */
+    protected CSVMapAndTotalsHolder calculateTotalsForCSVExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
+        BigDecimal invoiceTotal = BigDecimal.ZERO;
+        BigDecimal paymentTotal = BigDecimal.ZERO;
+        BigDecimal remainingTotal = BigDecimal.ZERO;
+        Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map = new LinkedHashMap<String, List<ContractsGrantsAgingReportDetailDataHolder>>();
+        for (ContractsGrantsAgingReportDetailDataHolder reportDetail : (List<ContractsGrantsAgingReportDetailDataHolder>)cgInvoiceReportDataHolder.getDetails()) {
+            invoiceTotal = invoiceTotal.add(reportDetail.getInvoiceAmount());
+            paymentTotal = paymentTotal.add(reportDetail.getPaymentAmount());
+            remainingTotal = remainingTotal.add(reportDetail.getRemainingAmount());
+
+            List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(reportDetail.getAgencyNumber());
+            if (ObjectUtils.isNull(list)) {
+                list = new LinkedList<ContractsGrantsAgingReportDetailDataHolder>();
+            }
+            list.add(reportDetail);
+            map.put(reportDetail.getAgencyNumber(), list);
+        }
+
+        Map<String, List<KualiDecimal>> subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
+
+        if (ObjectUtils.isNotNull(map) && !map.isEmpty()) {
+            for (String key : map.keySet()) {
+                List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(key);
+                if (ObjectUtils.isNotNull(list) && !list.isEmpty()) {
+                    ContractsGrantsAgingReportDetailDataHolder cGDetailHolderNew = new ContractsGrantsAgingReportDetailDataHolder();
+                    cGDetailHolderNew.setDisplaySubtotalInd(true);
+                    cGDetailHolderNew.setInvoiceSubTotal((subTotalMap.get(key)).get(0).bigDecimalValue());
+                    cGDetailHolderNew.setPaymentSubTotal((subTotalMap.get(key)).get(1).bigDecimalValue());
+                    cGDetailHolderNew.setRemainingSubTotal((subTotalMap.get(key)).get(2).bigDecimalValue());
+                    list.add(cGDetailHolderNew);
+                    map.put(key, list);
+                }
+            }
+        }
+
+        // set total field
+        ContractsGrantsAgingReportDetailDataHolder reportDetail = new ContractsGrantsAgingReportDetailDataHolder();
+        reportDetail.setDisplayTotalInd(true);
+        reportDetail.setInvoiceTotal(invoiceTotal);
+        reportDetail.setPaymentTotal(paymentTotal);
+        reportDetail.setRemainingTotal(remainingTotal);
+
+        return new CSVMapAndTotalsHolder(map, reportDetail);
+    }
+
+    /**
+     * Inner class to hold sub-totals map and totals data holder for CSV export
+     */
+    protected class CSVMapAndTotalsHolder {
+        protected Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map;
+        protected ContractsGrantsAgingReportDetailDataHolder reportDetail;
+
+        protected CSVMapAndTotalsHolder(Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map, ContractsGrantsAgingReportDetailDataHolder reportDetail) {
+            this.map = map;
+            this.reportDetail = reportDetail;
+        }
+
+        public Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> getMap() {
+            return map;
+        }
+
+        public ContractsGrantsAgingReportDetailDataHolder getReportDetail() {
+            return reportDetail;
+        }
+    }
+
     @NonTransactional
     public PersonService getPersonService() {
         return personService;
@@ -663,5 +744,13 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
     @NonTransactional
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

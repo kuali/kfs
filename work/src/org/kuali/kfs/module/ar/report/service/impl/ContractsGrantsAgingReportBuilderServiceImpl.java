@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.report.ReportInfo;
@@ -43,6 +43,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
     protected ReportInfo reportInfo;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
 
     /**
      *
@@ -55,7 +56,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
         Map<String, List<KualiDecimal>> subTotalMap = new HashMap<String, List<KualiDecimal>>();
 
         if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap((List<ContractsGrantsInvoiceDocument>)displayList, sortPropertyName);
+            subTotalMap = getContractsGrantsAgingReportService().buildSubTotalMap((List<ContractsGrantsInvoiceDocument>)displayList, sortPropertyName);
         }
 
         BigDecimal invoiceTotal = BigDecimal.ZERO;
@@ -113,42 +114,6 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
     @Override
     public Class<? extends BusinessObject> getDetailsClass() {
         return ContractsGrantsInvoiceDocument.class;
-    }
-
-    /**
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    protected Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
-        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
-            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
-            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
-
-            for (ContractsGrantsInvoiceDocument cgInvoiceReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
-                    KualiDecimal sourceTotal = cgInvoiceReportEntry.getSourceTotal();
-                    KualiDecimal paymentAmount = cgInvoiceReportEntry.getPaymentAmount();
-                    invoiceSubTotal = invoiceSubTotal.add(sourceTotal);
-                    paymentSubTotal = paymentSubTotal.add(paymentAmount);
-                    remainingSubTotal = remainingSubTotal.add(sourceTotal.subtract(paymentSubTotal));
-                }
-            }
-            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
-            allSubTotal.add(0, invoiceSubTotal);
-            allSubTotal.add(1, paymentSubTotal);
-            allSubTotal.add(2, remainingSubTotal);
-
-            returnSubTotalMap.put(value, allSubTotal);
-        }
-        return returnSubTotalMap;
     }
 
     /**
@@ -211,5 +176,13 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {
+        return contractsGrantsAgingReportService;
+    }
+
+    public void setContractsGrantsAgingReportService(ContractsGrantsAgingReportService contractsGrantsAgingReportService) {
+        this.contractsGrantsAgingReportService = contractsGrantsAgingReportService;
     }
 }

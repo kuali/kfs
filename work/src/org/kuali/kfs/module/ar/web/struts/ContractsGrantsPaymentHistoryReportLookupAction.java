@@ -28,11 +28,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.service.ContractsGrantsPaymentHistoryReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.WebUtils;
 
 /**
@@ -68,7 +66,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         buildReportForSearchCriteria(cgPaymentHistoryReportDataHolder.getSearchCriteria(), cgPaymentHistoryReportLookupForm.getFieldsForLookup(),ContractsGrantsPaymentHistoryReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = SpringContext.getBean(ContractsGrantsPaymentHistoryReportService.class).generateReport(cgPaymentHistoryReportDataHolder, baos);
+        String reportFileName = generateReportPdf(cgPaymentHistoryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
     }

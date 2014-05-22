@@ -15,12 +15,25 @@
  */
 package org.kuali.kfs.module.ar.report.service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
+
+import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
+import org.kuali.kfs.sys.report.ReportInfo;
 
 /**
  * Interface of services which want to help out with building Contracts & Grants Report Services
  */
 public interface ContractsGrantsReportHelperService {
+    /**
+     * This method generates reports for the Contracts Grants Report Services
+     * @param reportDataHolder
+     * @param reportInfo
+     * @param baos
+     * @return
+     */
+    public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ReportInfo reportInfo, ByteArrayOutputStream baos);
+
     /**
      * Creates a list of the property values of a given property
      * @param list a List of objects to get property names from

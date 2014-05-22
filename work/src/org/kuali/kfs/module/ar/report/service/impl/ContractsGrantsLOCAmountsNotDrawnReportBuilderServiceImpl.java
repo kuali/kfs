@@ -26,13 +26,16 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsLOCAmountsNotDrawnReportDet
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService which helps with the Contracts & Grants LOC Amounts Not Drawn Report
  */
-public class ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<ContractsGrantsLOCAmountsNotDrawnReport> {
+public class ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -40,19 +43,19 @@ public class ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl implement
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsLOCAmountsNotDrawnReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         // check field is valid for subtotal
         boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgLOCAmountsNotDrawnReportSubtotalFieldsList.contains(sortPropertyName);
         Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
 
         if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
+            subTotalMap = buildSubTotalMap((List<ContractsGrantsLOCAmountsNotDrawnReport>)displayList, sortPropertyName);
         }
 
         ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = new ContractsGrantsReportDataHolder();
         List<ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder> details = cgLOCAmountsNotDrawnReportDataHolder.getDetails();
 
-        for (ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountsNotDrawnReportEntry : displayList) {
+        for (ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountsNotDrawnReportEntry : (List<ContractsGrantsLOCAmountsNotDrawnReport>)displayList) {
             ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder reportDetail = new ContractsGrantsLOCAmountsNotDrawnReportDetailDataHolder();
             // set report data
             setReportDate(cgLOCAmountsNotDrawnReportEntry, reportDetail);
@@ -79,7 +82,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl implement
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<ContractsGrantsLOCAmountsNotDrawnReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return ContractsGrantsLOCAmountsNotDrawnReport.class;
     }
 
@@ -124,6 +127,15 @@ public class ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl implement
         reportDetail.setAmountToDraw(amountToDraw);
         BigDecimal fundsNotDrawn = (ObjectUtils.isNull(cgLOCAmountsNotDrawnReportEntry.getFundsNotDrawn())) ? BigDecimal.ZERO : cgLOCAmountsNotDrawnReportEntry.getFundsNotDrawn().bigDecimalValue();
         reportDetail.setFundsNotDrawn(fundsNotDrawn);
+    }
+
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

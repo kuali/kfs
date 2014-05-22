@@ -21,22 +21,25 @@ import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.report.CollectionActivityReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Service which builds a report object for the Collection Activity Report
  */
-public class CollectionActivityReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<CollectionActivityReport> {
+public class CollectionActivityReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
 
     /**
      * Builds the report
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<CollectionActivityReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
         List<CollectionActivityReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
 
-        for (CollectionActivityReport collActReportEntry : displayList) {
+        for (CollectionActivityReport collActReportEntry : (List<CollectionActivityReport>)displayList) {
             CollectionActivityReportDetailDataHolder reportDetail = new CollectionActivityReportDetailDataHolder();
             // set report data
             reportDetail = new CollectionActivityReportDetailDataHolder(collActReportEntry);
@@ -52,8 +55,16 @@ public class CollectionActivityReportBuilderServiceImpl implements ContractsGran
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<CollectionActivityReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return CollectionActivityReport.class;
     }
 
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
+    }
 }

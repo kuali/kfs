@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsMilestoneReportService;
@@ -50,12 +51,21 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         List<ContractsGrantsMilestoneReport> displayList = lookupReportValues(milestoneReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsMilestoneReport");
 
-        ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsMilestoneReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
         buildReportForSearchCriteria(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = SpringContext.getBean(ContractsGrantsMilestoneReportService.class).generateReport(cgMilestoneReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsMilestoneReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_MILESTONE;
     }
 }

@@ -58,7 +58,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
         List<TicklersReport> displayList = lookupReportValues(ticklersReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "TicklersReport");
 
-        ContractsGrantsReportDataHolder arTicklersReportDataHolder = getContractsGrantsReportDataBuilderService(TicklersReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder arTicklersReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         buildReportForSearchCriteria(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
 
@@ -89,5 +89,14 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
                 searchCriteria.add(criteriaData);
             }
         }
+    }
+
+    /**
+     * Returns "ticklersReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.TICKLERS;
     }
 }

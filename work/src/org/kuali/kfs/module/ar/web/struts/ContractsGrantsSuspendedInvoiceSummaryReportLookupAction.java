@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
@@ -35,7 +34,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
 
 /**
@@ -59,13 +57,8 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = lookupReportValues(cgSuspendedInvoiceSummaryReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsSuspendedInvoiceSummaryReport");
 
-        // check field is valid for subtotal
-        // this report doesn't have subtotal
-        boolean isFieldSubtotalRequired = false;
-        Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
-
         // build report
-        ContractsGrantsReportDataBuilderService<ContractsGrantsSuspendedInvoiceSummaryReport> reportDataBuilderService = getContractsGrantsReportDataBuilderService(ContractsGrantsSuspendedInvoiceSummaryReport.class);
+        ContractsGrantsReportDataBuilderService reportDataBuilderService = getContractsGrantsReportDataBuilderService();
         ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
@@ -82,5 +75,14 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         String reportFileName = SpringContext.getBean(ContractsGrantsSuspendedInvoiceSummaryReportService.class).generateReport(cgSuspendedInvoiceSummaryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsSuspendedInvoiceReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY;
     }
 }

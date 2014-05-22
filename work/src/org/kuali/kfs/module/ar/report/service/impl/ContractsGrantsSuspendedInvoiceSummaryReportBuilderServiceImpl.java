@@ -23,19 +23,22 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSum
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
+import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService for the Contracts & Grants Suspended Invoice Summary Report
  */
-public class ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<ContractsGrantsSuspendedInvoiceSummaryReport> {
+public class ContractsGrantsSuspendedInvoiceSummaryReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
 
     /**
      * Builds a report from the given list of details
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         // check field is valid for subtotal
         // this report doesn't have subtotal
         boolean isFieldSubtotalRequired = false;
@@ -45,7 +48,7 @@ public class ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl implements 
         ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = new ContractsGrantsReportDataHolder();
         List<ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder> details = cgSuspendedInvoiceSummaryReportDataHolder.getDetails();
 
-        for (ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry : displayList) {
+        for (ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReportEntry : (List<ContractsGrantsSuspendedInvoiceSummaryReport>)displayList) {
             ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder reportDetail = new ContractsGrantsSuspendedInvoiceSummaryReportDetailDataHolder();
             // set report data
             setReportDate(cgSuspendedInvoiceSummaryReportEntry, reportDetail);
@@ -73,8 +76,16 @@ public class ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl implements 
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<ContractsGrantsSuspendedInvoiceSummaryReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return ContractsGrantsSuspendedInvoiceSummaryReport.class;
     }
 
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
+    }
 }

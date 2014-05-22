@@ -45,7 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This Action Class defines all the core methods for Contracts and Grants Lookup.
  */
-public class ContractsGrantsReportLookupAction extends KualiLookupAction {
+public abstract class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
     protected static final String SORT_INDEX_SESSION_KEY = "sortIndex";
     protected static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
@@ -169,11 +169,16 @@ public class ContractsGrantsReportLookupAction extends KualiLookupAction {
     }
 
     /**
+     * @return the name of the bean which helps the child Action build the reports associated
+     */
+    public abstract String getReportBuilderServiceBeanName();
+
+    /**
      * Returns the ContractsGrantsReportDataBuilderService which builds reports out of the given detailClass
      * @param detailClass the detailClass to find a builder service for
      * @return the ContractsGrantsReportDataBuilderService
      */
-    public <B extends BusinessObject> ContractsGrantsReportDataBuilderService<B> getContractsGrantsReportDataBuilderService(Class<B> detailClass) {
-        return getContractsGrantsReportHelperService().getReportBuilderService(detailClass);
+    public ContractsGrantsReportDataBuilderService getContractsGrantsReportDataBuilderService() {
+        return SpringContext.getBean(ContractsGrantsReportDataBuilderService.class, getReportBuilderServiceBeanName());
     }
 }

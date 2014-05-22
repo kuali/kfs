@@ -17,19 +17,10 @@ package org.kuali.kfs.module.ar.report.service;
 
 import java.util.List;
 
-import org.kuali.rice.krad.bo.BusinessObject;
-
 /**
  * Interface of services which want to help out with building Contracts & Grants Report Services
  */
 public interface ContractsGrantsReportHelperService {
-    /**
-     * Looks up the implementation of ContractsGrantsReportDataBuilderService for the given detail class
-     * @param detailClass the class of the detail to find a report building service for
-     * @return the implementation of ContractsGrantsReportDataBuilderService
-     */
-    public <B extends BusinessObject> ContractsGrantsReportDataBuilderService<B> getReportBuilderService(Class<B> detailClass);
-
     /**
      * Creates a list of the property values of a given property
      * @param list a List of objects to get property names from

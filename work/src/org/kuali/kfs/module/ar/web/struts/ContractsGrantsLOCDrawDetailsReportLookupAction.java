@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsLOCDrawDetailsReportService;
@@ -50,7 +51,7 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
         List<ContractsGrantsLOCDrawDetailsReport> displayList = lookupReportValues(cgLOCDrawDetailsReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCDrawDetailsReport");
 
-        ContractsGrantsReportDataHolder cgLOCDrawDetailsReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsLOCDrawDetailsReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgLOCDrawDetailsReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         // build search criteria for report
         buildReportForSearchCriteria(cgLOCDrawDetailsReportDataHolder.getSearchCriteria(), cgLOCDrawDetailsReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCDrawDetailsReport.class);
@@ -59,5 +60,14 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
         String reportFileName = SpringContext.getBean(ContractsGrantsLOCDrawDetailsReportService.class).generateReport(cgLOCDrawDetailsReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsLOCDrawDetailsReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_LOC_DRAW_DETAILS;
     }
 }

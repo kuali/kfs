@@ -21,20 +21,24 @@ import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.TicklersReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService for the Ticklers Report
  */
-public class TicklersReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<TicklersReport> {
+public class TicklersReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
+
     /**
      * Builds the report
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<TicklersReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         ContractsGrantsReportDataHolder arTicklersReportDataHolder = new ContractsGrantsReportDataHolder();
         List<TicklersReportDetailDataHolder> ticklersReportDetails = arTicklersReportDataHolder.getDetails();
-        for (TicklersReport tr : displayList) {
+        for (TicklersReport tr : (List<TicklersReport>)displayList) {
             TicklersReportDetailDataHolder trDataHolder = new TicklersReportDetailDataHolder(tr);
             ticklersReportDetails.add(trDataHolder);
         }
@@ -46,7 +50,16 @@ public class TicklersReportBuilderServiceImpl implements ContractsGrantsReportDa
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<TicklersReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return TicklersReport.class;
+    }
+
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
     }
 }

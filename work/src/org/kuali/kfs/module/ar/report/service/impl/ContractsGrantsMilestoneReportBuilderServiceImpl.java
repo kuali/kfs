@@ -23,21 +23,25 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsMilestoneReportDetailDataHo
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService to help build the Contracts Grants Milestone Report
  */
-public class ContractsGrantsMilestoneReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<ContractsGrantsMilestoneReport> {
+public class ContractsGrantsMilestoneReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
+
     /**
      * Builds the report
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsMilestoneReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = new ContractsGrantsReportDataHolder();
         List<ContractsGrantsMilestoneReportDetailDataHolder> details = cgMilestoneReportDataHolder.getDetails();
-        for (ContractsGrantsMilestoneReport cgMilestoneReport : displayList) {
+        for (ContractsGrantsMilestoneReport cgMilestoneReport : (List<ContractsGrantsMilestoneReport>)displayList) {
             ContractsGrantsMilestoneReportDetailDataHolder reportDetail = new ContractsGrantsMilestoneReportDetailDataHolder();
             // set report data
             setReportDate(cgMilestoneReport, reportDetail);
@@ -54,7 +58,7 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<ContractsGrantsMilestoneReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return ContractsGrantsMilestoneReport.class;
     }
 
@@ -76,5 +80,14 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
         } else {
             reportDetail.setActive(KFSConstants.ParameterValues.NO);
         }
+    }
+
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
     }
 }

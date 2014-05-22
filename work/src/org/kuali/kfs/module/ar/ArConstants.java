@@ -474,4 +474,18 @@ public class ArConstants{
     public static final String SEMI_ANNUALLY_BILLING_SCHEDULE_CODE = "SEMI";
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
+
+    public static class ReportBuilderDataServiceBeanNames {
+        public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
+        public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";
+        public static final String CONTRACTS_GRANTS_INVOICE = "contractsGrantsInvoiceReportBuilderService";
+        public static final String COLLECTION_ACTIVITY = "collectionActivityReportBuilderService";
+        public static final String CONTRACTS_GRANTS_LOC_AMOUNTS_NOT_DRAWN = "contractsGrantsLOCAmountsNotDrawnReportBuilderService";
+        public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS = "contractsGrantsLOCDrawDetailsReportBuilderService";
+        public static final String CONTRACTS_GRANTS_MILESTONE = "contractsGrantsMilestoneReportBuilderService";
+        public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY = "contractsGrantsPaymentHistoryReportBuilderService";
+        public static final String TICKLERS = "ticklersReportBuilderService";
+        public static final String REFERRAL_TO_COLLECTION = "referralToCollectionsReportBuilderService";
+        public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
+    }
 }

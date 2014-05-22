@@ -31,14 +31,17 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Builds the DataHolder for the Contracts & Grants Invoice Aging report
  */
-public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<ContractsGrantsInvoiceDocument> {
+public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -46,13 +49,13 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
         // check field is valid for subtotal
         boolean isFieldSubtotalRequired = true;
         Map<String, List<KualiDecimal>> subTotalMap = new HashMap<String, List<KualiDecimal>>();
 
         if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
+            subTotalMap = buildSubTotalMap((List<ContractsGrantsInvoiceDocument>)displayList, sortPropertyName);
         }
 
         BigDecimal invoiceTotal = BigDecimal.ZERO;
@@ -63,7 +66,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
         List<ContractsGrantsAgingReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
 
-        for (ContractsGrantsInvoiceDocument cgInvoiceEntry : displayList) {
+        for (ContractsGrantsInvoiceDocument cgInvoiceEntry : (List<ContractsGrantsInvoiceDocument>)displayList) {
             ContractsGrantsAgingReportDetailDataHolder reportDetail = new ContractsGrantsAgingReportDetailDataHolder();
             // set report data
             setReportData(cgInvoiceEntry, reportDetail);
@@ -108,7 +111,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<ContractsGrantsInvoiceDocument> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return ContractsGrantsInvoiceDocument.class;
     }
 
@@ -191,6 +194,15 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
 
         BigDecimal remainingAmount = invoiceAmount.subtract(paymentAmount);
         reportDetail.setRemainingAmount(remainingAmount);
+    }
+
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

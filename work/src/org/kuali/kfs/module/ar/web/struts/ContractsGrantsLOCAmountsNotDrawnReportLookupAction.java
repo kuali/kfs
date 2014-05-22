@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsLOCAmountsNotDrawnReportService;
@@ -50,7 +51,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         List<ContractsGrantsLOCAmountsNotDrawnReport> displayList = lookupReportValues(cgLOCAmountsNotDrawnReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCAmountsNotDrawnReport");
 
-        ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsLOCAmountsNotDrawnReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         // build search criteria for report
         buildReportForSearchCriteria(cgLOCAmountsNotDrawnReportDataHolder.getSearchCriteria(), cgLOCAmountsNotDrawnReportLookupForm.getFieldsForLookup(), ContractsGrantsLOCAmountsNotDrawnReport.class);
@@ -59,5 +60,14 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         String reportFileName = SpringContext.getBean(ContractsGrantsLOCAmountsNotDrawnReportService.class).generateReport(cgLOCAmountsNotDrawnReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsLOCAmountsNotDrawnReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_LOC_AMOUNTS_NOT_DRAWN;
     }
 }

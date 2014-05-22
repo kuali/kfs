@@ -66,7 +66,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
         List<CollectionActivityReport> displayList = lookupReportValues(collActReportLookupForm, request, false);
         sortReportValues(displayList, "CollectionActivityReport");
 
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(CollectionActivityReport.class).buildReportDataHolder(displayList, null);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, null);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
@@ -111,5 +111,14 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
                 }
             }
         }
+    }
+
+    /**
+     * Returns "collectionActivityReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.COLLECTION_ACTIVITY;
     }
 }

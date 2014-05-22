@@ -64,20 +64,9 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         ReferralToCollectionsReportForm refToCollReportLookupForm = (ReferralToCollectionsReportForm) form;
 
         List<ReferralToCollectionsReport> displayList = lookupReportValues(refToCollReportLookupForm, request, true);
+        String sortPropertyName = sortReportValues(displayList, ArPropertyConstants.ReferralToCollectionsReportFields.PDF_SORT_PROPERTY);
 
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
-        // set default sort index as 0 (Proposal Number)
-        if (ObjectUtils.isNull(sortIndexObject)) {
-            sortIndexObject = "0";
-        }
-
-        // get sort property
-        String sortPropertyName = ArPropertyConstants.ReferralToCollectionsReportFields.PDF_SORT_PROPERTY;
-
-        // sort list
-        sortReport(displayList, ArPropertyConstants.ReferralToCollectionsReportFields.LIST_SORT_PROPERTY);
-
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(ReferralToCollectionsReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgInvoiceReportDataHolder.getDetails())){
@@ -122,5 +111,33 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
                 }
             }
         }
+    }
+
+    /**
+     * The sortPropertyName here is hard coded to so we need to do some special logic
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#sortReportValues(java.util.List, java.lang.String)
+     */
+    @Override
+    protected <B extends BusinessObject> String sortReportValues(List<B> displayList, String sortFieldName) {
+        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
+        // set default sort index as 0 (Proposal Number)
+        if (ObjectUtils.isNull(sortIndexObject)) {
+            sortIndexObject = "0";
+        }
+
+        // get sort property
+        String sortPropertyName = ArPropertyConstants.ReferralToCollectionsReportFields.PDF_SORT_PROPERTY;
+        // sort list
+        sortReport(displayList, ArPropertyConstants.ReferralToCollectionsReportFields.LIST_SORT_PROPERTY);
+        return sortPropertyName;
+    }
+
+    /**
+     * Returns "referralToCollectionsReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.REFERRAL_TO_COLLECTION;
     }
 }

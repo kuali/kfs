@@ -536,7 +536,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsInvoiceReportInfo" parent="contractsGrantsInvoiceReportInfo-parentBean"/>
+	<bean id="contractsGrantsInvoiceReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts Grants Invoice Report" />
 		<property name="reportFileName" value="cg_invoice_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -599,7 +600,8 @@
 		</property>		
 	</bean>
 
-	<bean id="contractsGrantsPaymentHistoryReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsPaymentHistoryReportInfo" parent="contractsGrantsPaymentHistoryReportInfo-parentBean" />
+	<bean id="contractsGrantsPaymentHistoryReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Payment History Report" />
 		<property name="reportFileName" value="cg_payment_history_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -642,7 +644,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCDrawDetailsReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsLOCDrawDetailsReportInfo" parent="contractsGrantsLOCDrawDetailsReportInfo-parentBean"/>
+	<bean id="contractsGrantsLOCDrawDetailsReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts Grants LOC Draw Details Report" />
 		<property name="reportFileName" value="cg_loc_draw_details_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -684,7 +687,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo" parent="contractsGrantsLOCAmountsNotDrawnReportInfo-parentBean" />
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts Grants LOC Amounts Not Drawn Report" />
 		<property name="reportFileName" value="cg_loc_amounts_not_drawn_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -726,7 +730,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceSummaryReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportInfo" parent="contractsGrantsSuspendedInvoiceSummaryReportInfo-parentBean" />
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Suspended Invoice Summary Report" />
 		<property name="reportFileName" value="cg_suspended_invoice_summary_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -768,7 +773,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceDetailReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportInfo" parent="contractsGrantsSuspendedInvoiceDetailReportInfo-parentBean"/>
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Suspended Invoice Detail Report" />
 		<property name="reportFileName" value="cg_suspended_invoice_detail_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -813,7 +819,8 @@
 		</property>
 	</bean>
 
-	<bean id="ticklersReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="ticklersReportInfo" parent="ticklersReportInfo-parentBean" />
+	<bean id="ticklersReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Tickler Report" />
 		<property name="reportFileName" value="ar_tickler_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -839,7 +846,8 @@
 		</property>
 	</bean>
 	
-	<bean id="cgAgingReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="cgAgingReportInfo" parent="cgAgingReportInfo-parentBean"/>
+	<bean id="cgAgingReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts and Grants Aged Accounts Receivable Report" />
 		<property name="reportFileName" value="ar_cgb_aging_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -887,7 +895,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsMilestoneReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="contractsGrantsMilestoneReportInfo" parent="contractsGrantsMilestoneReportInfo-parentBean"/>
+	<bean id="contractsGrantsMilestoneReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Milestone Report" />
 		<property name="reportFileName" value="cg_milestone_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -2061,7 +2070,8 @@
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
   
-	<bean id="collActReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+  	<bean id="collActReportInfo" parent="collActReportInfo-parentBean" />
+	<bean id="collActReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Collection Activity Report" />
 		<property name="reportFileName" value="ar_collection_act_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -2096,7 +2106,8 @@
 		</property>
 	</bean>
 
-	<bean id="refToCollReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="refToCollReportInfo" parent="refToCollReportInfo-parentBean" />
+	<bean id="refToCollReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Referral To Collections Report" />
 		<property name="reportFileName" value="ar_ref_coll_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -2338,45 +2349,65 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
 	</bean>
 	
-	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService" parent="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean"/>
-	<bean id="contractsGrantsSuspendedInvoiceReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportBuilderServiceImpl"/>
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportBuilderService" parent="contractsGrantsSuspendedInvoiceSummaryReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsSuspendedInvoiceSummaryReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceSummaryReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsSuspendedInvoiceSummaryReportInfo"/>
+	</bean>
 	
 	<bean id="contractsGrantsAgingReportBuilderService" parent="contractsGrantsAgingReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsAgingReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportBuilderServiceImpl">
+		<property name="reportInfo" ref="cgAgingReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="contractsGrantsInvoiceReportBuilderService" parent="contractsGrantsInvoiceReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsInvoiceReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsInvoiceReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="collectionActivityReportBuilderService" parent="collectionActivityReportBuilderService-parentBean"/>
-	<bean id="collectionActivityReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportBuilderServiceImpl"/>
+	<bean id="collectionActivityReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportBuilderServiceImpl">
+		<property name="reportInfo" ref="collActReportInfo"/>
+	</bean>
 	
 	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService" parent="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsLOCAmountsNotDrawnReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="contractsGrantsMilestoneReportBuilderService" parent="contractsGrantsMilestoneReportBuilderService-parentBean"/>
-	<bean id="contractsGrantsMilestoneReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportBuilderServiceImpl"/>
+	<bean id="contractsGrantsMilestoneReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsMilestoneReportInfo"/>
+	</bean>
 	
 	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService" parent="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsLOCDrawDetailsReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="contractsGrantsPaymentHistoryReportBuilderService" parent="contractsGrantsPaymentHistoryReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsPaymentHistoryReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsPaymentHistoryReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsPaymentHistoryReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	
 	<bean id="ticklersReportBuilderService" parent="ticklersReportBuilderService-parentBean"/>
-	<bean id="ticklersReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportBuilderServiceImpl"/>
+	<bean id="ticklersReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportBuilderServiceImpl">
+		<property name="reportInfo" ref="ticklersReportInfo"/>
+	</bean>
 	
 	<bean id="referralToCollectionsReportBuilderService" parent="referralToCollectionsReportBuilderService-parentBean"/>
 	<bean id="referralToCollectionsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportBuilderServiceImpl">
+		<property name="reportInfo" ref="refToCollReportInfo"/>
+		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportBuilderService" parent="contractsGrantsSuspendedInvoiceDetailReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsSuspendedInvoiceDetailReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceDetailReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsSuspendedInvoiceDetailReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 </beans>

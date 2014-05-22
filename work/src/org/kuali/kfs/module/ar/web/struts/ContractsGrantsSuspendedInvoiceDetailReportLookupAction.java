@@ -16,10 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,15 +28,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.kfs.module.ar.report.ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsSuspendedInvoiceDetailReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action Class for Contracts Grants Suspended Invoice Detail Report Lookup.
@@ -62,37 +56,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
         List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = lookupReportValues(cgSuspendedInvoiceDetailReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsSuspendedInvoiceDetailReport");
 
-        // check field is valid for subtotal
-        boolean isFieldSubtotalRequired = ArConstants.ReportsConstants.cgSuspendedInvoiceDetailReportSubtotalFieldsList.contains(sortPropertyName);
-        Map<String, KualiDecimal> subTotalMap = new HashMap<String, KualiDecimal>();
-
-        if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-        }
-
-        // build report
-        ContractsGrantsReportDataHolder cgPaymentHistoryReportDataHolder = new ContractsGrantsReportDataHolder();
-        List<ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder> details = cgPaymentHistoryReportDataHolder.getDetails();
-
-        for (ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReportEntry : displayList) {
-            ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder reportDetail = new ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder();
-            // set report data
-            setReportDate(cgSuspendedInvoiceDetailReportEntry, reportDetail);
-
-            if (isFieldSubtotalRequired) {
-                // set sortedFieldValue for grouping in the report
-                reportDetail.setSortedFieldValue(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
-                // set subTotal from subTotalMap
-                reportDetail.setSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName)).bigDecimalValue());
-            }
-            else {
-                // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
-            }
-            details.add(reportDetail);
-        }
-        cgPaymentHistoryReportDataHolder.setDetails(details);
+        ContractsGrantsReportDataHolder cgPaymentHistoryReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgPaymentHistoryReportDataHolder.getDetails())){
@@ -111,41 +75,11 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
     }
 
     /**
-     * @param displayList
-     * @param sortPropertyName
-     * @return
+     * Returns "contractsGrantsSuspendedInvoiceDetailReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
      */
-    private Map<String, KualiDecimal> buildSubTotalMap(List<ContractsGrantsSuspendedInvoiceDetailReport> displayList, String sortPropertyName) {
-        Map<String, KualiDecimal> returnSubTotalMap = new HashMap<String, KualiDecimal>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal subTotal = KualiDecimal.ZERO;
-            for (ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgSuspendedInvoiceDetailReportEntry, sortPropertyName))) {
-                    subTotal = subTotal.add(cgSuspendedInvoiceDetailReportEntry.getAwardTotal());
-                }
-            }
-            returnSubTotalMap.put(value, subTotal);
-        }
-        return returnSubTotalMap;
-    }
-
-    /**
-     * @param cgSuspendedInvoiceDetailReportEntry
-     * @param reportDetail
-     */
-    private void setReportDate(ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReportEntry, ContractsGrantsSuspendedInvoiceDetailReportDetailDataHolder reportDetail) {
-        reportDetail.setSuspenseCategory(cgSuspendedInvoiceDetailReportEntry.getSuspensionCategoryCode());
-        reportDetail.setDocumentNumber(cgSuspendedInvoiceDetailReportEntry.getDocumentNumber());
-        reportDetail.setLetterOfCreditFundGroupCode(cgSuspendedInvoiceDetailReportEntry.getLetterOfCreditFundGroupCode());
-        reportDetail.setFundManager(cgSuspendedInvoiceDetailReportEntry.getFundManagerPrincipalName());
-        reportDetail.setProjectDirector(cgSuspendedInvoiceDetailReportEntry.getProjectDirectorPrincipalName());
-        BigDecimal awardTotal = (ObjectUtils.isNull(cgSuspendedInvoiceDetailReportEntry.getAwardTotal())) ? BigDecimal.ZERO : cgSuspendedInvoiceDetailReportEntry.getAwardTotal().bigDecimalValue();
-        reportDetail.setAwardTotal(awardTotal);
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL;
     }
 }

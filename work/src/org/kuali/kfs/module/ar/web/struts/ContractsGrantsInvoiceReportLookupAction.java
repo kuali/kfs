@@ -54,7 +54,7 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         List<ContractsGrantsInvoiceReport> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsInvoiceReport");
 
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsInvoiceReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
         // set report name using invoiceReportOption
         String invoiceReportOption = cgInvoiceReportLookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
         cgInvoiceReportDataHolder.setReportTitle(ArConstants.OUTSTANDING_INVOICE_REPORT);
@@ -72,5 +72,14 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         String reportFileName = SpringContext.getBean(ContractsGrantsInvoiceReportService.class).generateReport(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsInvoiceReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_INVOICE;
     }
 }

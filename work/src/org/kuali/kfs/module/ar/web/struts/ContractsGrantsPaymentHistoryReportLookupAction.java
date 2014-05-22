@@ -25,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsPaymentHistoryReportService;
@@ -54,7 +55,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         List<ContractsGrantsPaymentHistoryReport> displayList = lookupReportValues(cgPaymentHistoryReportLookupForm, request, true);
         final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsPaymentHistoryReport");
 
-        ContractsGrantsReportDataHolder cgPaymentHistoryReportDataHolder = getContractsGrantsReportDataBuilderService(ContractsGrantsPaymentHistoryReport.class).buildReportDataHolder(displayList, sortPropertyName);
+        ContractsGrantsReportDataHolder cgPaymentHistoryReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 
         // Avoid generating pdf if there were no search results were returned
         if (CollectionUtils.isEmpty(cgPaymentHistoryReportDataHolder.getDetails())){
@@ -70,5 +71,14 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         String reportFileName = SpringContext.getBean(ContractsGrantsPaymentHistoryReportService.class).generateReport(cgPaymentHistoryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "contractsGrantsPaymentHistoryReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_PAYMENT_HISTORY;
     }
 }

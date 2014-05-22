@@ -305,7 +305,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         // sort list
         sortReport(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.LIST_SORT_PROPERTY);
 
-        final ContractsGrantsReportDataBuilderService<ContractsGrantsInvoiceDocument> reportBuilderService = getContractsGrantsReportDataBuilderService(ContractsGrantsInvoiceDocument.class);
+        final ContractsGrantsReportDataBuilderService reportBuilderService = getContractsGrantsReportDataBuilderService();
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = reportBuilderService.buildReportDataHolder(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY);
         cgInvoiceReportDataHolder.setReportTitle("Contracts and Grants Aged Accounts Receivable Report \nAging Group: Total as of " + (String) cgInvoiceReportLookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
 
@@ -365,7 +365,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         // sort list
         sortReport(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.LIST_SORT_PROPERTY);
 
-        final ContractsGrantsReportDataBuilderService<ContractsGrantsInvoiceDocument> reportBuilderService = getContractsGrantsReportDataBuilderService(ContractsGrantsInvoiceDocument.class);
+        final ContractsGrantsReportDataBuilderService reportBuilderService = getContractsGrantsReportDataBuilderService();
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = reportBuilderService.buildReportDataHolder(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY);
 
         BigDecimal invoiceTotal = BigDecimal.ZERO;
@@ -460,5 +460,14 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             returnSubTotalMap.put(value, allSubTotal);
         }
         return returnSubTotalMap;
+    }
+
+    /**
+     * Returns "contractsGrantsAgingReportBuilderService"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getReportBuilderServiceBeanName()
+     */
+    @Override
+    public String getReportBuilderServiceBeanName() {
+        return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_AGING;
     }
 }

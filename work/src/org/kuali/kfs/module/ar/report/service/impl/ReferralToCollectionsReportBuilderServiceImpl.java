@@ -26,11 +26,14 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ReferralToCollectionsReportDetailDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Implementation of ContractsGrantsReportDataBuilderService which helps the Referral to Collections report
  */
-public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService<ReferralToCollectionsReport> {
+public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsGrantsReportDataBuilderService {
+    protected ReportInfo reportInfo;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -38,13 +41,13 @@ public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsG
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#buildReportDataHolder(java.util.List, java.lang.String)
      */
     @Override
-    public ContractsGrantsReportDataHolder buildReportDataHolder(List<ReferralToCollectionsReport> displayList, String sortPropertyName) {
+    public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName) {
      // check field is valid for subtotal
         boolean isFieldSubtotalRequired = true;
         Map<String, List<BigDecimal>> subTotalMap = new HashMap<String, List<BigDecimal>>();
 
         if (isFieldSubtotalRequired) {
-            subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
+            subTotalMap = buildSubTotalMap((List<ReferralToCollectionsReport>)displayList, sortPropertyName);
         }
 
         BigDecimal invoiceTotal = BigDecimal.ZERO;
@@ -53,7 +56,7 @@ public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsG
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = new ContractsGrantsReportDataHolder();
         List<ReferralToCollectionsReportDetailDataHolder> details = cgInvoiceReportDataHolder.getDetails();
 
-        for (ReferralToCollectionsReport refToCollections : displayList) {
+        for (ReferralToCollectionsReport refToCollections : (List<ReferralToCollectionsReport>)displayList) {
             ReferralToCollectionsReportDetailDataHolder reportDetail = new ReferralToCollectionsReportDetailDataHolder();
             // set report data
             reportDetail = new ReferralToCollectionsReportDetailDataHolder(refToCollections);
@@ -87,7 +90,7 @@ public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsG
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService#getDetailsClass()
      */
     @Override
-    public Class<ReferralToCollectionsReport> getDetailsClass() {
+    public Class<? extends BusinessObject> getDetailsClass() {
         return ReferralToCollectionsReport.class;
     }
 
@@ -123,6 +126,15 @@ public class ReferralToCollectionsReportBuilderServiceImpl implements ContractsG
             returnSubTotalMap.put(value, allSubTotal);
         }
         return returnSubTotalMap;
+    }
+
+    @Override
+    public ReportInfo getReportInfo() {
+        return reportInfo;
+    }
+
+    public void setReportInfo(ReportInfo reportInfo) {
+        this.reportInfo = reportInfo;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

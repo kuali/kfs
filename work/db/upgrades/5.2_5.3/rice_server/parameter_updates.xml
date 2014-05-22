@@ -37,7 +37,6 @@
             <column name="PARM_NM" value="EXPIRATION_DATE_BACKDATING_FUND_GROUPS" />
             <column name="APPL_ID" value="KFS" />
             <column name="OBJ_ID" valueNumeric="KFS-PARM-169" />
-            <column name="VER_NBR" value="1" />
             <column name="PARM_TYP_CD" value="VALID" />
             <column name="VAL" value="" />
             <column name="PARM_DESC_TXT" value="Fund groups that allow backdating of the expiration date." />
@@ -52,7 +51,6 @@
             <column name="CMPNT_CD" value="CoinDetail" />
             <column name="PARM_NM" value="COUNT_PER_ROLL_BY_DENOMINATION" />
             <column name="OBJ_ID" value="KFS-PARM-170" />
-            <column name="VER_NBR" value="1" />
             <column name="PARM_TYP_CD" value="CONFG" />
             <column name="VAL" value="100c=25;50c=20;25c=40;10c=50;5c=40;1c=50" />
             <column name="PARM_DESC_TXT" value="Counts of coins per roll for each standard roll. Note: each roll is defined in the format of denomination =countPerRoll; countPerRoll must be a positive integer; all 6 rolls shall be defined, separated by semicolon; the order of them does not matter." />

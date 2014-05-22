@@ -162,7 +162,7 @@
 		
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFS10848" />
-			<column name="OBJ_ID" value="KFS-ROLE_RSP-036" />
+			<column name="OBJ_ID" value="KFS-ROLE-RSP-036" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<!-- Cash Receipt Initiator: We should not route to CR Initiator, because this is the role used for permission
 				of who can initiate CR. What we need is THE initiator of the current CR, not any CR initiator. The proper

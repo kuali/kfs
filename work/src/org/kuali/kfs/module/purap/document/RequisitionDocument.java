@@ -132,7 +132,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return super.answerSplitNodeQuestion(nodeName);
     }
 
-    protected boolean isMissingAccountingLines() {
+    public boolean isMissingAccountingLines() {
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
             if (item.isConsideredEntered() && item.isAccountListEmpty()) {

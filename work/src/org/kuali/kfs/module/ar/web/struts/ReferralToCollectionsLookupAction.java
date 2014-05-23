@@ -18,32 +18,22 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Action class for Referral To Collections Lookup.
  */
-public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupAction {
+public class ReferralToCollectionsLookupAction extends ContractsGrantsMultipleValueLookupAction {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferralToCollectionsLookupAction.class);
 
@@ -70,18 +60,19 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
      */
     @Override
     protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
-        String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
-
-        List<ResultRow> resultTable = null;
-        try {
-            LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        List<ResultRow> resultTable = super.selectAll(multipleValueLookupForm, maxRowsPerPage);
+        if (multipleValueLookupForm.getPreviouslySortedColumnIndex() != null) {
+            multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
         }
-        catch (Exception e) {
-            LOG.error("error occured trying to export multiple lookup results", e);
-            throw new RuntimeException("error occured trying to export multiple lookup results");
-        }
+        return resultTable;
+    }
 
+    /**
+     * Collects ids from the lookup that are selected; checks children rows for ReferralToCollectionsResultRow
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsMultipleValueLookupAction#collectSelectedObjectIds(java.util.List)
+     */
+    @Override
+    protected Map<String, String> collectSelectedObjectIds(List<ResultRow> resultTable) {
         Map<String, String> selectedObjectIds = new HashMap<String, String>();
 
         for (ResultRow row : resultTable) {
@@ -98,50 +89,15 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
                 selectedObjectIds.put(objId, objId);
             }
         }
-
-        multipleValueLookupForm.jumpToPage(multipleValueLookupForm.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
-        if (multipleValueLookupForm.getPreviouslySortedColumnIndex() != null) {
-            multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
-        }
-        multipleValueLookupForm.setCompositeObjectIdMap(selectedObjectIds);
-
-        return resultTable;
+        return selectedObjectIds;
     }
 
     /**
-     * This method does the processing necessary to return selected results and sends a redirect back to the lookup caller
-     *
-     * @param mapping
-     * @param form must be an instance of MultipleValueLookupForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Returns "arReferralToCollectionsSummary.do"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsMultipleValueLookupAction#getActionUrl()
      */
     @Override
-    public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
-        if (StringUtils.isBlank(multipleValueLookupForm.getLookupResultsSequenceNumber())) {
-            // no search was executed
-            return prepareToReturnNone(mapping, form, request, response);
-        }
-
-        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(), multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
-        Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
-
-        if (!compositeObjectIds.isEmpty()) {
-            prepareToReturnSelectedResultBOs(multipleValueLookupForm);
-
-            // build the parameters for the refresh url
-            Properties parameters = new Properties();
-            parameters.put(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "viewSummary");
-
-            String referralToCollectionsSummaryUrl = UrlFactory.parameterizeUrl("arReferralToCollectionsSummary.do", parameters);
-            return new ActionForward(referralToCollectionsSummaryUrl, true);
-        }
-        else {
-            return mapping.findForward(RiceConstants.MAPPING_BASIC);
-        }
+    protected String getActionUrl() {
+        return "arReferralToCollectionsSummary.do";
     }
 }

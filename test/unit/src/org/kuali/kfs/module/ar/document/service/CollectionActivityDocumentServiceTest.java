@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -141,6 +142,9 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             event.setActivityDate(today);
             SpringContext.getBean(BusinessObjectService.class).save(event);
             cgInvoice.getEvents().add(event);
+            for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+                invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            }
             documentService.saveDocument(cgInvoice);
 
 

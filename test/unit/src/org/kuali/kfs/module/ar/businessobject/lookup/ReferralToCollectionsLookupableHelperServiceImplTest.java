@@ -26,6 +26,7 @@ import java.util.Map;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -114,6 +115,9 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
 
         ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+        }
         documentService.saveDocument(cgInvoice);
 
         assertTrue(referralToCollectionsLookupableHelperServiceImpl.performLookup(referralToCollectionsLookupForm, resultTable, true).size() > 0);

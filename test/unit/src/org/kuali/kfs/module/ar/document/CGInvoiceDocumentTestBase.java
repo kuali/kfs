@@ -29,6 +29,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
@@ -128,6 +129,9 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                         boService.save(offset);
                     }
                     document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode);
+                    for (InvoiceAddressDetail invoiceAddressDetail : document.getInvoiceAddressDetails()) {
+                        invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+                    }
                 }
             }
         }

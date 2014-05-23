@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -125,7 +126,9 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         Date today = new Date(ts.getTime());
 
         cgInvoice.setBillingDate(today);
-
+        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+        }
         documentService.saveDocument(cgInvoice);
         fieldValues = new LinkedHashMap();
         fieldValues.put("invoiceDocumentNumber", cgInvoice.getDocumentNumber());

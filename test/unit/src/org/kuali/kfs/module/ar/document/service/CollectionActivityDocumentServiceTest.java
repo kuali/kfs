@@ -127,6 +127,10 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
 
             ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
             cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+                invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+                invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
+            }
             documentService.saveDocument(cgInvoice);
 
             // to Add events
@@ -142,10 +146,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             event.setActivityDate(today);
             SpringContext.getBean(BusinessObjectService.class).save(event);
             cgInvoice.getEvents().add(event);
-            for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
-                invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
-                invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
-            }
+
             documentService.saveDocument(cgInvoice);
 
 

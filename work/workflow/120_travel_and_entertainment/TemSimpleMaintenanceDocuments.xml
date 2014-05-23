@@ -45,7 +45,7 @@
       <label>Contact Relationship Type</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fcontactrelationshipty.htm
+      	default.htm?turl=WordDocuments%2Fcontactrelationshiptype.htm
       </helpDefinitionURL>
     </documentType>
     <documentType>
@@ -69,7 +69,7 @@
       <label>Special Circumstances Question</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fspecialcircumstancesq.htm
+      	default.htm?turl=WordDocuments%2Fspecialcircumstancesquestion.htm
       </helpDefinitionURL>
     </documentType>
     <documentType>
@@ -125,7 +125,7 @@
       <label>Expense Type Object Code</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fexpensetypeobjectcod.htm
+      	default.htm?turl=WordDocuments%2Fexpensetypeobjectcode.htm
       </helpDefinitionURL>
     </documentType>
     <documentType>
@@ -157,7 +157,7 @@
       <label>Travel Agency Audit and Correction</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Ftravelagencyauditand.htm
+      	default.htm?turl=WordDocuments%2Ftravelagencyauditandcorrection.htm
       </helpDefinitionURL>
     </documentType>
     <documentType>
@@ -181,7 +181,7 @@
       <label>Credit Card Imported Expense Clearing Document</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fcreditcardimportedex.htm
+      	default.htm?turl=WordDocuments%2Fcreditcardimportedexpenseclearingdocument.htm
       </helpDefinitionURL>
     </documentType>
     <documentType>
@@ -189,7 +189,7 @@
       <label>Per Diem Meals and Incidentals Breakdown</label>
       <parent>TTSM</parent>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fperdiemmealsandincid.htm
+      	default.htm?turl=WordDocuments%2Fperdiemmealsandincidentalsbreakdown.htm
       </helpDefinitionURL>
     </documentType>
   </documentTypes>

@@ -38,7 +38,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fmovingandrelocation.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fmovingandrelocationreimbursement.htm" />
 	<where>DOC_TYP_NM = RELO and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -48,7 +48,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fentertainmentreimbur.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fentertainmentreimbursement.htm" />
 	<where>DOC_TYP_NM = ENT and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -58,7 +58,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcorporatecardapplica.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcorporatecardapplication.htm" />
 	<where>DOC_TYP_NM = CCAP and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -83,7 +83,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcontactrelationshipty.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcontactrelationshiptype.htm" />
 	<where>DOC_TYP_NM = TCRT and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -98,7 +98,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fspecialcircumstancesq.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fspecialcircumstancesquestion.htm" />
 	<where>DOC_TYP_NM = TSCQ and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -133,7 +133,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fexpensetypeobjectcod.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fexpensetypeobjectcode.htm" />
 	<where>DOC_TYP_NM = ETOC and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -153,7 +153,7 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelagencyauditand.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelagencyauditandcorrection.htm" />
 	<where>DOC_TYP_NM = TAAR and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
@@ -168,27 +168,27 @@
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcreditcardimportedex.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcreditcardimportedexpenseclearingdocument.htm" />
 	<where>DOC_TYP_NM = CCIE and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperdiemmealsandincid.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperdiemmealsandincidentalsbreakdown.htm" />
 	<where>DOC_TYP_NM = TPDB and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorization2.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorization.htm" />
 	<where>DOC_TYP_NM = TA and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationa.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationamendment.htm" />
 	<where>DOC_TYP_NM = TAA and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 
 <update tableName="KREW_DOC_TYP_T">
-	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationc.htm" />
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationclose.htm" />
 	<where>DOC_TYP_NM = TAC and CUR_IND = 1 AND ACTV_IND = 1</where>
 </update>
 

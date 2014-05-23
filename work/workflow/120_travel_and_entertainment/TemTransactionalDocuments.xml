@@ -72,8 +72,11 @@
 			<docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler
 			</docHandler>
 			<helpDefinitionURL>
-      			default.htm?turl=WordDocuments%2Ftravelauthorization2.htm
+      			default.htm?turl=WordDocuments%2Ftravelauthorization.htm
       		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ftravelauthorization1.htm
+      		</docSearchHelpURL>
 			<label>Travel Authorization</label>
 			<active>
 				true
@@ -402,6 +405,9 @@
             <helpDefinitionURL>
       			default.htm?turl=WordDocuments%2Ftravelreimbursement.htm
       	  	</helpDefinitionURL>
+      	  	<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ftravelreimbursement1.htm
+      		</docSearchHelpURL>
             <label>Travel Reimbursement</label>
             <active>
                 true
@@ -720,8 +726,11 @@
             <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>			
-			default.htm?turl=WordDocuments%2Fmovingandrelocation.htm		
-      	  </helpDefinitionURL>		
+				default.htm?turl=WordDocuments%2Fmovingandrelocationreimbursement.htm		
+      	  	</helpDefinitionURL>	
+      	  	<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fmovingandrelocation.htm
+      		</docSearchHelpURL>		
             <label>Moving and Relocation Reimbursement</label>
             <attributes>
 				<attribute>
@@ -1018,8 +1027,11 @@
             <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>	
-				default.htm?turl=WordDocuments%2Fentertainmentreimbur.htm
-      		</helpDefinitionURL>	
+				default.htm?turl=WordDocuments%2Fentertainmentreimbursement.htm
+      		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fentertainmentreimbursement1.htm
+      		</docSearchHelpURL>	
             <label>Entertainment Reimbursement</label>
             <attributes>
 				<attribute>
@@ -1298,8 +1310,11 @@
 			<label>Corporate Card Application</label>
 			<docHandler>${kfs.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>	
-				default.htm?turl=WordDocuments%2Fcorporatecardapplica.htm
+				default.htm?turl=WordDocuments%2Fcorporatecardapplication1.htm
       		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcorporatecardapplication.htm
+      		</docSearchHelpURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>

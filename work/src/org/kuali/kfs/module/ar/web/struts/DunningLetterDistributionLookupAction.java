@@ -129,16 +129,7 @@ public class DunningLetterDistributionLookupAction extends KualiMultipleValueLoo
         Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(), multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
 
-        // The results need to be validated to check if there is at-least one value selected
-
-        boolean success = false;
         if (!compositeObjectIds.isEmpty()) {
-            success = true;
-        }
-
-
-        if (success) {
-
             prepareToReturnSelectedResultBOs(multipleValueLookupForm);
 
             // build the parameters for the refresh url
@@ -148,7 +139,6 @@ public class DunningLetterDistributionLookupAction extends KualiMultipleValueLoo
 
             String dunningLetterDistributionResultRowSummaryUrl = UrlFactory.parameterizeUrl("arDunningLetterDistributionSummary.do", parameters);
             return new ActionForward(dunningLetterDistributionResultRowSummaryUrl, true);
-
         }
         else {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);

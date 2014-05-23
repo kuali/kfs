@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -79,19 +78,8 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
         Map<String, String> selectedObjectIds = new HashMap<String, String>();
 
         for (ResultRow row : resultTable) {
-
-            // actual object ids are on sub result rows, not on parent rows
-            if (row instanceof CollectionActivityInvoiceResultRow) {
-
-                // for (ResultRow subResultRow : ((CollectionActivityInvoiceLookup) row).getSubResultRows()) {
-                String objId = row.getObjectId();
-                selectedObjectIds.put(objId, objId);
-                // }
-            }
-            else {
-                String objId = row.getObjectId();
-                selectedObjectIds.put(objId, objId);
-            }
+            String objId = row.getObjectId();
+            selectedObjectIds.put(objId, objId);
         }
 
         multipleValueLookupForm.jumpToPage(multipleValueLookupForm.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
@@ -124,16 +112,7 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
         Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(), multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
 
-        // The results need to be validated to check if there is at-least one value selected
-
-        boolean success = false;
         if (!compositeObjectIds.isEmpty()) {
-            success = true;
-        }
-        for (String selectedObjectId : multipleValueLookupForm.getSelectedObjectIdSet()) {
-        }
-        if (success) {
-
             prepareToReturnSelectedResultBOs(multipleValueLookupForm);
 
             // build the parameters for the refresh url
@@ -143,7 +122,6 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
 
             String referralToCollectionsSummaryUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
             return mapping.findForward(referralToCollectionsSummaryUrl);
-
         }
         else {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);

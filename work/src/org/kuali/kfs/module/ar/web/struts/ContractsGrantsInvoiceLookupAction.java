@@ -132,16 +132,7 @@ public class ContractsGrantsInvoiceLookupAction extends KualiMultipleValueLookup
         Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(), multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
 
-        // The results need to be validated to check if there is at-least one value selected
-
-        boolean success = false;
         if (!compositeObjectIds.isEmpty()) {
-            success = true;
-        }
-
-
-        if (success) {
-
             prepareToReturnSelectedResultBOs(multipleValueLookupForm);
 
             // build the parameters for the refresh url
@@ -151,7 +142,6 @@ public class ContractsGrantsInvoiceLookupAction extends KualiMultipleValueLookup
 
             String contractsGrantsInvoiceSummaryUrl = UrlFactory.parameterizeUrl("arContractsGrantsInvoiceSummary.do", parameters);
             return new ActionForward(contractsGrantsInvoiceSummaryUrl, true);
-
         }
         else {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,12 +33,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Action class for Referral To Collections Lookup.
@@ -63,7 +63,7 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
 
     /**
      * This method performs the operations necessary for a multiple value lookup to select all of the results and rerender the page
-     * 
+     *
      * @param multipleValueLookupForm
      * @param maxRowsPerPage
      * @return a list of result rows, used by the UI to render the page
@@ -110,7 +110,7 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
 
     /**
      * This method does the processing necessary to return selected results and sends a redirect back to the lookup caller
-     * 
+     *
      * @param mapping
      * @param form must be an instance of MultipleValueLookupForm
      * @param request
@@ -118,6 +118,7 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
         if (StringUtils.isBlank(multipleValueLookupForm.getLookupResultsSequenceNumber())) {
@@ -128,15 +129,7 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
         Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(), multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
 
-        // The results need to be validated to check if there is at-least one value selected
-
-        boolean success = false;
         if (!compositeObjectIds.isEmpty()) {
-            success = true;
-        }
-
-        if (success) {
-
             prepareToReturnSelectedResultBOs(multipleValueLookupForm);
 
             // build the parameters for the refresh url
@@ -146,7 +139,6 @@ public class ReferralToCollectionsLookupAction extends KualiMultipleValueLookupA
 
             String referralToCollectionsSummaryUrl = UrlFactory.parameterizeUrl("arReferralToCollectionsSummary.do", parameters);
             return new ActionForward(referralToCollectionsSummaryUrl, true);
-
         }
         else {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);

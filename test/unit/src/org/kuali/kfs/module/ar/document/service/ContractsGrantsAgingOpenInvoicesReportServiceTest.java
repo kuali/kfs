@@ -90,6 +90,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceTest extends KualiTest
         cgInvoice.setCustomerName(CUSTOMER_NAME);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
         }
         documentService.saveDocument(cgInvoice);
 

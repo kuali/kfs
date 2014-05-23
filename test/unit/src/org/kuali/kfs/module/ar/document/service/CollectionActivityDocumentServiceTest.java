@@ -144,6 +144,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             cgInvoice.getEvents().add(event);
             for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
                 invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+                invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
             }
             documentService.saveDocument(cgInvoice);
 

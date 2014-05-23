@@ -141,6 +141,7 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
         }
         documentService.saveDocument(cgInvoice);
 

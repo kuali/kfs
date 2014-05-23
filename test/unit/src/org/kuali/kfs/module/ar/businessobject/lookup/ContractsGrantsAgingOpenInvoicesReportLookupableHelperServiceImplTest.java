@@ -97,6 +97,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         cgInvoice.setCustomerName(customerName);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
         }
         documentService.saveDocument(cgInvoice);
 

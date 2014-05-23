@@ -131,6 +131,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                     document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode);
                     for (InvoiceAddressDetail invoiceAddressDetail : document.getInvoiceAddressDetails()) {
                         invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+                        invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
                     }
                 }
             }

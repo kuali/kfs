@@ -128,6 +128,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         cgInvoice.setBillingDate(today);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
         }
         documentService.saveDocument(cgInvoice);
         fieldValues = new LinkedHashMap();

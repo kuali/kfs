@@ -418,8 +418,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     }
 
     /**
-     * Copies all original currency and coin amounts to cash manager confirmed currency and coin amounts,
-     * in both Currency and Coin Detail tab and Change Request tab.
+     * Copies all original currency and coin amounts to cash manager confirmed currency and coin amounts.
      *
      * @param mapping
      * @param form
@@ -434,12 +433,29 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
 
         crDoc.getConfirmedCurrencyDetail().copyAmounts(crDoc.getCurrencyDetail());
         crDoc.getConfirmedCoinDetail().copyAmounts(crDoc.getCoinDetail());
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Copies all original change currency and coin amounts to cash manager confirmed change currency and coin amounts.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward copyAllChangeCurrencyAndCoin(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashReceiptForm crForm = (CashReceiptForm) form;
+        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
+
         crDoc.getConfirmedChangeCurrencyDetail().copyAmounts(crDoc.getChangeCurrencyDetail());
         crDoc.getConfirmedChangeCoinDetail().copyAmounts(crDoc.getChangeCoinDetail());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
 
     /**
      * Initializes form values which must be derived form document contents (i.e. those which aren't directly available from the

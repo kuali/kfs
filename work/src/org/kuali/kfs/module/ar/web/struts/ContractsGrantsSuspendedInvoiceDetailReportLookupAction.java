@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Action Class for Contracts Grants Suspended Invoice Detail Report Lookup.
@@ -69,6 +70,15 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupAction extends Con
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(cgPaymentHistoryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        return null;
+    }
+
+    /**
+     * This report does not have a title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
         return null;
     }
 

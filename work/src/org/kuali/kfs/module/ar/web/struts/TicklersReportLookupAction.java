@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -64,6 +65,15 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(arTicklersReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        return null;
+    }
+
+    /**
+     * This report does not have a title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
         return null;
     }
 

@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Action class for Contracts Grants Milestone Report Lookup.
@@ -55,6 +56,15 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(cgMilestoneReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        return null;
+    }
+
+    /**
+     * This report does not have a title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
         return null;
     }
 

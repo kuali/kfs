@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnR
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Action Class for the Contracts Grants LOC Amounts Not Drawn Report Lookup.
@@ -57,6 +58,15 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(cgLOCAmountsNotDrawnReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        return null;
+    }
+
+    /**
+     * Evidently this report does not deserve a title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
         return null;
     }
 

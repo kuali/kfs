@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Action class for Contracts Grants Invoice Report Lookup.
@@ -55,7 +56,7 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
         // set report name using invoiceReportOption
         String invoiceReportOption = cgInvoiceReportLookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
-        cgInvoiceReportDataHolder.setReportTitle(ArConstants.OUTSTANDING_INVOICE_REPORT);
+        cgInvoiceReportDataHolder.setReportTitle(generateReportTitle(cgInvoiceReportLookupForm));
 
         // build search criteria for report
         buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsGrantsInvoiceReport.class);
@@ -70,6 +71,15 @@ public class ContractsGrantsInvoiceReportLookupAction extends ContractsGrantsRep
         String reportFileName = generateReportPdf(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Returns "Outstanding Invoice Report" as the report title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
+        return ArConstants.OUTSTANDING_INVOICE_REPORT;
     }
 
     /**

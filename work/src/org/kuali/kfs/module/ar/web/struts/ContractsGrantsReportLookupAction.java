@@ -180,6 +180,13 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      */
     public abstract String getReportBuilderServiceBeanName();
 
+    /**
+     * Generates the report title for generated reports.  If null, a report title will not be set
+     * @param lookupForm a form with information which may be used in the title
+     * @return String the title for the report
+     */
+    public abstract String generateReportTitle(LookupForm lookupForm);
+
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
         if (contractsGrantsReportHelperService == null) {
             contractsGrantsReportHelperService = SpringContext.getBean(ContractsGrantsReportHelperService.class);

@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -75,7 +76,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         }
 
         // set report name using invoiceReportOption
-        cgInvoiceReportDataHolder.setReportTitle("Referral to Collections Report");
+        cgInvoiceReportDataHolder.setReportTitle(generateReportTitle(refToCollReportLookupForm));
 
         // build search criteria for report
         buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), refToCollReportLookupForm.getFieldsForLookup(), CollectionActivityReport.class);
@@ -86,6 +87,14 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
         return null;
     }
 
+    /**
+     * Returns the String "Referral to Collections Report" as a title
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
+        return "Referral to Collections Report";
+    }
 
     /**
      * This method is used to build pdf report search criteria for Collection activity report

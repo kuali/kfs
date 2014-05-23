@@ -303,7 +303,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
         final ContractsGrantsReportDataBuilderService reportBuilderService = getContractsGrantsReportDataBuilderService();
         ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = reportBuilderService.buildReportDataHolder(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY);
-        cgInvoiceReportDataHolder.setReportTitle("Contracts and Grants Aged Accounts Receivable Report \nAging Group: Total as of " + (String) cgInvoiceReportLookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+        cgInvoiceReportDataHolder.setReportTitle(generateReportTitle(cgInvoiceReportLookupForm));
 
         // build search criteria for report
         buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsAndGrantsAgingReport.class);
@@ -313,6 +313,15 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         String reportFileName = generateReportPdf(cgInvoiceReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Builds the title for the report
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#setReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
+     */
+    @Override
+    public String generateReportTitle(LookupForm lookupForm) {
+        return "Contracts and Grants Aged Accounts Receivable Report \nAging Group: Total as of " + (String) lookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
     }
 
     /**

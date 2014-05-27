@@ -432,6 +432,8 @@ public class KFSConstants {
     public static final String METHOD_TO_CALL_PARM13_RIGHT_DEL = ";:::)";
     // if more strings needed, then add more colons to the PARM11 strings above, e.g. (::; (:::;, etc.
 
+    public final static long MILLSECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+
     public static final String ACTION_EXTENSION_DOT_DO = ".do";
     public static final String ANCHOR = "anchor";
     public static final String ANCHOR_TOP_OF_FORM = "topOfForm";

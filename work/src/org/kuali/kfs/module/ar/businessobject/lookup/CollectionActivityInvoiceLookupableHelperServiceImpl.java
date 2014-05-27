@@ -171,82 +171,77 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         List returnKeys = getReturnKeys();
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        int i = 0;
-        try {
-            // iterate through result list and wrap rows with return url and action urls
-            for (Object aDisplayList : displayList) {
-                BusinessObject element = (BusinessObject) aDisplayList;
 
-                BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                String actionUrls = "www.someACTIONurl";
+        // iterate through result list and wrap rows with return url and action urls
+        for (Object aDisplayList : displayList) {
+            BusinessObject element = (BusinessObject) aDisplayList;
 
-                if (ObjectUtils.isNotNull(getColumns())) {
-                    List<Column> columns = getColumns();
-                    for (Object column : columns) {
+            BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
+            String actionUrls = "www.someACTIONurl";
 
-                        Column col = (Column) column;
-                        Formatter formatter = col.getFormatter();
+            if (ObjectUtils.isNotNull(getColumns())) {
+                List<Column> columns = getColumns();
+                for (Object column : columns) {
 
-                        // pick off result column from result list, do formatting
-                        Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                    Column col = (Column) column;
+                    Formatter formatter = col.getFormatter();
 
-                        String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
-                        Class propClass = getPropertyClass(element, col.getPropertyName());
+                    // pick off result column from result list, do formatting
+                    Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
-                        // formatters
-                        if (ObjectUtils.isNotNull(prop)) {
-                            // for Booleans, always use BooleanFormatter
-                            if (prop instanceof Boolean) {
-                                formatter = new BooleanFormatter();
-                            }
+                    String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
+                    Class propClass = getPropertyClass(element, col.getPropertyName());
 
-                            // for Dates, always use DateFormatter
-                            if (prop instanceof Date) {
-                                formatter = new DateFormatter();
-                            }
-
-                            // for collection, use the list formatter if a formatter hasn't been defined yet
-                            if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                                formatter = new CollectionFormatter();
-                            }
-
-                            if (ObjectUtils.isNotNull(formatter)) {
-                                propValue = (String) formatter.format(prop);
-                            }
-                            else {
-                                propValue = prop.toString();
-                            }
+                    // formatters
+                    if (ObjectUtils.isNotNull(prop)) {
+                        // for Booleans, always use BooleanFormatter
+                        if (prop instanceof Boolean) {
+                            formatter = new BooleanFormatter();
                         }
 
-                        // comparator
-                        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+                        // for Dates, always use DateFormatter
+                        if (prop instanceof Date) {
+                            formatter = new DateFormatter();
+                        }
 
-                        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
-                        col.setPropertyValue(propValue);
+                        // for collection, use the list formatter if a formatter hasn't been defined yet
+                        if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
+                            formatter = new CollectionFormatter();
+                        }
 
-                    }
-                    lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
-                    HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-                    CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
-                        row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
-                        row.setRowId(returnUrl.getName());
-                        row.setReturnUrlHtmlData(returnUrl);
-                    boolean isRowReturnable = isResultReturnable(element);
-                    row.setRowReturnable(isRowReturnable);
-                    if (isRowReturnable) {
-                        hasReturnableRow = true;
+                        if (ObjectUtils.isNotNull(formatter)) {
+                            propValue = (String) formatter.format(prop);
+                        }
+                        else {
+                            propValue = prop.toString();
+                        }
                     }
 
-                    resultTable.add(row);
+                    // comparator
+                    col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                    col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                    propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
+                    col.setPropertyValue(propValue);
+
                 }
-                lookupForm.setHasReturnableRow(hasReturnableRow);
+                lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
+                HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
+                CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+                    row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
+                    row.setRowId(returnUrl.getName());
+                    row.setReturnUrlHtmlData(returnUrl);
+                boolean isRowReturnable = isResultReturnable(element);
+                row.setRowReturnable(isRowReturnable);
+                if (isRowReturnable) {
+                    hasReturnableRow = true;
+                }
+
+                resultTable.add(row);
             }
+            lookupForm.setHasReturnableRow(hasReturnableRow);
         }
-        catch (Exception e) {
-            // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            LOG.error("problem during collectionActivityInvoiceLookupableHelperService.performLookup()", e);
-        }
+
         return displayList;
     }
 
@@ -340,6 +335,4 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
         return titleText;
     }
-
-
 }

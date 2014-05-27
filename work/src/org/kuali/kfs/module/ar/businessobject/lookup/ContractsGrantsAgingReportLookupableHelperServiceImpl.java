@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -242,7 +243,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 results.add(detail);
             }
         }
-        catch (Exception ex) {
+        catch (ParseException ex) {
             LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults()",ex);
         }
         return new CollectionIncomplete<ContractsAndGrantsAgingReport>(results, (long) results.size());
@@ -312,6 +313,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         }
         catch (Exception ex) {
             LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded()",ex);
+            throw new RuntimeException("Could not parse dates in ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded()",ex);
         }
         return new CollectionIncomplete<ContractsGrantsInvoiceDocument>(results, (long) results.size());
     }
@@ -432,118 +434,112 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
             Person user = GlobalVariables.getUserSession().getPerson();
 
-            try {
-                // iterate through result list and wrap rows with return url and action urls
-                for (Object aDisplayList : displayList) {
-                    BusinessObject element = (BusinessObject) aDisplayList;
+            // iterate through result list and wrap rows with return url and action urls
+            for (Object aDisplayList : displayList) {
+                BusinessObject element = (BusinessObject) aDisplayList;
 
-                    BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                    String returnUrl = "www.bigfrickenRETURNurl";
-                    String actionUrls = "www.someACTIONurl";
+                BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
+                String returnUrl = "www.bigfrickenRETURNurl";
+                String actionUrls = "www.someACTIONurl";
 
-                    if (ObjectUtils.isNotNull(getColumns())) {
-                        List<Column> columns = getColumns();
-                        populateCutoffdateLabels();
-                        for (Object column : columns) {
+                if (ObjectUtils.isNotNull(getColumns())) {
+                    List<Column> columns = getColumns();
+                    populateCutoffdateLabels();
+                    for (Object column : columns) {
 
-                            Column col = (Column) column;
-                            Formatter formatter = col.getFormatter();
+                        Column col = (Column) column;
+                        Formatter formatter = col.getFormatter();
 
-                            // pick off result column from result list, do formatting
-                            Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                        // pick off result column from result list, do formatting
+                        Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
-                            String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
-                            Class propClass = getPropertyClass(element, col.getPropertyName());
+                        String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
+                        Class propClass = getPropertyClass(element, col.getPropertyName());
 
-                            // formatters
-                            if (ObjectUtils.isNotNull(prop)) {
-                                // for Booleans, always use BooleanFormatter
-                                if (prop instanceof Boolean) {
-                                    formatter = new BooleanFormatter();
-                                }
-
-                                // for Dates, always use DateFormatter
-                                if (prop instanceof Date) {
-                                    formatter = new DateFormatter();
-                                }
-
-                                // for collection, use the list formatter if a formatter hasn't been defined yet
-                                if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                                    formatter = new CollectionFormatter();
-                                }
-
-                                if (ObjectUtils.isNotNull(formatter)) {
-                                    propValue = (String) formatter.format(prop);
-                                }
-                                else {
-                                    propValue = prop.toString();
-                                }
+                        // formatters
+                        if (ObjectUtils.isNotNull(prop)) {
+                            // for Booleans, always use BooleanFormatter
+                            if (prop instanceof Boolean) {
+                                formatter = new BooleanFormatter();
                             }
 
-                            // comparator
-
-
-                            col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                            col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-
-                            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
-                            col.setPropertyValue(propValue);
-
-                            // add correct label for sysparam
-                            if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName())) {
-                                col.setColumnTitle(cutoffdate91toSYSPRlabel);
-                            }
-                            if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName())) {
-                                col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
-                            }
-                            if (StringUtils.equals("reportingName", col.getPropertyName())) {
-                                col.setColumnTitle(agencyShortName);
+                            // for Dates, always use DateFormatter
+                            if (prop instanceof Date) {
+                                formatter = new DateFormatter();
                             }
 
-                            if (StringUtils.isNotBlank(propValue)) {
-                                // do not add link to the values in column "Customer Name"
-                                if (StringUtils.equals(customerNameLabel, col.getColumnTitle())) {
-                                    col.setPropertyURL(getCustomerLookupUrl(element, col.getColumnTitle()));
-                                }
-                                else if (StringUtils.equals(customerNumberLabel, col.getColumnTitle())) {
-                                    col.setPropertyURL(getCustomerOpenInvoicesReportUrl(element, col.getColumnTitle(), lookupForm.getFieldsForLookup()));
-                                }
-                                else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.TOTAL_CREDITS, col.getColumnTitle())) {
-                                    col.setPropertyURL(getCreditMemoDocSearchUrl(element, col.getColumnTitle()));
-                                }
-                                else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.TOTAL_WRITEOFF, col.getColumnTitle())) {
-                                    col.setPropertyURL(getCustomerWriteoffSearchUrl(element, col.getColumnTitle()));
-                                }
-                                else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.AGENCY_SHORT_NAME, col.getColumnTitle())) {
-                                    col.setPropertyURL(getAgencyInquiryUrl(element, col.getColumnTitle()));
-                                }
-                                else {
-                                    col.setPropertyURL(getCustomerOpenInvoicesReportUrl(element, col.getColumnTitle(), lookupForm.getFieldsForLookup()));
-                                }
+                            // for collection, use the list formatter if a formatter hasn't been defined yet
+                            if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
+                                formatter = new CollectionFormatter();
                             }
 
+                            if (ObjectUtils.isNotNull(formatter)) {
+                                propValue = (String) formatter.format(prop);
+                            }
+                            else {
+                                propValue = prop.toString();
+                            }
                         }
 
-                        ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-                        if (element instanceof PersistableBusinessObject) {
-                            row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                        // comparator
+
+
+                        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
+                        col.setPropertyValue(propValue);
+
+                        // add correct label for sysparam
+                        if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName())) {
+                            col.setColumnTitle(cutoffdate91toSYSPRlabel);
+                        }
+                        if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName())) {
+                            col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
+                        }
+                        if (StringUtils.equals("reportingName", col.getPropertyName())) {
+                            col.setColumnTitle(agencyShortName);
                         }
 
-                        boolean rowReturnable = isResultReturnable(element);
-                        row.setRowReturnable(rowReturnable);
-                        if (rowReturnable) {
-                            hasReturnableRow = true;
+                        if (StringUtils.isNotBlank(propValue)) {
+                            // do not add link to the values in column "Customer Name"
+                            if (StringUtils.equals(customerNameLabel, col.getColumnTitle())) {
+                                col.setPropertyURL(getCustomerLookupUrl(element, col.getColumnTitle()));
+                            }
+                            else if (StringUtils.equals(customerNumberLabel, col.getColumnTitle())) {
+                                col.setPropertyURL(getCustomerOpenInvoicesReportUrl(element, col.getColumnTitle(), lookupForm.getFieldsForLookup()));
+                            }
+                            else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.TOTAL_CREDITS, col.getColumnTitle())) {
+                                col.setPropertyURL(getCreditMemoDocSearchUrl(element, col.getColumnTitle()));
+                            }
+                            else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.TOTAL_WRITEOFF, col.getColumnTitle())) {
+                                col.setPropertyURL(getCustomerWriteoffSearchUrl(element, col.getColumnTitle()));
+                            }
+                            else if (StringUtils.equals(ArConstants.ContractsGrantsAgingReportFields.AGENCY_SHORT_NAME, col.getColumnTitle())) {
+                                col.setPropertyURL(getAgencyInquiryUrl(element, col.getColumnTitle()));
+                            }
+                            else {
+                                col.setPropertyURL(getCustomerOpenInvoicesReportUrl(element, col.getColumnTitle(), lookupForm.getFieldsForLookup()));
+                            }
                         }
 
-                        resultTable.add(row);
                     }
 
-                    lookupForm.setHasReturnableRow(hasReturnableRow);
+                    ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                    if (element instanceof PersistableBusinessObject) {
+                        row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                    }
+
+                    boolean rowReturnable = isResultReturnable(element);
+                    row.setRowReturnable(rowReturnable);
+                    if (rowReturnable) {
+                        hasReturnableRow = true;
+                    }
+
+                    resultTable.add(row);
                 }
-            }
-            catch (Exception e) {
-                // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl-
-                LOG.error("problem during contractsGrantsAgingReportLookupableHelperService.performLookup()", e);
+
+                lookupForm.setHasReturnableRow(hasReturnableRow);
             }
 
 
@@ -562,7 +558,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     }
 
 
-    private String getCustomerOpenInvoicesReportUrl(BusinessObject bo, String columnTitle, Map<String, String> fieldsMap) {
+    protected String getCustomerOpenInvoicesReportUrl(BusinessObject bo, String columnTitle, Map<String, String> fieldsMap) {
 
         Properties parameters = new Properties();
 
@@ -639,7 +635,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param columnTitle
      * @return Returns the url for the Payment Application search.
      */
-    private String getCreditMemoDocSearchUrl(BusinessObject bo, String columnTitle) {
+    protected String getCreditMemoDocSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
 //      Note
@@ -659,7 +655,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param columnTitle
      * @return Returns the Url for the customer write off doc search
      */
-    private String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
+    protected String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
 //        Note
@@ -679,7 +675,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param columnTitle
      * @return Returns the url for the customer lookup
      */
-    private String getCustomerLookupUrl(BusinessObject bo, String columnTitle) {
+    protected String getCustomerLookupUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
@@ -699,7 +695,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param columnTitle
      * @return Returns the url for the Agency Inquiry
      */
-    private String getAgencyInquiryUrl(BusinessObject bo, String columnTitle) {
+    protected String getAgencyInquiryUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
@@ -710,7 +706,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
     }
 
-    private void populateCutoffdateLabels() {
+    protected void populateCutoffdateLabels() {
         customerNameLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.CUSTOMER_NAME).getLabel();
         customerNumberLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER).getLabel();
         cutoffdate30Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_0_TO_30).getLabel();
@@ -846,7 +842,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @param knownCustomers
      */
-    private void computeFor0To30DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void computeFor0To30DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
@@ -864,7 +860,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @param knownCustomers
      */
-    private void computeFor31To60DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void computeFor31To60DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
@@ -883,7 +879,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @param knownCustomers
      */
-    private void computeFor61To90DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void computeFor61To90DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
@@ -902,7 +898,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @param knownCustomers
      */
-    private void computeFor91ToSYSPRDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void computeFor91ToSYSPRDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
@@ -921,7 +917,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @param knownCustomers
      */
-    private void computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         for (String customer : customerIds) {
             ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
@@ -939,7 +935,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param customer
      * @return
      */
-    private ContractsAndGrantsAgingReport pickContractsGrantsAgingReportDetail(Map<String, ContractsAndGrantsAgingReport> knownCustomers, String customer) {
+    protected ContractsAndGrantsAgingReport pickContractsGrantsAgingReportDetail(Map<String, ContractsAndGrantsAgingReport> knownCustomers, String customer) {
         ContractsAndGrantsAgingReport agingReportDetail = null;
         if (ObjectUtils.isNull(agingReportDetail = knownCustomers.get(customer))) {
             agingReportDetail = new ContractsAndGrantsAgingReport();
@@ -956,7 +952,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param customerNumber
      * @return Returns the agency for the customer
      */
-    private ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
+    protected ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
         return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
@@ -970,7 +966,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @return
      */
-    private KualiDecimal calculateInvoiceAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
+    protected KualiDecimal calculateInvoiceAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
         KualiDecimal invoiceAmt = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
             for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
@@ -999,7 +995,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param end
      * @return
      */
-    private KualiDecimal calculatePaymentAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
+    protected KualiDecimal calculatePaymentAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
         KualiDecimal invoiceAmt = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
             for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
@@ -1026,7 +1022,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param cgMapByCustomer
      * @param knownCustomers
      */
-    private void calculateTotalCreditsForCustomers(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
+    protected void calculateTotalCreditsForCustomers(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
         Set<String> customerIds = cgMapByCustomer.keySet();
         KualiDecimal credits = KualiDecimal.ZERO;
         for (String customer : customerIds) {

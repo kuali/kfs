@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,15 +22,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,8 +38,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl extends ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl.class);
-
-    private DocumentService documentService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -62,40 +56,9 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsLOCAmountsNotDrawnReport> displayList = new ArrayList<ContractsGrantsLOCAmountsNotDrawnReport>();
-        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = businessObjectService.findAll(ContractsGrantsLetterOfCreditReviewDocument.class);
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
 
         for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
-            ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDocWithHeader;
-            // Docs that have a problem to get documentHeader won't be on the report
-            try {
-                cgLOCReviewDocWithHeader = (ContractsGrantsLetterOfCreditReviewDocument) documentService.getByDocumentHeaderId(cgLOCReviewDoc.getDocumentNumber());
-            }
-            catch (WorkflowException e) {
-                LOG.debug("WorkflowException happened while retrives documentHeader");
-                continue;
-            }
-
-            // If there is any problem to get workflowDocument, go to next doc
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = cgLOCReviewDocWithHeader.getDocumentHeader().getWorkflowDocument();
-            }
-            catch (RuntimeException e) {
-                LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                continue;
-            }
-
-            boolean isStatusFinal = false;
-            // Check status of document
-            if (ObjectUtils.isNotNull(workflowDocument)) {
-                isStatusFinal = workflowDocument.isFinal();
-            }
-
-            // If status of ContractsGrantsLOCReviewDocument is final or processed, go to next doc
-            if (!isStatusFinal) {
-                continue;
-            }
-
             List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
             List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
             if (accountReviewDetails.size() > 0) {
@@ -127,10 +90,9 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
                 cgLOCAmountNotDrawnReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
                 cgLOCAmountNotDrawnReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
-                if (ObjectUtils.isNotNull(workflowDocument) && ObjectUtils.isNotNull(workflowDocument.getDateCreated())) {
-                    Timestamp ts = new Timestamp(workflowDocument.getDateCreated().toDate().getTime());
-                    Date worflowDate = new Date(ts.getTime());
-                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate((worflowDate));
+                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
+                if (ObjectUtils.isNotNull(dateCreated)) {
+                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
                 }
                 cgLOCAmountNotDrawnReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
                 cgLOCAmountNotDrawnReport.setClaimOnCashBalance(totalClaimOnCashBalance);
@@ -148,21 +110,5 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
 
         buildResultTable(lookupForm, displayList, resultTable);
         return displayList;
-    }
-
-    /**
-     * @return the documentService
-     */
-    @Override
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    /**
-     * @param documentService the documentService to set
-     */
-    @Override
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
     }
 }

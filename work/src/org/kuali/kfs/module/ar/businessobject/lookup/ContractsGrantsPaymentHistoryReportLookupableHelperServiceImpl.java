@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,19 +32,13 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Defines a custom lookup for the Payment History Report.
  */
 public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-
-    private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
-
     private static final Log LOG = LogFactory.getLog(ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl.class);
 
     /**
@@ -86,13 +78,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
                 // If the retrieved APP went to final
 
-                boolean isFinal = false;
-                try {
-                    isFinal = paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().isFinal();
-                }
-                catch (Exception e) {
-                    LOG.debug(e.toString() + " happened from paymentApplicationDoc.getDocumentHeader().getWorkflowDocument()");
-                }
+                final boolean isFinal = paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().isFinal();
 
                 if (isFinal) {
 
@@ -102,14 +88,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         ContractsGrantsPaymentHistoryReport cgPaymentHistoryReport = new ContractsGrantsPaymentHistoryReport();
 
                         cgPaymentHistoryReport.setPaymentNumber(paymentApplicationDoc.getDocumentNumber());
-                        Timestamp ts = new Timestamp(paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis());
-                        try {
-                            cgPaymentHistoryReport.setPaymentDate(dateTimeService.convertToSqlDate(ts));
-                        }
-                        catch (ParseException ex) {
-                            // TODO Auto-generated catch block
-                            LOG.error("problem during ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl.performLookup()", ex);
-                        }
+                        cgPaymentHistoryReport.setPaymentDate(new java.sql.Date(paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()));
 
                         cgPaymentHistoryReport.setCustomerNumber(cashControlDetail.getCustomerNumber());
                         cgPaymentHistoryReport.setCustomerName(cashControlDetail.getCustomer().getCustomerName());
@@ -136,39 +115,6 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
         }
         buildResultTable(lookupForm, displayList, resultTable);
         return displayList;
-    }
-
-
-
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-
-
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     *
-     * @return Returns the dateTimeService
-     */
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute.
-     *
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
 

@@ -54,8 +54,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper service class for Contracts and Grants Invoices.
  */
 public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-
     private static final Log LOG = LogFactory.getLog(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
 
     /**

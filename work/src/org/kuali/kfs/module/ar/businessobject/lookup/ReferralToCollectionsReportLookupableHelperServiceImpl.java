@@ -141,113 +141,107 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
 
         Person user = GlobalVariables.getUserSession().getPerson();
 
-        try {
-            // iterate through result list and wrap rows with return url and action urls
-            for (Object aDisplayList : displayList) {
-                BusinessObject element = (BusinessObject) aDisplayList;
+        // iterate through result list and wrap rows with return url and action urls
+        for (Object aDisplayList : displayList) {
+            BusinessObject element = (BusinessObject) aDisplayList;
 
-                BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                String returnUrl = "www.bigfrickenRETURNurl";
-                String actionUrls = "www.someACTIONurl";
+            BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
+            String returnUrl = "www.bigfrickenRETURNurl";
+            String actionUrls = "www.someACTIONurl";
 
-                if (ObjectUtils.isNotNull(getColumns())) {
-                    List<Column> columns = getColumns();
-                    for (Object column : columns) {
+            if (ObjectUtils.isNotNull(getColumns())) {
+                List<Column> columns = getColumns();
+                for (Object column : columns) {
 
-                        Column col = (Column) column;
-                        Formatter formatter = col.getFormatter();
+                    Column col = (Column) column;
+                    Formatter formatter = col.getFormatter();
 
-                        // pick off result column from result list, do formatting
-                        Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                    // pick off result column from result list, do formatting
+                    Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
-                        String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
-                        Class propClass = getPropertyClass(element, col.getPropertyName());
+                    String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
+                    Class propClass = getPropertyClass(element, col.getPropertyName());
 
-                        // formatters
-                        if (ObjectUtils.isNotNull(prop)) {
-                            // for Booleans, always use BooleanFormatter
-                            if (prop instanceof Boolean) {
-                                formatter = new BooleanFormatter();
-                            }
-
-                            // for Dates, always use DateFormatter
-                            if (prop instanceof Date) {
-                                formatter = new DateFormatter();
-                            }
-
-                            // for collection, use the list formatter if a formatter hasn't been defined yet
-                            if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                                formatter = new CollectionFormatter();
-                            }
-
-                            if (ObjectUtils.isNotNull(formatter)) {
-                                propValue = (String) formatter.format(prop);
-                            }
-                            else {
-                                propValue = prop.toString();
-                            }
+                    // formatters
+                    if (ObjectUtils.isNotNull(prop)) {
+                        // for Booleans, always use BooleanFormatter
+                        if (prop instanceof Boolean) {
+                            formatter = new BooleanFormatter();
                         }
 
-                        // comparator
-                        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-                        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-
-                        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
-                        col.setPropertyValue(propValue);
-
-                        // Add url when property is documentNumber
-                        ReferralToCollectionsReport bo = (ReferralToCollectionsReport) element;
-                        if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
-                            String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
-
-                            Map<String, String> fieldList = new HashMap<String, String>();
-                            fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
-                            AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                            a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                            col.setColumnAnchor(a);
-                        }
-                        else if (col.getPropertyName().equals(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER)) {
-                            String url = this.getAgencyInquiryUrl(bo);
-                            Map<String, String> fieldList = new HashMap<String, String>();
-                            fieldList.put(KFSPropertyConstants.AGENCY_NUMBER, propValue);
-                            AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                            a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                            col.setColumnAnchor(a);
-                        }
-                        else if (col.getPropertyName().equals(KFSPropertyConstants.CUSTOMER_NUMBER)) {
-                            String url = this.getCustomerInquiryUrl(bo);
-                            Map<String, String> fieldList = new HashMap<String, String>();
-                            fieldList.put(KFSPropertyConstants.CUSTOMER_NUMBER, propValue);
-                            AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                            a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
-
-                            col.setColumnAnchor(a);
+                        // for Dates, always use DateFormatter
+                        if (prop instanceof Date) {
+                            formatter = new DateFormatter();
                         }
 
+                        // for collection, use the list formatter if a formatter hasn't been defined yet
+                        if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
+                            formatter = new CollectionFormatter();
+                        }
+
+                        if (ObjectUtils.isNotNull(formatter)) {
+                            propValue = (String) formatter.format(prop);
+                        }
+                        else {
+                            propValue = prop.toString();
+                        }
                     }
 
-                    ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-                    if (element instanceof PersistableBusinessObject) {
-                        row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                    // comparator
+                    col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                    col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                    propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
+                    col.setPropertyValue(propValue);
+
+                    // Add url when property is documentNumber
+                    ReferralToCollectionsReport bo = (ReferralToCollectionsReport) element;
+                    if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
+                        String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
+
+                        Map<String, String> fieldList = new HashMap<String, String>();
+                        fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
+                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
+                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+
+                        col.setColumnAnchor(a);
+                    }
+                    else if (col.getPropertyName().equals(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER)) {
+                        String url = this.getAgencyInquiryUrl(bo);
+                        Map<String, String> fieldList = new HashMap<String, String>();
+                        fieldList.put(KFSPropertyConstants.AGENCY_NUMBER, propValue);
+                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
+                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+
+                        col.setColumnAnchor(a);
+                    }
+                    else if (col.getPropertyName().equals(KFSPropertyConstants.CUSTOMER_NUMBER)) {
+                        String url = this.getCustomerInquiryUrl(bo);
+                        Map<String, String> fieldList = new HashMap<String, String>();
+                        fieldList.put(KFSPropertyConstants.CUSTOMER_NUMBER, propValue);
+                        AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
+                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+
+                        col.setColumnAnchor(a);
                     }
 
-                    boolean isRowReturnable = isResultReturnable(element);
-                    row.setRowReturnable(isRowReturnable);
-                    if (isRowReturnable) {
-                        hasReturnableRow = true;
-                    }
-
-                    resultTable.add(row);
                 }
 
-                lookupForm.setHasReturnableRow(hasReturnableRow);
+                ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                if (element instanceof PersistableBusinessObject) {
+                    row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+                }
+
+                boolean isRowReturnable = isResultReturnable(element);
+                row.setRowReturnable(isRowReturnable);
+                if (isRowReturnable) {
+                    hasReturnableRow = true;
+                }
+
+                resultTable.add(row);
             }
-        }
-        catch (Exception e) {
-            // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            LOG.error("problem during ReferralToCollectionsReportLookupableHelperServiceImpl.performLookup()", e);
+
+            lookupForm.setHasReturnableRow(hasReturnableRow);
         }
         return displayList;
     }
@@ -291,6 +285,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

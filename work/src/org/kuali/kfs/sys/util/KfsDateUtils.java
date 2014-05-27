@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.kuali.kfs.sys.KFSConstants;
+
 /**
  * Utility methods for comparing dates
  *
@@ -143,7 +145,7 @@ public class KfsDateUtils {
         endCompare.set(Calendar.SECOND, 0);
         endCompare.set(Calendar.MILLISECOND, 0);
 
-        return (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+        return (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / ((double)KFSConstants.MILLSECONDS_PER_DAY);
     }
 
     /**

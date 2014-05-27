@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,6 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     private static final String DOES_NOT_MATTER = "doesNotMatter";
 
-    private static long ONE_DAY_MILLIS = 24 * 60 * 60 * 1000L;
-
-
     private final String ANNUAL_BALANCE_PERIOD_CODE = "AB";
 
 
@@ -50,7 +47,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
     // /////////////////////////////////////////////////////////////////////////
     /**
      * Accessor method to </code>errorPropertyName</code>
-     * 
+     *
      * @return String
      */
     protected String getErrorPropertyName() {
@@ -59,7 +56,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * Fixture accessor method to get <code>{@link String}</code> serialization instance of an active balance type.
-     * 
+     *
      * @return String
      */
     protected String getActiveBalanceType() {
@@ -68,7 +65,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * Fixture accessor method to get <code>{@link String}</code> serialization instance of an inactive balance type.
-     * 
+     *
      * @return String
      */
     protected String getInactiveBalanceType() {
@@ -78,7 +75,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
-     * 
+     *
      * @return AccountingPeriod
      */
     public AccountingPeriod getAnnualBalanceAccountingPeriod() {
@@ -87,7 +84,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * Fixture accessor method for a closed <code>{@link AccountingPeriod}</code> instance.
-     * 
+     *
      * @return AccountingPeriod
      */
     protected AccountingPeriod getClosedAccountingPeriod() {
@@ -96,18 +93,18 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the past.
-     * 
+     *
      * @return Timestamp
      */
     private java.sql.Date getSqlDateYesterday() {
-        return new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime() - ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime() - KFSConstants.MILLSECONDS_PER_DAY);
     }
 
     /**
      * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the future.
      */
     private java.sql.Date getSqlDateTomorrow() {
-        return new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime() + ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime() + KFSConstants.MILLSECONDS_PER_DAY);
     }
 
     /**
@@ -127,7 +124,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
     // /////////////////////////////////////////////////////////////////////////
     /**
      * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Active() {
@@ -136,7 +133,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Inactive() {
@@ -145,7 +142,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Null() {
@@ -154,7 +151,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @param btStr
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
@@ -176,7 +173,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     // @RelatesTo(JiraIssue.KULRNE4926)
@@ -186,7 +183,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void pendingTestIsValidOpenAccountingPeriod_Closed() {
@@ -195,7 +192,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     // @RelatesTo(JiraIssue.KULRNE4926)
@@ -205,7 +202,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @param period
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
@@ -222,7 +219,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Null() {
@@ -231,7 +228,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Past() {
@@ -240,7 +237,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Future() {
@@ -253,7 +250,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     /**
      * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
-     * 
+     *
      * @param reversalDate
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate

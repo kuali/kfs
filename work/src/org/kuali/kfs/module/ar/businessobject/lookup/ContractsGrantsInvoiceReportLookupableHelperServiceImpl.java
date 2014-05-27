@@ -21,14 +21,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -41,10 +40,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for the Contracts and Grants Invoice Report.
  */
 public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsInvoiceReportLookupableHelperServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -80,51 +78,45 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) openCGInvoiceDoc.getDocumentHeader();
             ContractsGrantsInvoiceReport cgInvoiceReport = new ContractsGrantsInvoiceReport();
 
-            try {
-                WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+            WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
-                String documentNumber = ObjectUtils.isNull(documentHeader) ? "" : documentHeader.getDocumentNumber();
-                cgInvoiceReport.setDocumentNumber(openCGInvoiceDoc.getDocumentNumber());
-                cgInvoiceReport.setProposalNumber(openCGInvoiceDoc.getProposalNumber());
-                cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
+            String documentNumber = ObjectUtils.isNull(documentHeader) ? "" : documentHeader.getDocumentNumber();
+            cgInvoiceReport.setDocumentNumber(openCGInvoiceDoc.getDocumentNumber());
+            cgInvoiceReport.setProposalNumber(openCGInvoiceDoc.getProposalNumber());
+            cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
 
-                Date docCreateDate = workflowDocument.getDateCreated().toDate();
-                cgInvoiceReport.setInvoiceDate(new java.sql.Date(docCreateDate.getTime()));
-                cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
-                if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {
-                    cgInvoiceReport.setOpenInvoiceIndicator(ArConstants.ReportsConstants.INVOICE_INDICATOR_OPEN);
-                }
-                else {
-                    cgInvoiceReport.setOpenInvoiceIndicator(ArConstants.ReportsConstants.INVOICE_INDICATOR_CLOSE);
-                }
-                cgInvoiceReport.setCustomerNumber(openCGInvoiceDoc.getAccountsReceivableDocumentHeader().getCustomerNumber());
-                cgInvoiceReport.setCustomerName(openCGInvoiceDoc.getAccountsReceivableDocumentHeader().getCustomer().getCustomerName());
-                cgInvoiceReport.setInvoiceAmount(documentHeader.getFinancialDocumentTotalAmount());
-
-                // get payment amount
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put("financialDocumentReferenceInvoiceNumber", documentNumber);
-                Collection<InvoicePaidApplied> paidAppliedInvoices = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-
-                KualiDecimal paymentAmount = KualiDecimal.ZERO;
-                for (InvoicePaidApplied invoicePaidApplied : paidAppliedInvoices) {
-                    paymentAmount = paymentAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
-                }
-
-                cgInvoiceReport.setPaymentAmount(paymentAmount);
-                cgInvoiceReport.setRemainingAmount(documentHeader.getFinancialDocumentTotalAmount().subtract(paymentAmount));
-
-                // calculate ageInDays : current date - created date
-                final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
-                cgInvoiceReport.setAgeInDays((sqlToday.getTime() - docCreateDate.getTime()) / MILLSECS_PER_DAY);
-
-                // filter using lookupForm.getFieldsForLookup()
-                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgInvoiceReport, "ContractsGrantsInvoiceReport")) {
-                    displayList.add(cgInvoiceReport);
-                }
+            Date docCreateDate = workflowDocument.getDateCreated().toDate();
+            cgInvoiceReport.setInvoiceDate(new java.sql.Date(docCreateDate.getTime()));
+            cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
+            if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {
+                cgInvoiceReport.setOpenInvoiceIndicator(ArConstants.ReportsConstants.INVOICE_INDICATOR_OPEN);
             }
-            catch (NullPointerException e) {
-                LOG.error("There should be data issues. Failed to get necessary data.", e);
+            else {
+                cgInvoiceReport.setOpenInvoiceIndicator(ArConstants.ReportsConstants.INVOICE_INDICATOR_CLOSE);
+            }
+            cgInvoiceReport.setCustomerNumber(openCGInvoiceDoc.getAccountsReceivableDocumentHeader().getCustomerNumber());
+            cgInvoiceReport.setCustomerName(openCGInvoiceDoc.getAccountsReceivableDocumentHeader().getCustomer().getCustomerName());
+            cgInvoiceReport.setInvoiceAmount(documentHeader.getFinancialDocumentTotalAmount());
+
+            // get payment amount
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("financialDocumentReferenceInvoiceNumber", documentNumber);
+            Collection<InvoicePaidApplied> paidAppliedInvoices = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
+
+            KualiDecimal paymentAmount = KualiDecimal.ZERO;
+            for (InvoicePaidApplied invoicePaidApplied : paidAppliedInvoices) {
+                paymentAmount = paymentAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+            }
+
+            cgInvoiceReport.setPaymentAmount(paymentAmount);
+            cgInvoiceReport.setRemainingAmount(documentHeader.getFinancialDocumentTotalAmount().subtract(paymentAmount));
+
+            // calculate ageInDays : current date - created date
+            cgInvoiceReport.setAgeInDays((sqlToday.getTime() - docCreateDate.getTime()) / KFSConstants.MILLSECONDS_PER_DAY);
+
+            // filter using lookupForm.getFieldsForLookup()
+            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgInvoiceReport, "ContractsGrantsInvoiceReport")) {
+                displayList.add(cgInvoiceReport);
             }
         }
 
@@ -141,10 +133,12 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

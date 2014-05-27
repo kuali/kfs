@@ -594,10 +594,7 @@
 		scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>		
+		</property>	
 	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportInfo" parent="contractsGrantsPaymentHistoryReportInfo-parentBean" />
@@ -628,8 +625,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="workflowDocumentService">
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 
@@ -661,8 +658,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="workflowDocumentService">
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 

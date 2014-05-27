@@ -15,24 +15,25 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -41,8 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
     private static final Log LOG = LogFactory.getLog(ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl.class);
-
-    private DocumentService documentService;
+    protected WorkflowDocumentService workflowDocumentService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -61,40 +61,9 @@ public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl exte
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsLOCDrawDetailsReport> displayList = new ArrayList<ContractsGrantsLOCDrawDetailsReport>();
-        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = businessObjectService.findAll(ContractsGrantsLetterOfCreditReviewDocument.class);
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
 
         for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
-            ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDocWithHeader;
-            // docs that have a problem to get documentHeader won't be on the report
-            try {
-                cgLOCReviewDocWithHeader = (ContractsGrantsLetterOfCreditReviewDocument) documentService.getByDocumentHeaderId(cgLOCReviewDoc.getDocumentNumber());
-            }
-            catch (WorkflowException e) {
-                LOG.debug("WorkflowException happened while retrives documentHeader");
-                continue;
-            }
-
-            // if there is any problem to get workflowDocument, go to next doc
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = cgLOCReviewDocWithHeader.getDocumentHeader().getWorkflowDocument();
-            }
-            catch (RuntimeException e) {
-                LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                continue;
-            }
-
-            boolean isStatusFinal = false;
-            // check status of document
-            if (ObjectUtils.isNotNull(workflowDocument)) {
-                isStatusFinal = workflowDocument.isFinal();
-            }
-
-            // if status of ContractsGrantsLOCReviewDocument is final or processed, go to next doc
-            if (!isStatusFinal) {
-                continue;
-            }
-
             List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
             List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
             if (accountReviewDetails.size() > 0) {
@@ -126,10 +95,9 @@ public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl exte
                 cgLOCDrawDetailsReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
                 cgLOCDrawDetailsReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
-                if (ObjectUtils.isNotNull(workflowDocument) && ObjectUtils.isNotNull(workflowDocument.getDateCreated())) {
-                    Timestamp ts = new Timestamp(workflowDocument.getDateCreated().toDate().getTime());
-                    Date worflowDate = new Date(ts.getTime());
-                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate((worflowDate));
+                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
+                if (ObjectUtils.isNotNull(dateCreated)) {
+                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
                 }
                 cgLOCDrawDetailsReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
                 cgLOCDrawDetailsReport.setClaimOnCashBalance(totalClaimOnCashBalance);
@@ -147,16 +115,31 @@ public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl exte
     }
 
     /**
-     * @return the documentService
+     * Lookup all final documents of the given document class
+     * @param documentClass the class of the document to look up
+     * @return a Collection of documents, without WorkflowDocument's embedded in the documentHeader
      */
-    public DocumentService getDocumentService() {
-        return documentService;
+    protected <D extends Document> Collection<D> findFinalDocuments(Class<D> documentClass) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode());
+        return getBusinessObjectService().findMatching(documentClass, fieldValues);
     }
 
     /**
-     * @param documentService the documentService to set
+     * Returns the creation date of the given workflow document
+     * @param documentNumber the document number to look up the creation date for
+     * @return the creation date
      */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    protected DateTime getDocumentDateCreated(String documentNumber) {
+        final org.kuali.rice.kew.api.document.Document wd = getWorkflowDocumentService().getDocument(documentNumber);
+        return wd.getDateCreated();
+    }
+
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 }

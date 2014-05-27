@@ -134,23 +134,12 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                 String projectDirectorPrincipalName = "";
 
                 ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
-                try {
-                    fundManager = award.getAwardPrimaryFundManager().getFundManager();
-                    fundManagerPrincipalName = fundManager.getPrincipalName();
-                }
-                catch (NullPointerException e) {
-                    fundManager = null;
-                    LOG.debug("Null Pointer Exception happened while retrives fundManager.");
-                }
+                fundManager = award.getAwardPrimaryFundManager().getFundManager();
+                fundManagerPrincipalName = fundManager.getPrincipalName();
 
-                try {
-                    projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
-                    projectDirectorPrincipalName = projectDirector.getPrincipalName();
-                }
-                catch (NullPointerException e) {
-                    projectDirector = null;
-                    LOG.debug("Null Pointer Exception happened while retrives projectDirector.");
-                }
+                projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
+                projectDirectorPrincipalName = projectDirector.getPrincipalName();
+
                 cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
                 cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
                 cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);

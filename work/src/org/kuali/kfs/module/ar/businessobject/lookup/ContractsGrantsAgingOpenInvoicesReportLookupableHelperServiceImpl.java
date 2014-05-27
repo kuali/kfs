@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,23 +29,23 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsAgingOpenInvoicesReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -55,7 +55,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -113,7 +113,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -156,20 +156,23 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
                 // formatters
                 if (prop != null) {
                     // for Dates, always use DateFormatter
-                    if (prop instanceof Date)
+                    if (prop instanceof Date) {
                         formatter = new DateFormatter();
+                    }
 
-                    if (formatter != null)
+                    if (formatter != null) {
                         propValue = (String) formatter.format(prop);
-                    else
+                    }
+                    else {
                         propValue = prop.toString();
+                    }
                 }
 
                 // comparator
                 Class propClass = propertyTypes.get(col.getPropertyName());
                 col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
                 col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-                               
+
                 col.setPropertyValue(propValue);
 
                 if (StringUtils.isNotBlank(propValue)) {
@@ -178,18 +181,23 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
                         col.setPropertyURL(propertyURL);
                     }else if (StringUtils.equals("Actions", col.getColumnTitle())) {
                         col.setPropertyURL(getCollectionActivityDocumentUrl(element, col.getColumnTitle()));
-                    }else col.setPropertyURL("");
+                    }
+                    else {
+                        col.setPropertyURL("");
+                    }
                 }
             }
 
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-            if (element instanceof PersistableBusinessObject)
+            if (element instanceof PersistableBusinessObject) {
                 row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+            }
 
             boolean rowReturnable = isResultReturnable(element);
             row.setRowReturnable(rowReturnable);
-            if (rowReturnable)
+            if (rowReturnable) {
                 hasReturnableRow = true;
+            }
 
             resultTable.add(row);
         }
@@ -198,15 +206,15 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         return displayList;
     }
 
-    
+
     /**
      * This method returns the Collection Activity create url
-     * 
+     *
      * @param bo business object
      * @param columnTitle
      * @return Returns the url for the Collection Activity creation
      */
-    private String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
+    protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
         String lookupUrl = "";
         ContractsGrantsAgingOpenInvoicesReport detail = (ContractsGrantsAgingOpenInvoicesReport) bo;
         Properties parameters = new Properties();
@@ -214,18 +222,18 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         try {
             cgInvoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(detail.getDocumentNumber());
 
-        String proposalNumber = cgInvoice.getProposalNumber().toString();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-        parameters.put("selectedProposalNumber", proposalNumber);
-        parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
-        parameters.put("command", "initiate");
-        parameters.put("docTypeName", "COLA");
-        lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);       
+            String proposalNumber = cgInvoice.getProposalNumber().toString();
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
+            parameters.put("selectedProposalNumber", proposalNumber);
+            parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
+            parameters.put("command", "initiate");
+            parameters.put("docTypeName", "COLA");
+            lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
         }
         catch (WorkflowException ex) {
             LOG.error("Invoice document does not exist for the documentNumber " + detail.getDocumentNumber());
         }
         return lookupUrl;
-    }    
+    }
 }
 

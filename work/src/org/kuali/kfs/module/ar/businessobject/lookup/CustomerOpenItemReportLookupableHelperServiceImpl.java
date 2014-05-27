@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -59,20 +59,16 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         List results;
         LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        /*
-        String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
-        List results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
-        */
-        String reportName =((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.REPORT_NAME))[0];
+        String reportName =getParameters().get(KFSConstants.CustomerOpenItemReport.REPORT_NAME)[0];
         if  (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME)) {
-            String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
+            String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
             results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
         } else if (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT)){
-            String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
-            String documentNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER))[0];
+            String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
+            String documentNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER)[0];
             results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedUnpaidUnappliedAmountReportDetails(customerNumber, documentNumber);
         } else {
             results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(getParameters());
@@ -80,20 +76,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }
-
-    /**
-     * @return a List of the names of fields which are marked in data dictionary as return fields.
-     */
-    /*
-    @Override
-    public List getReturnKeys() {
-        List returnKeys;
-        returnKeys = new ArrayList(fieldConversions.keySet());
-        LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (GETRETURNKEYS)... \n\n\n");
-
-        return returnKeys;
-    }
-    */
 
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
@@ -140,16 +122,16 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
      * @param bounded
      * @return
-     * 
-     * KRAD Conversion: Performs the conditional formatting of the columns in the 
-     * display results set.  Also sets customized property urls for the columns. 
-     * 
+     *
+     * KRAD Conversion: Performs the conditional formatting of the columns in the
+     * display results set.  Also sets customized property urls for the columns.
+     *
      * Data dictionary is used to retrieve properties of the fields.
      */
     @Override
@@ -168,9 +150,9 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
         boolean hasReturnableRow = false;
-        
-        String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
-        String customerName = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NAME))[0];
+
+        String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
+        String customerName = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NAME)[0];
         Collection<String> refDocumentNumbers = SpringContext.getBean(CustomerOpenItemReportService.class).getDocumentNumbersOfReferenceReports(customerNumber);
 
         // iterate through result list and wrap rows with return url and action urls
@@ -184,7 +166,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
                 Column col = (Column) iterator.next();
                 Formatter formatter = col.getFormatter();
-                
+
                 // pick off result column from result list, do formatting
                 String propValue = KRADConstants.EMPTY_STRING;
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
@@ -192,13 +174,16 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 // formatters
                 if (prop != null) {
                     // for Dates, always use DateFormatter
-                    if (prop instanceof Date)
+                    if (prop instanceof Date) {
                         formatter = new DateFormatter();
+                    }
 
-                    if (formatter != null)
+                    if (formatter != null) {
                         propValue = (String) formatter.format(prop);
-                    else
+                    }
+                    else {
                         propValue = prop.toString();
+                    }
                 }
 
                 // comparator
@@ -218,30 +203,36 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                             String href="arCustomerOpenItemReportLookup.do" +
                             "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +
                             "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
-                            "&methodToCall=search&customerNumber="+customerNumber+ 
+                            "&methodToCall=search&customerNumber="+customerNumber+
                             "&reportName=" + KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT +
                             "&customerName=" + customerName +
                             "&documentNumber=" + documentNumber +
                             "&reportName=Unpaid / Unapplied Amount Report&docFormKey=88888888";
                             col.setPropertyURL(href);
-                        } else col.setPropertyURL(""); 
+                        }
+                        else {
+                            col.setPropertyURL("");
+                        }
                     }
-
-                    else col.setPropertyURL("");
+                    else {
+                        col.setPropertyURL("");
+                    }
                 }
-                
+
             }
-            
-            
-            
+
+
+
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-            if (element instanceof PersistableBusinessObject)
+            if (element instanceof PersistableBusinessObject) {
                 row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+            }
 
             boolean isRowReturnable = isResultReturnable(element);
             row.setRowReturnable(isRowReturnable);
-            if (isRowReturnable)
+            if (isRowReturnable) {
                 hasReturnableRow = true;
+            }
 
             resultTable.add(row);
         }
@@ -251,4 +242,3 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
     }
 
 }
-

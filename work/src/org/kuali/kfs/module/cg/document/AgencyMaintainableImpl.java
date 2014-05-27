@@ -16,10 +16,12 @@
 package org.kuali.kfs.module.cg.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -28,9 +30,9 @@ import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.service.ContractsAndGrantsBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -47,28 +49,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Methods for the Agency maintenance document UI.
  */
-public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
+public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyMaintainableImpl.class);
 
     private static final String CREATED_BY_AGENCY_DOC = "message.ar.createdByAgencyDocument";
-
-    /**
-     * Constructs an AgencyMaintainableImpl.
-     */
-    public AgencyMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a AgencyMaintainableImpl.
-     *
-     * @param agency
-     */
-    public AgencyMaintainableImpl(Agency agency) {
-        super(agency);
-        this.setBoClass(agency.getClass());
-    }
 
     /**
      * Gets the underlying Agency.
@@ -80,65 +65,68 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * This method overrides the parent method to create a new Customer document when Agency document goes to final.
+     * This method overrides the parent method to create a new Customer document when Agency document goes to final
+     * if CGB is enabled.
      *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
-        WorkflowDocument workflowDoc = header.getWorkflowDocument();
-        Agency agency = getAgency();
-        String description = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
-        // Use the isProcessed() method so this code is only executed when the final approval occurs
-        if (workflowDoc.isProcessed()) {
-            try {
-                if (this.businessObject != null) {
-                    // To save the agency and address before creating customer to copy over the address.
-                    SpringContext.getBean(BusinessObjectService.class).save(agency);
-                    for (AgencyAddress agencyAddress : agency.getAgencyAddresses()) {
-                        agencyAddress.setAgency(agency);
 
-                        SpringContext.getBean(BusinessObjectService.class).save(agencyAddress);
-                    }
-                    // To create customer only if "create new customer" was selected on the document.
-                    if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
-                        String customerNumber = SpringContext.getBean(AccountsReceivableModuleService.class).createAndSaveCustomer(description, agency);
-                        agency.setCustomerCreated(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE);
-                        agency.setCustomerNumber(customerNumber);
+        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+            WorkflowDocument workflowDoc = header.getWorkflowDocument();
+            Agency agency = getAgency();
+            String description = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
+            // Use the isProcessed() method so this code is only executed when the final approval occurs
+            if (workflowDoc.isProcessed()) {
+                try {
+                    if (this.businessObject != null) {
+                        // To save the agency and address before creating customer to copy over the address.
+                        SpringContext.getBean(BusinessObjectService.class).save(agency);
+                        for (AgencyAddress agencyAddress : agency.getAgencyAddresses()) {
+                            agencyAddress.setAgency(agency);
 
-                    }
-                    // If no customer was selected, clear out the link between the agency and the old customer
-                    else if (CGConstants.AGENCY_NO_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
-                        agency.setCustomerCreated(CGConstants.AGENCY_NO_CUSTOMER_CODE);
-                        agency.setCustomerNumber(null);
-                        agency.setCustomer(null);
-                        agency.setCustomerTypeCode(null);
-                    }
-
-                    // To set dunningCampaign value from Agency to all the awards in the agency.
-
-                    List<Award> awards = new ArrayList<Award>();
-                    Map<String, Object> criteria = new HashMap<String, Object>();
-                    criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-                    awards = (List<Award>) SpringContext.getBean(BusinessObjectService.class).findMatching(Award.class, criteria);
-                    for (Award award : awards) {
-                        award.setDunningCampaign(agency.getDunningCampaign());
-                        if (ObjectUtils.isNotNull(agency.getCustomer()) && ObjectUtils.isNotNull(agency.getCustomer().isStopWorkIndicator())) {
-                            award.setStopWorkIndicator(agency.getCustomer().isStopWorkIndicator());
+                            SpringContext.getBean(BusinessObjectService.class).save(agencyAddress);
                         }
-                        SpringContext.getBean(BusinessObjectService.class).save(award);
+                        // To create customer only if "create new customer" was selected on the document.
+                        if (CGConstants.AGENCY_CREATE_NEW_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
+                            String customerNumber = SpringContext.getBean(AccountsReceivableModuleService.class).createAndSaveCustomer(description, agency);
+                            agency.setCustomerCreated(CGConstants.AGENCY_USE_EXISTING_CUSTOMER_CODE);
+                            agency.setCustomerNumber(customerNumber);
+
+                        }
+                        // If no customer was selected, clear out the link between the agency and the old customer
+                        else if (CGConstants.AGENCY_NO_CUSTOMER_CODE.equalsIgnoreCase(agency.getCustomerCreated())) {
+                            agency.setCustomerCreated(CGConstants.AGENCY_NO_CUSTOMER_CODE);
+                            agency.setCustomerNumber(null);
+                            agency.setCustomer(null);
+                            agency.setCustomerTypeCode(null);
+                        }
+
+                        // To set dunningCampaign value from Agency to all the awards in the agency.
+
+                        List<Award> awards = new ArrayList<Award>();
+                        Map<String, Object> criteria = new HashMap<String, Object>();
+                        criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
+                        awards = (List<Award>) SpringContext.getBean(BusinessObjectService.class).findMatching(Award.class, criteria);
+                        for (Award award : awards) {
+                            award.setDunningCampaign(agency.getDunningCampaign());
+                            if (ObjectUtils.isNotNull(agency.getCustomer()) && ObjectUtils.isNotNull(agency.getCustomer().isStopWorkIndicator())) {
+                                award.setStopWorkIndicator(agency.getCustomer().isStopWorkIndicator());
+                            }
+                            SpringContext.getBean(BusinessObjectService.class).save(award);
+                        }
+
                     }
 
                 }
+                catch (WorkflowException ex) {
+                    throw new RuntimeException("Error creating Customer Document from Agency document.", ex);
 
-            }
-            catch (WorkflowException ex) {
-                throw new RuntimeException("Error creating Customer Document from Agency document.", ex);
-
+                }
             }
         }
-
     }
 
     /**
@@ -204,6 +192,21 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
         return sections;
+    }
+
+    /**
+     * If the Contracts & Grants Billing (CGB) enhancement is disabled, we don't want to
+     * process sections only related to CGB.
+     *
+     * @return Collection of section ids to ignore
+     */
+    @Override
+    protected Collection<?> getSectionIdsToIgnore() {
+        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+            return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAgencyContractsGrantsBillingSectionIds();
+        } else {
+            return CollectionUtils.EMPTY_COLLECTION;
+        }
     }
 
     /**

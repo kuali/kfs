@@ -102,6 +102,9 @@
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 
+    <bean id="contractsAndGrantsBillingService"  parent="contractsAndGrantsBillingService-parentBean"/>
+    <bean id="contractsAndGrantsBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsBillingServiceImpl" abstract="true" />
+
     <bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
     <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" >
     <property name="awardService" ref="awardService" />

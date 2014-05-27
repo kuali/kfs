@@ -99,8 +99,11 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
             anchorHtmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
 
-        AnchorHtmlData invoiceUrl = getInvoicesLookupUrl(businessObject);
-        anchorHtmlDataList.add(invoiceUrl);
+        // only display invoice lookup URL if CGB is enabled
+        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+            AnchorHtmlData invoiceUrl = getInvoicesLookupUrl(businessObject);
+            anchorHtmlDataList.add(invoiceUrl);
+        }
 
         return anchorHtmlDataList;
     }

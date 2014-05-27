@@ -454,9 +454,11 @@
 	<bean id="Agency-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="title" value="Agency Inquiry" />
+		<property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.AgencyInquirableImpl" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Agency Details" />
 					<property name="title" value="Agency Details" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -473,6 +475,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Customer" />
 					<property name="title" value="Customer" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -484,6 +487,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Contracts and Grants" />
 					<property name="title" value="Contracts and Grants" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -496,6 +500,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Address" />
 					<property name="title" value="Address" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -536,6 +541,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Collections Maintenance" />
 					<property name="title" value="Collections Maintenance" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -546,6 +552,7 @@
 					</property>
 				</bean>	
 				<bean parent="InquirySectionDefinition" abstract="true">
+					<property name="id" value="Notes" />
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">

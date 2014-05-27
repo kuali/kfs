@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -42,11 +43,11 @@ import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
+import org.kuali.kfs.module.cg.service.ContractsAndGrantsBillingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -66,25 +67,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Methods for the Award maintenance document UI.
  */
-public class AwardMaintainableImpl extends FinancialSystemMaintainable {
+public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardMaintainableImpl.class);
-
-    /**
-     * Constructs an AwardMaintainableImpl.
-     */
-    public AwardMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a AwardMaintainableImpl.
-     *
-     * @param award
-     */
-    public AwardMaintainableImpl(Award award) {
-        super(award);
-        this.setBoClass(award.getClass());
-    }
 
     /**
      * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
@@ -477,21 +461,25 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
 
         List<Section> sections = super.getSections(document, oldMaintainable);
-        if (sections != null) {
-            for (Section section : sections) {
-                String sectionId = section.getSectionId();
-                // To get parameter Value of GLPE Recievable offset generation method.
-                String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
 
-                if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
-                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
-                        section.setHidden(false);
-                        section.setDefaultOpen(true);
+        // If CGB is enabled, show/hide Invoice Account section based on parameter
+        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+            if (sections != null) {
+                for (Section section : sections) {
+                    String sectionId = section.getSectionId();
+                    // To get parameter Value of GLPE Recievable offset generation method.
+                    String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
+
+                    if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
+                        if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                            section.setHidden(false);
+                            section.setDefaultOpen(true);
+                        }
                     }
-                }
-                else {
-                    if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
-                        section.setHidden(true);
+                    else {
+                        if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                            section.setHidden(true);
+                        }
                     }
                 }
             }
@@ -500,6 +488,20 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     }
 
+    /**
+     * If the Contracts & Grants Billing (CGB) enhancement is disabled, we don't want to
+     * process sections only related to CGB.
+     *
+     * @return list of section ids to ignore
+     */
+    @Override
+    protected Collection<?> getSectionIdsToIgnore() {
+        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+            return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAwardContractsGrantsBillingSectionIds();
+        } else {
+            return CollectionUtils.EMPTY_COLLECTION;
+        }
+    }
 
     /**
      * This method overrides the parent method to check the status of the award document and change the linked

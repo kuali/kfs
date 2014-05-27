@@ -21,10 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.module.cg.CGPropertyConstants;
-import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.service.ContractsAndGrantsBillingService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,14 +34,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Used for wiring up {@link Award} for inquiries.
+ * Used for wiring up {@link Agency} for inquiries.
  */
-public class AwardInquirableImpl extends KfsInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardInquirableImpl.class);
+public class AgencyInquirableImpl extends KfsInquirableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyInquirableImpl.class);
 
     /**
-     * Only show the Schedule link if CGB is enabled and for the appropriate Billing Frequency
-     * (Milestone Schedule for Milestone billing, Predetermined Billing Schedule for PDBS billing, or none).
+     * Don't process Contracts & Grants Billing (CGB) related sections if CGB is disabled.
      *
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.krad.bo.BusinessObject)
      *
@@ -59,8 +55,6 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             throw new RuntimeException("Business object class not set in inquirable.");
         }
 
-        Award award = (Award) businessObject;
-
         InquiryRestrictions inquiryRestrictions = KNSServiceLocator.getBusinessObjectAuthorizationService()
                 .getInquiryRestrictions(businessObject, GlobalVariables.getUserSession().getPerson());
 
@@ -70,22 +64,8 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             InquirySectionDefinition inquirySection = iter.next();
             String sectionId = inquirySection.getId();
             if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !getSectionIdsToIgnore().contains(sectionId)) {
-                if (StringUtils.equals(sectionId, CGPropertyConstants.BILLING_SCHEDULE_SECTION)) {
-                    if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
-                        SpringContext.getBean(AccountsReceivableModuleService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
-                            Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
-                            sections.add(section);
-                    }
-                } else if (StringUtils.equals(sectionId, CGPropertyConstants.MILESTONE_SCHEDULE_SECTION)) {
-                    if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
-                        SpringContext.getBean(AccountsReceivableModuleService.class).hasMilestoneSchedule(award.getProposalNumber())) {
-                            Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
-                            sections.add(section);
-                    }
-                } else {
-                    Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
-                    sections.add(section);
-                }
+                Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
+                sections.add(section);
             }
         }
 
@@ -100,7 +80,7 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
      */
     protected Collection<?> getSectionIdsToIgnore() {
         if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
-            return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAwardContractsGrantsBillingSectionIds();
+            return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAgencyContractsGrantsBillingSectionIds();
         } else {
             return CollectionUtils.EMPTY_COLLECTION;
         }

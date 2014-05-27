@@ -20,8 +20,6 @@
 			value="org.kuali.kfs.module.cg.businessobject.Agency" />
 		<property name="maintainableClass"
 			value="org.kuali.kfs.module.cg.document.AgencyMaintainableImpl" />
-		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.module.cg.businessobject.authorization.AgencyMaintenanceDocumentPresentationController" />
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AgencyMaintenanceDocument-EditAgency" />

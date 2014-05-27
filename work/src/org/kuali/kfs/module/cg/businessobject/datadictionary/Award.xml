@@ -1054,6 +1054,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Award Details" />
 					<property name="title" value="Award Details" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1094,6 +1095,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Organizations" />
 					<property name="title" value="Organizations" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1122,6 +1124,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Invoicing" />
 					<property name="title" value="Invoicing" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1146,6 +1149,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Project Directors" />
 					<property name="title" value="Project Directors" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1175,6 +1179,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Fund Managers" />
 					<property name="title" value="Fund Managers" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1204,6 +1209,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Subcontractors" />
 					<property name="title" value="Subcontractors" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1232,6 +1238,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Accounts" />
 					<property name="title" value="Accounts" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1263,6 +1270,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Invoice Accounts" />
 					<property name="title" value="Invoice Accounts" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -1296,7 +1304,9 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:id="Milestone Schedule" p:title="Milestone Schedule">
+				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Milestone Schedule" />
+					<property name="title" value="Milestone Schedule" />
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition"
@@ -1304,7 +1314,9 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:id="Predetermined Schedule" p:title="Predetermined Billing Schedule">
+				<bean parent="InquirySectionDefinition">
+					<property name="id" value="Predetermined Schedule" />
+					<property name="title" value="Predetermined Billing Schedule" />
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition"
@@ -1313,6 +1325,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition" abstract="true">
+					<property name="id" value="Notes" />
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">

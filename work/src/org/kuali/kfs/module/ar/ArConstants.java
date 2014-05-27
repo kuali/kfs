@@ -73,8 +73,6 @@ public class ArConstants{
 
     public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA"; // TODO: System parameter?
 
-    public static final String LOOKUP_CUSTOMER_NAME = "customerName";
-    public static final String LOOKUP_CUSTOMER_NUMBER = "customerNumber";
     public static final String LOOKUP_INVOICE_NUMBER = "invoiceNumber";
     public static final String LOOKUP_INVOICE_NUMBERS = "invoiceNumbers";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";

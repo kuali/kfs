@@ -1170,4 +1170,8 @@
   		<property name="organizationService" ref="organizationService" />
    </bean>		
 	
+	<bean id="Requisition-accountingLineExistsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionAccountingLineExistsValidation">
+	   <property name="requisitionService" ref="requisitionService"/>
+	</bean>
+
 </beans>

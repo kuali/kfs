@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String financialDocumentTypeCode;
     private String cashieringStatus;
+//    // the line number associated with cashier transactions in CMD; set to 0 if not associated with any transaction
+//    private Integer financialDocumentTransactionLineNumber;
+
     private KualiDecimal financialDocumentFiftyCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentTenCentAmount = KualiDecimal.ZERO;
@@ -42,32 +46,26 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentOtherCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentHundredCentAmount = KualiDecimal.ZERO;
 
+    // list of coin counts per roll for all 6 denominations, defined by parameter COUNT_PER_ROLL_BY_DENOMINATION
+    private List<Integer> countsPerRoll;
 
-//    // list of coin counts per roll for all 6 denominations, defined by parameter COUNT_PER_ROLL_BY_DENOMINATION
-//    //private List<Integer> countsPerRoll;
-//
-//    private List<Integer> coinCounts = new ArrayList<Integer>();
-//    private List<Integer> rollCounts = new ArrayList<Integer>();
-//
-//    private KualiDecimal hundredCentCount;
-//    private KualiDecimal fiftyCentCount;
-//    private KualiDecimal twentyFiveCentCount;
-//    private KualiDecimal tenCentCount;
-//    private KualiDecimal fiveCentCount;
-//    private KualiDecimal oneCentCount;
-//    private KualiDecimal hundredCentRollCount;
-//    private KualiDecimal fiftyCentRollCount;
-//    private KualiDecimal twentyFiveCentRollCount;
-//    private KualiDecimal tenCentRollCount;
-//    private KualiDecimal fiveCentRollCount;
-//    private KualiDecimal oneCentRollCount;
-
+    // list of coin/roll counts for all 6 denominations, used as temporary buffer when populating counts to amount
+    private List<Integer> coinCounts = new ArrayList<Integer>();
+    private List<Integer> rollCounts = new ArrayList<Integer>();
 
     /**
      * Default constructor.
      */
     public CoinDetail() {
-        //calculateCoinRollCounts();
+        // initialize countsPerRoll so we don't have to read the parameter from DB each time count/amount is calculated
+        countsPerRoll = SpringContext.getBean(CashDrawerService.class).getCoinCountsPerRoll();
+
+        // initialize the coin/roll count lists to have a null value for each denomination;
+        // null is used to indicate that the coin/roll count for that denomination hasn't been populated since last update
+        for (int i=0; i < KFSConstants.COIN_DENOMINATIONS.length; i++) {
+            coinCounts.add(null);
+            rollCounts.add(null);
+        }
     }
 
     /**
@@ -75,6 +73,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * with all amount fields default to zero.
      */
     public CoinDetail(String documentNumber, String financialDocumentTypeCode, String cashieringStatus) {
+        this();
         this.documentNumber = documentNumber;
         this.financialDocumentTypeCode = financialDocumentTypeCode;
         this.cashieringStatus = cashieringStatus;
@@ -84,6 +83,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Constructs a new CoinDetail by copying the coin amounts from the given CashDrawer, ignoring other non-amount fields.
      */
     public CoinDetail(CashDrawer cashDrawer) {
+        this();
         financialDocumentHundredCentAmount = cashDrawer.getFinancialDocumentHundredCentAmount();
         financialDocumentFiftyCentAmount = cashDrawer.getFinancialDocumentFiftyCentAmount();
         financialDocumentTwentyFiveCentAmount = cashDrawer.getFinancialDocumentTwentyFiveCentAmount();
@@ -97,6 +97,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Constructs a new CoinDetail as a complete copy of the given CoinDetail.
      */
     public CoinDetail(CoinDetail coinDetail) {
+        this();
         documentNumber = coinDetail.getDocumentNumber();
         financialDocumentTypeCode = coinDetail.getFinancialDocumentTypeCode();
         cashieringStatus = coinDetail.getCashieringStatus();
@@ -131,70 +132,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         financialDocumentOtherCentAmount = coinDetail.getFinancialDocumentOtherCentAmount();
     }
 
-//    /**
-//     * Calculates and sets all coin and roll counts based on their associated amounts.
-//     * The calculation is done with the following rule:
-//     *  we always assume maximum number of rolls are used to reach the amount;
-//     *  and the number of coins will fill up the remainder value of the amount.
-//     * Note: This method needs to be called any time amounts are changed to refresh .
-//     */
-//    protected void calculateCoinRollCounts() {
-//        for (int i=0; i < KFSConstants.COIN_AMOUNTS.length; i++) {
-//            int coinCount = getCoinCountByAmount(i);
-//            int rollCount = getRollCountByAmount(i);
-//            coinCounts.set(i, coinCount);
-//            rollCounts.set(i, rollCount);
-//        }
-//    }
-//
-//    /**
-//     * Updates amount corresponding to the specified coin denomination index, also updates the associated coin/roll counts.
-//     * @param index the specified coin denomination index
-//     * @param amount the new value for amount
-//     */
-//    protected void updateAmount(int index, KualiDecimal amount) {
-//        setAmount(index, amount);
-//        int coinCount = getCoinCountByAmount(index);
-//        int rollCount = getRollCountByAmount(index);
-//        coinCounts.set(index, coinCount);
-//        rollCounts.set(index, rollCount);
-//    }
-//
-//    /**
-//     * Updates coin count corresponding to the specified coin denomination index, also updates the associated amount.
-//     * @param index the specified coin denomination index
-//     * @param coinCount the new value for coin count
-//     */
-//    protected void updateCoinCount(int index, int coinCount) {
-//        coinCounts.set(index, coinCount);
-//        KualiDecimal amount = getAmountByCoinRollCount(index);
-//        setAmount(index, amount);
-//    }
-//
-//    /**
-//     * Updates roll count corresponding to the specified coin denomination index, also updates the associated amount.
-//     * @param index the specified coin denomination index
-//     * @param rollCount the new value for roll count
-//     */
-//    protected void updateRollCount(int index, int rollCount) {
-//        rollCounts.set(index, rollCount);
-//        KualiDecimal amount = getAmountByCoinRollCount(index);
-//        setAmount(index, amount);
-//    }
-//
-//    /**
-//     * Calculates amount based on the associated coin/roll count for the specified coin denomination index.
-//     * @param index the specified coin denomination index
-//     * @return calculated amount
-//     */
-//    protected KualiDecimal getAmountByCoinRollCount(int index) {
-//        int count = coinCounts.get(index) + rollCounts.get(index) * countsPerRoll.get(index);
-//        KualiDecimal amount = KFSConstants.COIN_AMOUNTS[index].multiply(new KualiDecimal(count));
-//        return amount;
-//    }
-
-
-    /**
+    /*
      * Notes on introducing roll count into CoinDetail:
      * In CoinDetail, only amounts for all 6 denominations are persisted in DB; their corresponding coin/roll counts are not saved.
      * Instead, the counts need to be derived from the associated amounts when CoinDetail is retrieved from DB, or when amounts are changed;
@@ -207,8 +145,31 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * distributed between coin and roll. Basically, the following rule is used:
      *  1. We always assume maximum number of rolls are used to reach the amount;
      *  2. and the number of coins will fill up the remainder value of the amount.
+     *
      * For convenience, in the helper getters/setters, we assign an index for each coin denomination (as defined in COIN_DENOMINATIONS),
      * and associate the amount and its derived coin/roll count corresponding of each denomination with this index.
+     *
+     * One special note on adding the coin/roll count lists: These 2 lists are not meant to be used as a parallel storage for amounts;
+     * rather, they are used solely as a temporary buffer and indicator when only the first one of a coin/roll count pair is populated,
+     * at which point, we may not be able to fully update the amount yet, since if/when the second one of the pair is also populated
+     * during the same update, we would need to calculate and update the amount again based on the current values of coin/roll count pair.
+     * Without these 2 count lists, we would have to derive the coin/roll count from the amount itself when we update the roll/coin count
+     * and thus the amount, which would work in all but one case:
+     * When the newly entered coin count >= its roll size, and it happens to be populated before the corresponding roll count is populated,
+     * we would lose that roll count contributed from the overflowed part of the coin count, when the roll count itself is populated during
+     * the same form submit. Since we don't have control over the random order in which fields are populated on a form, and we do allow
+     * coin count to be equal to or bigger than its roll size, we have no choice but to utilize some temporary storage.
+     * One also needs to bear in mind one important assumption: this solution assumes that in each update to the amount through
+     * coin/roll counts, both counts will be updated, not just one; otherwise the amount will not get updated. Fortunately, the only cases
+     * when amounts are updated through counts are form submit and unit tests, and in both cases, this assumption is true.
+     * Still, we have a better solution to avoid the above assumption, i.e. we would not require each time amount is updated from counts,
+     * both coin and roll counts need to be set; i.e. we could allow code (for ex, unit tests) to set one count only to update the amount.
+     * On the other hand, if coin/roll counts are set in a sequence then they would be paired as one update to the amount.
+     * The solution would be as follows:
+     *  - If when we populate coin (roll) count, the roll (coin) count is not populated yet, we can derive the latter from the current amount,
+     *  then use the new coin (roll) count and the derived roll (coin) count to compute the new amount.
+     *  - Otherwise, we use the buffered roll (coin) count plus the new coin (roll) count to compute the new amount.
+     *  In this combined approach, we still have to make one (less demanding) assumption though: we
      */
 
     /**
@@ -221,7 +182,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * @return calculated amount
      */
     protected KualiDecimal getAmountByCoinRollCount(int index, Integer coinCount, Integer rollCount) {
-        List<Integer> countsPerRoll = SpringContext.getBean(CashDrawerService.class).getCoinCountsPerRoll();
         int coincount = (coinCount == null) ? 0 : coinCount.intValue();
         int rollcount = (rollCount == null) ? 0 : rollCount.intValue();
         int count = coincount + rollcount * countsPerRoll.get(index);
@@ -236,7 +196,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     * @return calculated coin count
     */
     protected Integer getCoinCountByAmount(int index) {
-       List<Integer> countsPerRoll = SpringContext.getBean(CashDrawerService.class).getCoinCountsPerRoll();
        KualiDecimal amount = getAmount(index);
        int count = (amount == null) ? 0 : amount.divide(KFSConstants.COIN_AMOUNTS[index]).intValue();
        int coincount = count % countsPerRoll.get(index);
@@ -250,7 +209,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     * @return calculated roll count
     */
     protected Integer getRollCountByAmount(int index) {
-       List<Integer> countsPerRoll = SpringContext.getBean(CashDrawerService.class).getCoinCountsPerRoll();
        KualiDecimal amount = getAmount(index);
        int count = (amount == null) ? 0 : amount.divide(KFSConstants.COIN_AMOUNTS[index]).intValue();
        int rollcount = count / countsPerRoll.get(index);
@@ -258,31 +216,69 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Updates the amount corresponding to the specified coin denomination index, when the associated coin count is set by its input field.
-     * Note: Both coin count and roll count can change the associated amount independently.
-     * When the coin count is being set, we derive the roll count based on the amount before this update,
-     * and use the new coin count and the current roll count to compute the new amount.
+     * Calculates and updates the corresponding amount based on the given coinCount and up-to-date rollCount, either read from buffer or derived from the pre-update amount,
+     * and sets coinCount to its buffer or clears rollCount from its buffer based on whether the latter was changed in pair with the former in the current amount update.
      * @param index the specified coin denomination index
      * @param coinCount the new value for coin count
      */
     protected void setCoinCountToAmount(int index, Integer coinCount) {
-       Integer rollCount = getRollCountByAmount(index);
-       KualiDecimal amount = getAmountByCoinRollCount(index, coinCount, rollCount);
-       setAmount(index, amount);
+        Integer rollCount = rollCounts.get(index);
+        KualiDecimal amount;
+
+        // if the currently buffered rollCount is still null when we set the coinCount, that means coinCount is the first
+        // (or only) one being changed during current update, and rollCount hasn't been changed yet since last update
+        if (rollCount == null) {
+            // buffer the new coinCount, but make sure not to set it to null, as null is used to indicate not being changed yet
+            coinCount = (coinCount == null) ? 0 : coinCount;
+            coinCounts.set(index, coinCount);
+
+            // derive the up-to-date rollCount from the current amount
+            rollCount = getRollCountByAmount(index);
+        }
+        // otherwise, rollCount must have been just changed and buffered during current update, so we will use the buffered value
+        else {
+            // clear rollCount from the buffer, to get ready for next update;
+            // note that at this point, coinCount should be null, so we don't even need to set or clear its buffer
+            rollCounts.set(index, null);
+        }
+
+        // use the up-to-date coin/roll count pair to compute and update the new amount
+        // note, the coinCount here could be null, but that's OK, getAmountByCoinRollCount will handle it
+        amount = getAmountByCoinRollCount(index, coinCount, rollCount);
+        setAmount(index, amount);
     }
 
     /**
-     * Updates the amount corresponding to the specified coin denomination index, when the associated roll count is set by its input field.
-     * Note: Both coin count and roll count can change the associated amount independently.
-     * When the roll count is being set, we derive the coin count based on the amount before this update,
-     * and use the new roll count and the current coin count to compute the new amount.
+     * Calculates and updates the corresponding amount based on the given rollCount and up-to-date coinCount, either read from buffer or derived from the pre-update amount,
+     * and sets rollCount to its buffer or clears coinCount from its buffer based on whether the latter was changed in pair with the former in the current amount update.
      * @param index the specified coin denomination index
      * @param rollCount the new value for roll count
      */
     protected void setRollCountToAmount(int index, Integer rollCount) {
-       Integer coinCount = getCoinCountByAmount(index);
-       KualiDecimal amount = getAmountByCoinRollCount(index, coinCount, rollCount);
-       setAmount(index, amount);
+        Integer coinCount = coinCounts.get(index);
+        KualiDecimal amount;
+
+        // if the currently buffered coinCount is still null when we set the rollCount, that means rollCount is the first
+        // (or only) one being changed during current update, and coinCount hasn't been changed yet since last update
+        if (coinCount == null) {
+            // buffer the new rollCount, but make sure not to set it to null, as null is used to indicate not being changed yet
+            rollCount = (rollCount == null) ? 0 : rollCount;
+            rollCounts.set(index, rollCount);
+
+            // derive the up-to-date coinCount from the current amount
+            coinCount = getCoinCountByAmount(index);
+        }
+        // otherwise, coinCount must have been just changed and buffered during current update, so we will use the buffered value
+        else {
+            // clear coinCount from the buffer, to get ready for next update;
+            // note that at this point, rollCount should be null, so we don't even need to set or clear its buffer
+            coinCounts.set(index, null);
+        }
+
+        // use the up-to-date coin/roll count pair to compute and update the new amount
+        // note, the rollCount here could be null, but that's OK, getAmountByCoinRollCount will handle it
+        amount = getAmountByCoinRollCount(index, coinCount, rollCount);
+        setAmount(index, amount);
     }
 
     /**
@@ -391,6 +387,14 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     public void setCashieringStatus(String financialDocumentColumnTypeCode) {
         this.cashieringStatus = financialDocumentColumnTypeCode;
     }
+
+//    public Integer getFinancialDocumentTransactionLineNumber() {
+//        return financialDocumentTransactionLineNumber;
+//    }
+//
+//    public void setFinancialDocumentTransactionLineNumber(Integer financialDocumentTransactionLineNumber) {
+//        this.financialDocumentTransactionLineNumber = financialDocumentTransactionLineNumber;
+//    }
 
     /**
      * Gets the financialDocumentHundredCentAmount attribute.

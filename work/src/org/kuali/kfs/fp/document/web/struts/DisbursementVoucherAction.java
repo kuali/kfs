@@ -824,7 +824,8 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
         PaymentSourceExtractionService disbursementVoucherExtractService = DisbursementVoucherDocument.getDisbursementVoucherExtractService();
-        disbursementVoucherExtractService.extractDvAsImmediatePayment(dvDocument);
+        dvDocument.setImmediatePaymentIndicator(true);
+        disbursementVoucherExtractService.extractSingleImmediatePayment(dvDocument);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

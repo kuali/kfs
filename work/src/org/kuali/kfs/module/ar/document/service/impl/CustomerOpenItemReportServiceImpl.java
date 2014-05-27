@@ -80,7 +80,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         List results = new ArrayList();
 
-        List<String> documentNumbers = accountsReceivableDocumentHeaderDao.getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(customerNumber);
+        Collection<String> documentNumbers = accountsReceivableDocumentHeaderDao.getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         if (documentNumbers.size() == 0) {
             return results;
         }

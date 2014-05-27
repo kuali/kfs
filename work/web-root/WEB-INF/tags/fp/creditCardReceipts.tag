@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="editingMode" required="true" description="used to decide if items may be edited" type="java.util.Map"%>
-<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || KualiForm.document.errorCorrected}" />
 
 <kul:tab tabTitle="Credit Card Receipts" defaultOpen="true" tabErrorKey="${KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS}">
 <c:set var="ccrAttributes" value="${DataDictionary.CreditCardDetail.attributes}" />

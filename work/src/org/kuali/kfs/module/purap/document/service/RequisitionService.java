@@ -54,4 +54,13 @@ public interface RequisitionService extends PurchasingDocumentSpecificService {
      */
     public int getCountOfRequisitionsAwaitingContractManagerAssignment();
 
+    /**
+     * Returns true if there is at least one member of the "Content Reviewer" role for the given organization.
+     *
+     * @param organizationCode
+     * @param chartOfAccountsCode
+     * @return
+     */
+    public boolean hasContentReviewer(String organizationCode, String chartOfAccountsCode);
+    
 }

@@ -42,6 +42,15 @@
   </filter>
 
   <filter>
+    <filter-name>ParameterFilter</filter-name>
+    <filter-class>org.kuali.rice.kns.web.filter.ParameterFilter</filter-class>
+    <init-param>
+      <param-name>excludeParams</param-name>
+      <param-value>(.*\.|^|\[('|"))(c|C)lass(\.|('|")]|\[).*</param-value>
+    </init-param>
+  </filter>
+  
+  <filter>
     <filter-name>BootstrapFilter</filter-name>
     <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
   </filter>
@@ -73,6 +82,11 @@
   <filter-mapping>
     <filter-name>ResponseOverrideFilter</filter-name>
     <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
+ <filter-mapping>
+    <filter-name>ParameterFilter</filter-name>
+    <servlet-name>action</servlet-name>
   </filter-mapping>
 
   <filter-mapping>

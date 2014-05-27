@@ -20,6 +20,9 @@
       <name>TTP</name>
       <label>TEM Profile</label>
       <parent>TTCM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftemprofile.htm
+      </helpDefinitionURL>
 		<routePaths>
 			<routePath>
 				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>

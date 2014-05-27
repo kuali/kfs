@@ -192,32 +192,28 @@
 						<td width="35%" align="left" valign="middle"><bean:write name="KualiForm" property="document.totalConfirmedNetAmount" /></td>
 					</c:if>
 				</tr>												
-				<tr>
-					<c:if test="${!readOnly}">
-          			<td class="total-line" colspan="1">&nbsp;</td>
-          			<td>
-						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
-							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
-					</td>
-					</c:if> 
-					<c:if test="${confirmMode}">  <%-- we only show these buttons in CashManager Confirm Mode --%>
-	          		<td class="total-line" colspan="2">
-						<html:image align="center" property="methodToCall.copyAllCurrencyAndCoin" 
-						 	src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" 
-						 	title="Copy all original currency and coin" alt="Copy all currency and coin" styleClass="tinybutton"/>
-						&nbsp; &nbsp; &nbsp;
-						<html:image align="center" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
-							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
-					</td>					
-					</c:if>
-					</td>
-				</tr>
 			</tbody>
 		</table>
+
+		<c:if test="${!readOnly || confirmMode}">
+			<div>
+				<html:image
+					src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" styleClass="tinybutton" 
+					title="Recalculate all subtotals and totals" alt="Recalculate Totals" />
+				</div>
+			</c:if>
+
 		</div>
 	</kul:tab>
 	
   <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
+  	<c:if test="${confirmMode}"> <%-- we only show copy buttons in CashManager Confirm Mode --%>
+  	    <div class="tab-container">
+			<html:image align="center" property="methodToCall.copyAllCurrencyAndCoin" 
+			 	src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" styleClass="tinybutton"
+			 	title="Copy all currency and coin from Original to CashManager section" alt="Copy all currency and coin" />
+	    </div>
+	</c:if>
     <div class="tab-container" align="center">
         <h3>Currency and Coin Detail</h3>
       <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" 
@@ -235,6 +231,13 @@
 		
 	<c:if test="${changeRequestMode}">	
 		<kul:tab tabTitle="Change Request" defaultOpen="${KualiForm.document.changeRequested}" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CHANGE_REQUEST_ERRORS}">
+			<c:if test="${confirmMode}"> <%-- we only show copy buttons in CashManager Confirm Mode --%>
+				<div class="tab-container">
+					<html:image align="center" property="methodToCall.copyAllChangeCurrencyAndCoin"
+						src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" styleClass="tinybutton" 
+						title="Copy all change currency and coin from Original to CashManager section" alt="Copy all change currency and coin" />
+				</div>
+			</c:if>
 			<div class="tab-container" align="center">
 				<h3>Requesting</h3>
 	      		<fp:currencyCoinLine currencyProperty="document.changeCurrencyDetail" coinProperty="document.changeCoinDetail" 

@@ -71,6 +71,12 @@
 			<parent>TRV</parent>
 			<docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler
 			</docHandler>
+			<helpDefinitionURL>
+      			default.htm?turl=WordDocuments%2Ftravelauthorization.htm
+      		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ftravelauthorization1.htm
+      		</docSearchHelpURL>
 			<label>Travel Authorization</label>
 			<active>
 				true
@@ -359,12 +365,18 @@
 	      <name>TAA</name>
 	      <parent>TA</parent>
 	      <docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <helpDefinitionURL>
+      		default.htm?turl=WordDocuments%2Ftravelauthorizationa.htm
+      	  </helpDefinitionURL>
 	      <label>Travel Authorization Amendment</label>
 	    </documentType>
 	    <documentType>
 	      <name>TAC</name>
 	      <parent>TA</parent>
 	      <docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <helpDefinitionURL>
+      		default.htm?turl=WordDocuments%2Ftravelauthorizationc.htm
+      	  </helpDefinitionURL>
 	      <label>Travel Authorization Close</label>
 	      <policies>
                 <policy>
@@ -390,6 +402,12 @@
             <parent>TRV</parent>
             <docHandler>${kfs.url}/temTravelReimbursement.do?methodToCall=docHandler
             </docHandler>
+            <helpDefinitionURL>
+      			default.htm?turl=WordDocuments%2Ftravelreimbursement.htm
+      	  	</helpDefinitionURL>
+      	  	<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ftravelreimbursement1.htm
+      		</docSearchHelpURL>
             <label>Travel Reimbursement</label>
             <active>
                 true
@@ -664,6 +682,9 @@
 	      <name>TTA</name>
 	      <parent>TT</parent>
 	      <docHandler>${kfs.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
+	      <helpDefinitionURL>			
+			default.htm?turl=WordDocuments%2Ftravelarranger.htm		
+      	  </helpDefinitionURL>			
 	      <label>Travel Arranger</label>
 	      <routePaths>
 	                <routePath>
@@ -704,6 +725,12 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
+            <helpDefinitionURL>			
+				default.htm?turl=WordDocuments%2Fmovingandrelocationreimbursement.htm		
+      	  	</helpDefinitionURL>	
+      	  	<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fmovingandrelocation.htm
+      		</docSearchHelpURL>		
             <label>Moving and Relocation Reimbursement</label>
             <attributes>
 				<attribute>
@@ -949,6 +976,9 @@
       <description />
       <label>Taxable Ramification</label>
       <docHandler>${kfs.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
+      <helpDefinitionURL>	
+		default.htm?turl=WordDocuments%2Ftaxableramification.htm
+      </helpDefinitionURL>	
       <active>true</active>
       <routingVersion>2</routingVersion>
       <routePaths>
@@ -996,6 +1026,12 @@
             <parent>TT</parent>
             <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
+            <helpDefinitionURL>	
+				default.htm?turl=WordDocuments%2Fentertainmentreimbursement.htm
+      		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fentertainmentreimbursement1.htm
+      		</docSearchHelpURL>	
             <label>Entertainment Reimbursement</label>
             <attributes>
 				<attribute>
@@ -1220,6 +1256,9 @@
 			<parent>TT</parent>
 			<label>CTS Card Application</label>
 			<docHandler>${kfs.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
+			<helpDefinitionURL>	
+				default.htm?turl=WordDocuments%2Fctscardapplication.htm
+      		</helpDefinitionURL>	
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
@@ -1270,6 +1309,12 @@
 			<parent>TT</parent>
 			<label>Corporate Card Application</label>
 			<docHandler>${kfs.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
+			<helpDefinitionURL>	
+				default.htm?turl=WordDocuments%2Fcorporatecardapplication1.htm
+      		</helpDefinitionURL>
+      		<docSearchHelpURL>
+        		${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcorporatecardapplication.htm
+      		</docSearchHelpURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>

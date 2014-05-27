@@ -230,4 +230,11 @@ abstract public class CashReceiptFamilyBase extends CapitalAccountingLinesDocume
         }
     }
 
+    /**
+     * Returns true if the document is error corrected.
+     */
+    public boolean isErrorCorrected() {
+        return StringUtils.isNotEmpty(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
+    }
+
 }

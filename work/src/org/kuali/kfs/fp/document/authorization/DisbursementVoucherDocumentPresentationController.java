@@ -25,9 +25,6 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.DisbursementVoucherEditMode;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kim.api.permission.Permission;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -46,20 +43,11 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
         documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
-
-        /*
-        // if DV can be extracted now (based on document status), add the EXTRACT_NOW_ACTION
-        if (canExtractNow(document)) {
-            documentActions.add(KFSConstants.EXTRACT_NOW_ACTION);
-        }
-        */
-
         return documentActions;
     }
 
     /**
-     * Returns true if DV is approved (FINAL) and hasn't been extracted,
-     * and the permission to use the extractNow button exists and is active.
+     * Returns true if DV is approved (FINAL) and hasn't been extracted.
      *
      * @param document
      * @return
@@ -70,10 +58,10 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         canExtractNow &= dvDoc.getDocumentHeader().getWorkflowDocument().isApproved();
         canExtractNow &= ObjectUtils.isNull(dvDoc.getExtractDate());
 
-        // check if the Permission "Use Transactional Document DV extractNow" exists and is active; if not nobody can perform this action
-        PermissionService permissionService = KimApiServiceLocator.getPermissionService();
-        Permission permission = permissionService.findPermByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.FINANCIAL, KFSConstants.EXTRACT_NOW_ACTION_PERMISSION);
-        canExtractNow &= ObjectUtils.isNotNull(permission) && permission.isActive();
+        // Note: We don't need to check if the Permission "Use Transactional Document DV extractNow" exists and is active, because we have
+        // it set to active by default. If the permission is not defined or is inactive, it means there will be no authorization checking on
+        // using this button and thus everyone can use it. Institutions that don't want to allow anyone to use this button should set the
+        // role assignments for this permission to inactive or just remove the role assignments.
 
         return canExtractNow;
     }

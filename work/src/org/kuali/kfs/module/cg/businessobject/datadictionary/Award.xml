@@ -355,7 +355,7 @@
 
 	<bean
 		id="Award-milestoneSchedule.milestoneScheduleInquiryTitle-parentBean"
-		abstract="true" parent="SharedAttributes-milestoneScheduleInquiryTitle">
+		abstract="true" parent="CommonAttributes-milestoneScheduleInquiryTitle">
 		<property name="name"
 			value="milestoneSchedule.milestoneScheduleInquiryTitle" />
 	</bean>
@@ -365,7 +365,7 @@
 
 	<bean
 		id="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle-parentBean"
-		abstract="true" parent="SharedAttributes-predeterminedBillingScheduleInquiryTitle">
+		abstract="true" parent="CommonAttributes-predeterminedBillingScheduleInquiryTitle">
 		<property name="name"
 			value="predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
 	</bean>

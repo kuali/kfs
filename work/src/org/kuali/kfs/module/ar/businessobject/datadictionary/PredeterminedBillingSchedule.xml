@@ -139,7 +139,7 @@
 		parent="PredeterminedBillingSchedule-predeterminedBillingScheduleInquiryTitle-parentBean" />
 
 	<bean id="PredeterminedBillingSchedule-predeterminedBillingScheduleInquiryTitle-parentBean"
-		abstract="true" parent="SharedAttributes-predeterminedBillingScheduleInquiryTitle" />
+		abstract="true" parent="CommonAttributes-predeterminedBillingScheduleInquiryTitle" />
 
 	<bean id="PredeterminedBillingSchedule-award.awardEndingDate" parent="PredeterminedBillingSchedule-award.awardEndingDate-parentBean" />
 

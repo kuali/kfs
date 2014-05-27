@@ -17,9 +17,9 @@
 		License.
 	-->
 
-	<bean id="SharedAttributes-customerNumber" parent="SharedAttributes-customerNumber-parentBean" />
+	<bean id="CommonAttributes-customerNumber" parent="CommonAttributes-customerNumber-parentBean" />
 
-	<bean id="SharedAttributes-customerNumber-parentBean" abstract="true"
+	<bean id="CommonAttributes-customerNumber-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="customerNumber" />
 		<property name="forceUppercase" value="true" />
@@ -34,10 +34,10 @@
 		</property>
 	</bean>
 
-	<bean id="SharedAttributes-milestoneScheduleInquiryTitle"
-		parent="SharedAttributes-milestoneScheduleInquiryTitle-parentBean" />
+	<bean id="CommonAttributes-milestoneScheduleInquiryTitle"
+		parent="CommonAttributes-milestoneScheduleInquiryTitle-parentBean" />
 
-	<bean id="SharedAttributes-milestoneScheduleInquiryTitle-parentBean"
+	<bean id="CommonAttributes-milestoneScheduleInquiryTitle-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="milestoneScheduleInquiryTitle" />
 		<property name="label" value="Milestone Schedule" />
@@ -48,10 +48,10 @@
 		</property>
 	</bean>
 	
-	<bean id="SharedAttributes-predeterminedBillingScheduleInquiryTitle"
-		parent="SharedAttributes-predeterminedBillingScheduleInquiryTitle-parentBean" />
+	<bean id="CommonAttributes-predeterminedBillingScheduleInquiryTitle"
+		parent="CommonAttributes-predeterminedBillingScheduleInquiryTitle-parentBean" />
 
-	<bean id="SharedAttributes-predeterminedBillingScheduleInquiryTitle-parentBean"
+	<bean id="CommonAttributes-predeterminedBillingScheduleInquiryTitle-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="predeterminedBillingScheduleInquiryTitle" />
 		<property name="label" value="Predetermined Billing Schedule" />

@@ -201,18 +201,18 @@
 	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />
 	<bean id="travelEntertainmentMovingModuleService-parentBean" abstract="true" class="org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleServiceNoOp" />
 
-    <bean id="sharedModuleConfiguration"  parent="sharedModuleConfiguration-parentBean"/>
-    <bean id="sharedModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    <bean id="commonModuleConfiguration"  parent="commonModuleConfiguration-parentBean"/>
+    <bean id="commonModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-SYS" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.kfs.integration.shared</value>
+                <value>org.kuali.kfs.integration.common</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>org/kuali/kfs/integration/shared/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/integration/common/businessobject/datadictionary</value>
             </list>
         </property>
     </bean>

@@ -297,7 +297,7 @@
 	<bean id="Customer-customerNumber" parent="Customer-customerNumber-parentBean" />
 
 	<bean id="Customer-customerNumber-parentBean" abstract="true"
-		parent="SharedAttributes-customerNumber" />
+		parent="CommonAttributes-customerNumber" />
 
 	<bean id="Customer-customerParentCompanyNumber" parent="Customer-customerParentCompanyNumber-parentBean" />
 	<bean id="Customer-customerParentCompanyNumber-parentBean"

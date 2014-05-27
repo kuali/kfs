@@ -140,7 +140,7 @@
 		parent="MilestoneSchedule-milestoneScheduleInquiryTitle-parentBean" />
 
 	<bean id="MilestoneSchedule-milestoneScheduleInquiryTitle-parentBean"
-		abstract="true" parent="SharedAttributes-milestoneScheduleInquiryTitle" />
+		abstract="true" parent="CommonAttributes-milestoneScheduleInquiryTitle" />
 
 	<bean id="MilestoneSchedule-award.awardEndingDate" parent="MilestoneSchedule-award.awardEndingDate-parentBean" />
 

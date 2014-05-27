@@ -20,111 +20,177 @@
       <name>TAS</name>
       <label>Airfare Source</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fairfaresource.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TAT</name>
       <label>Accommodation Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Faccommodationtype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TCOS</name>
       <label>Class Of Service</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fclassofservice.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TCRT</name>
       <label>Contact Relationship Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fcontactrelationshiptype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TMR</name>
       <label>Mileage Rate</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fmileagerate.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TPD</name>
       <label>Per Diem</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fperdiem.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TSCQ</name>
       <label>Special Circumstances Question</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fspecialcircumstancesquestion.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TTM</name>
       <label>Transportation Mode</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftransportationmode.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TTRT</name>
       <label>Trip Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftriptype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TAPR</name>
       <label>Advance Payment Reason</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fadvancepaymentreason.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TRR</name>
       <label>Relocation Reason</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Frelocationreason.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TJC</name>
       <label>Job Classification</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fjobclassification.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>ETC</name>
       <label>Expense Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fexpensetype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>ETOC</name>
       <label>Expense Type Object Code</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fexpensetypeobjectcode.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TPUR</name>
       <label>Entertainment Purpose</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fentertainmentpurpose.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TCCA</name>
       <label>Credit Card or Agency</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fcreditcardoragency.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TASF</name>
       <label>Agency Service Fee</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fagencyservicefee.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TAAR</name>
       <label>Travel Agency Audit and Correction</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftravelagencyauditandcorrection.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TTYT</name>
       <label>Traveler Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftravelertype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TCT</name>
       <label>Travel Card Type</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Ftravelcardtype.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>CCIE</name>
       <label>Credit Card Imported Expense Clearing Document</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fcreditcardimportedexpenseclearingdocument.htm
+      </helpDefinitionURL>
     </documentType>
     <documentType>
       <name>TPDB</name>
       <label>Per Diem Meals and Incidentals Breakdown</label>
       <parent>TTSM</parent>
+      <helpDefinitionURL>
+      	default.htm?turl=WordDocuments%2Fperdiemmealsandincidentalsbreakdown.htm
+      </helpDefinitionURL>
     </documentType>
   </documentTypes>
 </data>

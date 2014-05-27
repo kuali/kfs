@@ -226,7 +226,7 @@
         Payment Documentation Location
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fdisbursementvoucherdocumentationlocation.htm
+        default.htm?turl=WordDocuments%2Fpaymentdocumentationlocation.htm
       </helpDefinitionURL>
       <active>
         true
@@ -246,7 +246,7 @@
         Wire Charge
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fdisbursementvoucherwirecharge.htm
+        default.htm?turl=WordDocuments%2Fwirecharge.htm
       </helpDefinitionURL>
       <active>
         true

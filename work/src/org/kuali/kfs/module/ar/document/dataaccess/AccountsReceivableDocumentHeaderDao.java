@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document.dataaccess;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 
@@ -48,5 +47,5 @@ public interface AccountsReceivableDocumentHeaderDao {
      * @param customerNumber
      * @return
      */
-    public List<String> getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(String customerNumber);
+    public Collection<String> getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(String customerNumber);
 }

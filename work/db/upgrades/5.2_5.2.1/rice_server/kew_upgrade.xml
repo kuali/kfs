@@ -18,4 +18,189 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
+	<changeSet author="KFS521" id="UPDATE_DOC_TYPE_HELP_URLS">
+		<comment>Updates the help URLs for multiple document types.</comment>
+	
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fwirecharge.htm" />
+	<where>DOC_TYP_NM = DVWT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fpaymentdocumentationlocation.htm" />
+	<where>DOC_TYP_NM = DVDL and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelarranger.htm" />
+	<where>DOC_TYP_NM = TTA and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fmovingandrelocationreimbursement.htm" />
+	<where>DOC_TYP_NM = RELO and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftaxableramification.htm" />
+	<where>DOC_TYP_NM = TXRF and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fentertainmentreimbursement.htm" />
+	<where>DOC_TYP_NM = ENT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fctscardapplication.htm" />
+	<where>DOC_TYP_NM = CTAP and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcorporatecardapplication.htm" />
+	<where>DOC_TYP_NM = CCAP and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftemprofile.htm" />
+	<where>DOC_TYP_NM = TTP and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fairfaresource.htm" />
+	<where>DOC_TYP_NM = TAS and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Faccommodationtype.htm" />
+	<where>DOC_TYP_NM = TAT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fclassofservice.htm" />
+	<where>DOC_TYP_NM = TCOS and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcontactrelationshiptype.htm" />
+	<where>DOC_TYP_NM = TCRT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fmileagerate.htm" />
+	<where>DOC_TYP_NM = TMR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperdiem.htm" />
+	<where>DOC_TYP_NM = TPD and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fspecialcircumstancesquestion.htm" />
+	<where>DOC_TYP_NM = TSCQ and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftransportationmode.htm" />
+	<where>DOC_TYP_NM = TTM and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftriptype.htm" />
+	<where>DOC_TYP_NM = TTRT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fadvancepaymentreason.htm" />
+	<where>DOC_TYP_NM = TAPR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Frelocationreason.htm" />
+	<where>DOC_TYP_NM = TRR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fjobclassification.htm" />
+	<where>DOC_TYP_NM = TJC and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fexpensetype.htm" />
+	<where>DOC_TYP_NM = ETC and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fexpensetypeobjectcode.htm" />
+	<where>DOC_TYP_NM = ETOC and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fentertainmentpurpose.htm" />
+	<where>DOC_TYP_NM = TPUR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcreditcardoragency.htm" />
+	<where>DOC_TYP_NM = TCCA and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fagencyservicefee.htm" />
+	<where>DOC_TYP_NM = TASF and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelagencyauditandcorrection.htm" />
+	<where>DOC_TYP_NM = TAAR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelertype.htm" />
+	<where>DOC_TYP_NM = TTYT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelcardtype.htm" />
+	<where>DOC_TYP_NM = TCT and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcreditcardimportedexpenseclearingdocument.htm" />
+	<where>DOC_TYP_NM = CCIE and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperdiemmealsandincidentalsbreakdown.htm" />
+	<where>DOC_TYP_NM = TPDB and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorization.htm" />
+	<where>DOC_TYP_NM = TA and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationamendment.htm" />
+	<where>DOC_TYP_NM = TAA and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelauthorizationclose.htm" />
+	<where>DOC_TYP_NM = TAC and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+<update tableName="KREW_DOC_TYP_T">
+	<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ftravelreimbursement.htm" />
+	<where>DOC_TYP_NM = TR and CUR_IND = 1 AND ACTV_IND = 1</where>
+</update>
+
+
+		
+	</changeSet>
+	
+	
+	
 </databaseChangeLog>

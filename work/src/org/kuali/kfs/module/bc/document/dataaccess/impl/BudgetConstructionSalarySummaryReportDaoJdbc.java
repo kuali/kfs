@@ -113,7 +113,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
-        /* for each emplid, find the record with the largest salary (break ties by taking the row with the smallest position number) */
+        /* for each emplid, find the record with the largest salary (break ties by taking the row with the smallest position number and largest funding months) */
         sqlText.append("INSERT INTO LD_BCN_BUILD_SALSUMM02_MT \n");
         sqlText.append("(SESID, EMPLID, SAL_MTHS, SAL_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, sd.sal_mths, sd.sal_pmths \n");
@@ -122,10 +122,13 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append("AND sd.sal_amt = (SELECT max(sd2.sal_amt) \n");
         sqlText.append("                  FROM LD_BCN_BUILD_SALSUMM01_MT sd2\n");
         sqlText.append("                  WHERE sd2.sesid = sd.sesid AND sd2.emplid = sd.emplid)\n");
+        sqlText.append("AND sd.sal_mths = (SELECT max(sd4.sal_mths) \n");
+        sqlText.append("                  FROM LD_BCN_BUILD_SALSUMM01_MT sd4\n");
+        sqlText.append("                  WHERE sd4.sesid = sd.sesid AND sd4.emplid = sd.emplid AND sd4.sal_amt = sd.sal_amt)\n");
         sqlText.append("AND sd.position_nbr = (SELECT min(sd3.position_nbr) \n");
         sqlText.append("                       FROM LD_BCN_BUILD_SALSUMM01_MT sd3\n");
         sqlText.append("                       WHERE sd3.sesid = sd.sesid  \n");
-        sqlText.append("                         AND sd3.emplid = sd.emplid AND sd3.sal_amt = sd.sal_amt) \n");
+        sqlText.append("                         AND sd3.emplid = sd.emplid AND sd3.sal_amt = sd.sal_amt AND sd3.sal_mths = sd.sal_mths) \n");
 
         updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());

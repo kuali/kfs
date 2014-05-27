@@ -377,6 +377,13 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    /**
+     * Note that since AR is required for CGB, returning false here results in the correct, desired behavior even
+     * without attempting to obtain and return the value from the CGB configuration property. Specifying the CGB
+     * enhancement config enabled property to true but disabling AR is an invalid configuration.
+     *
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isContractsGrantsBillingEnhancementActive()
+     */
     @Override
     public boolean isContractsGrantsBillingEnhancementActive() {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");

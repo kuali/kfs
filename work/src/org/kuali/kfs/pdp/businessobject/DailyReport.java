@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,17 @@ package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DailyReport extends TransientBusinessObjectBase {
+    private String sortOrder;
     private String customer;
     private KualiDecimal amount;
     private Integer payments;
     private Integer payees;
-    
+
     private PaymentGroup paymentGroup;
-    
+
     public DailyReport() {
         payments = 0;
         payees = 0;
@@ -47,7 +49,8 @@ public class DailyReport extends TransientBusinessObjectBase {
         this.paymentGroup = paymentGroup;
     }
 
-    
+
+    @Override
     public String toString() {
         return customer + " " + amount + " " + payments + " " + payees;
     }
@@ -56,6 +59,18 @@ public class DailyReport extends TransientBusinessObjectBase {
         payments = payments + r.payments;
         payees = payees + r.payees;
         amount = amount.add(r.amount);
+
+        if (ObjectUtils.isNull(this.paymentGroup)) {
+            this.paymentGroup = r.paymentGroup;
+        }
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public KualiDecimal getAmount() {
@@ -97,6 +112,4 @@ public class DailyReport extends TransientBusinessObjectBase {
     public void setPaymentGroup(PaymentGroup paymentGroup) {
         this.paymentGroup = paymentGroup;
     }
-
-    
 }

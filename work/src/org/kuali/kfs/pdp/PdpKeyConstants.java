@@ -72,8 +72,6 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS = "message.pdp.achAdvice.email.invalidEmailAddress";
     public static final String MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE = "message.pdp.payeeLookup.noPayeeTypeSelection";
 
-    public static final String DAILY_REPORT_SERVICE_FILE_PREFIX = "pdp.dailyReportService.dailyReportFilePrefix";
-    public static final String DAILY_REPORT_SERVICE_REPORT_TITLE = "pdp.dailyReportService.reportTitle";
     public static final String DAILY_REPORT_SERVICE_TOTAL_SUBTITLE = "pdp.dailyReportService.totalSubtitle";
     public static final String DAILY_REPORT_SERVICE_TOTAL_FOR_SUBTITLE = "pdp.dailyReportService.totalForSubtitle";
     public static final String DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE = "pdp.dailyReportService.sortOrderSubtitle";

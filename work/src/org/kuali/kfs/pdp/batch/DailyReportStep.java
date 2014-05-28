@@ -30,12 +30,6 @@ public class DailyReportStep extends AbstractWrappedBatchStep {
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {
         return new CustomBatchExecutor() {
-            /**
-             * Runs the organization reversion process, retrieving parameter, creating the origin entry group for output entries, and
-             * generating the reports on the process.
-             * @return true if the job completed successfully, false if otherwise
-             * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
-             */
             @Override
             public boolean execute() {
                 LOG.debug("execute() started");

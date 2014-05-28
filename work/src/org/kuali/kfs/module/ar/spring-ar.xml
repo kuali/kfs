@@ -1641,8 +1641,8 @@
 
 	<!-- Report Service -->
 
-	<bean id="CustomerCreditMemoReportService"  parent="CustomerCreditMemoReportService-parentBean"/>
-	<bean id="CustomerCreditMemoReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerCreditMemoReportServiceImpl" abstract="true">
+	<bean id="customerCreditMemoReportService"  parent="customerCreditMemoReportService-parentBean"/>
+	<bean id="customerCreditMemoReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerCreditMemoReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -1689,8 +1689,8 @@
 		</property>
 	</bean>
 
-	<bean id="CustomerInvoiceReportService"  parent="CustomerInvoiceReportService-parentBean"/>
-	<bean id="CustomerInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl" abstract="true">
+	<bean id="customerInvoiceReportService"  parent="customerInvoiceReportService-parentBean"/>
+	<bean id="customerInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -1737,8 +1737,8 @@
 		</property>
 	</bean>
 
-	<bean id="CustomerStatementReportService"  parent="CustomerStatementReportService-parentBean"/>
-	<bean id="CustomerStatementReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerStatementReportServiceImpl" abstract="true">
+	<bean id="customerStatementReportService"  parent="customerStatementReportService-parentBean"/>
+	<bean id="customerStatementReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerStatementReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -1818,6 +1818,27 @@
 		</property>
 		<property name="invoiceWriteoffDocumentService">
 			<ref bean="customerInvoiceWriteoffDocumentService" />
+		</property>
+		<property name="countryService">
+			<ref bean="countryService" />
+		</property>
+		<property name="customerCreditMemoReportService">
+			<ref bean="customerCreditMemoReportService" />
+		</property>
+		<property name="ocrLineService">
+			<ref bean="ocrLineService" />
+		</property>
+		<property name="customerInvoiceReportService">
+			<ref bean="customerInvoiceReportService" />
+		</property>
+		<property name="customerStatementReportService">
+			<ref bean="customerStatementReportService" />
+		</property>
+		<property name="customerCreditMemoDocumentService">
+			<ref bean="customerCreditMemoDocumentService" />
+		</property>
+		<property name="customerAgingReportService">
+			<ref bean="customerAgingReportService" />
 		</property>
 	</bean>
 

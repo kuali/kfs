@@ -69,7 +69,6 @@ import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.module.ar.report.util.SortTransaction;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -93,21 +92,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountsReceivableReportServiceImpl implements AccountsReceivableReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
 
-    private DateTimeService dateTimeService;
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private CustomerAddressService customerAddressService;
-    private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
-    private BusinessObjectService businessObjectService;
-    private CurrencyFormatter currencyFormatter = new CurrencyFormatter();
-    private UniversityDateService universityDateService;
-    private CustomerService customerService;
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private OrganizationService orgService;
+    protected DateTimeService dateTimeService;
+    protected DocumentService documentService;
+    protected ParameterService parameterService;
+    protected CustomerAddressService customerAddressService;
+    protected PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
+    protected BusinessObjectService businessObjectService;
+    protected CurrencyFormatter currencyFormatter = new CurrencyFormatter();
+    protected UniversityDateService universityDateService;
+    protected CustomerService customerService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected OrganizationService orgService;
     protected InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
-    private CustomerInvoiceWriteoffDocumentService invoiceWriteoffDocumentService;
-    
+    protected CustomerInvoiceWriteoffDocumentService invoiceWriteoffDocumentService;
+    protected CountryService countryService;
+    protected CustomerCreditMemoReportService customerCreditMemoReportService;
+    protected OCRLineService ocrLineService;
+    protected CustomerInvoiceReportService customerInvoiceReportService;
+    protected CustomerStatementReportService customerStatementReportService;
+    protected CustomerCreditMemoDocumentService customerCreditMemoDocumentService;
+    protected CustomerAgingReportService customerAgingReportService;
+
     /**
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateCreditMemo(org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument)
      */
@@ -139,7 +145,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         else {
             billCityStateZip = generateCityStateZipLine(invoice.getBillingCityName(), invoice.getBillingAddressInternationalProvinceName(), invoice.getBillingInternationalMailCode());
             if ( StringUtils.isNotBlank(invoice.getBillingCountryCode())) {
-                Country country = SpringContext.getBean(CountryService.class).getCountry(invoice.getBillingCountryCode());
+                Country country = countryService.getCountry(invoice.getBillingCountryCode());
                 if (ObjectUtils.isNotNull(country)) {
                     customerMap.put("billToCountry", country.getName());
                 }
@@ -226,8 +232,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         reportDataHolder.setDetails(details);
 
         Date runDate = dateTimeService.getCurrentSqlDate();
-        CustomerCreditMemoReportService service = SpringContext.getBean(CustomerCreditMemoReportService.class);
-        File report = service.generateReport(reportDataHolder, runDate);
+        File report = customerCreditMemoReportService.generateReport(reportDataHolder, runDate);
 
         return report;
     }
@@ -309,8 +314,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoice.getSourceTotal()).toString());
         invoiceMap.put("invoiceTermsText", invoice.getInvoiceTermsText());
 
-        OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
-        String ocrLine = ocrService.generateOCRLine(invoice.getSourceTotal(), custID, invoice.getDocumentNumber());
+        String ocrLine = ocrLineService.generateOCRLine(invoice.getSourceTotal(), custID, invoice.getDocumentNumber());
         invoiceMap.put("ocrLine", ocrLine);
         List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>) customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
         CustomerInvoiceDetail firstDetail = detailsList.get(0);
@@ -360,8 +364,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         reportDataHolder.setInvoice(invoiceMap);
 
         Date runDate = dateTimeService.getCurrentSqlDate();
-        CustomerInvoiceReportService service = SpringContext.getBean(CustomerInvoiceReportService.class);
-        File report = service.generateReport(reportDataHolder, runDate);
+        File report = customerInvoiceReportService.generateReport(reportDataHolder, runDate);
 
         invoice.setPrintDate(runDate);
         documentService.updateDocument(invoice);
@@ -443,7 +446,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("amountDue", currencyFormatter.format(amountDue).toString());
         invoiceMap.put("dueDate", calculateDueDate());
 
-        String ocrLine = SpringContext.getBean(OCRLineService.class).generateOCRLine(amountDue, customerNumber, null);
+        String ocrLine = ocrLineService.generateOCRLine(amountDue, customerNumber, null);
         invoiceMap.put("ocrLine", ocrLine);
 
         Map<String, String> sysinfoMap = new HashMap<String, String>();
@@ -483,8 +486,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         reportDataHolder.setInvoice(invoiceMap);
 
         Date runDate = dateTimeService.getCurrentSqlDate();
-        CustomerStatementReportService service = SpringContext.getBean(CustomerStatementReportService.class);
-        File f = service.generateReport(reportDataHolder, runDate, statementFormat);
+        File f = customerStatementReportService.generateReport(reportDataHolder, runDate, statementFormat);
         return f;
     }
 
@@ -658,8 +660,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     protected Collection<CustomerStatementDetailReportDataHolder> creditMemosForInvoice(CustomerInvoiceDocument invoice) {
         // credit memo
         List<CustomerStatementDetailReportDataHolder> returnList = new ArrayList<CustomerStatementDetailReportDataHolder>();
-        CustomerCreditMemoDocumentService creditMemoService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        Collection<CustomerCreditMemoDocument> creditMemos = creditMemoService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+        Collection<CustomerCreditMemoDocument> creditMemos = customerCreditMemoDocumentService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
         for (CustomerCreditMemoDocument doc : creditMemos) {
             try {
                 doc.populateCustomerCreditMemoDetailsAfterLoad();
@@ -842,7 +843,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
                 Collection<CustomerInvoiceDetail> invoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci);
                 java.util.Date reportRunDate = dateTimeService.getCurrentDate();
-                CustomerAgingReportDataHolder agingData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
+                CustomerAgingReportDataHolder agingData = customerAgingReportService.calculateAgingReportAmounts(invoiceDetails, reportRunDate);
                 // add previous balance to 30 days and total amount due
 
                 addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_0_TO_30, agingData.getTotal0to30().add(previousBalance), invoiceMap);
@@ -922,23 +923,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         return chartAndOrg.toString();
     }
 
-    /**
-     * This method...
-     *
-     * @return
-     */
     public DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
-    /**
-     * This method...
-     *
-     * @param dateTimeService
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -951,9 +939,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @return the parameterService
      */
     public ParameterService getParameterService() {
-        if (parameterService == null) {
-            parameterService = SpringContext.getBean(ParameterService.class);
-        }
         return parameterService;
     }
 
@@ -971,18 +956,18 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public void setCustomerAddressService(CustomerAddressService customerAddressService) {
         this.customerAddressService = customerAddressService;
     }
-    
+
     /**
      * @param businessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
+
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -990,7 +975,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
-    
+
     /**
      * Gets the customerInvoiceDetailService attribute.
      *
@@ -1008,7 +993,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
-    
+
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
         return customerInvoiceDocumentService;
     }
@@ -1016,20 +1001,76 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
-    
+
     public void setOrgService(OrganizationService orgService) {
         this.orgService = orgService;
     }
-    
+
     public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
         this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
-    
+
     public CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
         return invoiceWriteoffDocumentService;
     }
 
     public void setInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
         this.invoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
+    }
+
+    public CountryService getCountryService() {
+        return countryService;
+    }
+
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
+    public CustomerCreditMemoReportService getCustomerCreditMemoReportService() {
+        return customerCreditMemoReportService;
+    }
+
+    public void setCustomerCreditMemoReportService(CustomerCreditMemoReportService customerCreditMemoReportService) {
+        this.customerCreditMemoReportService = customerCreditMemoReportService;
+    }
+
+    public OCRLineService getOcrLineService() {
+        return ocrLineService;
+    }
+
+    public void setOcrLineService(OCRLineService ocrLineService) {
+        this.ocrLineService = ocrLineService;
+    }
+
+    public CustomerInvoiceReportService getCustomerInvoiceReportService() {
+        return customerInvoiceReportService;
+    }
+
+    public void setCustomerInvoiceReportService(CustomerInvoiceReportService customerInvoiceReportService) {
+        this.customerInvoiceReportService = customerInvoiceReportService;
+    }
+
+    public CustomerStatementReportService getCustomerStatementReportService() {
+        return customerStatementReportService;
+    }
+
+    public void setCustomerStatementReportService(CustomerStatementReportService customerStatementReportService) {
+        this.customerStatementReportService = customerStatementReportService;
+    }
+
+    public CustomerCreditMemoDocumentService getCustomerCreditMemoDocumentService() {
+        return customerCreditMemoDocumentService;
+    }
+
+    public void setCustomerCreditMemoDocumentService(CustomerCreditMemoDocumentService customerCreditMemoDocumentService) {
+        this.customerCreditMemoDocumentService = customerCreditMemoDocumentService;
+    }
+
+    public CustomerAgingReportService getCustomerAgingReportService() {
+        return customerAgingReportService;
+    }
+
+    public void setCustomerAgingReportService(CustomerAgingReportService customerAgingReportService) {
+        this.customerAgingReportService = customerAgingReportService;
     }
 }

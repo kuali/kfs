@@ -401,6 +401,9 @@
 
 	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"
 		scope="prototype">
+		<property name="contractsAndGrantsModuleRetrieveService">
+			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsInvoiceLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult
 import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -55,6 +54,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
+
+    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -150,7 +151,7 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).getSearchResultsHelper(fieldValues, unbounded);
+        return contractsAndGrantsModuleRetrieveService.getSearchResultsHelper(fieldValues, unbounded);
     }
 
     /**
@@ -261,5 +262,13 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
     @Override
     public List getReturnKeys() {
         return new ArrayList();
+    }
+
+    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
+        return contractsAndGrantsModuleRetrieveService;
+    }
+
+    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
+        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
 }

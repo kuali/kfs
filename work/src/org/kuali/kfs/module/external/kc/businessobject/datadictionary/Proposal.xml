@@ -75,7 +75,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="proposalNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Proposal Number" />
+		<property name="label" value="Award Id" />
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">

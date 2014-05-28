@@ -78,7 +78,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      * @param bo
      * @return
      */
-    private AnchorHtmlData getDunningLetterTemplateUploadUrl(BusinessObject bo) {
+    protected AnchorHtmlData getDunningLetterTemplateUploadUrl(BusinessObject bo) {
         DunningLetterTemplate letterTemplate = (DunningLetterTemplate) bo;
         String href = "../arAccountsReceivableLetterTemplateUpload.do" + "?&methodToCall=start&letterTemplateCode=" + letterTemplate.getLetterTemplateCode() + "&docFormKey=88888888";
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_UPLOAD);
@@ -90,16 +90,12 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      * @param fileName name of template file
      * @return true if template file exists, false otherwise
      */
-    private boolean templateFileExists(String fileName) {
+    protected boolean templateFileExists(String fileName) {
         ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
         String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
         String filePath = templateFolderPath + File.separator + fileName;
         File file = new File(filePath).getAbsoluteFile();
-        if (file.exists() && file.isFile()) {
-            return true;
-        }
-
-        return false;
+        return file.exists() && file.isFile();
     }
 
     /**
@@ -108,7 +104,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      * @param bo
      * @return
      */
-    private AnchorHtmlData getDunningLetterTemplateDownloadUrl(BusinessObject bo) {
+    protected AnchorHtmlData getDunningLetterTemplateDownloadUrl(BusinessObject bo) {
         DunningLetterTemplate letterTemplate = (DunningLetterTemplate) bo;
         Properties parameters = new Properties();
         String fileName = letterTemplate.getFilename();

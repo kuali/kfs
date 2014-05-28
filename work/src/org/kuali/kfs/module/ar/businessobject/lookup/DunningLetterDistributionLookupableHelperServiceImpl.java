@@ -61,8 +61,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper service class for Dunning Letter Distribution.
  */
 public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private static final Log LOG = LogFactory.getLog(DunningLetterDistributionLookupableHelperServiceImpl.class);
 
     /**
@@ -76,21 +75,15 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection<BusinessObject> displayList;
-
         // Call search method to get results - always use unbounded to get the entire set of results.
-
-        displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
+        Collection<DunningLetterDistributionLookupResult> displayList = (Collection<DunningLetterDistributionLookupResult>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
 
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // Iterate through result list and wrap rows with return url and action urls
-        for (BusinessObject element : displayList) {
-            LOG.debug("Doing lookup for " + element.getClass());
-
-            DunningLetterDistributionLookupResult result = ((DunningLetterDistributionLookupResult) element);
+        for (DunningLetterDistributionLookupResult result : displayList) {
             List<String> invoiceAttributesForDisplay = result.getInvoiceAttributesForDisplay();
 
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(result, user);
@@ -126,9 +119,9 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
             }
 
             // Create main customer header row
-            Collection<Column> columns = getColumns(element, businessObjectRestrictions);
-            HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-            DunningLetterDistributionResultRow row = new DunningLetterDistributionResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+            Collection<Column> columns = getColumns(result, businessObjectRestrictions);
+            HtmlData returnUrl = getReturnUrl(result, lookupForm, returnKeys, businessObjectRestrictions);
+            DunningLetterDistributionResultRow row = new DunningLetterDistributionResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(result, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 
@@ -306,6 +299,4 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
-
-
 }

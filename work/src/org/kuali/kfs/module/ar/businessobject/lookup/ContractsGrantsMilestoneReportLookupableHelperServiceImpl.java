@@ -53,10 +53,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for a Milestone Reports.
  */
 public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-
     private static final Log LOG = LogFactory.getLog(ContractsGrantsMilestoneReportLookupableHelperServiceImpl.class);
-
-    private BusinessObjectService businessObjectService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -180,17 +177,5 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
             resultTable.add(row);
         }
         lookupForm.setHasReturnableRow(hasReturnableRow);
-
-    }
-
-
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 }

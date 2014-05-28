@@ -125,5 +125,4 @@ public class DunningLetterDistributionLookupUtil {
     public static Collection<DunningLetterDistributionLookupResult> getDunningLetterDistributionLookupResultsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
         return DunningLetterDistributionLookupUtil.getPopulatedDunningLetterDistributionLookupResults(getCGInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId));
     }
-
 }

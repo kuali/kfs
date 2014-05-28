@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,23 +50,22 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
 
     private static final Log LOG = LogFactory.getLog(CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
      * @param bounded
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the display results.
-     * 
+     *
      * No use of data dictionary.
      */
     @Override
@@ -83,52 +82,52 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
         Person user = GlobalVariables.getUserSession().getPerson();
-        
+
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Doing lookup for " + element.getClass());
             }
-            
+
             CustomerInvoiceWriteoffLookupResult result = ((CustomerInvoiceWriteoffLookupResult) element);
             List<String> customerInvoiceDocumentAttributesForDisplay = result.getCustomerInvoiceDocumentAttributesForDisplay();
-            
+
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(result, user);
             //add list of customer invoice document sub rows
             List<ResultRow> subResultRows = new ArrayList<ResultRow>();
             for (CustomerInvoiceDocument customerInvoiceDocument : result.getCustomerInvoiceDocuments()) {
 
                 List<Column> subResultColumns = new ArrayList<Column>();
-                
+
                 for (String propertyName : customerInvoiceDocumentAttributesForDisplay) {
                     subResultColumns.add(setupResultsColumn(customerInvoiceDocument, propertyName, businessObjectRestrictions));
                 }
-                
-                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
+
+                ResultRow subResultRow = new ResultRow(subResultColumns, "", "");
                 subResultRow.setObjectId(customerInvoiceDocument.getObjectId());
                 subResultRows.add(subResultRow);
             }
-            
+
             //create main customer header row
             Collection<Column> columns = getColumns(element, businessObjectRestrictions);
             HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-            CustomerInvoiceWriteoffLookupResultRow row = 
-                new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows, 
+            CustomerInvoiceWriteoffLookupResultRow row =
+                new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows,
                         returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 
         return displayList;
     }
-    
+
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         Collection searchResultsCollection = customerInvoiceWriteoffDocumentService.getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(fieldValues);
 
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));
@@ -136,7 +135,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
 
     /**
      * build the search result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
@@ -145,7 +144,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -157,16 +156,16 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @param element
      * @param attributeName
      * @return Column
-     * 
+     *
      * KRAD Conversion: setup up the results column in the display results set.
-     * 
+     *
      * No use of data dictionary.
      */
     protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
         Column col = new Column();
 
         col.setPropertyName(attributeName);
-        
+
 
         String columnTitle = getDataDictionaryService().getAttributeLabel(element.getClass(), attributeName);
         if (StringUtils.isBlank(columnTitle)) {
@@ -238,12 +237,12 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
 
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     * 
+     *
      * @param bo
      * @return Collection<Column>
-     * 
+     *
      * KRAD Conversion: Gets column names.
-     * 
+     *
      * Data dictionary is using the bo to look up the attribute names for the columns.
      */
     protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {
@@ -254,10 +253,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         }
         return columns;
     }
-    
+
     /**
      * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -280,7 +279,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
-    
+
     public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {
         return customerInvoiceWriteoffDocumentService;
     }
@@ -289,4 +288,3 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
     }
 }
-

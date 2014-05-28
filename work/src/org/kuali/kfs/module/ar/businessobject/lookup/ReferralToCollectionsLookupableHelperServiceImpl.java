@@ -63,8 +63,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper service class for Referral To Collections.
  */
 public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private static final Log LOG = LogFactory.getLog(ReferralToCollectionsLookupableHelperServiceImpl.class);
 
     /**

@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -41,9 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for the Suspense Activity Report.
  */
 public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    protected DocumentService documentService;
 
     private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl.class);
 
@@ -131,14 +128,14 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
         return displayList;
     }
 
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
+    protected Map<String, String> buildSuspensionCategoryMap() {
+        Map suspensionCategoryMap = new HashMap<String, String>();
+        Collection<SuspensionCategory> suspensionCategories = businessObjectService.findAll(SuspensionCategory.class);
+        for (SuspensionCategory suspensionCategory : suspensionCategories) {
+            suspensionCategoryMap.put(suspensionCategory.getSuspensionCategoryCode(), suspensionCategory.getSuspensionCategoryDescription());
 
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+        }
+        return suspensionCategoryMap;
     }
 
     public DocumentService getDocumentService() {
@@ -147,15 +144,5 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    private Map<String, String> buildSuspensionCategoryMap() {
-        Map suspensionCategoryMap = new HashMap<String, String>();
-        Collection<SuspensionCategory> suspensionCategories = businessObjectService.findAll(SuspensionCategory.class);
-        for (SuspensionCategory suspensionCategory : suspensionCategories) {
-            suspensionCategoryMap.put(suspensionCategory.getSuspensionCategoryCode(), suspensionCategory.getSuspensionCategoryDescription());
-
-        }
-        return suspensionCategoryMap;
     }
 }

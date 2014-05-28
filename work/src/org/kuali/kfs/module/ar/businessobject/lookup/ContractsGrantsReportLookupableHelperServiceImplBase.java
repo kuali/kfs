@@ -23,9 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -45,9 +43,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Customized Lookupable Helper class for Contracts and Grants Reports.
  */
 public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiLookupableHelperServiceImpl {
-
-    protected ConfigurationService configurationService;
-
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasReturnableRow = false;
@@ -101,21 +96,10 @@ public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiL
         lookupForm.setHasReturnableRow(hasReturnableRow);
     }
 
-
-    /**
-     * @return an implementation of the ConfigurationService
-     */
-    protected ConfigurationService getConfigurationService() {
-        if (configurationService == null) {
-            configurationService = SpringContext.getBean(ConfigurationService.class);
-        }
-        return configurationService;
-    }
-
     protected String createTitleText(Class<? extends BusinessObject> boClass) {
         String titleText = "";
 
-        final String titlePrefixProp = getConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
+        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
         if (StringUtils.isNotBlank(titlePrefixProp)) {
             titleText += titlePrefixProp + " ";
         }

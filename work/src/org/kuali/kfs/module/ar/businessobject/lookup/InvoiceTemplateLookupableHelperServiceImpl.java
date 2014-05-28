@@ -112,7 +112,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      * @param bo
      * @return
      */
-    private AnchorHtmlData getInvoiceTemplateUploadUrl(BusinessObject bo) {
+    protected AnchorHtmlData getInvoiceTemplateUploadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
         String href = "../arAccountsReceivableInvoiceTemplateUpload.do" + "?&methodToCall=start&invoiceTemplateCode=" + invoiceTemplate.getInvoiceTemplateCode() + "&docFormKey=88888888";
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_UPLOAD);
@@ -124,16 +124,12 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      * @param fileName name of template file
      * @return true if template file exists, false otherwise
      */
-    private boolean templateFileExists(String fileName) {
+    protected boolean templateFileExists(String fileName) {
         ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
         String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
         String filePath = templateFolderPath + File.separator + fileName;
         File file = new File(filePath).getAbsoluteFile();
-        if (file.exists() && file.isFile()) {
-            return true;
-        }
-
-        return false;
+        return file.exists() && file.isFile();
     }
 
     /**
@@ -142,7 +138,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      * @param bo
      * @return
      */
-    private AnchorHtmlData getInvoiceTemplateDownloadUrl(BusinessObject bo) {
+    protected AnchorHtmlData getInvoiceTemplateDownloadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
         Properties parameters = new Properties();
         String fileName = invoiceTemplate.getFilename();
@@ -154,7 +150,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_DOWNLOAD);
     }
 
-    private Map<String, String> getOrgAndChartForUser(String principalId, String namespaceCode) {
+    protected Map<String, String> getOrgAndChartForUser(String principalId, String namespaceCode) {
         Map<String, String> chartAndOrg = new HashMap<String, String>();
         if (StringUtils.isBlank(principalId)) {
             return null;

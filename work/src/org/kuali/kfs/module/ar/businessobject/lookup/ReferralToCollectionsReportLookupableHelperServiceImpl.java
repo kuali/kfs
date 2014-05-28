@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
@@ -48,7 +47,6 @@ import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -56,7 +54,6 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -66,20 +63,16 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Defines a lookupable helper service class for Referral To Collections Report.
  */
 public class ReferralToCollectionsReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferralToCollectionsReportLookupableHelperServiceImpl.class);
 
-    private DataDictionaryService dataDictionaryService;
-    private DateTimeService dateTimeService;
-    protected ConfigurationService configurationService;
-    private Map fieldConversions;
+    protected DateTimeService dateTimeService;
+    protected Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-    private BusinessObjectService businessObjectService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-    private ReferralToCollectionsReportService referralToCollectionsReportService = SpringContext.getBean(ReferralToCollectionsReportService.class);
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+    protected ReferralToCollectionsReportService referralToCollectionsReportService = SpringContext.getBean(ReferralToCollectionsReportService.class);
 
 
     /**
@@ -281,16 +274,6 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
     }
 
     /**
-     * Sets the businessObjectService attribute.
-     *
-     * @param businessObjectService The businessObjectService to set.
-     */
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
      * Gets the dateTimeService attribute.
      *
      * @return Returns the dateTimeService.
@@ -311,20 +294,10 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * @return an implementation of the ConfigurationService
-     */
-    protected ConfigurationService getConfigurationService() {
-        if (configurationService == null) {
-            configurationService = SpringContext.getBean(ConfigurationService.class);
-        }
-        return configurationService;
-    }
-
     protected String createTitleText(Class<? extends BusinessObject> boClass) {
         String titleText = "";
 
-        final String titlePrefixProp = getConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
+        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
         if (StringUtils.isNotBlank(titlePrefixProp)) {
             titleText += titlePrefixProp + " ";
         }

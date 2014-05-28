@@ -35,7 +35,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
@@ -47,7 +46,6 @@ import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -55,7 +53,6 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -66,14 +63,11 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
-    protected ConfigurationService configService;
     private Map fieldConversions;
 
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-    private BusinessObjectService businessObjectService;
 
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
     private CollectionActivityReportService collectionActivityReportService = SpringContext.getBean(CollectionActivityReportService.class);
@@ -287,7 +281,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
     protected String createTitleText(Class<? extends BusinessObject> boClass) {
         String titleText = "";
 
-        final String titlePrefixProp = getConfigService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
+        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
         if (StringUtils.isNotBlank(titlePrefixProp)) {
             titleText += titlePrefixProp + " ";
         }
@@ -298,17 +292,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         }
 
         return titleText;
-    }
-
-
-    /**
-     * Sets the businessObjectService attribute.
-     *
-     * @param businessObjectService The businessObjectService to set.
-     */
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -330,23 +313,5 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Gets the configService attribute.
-     *
-     * @return Returns the configService.
-     */
-    protected final ConfigurationService getConfigService() {
-        return configService;
-    }
-
-    /**
-     * Sets the configService attribute value.
-     *
-     * @param configService The configService to set.
-     */
-    public final void setConfigService(ConfigurationService configService) {
-        this.configService = configService;
     }
 }

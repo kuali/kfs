@@ -58,10 +58,9 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Helper class for Tickler Reports.
  */
 public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CustomerService customerService;
-    private PersonService personService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected CustomerService customerService;
+    protected PersonService personService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -279,7 +278,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      * @param proposalNumber Proposal number for lookup on award.
      * @return Returns the url string.
      */
-    private String getAwardLookupUrl(String proposalNumber) {
+    protected String getAwardLookupUrl(String proposalNumber) {
         Properties params = new Properties();
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAward.class.getName());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
@@ -297,7 +296,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      * @param columnTitle
      * @return Returns the url for the Collection Activity creation
      */
-    private String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
+    protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
         String lookupUrl = "";
         TicklersReport detail = (TicklersReport) bo;
         Properties parameters = new Properties();

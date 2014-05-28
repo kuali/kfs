@@ -45,7 +45,6 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -55,9 +54,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper class for Suspended Invoice Detail Report.
  */
 public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    protected DocumentService documentService;
 
     private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl.class);
 
@@ -211,17 +208,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
     }
 
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-
     /**
      * Gets the documentService attribute value.
      *
@@ -231,7 +217,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         return documentService;
     }
 
-
     /**
      * Sets the documentService attribute value.
      *
@@ -240,6 +225,4 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-
 }

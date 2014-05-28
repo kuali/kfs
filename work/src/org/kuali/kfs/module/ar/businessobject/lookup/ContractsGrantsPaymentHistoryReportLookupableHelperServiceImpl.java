@@ -116,6 +116,4 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
         buildResultTable(lookupForm, displayList, resultTable);
         return displayList;
     }
-
-
 }

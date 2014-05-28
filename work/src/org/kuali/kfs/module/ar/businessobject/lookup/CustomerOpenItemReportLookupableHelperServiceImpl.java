@@ -31,7 +31,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -43,10 +42,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
-    private Map fieldConversions;
-    private DataDictionaryService dataDictionaryService;
+    protected Map fieldConversions;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -240,5 +237,4 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
         return displayList;
     }
-
 }

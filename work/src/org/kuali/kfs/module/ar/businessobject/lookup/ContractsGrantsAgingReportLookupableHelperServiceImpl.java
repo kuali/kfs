@@ -67,7 +67,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -75,7 +74,6 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -87,7 +85,6 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
-    private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
 
     private Map fieldConversions;
@@ -96,7 +93,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
     private CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
     private CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-    private BusinessObjectService businessObjectService;
     private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
 
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
@@ -557,9 +553,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         return displayList;
     }
 
-
     protected String getCustomerOpenInvoicesReportUrl(BusinessObject bo, String columnTitle, Map<String, String> fieldsMap) {
-
         Properties parameters = new Properties();
 
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
@@ -712,14 +706,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         cutoffdate30Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_0_TO_30).getLabel();
         cutoffdate60Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_31_TO_60).getLabel();
         cutoffdate90Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ContractsAndGrantsAgingReport.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_61_TO_90).getLabel();
-    }
-
-    /**
-     * @param businessObjectService
-     */
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

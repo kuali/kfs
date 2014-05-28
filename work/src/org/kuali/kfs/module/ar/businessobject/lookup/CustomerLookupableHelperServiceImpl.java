@@ -36,7 +36,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLookupableHelperServiceImpl.class);
 
     /***
@@ -60,7 +59,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * @param bo
      * @return
      */
-    private AnchorHtmlData getCustomerOpenItemReportUrl(BusinessObject bo) {
+    protected AnchorHtmlData getCustomerOpenItemReportUrl(BusinessObject bo) {
         Customer customer = (Customer) bo;
         String href="../arCustomerOpenItemReportLookup.do" +
                 "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +

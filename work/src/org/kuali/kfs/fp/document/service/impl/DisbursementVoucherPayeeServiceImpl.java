@@ -30,7 +30,6 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
@@ -109,6 +108,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isEmployee(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
+    @Override
     public boolean isEmployee(DisbursementPayee payee) {
         // If is vendor, then check vendor employee flag
         if (this.isVendor(payee)) {
@@ -123,6 +123,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isVendor(org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail)
      */
+    @Override
     public boolean isVendor(DisbursementVoucherPayeeDetail dvPayeeDetail) {
         String payeeTypeCode = dvPayeeDetail.getDisbursementVoucherPayeeTypeCode();
         return DisbursementVoucherConstants.VENDOR_PAYEE_TYPE_CODES.contains(payeeTypeCode);
@@ -131,6 +132,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isVendor(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
+    @Override
     public boolean isVendor(DisbursementPayee payee) {
         String payeeTypeCode = payee.getPayeeTypeCode();
         return DisbursementVoucherConstants.VENDOR_PAYEE_TYPE_CODES.contains(payeeTypeCode);
@@ -139,25 +141,15 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isPayeeIndividualVendor(org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail)
      */
+    @Override
     public boolean isPayeeIndividualVendor(DisbursementVoucherPayeeDetail dvPayeeDetail) {
         return this.isVendor(dvPayeeDetail) ? this.isPayeeIndividualVendor(dvPayeeDetail.getDisbVchrPayeeIdNumber()) : false;
     }
 
-	/* Start TEM Refund Merge */
-    /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isTaxReviewRequired(String)
-     */
-    public boolean isTaxReviewRequired(String payeeTaxControlCode) {
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        List<String> taxControlCodes = new ArrayList<String>( paramService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM) );
-
-        return taxControlCodes != null && taxControlCodes.contains(payeeTaxControlCode);
-    }
-    /* End TEM Refund Merge */
-
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isPayeeIndividualVendor(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
+    @Override
     public boolean isPayeeIndividualVendor(DisbursementPayee payee) {
         return this.isVendor(payee) ? this.isPayeeIndividualVendor(payee.getPayeeIdNumber()) : false;
     }
@@ -165,6 +157,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getVendorOwnershipTypeCode(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
+    @Override
     public String getVendorOwnershipTypeCode(DisbursementPayee payee) {
         if(ObjectUtils.isNull(payee) || !this.isVendor(payee)) {
             return null;
@@ -177,6 +170,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#checkPayeeAddressForChanges(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
+    @Override
     public void checkPayeeAddressForChanges(DisbursementVoucherDocument dvDoc) {
         Map<String, String> pks = new HashMap<String, String>();
         pks.put("documentNumber", dvDoc.getDocumentNumber());

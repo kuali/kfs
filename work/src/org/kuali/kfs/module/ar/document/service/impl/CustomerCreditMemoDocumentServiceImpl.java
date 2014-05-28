@@ -28,6 +28,7 @@ import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -45,6 +46,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     
     public void completeCustomerCreditMemo(CustomerCreditMemoDocument creditMemo) {
         
@@ -109,6 +111,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         
        //   if its open, but now with a zero openamount, then close it
        if (invoice.isOpenInvoiceIndicator() && KualiDecimal.ZERO.equals(openAmount)) {
+           customerInvoiceDocumentService.addCloseNote(invoice, creditMemo.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), creditMemo.getDocumentNumber());
            invoice.setOpenInvoiceIndicator(false);
            invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
            documentService.updateDocument(invoice);
@@ -205,4 +208,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         this.dateTimeService = dateTimeService;
     }
     
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
 }

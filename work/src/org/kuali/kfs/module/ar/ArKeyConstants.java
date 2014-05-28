@@ -69,6 +69,9 @@ public class ArKeyConstants {
     public static final String ERROR_INVOICE_RECURRENCE_DATA_SUFFICIENCY = "error.document.invoiceRecurrenceMaintenance.notEnoughDataToGenerateRecurrence";
     public static final String ERROR_INVOICE_RECURRENCE_ACTIVE_MUST_BE_TRUE = "error.document.invoiceRecurrenceMaintenance.activeIndicatorMustBeTrue";
 
+    // CostomerInvoiceDocument constants:
+    public static final String INVOICE_CLOSE_NOTE_TEXT= "note.document.customerInvoiceDocument.closeInvoiceNote";
+
     // Organization Accounting Defaults errors
     public static final class OrganizationAccountingDefaultErrors {
         public static final String WRITE_OFF_OBJECT_CODE_INVALID = "error.document.organizationAccountingDefaultMaintenance.writeOffObjectCodeInvalid";

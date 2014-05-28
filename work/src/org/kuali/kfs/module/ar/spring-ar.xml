@@ -224,6 +224,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>		
+        <property name="customerInvoiceDocumentService">
+            <ref bean="customerInvoiceDocumentService" />
+        </property> 
 	</bean>
 	
 	<bean id="ocrLineService"  parent="ocrLineService-parentBean"/>
@@ -330,6 +333,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>
 	</bean>	
 	
 	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean"/>

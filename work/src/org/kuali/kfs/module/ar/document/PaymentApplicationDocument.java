@@ -1013,6 +1013,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 // KULAR-384 - close the invoice if its open and the openAmount is zero
                 if (invoice.getOpenAmount().isZero() && invoice.isOpenInvoiceIndicator()) {
                     invoice.setClosedDate(today);
+                    getInvoiceDocService().addCloseNote(invoice, getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), getDocumentHeader().getDocumentNumber());
                     invoice.setOpenInvoiceIndicator(false);
                     getDocService().updateDocument(invoice);
                 }

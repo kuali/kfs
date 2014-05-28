@@ -17,17 +17,22 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.MessageFormat; 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -53,16 +58,24 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService; 
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +97,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
     protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     protected UniversityDateService universityDateService;
+    protected NoteService noteService;
 
 
     @Override
@@ -811,6 +825,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         this.universityDateService = universityDateService;
     }
 
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#checkIfInvoiceNumberIsFinal(java.lang.String)
      */
@@ -898,5 +916,39 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         LOG.info("invoiceDueDateTo" + invoiceDueDateTo);
 
         return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceDueDateFrom, invoiceDueDateTo);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#addCloseNote
+     */
+    @Override
+    public void addCloseNote(CustomerInvoiceDocument documentToClose, String closingDocumentTypeCode, String closingDocumentNumber) {
+        if (!documentToClose.isOpenInvoiceIndicator()) {
+            // If it already is closed, no need to add a note
+            return;
+        }
+
+        String principalName = "Unknown";
+        List<ActionTaken> actionsTaken = documentToClose.getDocumentHeader().getWorkflowDocument().getActionsTaken();
+        if(ObjectUtils.isNotNull(actionsTaken)){
+            ActionTaken lastAction = actionsTaken.get(0);
+            for(ActionTaken action : actionsTaken){
+                if(action.getActionDate().isAfter(lastAction.getActionDate())){
+                    lastAction = action;
+                }
+            }
+            String principalId = lastAction.getPrincipalId();
+            principalName = SpringContext.getBean(PersonService.class).getPerson(principalId).getName();
+        }
+        
+        
+        final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
+        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber }; 
+        String noteText = MessageFormat.format(noteTextPattern, arguments); 
+
+
+        Note note = getDocumentService().createNoteFromDocument(documentToClose, noteText);
+        note.setAuthorUniversalIdentifier(KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
+        documentToClose.addNote(noteService.save(note));
     }
 }

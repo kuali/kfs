@@ -39,7 +39,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.InvoiceReportDeliveryService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -149,9 +148,8 @@ public class InvoiceReportDeliveryServiceImpl implements InvoiceReportDeliverySe
     @Override
     public boolean printInvoicesAndEnvelopesZip(Collection<ContractsGrantsInvoiceDocument> list, ByteArrayOutputStream baos) throws DocumentException, IOException {
         if (CollectionUtils.isNotEmpty(list)) {
-            ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
-            byte[] envelopes = reportService.generateListOfInvoicesEnvelopesPdfToPrint(list);
-            byte[] report = reportService.generateListOfInvoicesPdfToPrint(list);
+            byte[] envelopes = contractsGrantsInvoiceReportService.generateListOfInvoicesEnvelopesPdfToPrint(list);
+            byte[] report = contractsGrantsInvoiceReportService.generateListOfInvoicesPdfToPrint(list);
             boolean invoiceFileWritten = false;
             boolean envelopeFileWritten = false;
 

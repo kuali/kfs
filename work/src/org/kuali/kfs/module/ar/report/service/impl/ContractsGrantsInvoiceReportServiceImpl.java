@@ -49,7 +49,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ReportGenerationService;
@@ -101,6 +100,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected NoteService noteService;
     protected ReportInfo reportInfo;
     protected ReportGenerationService reportGenerationService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
@@ -325,7 +325,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         if (ObjectUtils.isNotNull(award) && ObjectUtils.isNotNull(award.getProposalNumber())){
             fieldValues.put("proposalNumber", award.getProposalNumber().toString());
         }
-        List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).retrieveAllCGInvoicesByCriteria(fieldValues);
+        List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
         if (ObjectUtils.isNotNull(list)) {
             for(ContractsGrantsInvoiceDocument invoice: list){
                 Map primaryKeys = new HashMap<String, Object>();
@@ -351,13 +351,12 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year) {
         replacementList.clear();
-        ContractsGrantsInvoiceDocumentService service = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             int index = 0;
             KualiDecimal baseSum = KualiDecimal.ZERO;
             KualiDecimal amountSum = KualiDecimal.ZERO;
-            cashDisbursement = cashDisbursement.add(service.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+            cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
             if (ObjectUtils.isNotNull(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()) && ObjectUtils.isNotNull(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd())) {
                 index++;
                 replacementList.put("Indirect Expense Type " + index, returnProperStringValue(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd()));
@@ -533,7 +532,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date(new java.util.Date().getTime()))));
         KualiDecimal totalCashControl = KualiDecimal.ZERO;
         KualiDecimal totalCashDisbursement = KualiDecimal.ZERO;
-        ContractsGrantsInvoiceDocumentService service = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         for (int i = 0; i < 30; i++) {
             if (i < awards.size()) {
                 replacementList.put("Federal Grant Number " + (i + 1), returnProperStringValue(awards.get(i).getAwardDocumentNumber()));
@@ -542,7 +540,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
 
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
-                    totalCashDisbursement = totalCashDisbursement.add(service.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
+                    totalCashDisbursement = totalCashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
                 }
             }
         }
@@ -1022,5 +1020,13 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

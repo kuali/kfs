@@ -582,6 +582,9 @@
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService"/>
 		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService"/>
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -41,7 +41,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterTemplateLookupableHelperServiceImpl.class);
 
-    private KualiModuleService kualiModuleService;
+    protected KualiModuleService kualiModuleService;
     protected DunningLetterDistributionService dunningLetterDistributionService;
 
     /***

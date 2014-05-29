@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.KimConstants;
@@ -55,8 +54,9 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceTemplateLookupableHelperServiceImpl.class);
 
-    private KualiModuleService kualiModuleService;
+    protected KualiModuleService kualiModuleService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected FinancialSystemUserService financialSystemUserService;
 
     /***
      * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
@@ -76,7 +76,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         if(userOrg == null) {
             userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS);
             if(userOrg == null) {
-                ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
+                ChartOrgHolder chartOrg = getFinancialSystemUserService().getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
                 userOrg =new HashMap<String, String>();
                 userOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
                 userOrg.put(KfsKimAttributes.ORGANIZATION_CODE,chartOrg.getOrganizationCode());
@@ -199,5 +199,13 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
     }
 }

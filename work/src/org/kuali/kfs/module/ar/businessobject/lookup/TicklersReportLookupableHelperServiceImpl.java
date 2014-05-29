@@ -36,7 +36,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -61,6 +60,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected CustomerService customerService;
     protected PersonService personService;
+    protected CollectionActivityDocumentService collectionActivityDocumentService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -80,7 +80,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
         Collection<TicklersReport> displayList = new ArrayList<TicklersReport>();
 
-        CollectionActivityDocumentService colActDocService = SpringContext.getBean(CollectionActivityDocumentService.class);
         Map<String,String> fieldValues = new HashMap<String,String>();
 
         String principalId = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COLLECTOR);
@@ -104,7 +103,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
         fieldValues.put(ArPropertyConstants.EventFields.FOLLOW_UP_IND, "true");
 
-        Collection<Event> events = colActDocService.retrieveEvents(fieldValues,false,null);
+        Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues,false,null);
 
         lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 
@@ -332,5 +331,13 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
+        return collectionActivityDocumentService;
+    }
+
+    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
+        this.collectionActivityDocumentService = collectionActivityDocumentService;
     }
 }

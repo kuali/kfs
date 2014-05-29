@@ -25,8 +25,6 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
@@ -39,7 +37,6 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -61,8 +58,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper service class for Dunning Letter Distribution.
  */
 public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private static final Log LOG = LogFactory.getLog(DunningLetterDistributionLookupableHelperServiceImpl.class);
+    protected AccountService accountService;
+    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -101,7 +100,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
 
                 for (String propertyName : invoiceAttributesForDisplay) {
                     if (propertyName.equalsIgnoreCase(KFSPropertyConstants.ACCOUNT_NUMBER)) {
-                        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber());
+                        Account account = getAccountService().getByPrimaryId(invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber());
                         subResultColumns.add(setupResultsColumn(account, propertyName, businessObjectRestrictions));
                     }
                     else if (propertyName.equalsIgnoreCase("dunningLetterTemplateSentDate")) {
@@ -166,7 +165,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).getSearchResultsHelper(fieldValues, unbounded);
+        return getContractsAndGrantsModuleRetrieveService().getSearchResultsHelper(fieldValues, unbounded);
     }
 
     /**
@@ -298,5 +297,21 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
+        return contractsAndGrantsModuleRetrieveService;
+    }
+
+    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
+        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
 }

@@ -62,7 +62,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
 
         Collection<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceSummaryReport>();
 
-        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = (List<InvoiceSuspensionCategory>) businessObjectService.findAll(InvoiceSuspensionCategory.class);
+        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = (List<InvoiceSuspensionCategory>) getBusinessObjectService().findAll(InvoiceSuspensionCategory.class);
         Map<String, String> suspensionCategoryMap = buildSuspensionCategoryMap();
 
         TreeMap<String, List<String>> documentNumbersByCategory = new TreeMap<String, List<String>>();
@@ -71,7 +71,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
 
             ContractsGrantsInvoiceDocument cgInvoiceDocument;
             try {
-                cgInvoiceDocument = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(invoiceSuspensionCategory.getDocumentNumber());
+                cgInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(invoiceSuspensionCategory.getDocumentNumber());
             }
             catch (WorkflowException e) {
                 LOG.debug("WorkflowException happened while retrives documentHeader");
@@ -130,7 +130,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
 
     protected Map<String, String> buildSuspensionCategoryMap() {
         Map suspensionCategoryMap = new HashMap<String, String>();
-        Collection<SuspensionCategory> suspensionCategories = businessObjectService.findAll(SuspensionCategory.class);
+        Collection<SuspensionCategory> suspensionCategories = getBusinessObjectService().findAll(SuspensionCategory.class);
         for (SuspensionCategory suspensionCategory : suspensionCategories) {
             suspensionCategoryMap.put(suspensionCategory.getSuspensionCategoryCode(), suspensionCategory.getSuspensionCategoryDescription());
 

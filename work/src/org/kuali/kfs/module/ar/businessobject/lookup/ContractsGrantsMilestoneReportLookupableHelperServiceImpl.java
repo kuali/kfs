@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -44,7 +43,6 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -81,13 +79,13 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         if (StringUtils.isNotEmpty(lookupFieldValue)) {
             map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
         }
-        milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
+        milestones = getBusinessObjectService().findMatching(Milestone.class, map);
         map.clear();
         map.put("billedIndicator", false);
         if (StringUtils.isNotEmpty(lookupFieldValue)) {
             map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
         }
-        Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
+        Collection<Milestone> notBilledMilestones = getBusinessObjectService().findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);
 

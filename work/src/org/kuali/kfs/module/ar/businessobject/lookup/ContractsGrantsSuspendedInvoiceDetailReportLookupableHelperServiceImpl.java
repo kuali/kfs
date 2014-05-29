@@ -76,11 +76,11 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceDetailReport>();
 
-        Collection<InvoiceSuspensionCategory> invoiceSuspensionCategories = businessObjectService.findAll(InvoiceSuspensionCategory.class);
+        Collection<InvoiceSuspensionCategory> invoiceSuspensionCategories = getBusinessObjectService().findAll(InvoiceSuspensionCategory.class);
         for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceSuspensionCategory.getDocumentNumber());
-            Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, criteria);
+            Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, criteria);
 
             // Build search result fields
             for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
@@ -88,7 +88,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                 ContractsGrantsInvoiceDocument cgInvoiceDocWithHeader;
                 // Documentss that have a problem to get documentHeader won't be on the report
                 try {
-                    cgInvoiceDocWithHeader = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(cgInvoiceDoc.getDocumentNumber());
+                    cgInvoiceDocWithHeader = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(cgInvoiceDoc.getDocumentNumber());
                 }
                 catch (WorkflowException e) {
                     LOG.debug("WorkflowException happened while retrives documentHeader");

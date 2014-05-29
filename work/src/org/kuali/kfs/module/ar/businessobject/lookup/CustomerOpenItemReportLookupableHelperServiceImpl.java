@@ -26,8 +26,6 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -44,6 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
     protected Map fieldConversions;
+    protected CustomerOpenItemReportService customerOpenItemReportService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -62,13 +61,13 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         String reportName =getParameters().get(KFSConstants.CustomerOpenItemReport.REPORT_NAME)[0];
         if  (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME)) {
             String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
-            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
+            results = getCustomerOpenItemReportService().getPopulatedReportDetails(customerNumber);
         } else if (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT)){
             String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
             String documentNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER)[0];
-            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedUnpaidUnappliedAmountReportDetails(customerNumber, documentNumber);
+            results = getCustomerOpenItemReportService().getPopulatedUnpaidUnappliedAmountReportDetails(customerNumber, documentNumber);
         } else {
-            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(getParameters());
+            results = getCustomerOpenItemReportService().getPopulatedReportDetails(getParameters());
         }
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
@@ -150,7 +149,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
         String customerNumber = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER)[0];
         String customerName = getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NAME)[0];
-        Collection<String> refDocumentNumbers = SpringContext.getBean(CustomerOpenItemReportService.class).getDocumentNumbersOfReferenceReports(customerNumber);
+        Collection<String> refDocumentNumbers = getCustomerOpenItemReportService().getDocumentNumbersOfReferenceReports(customerNumber);
 
         // iterate through result list and wrap rows with return url and action urls
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
@@ -192,7 +191,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
                 if (StringUtils.isNotBlank(propValue)) {
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
-                        String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        String propertyURL = getKualiConfigurationService().getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
                         col.setPropertyURL(propertyURL);
                     } else if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT, col.getPropertyName())){
                         String documentNumber = ObjectUtils.getPropertyValue(element, KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER).toString();
@@ -237,4 +236,13 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
         return displayList;
     }
+
+    public CustomerOpenItemReportService getCustomerOpenItemReportService() {
+        return customerOpenItemReportService;
+    }
+
+    public void setCustomerOpenItemReportService(CustomerOpenItemReportService customerOpenItemReportService) {
+        this.customerOpenItemReportService = customerOpenItemReportService;
+    }
+
 }

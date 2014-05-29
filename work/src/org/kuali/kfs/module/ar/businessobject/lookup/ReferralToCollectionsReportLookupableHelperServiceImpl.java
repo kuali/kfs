@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
@@ -68,11 +67,11 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
     protected DateTimeService dateTimeService;
     protected Map fieldConversions;
 
-    protected CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-    protected ReferralToCollectionsReportService referralToCollectionsReportService = SpringContext.getBean(ReferralToCollectionsReportService.class);
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ReferralToCollectionsReportService referralToCollectionsReportService;
 
 
     /**
@@ -279,9 +278,6 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
-        if (ObjectUtils.isNull(dateTimeService)) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
@@ -308,5 +304,37 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
         }
 
         return titleText;
+    }
+
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public ReferralToCollectionsReportService getReferralToCollectionsReportService() {
+        return referralToCollectionsReportService;
+    }
+
+    public void setReferralToCollectionsReportService(ReferralToCollectionsReportService referralToCollectionsReportService) {
+        this.referralToCollectionsReportService = referralToCollectionsReportService;
     }
 }

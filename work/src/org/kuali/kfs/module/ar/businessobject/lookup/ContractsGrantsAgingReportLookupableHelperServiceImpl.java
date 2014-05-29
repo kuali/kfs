@@ -40,7 +40,6 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -51,22 +50,20 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
+import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
@@ -79,24 +76,27 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Lookupable Helper Service class for ContractsGrantsAgingReport.
  */
-public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl implements InitializingBean {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
 
-    private Map fieldConversions;
+    protected Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-    private CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
-    private CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-    private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
+    protected CustomerCreditMemoDocumentService customerCreditMemoDocumentService;
+    protected InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-    private ContractsGrantsAgingReportService contractsGrantsAgingReportService = SpringContext.getBean(ContractsGrantsAgingReportService.class);
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
+    protected KualiModuleService kualiModuleService;
+    protected CustomerAgingReportService customerAgingReportService;
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -133,10 +133,10 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     private String orgCode;
     private String chartCode;
-    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE"); // ArConstants.CUSTOMER_INVOICE_AGE);
+    private String nbrDaysForLastBucket;
     // default is 120 days
-    private String cutoffdate91toSYSPRlabel = "91-" + nbrDaysForLastBucket + " days";
-    private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
+    private String cutoffdate91toSYSPRlabel;
+    private String cutoffdateSYSPRplus1orMorelabel;
     private String agencyShortName = ArConstants.ContractsGrantsAgingReportFields.AGENCY_SHORT_NAME;
     private List<String> customers;
 
@@ -208,9 +208,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
             }
 
-            CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
             // prepare customer map.
-
             for (ContractsAndGrantsAgingReport detail : knownCustomers.values()) {
 
                 // get agency name for customer
@@ -226,7 +224,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 totalOpenInvoices = totalOpenInvoices.add(amount);
 
                 // find total writeoff
-                KualiDecimal writeOffAmt = agingReportDao.findWriteOffAmountByCustomerNumber(detail.getCustomerNumber());
+                KualiDecimal writeOffAmt = getCustomerAgingReportService().findWriteOffAmountByCustomerNumber(detail.getCustomerNumber());
                 if (ObjectUtils.isNotNull(writeOffAmt)) {
                     totalWriteOffs = totalWriteOffs.add(writeOffAmt);
                 }
@@ -387,7 +385,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (SpringContext.getBean(BusinessObjectAuthorizationService.class).attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
+            if (getBusinessObjectAuthorizationService().attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
             }
 
             // need to format date in url
@@ -435,8 +433,8 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 BusinessObject element = (BusinessObject) aDisplayList;
 
                 BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                String returnUrl = "www.bigfrickenRETURNurl";
-                String actionUrls = "www.someACTIONurl";
+                String returnUrl = null;
+                String actionUrls = null;
 
                 if (ObjectUtils.isNotNull(getColumns())) {
                     List<Column> columns = getColumns();
@@ -714,9 +712,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
-        if (ObjectUtils.isNull(dateTimeService)) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
@@ -941,7 +936,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     protected ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
+        return getKualiModuleService().getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
     }
 
     /**
@@ -1030,5 +1025,90 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             agingReportDetail.setTotalCredits(credits);
             totalCredits = totalCredits.add(credits);
         }
+    }
+
+    /**
+     * Some properties depend on parameters, so let's wait until the parameter service has been set
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        nbrDaysForLastBucket = getParameterService().getParameterValueAsString(CustomerAgingReportDetail.class,  ArConstants.CUSTOMER_INVOICE_AGE);
+        // default is 120 days
+        cutoffdate91toSYSPRlabel = "91-" + nbrDaysForLastBucket + " days";
+        cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
+    }
+
+
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
+    public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {
+        return customerInvoiceWriteoffDocumentService;
+    }
+
+    public void setCustomerInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
+        this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
+    }
+
+    public CustomerCreditMemoDocumentService getCustomerCreditMemoDocumentService() {
+        return customerCreditMemoDocumentService;
+    }
+
+    public void setCustomerCreditMemoDocumentService(CustomerCreditMemoDocumentService customerCreditMemoDocumentService) {
+        this.customerCreditMemoDocumentService = customerCreditMemoDocumentService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {
+        return contractsGrantsAgingReportService;
+    }
+
+    public void setContractsGrantsAgingReportService(ContractsGrantsAgingReportService contractsGrantsAgingReportService) {
+        this.contractsGrantsAgingReportService = contractsGrantsAgingReportService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+
+    public CustomerAgingReportService getCustomerAgingReportService() {
+        return customerAgingReportService;
+    }
+
+    public void setCustomerAgingReportService(CustomerAgingReportService customerAgingReportService) {
+        this.customerAgingReportService = customerAgingReportService;
+    }
+
+    public InvoicePaidAppliedService<AppliedPayment> getInvoicePaidAppliedService() {
+        return invoicePaidAppliedService;
+    }
+
+    public void setInvoicePaidAppliedService(InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService) {
+        this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
 }

@@ -28,6 +28,17 @@
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
+			<column name="PARM_NM" value="DOCUMENT_STATUSES_TO_POPULATE"/>
+			<column name="OBJ_ID" value="KFS-PARM-172"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="If a value is set, the PopulateFinancialSystemDocumentHeadersFromKewJob will only ppoulate a document if it has one of the given statuses.  Note that this may mean that a run of the population job may fall short of hitting the number of documents processed set by KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / POPULATION_LIMIT."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
 	</changeSet>
 	<changeSet author="KFS54" id="KFSCNTRB1761_EXPIRATION_DATE_BACKDATING_FUND_GROUPS">
         <comment>Adds parameter for KFSCNTRB-1761- Fund groups that allow backdating of the expiration date</comment>

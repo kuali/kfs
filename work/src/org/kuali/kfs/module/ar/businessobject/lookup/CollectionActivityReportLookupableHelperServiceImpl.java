@@ -33,7 +33,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
@@ -66,11 +65,11 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
     private DateTimeService dateTimeService;
     private Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+    private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-    private CollectionActivityReportService collectionActivityReportService = SpringContext.getBean(CollectionActivityReportService.class);
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    private CollectionActivityReportService collectionActivityReportService;
 
 
     /**
@@ -300,9 +299,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      * @return Returns the dateTimeService
      */
     public DateTimeService getDateTimeService() {
-        if (ObjectUtils.isNull(dateTimeService)) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
@@ -313,5 +309,45 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+
+    public CollectionActivityReportService getCollectionActivityReportService() {
+        return collectionActivityReportService;
+    }
+
+
+    public void setCollectionActivityReportService(CollectionActivityReportService collectionActivityReportService) {
+        this.collectionActivityReportService = collectionActivityReportService;
     }
 }

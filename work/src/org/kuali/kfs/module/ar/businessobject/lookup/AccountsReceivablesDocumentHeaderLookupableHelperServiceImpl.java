@@ -15,19 +15,15 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 
 public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -42,21 +38,10 @@ public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extend
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
 
-        List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
+        // we only want invoices, so let's add that to the fieldValues
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.INV_DOCUMENT_TYPE);
 
-        try {
-            for (Iterator iter = searchResults.iterator(); iter.hasNext();) {
-                AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = (AccountsReceivableDocumentHeader) iter.next();
-                Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(accountsReceivableDocumentHeader.getDocumentNumber());
-
-                String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                if (!documentTypeName.equals(dataDictionaryService.getDocumentTypeNameByClass(CustomerInvoiceDocument.class))) {
-                    iter.remove();
-                }
-            }
-        } catch (WorkflowException wfe) {
-
-        }
+        List<AccountsReceivableDocumentHeader> searchResults = (List<AccountsReceivableDocumentHeader>)getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, false);
 
         return searchResults;
     }

@@ -38,7 +38,6 @@ import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
@@ -67,11 +66,11 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
     private DateTimeService dateTimeService;
     private Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+    private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-    private ReferralToCollectionsReportService referralToCollectionsReportService = SpringContext.getBean(ReferralToCollectionsReportService.class);
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    private ReferralToCollectionsReportService referralToCollectionsReportService;
 
 
     /**
@@ -95,24 +94,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         return new CollectionIncomplete<CollectionActivityInvoiceLookup>(results, (long) results.size());
     }
 
-
-    /**
-     * Get the search results that meet the input search criteria.
-     *
-     * @param fieldValues - Map containing prop name keys and search values
-     * @return a List of found business objects
-     */
-    @Override
-    public List getSearchResultsUnbounded(Map fieldValues) {
-       List<ReferralToCollectionsReport> results = new ArrayList<ReferralToCollectionsReport>();
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        results = referralToCollectionsReportService.filterRecordsForReferralToCollections(fieldValues, true);
-        return new CollectionIncomplete<ReferralToCollectionsReport>(results, (long) results.size());
-    }
-
-
-    private CollectionActivityInvoiceLookup convert(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+    protected CollectionActivityInvoiceLookup convert(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         CollectionActivityInvoiceLookup cl = new CollectionActivityInvoiceLookup();
         cl.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
         cl.setInvoiceNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
@@ -144,18 +126,14 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
-        for (Object key : lookupForm.getFieldsForLookup().keySet()) {
-            System.out.println("Key : " + key.toString() + " Value : " + lookupForm.getFieldsForLookup().get(key));
+        if (LOG.isDebugEnabled()) {
+            for (Object key : lookupForm.getFieldsForLookup().keySet()) {
+                LOG.debug("Key : " + key.toString() + " Value : " + lookupForm.getFieldsForLookup().get(key));
+            }
         }
 
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
+        Collection displayList = getSearchResults(lookupForm.getFieldsForLookup());
+
         // MJM get resultTable populated here
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
@@ -171,7 +149,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
             BusinessObject element = (BusinessObject) aDisplayList;
 
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-            String actionUrls = "www.someACTIONurl";
 
             if (ObjectUtils.isNotNull(getColumns())) {
                 List<Column> columns = getColumns();
@@ -245,7 +222,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      * @param customerNumber Customer Number for inquiry on Account
      * @return Returns the url string.
      */
-    private String getCustomerInquiryUrl(ReferralToCollectionsReport bo) {
+    protected String getCustomerInquiryUrl(ReferralToCollectionsReport bo) {
         Properties params = new Properties();
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.INQUIRY_ACTION);
@@ -263,7 +240,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      * @param columnTitle
      * @return Returns the url for the Agency Inquiry
      */
-    private String getAgencyInquiryUrl(ReferralToCollectionsReport bo) {
+    protected String getAgencyInquiryUrl(ReferralToCollectionsReport bo) {
         Properties params = new Properties();
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "continueWithInquiry");
@@ -271,27 +248,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(KFSPropertyConstants.AGENCY_NUMBER, bo.getAgencyNumber());
         return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     *
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        if (ObjectUtils.isNull(dateTimeService)) {
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-        }
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute.
-     *
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     protected String createTitleText(Class<? extends BusinessObject> boClass) {
@@ -308,5 +264,55 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         }
 
         return titleText;
+    }
+
+    /**
+     * Gets the dateTimeService attribute.
+     *
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute.
+     *
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public ReferralToCollectionsReportService getReferralToCollectionsReportService() {
+        return referralToCollectionsReportService;
+    }
+
+    public void setReferralToCollectionsReportService(ReferralToCollectionsReportService referralToCollectionsReportService) {
+        this.referralToCollectionsReportService = referralToCollectionsReportService;
     }
 }

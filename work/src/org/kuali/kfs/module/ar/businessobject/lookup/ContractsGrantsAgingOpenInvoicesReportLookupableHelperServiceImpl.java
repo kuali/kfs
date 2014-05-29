@@ -28,11 +28,8 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsAgingOpenInvoicesRe
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsAgingOpenInvoicesReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -41,7 +38,6 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -49,7 +45,9 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl.class);
-    private Map fieldConversions;
+    protected Map fieldConversions;
+
+    protected ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -62,7 +60,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         List results;
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        results = SpringContext.getBean(ContractsGrantsAgingOpenInvoicesReportService.class).getPopulatedReportDetails(getParameters());
+        results = getContractsGrantsAgingOpenInvoicesReportService().getPopulatedReportDetails(getParameters());
         return new CollectionIncomplete(results, new Long(results.size()));
     }
 
@@ -175,7 +173,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
                 if (StringUtils.isNotBlank(propValue)) {
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
-                        String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        String propertyURL = getKualiConfigurationService().getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
                         col.setPropertyURL(propertyURL);
                     }else if (StringUtils.equals("Actions", col.getColumnTitle())) {
                         col.setPropertyURL(getCollectionActivityDocumentUrl(element, col.getColumnTitle()));
@@ -216,21 +214,24 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         String lookupUrl = "";
         ContractsGrantsAgingOpenInvoicesReport detail = (ContractsGrantsAgingOpenInvoicesReport) bo;
         Properties parameters = new Properties();
-        ContractsGrantsInvoiceDocument cgInvoice;
-        try {
-            cgInvoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(detail.getDocumentNumber());
+        ContractsGrantsInvoiceDocument cgInvoice = getBusinessObjectService().findBySinglePrimaryKey(ContractsGrantsInvoiceDocument.class, detail.getDocumentNumber());
 
-            String proposalNumber = cgInvoice.getProposalNumber().toString();
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-            parameters.put("selectedProposalNumber", proposalNumber);
-            parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
-            parameters.put("command", "initiate");
-            parameters.put("docTypeName", "COLA");
-            lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
-        }
-        catch (WorkflowException ex) {
-            LOG.error("Invoice document does not exist for the documentNumber " + detail.getDocumentNumber());
-        }
+        String proposalNumber = cgInvoice.getProposalNumber().toString();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
+        parameters.put("selectedProposalNumber", proposalNumber);
+        parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
+        parameters.put("command", "initiate");
+        parameters.put("docTypeName", "COLA");
+        lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
+
         return lookupUrl;
+    }
+
+    public ContractsGrantsAgingOpenInvoicesReportService getContractsGrantsAgingOpenInvoicesReportService() {
+        return contractsGrantsAgingOpenInvoicesReportService;
+    }
+
+    public void setContractsGrantsAgingOpenInvoicesReportService(ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService) {
+        this.contractsGrantsAgingOpenInvoicesReportService = contractsGrantsAgingOpenInvoicesReportService;
     }
 }

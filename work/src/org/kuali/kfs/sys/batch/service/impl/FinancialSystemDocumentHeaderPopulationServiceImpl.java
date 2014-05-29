@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeaderMissingFromWorkflow;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.document.Document;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -53,16 +54,17 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
     protected volatile String systemUserPrincipalId;
 
     /**
-     * Populates financial system document header records, at a count of batchSize at a time, until the jobRunSize number of records have been processed
-     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#populateFinancialSystemDocumentHeadersFromKew(int, int)
+     * Populates financial system document header records, at a count of batchSize at a time, until the jobRunSize number of records have been processed, skipping document headers that
+     * are included in documentStatusesToPopulate if the given Set has any members at all
+     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#populateFinancialSystemDocumentHeadersFromKew(int, int, Set<DocumentStatus>)
      */
     @Override
     @NonTransactional
-    public void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize) {
+    public void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize, Set<DocumentStatus> documentStatusesToPopulate) {
         final long startTime = System.currentTimeMillis();
         for (Collection<FinancialSystemDocumentHeader> documentHeaderBatch : getFinancialSystemDocumentHeaderBatchIterable(batchSize, jobRunSize)) {
             Map<String, FinancialSystemDocumentHeader> documentHeaderMap = convertDocumentHeaderBatchToMap(documentHeaderBatch);
-            handleBatch(documentHeaderMap);
+            handleBatch(documentHeaderMap, documentStatusesToPopulate);
         }
         final long endTime = System.currentTimeMillis();
         final double runTimeSeconds = (endTime - startTime) / 1000.0;
@@ -71,12 +73,12 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
 
     /**
      * Reads in the matching KEW document headers for the given batch of FinancialSystemDocumentHeader records and updates
-     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#handleBatch(java.util.Map)
+     * @see org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService#handleBatch(java.util.Map, Set<DocumentStatus>)
      */
     @Override
     @Transactional
-    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders) {
-        List<Document> workflowDocuments = getWorkflowDocuments(documentHeaders);
+    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders, Set<DocumentStatus> documentStatusesToPopulate) {
+        List<Document> workflowDocuments = getWorkflowDocuments(documentHeaders, documentStatusesToPopulate);
         List<FinancialSystemDocumentHeader> documentHeadersToSave = new ArrayList<FinancialSystemDocumentHeader>();
 
         for (Document kewDocHeader : workflowDocuments) {
@@ -86,7 +88,7 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
                 documentHeadersToSave.add(fsDocHeader);
             } else {
                 // how would this even happen????
-                LOG.error("Document ID: "+kewDocHeader.getDocumentId()+" was returned from search but no financial system document header could be found in the map");
+                LOG.error("Document ID: "+kewDocHeader.getDocumentId()+" was returned from search but no financial system document header could be found in the map.  And it's freaking me out, man!");
 
             }
         }
@@ -99,17 +101,18 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
      * for a financial system document header, the document number will be saved as a FinancialSystemDocumentHeaderMissingFromWorkflow record and skipped
      * from subsequent runs of the job
      * @param documentHeaders a Map of FS document headers
-     * @return a List of matching workflow document header records
+     * @param documentStatusesToPopulate if the given Set has any members, only documents in the given statuses will have their FinancialSystemDocumentHeader records populated
+     * @return a List of matching workflow document header records, skipping any records included in the documentStatusesToPopulate Set if there are any members in it at all
      */
-    protected List<Document> getWorkflowDocuments(Map<String, FinancialSystemDocumentHeader> documentHeaders) {
+    protected List<Document> getWorkflowDocuments(Map<String, FinancialSystemDocumentHeader> documentHeaders, Set<DocumentStatus> documentStatusesToPopulate) {
         List<Document> workflowDocuments = new ArrayList<Document>();
         List<FinancialSystemDocumentHeaderMissingFromWorkflow> missingWorkflowHeaders = new ArrayList<FinancialSystemDocumentHeaderMissingFromWorkflow>();
 
         for (String documentNumber : documentHeaders.keySet()) {
             final Document workflowDoc = getWorkflowDocumentService().getDocument(documentNumber);
-            if (workflowDoc != null) {
+            if (workflowDoc != null && (documentStatusesToPopulate.isEmpty() || documentStatusesToPopulate.contains(workflowDoc.getStatus()))) {
                 workflowDocuments.add(workflowDoc);
-            } else {
+            } else if (workflowDoc == null) { // only record the error if we weren't supposed to skip the record...ie, if the workflow document is null
                 LOG.error("Could not find a workflow document record for financial system document header #"+documentNumber);
                 FinancialSystemDocumentHeaderMissingFromWorkflow missingWorkflowHeader = new FinancialSystemDocumentHeaderMissingFromWorkflow();
                 missingWorkflowHeader.setDocumentNumber(documentNumber);
@@ -206,6 +209,9 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
             if (endIndex > documentHeaderCount) {
                 endIndex = documentHeaderCount;
             }
+
+            // nota bene: it was discussed that it might be helpful to have a parameter with a specific list of document numbers to read in and convert.
+            // if such a parameter were implemented, this would likely be a good place to use that logic....  The DAO shouldn't read the parameter directly, I think....
             Collection<FinancialSystemDocumentHeader> docHeaderBatch = readBatchOfFinancialSystemDocumentHeaders(currentStartIndex, endIndex);
 
             currentStartIndex = endIndex + 1;

@@ -40,6 +40,7 @@ public class KFSParameterKeyConstants {
     public static class PopulateFinancialSystemDocumentHeaderParameterNames {
         public static final String POPULATION_LIMIT = "POPULATION_LIMIT";
         public static final String BATCH_SIZE = "BATCH_SIZE";
+        public static final String DOCUMENT_STATUSES_TO_POPULATE = "DOCUMENT_STATUSES_TO_POPULATE";
     }
 
     public static class PurapPdpParameterConstants {

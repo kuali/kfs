@@ -17,8 +17,10 @@ package org.kuali.kfs.sys.batch.service;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 /**
  * Business object which supports the populateFinancialSystemDocumentHeadersFromKewJob, which populate fields on the FinancialSystemDocumentHeader
@@ -30,14 +32,16 @@ public interface FinancialSystemDocumentHeaderPopulationService {
      * and then updates the changes in the database
      * @param batchSize the size of the batch to process at once
      * @param jobRunSize the total number of records to process in this run; if the value is null or negative, then all records will be run
+     * @param documentStatusesToPopulate if the given Set has any members, only documents in the given statuses will have their FinancialSystemDocumentHeader records populated
      */
-    public abstract void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize);
+    public abstract void populateFinancialSystemDocumentHeadersFromKew(int batchSize, Integer jobRunSize, Set<DocumentStatus> documentStatusesToPopulate);
 
     /**
      * Handles a single batch of document headers; exposed on the interface so that Spring can proxy it properly
      * @param documentHeaders the Map of document headers, keyed by document number, that make up the batch
+     * @param documentStatusesToPopulate if the given Set has any members, only documents in the given statuses will have their FinancialSystemDocumentHeader records populated
      */
-    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders);
+    public void handleBatch(Map<String, FinancialSystemDocumentHeader> documentHeaders, Set<DocumentStatus> documentStatusesToPopulate);
 
     /**
      * Reads in a batch of FinancialSystemDocumentHeader records which exist within the given start index and end index

@@ -24,7 +24,7 @@
 		<ul class="chan">
 			<li><portal:portalLink displayTitle="true" title="Cash Control"
 					url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CTRL" /></li>
-			<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Collection Activity"
 						url="arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=COLA" /></li>
@@ -47,7 +47,7 @@
 			<li><portal:portalLink displayTitle="true"
 					title="Customer Invoice Writeoff Lookup"
 					url="arCustomerInvoiceWriteoffLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
-			<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Dunning Letter Distribution"
 						url="arDunningLetterDistributionLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
@@ -58,7 +58,7 @@
 			<li><portal:portalLink displayTitle="true"
 					title="Payment Application"
 					url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>
-			<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Referral To Collections"
 						url="arReferralToCollectionsLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>

@@ -21,7 +21,7 @@
 		<strong>Accounts Receivable</strong></br>
 	    <ul class="chan">	
 			<li><portal:portalLink displayTitle="true" title="Billing Statement" url="arCustomerStatement.do?methodToCall=start" /></li>
-			<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Collection Activity Report"
 						url="collectionActivityReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport" /></li>
@@ -31,7 +31,7 @@
 			</c:if>
 	   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report" url="arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" /></li> 		
 	   		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoice.do?methodToCall=start" /></li>
-			<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Federal Financial Report"
 						url="arFederalFinancialReport.do?methodToCall=start" /></li>
@@ -76,7 +76,7 @@
 		</ul>
 	</c:if>
 	<c:if
-		test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true' && ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+		test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true' && ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 		<strong>Contracts and Grants</strong>
 		</br>
 		<ul class="chan">

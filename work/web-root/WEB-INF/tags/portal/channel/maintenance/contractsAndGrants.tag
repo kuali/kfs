@@ -22,7 +22,7 @@
  	<c:choose>
  	<c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
  		<li><portal:portalLink displayTitle="true" title="CG Account Default" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+		<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
  			<li><portal:portalLink displayTitle="true" title="KC Billing Frequency Mapping" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.external.kc.businessobject.BillingFrequencyMapping&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
  		</c:if>
     </c:when>
@@ -39,7 +39,7 @@
 			<portal:portalLink displayTitle="true" title="Award Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AwardStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+		<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true"
 					title="Billing Frequency"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.BillingFrequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -49,7 +49,7 @@
 			<portal:portalLink displayTitle="true" title="CFDA"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.CFDA&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+		<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true"
 					title="Instrument Type"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.InstrumentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -64,7 +64,7 @@
 				title="Letter of Credit Fund Group"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<c:if test="${ConfigProperties.enhancement.contracts.grants.billing.enabled == 'true'}">
+		<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 			<li><portal:portalLink displayTitle="true"
 					title="Letter of Credit Fund"
 					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

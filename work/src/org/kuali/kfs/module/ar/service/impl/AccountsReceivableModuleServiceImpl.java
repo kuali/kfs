@@ -841,7 +841,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public boolean isContractsGrantsBillingEnhancementActive() {
-        return configurationService.getPropertyValueAsBoolean(KFSConstants.ENHANCEMENT_CONTRACTS_GRANTS_BILLING_ENABLED);
+        return configurationService.getPropertyValueAsBoolean(KFSConstants.CONTRACTS_GRANTS_BILLING_ENABLED);
     }
 
     /**

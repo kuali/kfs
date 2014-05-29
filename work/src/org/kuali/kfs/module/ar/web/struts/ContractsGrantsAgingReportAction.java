@@ -69,8 +69,6 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportAction.class);
     private static volatile ContractsGrantsAgingReportService contractsGrantsAgingReportService;
 
-    private static final String TOTALS_TABLE_KEY = "totalsTable";
-
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -124,7 +122,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             totalList[6] = lookupForm.getTotalCredits();
             totalList[7] = lookupForm.getTotalWriteOffs();
 
-            GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalList);
+            GlobalVariables.getUserSession().addObject(ArConstants.TOTALS_TABLE_KEY, totalList);
         }
         catch (NumberFormatException e) {
             LOG.error("Number format Exception", e);
@@ -261,7 +259,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
 
-        String[] totalsList = (String[]) GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
+        String[] totalsList = (String[]) GlobalVariables.getUserSession().retrieveObject(ArConstants.TOTALS_TABLE_KEY);
 
         // set into form Fields
         if (ObjectUtils.isNotNull(totalsList) && totalsList.length > 0) {
@@ -277,8 +275,8 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
 
         if (((ContractsGrantsAgingReportForm) form).getLookupable().getLookupableHelperService() instanceof ContractsGrantsAgingReportLookupableHelperServiceImpl) {
-            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
-            request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
+            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(ArConstants.TOTALS_TABLE_KEY);
+            request.setAttribute(ArConstants.TOTALS_TABLE_KEY, totalsTable);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

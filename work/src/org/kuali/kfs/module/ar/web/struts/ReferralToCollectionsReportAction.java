@@ -127,7 +127,7 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
      */
     @Override
     protected <B extends BusinessObject> String sortReportValues(List<B> displayList, String sortFieldName) {
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
+        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(ArConstants.SORT_INDEX_SESSION_KEY);
         // set default sort index as 0 (Proposal Number)
         if (ObjectUtils.isNull(sortIndexObject)) {
             sortIndexObject = "0";

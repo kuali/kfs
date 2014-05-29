@@ -54,7 +54,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupAction extends Co
         ContractsGrantsSuspendedInvoiceSummaryReportLookupForm cgSuspendedInvoiceSummaryReportLookupForm = (ContractsGrantsSuspendedInvoiceSummaryReportLookupForm) form;
 
         List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = lookupReportValues(cgSuspendedInvoiceSummaryReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsSuspendedInvoiceSummaryReport");
+        final String sortPropertyName = sortReportValues(displayList, ArConstants.CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT);
 
         // build report
         ContractsGrantsReportDataBuilderService reportDataBuilderService = getContractsGrantsReportDataBuilderService();

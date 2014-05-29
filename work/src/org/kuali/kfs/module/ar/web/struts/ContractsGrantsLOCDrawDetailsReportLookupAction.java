@@ -48,7 +48,7 @@ public class ContractsGrantsLOCDrawDetailsReportLookupAction extends ContractsGr
         ContractsGrantsLOCDrawDetailsReportLookupForm cgLOCDrawDetailsReportLookupForm = (ContractsGrantsLOCDrawDetailsReportLookupForm) form;
 
         List<ContractsGrantsLOCDrawDetailsReport> displayList = lookupReportValues(cgLOCDrawDetailsReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCDrawDetailsReport");
+        final String sortPropertyName = sortReportValues(displayList, ArConstants.CONTRACTS_GRANTS_LOC_DRAW_DETAILS_REPORT);
 
         ContractsGrantsReportDataHolder cgLOCDrawDetailsReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 

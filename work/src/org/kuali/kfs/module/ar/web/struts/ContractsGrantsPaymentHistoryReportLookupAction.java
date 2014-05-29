@@ -52,7 +52,7 @@ public class ContractsGrantsPaymentHistoryReportLookupAction extends ContractsGr
         ContractsGrantsPaymentHistoryReportLookupForm cgPaymentHistoryReportLookupForm = (ContractsGrantsPaymentHistoryReportLookupForm) form;
 
         List<ContractsGrantsPaymentHistoryReport> displayList = lookupReportValues(cgPaymentHistoryReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsPaymentHistoryReport");
+        final String sortPropertyName = sortReportValues(displayList, ArConstants.CONTRACTS_GRANTS_PAYMENT_HISTORY_REPORT);
 
         ContractsGrantsReportDataHolder cgPaymentHistoryReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 

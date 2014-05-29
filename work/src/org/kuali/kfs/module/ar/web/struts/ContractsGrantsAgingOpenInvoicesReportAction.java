@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -43,7 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ContractsGrantsAgingOpenInvoicesReportAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportAction.class);
-    private static final String TOTALS_TABLE_KEY = "totalsTable";
+
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
@@ -107,8 +108,8 @@ public class ContractsGrantsAgingOpenInvoicesReportAction extends KualiAction {
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
 
         if (((ContractsGrantsAgingOpenInvoicesReportForm) form).getLookupable().getLookupableHelperService() instanceof ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl) {
-            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
-            request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
+            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(ArConstants.TOTALS_TABLE_KEY);
+            request.setAttribute(ArConstants.TOTALS_TABLE_KEY, totalsTable);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

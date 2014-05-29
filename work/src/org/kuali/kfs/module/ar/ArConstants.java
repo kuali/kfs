@@ -31,6 +31,10 @@ public class ArConstants{
     public static final String PAYMENT_DOC_TYPE = "Payment";
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
 
+    public static final String SORT_INDEX_SESSION_KEY = "sortIndex";
+    public static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
+    public static final String TOTALS_TABLE_KEY = "totalsTable";
+
     // System Parameters
 
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
@@ -421,6 +425,14 @@ public class ArConstants{
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
+    public static final String LETTER_OF_CREDIT_FUND_GROUP_PROPERTY = "letterOfCreditFundGroup";
+    public static final String FUNDS_NOT_DRAWN_PROPERTY = "fundsNotDrawn";
+    public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT = "ContractsGrantsSuspendedInvoiceSummaryReport";
+    public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL_REPORT = "ContractsGrantsSuspendedInvoiceDetailReport";
+    public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY_REPORT = "ContractsGrantsPaymentHistoryReport";
+    public static final String CONTRACTS_GRANTS_LOC_NOT_DRAWN_REPORT = "ContractsGrantsLOCAmountsNotDrawnReport";
+    public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS_REPORT = "ContractsGrantsLOCDrawDetailsReport";
+    public static final String CONTRACTS_GRANTS_MILESTONE_REPORT = "ContractsGrantsMilestoneReport";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";
@@ -442,6 +454,8 @@ public class ArConstants{
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
     public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
 
+    public static final String LETTER_OF_CREDIT_FUND_GROUP = "Letter of Credit Fund Group";
+    public static final String LETTER_OF_CREDIT_REVIEW_DOCUMENT = "Letter Of Credit Review Document.";
 
     public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 

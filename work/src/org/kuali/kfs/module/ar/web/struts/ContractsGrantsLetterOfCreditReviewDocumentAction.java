@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
@@ -105,12 +106,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 
         if (StringUtils.isEmpty(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode()) || StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode())) {
-            GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
+            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
         }
         else {
             ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(contractsGrantsLetterOfCreditReviewDocument.getDocumentNumber());
             if (ObjectUtils.isNull(document)) {
-                contractsGrantsLetterOfCreditReviewDocument.getDocumentHeader().setDocumentDescription("Letter Of Credit Review Document.");
+                contractsGrantsLetterOfCreditReviewDocument.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
                 contractsGrantsLetterOfCreditReviewDocument.populateContractsGrantsLOCReviewDetails();
                 SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsLetterOfCreditReviewDocument);
             }
@@ -155,7 +156,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
             // Now to set funds Not Drawn as a difference betwen amountToDraw and hiddenAmountToDraw.
             detail.setFundsNotDrawn(detail.getHiddenAmountToDraw().subtract(detail.getAmountToDraw()));
             if (detail.getFundsNotDrawn().isNegative()) {
-                GlobalVariables.getMessageMap().putError("fundsNotDrawn", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
+                GlobalVariables.getMessageMap().putError(ArConstants.FUNDS_NOT_DRAWN_PROPERTY, ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
                 detail.setFundsNotDrawn(KualiDecimal.ZERO);
                 detail.setAmountToDraw(detail.getHiddenAmountToDraw().subtract(detail.getFundsNotDrawn()));
             }
@@ -181,12 +182,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         String fundCode = document.getLetterOfCreditFundCode();
         String groupCode = document.getLetterOfCreditFundGroupCode();
         if (StringUtils.isEmpty(groupCode) || StringUtils.isBlank(groupCode)) {
-            GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
+            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
-            document.getDocumentHeader().setDocumentDescription("LOC Review Document");
+            document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
             document.populateContractsGrantsLOCReviewDetails();
             SpringContext.getBean(DocumentService.class).saveDocument(document);
         }
@@ -226,12 +227,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         String fundCode = document.getLetterOfCreditFundCode();
         String groupCode = document.getLetterOfCreditFundGroupCode();
         if (StringUtils.isEmpty(groupCode) || StringUtils.isBlank(groupCode)) {
-            GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
+            GlobalVariables.getMessageMap().putError(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_PROPERTY, KFSKeyConstants.ERROR_REQUIRED, ArConstants.LETTER_OF_CREDIT_FUND_GROUP);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
-            document.getDocumentHeader().setDocumentDescription("LOC Review Document");
+            document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
             document.populateContractsGrantsLOCReviewDetails();
             SpringContext.getBean(DocumentService.class).saveDocument(document);
         }

@@ -49,8 +49,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public abstract class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
-    protected static final String SORT_INDEX_SESSION_KEY = "sortIndex";
-    protected static final String NUM_SORT_INDEX_CLICK_SESSION_KEY = "numberOfSortClicked";
     private static volatile ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -63,11 +61,11 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         String sortIndexParameter = request.getParameter("d-16544-s");
         if (sortIndexParameter != null) {
             // to store how many times user clicks sort links
-            Integer clickedSession = ObjectUtils.isNull(GlobalVariables.getUserSession().retrieveObject(NUM_SORT_INDEX_CLICK_SESSION_KEY)) ? new Integer(1) : (Integer) GlobalVariables.getUserSession().retrieveObject(NUM_SORT_INDEX_CLICK_SESSION_KEY);
-            if (ObjectUtils.isNotNull(GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY)) && GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY).toString().equals(sortIndexParameter)) {
-                GlobalVariables.getUserSession().addObject(NUM_SORT_INDEX_CLICK_SESSION_KEY, new Integer(clickedSession + 1));
+            Integer clickedSession = ObjectUtils.isNull(GlobalVariables.getUserSession().retrieveObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY)) ? new Integer(1) : (Integer) GlobalVariables.getUserSession().retrieveObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY);
+            if (ObjectUtils.isNotNull(GlobalVariables.getUserSession().retrieveObject(ArConstants.SORT_INDEX_SESSION_KEY)) && GlobalVariables.getUserSession().retrieveObject(ArConstants.SORT_INDEX_SESSION_KEY).toString().equals(sortIndexParameter)) {
+                GlobalVariables.getUserSession().addObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY, new Integer(clickedSession + 1));
             }
-            GlobalVariables.getUserSession().addObject(SORT_INDEX_SESSION_KEY, sortIndexParameter);
+            GlobalVariables.getUserSession().addObject(ArConstants.SORT_INDEX_SESSION_KEY, sortIndexParameter);
         }
         return super.execute(mapping, form, request, response);
     }
@@ -98,7 +96,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @param sortPropertyName
      */
     protected void sortReport(List displayList, String sortPropertyName) {
-        Integer numSortIndexClick = (ObjectUtils.isNull(GlobalVariables.getUserSession().retrieveObject(NUM_SORT_INDEX_CLICK_SESSION_KEY))) ? 1 : new Integer(GlobalVariables.getUserSession().retrieveObject(NUM_SORT_INDEX_CLICK_SESSION_KEY).toString());
+        Integer numSortIndexClick = (ObjectUtils.isNull(GlobalVariables.getUserSession().retrieveObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY))) ? 1 : new Integer(GlobalVariables.getUserSession().retrieveObject(ArConstants.NUM_SORT_INDEX_CLICK_SESSION_KEY).toString());
         if (((numSortIndexClick) % 2) == 0) {
             DynamicCollectionComparator.sort(displayList, SortOrder.DESC, sortPropertyName);
         }
@@ -147,7 +145,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @return the name of the property to be sorted against
      */
     protected <B extends BusinessObject> String sortReportValues(List<B> displayList, String sortFieldName) {
-        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
+        Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(ArConstants.SORT_INDEX_SESSION_KEY);
 
         // set default sort index as 0 (Proposal Number)
         if (ObjectUtils.isNull(sortIndexObject)) {

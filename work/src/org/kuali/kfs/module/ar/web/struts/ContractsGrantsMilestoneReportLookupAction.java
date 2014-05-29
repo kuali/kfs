@@ -48,7 +48,7 @@ public class ContractsGrantsMilestoneReportLookupAction extends ContractsGrantsR
         ContractsGrantsMilestoneReportLookupForm milestoneReportLookupForm = (ContractsGrantsMilestoneReportLookupForm) form;
 
         List<ContractsGrantsMilestoneReport> displayList = lookupReportValues(milestoneReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsMilestoneReport");
+        final String sortPropertyName = sortReportValues(displayList, ArConstants.CONTRACTS_GRANTS_MILESTONE_REPORT);
 
         ContractsGrantsReportDataHolder cgMilestoneReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
         buildReportForSearchCriteria(cgMilestoneReportDataHolder.getSearchCriteria(), milestoneReportLookupForm.getFieldsForLookup(), ContractsGrantsMilestoneReport.class);

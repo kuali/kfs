@@ -48,7 +48,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupAction extends Contrac
         ContractsGrantsLOCAmountsNotDrawnReportLookupForm cgLOCAmountsNotDrawnReportLookupForm = (ContractsGrantsLOCAmountsNotDrawnReportLookupForm) form;
 
         List<ContractsGrantsLOCAmountsNotDrawnReport> displayList = lookupReportValues(cgLOCAmountsNotDrawnReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "ContractsGrantsLOCAmountsNotDrawnReport");
+        final String sortPropertyName = sortReportValues(displayList, ArConstants.CONTRACTS_GRANTS_LOC_NOT_DRAWN_REPORT);
 
         ContractsGrantsReportDataHolder cgLOCAmountsNotDrawnReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
 

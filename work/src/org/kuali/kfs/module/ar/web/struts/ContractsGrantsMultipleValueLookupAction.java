@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -108,7 +109,7 @@ public abstract class ContractsGrantsMultipleValueLookupAction extends KualiMult
             // build the parameters for the refresh url
             Properties parameters = new Properties();
             parameters.put(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "viewSummary");
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.CUSTOMER_INVOICE_WRITEOFF_SUMMARY_ACTION);
 
             String returnResultUrl = UrlFactory.parameterizeUrl(getActionUrl(), parameters);
             return new ActionForward(returnResultUrl, true);

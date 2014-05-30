@@ -202,6 +202,8 @@ public class GeneralLedgerConstants {
         static final public String CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES = "CONTINUATION_ACCOUNT_BYPASS_ORIGINATIONS";
         static final public String CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_BALANCE_TYPE_CODES";
         static final public String CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES = "CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPES";
+
+        static final public String OBJECT_TYPE_BYPASS_ORIGINATIONS =  "OBJECT_TYPE_BYPASS_ORIGINATIONS";
     }
 
     public static class GlSummaryReport {
@@ -279,6 +281,7 @@ public class GeneralLedgerConstants {
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
         //todo - create sort step
         static final public String ICR_POSTER_INPUT_FILE = "gl_sorticr";
+
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
 
         static final public String ICR_ENCUMBRANCE_OUTPUT_FILE = "gl_icrencmb";

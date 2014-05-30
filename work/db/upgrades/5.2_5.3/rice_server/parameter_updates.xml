@@ -1,7 +1,6 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-
 	<changeSet author="KFS53" id="KFSTP1210_FS_DOC_HEADER_T">
 		<comment>
 			KFTP-1210 Parameters which control the run of the PopulateFinancialSystemDocumentHeadersFromKewJob
@@ -141,4 +140,20 @@
 		</insert> 
   </changeSet>
 
+	<changeSet author="KFS53" id="KFSCNTRB-784">
+		<comment>
+			KFSCNTRB-784 Modify Scrubber Job to validate and update the object type code when files are received from external sources. 
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="ScrubberStep"/>
+			<column name="PARM_NM" value="OBJECT_TYPE_BYPASS_ORIGINATIONS"/>
+			<column name="OBJ_ID" value="KFSCNTRB784-PARM1"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="01"/>
+			<column name="PARM_DESC_TXT" value="Origination Codes where the object type will not be updated to match the object type assigned to the object code."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
 </databaseChangeLog>

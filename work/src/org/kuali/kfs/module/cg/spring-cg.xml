@@ -181,6 +181,12 @@
 
 	<bean id="awardLookupableHelperService" scope="prototype" parent="awardLookupableHelperService-parentBean"/>
     <bean id="awardLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+        <property name="accountsReceivableModuleService">
+            <ref bean="accountsReceivableModuleService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
     </bean>
 
     <bean id="awardLookupable"  parent="awardLookupable-parentBean" scope="prototype"/>

@@ -27,7 +27,6 @@ import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -50,7 +49,8 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
     private static final String LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
 
-    private PersonService personService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected PersonService personService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -100,7 +100,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
 
         // only display invoice lookup URL if CGB is enabled
-        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (accountsReceivableModuleService.isContractsGrantsBillingEnhancementActive()) {
             AnchorHtmlData invoiceUrl = getInvoicesLookupUrl(businessObject);
             anchorHtmlDataList.add(invoiceUrl);
         }
@@ -120,7 +120,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "false");
-        params.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, SpringContext.getBean(AccountsReceivableModuleService.class).getContractsGrantsInvoiceDocumentType());
+        params.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, accountsReceivableModuleService.getContractsGrantsInvoiceDocumentType());
         params.put(CGPropertyConstants.AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
@@ -128,15 +128,25 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return new AnchorHtmlData(url, KFSConstants.SEARCH_METHOD, "View Invoices");
     }
 
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
+    }
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    }
+
     /**
      * @return Returns the personService.
      */
-    protected PersonService getPersonService() {
-        if (personService == null) {
-            personService = SpringContext.getBean(PersonService.class);
-        }
+    public PersonService getPersonService() {
         return personService;
     }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
 
     /**
      * This is a intermediate method to call the getSearchResultsHelper() as its protected.

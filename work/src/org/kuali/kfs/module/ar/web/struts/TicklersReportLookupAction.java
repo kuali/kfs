@@ -15,59 +15,23 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * LookupAction file for Ticklers Report.
  */
 public class TicklersReportLookupAction extends ContractsGrantsReportLookupAction {
-
-    /**
-     * implements the print service for Ticklers Lookup.
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TicklersReportLookupForm ticklersReportLookupForm = (TicklersReportLookupForm) form;
-
-        List<TicklersReport> displayList = lookupReportValues(ticklersReportLookupForm, request, true);
-        final String sortPropertyName = sortReportValues(displayList, "TicklersReport");
-
-        ContractsGrantsReportDataHolder arTicklersReportDataHolder = getContractsGrantsReportDataBuilderService().buildReportDataHolder(displayList, sortPropertyName);
-
-        buildReportForSearchCriteria(arTicklersReportDataHolder.getSearchCriteria(), ticklersReportLookupForm.getFieldsForLookup());
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = generateReportPdf(arTicklersReportDataHolder, baos);
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
-        return null;
-    }
-
     /**
      * This report does not have a title
      * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#generateReportTitle(org.kuali.rice.kns.web.struts.form.LookupForm)
@@ -83,6 +47,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
      * @param searchCriteria
      * @param fieldsForLookup
      */
+    @Override
     protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
@@ -92,7 +57,7 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
 
             if (!fieldString.equals("") && !fieldString.equals(ArPropertyConstants.TicklersReportFields.COLLECTOR) && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
                 ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(TicklersReport.class, fieldString);
+                String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
                 criteriaData.setSearchFieldLabel(label);
                 criteriaData.setSearchFieldValue(valueString);
                 searchCriteria.add(criteriaData);
@@ -108,4 +73,23 @@ public class TicklersReportLookupAction extends ContractsGrantsReportLookupActio
     public String getReportBuilderServiceBeanName() {
         return ArConstants.ReportBuilderDataServiceBeanNames.TICKLERS;
     }
+
+    /**
+     * Returns the sort field for this report's pdf generation, "TicklersReport"
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getSortFieldName()
+     */
+    @Override
+    protected String getSortFieldName() {
+        return ArConstants.TICKLERS_REPORT_SORT_FIELD;
+    }
+
+    /**
+     * Returns the class of TicklersReport
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getPrintSearchCriteriaClass()
+     */
+    @Override
+    public Class<? extends BusinessObject> getPrintSearchCriteriaClass() {
+        return TicklersReport.class;
+    }
+
 }

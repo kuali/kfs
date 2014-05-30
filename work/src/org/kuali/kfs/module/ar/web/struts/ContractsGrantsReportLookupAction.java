@@ -27,15 +27,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
+import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -71,10 +74,39 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
     }
 
     /**
+     * This method implements the print functionality - basically, pdf generation - for children reports
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LookupForm lookupForm = (LookupForm) form;
+
+        List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = lookupReportValues(lookupForm, request, true);
+        final String sortPropertyName = sortReportValues(displayList);
+
+        // build report
+        ContractsGrantsReportDataBuilderService reportDataBuilderService = getContractsGrantsReportDataBuilderService();
+        ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList, sortPropertyName);
+
+        // build search criteria for report
+        buildReportForSearchCriteria(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), lookupForm.getFieldsForLookup());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        String reportFileName = generateReportPdf(cgSuspendedInvoiceSummaryReportDataHolder, baos);
+        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
+        return null;
+    }
+
+    /**
      * @param searchCriteria
      * @param fieldsForLookup
      */
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> detailClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
 
@@ -83,7 +115,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
 
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
                 ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(detailClass, fieldString);
+                String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
                 criteriaData.setSearchFieldLabel(label);
                 criteriaData.setSearchFieldValue(valueString);
                 searchCriteria.add(criteriaData);
@@ -144,7 +176,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @param sortFieldName the field name that the List should be sorted by
      * @return the name of the property to be sorted against
      */
-    protected <B extends BusinessObject> String sortReportValues(List<B> displayList, String sortFieldName) {
+    protected <B extends BusinessObject> String sortReportValues(List<B> displayList) {
         Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(ArConstants.SORT_INDEX_SESSION_KEY);
 
         // set default sort index as 0 (Proposal Number)
@@ -153,13 +185,18 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         }
 
         // get sort property
-        String sortPropertyName = getContractsGrantsReportHelperService().getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), sortFieldName);
+        String sortPropertyName = getContractsGrantsReportHelperService().getFieldNameForSorting(Integer.parseInt(sortIndexObject.toString()), getSortFieldName());
 
         // sort list
         sortReport(displayList, sortPropertyName);
 
         return sortPropertyName;
     }
+
+    /**
+     * @return the default value that sorts on the pdf generation should sort on
+     */
+    protected abstract String getSortFieldName();
 
     /**
      * Generates the report PDF
@@ -177,6 +214,11 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @return the name of the bean which helps the child Action build the reports associated
      */
     public abstract String getReportBuilderServiceBeanName();
+
+    /**
+     * @return the class used during pdf generation to build search criteria against
+     */
+    public abstract Class<? extends BusinessObject> getPrintSearchCriteriaClass();
 
     /**
      * Generates the report title for generated reports.  If null, a report title will not be set

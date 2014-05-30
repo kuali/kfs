@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,13 +43,11 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHol
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportDataBuilderService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -282,35 +279,13 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     }
 
     /**
-     * Print the pdf file for all cginvoices by agency
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * Reports are more hard coded here in C&G Aging...
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#sortReportValues(java.util.List)
      */
-    public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsAgingReportForm cgInvoiceReportLookupForm = (ContractsGrantsAgingReportForm) form;
-
-        List<ContractsGrantsInvoiceDocument> displayList = lookupReportValues(cgInvoiceReportLookupForm, request, true);
-
-        // sort list
+    @Override
+    protected <B extends BusinessObject> String sortReportValues(List<B> displayList) {
         sortReport(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.LIST_SORT_PROPERTY);
-
-        final ContractsGrantsReportDataBuilderService reportBuilderService = getContractsGrantsReportDataBuilderService();
-        ContractsGrantsReportDataHolder cgInvoiceReportDataHolder = reportBuilderService.buildReportDataHolder(displayList, ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY);
-        cgInvoiceReportDataHolder.setReportTitle(generateReportTitle(cgInvoiceReportLookupForm));
-
-        // build search criteria for report
-        buildReportForSearchCriteria(cgInvoiceReportDataHolder.getSearchCriteria(), cgInvoiceReportLookupForm.getFieldsForLookup(), ContractsAndGrantsAgingReport.class);
-
-        // export to pdf
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String reportFileName = generateReportPdf(cgInvoiceReportDataHolder, baos);
-        WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
-        return null;
+        return ArPropertyConstants.ContractsGrantsAgingReportFields.PDF_SORT_PROPERTY;
     }
 
     /**
@@ -329,16 +304,16 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @param fieldsForLookup
      */
     @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup, Class<? extends BusinessObject> dataObjectClass) {
+    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
             if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(dataObjectClass, fieldString);
+                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(getPrintSearchCriteriaClass(), fieldString);
                 if (!(controldef instanceof HiddenControlDefinition)) {
                     ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(dataObjectClass, fieldString);
+                    String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
                     criteriaData.setSearchFieldLabel(label);
                     criteriaData.setSearchFieldValue(valueString);
                     searchCriteria.add(criteriaData);
@@ -394,6 +369,24 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     @Override
     public String getReportBuilderServiceBeanName() {
         return ArConstants.ReportBuilderDataServiceBeanNames.CONTRACTS_GRANTS_AGING;
+    }
+
+    /**
+     * We don't really call this on this report
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getSortFieldName()
+     */
+    @Override
+    protected String getSortFieldName() {
+        return null;
+    }
+
+    /**
+     * Returns the class of ContractsAndGrantsAgingReport
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupAction#getPrintSearchCriteriaClass()
+     */
+    @Override
+    public Class<? extends BusinessObject> getPrintSearchCriteriaClass() {
+        return ContractsAndGrantsAgingReport.class;
     }
 
     public static ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {

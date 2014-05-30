@@ -433,6 +433,9 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_LOC_NOT_DRAWN_REPORT = "ContractsGrantsLOCAmountsNotDrawnReport";
     public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS_REPORT = "ContractsGrantsLOCDrawDetailsReport";
     public static final String CONTRACTS_GRANTS_MILESTONE_REPORT = "ContractsGrantsMilestoneReport";
+    public static final String COLLECTION_ACTIVITY_REPORT_SORT_FIELD = "CollectionActivityReport";
+    public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
+    public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";

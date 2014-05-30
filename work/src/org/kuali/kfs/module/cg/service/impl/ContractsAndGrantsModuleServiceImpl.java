@@ -40,13 +40,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This Class provides implementation to the services required for inter module communication.
  */
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
-    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
+    protected org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
-    private AwardService awardService;
-    private ParameterService parameterService;
-    private AgencyService agencyService;
-    private CfdaService cfdaService;
-    private BusinessObjectService businessObjectService;
+    protected AwardService awardService;
+    protected ParameterService parameterService;
+    protected AgencyService agencyService;
+    protected CfdaService cfdaService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,

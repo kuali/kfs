@@ -37,12 +37,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CloseServiceImpl implements CloseService {
 
-    private CloseDao closeDao;
-    private DateTimeService dateTimeService;
+    protected CloseDao closeDao;
+    protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CloseServiceImpl.class);
-    private ConfigurationService configService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CloseServiceImpl.class);
+    protected ConfigurationService configService;
 
     /**
      * <ul>

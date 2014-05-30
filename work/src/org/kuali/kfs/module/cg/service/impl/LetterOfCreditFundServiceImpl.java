@@ -27,7 +27,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * Implementation of the LetterOfCreditFundService
  */
 public class LetterOfCreditFundServiceImpl implements LetterOfCreditFundService {
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
 
     /**

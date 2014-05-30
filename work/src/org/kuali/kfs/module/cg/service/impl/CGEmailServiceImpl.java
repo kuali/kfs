@@ -15,26 +15,13 @@
  */
 package org.kuali.kfs.module.cg.service.impl;
 
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.mail.MessagingException;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.service.CGEmailService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.mail.MailMessage;
-import org.kuali.rice.core.api.mail.Mailer;
 import org.kuali.rice.core.mail.MailerImpl;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class implements the services in CGEmailservice.
  */
 public class CGEmailServiceImpl extends MailerImpl implements CGEmailService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CGEmailServiceImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CGEmailServiceImpl.class);
 
 }

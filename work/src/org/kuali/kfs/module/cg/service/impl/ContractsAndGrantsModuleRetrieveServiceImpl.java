@@ -35,11 +35,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAndGrantsModuleRetrieveService {
 
-    private AwardService awardService;
-    private ParameterService parameterService;
-    private AgencyService agencyService;
-    private CfdaService cfdaService;
-    private BusinessObjectService businessObjectService;
+    protected AwardService awardService;
+    protected ParameterService parameterService;
+    protected AgencyService agencyService;
+    protected CfdaService cfdaService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * This method would return list of business object - in this case Awards for CG Invoice functionality in AR.

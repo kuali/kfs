@@ -159,7 +159,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected UniversityDateService universityDateService;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
-    private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
+    protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
      * Sets the accountService attribute value.

@@ -31,8 +31,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This Class provides implementation to the services required for inter module communication.
  */
 public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGrantsModuleUpdateService {
-    private AwardService awardService;
-    private BusinessObjectService businessObjectService;
+    protected AwardService awardService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * This method sets last Billed Date to award Account.

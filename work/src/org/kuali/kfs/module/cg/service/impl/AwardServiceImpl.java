@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class AwardServiceImpl implements AwardService {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.cg.service.AwardService#getByPrimaryId(String)

@@ -44,10 +44,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements ContractsGrantsAgingOpenInvoicesReportService {
 
-    private ContractsGrantsAgingReportService contractsGrantsAgingReportService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportServiceImpl.class);
-    private KualiModuleService kualiModuleService;
+    protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportServiceImpl.class);
+    protected KualiModuleService kualiModuleService;
 
     /**
      * Gets the contractsGrantsAgingReportService attribute.

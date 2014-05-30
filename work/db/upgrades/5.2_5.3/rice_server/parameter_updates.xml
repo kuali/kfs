@@ -86,5 +86,33 @@
             <column name="APPL_ID" value="KFS"/>
         </insert>
     </changeSet>
+	
+	<changeSet author="KFS53" id="KFSCNTRB-846_ERROR_CERT">
+		<comment>KFSCNTRB-846 Parameters that control the error certification tab requirements.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED"/>
+			<column name="OBJ_ID" value="KFSCNTRB-846_ERROR_CERT_01"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value="3"/>
+			<column name="PARM_DESC_TXT" value="Defines the default number of fiscal periods that will require that the Error Certification tab be completed. If the fiscal period of the transaction exceeds the current fiscal period by more than the default, the Error Certification tab is required."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND"/>
+			<column name="OBJ_ID" value="KFSCNTRB-846_ERROR_CERT_02"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value="FEDERA=2"/>
+			<column name="PARM_DESC_TXT" value="Specific sub-fund groups that are excepted from the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. If the account used on the TO side includes sub-funds specified in this parameter, the number of fiscal periods associated with the sub fund should be used instead of the default to determine whether or not the Error Certification tab is required. Format of list is sub fund 1=number of fiscal periods; sub fund 2=number of fiscal periods."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>

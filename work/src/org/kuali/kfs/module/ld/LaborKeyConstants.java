@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,15 +62,22 @@ public class LaborKeyConstants {
     public static final String ERROR_EFFORT_OPEN_PERIOD_COST_SHARE = "error.labor.effortOpenPeriodCostShare";
     public static final String ERROR_EFFORT_OPEN_PERIOD_CG_ACCOUNT = "error.labor.effortOpernPeriodCGAccount";
     public static final String ERROR_EFFORT_OPEN_PERIOD_ACCOUNTS_NOT_BALANCED = "error.labor.effortOpenPeriodAccountNonBalanced";
- 
+
     public static final class Balancing {
         public static final String REPORT_ENTRY_LABEL = "message.ld.balancing.report.entry.label";
         public static final String REPORT_BALANCE_LABEL = "message.ld.balancing.report.balance.label";
     }
-    
+
     public static final class EnterpriseFeed {
     	public static final String ERROR_OUTPUT_FILE_NOT_GENERATED = "error.ld.enterpriseFeed.report.outputFileNotGenerated";
     	public static final String ERROR_BENEFIT_CALCULATION_NOT_FOUND = "error.ld.enterpriseFeed.report.benefitCalculationNotFound";
     	public static final String ERROR_BENEFIT_TYPE_NOT_FOUND = "error.ld.enterpriseFeed.report.benefitTypeNotFound";
+    }
+
+    public static final class ErrorCertification {
+        public static final String ERROR_ERROR_CERT_FIELDS_REQ = "error.errorCert.fieldsReq";
+        public static final String ERROR_ERROR_CERT_FISCAL_PER_PARAM_TRIGGERED = "error.errorCert.fiscalPerParamTriggered";
+        public static final String ERROR_ERROR_CERT_KEY = "document.errorCertification";
+        public static final String QUESTION_ERROR_CERTIFICATION_STMT = "question.errorCertStmt";
     }
 }

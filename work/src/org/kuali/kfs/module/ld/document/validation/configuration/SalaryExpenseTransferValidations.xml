@@ -252,6 +252,8 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="SalaryExpenseTransferDocument-errorCertificationValidation" scope="prototype" />
+				<bean parent="SalaryExpenseTransferDocument-errorCertificationTabValidation" scope="prototype" />
 			</list>
 		</property>	
 	</bean>	

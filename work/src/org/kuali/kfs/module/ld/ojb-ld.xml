@@ -673,6 +673,12 @@
 			<foreignkey field-ref="postingPeriodCode" />
 		</reference-descriptor>
 
+		<reference-descriptor name="errorCertification"
+			class-ref="org.kuali.kfs.module.ld.businessobject.ErrorCertification"
+			auto-retrieve="true" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
+
 		<collection-descriptor name="sourceAccountingLines"
 			proxy="true"
 			element-class-ref="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine"
@@ -810,6 +816,12 @@
 			<foreignkey field-ref="postingYear" />
 			<foreignkey field-ref="postingPeriodCode" />
 		</reference-descriptor>
+		
+		<reference-descriptor name="errorCertification"
+			class-ref="org.kuali.kfs.module.ld.businessobject.ErrorCertification"
+			auto-retrieve="true" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>		
 
 		<collection-descriptor name="sourceAccountingLines"
 			proxy="true"
@@ -1007,6 +1019,16 @@
 			<foreignkey field-ref="chartOfAccountsCode" />
 			<foreignkey field-ref="financialObjectCode" />
 		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.module.ld.businessobject.ErrorCertification" table="LD_ERROR_CERT_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>   
+    	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="expenditureDescription" column="EXPND_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="expenditureProjectBenefit" column="EXPND_PROJ_BENEFIT_DESC" jdbc-type="VARCHAR" />
+    	<field-descriptor name="errorDescription" column="ERROR_DESC" jdbc-type="VARCHAR" />
+    	<field-descriptor name="errorCorrectionReason" column="ERROR_CORR_REASON_DESC" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
 	<class-descriptor

@@ -26,6 +26,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborDocumentRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpensesDocumentPresentationController"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferDocumentPreRules"/>
     
     <property name="sessionDocument" value="true"/>    
     <property name="allowsCopy" value="true"/>

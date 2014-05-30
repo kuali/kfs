@@ -24,7 +24,6 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -32,7 +31,8 @@ public class AccountDefaultServiceImpl implements AccountDefaultsService {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDefaultServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
+    protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     /**
      * This method looks up the default table
@@ -58,7 +58,7 @@ public class AccountDefaultServiceImpl implements AccountDefaultsService {
 
             List<String> parentUnits = null;
             try {
-                parentUnits = SpringContext.getBean(ContractsAndGrantsModuleService.class).getParentUnits(unitNumber);
+                parentUnits = contractsAndGrantsModuleService.getParentUnits(unitNumber);
             }
             catch (Exception ex) {
                 LOG.error( KcUtils.getErrorMessage(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, null) + ": " + ex.getMessage());
@@ -88,6 +88,14 @@ public class AccountDefaultServiceImpl implements AccountDefaultsService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public ContractsAndGrantsModuleService getContractsAndGrantsModuleService() {
+        return contractsAndGrantsModuleService;
+    }
+
+    public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
+        this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
     }
 
 }

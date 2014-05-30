@@ -45,9 +45,9 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
 
     private static final String CREATED_BY_AGENCY_DOC = "message.ar.createdByAgencyDocument";
 
-    private ConfigurationService configurationService;
-    private AccountsReceivableModuleService accountsReceivableModuleService;
-    private KeyValuesService keyValuesService;
+    protected ConfigurationService configurationService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected KeyValuesService keyValuesService;
 
     @Override
     public CustomerCreationStatusDto createCustomer(SponsorDTO sponsor, String initiatedByPrincipalName) {

@@ -36,7 +36,6 @@ import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -65,6 +64,12 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected ParameterService parameterService;
     protected DataDictionaryService dataDictionaryService;
     protected BusinessObjectService businessObjectService;
+    protected AccountCreationService accountCreationService;
+    protected ObjectCodeService objectCodeService;
+    protected TransactionalDocumentDictionaryService transactionalDocumentDictionaryService;
+    protected KualiRuleService kualiRuleService;
+    protected PersonService personService;
+    protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
 
     /**
      * This is the web service method that facilitates budget adjustment 1. Creates a Budget Adjustment Doc using the parameters
@@ -137,8 +142,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected boolean checkforEmptyField(BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatusDTO, String fieldName, String value, int lineNumber) {
         if ((value == null) || value.isEmpty()) {
-            if (lineNumber != 0)
+            if (lineNumber != 0) {
                 value = "Detail " + lineNumber + " " + value;
+            }
             String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.AUTOMATCICG_ACCOUNT_MAINTENANCE_CHART_REQUIRED_FIELD, fieldName);
             this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
             return false;
@@ -157,8 +163,6 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         boolean isValidAcct = true;
         isValid &= checkforEmptyField(budgetAdjustmentCreationStatusDTO, "Description", budgetAdjustmentParameters.getDescription(), 0);
         List<Details> details = budgetAdjustmentParameters.getDetails();
-        AccountCreationService accountCreationService = SpringContext.getBean(AccountCreationService.class);
-        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         int lineNumber = 0;
         for (Details detail : details) {
             lineNumber++;
@@ -255,8 +259,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected void populateAccountingLine(BudgetAdjustmentAccountingLine acctLine, Integer postingYear, String chart, String accountNumber, String proj, String objCode, KualiDecimal currentBudgetAdjustmentAmount) {
         acctLine.setChartOfAccountsCode(chart);
         acctLine.setAccountNumber(accountNumber);
-        if ((proj != null) && (!proj.isEmpty()))
+        if ((proj != null) && (!proj.isEmpty())) {
             acctLine.setProjectCode(proj);
+        }
         acctLine.setFinancialObjectCode(objCode);
         acctLine.setCurrentBudgetAdjustmentAmount(currentBudgetAdjustmentAmount);
         acctLine.setPostingYear(postingYear);
@@ -312,7 +317,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      */
     protected Document createBADocument(BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatusDTO) {
         try {
-            Document document = getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("BA"));
+            Document document = getDocumentService().getNewDocument(transactionalDocumentDictionaryService.getDocumentClassByName("BA"));
             return document;
         }
         catch (Exception e) {
@@ -351,7 +356,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
             if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
                 //attempt to save if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveDocumentEvent(budgetAdjustmentDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new SaveDocumentEvent(budgetAdjustmentDocument));
 
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().saveDocument(budgetAdjustmentDocument);
@@ -373,7 +378,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
 
                 //attempt to blanket approve if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(budgetAdjustmentDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new BlanketApproveDocumentEvent(budgetAdjustmentDocument));
 
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().blanketApproveDocument(budgetAdjustmentDocument, "", null);
@@ -395,7 +400,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase("submit")) {
 
                 //attempt to blanket approve if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(budgetAdjustmentDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(budgetAdjustmentDocument));
 
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().routeDocument(budgetAdjustmentDocument, "", null);
@@ -435,12 +440,10 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected boolean isValidUser(String principalId) {
 
-        PersonService personService = SpringContext.getBean(PersonService.class);
-
         try {
             Person user = personService.getPerson(principalId);
             DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
-            if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
+            if (documentAuthorizer.canInitiate(maintenanceDocumentDictionaryService.getDocumentTypeName(Account.class), user)) {
                 // set the user session so that the user name can be displayed in the saved document
                 GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
                 return true;
@@ -517,6 +520,54 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    public AccountCreationService getAccountCreationService() {
+        return accountCreationService;
+    }
+
+    public void setAccountCreationService(AccountCreationService accountCreationService) {
+        this.accountCreationService = accountCreationService;
+    }
+
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    public TransactionalDocumentDictionaryService getTransactionalDocumentDictionaryService() {
+        return transactionalDocumentDictionaryService;
+    }
+
+    public void setTransactionalDocumentDictionaryService(TransactionalDocumentDictionaryService transactionalDocumentDictionaryService) {
+        this.transactionalDocumentDictionaryService = transactionalDocumentDictionaryService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public MaintenanceDocumentDictionaryService getMaintenanceDocumentDictionaryService() {
+        return maintenanceDocumentDictionaryService;
+    }
+
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
 
 }

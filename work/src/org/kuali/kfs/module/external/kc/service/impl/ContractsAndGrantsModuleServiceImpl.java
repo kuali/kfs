@@ -29,21 +29,26 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
+import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
-    private BusinessObjectService businessObjectService;
+
+    protected BusinessObjectService businessObjectService;
+    protected ExternalizableBusinessObjectService awardAccountService;
+    protected PersonService personService;
+    protected ParameterService parameterService;
 
     protected List <AwardAccount> getAwardAccounts(String chartCode, String accountNumber) {
         Map objectKeys = new HashMap();
@@ -52,7 +57,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         }
         objectKeys.put(KcConstants.AccountCreationDefaults.ACCOUNT_NUMBER, accountNumber);
 
-        List <AwardAccount> awardAccountDTOs = (List<AwardAccount>)SpringContext.getBean(AwardAccountServiceImpl.class).findMatching(objectKeys);
+        List <AwardAccount> awardAccountDTOs = (List<AwardAccount>)awardAccountService.findMatching(objectKeys);
 
         return awardAccountDTOs;
     }
@@ -98,7 +103,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         String projectDirectorId = awardAccount.getPrincipalId();
         LOG.debug("getProjectDirectorForAccount Web Service sent " + chartOfAccountsCode + "/" + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {
-            Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(projectDirectorId);
+            Person projectDirector = personService.getPerson(projectDirectorId);
             return projectDirector;
         }
         return null;
@@ -275,17 +280,37 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         return Integer.valueOf(maxResponsibilityId);
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public ExternalizableBusinessObjectService getAwardAccountService() {
+        return awardAccountService;
+    }
+
+    public void setAwardAccountService(ExternalizableBusinessObjectService awardAccountService) {
+        this.awardAccountService = awardAccountService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
     /**
      * Returns an implementation of the parameterService
      *
      * @return an implementation of the parameterService
      */
     public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
+        return parameterService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 }

@@ -38,7 +38,6 @@ import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -70,11 +69,16 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
     protected static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
 
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private DataDictionaryService dataDictionaryService;
-    private BusinessObjectService businessObjectService;
-    private AccountDefaultsService accountDefaultsService;
+    protected DocumentService documentService;
+    protected ParameterService parameterService;
+    protected DataDictionaryService dataDictionaryService;
+    protected BusinessObjectService businessObjectService;
+    protected AccountDefaultsService accountDefaultsService;
+    protected KualiRuleService kualiRuleService;
+    protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
+    protected AccountService accountService;
+    protected ChartService chartService;
+    protected PersonService personService;
 
     /**
      * This is the web service method that creates a new account 1. Creates an account object using the parameters from KC and the
@@ -315,7 +319,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
 
                 //attempt to save if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveDocumentEvent(maintenanceAccountDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new SaveDocumentEvent(maintenanceAccountDocument));
                 LOG.debug("global variable messages :::  "  + GlobalVariables.getMessageMap().getErrorMessages().toString());
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().saveDocument(maintenanceAccountDocument);
@@ -336,7 +340,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             else if (accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
 
                 //attempt to blanket approve if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(maintenanceAccountDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new BlanketApproveDocumentEvent(maintenanceAccountDocument));
 
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().blanketApproveDocument(maintenanceAccountDocument, "", null);
@@ -356,7 +360,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             else if (accountAutoCreateRouteValue.equalsIgnoreCase("submit")) {
 
                 //attempt to route if apply rules were successful and there are no errors
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(maintenanceAccountDocument));
+                boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(maintenanceAccountDocument));
 
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().routeDocument(maintenanceAccountDocument, "", null);
@@ -442,7 +446,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
                 GlobalVariables.clear();
             }
-            Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));
+            Document document = getDocumentService().getNewDocument(maintenanceDocumentDictionaryService.getDocumentTypeName(Account.class));
             return document;
 
         }
@@ -524,25 +528,24 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
     @Override
     public boolean accountsCanCrossCharts() {
-        return SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
+        return accountService.accountsCanCrossCharts();
     }
 
     @Override
     public boolean isValidAccount(String accountNumber) {
-        Collection<Account> accounts = SpringContext.getBean(AccountService.class).getAccountsForAccountNumber(accountNumber);
+        Collection<Account> accounts = accountService.getAccountsForAccountNumber(accountNumber);
         return (accounts != null && !accounts.isEmpty());
     }
 
     @Override
     public boolean isValidChartCode(String chartOfAccountsCode) {
-        Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(chartOfAccountsCode);
+        Chart chart = chartService.getByPrimaryId(chartOfAccountsCode);
         return (chart != null);
     }
 
 
     @Override
     public boolean isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
-        AccountService accountService = SpringContext.getBean(AccountService.class);
         Account account = accountService.getByPrimaryId(chartOfAccountsCode, accountNumber);
         return (account != null);
     }
@@ -560,7 +563,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         int fieldSize = -1;
 
         //grab account number length from DD and set size
-        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(Account.class.getName());
+        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Account.class.getName());
         AttributeDefinition attributeDefinition = entry.getAttributeDefinition(KFSPropertyConstants.ACCOUNT_NUMBER);
 
         if(ObjectUtils.isNotNull(attributeDefinition)){
@@ -628,8 +631,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
         // while account is not allowed to cross chart
         //and with an account number that already exists
-        if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts() &&
-            !SpringContext.getBean(AccountService.class).getAccountsForAccountNumber(accountNumber).isEmpty()) {
+        if (!accountService.accountsCanCrossCharts() &&
+            !accountService.getAccountsForAccountNumber(accountNumber).isEmpty()) {
             success = false;
         }
 
@@ -644,7 +647,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected boolean isValidUser(String principalId) {
 
-        PersonService personService = SpringContext.getBean(PersonService.class);
         if (principalId == null) {
             return false;
         }
@@ -653,7 +655,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             return false;
         }
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
-        if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
+        if (documentAuthorizer.canInitiate(maintenanceDocumentDictionaryService.getDocumentTypeName(Account.class), user)) {
             // set the user session so that the user name can be displayed in the saved document
             GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
             return true;
@@ -732,6 +734,46 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
     public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
         this.accountDefaultsService = accountDefaultsService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public MaintenanceDocumentDictionaryService getMaintenanceDocumentDictionaryService() {
+        return maintenanceDocumentDictionaryService;
+    }
+
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    public ChartService getChartService() {
+        return chartService;
+    }
+
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }

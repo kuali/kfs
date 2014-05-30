@@ -338,59 +338,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return isPairs;
     }
 
-    /*
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
-		Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("customerNumber", customerNumber);
-
-        Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader header : documentHeaders) {
-            String documentNumber = null;
-            try {
-                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
-                documentNumber = header.getDocumentHeader().getDocumentNumber();
-                documentHeaderIds.add(documentNumber);
-                 }
-            catch (NumberFormatException nfe) {
-            }
-        }
-
-        if (0 < documentHeaderIds.size()) {
-            try {
-                payments = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                //LOG.error(e.getMessage(), e);
-            }
-        }
-        return payments;
-    }
-
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
-
-        Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-
-        Set<String> customerNumberSet = new HashSet<String>();
-        for (CustomerInvoiceDocument invoice : invoiceList) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("documentNumber", invoice.getDocumentNumber());
-
-            AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
-            customerNumberSet.add(arDocHeader.getCustomerNumber());
-        }
-
-        Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();
-        for (String customerNumber : customerNumberSet) {
-            paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
-        }
-
-        return paymentApplicationDocumentList;
-    }
-    */
-
     /* Start TEM REFUND merge */
     /**
      * Creates a new disbursement voucher document populated from the given payment application document. The DV is initiated as the

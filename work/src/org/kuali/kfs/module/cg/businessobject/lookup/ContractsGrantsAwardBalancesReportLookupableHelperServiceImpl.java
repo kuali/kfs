@@ -30,9 +30,7 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport;
 import org.kuali.kfs.module.cg.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -53,8 +51,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
 
-    protected ConfigurationService configurationService;
     private static final Log LOG = LogFactory.getLog(ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl.class);
+
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -98,11 +97,11 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
             awardBalancesReportEntry.setAwardTotalAmountForReport(award.getAwardTotalAmount());
 
-            KualiDecimal awardBilledToDateAmount = SpringContext.getBean(AccountsReceivableModuleService.class).getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
+            KualiDecimal awardBilledToDateAmount = accountsReceivableModuleService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
             awardBalancesReportEntry.setTotalBilledToDate(awardBilledToDateAmount);
 
             // calculate Total Payments To Date
-            KualiDecimal totalPayments = SpringContext.getBean(AccountsReceivableModuleService.class).calculateTotalPaymentsToDateByAward(award.getProposalNumber());
+            KualiDecimal totalPayments = accountsReceivableModuleService.calculateTotalPaymentsToDateByAward(award.getProposalNumber());
             awardBalancesReportEntry.setTotalPaymentsToDate(totalPayments);
             awardBalancesReportEntry.setAmountCurrentlyDue(awardBilledToDateAmount.subtract(totalPayments));
 
@@ -198,15 +197,13 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
         return titleText;
     }
 
-    /**
-     * @return an implementation of the ConfigurationService
-     */
-    @Override
-    protected ConfigurationService getConfigurationService() {
-        if (configurationService == null) {
-            configurationService = SpringContext.getBean(ConfigurationService.class);
-        }
-        return configurationService;
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
+    }
+
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
 
 }

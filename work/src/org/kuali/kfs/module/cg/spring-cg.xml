@@ -322,8 +322,14 @@
 
 	<bean id="contractsGrantsAwardBalancesReportLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl"
 		scope="prototype">
+		<property name="accountsReceivableModuleService">
+			<ref bean="accountsReceivableModuleService" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 

@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,7 +57,6 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    protected CustomerService customerService;
     protected PersonService personService;
     protected CollectionActivityDocumentService collectionActivityDocumentService;
 
@@ -307,14 +305,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
 
         return lookupUrl;
-    }
-
-    public CustomerService getCustomerService() {
-        return customerService;
-    }
-
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
     }
 
     public PersonService getPersonService() {

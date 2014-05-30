@@ -26,15 +26,11 @@ import java.util.Properties;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -61,32 +57,8 @@ import org.kuali.rice.krad.util.UrlFactory;
  * LookupableHelperService class for Collection Activity Report.
  */
 public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    protected DateTimeService dateTimeService;
-    protected Map fieldConversions;
-
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
-
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected CollectionActivityReportService collectionActivityReportService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
-
-    /**
-     * Get the search results that meet the input search criteria.
-     *
-     * @param fieldValues - Map containing prop name keys and search values
-     * @return a List of found business objects
-     */
-    @Override
-    public List getSearchResults(Map fieldValues) {
-        List<CollectionActivityReport> results = new ArrayList<CollectionActivityReport>();
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        results = collectionActivityReportService.filterEventsForCollectionActivity(fieldValues);
-        return new CollectionIncomplete<CollectionActivityReport>(results, (long) results.size());
-    }
-
 
     /**
      * Get the search results that meet the input search criteria.
@@ -115,15 +87,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
-
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
+        Collection displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         // MJM get resultTable populated here
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
@@ -244,7 +208,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      * @param accountNumber Account Number for inquiry on Account
      * @return Returns the url string.
      */
-    private String getAccountInquiryUrl(CollectionActivityReport bo) {
+    protected String getAccountInquiryUrl(CollectionActivityReport bo) {
         Properties params = new Properties();
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Account.class.getName());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.INQUIRY_ACTION);
@@ -263,7 +227,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
      * @param columnTitle
      * @return Returns the url for the Collection Activity creation
      */
-    private String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
+    protected String getCollectionActivityDocumentUrl(BusinessObject bo, String columnTitle) {
         String lookupUrl = "";
         CollectionActivityReport detail = (CollectionActivityReport) bo;
         Properties parameters = new Properties();
@@ -275,48 +239,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
 
         return lookupUrl;
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     *
-     * @return Returns the dateTimeService
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService object.
-     *
-     * @param dateTimeService The dateTimeService object to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
-    }
-
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
     public CollectionActivityReportService getCollectionActivityReportService() {

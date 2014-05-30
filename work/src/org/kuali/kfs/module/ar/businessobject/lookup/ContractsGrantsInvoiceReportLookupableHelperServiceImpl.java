@@ -41,8 +41,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportLookupableHelperServiceImpl.class);
-
     /**
      * This method performs the lookup and returns a collection of lookup items
      *

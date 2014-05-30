@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
@@ -40,9 +38,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for the Suspense Activity Report.
  */
 public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl.class);
     protected DocumentService documentService;
-
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items

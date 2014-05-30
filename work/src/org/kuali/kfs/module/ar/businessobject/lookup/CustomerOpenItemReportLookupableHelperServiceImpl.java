@@ -40,8 +40,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
-    protected Map fieldConversions;
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
     protected CustomerOpenItemReportService customerOpenItemReportService;
 
     /**
@@ -132,15 +131,8 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
-        LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (performLookup)... \n\n\n");
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
+        Collection displayList = getSearchResults(lookupForm.getFieldsForLookup());
+
         // MJM get resultTable populated here
 
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
@@ -155,8 +147,8 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
             BusinessObject element = (BusinessObject) iter.next();
 
-            String returnUrl = "www.bigfrickenRETURNurl";
-            String actionUrls = "www.someACTIONurl";
+            String returnUrl = "";
+            String actionUrls = "";
             List<Column> columns = getColumns();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
@@ -244,5 +236,4 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
     public void setCustomerOpenItemReportService(CustomerOpenItemReportService customerOpenItemReportService) {
         this.customerOpenItemReportService = customerOpenItemReportService;
     }
-
 }

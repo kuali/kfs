@@ -21,23 +21,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -53,23 +44,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Defines a lookupable helper service class for Referral To Collections Report.
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
-
-    protected DateTimeService dateTimeService;
-    protected Map fieldConversions;
-
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
-
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    protected ReferralToCollectionsReportService referralToCollectionsReportService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -214,87 +195,11 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         return displayList;
     }
 
-    /**
-     * Gets the customer inquiry url on given customerNumber
-     *
-     * @param customerNumber Customer Number for inquiry on Account
-     * @return Returns the url string.
-     */
-    protected String getCustomerInquiryUrl(ReferralToCollectionsReport bo) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.INQUIRY_ACTION);
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSPropertyConstants.CUSTOMER_NUMBER, bo.getCustomerNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
-     * This method returns the Agency inquiry url
-     *
-     * @param bo business object
-     * @param columnTitle
-     * @return Returns the url for the Agency Inquiry
-     */
-    protected String getAgencyInquiryUrl(ReferralToCollectionsReport bo) {
-        Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "continueWithInquiry");
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSPropertyConstants.AGENCY_NUMBER, bo.getAgencyNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     *
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute.
-     *
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
-    }
-
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    public ReferralToCollectionsReportService getReferralToCollectionsReportService() {
-        return referralToCollectionsReportService;
-    }
-
-    public void setReferralToCollectionsReportService(ReferralToCollectionsReportService referralToCollectionsReportService) {
-        this.referralToCollectionsReportService = referralToCollectionsReportService;
     }
 }

@@ -26,9 +26,6 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl.class);
-
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */

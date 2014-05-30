@@ -24,8 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
@@ -53,8 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a lookupable helper service class for Contracts and Grants Invoices.
  */
 public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
-
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
     protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
 
     /**

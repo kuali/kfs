@@ -52,8 +52,6 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Helper service class for Invoice Template lookup
  */
 public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceTemplateLookupableHelperServiceImpl.class);
-
     protected KualiModuleService kualiModuleService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected FinancialSystemUserService financialSystemUserService;

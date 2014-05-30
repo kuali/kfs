@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
@@ -41,7 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for LOC Draw Details Report.
  */
 public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl.class);
     protected WorkflowDocumentService workflowDocumentService;
 
     /**

@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
@@ -32,13 +30,10 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-
 /**
  * Defines a custom lookupable for LOC amounts not drawn report.
  */
 public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl extends ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl {
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl.class);
-
     /**
      * This method performs the lookup and returns a collection of lookup items
      *

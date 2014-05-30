@@ -16,41 +16,27 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsAgingOpenInvoicesReport;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
-import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -71,7 +57,6 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -82,21 +67,9 @@ import org.springframework.beans.factory.InitializingBean;
  * Lookupable Helper Service class for ContractsGrantsAgingReport.
  */
 public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl implements InitializingBean {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
     protected DateTimeService dateTimeService;
-
-    protected Map fieldConversions;
-
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
-    protected CustomerCreditMemoDocumentService customerCreditMemoDocumentService;
-    protected InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
-
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
-    protected KualiModuleService kualiModuleService;
-    protected CustomerAgingReportService customerAgingReportService;
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -139,110 +112,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private String cutoffdateSYSPRplus1orMorelabel;
     private String agencyShortName = ArConstants.ContractsGrantsAgingReportFields.AGENCY_SHORT_NAME;
     private List<String> customers;
-
-
-    /**
-     * Get the search results that meet the input search criteria.
-     *
-     * @param fieldValues - Map containing prop name keys and search values
-     * @return a List of found business objects
-     */
-    @Override
-    public List getSearchResults(Map fieldValues) {
-        List<ContractsAndGrantsAgingReport> results = new ArrayList<ContractsAndGrantsAgingReport>();
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-
-        total0to30 = KualiDecimal.ZERO;
-        total31to60 = KualiDecimal.ZERO;
-        total61to90 = KualiDecimal.ZERO;
-        total91toSYSPR = KualiDecimal.ZERO;
-        totalSYSPRplus1orMore = KualiDecimal.ZERO;
-        totalOpenInvoices = KualiDecimal.ZERO;
-        totalWriteOffs = KualiDecimal.ZERO;
-        totalCredits = KualiDecimal.ZERO;
-
-
-        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
-        Map<String, ContractsAndGrantsAgingReport> knownCustomers = new HashMap<String, ContractsAndGrantsAgingReport>();
-        ContractsAndGrantsAgingReport custDetail;
-
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateFormat.setLenient(false);
-
-        Date today = getDateTimeService().getCurrentDate();
-        String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
-        try {
-
-            if (ObjectUtils.isNull(reportRunDateStr) || reportRunDateStr.isEmpty()) {
-                reportRunDate = today;
-            }
-            else {
-                reportRunDate = dateFormat.parse(reportRunDateStr);
-            }
-            // set dates for buckets
-            Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
-            Date cutoffdate31 = DateUtils.addDays(reportRunDate, -31);
-            Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
-            Date cutoffdate61 = DateUtils.addDays(reportRunDate, -61);
-            Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
-            Date cutoffdate91 = DateUtils.addDays(reportRunDate, -91);
-            Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
-            Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
-
-            // retrieve filtered data according to the lookup
-            Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = contractsGrantsAgingReportService.filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
-            if (ObjectUtils.isNotNull(cgMapByCustomer) && !cgMapByCustomer.isEmpty()) {
-                // 30 days
-                computeFor0To30DaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
-                // 60 days
-                computeFor31To60DaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate31.getTime()), knownCustomers);
-                // 90 days
-                computeFor61To90DaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate61.getTime()), knownCustomers);
-                // 120 days
-                computeFor91ToSYSPRDaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate91.getTime()), knownCustomers);
-                // 120 + older
-                computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(cgMapByCustomer, null, new java.sql.Date(cutoffdate121.getTime()), knownCustomers);
-                // credits
-                calculateTotalCreditsForCustomers(cgMapByCustomer, knownCustomers);
-
-            }
-
-            // prepare customer map.
-            for (ContractsAndGrantsAgingReport detail : knownCustomers.values()) {
-
-                // get agency name for customer
-                ContractsAndGrantsBillingAgency agencyObj = getAgencyByCustomer(detail.getCustomerNumber());
-                if (ObjectUtils.isNotNull(agencyObj)) {
-                    detail.setReportingName(agencyObj.getReportingName());
-                    detail.setAgencyNumber(agencyObj.getAgencyNumber());
-                }
-
-                // set total open invoices
-                KualiDecimal amount = detail.getUnpaidBalance0to30().add(detail.getUnpaidBalance31to60()).add(detail.getUnpaidBalance61to90()).add(detail.getUnpaidBalance91toSYSPR().add(detail.getUnpaidBalanceSYSPRplus1orMore()));
-                detail.setTotalOpenInvoices(amount);
-                totalOpenInvoices = totalOpenInvoices.add(amount);
-
-                // find total writeoff
-                KualiDecimal writeOffAmt = getCustomerAgingReportService().findWriteOffAmountByCustomerNumber(detail.getCustomerNumber());
-                if (ObjectUtils.isNotNull(writeOffAmt)) {
-                    totalWriteOffs = totalWriteOffs.add(writeOffAmt);
-                }
-                else {
-                    writeOffAmt = KualiDecimal.ZERO;
-                }
-                detail.setTotalWriteOff(writeOffAmt);
-
-                // calculate total credits
-                results.add(detail);
-            }
-        }
-        catch (ParseException ex) {
-            LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults()",ex);
-        }
-        return new CollectionIncomplete<ContractsAndGrantsAgingReport>(results, (long) results.size());
-    }
-
 
     /**
      * Get the search results that meet the input search criteria.
@@ -312,44 +181,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         return new CollectionIncomplete<ContractsGrantsInvoiceDocument>(results, (long) results.size());
     }
 
-
-    /**
-     * @return a List of the CustomerInvoiceDetails associated with a given Account Number
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
-        Map args = new HashMap();
-        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
-            args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        }
-        if (ObjectUtils.isNotNull(accountChartCode) && StringUtils.isNotEmpty(accountChartCode)) {
-            args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
-        }
-        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }
-
-    /**
-     * @return a List of the CustomerInvoiceDetails associated with a given Account Number
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAward(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String awardDocumentNumber, java.sql.Date awardEndDate, String fundManager) {
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
-            for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                boolean considerAwardDocNumber = (ObjectUtils.isNotNull(awardDocumentNumber) && !StringUtils.isEmpty(awardDocumentNumber)) ? false : true;
-                boolean considerFundMngr = (ObjectUtils.isNotNull(fundManager) && !StringUtils.isEmpty(fundManager)) ? false : true;
-                boolean considerAwardEndDate = (ObjectUtils.isNotNull(awardEndDate)) ? false : true;
-                ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
-                considerAwardDocNumber = !considerAwardDocNumber ? awardDocumentNumber.equals(document.getAward().getAwardDocumentNumber()) : considerAwardDocNumber;
-                considerAwardEndDate = !considerAwardEndDate ? awardEndDate.getTime() == document.getAward().getAwardEndingDate().getTime() : considerAwardEndDate;
-                considerFundMngr = !considerFundMngr ? fundManager.equals(document.getAward().getAwardPrimaryFundManager().getPrincipalId()) : considerFundMngr;
-                if (!(considerAwardDocNumber && considerFundMngr && considerAwardEndDate)) {
-                    iter.remove();
-                }
-            }
-        }
-        return contractsGrantsInvoiceDocs;
-    }
-
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
@@ -411,15 +242,8 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
+        Collection displayList  = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
 
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
         // MJM get resultTable populated here
         if (bounded) {
             HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
@@ -814,101 +638,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
 
-
-    /**
-     * This method...
-     *
-     * @param agingReportDao
-     * @param begin
-     * @param end
-     * @param knownCustomers
-     */
-    protected void computeFor0To30DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = calculateInvoiceAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            agingReportDetail.setUnpaidBalance0to30(amount);
-            total0to30 = total0to30.add(amount);
-        }
-    }
-
-    /**
-     * This method...
-     *
-     * @param agingReportDao
-     * @param begin
-     * @param end
-     * @param knownCustomers
-     */
-    protected void computeFor31To60DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = calculateInvoiceAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            KualiDecimal paymentAmt = calculatePaymentAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            agingReportDetail.setUnpaidBalance31to60(amount.subtract(paymentAmt));
-            total31to60 = total31to60.add(amount);
-        }
-    }
-
-    /**
-     * This method...
-     *
-     * @param agingReportDao
-     * @param begin
-     * @param end
-     * @param knownCustomers
-     */
-    protected void computeFor61To90DaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = calculateInvoiceAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            KualiDecimal paymentAmt = calculatePaymentAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            agingReportDetail.setUnpaidBalance61to90(amount.subtract(paymentAmt));
-            total61to90 = total61to90.add(amount);
-        }
-    }
-
-    /**
-     * This method...
-     *
-     * @param agingReportDao
-     * @param begin
-     * @param end
-     * @param knownCustomers
-     */
-    protected void computeFor91ToSYSPRDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = calculateInvoiceAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            KualiDecimal paymentAmt = calculatePaymentAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            agingReportDetail.setUnpaidBalance91toSYSPR(amount.subtract(paymentAmt));
-            total91toSYSPR = total91toSYSPR.add(amount);
-        }
-    }
-
-    /**
-     * This method...
-     *
-     * @param agingReportDao
-     * @param begin
-     * @param end
-     * @param knownCustomers
-     */
-    protected void computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, java.sql.Date begin, java.sql.Date end, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = calculateInvoiceAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            KualiDecimal paymentAmt = calculatePaymentAmountForCustomer(cgMapByCustomer.get(customer), begin, end);
-            agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount.subtract(paymentAmt));
-            totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
-        }
-    }
-
     /**
      * This method...
      *
@@ -928,106 +657,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     }
 
     /**
-     * This method retrives the agecy for particular customer
-     *
-     * @param customerNumber
-     * @return Returns the agency for the customer
-     */
-    protected ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
-        Map args = new HashMap();
-        args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return getKualiModuleService().getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
-    }
-
-    /**
-     * This method calculates the total invoice amount for the customers.
-     *
-     * @param cgDocs
-     * @param begin
-     * @param end
-     * @return
-     */
-    protected KualiDecimal calculateInvoiceAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
-        KualiDecimal invoiceAmt = KualiDecimal.ZERO;
-        if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
-            for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
-                if (ObjectUtils.isNotNull(cgDoc.getBillingDate())) {
-                    if (ObjectUtils.isNotNull(begin)) {
-                        if (cgDoc.getBillingDate().compareTo(begin) >= 0 && cgDoc.getBillingDate().compareTo(end) <= 0) {
-                            invoiceAmt = invoiceAmt.add(cgDoc.getTotalDollarAmount());
-                        }
-                    }
-                    else {
-                        if (cgDoc.getBillingDate().compareTo(end) <= 0) {
-                            invoiceAmt = invoiceAmt.add(cgDoc.getTotalDollarAmount());
-                        }
-                    }
-                }
-            }
-        }
-        return invoiceAmt;
-    }
-
-    /**
-     * This method calculates the payment amount for the customers.
-     *
-     * @param cgDocs
-     * @param begin
-     * @param end
-     * @return
-     */
-    protected KualiDecimal calculatePaymentAmountForCustomer(Collection<ContractsGrantsInvoiceDocument> cgDocs, java.sql.Date begin, java.sql.Date end) {
-        KualiDecimal invoiceAmt = KualiDecimal.ZERO;
-        if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
-            for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
-                if (ObjectUtils.isNotNull(cgDoc.getBillingDate())) {
-                    if (ObjectUtils.isNotNull(begin)) {
-                        if (cgDoc.getBillingDate().compareTo(begin) >= 0 && cgDoc.getBillingDate().compareTo(end) <= 0) {
-                            invoiceAmt = invoiceAmt.add(cgDoc.getPaymentAmount());
-                        }
-                    }
-                    else {
-                        if (cgDoc.getBillingDate().compareTo(end) <= 0) {
-                            invoiceAmt = invoiceAmt.add(cgDoc.getPaymentAmount());
-                        }
-                    }
-                }
-            }
-        }
-        return invoiceAmt;
-    }
-
-    /**
-     * This method calculates the total credits for the customers.
-     *
-     * @param cgMapByCustomer
-     * @param knownCustomers
-     */
-    protected void calculateTotalCreditsForCustomers(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer, Map<String, ContractsAndGrantsAgingReport> knownCustomers) {
-        Set<String> customerIds = cgMapByCustomer.keySet();
-        KualiDecimal credits = KualiDecimal.ZERO;
-        for (String customer : customerIds) {
-            ContractsAndGrantsAgingReport agingReportDetail = pickContractsGrantsAgingReportDetail(knownCustomers, customer);
-            List<ContractsGrantsInvoiceDocument> cgDocs = cgMapByCustomer.get(customer);
-            if (ObjectUtils.isNotNull(cgDocs) && !cgDocs.isEmpty()) {
-                credits = KualiDecimal.ZERO;
-                for (ContractsGrantsInvoiceDocument cgDoc : cgDocs) {
-                    Collection<CustomerCreditMemoDocument> creditDocs = customerCreditMemoDocumentService.getCustomerCreditMemoDocumentByInvoiceDocument(cgDoc.getDocumentNumber());
-                    if (ObjectUtils.isNotNull(creditDocs) && !creditDocs.isEmpty()) {
-                        for (CustomerCreditMemoDocument cm : creditDocs) {
-                            for (CustomerCreditMemoDetail cmDetail : cm.getCreditMemoDetails()) {
-                                credits = credits.add(cmDetail.getCreditMemoItemTotalAmount());
-                            }
-                        }
-                    }
-                }
-            }
-            agingReportDetail.setTotalCredits(credits);
-            totalCredits = totalCredits.add(credits);
-        }
-    }
-
-    /**
      * Some properties depend on parameters, so let's wait until the parameter service has been set
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -1039,76 +668,11 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
     }
 
-
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
-    }
-
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {
-        return customerInvoiceWriteoffDocumentService;
-    }
-
-    public void setCustomerInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
-        this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
-    }
-
-    public CustomerCreditMemoDocumentService getCustomerCreditMemoDocumentService() {
-        return customerCreditMemoDocumentService;
-    }
-
-    public void setCustomerCreditMemoDocumentService(CustomerCreditMemoDocumentService customerCreditMemoDocumentService) {
-        this.customerCreditMemoDocumentService = customerCreditMemoDocumentService;
-    }
-
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
     public ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {
         return contractsGrantsAgingReportService;
     }
 
     public void setContractsGrantsAgingReportService(ContractsGrantsAgingReportService contractsGrantsAgingReportService) {
         this.contractsGrantsAgingReportService = contractsGrantsAgingReportService;
-    }
-
-    public KualiModuleService getKualiModuleService() {
-        return kualiModuleService;
-    }
-
-    public void setKualiModuleService(KualiModuleService kualiModuleService) {
-        this.kualiModuleService = kualiModuleService;
-    }
-
-    public CustomerAgingReportService getCustomerAgingReportService() {
-        return customerAgingReportService;
-    }
-
-    public void setCustomerAgingReportService(CustomerAgingReportService customerAgingReportService) {
-        this.customerAgingReportService = customerAgingReportService;
-    }
-
-    public InvoicePaidAppliedService<AppliedPayment> getInvoicePaidAppliedService() {
-        return invoicePaidAppliedService;
-    }
-
-    public void setInvoicePaidAppliedService(InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService) {
-        this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
 }

@@ -29,19 +29,10 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,7 +43,6 @@ import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -63,27 +53,15 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl implements InitializingBean {
-
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
-
-    private DateTimeService dateTimeService;
-
-    private Map fieldConversions;
-
-    protected CustomerInvoiceDetailService customerInvoiceDetailService;
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
-    protected InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
+    protected DateTimeService dateTimeService;
     protected CustomerAgingReportService customerAgingReportService;
-    protected KualiModuleService kualiModuleService;
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -126,7 +104,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
         setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
@@ -226,22 +203,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         return new CollectionIncomplete<CustomerAgingReportDetail>(results, (long) results.size());
     }
 
-
-    /**
-     * @return a List of the CustomerInvoiceDetails associated with a given Account Number
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
-        Map args = new HashMap();
-        args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
-        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }
-
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
     @Override
+    @SuppressWarnings("rawtypes")
     public List getReturnKeys() {
         return new ArrayList(fieldConversions.keySet());
     }
@@ -273,16 +239,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (getBusinessObjectAuthorizationService().attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
-                // try {
-                // fieldVal = encryptionService.encrypt(fieldVal);
-                // }
-                // catch (GeneralSecurityException e) {
-                // LOG.error("Exception while trying to encrypted value for inquiry framework.", e);
-                // throw new RuntimeException(e);
-                // }
-            }
-
             // need to format date in url
             if (fieldVal instanceof Date) {
                 DateFormatter dateFormatter = new DateFormatter();
@@ -310,14 +266,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
-
-        // call search method to get results
-        if (bounded) {
-            displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        } else {
-            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
+        Collection displayList = getSearchResults(lookupForm.getFieldsForLookup());
         // MJM get resultTable populated here
 
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
@@ -450,65 +399,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         cutoffdate90Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_61_TO_90).getLabel();
     }
 
-    /**
-     * This method returns the url for the paid invoice of the customer
-     *
-     * @param bo
-     * @param columnTitle
-     * @return Returns the url for the Payment Application search.
-     */
-    protected String getPaymentApplicationSearchUrl(BusinessObject bo, String columnTitle) {
-        Properties params = new Properties();
-        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "APP");
-        params.put("invoiceAppliedCustomerNumber", detail.getCustomerNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
-    }
-
-    /**
-     * This method returns the url for the customer write off doc search
-     *
-     * @param bo
-     * @param columnTitle
-     * @return Returns the Url for the customer write off doc search
-     */
-    protected String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
-        Properties params = new Properties();
-        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "INVW");
-        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
-        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
-    }
-
-    /**
-     * This method returns the customer lookup url
-     *
-     * @param bo business object
-     * @param columnTitle
-     * @return Returns the url for the customer lookup
-     */
-    protected String getCustomerLookupUrl(BusinessObject bo, String columnTitle) {
-        Properties params = new Properties();
-        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
-        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME, detail.getCustomerName());
-        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
-    }
-
-
     protected String getCustomerOpenItemReportUrl(BusinessObject bo, String columnTitle) {
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
         String href = "arCustomerOpenItemReportLookup.do" + "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" + "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" + "&methodToCall=search&reportName=" + KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME + "&docFormKey=88888888&customerNumber=" +
@@ -552,20 +442,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         return href;
     }
 
-    /**
-     * This method...
-     *
-     * @return
-     */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    /**
-     * This method...
-     *
-     * @param dateTimeService
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -1005,52 +885,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * This method calculates the total amount for customer
-     *
-     * @param customerInvoiceDocuments
-     * @return Returns invoice total amount for customer
-     */
-    protected KualiDecimal getCustomerTotalAmount(List<CustomerInvoiceDocument> customerInvoiceDocuments) {
-        KualiDecimal customerTotalAmount = KualiDecimal.ZERO;
-        for (CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments) {
-            customerTotalAmount = customerTotalAmount.add(customerInvoiceDocument.getSourceTotal());
-        }
-        return customerTotalAmount;
-    }
-
-    /**
-     * This method calculates the total paid amount for customer
-     *
-     * @param customerInvoiceDocuments
-     * @return Returns invoice total paid amount for customer
-     */
-    protected KualiDecimal getCustomerTotalPaidAmount(List<CustomerInvoiceDocument> customerInvoiceDocuments) {
-        KualiDecimal customerTotalAmount = KualiDecimal.ZERO;
-        for (CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments) {
-            // fetch paid amount for customer
-            Collection<InvoicePaidApplied> invoiceApplied = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(customerInvoiceDocument);
-            if (ObjectUtils.isNotNull(invoiceApplied) && !invoiceApplied.isEmpty()) {
-                for (InvoicePaidApplied invoicePaidApplied : invoiceApplied) {
-                    customerTotalAmount = customerTotalAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
-                }
-            }
-        }
-        return customerTotalAmount;
-    }
-
-    /**
-     * This method retrives the agecy for particular customer
-     *
-     * @param customerNumber
-     * @return Returns the agency for the customer
-     */
-    protected ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
-        Map args = new HashMap();
-        args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return getKualiModuleService().getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
-    }
-
-    /**
      * Sets properties which are parameter based - this is just the easiest place to set their values
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -1062,51 +896,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
     }
 
-    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
-        return customerInvoiceDetailService;
-    }
-
-    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
-        this.customerInvoiceDetailService = customerInvoiceDetailService;
-    }
-
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {
-        return customerInvoiceWriteoffDocumentService;
-    }
-
-    public void setCustomerInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
-        this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
-    }
-
-    public InvoicePaidAppliedService<AppliedPayment> getInvoicePaidAppliedService() {
-        return invoicePaidAppliedService;
-    }
-
-    public void setInvoicePaidAppliedService(InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService) {
-        this.invoicePaidAppliedService = invoicePaidAppliedService;
-    }
-
     public CustomerAgingReportService getCustomerAgingReportService() {
         return customerAgingReportService;
     }
 
     public void setCustomerAgingReportService(CustomerAgingReportService customerAgingReportService) {
         this.customerAgingReportService = customerAgingReportService;
-    }
-
-    public KualiModuleService getKualiModuleService() {
-        return kualiModuleService;
-    }
-
-    public void setKualiModuleService(KualiModuleService kualiModuleService) {
-        this.kualiModuleService = kualiModuleService;
     }
 }

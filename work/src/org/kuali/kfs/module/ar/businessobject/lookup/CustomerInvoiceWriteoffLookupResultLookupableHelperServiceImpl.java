@@ -24,12 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.CustomerInvoiceWriteoffLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
@@ -50,10 +47,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl.class);
     protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
-
-    private static final Log LOG = LogFactory.getLog(CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -70,15 +65,8 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection<BusinessObject> displayList;
+        Collection<BusinessObject> displayList = (Collection<BusinessObject>) getSearchResults(lookupForm.getFieldsForLookup());
 
-        // call search method to get results
-        if (bounded) {
-            displayList = (Collection<BusinessObject>) getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
-            displayList = (Collection<BusinessObject>) getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
-        }
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
         Person user = GlobalVariables.getUserSession().getPerson();
@@ -270,14 +258,6 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      */
     public List getReturnKeys() {
         return new ArrayList();
-    }
-
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
-    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
-        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
 
     public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {

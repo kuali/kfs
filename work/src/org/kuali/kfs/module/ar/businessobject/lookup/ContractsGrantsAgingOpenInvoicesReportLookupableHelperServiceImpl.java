@@ -43,10 +43,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl.class);
-    protected Map fieldConversions;
-
     protected ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService;
 
     /**
@@ -136,8 +132,8 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
             BusinessObject element = (BusinessObject) iter.next();
 
-            String returnUrl = "www.bigfrickenRETURNurl";
-            String actionUrls = "www.someACTIONurl";
+            String returnUrl = "";
+            String actionUrls = "";
 
             List<Column> columns = getColumns();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {

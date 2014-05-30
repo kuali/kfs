@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -39,8 +37,6 @@ import org.kuali.rice.krad.util.KRADConstants;
  * Defines a custom lookup for the Payment History Report.
  */
 public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl.class);
-
     /**
      * This method performs the lookup and returns a collection of lookup items
      *

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
@@ -51,8 +49,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for a Milestone Reports.
  */
 public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    private static final Log LOG = LogFactory.getLog(ContractsGrantsMilestoneReportLookupableHelperServiceImpl.class);
-
     /**
      * This method performs the lookup and returns a collection of lookup items
      *

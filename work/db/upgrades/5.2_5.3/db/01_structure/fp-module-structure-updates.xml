@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS53" id="KFSCNTRB-1795_FP_PRCRMNT_DOC_T_changes">
+        <comment>KFSCNTRB-1795- add an auto approved index column to mark the document as auto-approved so that route nodes will be able to differentiate auto approved PCDOs from others</comment>
+        <addColumn tableName="FP_PRCRMNT_DOC_T">
+            <column name="AUTO_APPROVED_IND" type="VARCHAR2(1)" />
+        </addColumn>
+        <modifySql dbms="mysql">
+            <replace replace="VARCHAR2" with="VARCHAR" />
+        </modifySql>
+    </changeSet>
+	
+</databaseChangeLog>
+	

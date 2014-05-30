@@ -20,11 +20,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.fp.FinancialProcessingWorkflowConstants;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -51,7 +53,8 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     protected List transactionEntries;
     protected ProcurementCardTargetAccountingLine newTargetLine;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
-
+    protected boolean autoApprovedIndicator;
+    
     /**
      * Default constructor.
      */
@@ -258,6 +261,39 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
             capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
         }
         return capitalAssetManagementModuleService;
+    }
+
+    /**
+     * Provides answers to the following splits: IsDocumentAutoApproved
+     *
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(FinancialProcessingWorkflowConstants.IS_DOCUMENT_AUTO_APPROVED)) {
+            return isAutoApprovedIndicator();
+        }
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
+    }
+
+    /**
+     * set the autoApprovedIndicator
+     * 
+     * @param value- the new value to set
+     */
+    public void setAutoApprovedIndicator(boolean value)
+    {
+        autoApprovedIndicator = value;
+    }
+    
+    /**
+     * get the AutoApprovedIndicator
+     * 
+     * @return the value of autoApprovedIndicator
+     */
+    public boolean isAutoApprovedIndicator()
+    {
+        return autoApprovedIndicator;
     }
 
 }

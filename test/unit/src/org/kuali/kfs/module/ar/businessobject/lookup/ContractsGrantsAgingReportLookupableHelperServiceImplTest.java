@@ -34,12 +34,14 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -99,6 +101,9 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
         contractsGrantsAgingReportLookupableHelperServiceImpl = new ContractsGrantsAgingReportLookupableHelperServiceImpl();
         contractsGrantsAgingReportLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         contractsGrantsAgingReportLookupableHelperServiceImpl.setBusinessObjectClass(ContractsAndGrantsAgingReport.class);
+        contractsGrantsAgingReportLookupableHelperServiceImpl.setDateTimeService(SpringContext.getBean(DateTimeService.class));
+        contractsGrantsAgingReportLookupableHelperServiceImpl.setContractsGrantsAgingReportService(SpringContext.getBean(ContractsGrantsAgingReportService.class));
+        contractsGrantsAgingReportLookupableHelperServiceImpl.afterPropertiesSet();
         fieldValues = new LinkedHashMap();
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -130,7 +135,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
         KualiDecimal test61to90total = new KualiDecimal("0.00");
         KualiDecimal test91toSYSPRtotal = new KualiDecimal("0.00");
         KualiDecimal testSYSPRplus1orMoretotal = new KualiDecimal("0.00");
-        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
+        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded(fieldValues));
 
 
         // add all 0to30 totals

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,13 +23,26 @@ import org.kuali.rice.kim.api.identity.Person;
 
 public interface ContractsAndGrantsModuleService {
 
+    /**
+     * This method returns the Project Director for an account given a chart code and account number.
+     *
+     * @param chartOfAccountsCode chart code used to determine the Project Director
+     * @param accountNumber account number used to determine the Project Director
+     * @return project director for the account
+     */
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
 
+    /**
+     * This method returns the Project Director for an account.
+     *
+     * @param account account used to determine the Project Director
+     * @return project director for the account
+     */
     public Person getProjectDirectorForAccount(Account account);
 
     /**
      * determine if the given account is awarded by a federal agency
-     * 
+     *
      * @param chartOfAccountsCode the given account's chart of accounts code
      * @param accountNumber the given account's account number
      * @param federalAgencyTypeCodes the given federal agency type code
@@ -40,24 +53,30 @@ public interface ContractsAndGrantsModuleService {
 
     /**
      * get all possible account responsibility ids on contracts & grants Accounts
-     * 
+     *
      * @return all possible account responsibility ids on contracts & grants Accounts
      */
     public List<Integer> getAllAccountReponsiblityIds();
 
     /**
      * determine whether the given account has a valid responsibility id if its responsibility id is not null
-     * 
+     *
      * @param account the given account
      * @return true if the given account is a contracts & grants account with a valid responsibility id; otherwise, return false
      */
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
-    
-    public List<String> getParentUnits(String unitNumber);
-    
+
     /**
-     * Returns the proposal number for an award associated with an account and project director 
-     * 
+     * This method returns the parent units corresponding to a particular unit. Currently only used for KC integration.
+     *
+     * @param unitNumber used to find parent units
+     * @return List of parent units for the given unit
+     */
+    public List<String> getParentUnits(String unitNumber);
+
+    /**
+     * Returns the proposal number for an award associated with an account and project director
+     *
      * @param chartOfAccountsCode
      * @param accountNumber
      * @return

@@ -191,15 +191,11 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        boolean isFinal = (getDocumentHeader().getWorkflowDocument().isProcessed() || getDocumentHeader().getWorkflowDocument().isFinal());
-        if (!isFinal) {
-            // To set the status of the document to award account.
-            setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
-        }
+
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        // performed only when document is in final state
-        if (isFinal) {
-            // update award accounts to final billed
+
+        if ( getDocumentHeader().getWorkflowDocument().isProcessed() ) {
+         // update award accounts to final billed
             contractsGrantsInvoiceDocumentService.updateLastBilledDate(this);
             if (isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
                 try {
@@ -237,7 +233,11 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
             // generate the invoices from templates
             contractsGrantsInvoiceDocumentService.generateInvoicesForInvoiceAddresses(this);
+        } else if ( !getDocumentHeader().getWorkflowDocument().isFinal() ) {
+            // To set the status of the document to award account.
+            setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         }
+
     }
 
 

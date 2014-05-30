@@ -27,8 +27,11 @@ import org.kuali.kfs.module.ar.businessobject.Bill;
 public interface BillDao {
 
     /**
-     * @param
-     * @return a {@link Collection} of appropriate {@link Milestone}.
+     * This method returns a list of Bills that corresponds to the search criteria parameter.
+     *
+     * @param List containing Maps of search criteria.
+     *
+     * @return a {@link Collection} of appropriate {@link Bill}.
      */
     public Collection<Bill> getBillsByMatchingCriteria(List<Map<String, String>> fieldValuesList);
 

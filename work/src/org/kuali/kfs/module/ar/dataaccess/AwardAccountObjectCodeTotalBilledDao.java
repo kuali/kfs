@@ -26,6 +26,13 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
  */
 public interface AwardAccountObjectCodeTotalBilledDao {
 
+    /**
+     * This method returns a list of AwardAccountObjectCodeTotalBilled objects corresponding to a list of Award Accounts
+     * (matching on the chart code, proposal number and account number of each Award Account).
+     *
+     * @param awardAccounts list of AwardAcounts used to find AwardAccountObjectCodeTotalBilled objects
+     * @return List of AwardAccountObjectCodeTotalBilled objects
+     */
     public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
 }

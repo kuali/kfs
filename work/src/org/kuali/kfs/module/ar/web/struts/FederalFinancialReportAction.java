@@ -154,11 +154,6 @@ public class FederalFinancialReportAction extends KualiAction {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
             File report = reportService.generateFederalFinancialForm(award, period, year, formType, agency);
 
-            if (report.length() == 0) {
-                System.out.println("No Report Generated");
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
-
             final String useJavascriptParameter = request.getParameter("useJavascript");
             final boolean useJavascript = !(StringUtils.isBlank(useJavascriptParameter) || StringUtils.equalsIgnoreCase(useJavascriptParameter, "false"));
 

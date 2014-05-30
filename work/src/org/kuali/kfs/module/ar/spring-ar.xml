@@ -156,6 +156,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="electronicPaymentClaimingDocumentGenerationStrategy">
+			<ref bean="cashControlElectronicPaymentClaimingDocumentHelper" />
+		</property>
 		<property name="financialSystemUserService">
 			<ref bean="financialSystemUserService" />
 		</property>

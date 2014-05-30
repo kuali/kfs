@@ -68,7 +68,6 @@ import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -92,7 +91,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 @SuppressWarnings("deprecation")
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
-    protected static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
 
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
@@ -107,6 +105,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     protected CustomerService customerService;
     protected CustomerAddressService customerAddressService;
     protected DocumentService documentService;
+    protected ElectronicPaymentClaimingDocumentGenerationStrategy electronicPaymentClaimingDocumentGenerationStrategy;
     protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected ParameterService parameterService;
@@ -248,7 +247,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public ElectronicPaymentClaimingDocumentGenerationStrategy getAccountsReceivablePaymentClaimingStrategy() {
-        return SpringContext.getBean(ElectronicPaymentClaimingDocumentGenerationStrategy.class, AccountsReceivableModuleServiceImpl.CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME);
+        return electronicPaymentClaimingDocumentGenerationStrategy;
     }
 
     /**
@@ -867,5 +866,13 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public ElectronicPaymentClaimingDocumentGenerationStrategy getElectronicPaymentClaimingDocumentGenerationStrategy() {
+        return electronicPaymentClaimingDocumentGenerationStrategy;
+    }
+
+    public void setElectronicPaymentClaimingDocumentGenerationStrategy(ElectronicPaymentClaimingDocumentGenerationStrategy electronicPaymentClaimingDocumentGenerationStrategy) {
+        this.electronicPaymentClaimingDocumentGenerationStrategy = electronicPaymentClaimingDocumentGenerationStrategy;
     }
 }

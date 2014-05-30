@@ -191,7 +191,11 @@
     </bean>
 
 	<bean id="agencyLookupHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AgencyLookupableHelperServiceImpl" scope="prototype"
-		parent="lookupableHelperService" />
+		parent="lookupableHelperService">
+        <property name="accountsReceivableModuleService">
+            <ref bean="accountsReceivableModuleService" />
+        </property>
+	</bean>
 
 	<bean id="agencyLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

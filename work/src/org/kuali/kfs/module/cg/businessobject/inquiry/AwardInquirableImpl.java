@@ -67,10 +67,11 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
 
         Collection<InquirySectionDefinition> inquirySections = getBusinessObjectDictionaryService().getInquirySections(
                 getBusinessObjectClass());
+        Collection<?> sectionIdsToIgnore = getSectionIdsToIgnore();
         for (Iterator<InquirySectionDefinition> iter = inquirySections.iterator(); iter.hasNext();) {
             InquirySectionDefinition inquirySection = iter.next();
             String sectionId = inquirySection.getId();
-            if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !getSectionIdsToIgnore().contains(sectionId)) {
+            if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !sectionIdsToIgnore.contains(sectionId)) {
                 if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID)) {
                     if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
                         SpringContext.getBean(AccountsReceivableModuleService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {

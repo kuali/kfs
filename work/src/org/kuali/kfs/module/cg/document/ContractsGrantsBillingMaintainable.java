@@ -63,12 +63,14 @@ public abstract class ContractsGrantsBillingMaintainable extends FinancialSystem
         List<MaintainableSectionDefinition> sectionDefinitions = getMaintenanceDocumentDictionaryService()
                 .getMaintainableSections(getDocumentTypeName());
         try {
+            Collection<?> sectionIdsToIgnore = getSectionIdsToIgnore();
+
             // iterate through section definitions and create Section UI object
             for (Iterator iter = sectionDefinitions.iterator(); iter.hasNext();) {
                 MaintainableSectionDefinition maintSectionDef = (MaintainableSectionDefinition) iter.next();
 
                 List<String> displayedFieldNames = new ArrayList<String>();
-                if (!maintenanceRestrictions.isHiddenSectionId(maintSectionDef.getId()) && !getSectionIdsToIgnore().contains(maintSectionDef.getId())) {
+                if (!maintenanceRestrictions.isHiddenSectionId(maintSectionDef.getId()) && !sectionIdsToIgnore.contains(maintSectionDef.getId())) {
 
                     for (Iterator iter2 = maintSectionDef.getMaintainableItems().iterator(); iter2.hasNext();) {
                         MaintainableItemDefinition item = (MaintainableItemDefinition) iter2.next();

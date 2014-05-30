@@ -60,10 +60,12 @@ public class AgencyInquirableImpl extends KfsInquirableImpl {
 
         Collection<InquirySectionDefinition> inquirySections = getBusinessObjectDictionaryService().getInquirySections(
                 getBusinessObjectClass());
+        Collection<?> sectionIdsToIgnore = getSectionIdsToIgnore();
+
         for (Iterator<InquirySectionDefinition> iter = inquirySections.iterator(); iter.hasNext();) {
             InquirySectionDefinition inquirySection = iter.next();
             String sectionId = inquirySection.getId();
-            if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !getSectionIdsToIgnore().contains(sectionId)) {
+            if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !sectionIdsToIgnore.contains(sectionId)) {
                 Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                 sections.add(section);
             }

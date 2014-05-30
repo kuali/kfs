@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -43,6 +43,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Customized Lookupable Helper class for Contracts and Grants Reports.
  */
 public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiLookupableHelperServiceImpl {
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasReturnableRow = false;
@@ -74,7 +76,7 @@ public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiL
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
                 }
@@ -96,19 +98,11 @@ public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiL
         lookupForm.setHasReturnableRow(hasReturnableRow);
     }
 
-    protected String createTitleText(Class<? extends BusinessObject> boClass) {
-        String titleText = "";
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
 
-        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
-        if (StringUtils.isNotBlank(titlePrefixProp)) {
-            titleText += titlePrefixProp + " ";
-        }
-
-        final String objectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(boClass.getName()).getObjectLabel();
-        if (StringUtils.isNotBlank(objectLabel)) {
-            titleText += objectLabel + " ";
-        }
-
-        return titleText;
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

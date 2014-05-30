@@ -230,7 +230,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
                 }
@@ -239,7 +239,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
                 }
@@ -249,7 +249,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                     col.setColumnAnchor(a);
                 }

@@ -33,17 +33,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A number of methods which help the C&G Billing reports build their PDFs
+ * A number of methods which help the C&G Billing reports build their PDFs and do look-ups
  */
 public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsReportHelperService {
     protected DataDictionaryService dataDictionaryService;
     protected ReportGenerationService reportGenerationService;
+    protected ConfigurationService configurationService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder, org.kuali.kfs.sys.report.ReportInfo, java.io.ByteArrayOutputStream)
@@ -114,6 +117,26 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         return (ObjectUtils.isNull(fieldValue)) ? "" : StringUtils.trimAllWhitespace(fieldValue.toString());
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#createTitleText(java.lang.Class)
+     */
+    @Override
+    public String createTitleText(Class<? extends BusinessObject> boClass) {
+        String titleText = "";
+
+        final String titlePrefixProp = getConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
+        if (org.apache.commons.lang.StringUtils.isNotBlank(titlePrefixProp)) {
+            titleText += titlePrefixProp + " ";
+        }
+
+        final String objectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(boClass.getName()).getObjectLabel();
+        if (org.apache.commons.lang.StringUtils.isNotBlank(objectLabel)) {
+            titleText += objectLabel + " ";
+        }
+
+        return titleText;
+    }
+
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -135,5 +158,13 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
      */
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
@@ -63,15 +62,14 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
 
-    private DateTimeService dateTimeService;
-    private Map fieldConversions;
+    protected DateTimeService dateTimeService;
+    protected Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private ReferralToCollectionsReportService referralToCollectionsReportService;
-
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ReferralToCollectionsReportService referralToCollectionsReportService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -248,22 +246,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(KFSPropertyConstants.AGENCY_NUMBER, bo.getAgencyNumber());
         return UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, params);
-    }
-
-    protected String createTitleText(Class<? extends BusinessObject> boClass) {
-        String titleText = "";
-
-        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
-        if (StringUtils.isNotBlank(titlePrefixProp)) {
-            titleText += titlePrefixProp + " ";
-        }
-
-        final String objectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(boClass.getName()).getObjectLabel();
-        if (StringUtils.isNotBlank(objectLabel)) {
-            titleText += objectLabel + " ";
-        }
-
-        return titleText;
     }
 
     /**

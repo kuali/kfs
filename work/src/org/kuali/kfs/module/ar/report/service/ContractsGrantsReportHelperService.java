@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Interface of services which want to help out with building Contracts & Grants Report Services
@@ -57,4 +58,11 @@ public interface ContractsGrantsReportHelperService {
      * @return the name of the sort field
      */
     public String getFieldNameForSorting(int index, String businessObjectName);
+
+    /**
+     * Creates a title for the given business object class being reported on
+     * @param boClass the class being report on
+     * @return an appropriate title
+     */
+    public String createTitleText(Class<? extends BusinessObject> boClass);
 }

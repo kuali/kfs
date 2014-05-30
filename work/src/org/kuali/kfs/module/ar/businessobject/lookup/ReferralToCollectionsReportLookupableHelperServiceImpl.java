@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -31,6 +30,7 @@ import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -72,6 +72,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
 
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ReferralToCollectionsReportService referralToCollectionsReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
 
     /**
@@ -194,7 +195,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
                     }
@@ -203,7 +204,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.AGENCY_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
                     }
@@ -212,7 +213,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.CUSTOMER_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
                     }
@@ -290,22 +291,6 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
         this.dateTimeService = dateTimeService;
     }
 
-    protected String createTitleText(Class<? extends BusinessObject> boClass) {
-        String titleText = "";
-
-        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
-        if (StringUtils.isNotBlank(titlePrefixProp)) {
-            titleText += titlePrefixProp + " ";
-        }
-
-        final String objectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(boClass.getName()).getObjectLabel();
-        if (StringUtils.isNotBlank(objectLabel)) {
-            titleText += objectLabel + " ";
-        }
-
-        return titleText;
-    }
-
     public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
         return customerInvoiceDetailService;
     }
@@ -336,5 +321,13 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
 
     public void setReferralToCollectionsReportService(ReferralToCollectionsReportService referralToCollectionsReportService) {
         this.referralToCollectionsReportService = referralToCollectionsReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

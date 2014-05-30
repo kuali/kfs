@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
@@ -31,6 +30,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -62,15 +62,15 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private DateTimeService dateTimeService;
-    private Map fieldConversions;
+    protected DateTimeService dateTimeService;
+    protected Map fieldConversions;
 
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
-    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CollectionActivityReportService collectionActivityReportService;
-
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected CollectionActivityReportService collectionActivityReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -191,7 +191,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
                     }
@@ -202,7 +202,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
                         fieldList.put(KFSPropertyConstants.ACCOUNT_NUMBER, propValue);
                         fieldList.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bo.getChartOfAccountsCode());
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
                         col.setColumnAnchor(a);
                     }
                     else if (org.apache.commons.lang.StringUtils.equals("Actions", col.getColumnTitle())) {
@@ -211,7 +211,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.PROPOSAL_NUMBER, propValue);
                         AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                        a.setTitle(HtmlData.getTitleText(createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
+                        a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(getBusinessObjectClass()), getBusinessObjectClass(), fieldList));
 
                         col.setColumnAnchor(a);
                     }
@@ -277,22 +277,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         return lookupUrl;
     }
 
-    protected String createTitleText(Class<? extends BusinessObject> boClass) {
-        String titleText = "";
-
-        final String titlePrefixProp = getKualiConfigurationService().getPropertyValueAsString("title.inquiry.url.value.prependtext");
-        if (StringUtils.isNotBlank(titlePrefixProp)) {
-            titleText += titlePrefixProp + " ";
-        }
-
-        final String objectLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(boClass.getName()).getObjectLabel();
-        if (StringUtils.isNotBlank(objectLabel)) {
-            titleText += objectLabel + " ";
-        }
-
-        return titleText;
-    }
-
     /**
      * Gets the dateTimeService attribute.
      *
@@ -311,43 +295,43 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         this.dateTimeService = dateTimeService;
     }
 
-
     public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
         return customerInvoiceDetailService;
     }
-
 
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
 
-
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
         return customerInvoiceDocumentService;
     }
-
 
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
 
-
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
-
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
-
     public CollectionActivityReportService getCollectionActivityReportService() {
         return collectionActivityReportService;
     }
 
-
     public void setCollectionActivityReportService(CollectionActivityReportService collectionActivityReportService) {
         this.collectionActivityReportService = collectionActivityReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

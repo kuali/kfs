@@ -186,7 +186,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
                     AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(ContractsGrantsInvoiceReport.class), ContractsGrantsInvoiceReport.class, fieldList));
+                    a.setTitle(HtmlData.getTitleText(getContractsGrantsReportHelperService().createTitleText(ContractsGrantsInvoiceReport.class), ContractsGrantsInvoiceReport.class, fieldList));
 
                     col.setColumnAnchor(a);
                 }

@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -79,6 +80,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         dunningLetterDistributionLookupableHelperServiceImpl = new DunningLetterDistributionLookupableHelperServiceImpl();
         dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
         dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectClass(DunningLetterDistributionLookupResult.class);
+        dunningLetterDistributionLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         dunningLetterDistributionLookupForm = new DunningLetterDistributionLookupForm();
         // To create a basic invoice with test data

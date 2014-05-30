@@ -35,10 +35,12 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.struts.TicklersReportLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -80,6 +82,8 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         ticklersReportLookupableHelperServiceImpl = new TicklersReportLookupableHelperServiceImpl();
         ticklersReportLookupableHelperServiceImpl.setBusinessObjectClass(TicklersReport.class);
         ticklersReportLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
+        ticklersReportLookupableHelperServiceImpl.setCollectionActivityDocumentService(SpringContext.getBean(CollectionActivityDocumentService.class));
+        ticklersReportLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
         ticklersReportLookupForm = new TicklersReportLookupForm();
 
         fieldValues = new LinkedHashMap();

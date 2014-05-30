@@ -136,13 +136,16 @@ public class CGConstants{
     }
 
     public static class SectionId {
-        public static final String AGENCY_ADDRESSES_SECTION_ID = "Addresses";
-        public static final String AGENCY_COLLECTIONS_MAINTENANCE_SECTION_ID = "Collections Maintenance";
-        public static final String AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID = "Contracts And Grants";
-        public static final String AGENCY_CUSTOMER_SECTION_ID = "Customer";
-        public static final String AWARD_FUND_MANAGERS_SECTION_ID = "Fund Managers";
-        public static final String AWARD_INVOICE_ACCOUNTS_SECTION_ID = "Invoice Accounts";
-        public static final String AWARD_INVOICING_SECTION_ID = "Invoicing";
+        public static final String AGENCY_ADDRESS_SECTION_ID = "addressSection";
+        public static final String AGENCY_ADDRESSES_SECTION_ID = "addressesSection";
+        public static final String AGENCY_COLLECTIONS_MAINTENANCE_SECTION_ID = "collectionsMaintenanceSection";
+        public static final String AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID = "contractsAndGrantsSection";
+        public static final String AGENCY_CUSTOMER_SECTION_ID = "customerSection";
+        public static final String AWARD_FUND_MANAGERS_SECTION_ID = "fundManagersSection";
+        public static final String AWARD_INVOICE_ACCOUNTS_SECTION_ID = "invoiceAccountsSection";
+        public static final String AWARD_INVOICING_SECTION_ID = "invoicingSection";
+        public static final String AWARD_MILESTONE_SCHEDULE_SECTION_ID = "milestoneScheduleSection";
+        public static final String AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID = "predeterminedBillingScheduleSection";
         public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
     }
 

@@ -470,14 +470,11 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
                     // To get parameter Value of GLPE Recievable offset generation method.
                     String parameterValue = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
 
-                    if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
-                        if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                    if (sectionId.equalsIgnoreCase(CGConstants.SectionId.AWARD_INVOICE_ACCOUNTS_SECTION_ID)) {
+                        if (parameterValue.equals(CGConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU)) {
                             section.setHidden(false);
                             section.setDefaultOpen(true);
-                        }
-                    }
-                    else {
-                        if (sectionId.equalsIgnoreCase(CGPropertyConstants.INVOICE_ACCOUNT_SECTION)) {
+                        } else {
                             section.setHidden(true);
                         }
                     }

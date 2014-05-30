@@ -94,7 +94,7 @@
 
 	<bean id="AwardMaintenanceDocument-AwardMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Award Maintenance" />
+		<property name="id" value="awardMaintenanceSection" />
 		<property name="title" value="Award Maintenance" />
 		<property name="maintainableItems">
 			<list>
@@ -156,7 +156,7 @@
 
 	<bean id="AwardMaintenanceDocument-Accounts-parentBean" abstract="true"
 		parent="MaintainableSectionDefinition">
-		<property name="id" value="Accounts" />
+		<property name="id" value="accountsSection" />
 		<property name="title" value="Accounts" />
 		<property name="maintainableItems">
 			<list>
@@ -204,7 +204,7 @@
 
 	<bean id="AwardMaintenanceDocument-InvoiceAccounts-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Invoice Accounts" />
+		<property name="id" value="invoiceAccountsSection" />
 		<property name="title" value="Invoice Accounts" />
 		<property name="maintainableItems">
 			<list>
@@ -248,7 +248,7 @@
 
 	<bean id="AwardMaintenanceDocument-ProjectDirectors-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Project Directors" />
+		<property name="id" value="projectDirectorsSection" />
 		<property name="title" value="Project Directors" />
 		<property name="maintainableItems">
 			<list>
@@ -286,7 +286,7 @@
 
 	<bean id="AwardMaintenanceDocument-FundManagers-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Fund Managers" />
+		<property name="id" value="fundManagersSection" />
 		<property name="title" value="Fund Managers" />
 		<property name="maintainableItems">
 			<list>
@@ -324,7 +324,7 @@
 
 	<bean id="AwardMaintenanceDocument-Organizations-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Organizations" />
+		<property name="id" value="organizationsSection" />
 		<property name="title" value="Organizations" />
 		<property name="maintainableItems">
 			<list>
@@ -362,7 +362,7 @@
 
 	<bean id="AwardMaintenanceDocument-Invoicing-parentBean" abstract="true"
 		parent="MaintainableSectionDefinition">
-		<property name="id" value="Invoicing" />
+		<property name="id" value="invoicingSection" />
 		<property name="title" value="Invoicing" />
 		<property name="maintainableItems">
 			<list>
@@ -394,7 +394,7 @@
 
 	<bean id="AwardMaintenanceDocument-Subcontractors-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Subcontractors" />
+		<property name="id" value="subcontractorsSection" />
 		<property name="title" value="Subcontractors" />
 		<property name="maintainableItems">
 			<list>

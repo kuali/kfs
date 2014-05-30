@@ -458,7 +458,7 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="id" value="Agency Details" />
+					<property name="id" value="agencyDetailsSection" />
 					<property name="title" value="Agency Details" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -475,7 +475,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="id" value="Customer" />
+					<property name="id" value="customerSection" />
 					<property name="title" value="Customer" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -487,7 +487,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="id" value="Contracts and Grants" />
+					<property name="id" value="contractsAndGrantsSection" />
 					<property name="title" value="Contracts and Grants" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -500,7 +500,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="id" value="Address" />
+					<property name="id" value="addressSection" />
 					<property name="title" value="Address" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -541,7 +541,7 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="id" value="Collections Maintenance" />
+					<property name="id" value="collectionsMaintenanceSection" />
 					<property name="title" value="Collections Maintenance" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -552,7 +552,7 @@
 					</property>
 				</bean>	
 				<bean parent="InquirySectionDefinition" abstract="true">
-					<property name="id" value="Notes" />
+					<property name="id" value="notesSection" />
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">

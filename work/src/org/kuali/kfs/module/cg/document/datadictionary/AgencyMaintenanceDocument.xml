@@ -65,7 +65,7 @@
 
 	<bean id="AgencyMaintenanceDocument-EditAgency-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Agency" />
+		<property name="id" value="agencySection" />
 		<property name="title" value="Edit Agency" />
 		<property name="maintainableItems">
 			<list>
@@ -91,7 +91,7 @@
 
 	<bean id="AgencyMaintenanceDocument-Customer-parentBean" abstract="true"
 		parent="MaintainableSectionDefinition">
-		<property name="id" value="Customer" />
+		<property name="id" value="customerSection" />
 		<property name="title" value="Customer" />
 		<property name="maintainableItems">
 			<list>
@@ -108,7 +108,7 @@
 
 	<bean id="AgencyMaintenanceDocument-ContractsAndGrants-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Contracts And Grants" />
+		<property name="id" value="contractsAndGrantsSection" />
 		<property name="title" value="Contracts And Grants" />
 		<property name="maintainableItems">
 			<list>
@@ -125,7 +125,7 @@
 
 	<bean id="AgencyMaintenanceDocument-Addresses-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Addresses" />
+		<property name="id" value="addressesSection" />
 		<property name="title" value="Addresses" />
 		<property name="maintainableItems">
 			<list>
@@ -177,7 +177,7 @@
 
 	<bean id="AgencyMaintenanceDocument-CollectionsMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Collections Maintenance" />
+		<property name="id" value="collectionsMaintenanceSection" />
 		<property name="title" value="Collections Maintenance" />
 		<property name="maintainableItems">
 			<list>

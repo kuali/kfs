@@ -30,6 +30,7 @@ public class ContractsAndGrantsBillingServiceImpl implements ContractsAndGrantsB
     public List<String> getAgencyContractsGrantsBillingSectionIds() {
         List<String> contractsGrantsSectionIds = new ArrayList<String>();
 
+        contractsGrantsSectionIds.add(CGConstants.SectionId.AGENCY_ADDRESS_SECTION_ID);
         contractsGrantsSectionIds.add(CGConstants.SectionId.AGENCY_ADDRESSES_SECTION_ID);
         contractsGrantsSectionIds.add(CGConstants.SectionId.AGENCY_COLLECTIONS_MAINTENANCE_SECTION_ID);
         contractsGrantsSectionIds.add(CGConstants.SectionId.AGENCY_CONTRACTS_AND_GRANTS_SECTION_ID);
@@ -45,6 +46,8 @@ public class ContractsAndGrantsBillingServiceImpl implements ContractsAndGrantsB
         contractsGrantsSectionIds.add(CGConstants.SectionId.AWARD_FUND_MANAGERS_SECTION_ID);
         contractsGrantsSectionIds.add(CGConstants.SectionId.AWARD_INVOICE_ACCOUNTS_SECTION_ID);
         contractsGrantsSectionIds.add(CGConstants.SectionId.AWARD_INVOICING_SECTION_ID);
+        contractsGrantsSectionIds.add(CGConstants.SectionId.AWARD_MILESTONE_SCHEDULE_SECTION_ID);
+        contractsGrantsSectionIds.add(CGConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID);
 
         return contractsGrantsSectionIds;
     }

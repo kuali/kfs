@@ -99,7 +99,11 @@ public class InvoiceReportDeliveryServiceImpl implements InvoiceReportDeliverySe
         for (ContractsGrantsInvoiceDocument item : list) {
             if (ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
                 ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
-                if (StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.FINAL.getCode())) {
+
+                boolean invoiceIsFinal = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.FINAL.getCode());
+                boolean invoiceIsProcessed = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.PROCESSED.getCode());
+
+                if ( invoiceIsFinal || invoiceIsProcessed ) {
                     if (StringUtils.isNotEmpty(userId)) {
                         Person person = getPersonService().getPersonByPrincipalName(userId);
                         if (person == null) {

@@ -116,11 +116,10 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         // the list of persist-ready BOs
         List<PersistableBusinessObject> persistables = new ArrayList();
-        boolean isCampusCodeChanged = false, isBuildingCodeChanged = false, isBuildingRoomNumberChanged = false, isBuildingSubRoomNumberChanged = false, isCampusTagNumberChanged = false; 
 
         // walk over each change detail record
         for (AssetLocationGlobalDetail detail : assetLocationGlobalDetails) {
-
+            boolean isCampusCodeChanged = false, isBuildingCodeChanged = false, isBuildingRoomNumberChanged = false, isBuildingSubRoomNumberChanged = false, isCampusTagNumberChanged = false; 
             // load the object by keys
             Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, detail.getPrimaryKeys());
 

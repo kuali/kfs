@@ -42,7 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Customized Lookupable Helper class for Contracts and Grants Reports.
  */
-public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiLookupableHelperServiceImpl {
+public abstract class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiLookupableHelperServiceImpl {
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {

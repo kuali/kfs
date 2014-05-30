@@ -33,6 +33,7 @@ import org.kuali.rice.krad.document.Document;
  * Methods which allow core KFS modules to interact with the Accounts Receivable module.
  */
 public interface AccountsReceivableModuleService {
+
     /**
      * A method that returns an implementation of the ElectronicPaymentClaimingDocumentGenerationStrategy interface which will claim
      * electronic payments for the Accounts Receivable module.
@@ -83,7 +84,6 @@ public interface AccountsReceivableModuleService {
      * @throws WorkflowException
      */
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException;
-
 
     /**
      * get the open customer invoice document with the given document number
@@ -138,106 +138,123 @@ public interface AccountsReceivableModuleService {
 
     /**
      * This method builds the new customer number
+     *
      * @param newCustomer the new customer
      * @return the new customer number
      */
     public String getNextCustomerNumber(AccountsReceivableCustomer newCustomer);
 
     /**
-     *
      * This method saves customer
+     *
      * @param customer
      * @return
      */
     public void saveCustomer(AccountsReceivableCustomer customer);
 
     /**
-     *
      * This method returns the AccountsReceivableCustomerType for the given customerTypeDescription
+     *
      * @param customerTypeDescription
      * @return
      */
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription);
 
     /**
+     * This method returns Organization Options for the given chart/org.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode chart used to retrieve the Organization Options
+     * @param organizationCode org used to retrieve the Organization Options
+     * @return Organziation Options corresponding to the given chart/org.
      */
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode);
 
     /**
+     * This method saves the Customer Invoice Document.
      *
-     * @param customerInvoiceDocument
+     * @param customerInvoiceDocument document to save
      * @throws WorkflowException
      */
     public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
     /**
+     * This method blanket approves the Customer Invoice Document.
      *
-     * @param customerInvoiceDocument
-     * @return
+     * @param customerInvoiceDocument document to blanket approve
+     * @return document that has been blanket approved
      * @throws WorkflowException
      */
     public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
     /**
+     * This method returns a new instance of the CustomerInvoiceRecurrenceDetails class.
      *
-     * @return
+     * @return new CustomerInvoiceRecurrenceDetails object.
      */
     public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails();
 
     /**
+     * This method returns a new instnace of the AccountsReceivableDocumentHeader class.
      *
-     * @return
+     * @return new AccountsReceivableDocumentHeader object.
      */
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader();
 
     /**
+     * This method returns the Primary Organization for the User.
      *
-     * @return
+     * @return ChartOrgHolder containing the chart/org for the Primary Organization for the User.
      */
     public ChartOrgHolder getPrimaryOrganization();
 
     /**
+     * This method returns the System Information corresponding to a given chart/org/fiscal year parameters.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @param currentFiscalYear
-     * @return
+     * @param chartOfAccountsCode chart code used to find System Information
+     * @param organizationCode org code used to find System Information
+     * @param currentFiscalYear fiscal year used to find System Information
+     * @return System Information for given parameters
      */
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear);
 
     /**
+     * This method determines if the parameter controlling how the entries for the accounts receivable offset are determined
+     * (GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD) is set to the FAU Offset Generation Method (currently option 3).
      *
-     * @return
+     * @return true if using FAU Offset Generation Method, false otherwise
      */
     public boolean isUsingReceivableFAU();
 
     /**
+     * This method sets the receivable accounting line for customer invoice.
      *
-     * @param document
+     * @param document Customer Invoice document to set the receivable accounting line on.
      */
     public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document);
 
     /**
+     * This method returns a Customer Invoice Detail for the given invoice item code, chart and org.
      *
-     * @param invoiceItemCode
-     * @param processingChartCode
-     * @param processingOrgCode
-     * @return
+     * @param invoiceItemCode invoice item code used to search for a Customer Invoice Detail
+     * @param processingChartCode chart code used to search for a Customer Invoice Detail
+     * @param processingOrgCode org code used to search for a Customer Invoice Detail
+     *
+     * @return Customer Invoice Detail corresponding to the given parameters
      */
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode);
 
     /**
+     * This method returns an Object code based on the value of the parameter controlling how the entries for
+     * the accounts receivable offset are determined.
      *
-     * @param customerInvoiceDetail
-     * @return
+     * @param customerInvoiceDetail AccountsReceivableCustomerInvoiceDetail used to determine the object code
+     *
+     * @return Object Code based on the offset generation parameter and the given customerInvoiceDetail
      */
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail);
 
     /**
+     * This method is used to recalculate a customer invoice detail based on updated values
      *
      * @param customerInvoiceDocument
      * @param detail
@@ -245,6 +262,7 @@ public interface AccountsReceivableModuleService {
     public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail);
 
     /**
+     * This method is used to make sure the amounts are calculated correctly and the correct AR object code is in place
      *
      * @param detail
      * @param customerInvoiceDocument
@@ -252,9 +270,10 @@ public interface AccountsReceivableModuleService {
     public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument);
 
     /**
+     * This method returns the total open amount for a given Customer Invoice document.
      *
-     * @param invoice
-     * @return
+     * @param invoice Customer Invoice document used to calculate the open amount
+     * @return open amount for the invoice
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice);
 
@@ -277,7 +296,7 @@ public interface AccountsReceivableModuleService {
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg);
 
     /**
-     * Create cusotmer invoice document
+     * Create customer invoice document
      *
      * @return
      */
@@ -335,24 +354,58 @@ public interface AccountsReceivableModuleService {
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber);
 
     /**
-     *
      * This method returns the CustomerAddress specified as the primary address for a Customer.
+     *
      * @param customerNumber
      * @return
      */
-
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber);
 
+    /**
+     * This method returns the InvoiceTemplate corresponding to a given invoice template code.
+     *
+     * @param invoiceTemplateCode
+     * @return
+     */
     public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode);
 
+    /**
+     * This method saves an InvoiceTemplate.
+     *
+     * @param invoiceTemplate
+     */
     public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate);
 
+    /**
+     * This method returns a new instance of the MilestoneSchedule class.
+     *
+     * @return new MilestoneSchedule instance
+     */
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
 
+    /**
+     * This method sets the proposalNumber on a given MilestoneSchedule. This is used to associate the
+     * MilestoneSchedule with an Award.
+     *
+     * @param milestoneSchedule
+     * @param proposalNumber
+     */
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
 
+    /**
+     * This method returns a new instance of the PredeterminedBillingSchedule class.
+     *
+     * @return new PredeterminedBillingSchedule instance
+     */
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule();
 
+    /**
+     * This method sets the proposalNumber on a given PredeterminedBillingSchedule. This is used to associate the
+     * PredeterminedBillingSchedule with an Award.
+     *
+     * @param predeterminedBillingSchedule
+     * @param proposalNumber
+     */
     public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber);
 
     /**
@@ -404,6 +457,7 @@ public interface AccountsReceivableModuleService {
 
     /**
      * Determines if the given AR invoice template can be utilized by the given user
+     *
      * @param invoiceTemplate an invoice template to check for utilizability of
      * @param user the user to check utilizability for
      * @return true if the template is utilizable, false otherwise

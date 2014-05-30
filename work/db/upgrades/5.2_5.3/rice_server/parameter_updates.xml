@@ -115,4 +115,30 @@
 		</insert>
 	</changeSet>
 
+	<changeSet author="KFS53" id="KFSCNTRB-1156">
+		<comment>Add parameters for KFSCNTRB-1156 Calculate ICR Encumbrances.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION"/>
+			<column name="OBJ_ID" value="KFSCNTRB-1156-1"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IR"/>
+			<column name="PARM_DESC_TXT" value="Identifies Origination Code to be used when creating ICR Transactions and transactions that should be excluded when calculating ICR encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES"/>
+			<column name="OBJ_ID" value="KFSCNTRB-1156-2"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IE;EX;PE"/>
+			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert> 
+  </changeSet>
+
 </databaseChangeLog>

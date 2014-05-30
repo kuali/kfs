@@ -874,6 +874,19 @@
 		</property>
 	</bean>
 	
+	<bean id="glPosterIcrEncumbranceEntriesService" parent="glPosterIcrEncumbranceEntriesService-parentBean"/>
+	<bean id="glPosterIcrEncumbranceEntriesService-parentBean" abstract="true"  parent="glPosterService">
+		<property name="reportWriterService">
+			<ref bean="posterIcrEncumbranceEntriesReportWriterService" />
+		</property>
+		<property name="errorListingReportWriterService">
+			<ref bean="posterIcrEncumbranceEntriesErrorListingReportWriterService" />
+		</property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="posterIcrEncumbranceEntriesLedgerSummaryReportWriterService" />
+		</property>
+	</bean>
+	
 	<bean id="glPosterReversalService" parent="glPosterReversalService-parentBean"/>
 	<bean id="glPosterReversalService-parentBean" abstract="true"  parent="glPosterService">
 		<property name="reportWriterService">
@@ -1227,6 +1240,22 @@
 		</property>
 	</bean>
 	
+	<bean id="glIcrEncumbranceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.IcrEncumbranceDaoJdbc" />
+	
+	<bean id="glIcrEncumbranceService" parent="glIcrEncumbranceService-parentBean"/>
+	<bean id="glIcrEncumbranceService-parentBean" abstract="true" class="org.kuali.kfs.gl.batch.service.impl.IcrEncumbranceServiceImpl">
+		<property name="icrEncumbranceDao">
+			<ref bean="glIcrEncumbranceDao" />
+		</property>			
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>		
+	</bean>
+	
 	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.ReversalDaoOjb" />
 
 	<bean id="glSufficientFundRebuildDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundRebuildDaoJdbc" />
@@ -1366,6 +1395,9 @@
 				<ref bean="posterIndirectCostRecoveryGenerationStep" />
 				<ref bean="icrSortStep" />
 				<ref bean="posterIndirectCostRecoveryEntriesStep" />
+				<ref bean="icrEncumbranceFeedStep" />
+				<ref bean="icrEncumbranceSortStep" />
+				<ref bean="posterIcrEncumbranceEntriesStep" />				
 				<ref bean="fileRenameStep" />
 				<ref bean="posterSummaryReportStep" />
 				<ref bean="aggregateGlPosterReportsStep" />
@@ -1682,6 +1714,16 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
+	<bean id="icrEncumbranceFeedStep" class="org.kuali.kfs.gl.batch.IcrEncumbranceFeedStep" parent="step">
+		<property name="icrEncumbranceService">
+			<ref bean="glIcrEncumbranceService" />
+		</property>
+	</bean>
+	
+	<bean id="icrEncumbranceSortStep" class="org.kuali.kfs.gl.batch.IcrEncumbranceSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+	</bean>
+		
 	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
@@ -1877,6 +1919,60 @@
 			</list>
 		</property>
 		<property name="posterService" ref="glPosterIndirectCostRecoveryEntriesService" />
+	</bean>
+	
+	<bean id="posterIcrEncumbranceEntriesReportWriterService" parent="posterIcrEncumbranceEntriesReportWriterService-parentBean"/>
+	<bean id="posterIcrEncumbranceEntriesReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="posterJob_16_poster_icrencmb"/>
+        <property name="title" value="GL POSTER REPORT (ICR ENCUMBRANCE)"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
+        	</map>
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>
+    </bean>
+    
+    <bean id="posterIcrEncumbranceEntriesErrorListingReportWriterService" parent="posterIcrEncumbranceEntriesErrorListingReportWriterService-parentBean"/>
+	<bean id="posterIcrEncumbranceEntriesErrorListingReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="posterJob_17_poster_icrencmb_error_list"/>
+        <property name="title" value="ICR ENCUMBRANCE Poster Error Transaction Listing"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
+        	</map>
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>
+    </bean>
+    
+    <bean id="posterIcrEncumbranceEntriesLedgerSummaryReportWriterService" parent="posterIcrEncumbranceEntriesLedgerSummaryReportWriterService-parentBean"/>
+    <bean id="posterIcrEncumbranceEntriesLedgerSummaryReportWriterService-parentBean" abstract="true"  parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="posterJob_18_poster_icrencmb_ledger"/>
+        <property name="title" value="ICR ENCUMBRANCE Poster Input Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+       	</property>
+       	<property name="aggregationModeOn" value="true"/>
+    </bean>
+    	
+	<bean id="posterIcrEncumbranceEntriesStep" class="org.kuali.kfs.gl.batch.PosterIcrEncumbranceEntriesStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="accountingCycleCachingService" />
+				<ref bean="posterIcrEncumbranceEntriesReportWriterService" />
+				<ref bean="posterIcrEncumbranceEntriesErrorListingReportWriterService" />
+				<ref bean="posterIcrEncumbranceEntriesLedgerSummaryReportWriterService" />
+			</list>
+		</property>
+		<property name="posterService" ref="glPosterIcrEncumbranceEntriesService" />
 	</bean>
 
 	<bean id="posterReversalReportWriterService" parent="posterReversalReportWriterService-parentBean"/>

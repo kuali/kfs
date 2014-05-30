@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFS53" id="KFSCNTRB-1156">
+		<insert tableName="FS_ORIGIN_CODE_T">
+			<column name="FS_ORIGIN_CD" value="IR"/>
+			<column name="OBJ_ID" value="KFSCNTRB-1156-1"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FS_SERVER_NM" value="KULDBA"/>
+			<column name="FS_DATABASE_NM" value="KFS"/>
+			<column name="FS_DATABASE_DESC" value="KFS"/>
+			<column name="NEXT_CPTLAST_NBR" valueNumeric="0"/>
+			<column name="NEXT_NONCA_NBR" valueNumeric="0"/>
+			<column name="NXT_DV_PAYEEID_NBR" valueNumeric="0"/>
+			<column name="NXT_FDOC_ATT_ID" valueNumeric="0"/>
+			<column name="AR_NEXT_CUST_NBR" valueNumeric="0"/>
+			<column name="FDOC_NEXT_ITEM_ID" valueNumeric="0"/>
+			<column name="ROW_ACTV_IND" value="Y"/>
+		</insert>		
+	</changeSet>
+	
+</databaseChangeLog>

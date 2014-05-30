@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,10 @@ public interface PosterService {
      * a poster mode, where the poster will post indirect cost recovery entries
      */
     public static int MODE_ICR = 3;
+    /**
+     * a poster mode, where the poster will post indirect cost recovery encumbrance entries
+     */
+    public static int MODE_ICRENCMB = 4;
 
     /**
      * Post scrubbed GL entries to GL tables.
@@ -50,13 +54,18 @@ public interface PosterService {
     public void postIcrEntries();
 
     /**
+     * Post ICR Encumbrance GL entries to GL tables.
+     */
+    public void postIcrEncumbranceEntries();
+
+    /**
      * Generate ICR GL entries.
      */
     public void generateIcrTransactions();
 
     /**
      * Sets the dateTimeAttribute of the service
-     * 
+     *
      * @param dateTimeService the dateTimeService implementation to set
      */
     public void setDateTimeService(DateTimeService dateTimeService);

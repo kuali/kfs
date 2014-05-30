@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,12 +22,10 @@ import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorDetailFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -46,7 +44,7 @@ public class GeneralLedgerConstants {
     public static final String EMPTY_CODE = "";
     public static final String ERROR_CODE = "E";
     public static final String FINALNCIAL_BALANCE_TYPE_FOR_COLLECTOR_DETAIL_RECORD = "AC";
-    
+
     //public static final String RETAIN_DAYS = "RETAIN_DAYS";
 
     public static class DummyBusinessObject {
@@ -98,7 +96,7 @@ public class GeneralLedgerConstants {
         static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
         static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
         static final public String UNIV_DT = "UNIV_DT";
-        
+
         static final public String FINANCIAL_DOCUMENT_TYPE_CODE = "FDOC_TYP_CD";
         static final public String ORIGINATION_CODE = "FS_ORIGIN_CD";
         static final public String DOCUMENT_NUMBER = "FDOC_NBR";
@@ -106,10 +104,10 @@ public class GeneralLedgerConstants {
         static final public String CURRENT_BUDGET_LINE_BALANCE_AMOUNT = "CURR_BDLN_BAL_AMT";
         static final public String ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT = "ACLN_ACTLS_BAL_AMT";
         static final public String ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT = "ACLN_ENCUM_BAL_AMT";
-        
+
         static final public String ACCOUNT_LINE_ENCUMBRANCE_AMOUNT = "ACLN_ENCUM_AMT";
         static final public String ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT = "ACLN_ENCUM_CLS_AMT";
-        
+
         static final public String MONTH_1_ACCT_AMT = "MO1_ACCT_LN_AMT";
         static final public String MONTH_2_ACCT_AMT = "MO2_ACCT_LN_AMT";
         static final public String MONTH_3_ACCT_AMT = "MO3_ACCT_LN_AMT";
@@ -132,7 +130,7 @@ public class GeneralLedgerConstants {
         static final public String CONSOLIDATION_OBJECT_CODE = "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode";
     }
     public static final String BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES = "BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES";
-    
+
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "glPendingEntryLookupable";
         public static final String SEGMENTED_LOOKUP_FLAG_NAME = "segmented";
@@ -192,7 +190,7 @@ public class GeneralLedgerConstants {
 
         static final public String OFFSET_DOC_TYPE_CODES = "OFFSET_GENERATION_DOCUMENT_TYPES";
         static final public String OFFSET_FISCAL_PERIOD_CODES = "OFFSET_GENERATION_FISCAL_PERIODS";
-        
+
         static final public String DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES = "DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES";
 
         static final public String PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES = "PLANT_FUND_CAMPUS_OBJECT_SUB_TYPES";
@@ -225,19 +223,21 @@ public class GeneralLedgerConstants {
     public static class PosterService {
         static final public String SYMBOL_USE_EXPENDITURE_ENTRY = "@";
         static final public String SYMBOL_USE_ICR_FROM_ACCOUNT = "#";
-        static final public String ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES = "ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES"; 
-
+        static final public String ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES = "ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES";
+        static final public String ICR_ENCUMBRANCE_FEED_PARM_TYP = "IcrEncumbranceFeedStep";
+        static final public String ICR_ENCUMBRANCE_ORIGIN_CODE_PARM_NM = "INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION";
+        static final public String ICR_ENCUMBRANCE_BALANCE_TYPE_PARM_NM = "INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES";
     }
-    
+
     public static class Balancing {
         public static final String NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE = "NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE";
-        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";        
+        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";
     }
-    
+
     public static class BatchFileSystem {
         static final public String EXTENSION = ".data";
-        static final public String DONE_FILE_EXTENSION = ".done"; 
-        
+        static final public String DONE_FILE_EXTENSION = ".done";
+
         //static final public String GL_ENTRY = "";
         static final public String ENTERPRISE_FEED = "gl_glentry_entp";
         static final public String COLLECTOR_OUTPUT = "gl_glentry_coll";
@@ -247,11 +247,11 @@ public class GeneralLedgerConstants {
         static final public String AUTO_DISAPPROVE_DOCUMENTS_OUTPUT_FILE = "sys_autoDisapprove_output";
         static final public String AUTO_DISAPPROVE_DOCUMENTS_ERROR_OUTPUT_FILE = "sys_autoDisapprove_errs";
         static final public String TEXT_EXTENSION = ".txt";
-        
+
         static final public String BACKUP_FILE = "gl_glbackup";
-        
+
         static final public String  COLLECTOR_BACKUP_FILE = "col_glbackup";
-        
+
         static final public String COLLECTOR_PRE_SCRUBBER = "col_prescrub";
         static final public String COLLECTOR_SCRUBBER_INPUT_FILE = "col_sortscrb";
         static final public String COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE = "col_scrbout1";
@@ -260,7 +260,7 @@ public class GeneralLedgerConstants {
         static final public String COLLECTOR_SCRUBBER_ERROR_SORTED_FILE = "col_sorterr1";
         static final public String COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE = "col_scrbout2";
         static final public String COLLECTOR_DEMERGER_ERROR_OUTPUT_FILE = "col_scrberr2";
-        
+
         static final public String PRE_SCRUBBER_FILE = "gl_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "gl_sortscrb";
         static final public String SCRUBBER_VALID_OUTPUT_FILE = "gl_scrbout1";
@@ -269,22 +269,24 @@ public class GeneralLedgerConstants {
         static final public String SCRUBBER_ERROR_SORTED_FILE = "gl_sorterr1";
         static final public String DEMERGER_VAILD_OUTPUT_FILE = "gl_scrbout2";
         static final public String DEMERGER_ERROR_OUTPUT_FILE = "gl_scrberr2";
-        
+
         static final public String POSTER_INPUT_FILE = "gl_sortpost";
         static final public String REVERSAL_POSTER_VALID_OUTPUT_FILE = "gl_workfile";
         static final public String REVERSAL_POSTER_ERROR_OUTPUT_FILE = "gl_workerrs";
         static final public String POSTER_VALID_OUTPUT_FILE = "gl_postout";
-        
+
         static final public String POSTER_ERROR_OUTPUT_FILE = "gl_posterrs";
         static final public String ICR_TRANSACTIONS_OUTPUT_FILE = "gl_icrtrans";
         //todo - create sort step
         static final public String ICR_POSTER_INPUT_FILE = "gl_sorticr";
-        
         static final public String ICR_POSTER_ERROR_OUTPUT_FILE = "gl_icrerrs";
-        
+
+        static final public String ICR_ENCUMBRANCE_OUTPUT_FILE = "gl_icrencmb";
+        static final public String ICR_ENCUMBRANCE_POSTER_INPUT_FILE = "gl_sorticrencmb";
+        static final public String ICR_ENCUMBRANCE_POSTER_ERROR_OUTPUT_FILE = "gl_icrencmberrs";
 		static final public String NIGHTLY_OUT_FILE = "gl_glentry_kfs";
 		static final public String EXTRACT_TRANSACTION_FILE = "gl_glentry_pdp";
-		
+
 		//year end part
 		static final public String ORGANIZATION_REVERSION_PRE_CLOSING_FILE = "gl_org_reversion_pre_closing";
 		static final public String ORGANIZATION_REVERSION_CLOSING_FILE = "gl_org_reversion_closing";
@@ -292,7 +294,7 @@ public class GeneralLedgerConstants {
 		static final public String CLOSE_NOMINAL_ACTIVITY_FILE = "gl_close_nominal_activity";
 		static final public String BALANCE_FORWARDS_FILE = "gl_balance_forwards";
 		static final public String BALANCE_FORWARDS_CLOSED_FILE = "gl_balance_forwards_closed";
-		
+
 		static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
     }
 
@@ -324,7 +326,7 @@ public class GeneralLedgerConstants {
 
         public static final String COMMENT_STRING = "#";
     }
-    
+
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading
     // w/SpringContext.
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;
@@ -439,7 +441,7 @@ public class GeneralLedgerConstants {
     }
 
     private static String SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS = null;
-    
+
     public static String getSpaceAllCollectorBatchHeaderFields() {
         if (SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS == null) {
             List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorBatch.class.getName()).getAttributes();
@@ -448,7 +450,7 @@ public class GeneralLedgerConstants {
 
             for ( AttributeDefinition attributeDefinition : attributes ) {
                 if (!(KFSPropertyConstants.TRAILER_RECORD_FIRST_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
-                    KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) || 
+                    KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) ||
                     KFSPropertyConstants.TRAILER_RECORD_SECOND_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
                     KFSPropertyConstants.TOTAL_AMOUNT.equals(attributeDefinition.getName()))) {
                     totalLength += attributeDefinition.getMaxLength();
@@ -460,15 +462,15 @@ public class GeneralLedgerConstants {
 
         return SPACE_ALL_COLLECTOR_BATCH_HEADER_FIELDS;
     }
-    
+
     private static String SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS = null;
-    
+
     public static String getSpaceAllCollectorBatchTrailerFields() {
         if (SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS == null) {
             List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(CollectorBatch.class.getName()).getAttributes();
 
             int totalLength = 0;
-            
+
             for ( AttributeDefinition attributeDefinition : attributes ) {
                 if ((KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR.equals(attributeDefinition.getName()) ||
                      KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(attributeDefinition.getName()) ||
@@ -476,7 +478,7 @@ public class GeneralLedgerConstants {
                      KFSPropertyConstants.TRANSMISSION_DATE.equals(attributeDefinition.getName()) ||
                      KFSPropertyConstants.COLLECTOR_BATCH_RECORD_TYPE.equals(attributeDefinition.getName()) ||
                      KFSPropertyConstants.TRAILER_RECORD_FIRST_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
-                     KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) || 
+                     KFSPropertyConstants.TOTAL_RECORDS.equals(attributeDefinition.getName()) ||
                      KFSPropertyConstants.TRAILER_RECORD_SECOND_EMPTY_FIELD.equals(attributeDefinition.getName()) ||
                      KFSPropertyConstants.TOTAL_AMOUNT.equals(attributeDefinition.getName()))) {
                      totalLength += attributeDefinition.getMaxLength();
@@ -488,21 +490,21 @@ public class GeneralLedgerConstants {
 
         return SPACE_ALL_COLLECTOR_BATCH_TRAILER_FIELDS;
     }
-    
+
     private static String SPACE_ALL_COLLECTOR_DETAIL_FIELDS = null;
-    
+
     public static String getSpaceAllCollectorDetailFields() {
         if (SPACE_ALL_COLLECTOR_DETAIL_FIELDS == null) {
             CollectorDetailFieldUtil collectorDetailFieldUtil = new CollectorDetailFieldUtil();
             int totalLength = collectorDetailFieldUtil .getDetailLineTotalLength();
-            
+
             SPACE_ALL_COLLECTOR_DETAIL_FIELDS = StringUtils.rightPad("", totalLength, ' ');
         }
 
         return SPACE_ALL_COLLECTOR_DETAIL_FIELDS;
     }
-    
-    
+
+
     private static String ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = null;
 
     public static String getZeroTransactionEntrySequenceNumber() {
@@ -511,14 +513,14 @@ public class GeneralLedgerConstants {
         }
         return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
     }
-    
+
     public static String getZeroTransactionLedgerEntryAmount(){
         OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
         int length = oefu.getFieldLengthMap().get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
-        
+
         String amount = "";
-        amount = StringUtils.rightPad("+", length - 3, "0") + ".00"; 
-        
+        amount = StringUtils.rightPad("+", length - 3, "0") + ".00";
+
         return amount;
     }
 
@@ -530,7 +532,7 @@ public class GeneralLedgerConstants {
         }
         return DASH_ORGANIZATION_REFERENCE_ID;
     }
-    
+
     private static String SPACE_CHART_OF_ACCOUNTS_CODE = null;
 
     public static String getSpaceChartOfAccountsCode() {
@@ -539,5 +541,5 @@ public class GeneralLedgerConstants {
         }
         return SPACE_CHART_OF_ACCOUNTS_CODE;
     }
-    public static final String INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE = "TRSF";    
+    public static final String INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE = "TRSF";
 }

@@ -139,6 +139,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             updateRecordsIgnored = this.updateHistoriesHelper(PosterService.MODE_ENTRIES, startUniversityFiscalYear, this.getPosterInputFile(), this.getPosterErrorOutputFile());
             updateRecordsIgnored += this.updateHistoriesHelper(PosterService.MODE_REVERSAL, startUniversityFiscalYear, this.getReversalInputFile(), this.getReversalErrorOutputFile());
             updateRecordsIgnored += this.updateHistoriesHelper(PosterService.MODE_ICR, startUniversityFiscalYear, this.getICRInputFile(), this.getICRErrorOutputFile());
+            updateRecordsIgnored += this.updateHistoriesHelper(PosterService.MODE_ICRENCMB, startUniversityFiscalYear, this.getICREncumbranceInputFile(), this.getICREncumbranceErrorOutputFile());
         }
 
         LOG.debug("Comparing entry history table with the PRD counterpart.");
@@ -300,14 +301,14 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     abstract protected Integer compareEntryHistory();
 
     /**
-     * 
+     *
      * @return
      */
     protected int getFiscalYear(){
         return universityDateService.getCurrentFiscalYear()-getPastFiscalYearsToConsider();
     }
-    
-    
+
+
     /**
      * Possible override if sub class has additional history tables. Populates custom history tables.
      *

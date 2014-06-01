@@ -22,7 +22,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
@@ -189,9 +188,6 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         return document;
     }
 
-    public void setAppDocStatus(String applicationDocumentStatus) throws WorkflowException{
-        documentHeader.updateAndSaveAppDocStatus(applicationDocumentStatus);
-    }
     /**
      * Gets the createDate attribute.
      *

@@ -1836,6 +1836,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return hasActivePreqs;
     }
 
+
+    /**
+     * This method was added as part of the move to rice20 as a way to get at application doc status. Since
+     * this data has been moved back into KFS this function is no longer necessary.  The code will be removed
+     * in the 6.0 release.
+     */
     @Deprecated
     protected List<String> getPaymentRequestDocNumberForAutoApprove() {
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
@@ -1864,6 +1870,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
             catch (WorkflowException ex) {
                 LOG.warn( "Error retrieving doc for doc #" + docId + ". This shouldn't happen.", ex );
+                throw new RuntimeException(ex.getMessage(),ex);
             }
         }
 

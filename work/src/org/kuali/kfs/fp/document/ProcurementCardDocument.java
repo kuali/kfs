@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -54,7 +53,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     protected ProcurementCardTargetAccountingLine newTargetLine;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     protected boolean autoApprovedIndicator;
-    
+
     /**
      * Default constructor.
      */
@@ -79,7 +78,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Gets the procurementCardHolder attribute.
-     * 
+     *
      * @return Returns the procurementCardHolder.
      */
     public ProcurementCardHolder getProcurementCardHolder() {
@@ -88,7 +87,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Sets the procurementCardHolder attribute value.
-     * 
+     *
      * @param procurementCardHolder The procurementCardHolder to set.
      */
     public void setProcurementCardHolder(ProcurementCardHolder procurementCardHolder) {
@@ -97,7 +96,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Removes the target accounting line at the given index from the transaction detail entry.
-     * 
+     *
      * @param index
      */
     public void removeTargetAccountingLine(int index) {
@@ -113,10 +112,11 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Override to set the accounting line in the transaction detail object.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
-    
+
+    @Override
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
         ProcurementCardSourceAccountingLine line = (ProcurementCardSourceAccountingLine) sourceLine;
 
@@ -134,7 +134,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Override to set the accounting line in the transaction detail object.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
      */
     @Override
@@ -155,7 +155,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Override to get source accounting lines out of transactions
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLines()
      */
     @Override
@@ -175,7 +175,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * Override to get target accounting lines out of transactions
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
      */
     @Override
@@ -223,7 +223,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * On procurement card documents, positive source amounts are credits, negative source amounts are debits.
-     * 
+     *
      * @param transactionalDocument The document the accounting line being checked is located in.
      * @param accountingLine The accounting line being analyzed.
      * @return True if the accounting line given is a debit accounting line, false otherwise.
@@ -234,6 +234,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase,
      *      AccountingDocument, AccountingLine)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         // disallow error correction
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
@@ -278,17 +279,17 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
     /**
      * set the autoApprovedIndicator
-     * 
+     *
      * @param value- the new value to set
      */
     public void setAutoApprovedIndicator(boolean value)
     {
         autoApprovedIndicator = value;
     }
-    
+
     /**
      * get the AutoApprovedIndicator
-     * 
+     *
      * @return the value of autoApprovedIndicator
      */
     public boolean isAutoApprovedIndicator()

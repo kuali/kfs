@@ -17,20 +17,17 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.MessageFormat; 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -59,15 +56,12 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
-import org.kuali.rice.core.api.config.property.ConfigurationService; 
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -93,6 +87,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
     protected CustomerInvoiceDocumentDao customerInvoiceDocumentDao;
     protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
+    protected ConfigurationService configurationService;
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected DocumentDao documentDao;
@@ -1007,13 +1002,13 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 }
             }
             String principalId = lastAction.getPrincipalId();
-            principalName = SpringContext.getBean(PersonService.class).getPerson(principalId).getName();
+            principalName = getPersonService().getPerson(principalId).getName();
         }
-        
-        
-        final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
-        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber }; 
-        String noteText = MessageFormat.format(noteTextPattern, arguments); 
+
+
+        final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT);
+        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber };
+        String noteText = MessageFormat.format(noteTextPattern, arguments);
 
 
         Note note = getDocumentService().createNoteFromDocument(documentToClose, noteText);
@@ -1039,5 +1034,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         this.financialSystemUserService = financialSystemUserService;
     }
 
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
 
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 }

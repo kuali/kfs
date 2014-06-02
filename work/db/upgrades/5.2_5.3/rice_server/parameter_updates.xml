@@ -156,4 +156,102 @@
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 	</changeSet>
+
+    <changeSet author="KFSCNTRB-1020" id="KFSCNTRB-1020_KRCR_PARM_T">
+        <comment>
+            KFSCNTRB-1020, Component and parameters which control how the Current Account Balance queries for results.
+        </comment>
+        <insert tableName="KRCR_CMPNT_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-0"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="NM" value="Current Account Balance"/>
+            <column name="ACTV_IND" value="Y"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CASH_BUDGET_RECORD_LEVEL"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-1"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="N"/>
+            <column name="PARM_DESC_TXT" value="Identifies accounts that will have Cash Expenditure Authority and Fund Balance calculated for it on the Current Account Balance Screen. All other Budget Record Level codes will calculate Budget Balance Available."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="INCOME_OBJECT_TYPE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-2"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="CH;IC;IN;TI"/>
+            <column name="PARM_DESC_TXT" value="Income object type codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="EXPENSE_OBJECT_TYPE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-3"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="EE;ES;EX;TE"/>
+            <column name="PARM_DESC_TXT" value="Expense object type codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="ENCUMBRANCE_BALANCE_TYPE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-4"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="EX;IE;PE;CE"/>
+            <column name="PARM_DESC_TXT" value="Encumbrance balance types."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CURRENT_ASSET_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-5"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="8000;8100"/>
+            <column name="PARM_DESC_TXT" value="Cash and other cash object codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="CURRENT_LIABILITY_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-6"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="9041"/>
+            <column name="PARM_DESC_TXT" value="Current liability object codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-GL"/>
+            <column name="CMPNT_CD" value="CurrentAccountBalance"/>
+            <column name="PARM_NM" value="FUND_BALANCE_OBJECT_CODE"/>
+            <column name="OBJ_ID" value="KFSCNTRB1020-7"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="PARM_TYP_CD" value="VALID"/>
+            <column name="VAL" value="9899"/>
+            <column name="PARM_DESC_TXT" value="Liability object codes."/>
+            <column name="EVAL_OPRTR_CD" value="A"/>
+            <column name="APPL_ID" value="KFS"/>
+        </insert>
+  </changeSet>
 </databaseChangeLog>

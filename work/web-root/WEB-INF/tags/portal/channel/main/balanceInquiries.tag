@@ -26,6 +26,7 @@
 		<li><portal:portalLink displayTitle="true" title="General Ledger Entry" url="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.Entry&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="General Ledger Pending Entry" url="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 	   	<li><portal:portalLink displayTitle="true" title="Open Encumbrances" url="${KFSConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.Encumbrance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
+	   	<li><portal:portalLink displayTitle="true" title="Current Account Balance" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.CurrentAccountBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
     </ul>
 <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">    
  	<strong>Labor Distribution</strong><br />

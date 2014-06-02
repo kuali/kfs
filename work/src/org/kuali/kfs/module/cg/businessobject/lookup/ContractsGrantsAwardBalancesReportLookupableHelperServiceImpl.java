@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cg.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,14 +28,9 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport;
 import org.kuali.kfs.module.cg.report.ContractsGrantsReportUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -144,18 +138,6 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
                 String propValueBeforePotientalMasking = propValue;
                 propValue = maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
                 col.setPropertyValue(propValue);
-
-                // add url when property is documentNumber
-                if (col.getPropertyName().equals("documentNumber")) {
-                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
-
-                    Map<String, String> fieldList = new HashMap<String, String>();
-                    fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
-                    AnchorHtmlData a = new AnchorHtmlData(url, KRADConstants.EMPTY_STRING);
-                    a.setTitle(HtmlData.getTitleText(createTitleText(ContractsGrantsAwardBalancesReport.class), ContractsGrantsAwardBalancesReport.class, fieldList));
-
-                    col.setColumnAnchor(a);
-                }
             }
 
             ResultRow row = new ResultRow(columns, "", ACTION_URLS_EMPTY);

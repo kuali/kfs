@@ -26,25 +26,25 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public interface LetterOfCreditCreateService {
 
     /**
-     * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
+     * This method creates cashcontrol documents and payment application based on the loc creation type and loc value passed.
      *
-     * @param customerNumber
-     * @param locCreationType
-     * @param locValue
-     * @param totalAmount
-     * @param outputFileStream
-     * @return documentNumber
+     * @param customerNumber customer number used to create the cash control document
+     * @param locCreationType LOC creation type (Award, Fund or Fund Group) used to determine how to process the LOC value
+     * @param locValue LOC value, either Fund or Fund Group based on locCreationType
+     * @param totalAmount amount to set on the new cash control doc
+     * @param outputFileStream used to write out error messages
+     * @return documentNumber for the newly created cash control document
      */
     public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream);
 
     /**
      * The method validates if there are any existing cash control documents for the same locValue and customer number combination.
      *
-     * @param customerNumber
-     * @param locCreationType
-     * @param locValue
-     * @param outputFileStream
-     * @return
+     * @param customerNumber customer number used to search for existing documents
+     * @param locCreationType LOC creation type (Award, Fund or Fund Group) used to determine how to process the LOC value
+     * @param locValue LOC value, based on locCreationType, used to search for existing docs
+     * @param outputFileStream used to write out error messages
+     * @return true if there is an existing cash control document, false otherwise
      */
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream);
 
@@ -53,18 +53,19 @@ public interface LetterOfCreditCreateService {
      * routing path.
      *
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
-     *
      */
     public boolean routeLOCDocuments();
 
     /**
      * Processes Letters of Credit sorted by Fund
+     *
      * @param batchFileDirectoryName the directory to write the report out to
      */
     public void processLettersOfCreditByFund(String batchFileDirectoryName);
 
     /**
      * Processes Letters of Credit sorted by Fund Group
+     *
      * @param batchFileDirectoryName the directory to write the report out to
      */
     public void processLettersOfCreditByFundGroup(String batchFileDirectoryName);

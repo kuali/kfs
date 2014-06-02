@@ -398,10 +398,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * This method validates awards and output an error file including unqualified awards with reason stated.
-     *
-     * @param errOutputFile The name of the file recording unqualified awards with reason stated.
-     * @return True if
+     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#validateAwards(java.util.Collection, java.lang.String)
      */
     @Override
     public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile) {
@@ -674,8 +671,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * This method retrieves all the contracts grants invoice documents with a status of 'I' and routes them to the next step in the
-     * routing path.
+     * This method retrieves all the contracts grants invoice documents with a status of Saved and
+     * routes them to the next step in the routing path.
      *
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#routeContractsGrantsInvoiceDocuments()

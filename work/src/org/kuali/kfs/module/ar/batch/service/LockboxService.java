@@ -20,10 +20,21 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LockboxService {
 
+    /**
+     * Process Lockbox Documents
+     *
+     * @return true
+     * @throws WorkflowException
+     */
     public boolean processLockboxes() throws WorkflowException;
 
+    /**
+     * Process the specified Lockbox.
+     *
+     * @param lockbox lockbox to process
+     * @param pdfdoc report file for output from processing
+     */
     public void processLockbox(Lockbox lockbox, com.lowagie.text.Document pdfdoc);
-
 
     /**
      *

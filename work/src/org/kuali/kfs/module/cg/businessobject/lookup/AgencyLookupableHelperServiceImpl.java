@@ -33,7 +33,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * Helper service class for Agency lookup
  */
 public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyLookupableHelperServiceImpl.class);
 
     protected AccountsReceivableModuleService accountsReceivableModuleService;

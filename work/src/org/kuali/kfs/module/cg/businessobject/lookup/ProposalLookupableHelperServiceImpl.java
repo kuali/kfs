@@ -29,7 +29,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * Allows custom handling of Proposals within the lookup framework.
  */
 public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
     private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
     private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
 
@@ -55,5 +54,4 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
     }
-
 }

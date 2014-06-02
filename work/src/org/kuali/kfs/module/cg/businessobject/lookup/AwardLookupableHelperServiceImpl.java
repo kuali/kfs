@@ -114,7 +114,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
      * @param bo
      * @return
      */
-    private AnchorHtmlData getInvoicesLookupUrl(BusinessObject bo) {
+    protected AnchorHtmlData getInvoicesLookupUrl(BusinessObject bo) {
         Award award = (Award) bo;
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);

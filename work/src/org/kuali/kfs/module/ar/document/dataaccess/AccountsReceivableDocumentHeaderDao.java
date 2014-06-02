@@ -23,29 +23,31 @@ public interface AccountsReceivableDocumentHeaderDao {
 
     /**
      * This method retrieves all AccountReceivableDocumentHeader objects for the customerNumber
+     *
      * @return AccountReceivableDocumentHeader objects
      */
     public Collection getARDocumentHeadersByCustomerNumber(String customerNumber);
 
     /**
      * This method retrieves all AccountsReceivableDocumentHeader objects for the customerNumber, processingChartOfAccountCode, and processingOrganizationCode
+     *
      * @return AccountReceivableDocumentHeader objects
      */
     public Collection getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(String customerNumber, String processingChartOfAccountCode, String processingOrganizationCode);
 
     /**
-     *
      * This method retrieves all AccountReceivableDocumentHeader objects for the customerNumber
-     * @param customerNumber
-     * @return
+     *
+     * @param customerNumber used to retrieve AccountReceivableDocumentHeaders
+     * @return Collection of AccountReceivableDocumentHeader objects
      */
     public Collection<AccountsReceivableDocumentHeader> getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(String customerNumber);
 
     /**
      * This method retrieve all AR document numbers for a give customer number
      *
-     * @param customerNumber
-     * @return
+     * @param customerNumber used to retrieve AccountReceivableDocumentHeaders
+     * @return Collection of AR Document Number Strings
      */
     public Collection<String> getARDocumentNumbersIncludingHiddenApplicationByCustomerNumber(String customerNumber);
 }

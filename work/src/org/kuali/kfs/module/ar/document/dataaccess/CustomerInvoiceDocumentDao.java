@@ -32,8 +32,7 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param initiatorPrincipalName
-     * @return
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersFromUserQueue();
 
@@ -44,9 +43,9 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode used for search criteria
+     * @param organizationCode used for search critiera
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
@@ -57,9 +56,9 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode used for search criteria
+     * @param organizationCode used for search critiera
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
@@ -70,9 +69,9 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode used for search criteria
+     * @param organizationCode used for search critiera
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
@@ -83,9 +82,9 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode used for search criteria
+     * @param organizationCode used for search critiera
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getCustomerInvoiceDocumentNumbersByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
@@ -96,9 +95,9 @@ public interface CustomerInvoiceDocumentDao {
      *
      * WARNING that all the returned documents lack any workflow wiring.
      *
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
+     * @param chartOfAccountsCode used for search criteria
+     * @param organizationCode used for search critiera
+     * @return List of Invoice Document Numbers that match criteria
      */
     public List<String> getCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
@@ -106,27 +105,26 @@ public interface CustomerInvoiceDocumentDao {
      *
      * Retrieves all Open invoices, with outstanding balances.
      *
-     * @return
+     * @return Collection of Customer Invoice Documents
      */
     public Collection getAllOpen();
 
     /**
      *
      * Retrieves all Open invoices from the specified Customer Number.
-     * @param customerNumber
-     * @return
+     *
+     * @param customerNumber used for search criteria
+     * @return Collection of Customer Invoice Documents
      */
     public Collection getOpenByCustomerNumber(String customerNumber);
 
     /**
      *
-     * Retrieves all Open invoices, by the specified Customer Name and Customer Type Code
-     *
      * Retrieves all Open invoices, by the specified Customer Name (a LIKE customerName* search) and Customer Type Code.
      *
-     * @param customerName
-     * @param customerTypeCode
-     * @return
+     * @param customerName used for search criteria
+     * @param customerTypeCode used for search criteria
+     * @return Collection of Customer Invoice Documents
      */
     public Collection getOpenByCustomerNameByCustomerType(String customerName, String customerTypeCode);
 
@@ -138,28 +136,33 @@ public interface CustomerInvoiceDocumentDao {
      * so it will return anything matching a customerName that begins with the
      * value passed in.  ie, a LIKE customerName* search.
      *
-     * @param customerName
-     * @return
+     * @param customerName used for search criteria
+     * @return Collection of Customer Invoice Documents
      */
     public Collection getOpenByCustomerName(String customerName);
 
     /**
      *
      * Retrieves all Open invoices, by the specified Customer Type Code.
-     * @param customerTypeCode
-     * @return
+     *
+     * @param customerTypeCode used for search criteria
+     * @return Collection of Customer Invoice Documents
      */
     public Collection getOpenByCustomerType(String customerTypeCode);
 
     /**
-     * @param organizationInvoiceNumber
-     * @return
+     * Retrieves an Invoice for the specified organizationInvoiceNumber.
+     *
+     * @param organizationInvoiceNumber used for search criteria
+     * @return matching CustomerInvoiceDocument
      */
     public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber);
 
     /**
-     * @param documentNumber
-     * @return
+     * Retrieves an Invoice for the specified documentNumber.
+     *
+     * @param documentNumber used for search criteria
+     * @return matching CustomerInvoiceDocument
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String documentNumber);
 

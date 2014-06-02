@@ -21,6 +21,11 @@ import org.kuali.kfs.module.ar.businessobject.Lockbox;
 
 public interface LockboxDao {
 
+    /**
+     * Returns all Lockboxes
+     *
+     * @return Collection of Lockbox BOs
+     */
     public Collection<Lockbox> getAllLockboxes();
 
     /**

@@ -27,8 +27,8 @@ public interface CashControlDocumentDao {
     /**
      * Retrieves UNFINAL cash control document by criteria.
      *
-     * @param criteria
-     * @return
+     * @param criteria used to retrieve the cash control document
+     * @return Cash Control Document
      */
     public CashControlDocument getCashControlDocument(Map fieldValues);
 }

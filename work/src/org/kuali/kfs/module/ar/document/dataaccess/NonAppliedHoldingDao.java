@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,15 +23,19 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 public interface NonAppliedHoldingDao {
 
     /**
-     * 
-     * Retrieves all NonAppliedHolding objects that were created by the 
-     * passed-in list of document numbers.
-     * 
-     * @param docNumbers
-     * @return
+     * Retrieves all NonAppliedHolding objects that were created by the passed-in list of document numbers.
+     *
+     * @param docNumbers used for search criteria
+     * @return Collection of NonAppliedHolding objects that match the search criteria.
      */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsByListOfDocumentNumbers(List<String> docNumbers);
-    
+
+    /**
+     * Retrieves all NonAppliedHolding objects that correspond to the given customerNumber.
+     *
+     * @param customerNumber used for search criteria
+     * @return Collection of NonAppliedHolding objects that match the search criteria.
+     */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber);
-    
+
 }

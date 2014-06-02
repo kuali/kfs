@@ -76,6 +76,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         // validate multi add w/red highlight (collection)
         int index = 0;
+        boolean hasCapitalAssetChanged = false;
 
         if (hasAssetLocationGlobalDetails(oldAssetLocationGlobalDetail)) {
             Set<String> tags = new HashSet<String>();
@@ -91,6 +92,8 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validateTagDuplicationWithinDocument(detail, tags);
                 success &= validateTagDuplication(detail.getCapitalAssetNumber(), detail.getCampusTagNumber());
                 success &= checkRequiredFieldsAfterAdd(detail);
+                // no need to fail if nothing has changed on the asset, just issue a warning
+                hasCapitalAssetChanged(detail);
                 GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
@@ -190,6 +193,48 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, qualification)) {
                 success &= false;
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+            }
+        }
+
+        return success;
+    }
+
+    /**
+     * Check if the values for the asset on the detail were changed. 
+     *
+     * @param assetLocationGlobalDetail
+     * @return boolean
+     */
+    protected boolean hasCapitalAssetChanged(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        boolean success = false;
+
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber())) {
+            assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
+            assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
+            Asset asset = assetLocationGlobalDetail.getAsset();
+            //assetLocationGlobalDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
+
+            if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getAsset())) {
+                if (!StringUtils.equalsIgnoreCase(asset.getCampusCode(), assetLocationGlobalDetail.getCampusCode()) ) {
+                    success = true;
+                }                
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingCode(), assetLocationGlobalDetail.getBuildingCode()) ) {
+                    success = true;
+                }                
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingRoomNumber(), assetLocationGlobalDetail.getBuildingRoomNumber()) ) {
+                    success = true;
+                }
+                if (!StringUtils.equalsIgnoreCase(asset.getBuildingSubRoomNumber(), assetLocationGlobalDetail.getBuildingSubRoomNumber()) ) {
+                    success = true;
+                }
+                if (!StringUtils.equalsIgnoreCase(asset.getCampusTagNumber(), assetLocationGlobalDetail.getCampusTagNumber())) {
+                    success = true;
+                }
+                // if nothing changed- issue a warning
+                if(!success)
+                {
+                    GlobalVariables.getMessageMap().putWarning(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.WARNING_ASSET_NOT_CHANGED, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                }
             }
         }
 
@@ -382,4 +427,6 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+    
+    
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -82,7 +82,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private UniversityDateService universityDateService;
     private VendorService vendorService;
     private RoleService roleService;
-    
+
     @Override
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
@@ -96,13 +96,13 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         return camsItem;
     }
-    
+
     @Override
     public CapitalAssetSystem createCapitalAssetSystem() {
         CapitalAssetSystem resultSystem = new RequisitionCapitalAssetSystem();
         return resultSystem;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionById(java.lang.Integer)
      */
@@ -163,7 +163,7 @@ public class RequisitionServiceImpl implements RequisitionService {
      * Checks the rule for Automatic Purchase Order eligibility of the requisition and return a String containing the reason why the
      * requisition was not eligible to become an APO if it was not eligible, or return an empty String if the requisition is
      * eligible to become an APO
-     * 
+     *
      * @param requisition the requisition document to be checked for APO eligibility.
      * @return String containing the reason why the requisition was not eligible to become an APO if it was not eligible, or an
      *         empty String if the requisition is eligible to become an APO.
@@ -201,7 +201,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (vendorDetail == null) {
                 return "Error retrieving vendor from the database.";
             }
-            if ( StringUtils.isBlank(requisition.getVendorLine1Address()) || 
+            if ( StringUtils.isBlank(requisition.getVendorLine1Address()) ||
                  StringUtils.isBlank(requisition.getVendorCityName()) ||
                  StringUtils.isBlank(requisition.getVendorCountryCode())) {
                 return "Requisition does not have all of the vendor address fields that are required for Purchase Order.";
@@ -222,16 +222,16 @@ public class RequisitionServiceImpl implements RequisitionService {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
                 }
             }
-            
+
             //vendor contract expirated date validation....KFSMI-8502
-            // if the vendor is selected through vendor contract is selected 
+            // if the vendor is selected through vendor contract is selected
             if (StringUtils.isNotBlank(requisition.getVendorContractName())) {
                 if (vendorService.isVendorContractExpired(requisition, requisition.getVendorContractGeneratedIdentifier(), vendorDetail)) {
                     return "Contracted Vendor used where the contract end date is expired.";
                 }
             }
         }
-        
+
         //if vendor address isn't complete, no APO
         if (StringUtils.isBlank(requisition.getVendorLine1Address()) ||
                 StringUtils.isBlank(requisition.getVendorCityName()) ||
@@ -244,13 +244,13 @@ public class RequisitionServiceImpl implements RequisitionService {
         // we don't have to loop through items too many times.
         String purchaseOrderRequiresCommodityCode = parameterService.getParameterValueAsString(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         boolean commodityCodeRequired = purchaseOrderRequiresCommodityCode.equals("Y");
-        
+
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             if (item.isItemRestrictedIndicator()) {
                 return "Requisition contains an item that is marked as restricted.";
             }
-            
+
             //We only need to check the commodity codes if this is an above the line item.
             if (item.getItemType().isLineItemIndicator()) {
                 String commodityCodesReason = "";
@@ -260,14 +260,14 @@ public class RequisitionServiceImpl implements RequisitionService {
                     return commodityCodesReason;
                 }
             }
-            
+
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
                 if ((item.getItemUnitPrice() != null) && ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
                     // discount or trade-in item has unit price that is not empty or zero
                     return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
                 }
             }
-            
+
             if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
                 for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
                     if (capitalAssetBuilderModuleService.doesAccountingLineFailAutomaticPurchaseOrderRules(accountingLine)) {
@@ -295,18 +295,18 @@ public class RequisitionServiceImpl implements RequisitionService {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
             return "Requisition contains additional suggested vendor names.";
         }
-        
+
         if (requisition.isPostingYearNext() && !purapService.isTodayWithinApoAllowedRange()) {
             return "Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.";
         }
 
         return "";
     }
-    
+
     /**
-     * Checks the APO rules for Commodity Codes. 
+     * Checks the APO rules for Commodity Codes.
      * The rules are as follow:
-     * 1. If an institution does not require a commodity code on a requisition but 
+     * 1. If an institution does not require a commodity code on a requisition but
      *    does require a commodity code on a purchase order:
      *    a. If the requisition qualifies for an APO and the commodity code is blank
      *       on any line item then the system should use the default commodity code
@@ -315,9 +315,9 @@ public class RequisitionServiceImpl implements RequisitionService {
      *       requisition is not eligible to become an APO.
      * 2. The commodity codes where the restricted indicator is Y should disallow
      *    the requisition from becoming an APO.
-     * 3. If the commodity code is Inactive when the requisition is finally approved 
+     * 3. If the commodity code is Inactive when the requisition is finally approved
      *    do not allow the requisition to become an APO.
-     *    
+     *
      * @param purItem
      * @param vendorCommodityCodes
      * @param commodityCodeRequired
@@ -348,7 +348,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         }
         return "";
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getRequisitionsAwaitingContractManagerAssignment()
      */
@@ -358,21 +358,17 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
     /**
-     * Gets a list of strings of document numbers from workflow documents where  
-     * document status = 'P', 'F'  and document type = 'REQS'.  If appDocStatus status 
-     * of 'Awaiting Contract Manager Assignment' then the document number is added to the list
-     * 
-     * NOTE: simplify using DocSearch lookup with AppDocStatus
-     * 
-     * @return list of documentNumbers to retrieve requisitions.
+     * This method was added as part of the move to rice20 as a way to get at application doc status. Since
+     * this data has been moved back into KFS this function is no longer necessary.  The code will be removed
+     * in the 6.0 release.
      */
     @Deprecated
     protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
         List<String> requisitionDocumentNumbers = requisitionDao.getDocumentNumbersAwaitingContractManagerAssignment();
-             
+
         return requisitionDocumentNumbers;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.RequisitionService#getCountOfRequisitionsAwaitingContractManagerAssignment()
      */
@@ -386,7 +382,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return 0;
         }
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -402,7 +398,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-    
+
     public KualiRuleService getRuleService() {
         return ruleService;
     }
@@ -410,7 +406,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void setRuleService(KualiRuleService ruleService) {
         this.ruleService = ruleService;
     }
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -453,7 +449,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     public RoleService getRoleService(){
         return this.roleService;
     }
-    
+
     /**
      * @return Returns the personService.
      */
@@ -473,5 +469,5 @@ public class RequisitionServiceImpl implements RequisitionService {
         List<RoleMembership> members = roleService.getRoleMembers(java.util.Arrays.asList(roleId), qualification);
         return members.size() > 0;
     }
-    
+
 }

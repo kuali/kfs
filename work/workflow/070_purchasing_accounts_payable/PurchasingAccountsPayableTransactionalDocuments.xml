@@ -1395,7 +1395,7 @@
           <role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Approval"/>
           <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Chart Approval"/>
           <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
-          <split name="VendorIsEmployeeOrNonResidentAlien">
+          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="notifyOnAutoApproval">
             <branch name="True">
               <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
             </branch>
@@ -1403,6 +1403,15 @@
               <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
             </branch>
             <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+          </split>
+          <split name="notifyOnAutoApproval">
+            <branch name = "True">
+              <role name="notifyOnAutoApprovalResponsibility" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <join name="joinOnAutoApproval"/>
           </split>
         </routePath>
       </routePaths>
@@ -1438,6 +1447,23 @@
         </role>
         <join name="JoinReceiving"/>
         <simple name="NoOpReceiving">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <split name="notifyOnAutoApproval">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="notifyOnAutoApprovalResponsibility">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <join name="joinOnAutoApproval"/>
+        <simple name="NoOpAutoApproval">
           <type>
             org.kuali.rice.kew.engine.node.NoOpNode
           </type>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 /**
- * Global constancts for labor distribution.
+ * Global constants for labor distribution.
  */
 public class LaborConstants {
     public static class BalanceInquiries {
@@ -125,7 +125,7 @@ public class LaborConstants {
 
     public static class BatchFileSystem {
         static final public String EXTENSION = ".data";
-        static final public String DONE_FILE_EXTENSION = ".done"; 
+        static final public String DONE_FILE_EXTENSION = ".done";
 
         static final public String NIGHTLY_OUT_FILE = "ld_labentry_kfs";
         static final public String BACKUP_FILE = "ld_ldbackup";
@@ -169,7 +169,7 @@ public class LaborConstants {
         public static final String PURGE_LEDGER_BALANCE_YEAR = "PRIOR_TO_YEAR";
         public static final String PURGE_LEDGER_ENTRY_YEAR = "PRIOR_TO_YEAR";
     }
-    
+
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
 
     public static final String CSF_TRACKER_LOOKUP_HELPER_SRVICE_NAME = "laborCalculatedSalaryFoundationTrackerLookupableHelperService";
@@ -293,7 +293,7 @@ public class LaborConstants {
     public static class PermissionNames {
         public static final String OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION = "Override Transfer Impacting Open Effort Certification";
     }
-    
+
     public static class BenefitCalculation {
         public static final String ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER = "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND";
         public static final String MAX_NUMBER_OF_ERRORS_ALLOWED_PARAMETER = "MAX_NUMBER_OF_ERRORS_ALLOWED";
@@ -305,6 +305,11 @@ public class LaborConstants {
         public static final String LABOR_BENEFIT_OFFSET_DOCTYPE = "LABOR_BENEFIT_OFFSET_DOCTYPE";
         public static final String ACCOUNT_CODE_OFFSET_PROPERTY_NAME = "accountCodeOffset";
         public static final String OBJECT_CODE_OFFSET_PROPERTY_NAME = "objectCodeOffset";
- 
+
+    }
+
+    public static class ErrorCertification {
+        public static final String GENERATE_ERROR_CERTIFICATION_STMT_ID = "GenerateErrorCertStmt";
+        public static final int NUM_ERROR_CERT_FIELDS = 4;
     }
 }

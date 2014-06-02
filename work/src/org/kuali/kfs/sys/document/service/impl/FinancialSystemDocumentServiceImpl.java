@@ -87,7 +87,7 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         final Collection<T> docsWithoutWorfklowHeaders = getBusinessObjectService().findMatching(clazz, fieldValues);
         List<T> results = new ArrayList<T>();
         for (T doc : docsWithoutWorfklowHeaders) {
-            final T docWithWorkflowHeader = (T)getDocumentService().getByDocumentHeaderIdSessionless(doc.getDocumentNumber());
+            final T docWithWorkflowHeader = (T)getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber());
             results.add(docWithWorkflowHeader);
         }
         return results;
@@ -115,7 +115,7 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         final Collection<T> docsWithoutWorfklowHeaders = getBusinessObjectService().findMatching(clazz, fieldValues);
         List<T> results = new ArrayList<T>();
         for (T doc : docsWithoutWorfklowHeaders) {
-            final T docWithWorkflowHeader = (T)getDocumentService().getByDocumentHeaderIdSessionless(doc.getDocumentNumber());
+            final T docWithWorkflowHeader = (T)getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber());
             results.add(docWithWorkflowHeader);
         }
         return results;

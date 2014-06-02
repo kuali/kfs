@@ -71,6 +71,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected File icrInputFile = null;
     protected File icrErrorOutputFile = null;
 
+    protected File icrEncumbranceInputFile = null;
+    protected File icrEncumbranceErrorOutputFile = null;
 
     @Override
     public boolean runBalancing() {
@@ -158,6 +160,32 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         }
         return icrErrorOutputFile = getFile(
                 GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE,
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getICREncumbranceInputFile()
+     */
+    @Override
+    public File getICREncumbranceInputFile(){
+        if (icrEncumbranceInputFile != null) {
+            return icrEncumbranceInputFile;
+        }
+        return icrEncumbranceInputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.ICR_ENCUMBRANCE_POSTER_INPUT_FILE,
+                GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#getICREncumbranceErrorOutputFile()
+     */
+    @Override
+    public File getICREncumbranceErrorOutputFile(){
+        if (icrEncumbranceErrorOutputFile != null) {
+            return icrEncumbranceErrorOutputFile;
+        }
+        return icrEncumbranceErrorOutputFile = getFile(
+                GeneralLedgerConstants.BatchFileSystem.ICR_ENCUMBRANCE_POSTER_ERROR_OUTPUT_FILE,
                 GeneralLedgerConstants.BatchFileSystem.EXTENSION);
     }
 
@@ -287,6 +315,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         this.reversalErrorOutputFile = null;
         this.icrInputFile = null;
         this.icrErrorOutputFile = null;
+        this.icrEncumbranceInputFile = null;
+        this.icrEncumbranceErrorOutputFile = null;
     }
 
     /**
@@ -384,7 +414,9 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
           + (this.reversalInputFile == null ? null : this.reversalInputFile.getName()) + "\n"
           + (this.reversalErrorOutputFile == null ? null : this.reversalErrorOutputFile.getName()) + "\n"
           + (this.icrInputFile == null ? null : this.icrInputFile.getName()) + "\n"
-          + (this.icrErrorOutputFile == null ? null : this.icrErrorOutputFile.getName());
+          + (this.icrErrorOutputFile == null ? null : this.icrErrorOutputFile.getName()) + "\n"
+          + (this.icrEncumbranceInputFile == null ? null : this.icrEncumbranceInputFile.getName()) + "\n"
+          + (this.icrEncumbranceErrorOutputFile == null ? null : this.icrEncumbranceErrorOutputFile.getName());
     }
 
     /**
@@ -686,10 +718,12 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
 
     protected KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
-        if (ObjectUtils.isNull(biggy))
+        if (ObjectUtils.isNull(biggy)) {
             return new KualiDecimal(0);
-        else
+        }
+        else {
             return new KualiDecimal(biggy);
+        }
 
     }
 

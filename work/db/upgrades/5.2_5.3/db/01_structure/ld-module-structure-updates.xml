@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+ 	 	<changeSet author="KFS53" id="KFSCNTRB-846_LD_ERROR_CERT_T">
+		<comment>KFSCNTRB-846 Adding LD_ERROR_CERT_T table for error certification tab that is linked to LD_EXP_TRNFR_DOC_T via FDOC_NBR.</comment>
+		<createTable tableName="LD_ERROR_CERT_T">
+			<column name="FDOC_NBR" type="VARCHAR2(14)">
+				<constraints primaryKey="true" primaryKeyName="LD_ERROR_CERT_TP1" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="LD_ERROR_CERT_TC0" />	
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="EXPND_DESC" type="VARCHAR2(400)" />
+			<column name="EXPND_PROJ_BENEFIT_DESC" type="VARCHAR2(400)" />
+			<column name="ERROR_DESC" type="VARCHAR2(400)" />
+			<column name="ERROR_CORR_REASON_DESC" type="VARCHAR2(400)" />
+		</createTable>		
+
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>		
+	</changeSet>
+	
+</databaseChangeLog>

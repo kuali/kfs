@@ -137,6 +137,7 @@ public class PosterServiceImpl implements PosterService {
     /**
      * Post scrubbed GL entries to GL tables.
      */
+    @Override
     public void postMainEntries() {
         LOG.debug("postMainEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -159,6 +160,7 @@ public class PosterServiceImpl implements PosterService {
     /**
      * Post reversal GL entries to GL tables.
      */
+    @Override
     public void postReversalEntries() {
         LOG.debug("postReversalEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -178,6 +180,7 @@ public class PosterServiceImpl implements PosterService {
     /**
      * Post ICR GL entries to GL tables.
      */
+    @Override
     public void postIcrEntries() {
         LOG.debug("postIcrEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -193,6 +196,31 @@ public class PosterServiceImpl implements PosterService {
             throw new RuntimeException("PosterIcrEntries Stopped: " + e1.getMessage(), e1);
         } catch (IOException ioe) {
             LOG.error("postIcrEntries stopped due to: " + ioe.getMessage(), ioe);
+            throw new RuntimeException(ioe);
+        }
+    }
+
+    /**
+     * Post ICR Encumbrance GL entries to GL tables.
+     */
+    @Override
+    public void postIcrEncumbranceEntries() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("postIcrEncumbranceEntries() started");
+        }
+        Date runDate = dateTimeService.getCurrentSqlDate();
+        try{
+            FileReader INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_ENCUMBRANCE_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            File OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_ENCUMBRANCE_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+
+            postEntries(PosterService.MODE_ICRENCMB, INPUT_GLE_FILE, null, OUTPUT_ERR_FILE);
+
+            INPUT_GLE_FILE.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("postIcrEncumbranceEntries Stopped: " + e1.getMessage(), e1);
+        } catch (IOException ioe) {
+            LOG.error("postIcrEncumbranceEntries stopped due to: " + ioe.getMessage(), ioe);
             throw new RuntimeException(ioe);
         }
     }
@@ -233,7 +261,7 @@ public class PosterServiceImpl implements PosterService {
         OriginEntryFull tran = null;
         Transaction reversalTransaction = null;
         try {
-            if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
+            if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR) || (mode == PosterService.MODE_ICRENCMB)) {
                 LOG.debug("postEntries() Processing groups");
                 while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
                     if (!org.apache.commons.lang.StringUtils.isEmpty(GLEN_RECORD) && !org.apache.commons.lang.StringUtils.isBlank(GLEN_RECORD.trim())) {
@@ -256,6 +284,16 @@ public class PosterServiceImpl implements PosterService {
 
                         if (ecount % 1000 == 0) {
                             LOG.info("postEntries() Posted Entry " + ecount);
+                        }
+
+                        // need to create offset as this was not done in the ICR Encumbrance Feed Step
+                        if (mode == PosterService.MODE_ICRENCMB) {
+                            ecount++;
+                            generateOffset(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GLEN_RECORD, OUTPUT_GLE_FILE_ps);
+
+                            if (ecount % 1000 == 0) {
+                                LOG.info("postEntries() Posted Entry " + ecount);
+                            }
                         }
                     }
                 }
@@ -313,7 +351,7 @@ public class PosterServiceImpl implements PosterService {
         }
         catch (RuntimeException re) {
             LOG.error("postEntries stopped due to: " + re.getMessage() + ", on line number : " + ecount, re);
-            // the null checking in the following code doesn't work as intended, since Java evaluates "+" before "=="; 
+            // the null checking in the following code doesn't work as intended, since Java evaluates "+" before "==";
             // as a result, if reversalTransaction is indeed null, it will cause NPE; and that happened.
             // fixing it by adding () around the ? expression
             //LOG.error("tran failure occured on: " + tran == null ? null : tran.toString());
@@ -357,7 +395,7 @@ public class PosterServiceImpl implements PosterService {
             final String GL_ORIGIN_ENTRY_T = getPersistenceStructureService().getTableName(OriginEntryFull.class);
 
             // Update select count in the report
-            if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
+            if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR) || (mode == PosterService.MODE_ICRENCMB)) {
                 addReporting(reportSummary, GL_ORIGIN_ENTRY_T, GeneralLedgerConstants.SELECT_CODE);
             }
             // If these are reversal entries, we need to reverse the entry and
@@ -505,6 +543,7 @@ public class PosterServiceImpl implements PosterService {
     /**
      * This step reads the expenditure table and uses the data to generate Indirect Cost Recovery transactions.
      */
+    @Override
     public void generateIcrTransactions() {
         LOG.debug("generateIcrTransactions() started");
 
@@ -1030,6 +1069,77 @@ public class PosterServiceImpl implements PosterService {
         }
     }
 
+    /**
+     * The purpose of this method is to build and post the offset transaction. It does this by performing the following steps:
+     * 1. Getting the offset object code from the GL Offset Definition Table.
+     * 2. For the offset object code it needs to get the associated object type.
+     * 3. Flip the transaction debit credit code
+     * 4. Post the offset transaction.
+     *
+     * @param tran a transaction to post
+     * @param mode the mode the poster is running in
+     * @param reportSummary a Map of summary counts generated by the posting process
+     * @param ledgerSummaryReport for summary reporting
+     * @param invalidGroup the group to save invalid entries to
+     * @param runUniversityDate the university date of this poster run
+     * @param line the input line used for printing
+     * @return true if an offset would be needed for this entry, false otherwise
+     */
+    protected boolean generateOffset(OriginEntryFull tran, int mode, Map<String,Integer> reportSummary, LedgerSummaryReport ledgerSummaryReport, PrintStream invalidGroup, UniversityDate runUniversityDate, String line, PrintStream OUTPUT_GLE_FILE_ps) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generateOffset() started");
+        }
+        List<Message> errors = new ArrayList();
+        OriginEntryFull offsetEntry = new OriginEntryFull(tran);
+
+        String offsetDescription = configurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_OFFSET);
+        offsetEntry.setTransactionLedgerEntryDescription(offsetDescription);
+
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(offsetEntry.getUniversityFiscalYear(), offsetEntry.getChartOfAccountsCode(), offsetEntry.getFinancialDocumentTypeCode(), offsetEntry.getFinancialBalanceTypeCode());
+        if (!ObjectUtils.isNull(offsetDefinition)) {
+            if (offsetDefinition.getFinancialObject() == null) {
+                errors.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), Message.TYPE_WARNING));
+            }
+            offsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
+            offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+            offsetEntry.setFinancialSubObject(null);
+            offsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        }
+        else {
+            errors.add(new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), Message.TYPE_WARNING));
+        }
+
+        offsetEntry.setFinancialObjectTypeCode(offsetEntry.getFinancialObject().getFinancialObjectTypeCode());
+        if (KFSConstants.GL_DEBIT_CODE.equals(offsetEntry.getTransactionDebitCreditCode())) {
+            offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        }
+        else {
+            offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        }
+
+        try {
+            flexibleOffsetAccountService.updateOffset(offsetEntry);
+        }
+        catch (InvalidFlexibleOffsetException e) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("generateOffset() Offset Flexible Offset Error: " + e.getMessage());
+            }
+            errors.add(new Message("FAILED TO GENERATE FLEXIBLE OFFSETS " + e.getMessage(), Message.TYPE_WARNING));
+        }
+
+        if (errors.size() > 0) {
+            reportWriterService.writeError(offsetEntry, errors);
+            addReporting(reportSummary, "WARNING", GeneralLedgerConstants.INSERT_CODE);
+        }
+
+        //update input record from offset entry for error reporting
+        line = offsetEntry.getLine();
+        postTransaction(offsetEntry, mode, reportSummary, ledgerSummaryReport, invalidGroup, runUniversityDate, line, OUTPUT_GLE_FILE_ps);
+
+        return true;
+    }
+
+
     public void setVerifyTransaction(VerifyTransaction vt) {
         verifyTransaction = vt;
     }
@@ -1046,6 +1156,7 @@ public class PosterServiceImpl implements PosterService {
         originEntryGroupService = oes;
     }
 
+    @Override
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }

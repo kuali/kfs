@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.FinancialSystemDocumentHeaderPopulationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 /**
  * This step will populate the initiator principal id, document status code, application document status, and document type name
@@ -31,11 +35,11 @@ public class PopulateFinancialSystemDocumentHeadersFromKewStep extends AbstractS
 
     protected final int DEFAULT_BATCH_SIZE = 1000;
     protected FinancialSystemDocumentHeaderPopulationService populationService;
-    protected ParameterService parameterSize;
+    protected ParameterService parameterService;
 
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        populationService.populateFinancialSystemDocumentHeadersFromKew(getBatchSize(), getPopulationLimit());
+        populationService.populateFinancialSystemDocumentHeadersFromKew(getBatchSize(), getPopulationLimit(), getDocumentStatusesToPopulate());
         return true;
     }
 
@@ -75,6 +79,18 @@ public class PopulateFinancialSystemDocumentHeadersFromKewStep extends AbstractS
         return null;
     }
 
+    /**
+     * @return the document statuses that the current batch run should populate (skipping all of the rest); will return an empty Set if there was no value in the parameter
+     */
+    public Set<DocumentStatus> getDocumentStatusesToPopulate() {
+        final Collection<String> documentStatusesToPopulateCollection = getParameterService().getParameterValuesAsString(PopulateFinancialSystemDocumentHeadersFromKewStep.class, KFSParameterKeyConstants.PopulateFinancialSystemDocumentHeaderParameterNames.DOCUMENT_STATUSES_TO_POPULATE);
+        Set<DocumentStatus> documentStatusesToPopulate = new HashSet<DocumentStatus>();
+        for (String documentStatus : documentStatusesToPopulateCollection) {
+            documentStatusesToPopulate.add(DocumentStatus.fromCode(documentStatus));
+        }
+        return documentStatusesToPopulate;
+    }
+
     public FinancialSystemDocumentHeaderPopulationService getPopulationService() {
         return populationService;
     }
@@ -83,11 +99,13 @@ public class PopulateFinancialSystemDocumentHeadersFromKewStep extends AbstractS
         this.populationService = populationService;
     }
 
-    public ParameterService getParameterSize() {
-        return parameterSize;
+    @Override
+    public ParameterService getParameterService() {
+        return parameterService;
     }
 
-    public void setParameterSize(ParameterService parameterSize) {
-        this.parameterSize = parameterSize;
+    @Override
+    public void setParameterService(ParameterService parameterSize) {
+        this.parameterService = parameterSize;
     }
 }

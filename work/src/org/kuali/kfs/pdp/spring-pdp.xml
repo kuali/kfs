@@ -258,7 +258,12 @@
 		<property name="paymentInputFileType" ref="paymentInputFileType" />
 	</bean>
 
-	<bean id="pdpDailyReportStep" class="org.kuali.kfs.pdp.batch.DailyReportStep" parent="step">
+	<bean id="pdpDailyReportStep" class="org.kuali.kfs.pdp.batch.DailyReportStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="dailyReportReportWriterService"/>
+			</list>
+		</property>
 		<property name="dailyReportService" ref="pdpDailyReportService"/>
 	</bean>
 
@@ -323,11 +328,40 @@
 	
 	<bean id="pdpDailyReportService" parent="pdpDailyReportService-parentBean"/>
 	<bean id="pdpDailyReportService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl" abstract="true">
-		<property name="directoryName" value="${reports.directory}/pdp/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="dailyReportReportWriterService" ref="dailyReportReportWriterService" />
+	</bean>
+	
+	<bean id="dailyReportReportWriterService" parent="dailyReportReportWriterService-parentBean" />
+	<bean id="dailyReportReportWriterService-parentBean" abstract="true"
+		class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl"
+		parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/pdp" />
+		<property name="fileNamePrefix" value="pdp_daily_" />
+		<property name="title" value="Summary of Payments Eligible For Format" />
+		<property name="classToBusinessObjectReportHelperBeanNames">
+			<map>
+				<entry key="org.kuali.kfs.pdp.businessobject.DailyReport"
+					value="dailyReportReportHelper" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dailyReportReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.pdp.businessobject.DailyReport" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="sortOrder" value="Sort Order" />
+				<entry key="customer" value="Customer" />
+				<entry key="amount" value="Amount of Payments" />
+				<entry key="payments" value="# of Payment Records" />
+				<entry key="payees" value="# of Payees" />
+			</map>
+		</property>
+		<property name="columnCount" value="5" />
 	</bean>
 
 	<bean id="pdpExtractPaymentService" parent="pdpExtractPaymentService-parentBean"/>

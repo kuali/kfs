@@ -114,6 +114,11 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         prsi.setDateTimeService(SpringContext.getBean(DateTimeService.class));
         prsi.setPaymentRequestDao(SpringContext.getBean(PaymentRequestDao.class));
 
+        /*
+         * In order to test just the getPaymentRequestDocNumberForAutoApprove reflection was used to change the visibility
+         * of this function.  In this case the alternate would be to set up scenarios for preqs to complete the auto approve
+         * process.  It was less complex of a test to avoid the entire auto approval process
+         */
         Method method = PaymentRequestServiceImpl.class.getDeclaredMethod("getPaymentRequestDocNumberForAutoApprove", null);
         method.setAccessible(true);
         List<String> docIds = (List<String>) method.invoke(prsi, null);

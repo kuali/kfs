@@ -1,7 +1,6 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-
 	<changeSet author="KFS53" id="KFSTP1210_FS_DOC_HEADER_T">
 		<comment>
 			KFTP-1210 Parameters which control the run of the PopulateFinancialSystemDocumentHeadersFromKewJob
@@ -25,6 +24,17 @@
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="1000"/>
 			<column name="PARM_DESC_TXT" value="Determines the maximum number of document headers that the PopulateFinancialSystemDocumentHeadersFromKewJob will read at once.  Any non-numeric, zero, negative, or empty value will be treated as if the default value of 1000 has been chosen."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS"/>
+			<column name="CMPNT_CD" value="PopulateFinancialSystemDocumentHeadersFromKewStep"/>
+			<column name="PARM_NM" value="DOCUMENT_STATUSES_TO_POPULATE"/>
+			<column name="OBJ_ID" value="KFS-PARM-172"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="If a value is set, the PopulateFinancialSystemDocumentHeadersFromKewJob will only ppoulate a document if it has one of the given statuses.  Note that this may mean that a run of the population job may fall short of hitting the number of documents processed set by KFS-SYS / PopulateFinancialSystemDocumentHeadersFromKewStep / POPULATION_LIMIT."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -75,5 +85,75 @@
             <column name="APPL_ID" value="KFS"/>
         </insert>
     </changeSet>
+	
+	<changeSet author="KFS53" id="KFSCNTRB-846_ERROR_CERT">
+		<comment>KFSCNTRB-846 Parameters that control the error certification tab requirements.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED"/>
+			<column name="OBJ_ID" value="KFS-PARM-173"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value="3"/>
+			<column name="PARM_DESC_TXT" value="Defines the default number of fiscal periods that will require that the Error Certification tab be completed. If the fiscal period of the transaction exceeds the current fiscal period by more than the default, the Error Certification tab is required."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND"/>
+			<column name="OBJ_ID" value="KFS-PARM-174"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value="FEDERA=2"/>
+			<column name="PARM_DESC_TXT" value="Specific sub-fund groups that are excepted from the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. If the account used on the TO side includes sub-funds specified in this parameter, the number of fiscal periods associated with the sub fund should be used instead of the default to determine whether or not the Error Certification tab is required. Format of list is sub fund 1=number of fiscal periods; sub fund 2=number of fiscal periods."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
 
+	<changeSet author="KFS53" id="KFSCNTRB-1156">
+		<comment>Add parameters for KFSCNTRB-1156 Calculate ICR Encumbrances.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION"/>
+			<column name="OBJ_ID" value="KFS-PARM-175"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IR"/>
+			<column name="PARM_DESC_TXT" value="Identifies Origination Code to be used when creating ICR Transactions and transactions that should be excluded when calculating ICR encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
+			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES"/>
+			<column name="OBJ_ID" value="KFS-PARM-176"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IE;EX;PE"/>
+			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert> 
+  </changeSet>
+
+	<changeSet author="KFS53" id="KFSCNTRB-784">
+		<comment>
+			KFSCNTRB-784 Modify Scrubber Job to validate and update the object type code when files are received from external sources. 
+		</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="ScrubberStep"/>
+			<column name="PARM_NM" value="OBJECT_TYPE_BYPASS_ORIGINATIONS"/>
+			<column name="OBJ_ID" value="KFS-PARM-177"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="01"/>
+			<column name="PARM_DESC_TXT" value="Origination Codes where the object type will not be updated to match the object type assigned to the object code."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+	</changeSet>
 </databaseChangeLog>

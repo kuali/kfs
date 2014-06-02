@@ -1193,6 +1193,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN)) {
             return isVendorEmployeeOrNonResidentAlien();
         }
+        if (nodeName.equals(PurapWorkflowConstants.IS_DOCUMENT_AUTO_APPROVED)) {
+            return isAutoApprovedIndicator();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
@@ -1477,4 +1480,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
     }
+    
 }

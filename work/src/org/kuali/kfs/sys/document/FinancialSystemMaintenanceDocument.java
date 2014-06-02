@@ -182,7 +182,8 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         // cause problems.  And since org.kuali.rice.krad.service.impl.PostProcessorServiceImpl#doRouteStatusChange will NOT save the document when the
         // DocStatus is saved, let's simply pre-anticipate that
         final String statusCode = getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.INITIATED) ? DocumentStatus.SAVED.getCode() : getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusCode);        super.prepareForSave();
+        getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusCode);
+        super.prepareForSave();
     }
 }
 

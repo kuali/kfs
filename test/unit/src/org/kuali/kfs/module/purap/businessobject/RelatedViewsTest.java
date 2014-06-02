@@ -118,10 +118,6 @@ public class RelatedViewsTest extends KualiTestBase {
         PaymentRequestView prv = businessObjectService.findByPrimaryKey(PaymentRequestView.class, keys);
 
         assertEquals(preq.getApplicationDocumentStatus(), prv.getApplicationDocumentStatus());
-
-        prv.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-
-        assertEquals(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, prv.getApplicationDocumentStatus());
     }
 
     public void testPurchaseOrderView() throws Exception {
@@ -136,10 +132,6 @@ public class RelatedViewsTest extends KualiTestBase {
         PurchaseOrderView pov = businessObjectService.findByPrimaryKey(PurchaseOrderView.class, keys);
 
         assertEquals(po.getApplicationDocumentStatus(), pov.getApplicationDocumentStatus());
-
-        pov.setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_AWAIT_BUDGET_REVIEW);
-
-        assertEquals(PurapConstants.PurchaseOrderStatuses.APPDOC_AWAIT_BUDGET_REVIEW, pov.getApplicationDocumentStatus());
     }
 
     public void testVendorCreditMemoView() throws Exception {
@@ -154,10 +146,6 @@ public class RelatedViewsTest extends KualiTestBase {
         CreditMemoView cmv = businessObjectService.findByPrimaryKey(CreditMemoView.class, keys);
 
         assertEquals(vcm.getApplicationDocumentStatus(), cmv.getApplicationDocumentStatus());
-
-        cmv.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS);
-
-        assertEquals(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS, cmv.getApplicationDocumentStatus());
     }
 
     public void testBulkReceivingView() throws Exception {
@@ -171,10 +159,6 @@ public class RelatedViewsTest extends KualiTestBase {
         BulkReceivingView brv = businessObjectService.findByPrimaryKey(BulkReceivingView.class, keys);
 
         assertEquals(br.getApplicationDocumentStatus(), brv.getApplicationDocumentStatus());
-
-        brv.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS);
-
-        assertEquals(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS, brv.getApplicationDocumentStatus());
     }
 
     public void testElectronicInvoiceRejectView() throws Exception {
@@ -188,10 +172,6 @@ public class RelatedViewsTest extends KualiTestBase {
         ElectronicInvoiceRejectView erv = businessObjectService.findByPrimaryKey(ElectronicInvoiceRejectView.class, keys);
 
         assertEquals(eirt.getApplicationDocumentStatus(), erv.getApplicationDocumentStatus());
-
-        erv.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS);
-
-        assertEquals(PurapConstants.CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS, erv.getApplicationDocumentStatus());
     }
 
     public void testLineItemReceivingView() throws Exception {
@@ -205,10 +185,6 @@ public class RelatedViewsTest extends KualiTestBase {
         LineItemReceivingView lirv = businessObjectService.findByPrimaryKey(LineItemReceivingView.class, keys);
 
         assertEquals(lird.getApplicationDocumentStatus(), lirv.getApplicationDocumentStatus());
-
-        lirv.setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS );
-
-        assertEquals(PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS, lirv.getApplicationDocumentStatus());
     }
 
     public void testRequisitionView() throws Exception {
@@ -222,10 +198,6 @@ public class RelatedViewsTest extends KualiTestBase {
         RequisitionView reqsv = businessObjectService.findByPrimaryKey(RequisitionView.class, keys);
 
         assertEquals(reqs.getApplicationDocumentStatus(), reqsv.getApplicationDocumentStatus());
-
-        reqsv.setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW);
-
-        assertEquals(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW, reqsv.getApplicationDocumentStatus());
     }
 
 }

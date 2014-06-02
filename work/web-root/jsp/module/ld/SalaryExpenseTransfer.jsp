@@ -105,7 +105,9 @@
 			<sys-java:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine"	attributeGroupName="source" />
 	       	<sys-java:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target" />
 		</sys-java:accountingLines>
-	</kul:tab> 
+	</kul:tab>
+	
+	<ld:errorCertification documentAttributes="${DataDictionary.ErrorCertification.attributes}" />
 	     
 	<ld:laborLedgerPendingEntries />
     <kul:notes />

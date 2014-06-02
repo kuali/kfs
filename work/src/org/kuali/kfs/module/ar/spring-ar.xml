@@ -981,6 +981,9 @@
 		<property name="accountsReceivableTaxService">
 			<ref bean="accountsReceivableTaxService" />
 		</property>
+        <property name="customerInvoiceDocumentService">
+            <ref bean="customerInvoiceDocumentService" />
+        </property> 
 	</bean>
 
 	<bean id="ocrLineService"  parent="ocrLineService-parentBean"/>

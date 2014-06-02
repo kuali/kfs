@@ -37,6 +37,7 @@ public class PurapWorkflowConstants {
     public static final String RELATES_TO_OUTSTANDING_TRANSACTIONS = "RelatesToOutstandingTransactions";
     public static final String REQUIRES_IMAGE_ATTACHMENT = "RequiresImageAttachment";
     public static final String PURCHASE_WAS_RECEIVED = "PurchaseWasReceived";
+    public static final String IS_DOCUMENT_AUTO_APPROVED = "notifyOnAutoApproval";
     
     public static final String DOC_ADHOC_NODE_NAME = "AdHoc";
 

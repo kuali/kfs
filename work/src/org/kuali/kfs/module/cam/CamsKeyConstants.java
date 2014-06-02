@@ -150,7 +150,9 @@ public class CamsKeyConstants {
         public static final String ERROR_BUILDING_CODE_REQUIRED = "error.asset.location.building.code.required";
         public static final String ERROR_ROOM_NUMBER_REQUIRED = "error.asset.location.room.number.required";
         public static final String ERROR_ASSET_AUTHORIZATION = "error.asset.authorization";
-    }
+
+        public static final String WARNING_ASSET_NOT_CHANGED = "warning.asset.not.changed";
+}
 
     public static class BarcodeInventory {
         public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";

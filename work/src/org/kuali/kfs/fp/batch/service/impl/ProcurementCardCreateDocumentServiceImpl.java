@@ -435,6 +435,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                     if ( LOG.isInfoEnabled() ) {
                         LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
                     }
+                    pcardDocument.setAutoApprovedIndicator(true);
                     documentService.superUserApproveDocument(pcardDocument, "");
                 }
             } catch (WorkflowException e) {

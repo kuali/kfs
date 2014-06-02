@@ -725,7 +725,16 @@
           <role name="AccountFullEdit" nextNode="Account"/>
           <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
-          <role name="SubFund"/>
+          <role name="SubFund" nextNode="notifyOnAutoApproval"/>
+          <split name="notifyOnAutoApproval">
+            <branch name = "True">
+                <role name="notifyOnAutoApprovalResponsibility" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <branch name="False">
+                <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval"/>
+            </branch>
+            <join name="joinOnAutoApproval"/>
+          </split>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -735,6 +744,25 @@
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
+        <split name="notifyOnAutoApproval">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="notifyOnAutoApprovalResponsibility">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="joinOnAutoApproval"/>
+        <simple name="NoOpAutoApproval">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
         <role name="Account">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.ErrorCertification;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.util.LaborPendingEntryGenerator;
@@ -44,10 +45,11 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 /**
  * Labor Document Class for the Salary Expense Transfer Document.
  */
-public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
+public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase implements ErrorCertifiable {
     protected static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryExpenseTransferDocument.class);
 
     protected Map<String, KualiDecimal> approvalObjectCodeBalances;
+    protected ErrorCertification errorCertification;
 
     /**
      * Default Constructor.
@@ -73,6 +75,26 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      */
     public void setApprovalObjectCodeBalances(Map<String, KualiDecimal> approvalObjectCodeBalances) {
         this.approvalObjectCodeBalances = approvalObjectCodeBalances;
+    }
+
+    /**
+     * Gets the errorCertification attribute.
+     *
+     * @return Returns the errorCertification.
+     */
+    @Override
+    public ErrorCertification getErrorCertification() {
+        return errorCertification;
+    }
+
+    /**
+     * Sets the errorCertification attribute value.
+     *
+     * @param errorCertification The errorCertification to set.
+     */
+    @Override
+    public void setErrorCertification(ErrorCertification errorCertification) {
+        this.errorCertification = errorCertification;
     }
 
     /**
@@ -175,6 +197,11 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
 
             // Set the description field truncating name if necessary
             laborLedgerPendingEntry.setTransactionLedgerEntryDescription(personName.length() > descriptionLength ? personName.substring(0, descriptionLength - 1) : personName);
+        }
+
+        // KFSCNTRB-846 Need to set doc number on Error Certification object because it's the primary key; otherwise OJB complains
+        if (errorCertification != null) {
+            errorCertification.setDocumentNumber(this.documentNumber);
         }
     }
 

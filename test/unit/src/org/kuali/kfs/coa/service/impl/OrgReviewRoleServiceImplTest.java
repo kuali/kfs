@@ -17,21 +17,22 @@ package org.kuali.kfs.coa.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.delegation.DelegationType;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
-import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
@@ -272,19 +273,6 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
         }
     }
 
-
-//    public void testPopulateOrgReviewRoleFromRoleMember() {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testPopulateOrgReviewRoleFromDelegationMember() {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testPopulateObjectExtras() {
-//        fail("Not yet implemented");
-//    }
-
     public void testIsValidDocumentTypeForOrgReview() {
         assertTrue( "DI should have been valid", orgReviewRoleService.isValidDocumentTypeForOrgReview("DI") );
         assertTrue( "ACCT should have been valid", orgReviewRoleService.isValidDocumentTypeForOrgReview("ACCT") );
@@ -308,34 +296,17 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
         assertFalse( "COAT should not have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("COAT"));
     }
 
-//    public void testGetClosestOrgReviewRoleParentDocumentTypeName() {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testGetRolesToConsider() {
-//        fail("Not yet implemented");
-//    }
-
-//    public void testCurrentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles() {
-//        assertTrue( "COAT should have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("COAT"));
-//        assertFalse( "KFS should not have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("KFS"));
-//        assertFalse( "KFST should not have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("KFST"));
-//        assertFalse( "DI should not have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("DI"));
-////        assertTrue( "FSSM should have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("FSSM"));
-//    }
-
     /**
      *  Look for any documents (created by optional unit tests) that may be at the accounting organization hierarchy or
      *  organization hierarchy route nodes so we can bypass running tests that may fail
      * @return whether there are any enroute documents or not
      */
     protected boolean enrouteDocumentsExist() {
-        DocumentSearchCriteria.Builder docSearch = DocumentSearchCriteria.Builder.create();
-        docSearch.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
-        docSearch.setDocumentTypeName(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
-        final DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), docSearch.build());
-        return !results.getSearchResults().isEmpty();
+        final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.ENROUTE.getCode());
+        int count = boService.countMatching(FinancialSystemDocumentHeader.class, fieldValues);
+        return count > 0;
     }
 
 }

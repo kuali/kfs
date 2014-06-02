@@ -92,7 +92,7 @@
 			<column name="NMSPC_CD" value="KFS-LD"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED"/>
-			<column name="OBJ_ID" value="KFSCNTRB-846_ERROR_CERT_01"/>
+			<column name="OBJ_ID" value="KFS-PARM-173"/>
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="VALID"/>
 			<column name="VAL" value="3"/>
@@ -104,7 +104,7 @@
 			<column name="NMSPC_CD" value="KFS-LD"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND"/>
-			<column name="OBJ_ID" value="KFSCNTRB-846_ERROR_CERT_02"/>
+			<column name="OBJ_ID" value="KFS-PARM-174"/>
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="VALID"/>
 			<column name="VAL" value="FEDERA=2"/>
@@ -120,7 +120,7 @@
 			<column name="NMSPC_CD" value="KFS-GL"/>
 			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
 			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION"/>
-			<column name="OBJ_ID" value="KFSCNTRB-1156-1"/>
+			<column name="OBJ_ID" value="KFS-PARM-175"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="IR"/>
 			<column name="PARM_DESC_TXT" value="Identifies Origination Code to be used when creating ICR Transactions and transactions that should be excluded when calculating ICR encumbrances."/>
@@ -131,7 +131,7 @@
 			<column name="NMSPC_CD" value="KFS-GL"/>
 			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
 			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES"/>
-			<column name="OBJ_ID" value="KFSCNTRB-1156-2"/>
+			<column name="OBJ_ID" value="KFS-PARM-176"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="IE;EX;PE"/>
 			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
@@ -148,7 +148,7 @@
 			<column name="NMSPC_CD" value="KFS-GL"/>
 			<column name="CMPNT_CD" value="ScrubberStep"/>
 			<column name="PARM_NM" value="OBJECT_TYPE_BYPASS_ORIGINATIONS"/>
-			<column name="OBJ_ID" value="KFSCNTRB784-PARM1"/>
+			<column name="OBJ_ID" value="KFS-PARM-177"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="01"/>
 			<column name="PARM_DESC_TXT" value="Origination Codes where the object type will not be updated to match the object type assigned to the object code."/>

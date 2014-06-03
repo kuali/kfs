@@ -40,19 +40,19 @@ public interface CustomerOpenItemReportService {
 
     /**
      * This method gives list of document numbers from customerNumber.
-     * 
+     *
      * @param customerNumber
      * @return
      */
     public Collection<String> getDocumentNumbersOfReferenceReports(String customerNumber);
-    
+
     /**
      * This method populates CustomerOpenItemReportDetails  with customer's unpaid/unapplied amount.
-     * 
+     *
      * @param customerNumber
      * @param document
      * @return
      */
-
     public List getPopulatedUnpaidUnappliedAmountReportDetails(String customerNumber, String document);
+
 }

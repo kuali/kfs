@@ -118,62 +118,78 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * If the customer number and address identifiers are present, display customer information
+     *
+     * @param customerInvoiceDocument
      */
     public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
-     * @param customerNumber
-     * @return
+     * This method returns a Collection of CustomerInvoiceDocuments corresponding to a customerNumber.
+     *
+     * @param customerNumber used to find invoices
+     * @return Collection<CustomerInvoiceDocument> invoice documents
      */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByCustomerNumber(String customerNumber);
 
     /**
-     * @param customerInvoiceDocumentNumber
-     * @return
+     * This method returns a Collection of CustomerInvoiceDetails for a customer invoice document number.
+     *
+     * @param customerInvoiceDocumentNumber used to find customer invoice details for a customer invoice document
+     * @return Collection<CustomerInvoiceDetail> customer invoice details
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
 
     /**
-     * @param customerInvoiceDocument
-     * @return
+     * This method returns a Collection of CustomerInvoiceDetails for a customer invoice document.
+     *
+     * @param customerInvoiceDocument used to find customer invoice details
+     * @return Collection<CustomerInvoiceDetail> customer invoice details
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
-
     /**
+     * This method returns a Collection of CustomerInvoiceDetails for a customer invoice document.
      * Cached for better performance
      *
-     * @param customerInvoiceDocument
-     * @return
+     * @param customerInvoiceDocument used to find customer invoice details
+     * @return Collection<CustomerInvoiceDetail> customer invoice details
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocumentWithCaching(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
-     * @param invoiceNumber
-     * @return
+     * This method returns a Customer for an invoice based on organizationInvoiceNumber.
+     *
+     * @param invoiceNumber organizationInvoiceNumber used to find invoice and get the customer
+     * @return Customer for the invoice corresponding to the organizationInvoiceNumber
      */
     public Customer getCustomerByOrganizationInvoiceNumber(String invoiceNumber);
 
     /**
-     * @param organizationInvoiceNumber
-     * @return
+     * This method returns a CustomerInvoiceDocument based on organizationInvoiceNumber.
+     *
+     * @param organizationInvoiceNumber used to find invoice and get the customer
+     * @return CustomerInvoiceDocument corresponding to the organizationInvoiceNumber
      */
     public CustomerInvoiceDocument getInvoiceByOrganizationInvoiceNumber(String organizationInvoiceNumber);
 
     /**
-     * @param documentNumber
-     * @return
+     * This method returns a Customer for an invoice based on invoice document number.
+     *
+     * @param documentNumber used to find the invoice and get the customer
+     * @return Customer for the invoice corresponding to the documentNumber
      */
     public Customer getCustomerByInvoiceDocumentNumber(String documentNumber);
 
     /**
-     * @param invoiceDocumentNumber
-     * @return
+     * This method returns a CustomerInvoiceDocument based on invoice document number.
+     *
+     * @param invoiceDocumentNumber used to find the invoice
+     * @return CustomerInvoiceDocument corresponding to the invoiceDocumentNumber
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
 
     /**
-     * Gets the printable customer invoice for the specified initiatorPrincipalName.   
+     * Gets the printable customer invoice for the specified initiatorPrincipalName.
      *
      * @param initiatorPrincipalName the specified initiatorPrincipalName
      * @return the printable customer invoice for the specified initiatorPrincipalName
@@ -181,7 +197,7 @@ public interface CustomerInvoiceDocumentService {
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName);
 
     /**
-     * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode.   
+     * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode.
      *
      * @param chartOfAccountsCode
      * @param organizationCode
@@ -190,26 +206,26 @@ public interface CustomerInvoiceDocumentService {
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
     /**
-     * Gets the printable customer invoice for the BillingStatement by chartOfAccountsCode and organizationCode.   
+     * Gets the printable customer invoice for the BillingStatement by chartOfAccountsCode and organizationCode.
      *
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return the printable customer invoice for the BillingStatement.
-     */    
+     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
-/**
- * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode. 
- * 
- * @param chartOfAccountsCode
- * @param organizationCode
- * @return the printable customer invoice
- */
+    /**
+     * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode.
+     *
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return the printable customer invoice
+     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
     /**
-     * Gets customer invoice for the specified chartOfAccountsCode and organizationCode. 
-     * 
+     * Gets customer invoice for the specified chartOfAccountsCode and organizationCode.
+     *
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return customer invoice
@@ -218,7 +234,7 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * Get list of customer invoice by processing chartOfAccountsCode and organizationCode.
-     * 
+     *
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return list of customer invoice
@@ -227,44 +243,49 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * Gets customer invoice by account number.
-     * 
+     *
      * @param accountNumber
      * @return collection of customer invoice.
      */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber);
 
     /**
-     * @param documentNumber
-     * @return
-     */
-    // public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForInvoice(String documentNumber);
-    /**
-     * @param documentNumber
-     * @return
+     * This method returns the NonInvoicedDistributions for an invoice based on documentNumber.
+     *
+     * @param documentNumber used to find the invoice
+     * @return Collection<NonInvoicedDistribution> non invoiced distributions for the invoice corresponding to the documentNumber
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber);
 
     /**
-     * @param documentNumber
-     * @return
+     * This method returns the total NonInvoicedDistribution amount for an invoice based on documentNumber.
+     *
+     * @param documentNumber used to find the invoice
+     * @return KualiDecimal non invoiced distribution total for the invoice
      */
     public KualiDecimal getNonInvoicedTotalForInvoice(String documentNumber);
 
     /**
-     * @param invoice
-     * @return
+     * This method returns the total NonInvoicedDistribution amount for an invoice.
+     *
+     * @param invoice used to get the non invoiced distributions to total
+     * @return KualiDecimal non invoiced distribution total for the invoice
      */
     public KualiDecimal getNonInvoicedTotalForInvoice(CustomerInvoiceDocument invoice);
 
     /**
-     * @param documentNumber
-     * @return
+     * This method returns the total InvoicePaidApplied amount for an invoice based on documentNumber.
+     *
+     * @param documentNumber used to find the invoice
+     * @return KualiDecimal paid applied total for the invoice
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(String documentNumber);
 
     /**
-     * @param invoice
-     * @return
+     * This method returns the total InvoicePaidApplied amount for an invoice.
+     *
+     * @param invoice used to get the invoice paid applied objects to total
+     * @return KualiDecimal paid applied total for the invoice
      */
     public KualiDecimal getPaidAppliedTotalForInvoice(CustomerInvoiceDocument invoice);
 
@@ -276,35 +297,35 @@ public interface CustomerInvoiceDocumentService {
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
-     * This method...
+     * This method returns the total open amount for an invoice based on customerInvoiceDocumentNumber.
      *
-     * @param customerInvoiceDocumentNumber
-     * @return
+     * @param customerInvoiceDocumentNumber used to find the invoice
+     * @return KualiDecimal total open amount for the invoice
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(String customerInvoiceDocumentNumber);
 
 
     /**
-     * This method...
+     * This method returns the total open amount for an invoice based on customerInvoiceDocumentNumber.
      *
-     * @param customerInvoiceDocumentNumber
-     * @return
+     * @param customerInvoiceDocumentNumber invoice used to calculate total open amount
+     * @return KualiDecimal total open amount for the invoice
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
      * get total amount of customer invoice by customer invoice.
-     * 
+     *
      * @param customerInvoiceDocument
      * @return
      */
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
-     * 
-     * 
-     * @param invDocumentNumber
-     * @return
+     * This method checks if the invoice is final.
+     *
+     * @param invDocumentNumber invoice to check
+     * @return true if invoice is final, false otherwise
      */
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber);
 

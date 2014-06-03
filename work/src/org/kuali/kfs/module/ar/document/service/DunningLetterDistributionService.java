@@ -26,8 +26,10 @@ import org.kuali.rice.kim.api.identity.Person;
 import com.lowagie.text.DocumentException;
 
 public interface DunningLetterDistributionService {
+
     /**
-     * Creates a byte stream of pdfs for all dunning letters created for the given DunningLetterDistributionLookupResults
+     * Creates a byte stream of pdfs for all dunning letters created for the given DunningLetterDistributionLookupResults.
+     *
      * @param results the dunning letter lookup results to create pdfs for
      * @return a byte stream of PDFS
      */
@@ -36,16 +38,16 @@ public interface DunningLetterDistributionService {
     /**
      * This method generates the actual pdf files to print.
      *
-     * @param mapping
-     * @param form
-     * @param list
+     * @param report
+     * @param baos
      * @return
-     * @throws Exception
+     * @throws IOException
      */
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException;
 
     /**
-     * Determines if the given DunningLetterTemplate's organization is valid for the given user
+     * Determines if the given DunningLetterTemplate's organization is valid for the given user.
+     *
      * @param template the template to check the organization of
      * @param user the user attempting to use the template
      * @return true if the current user can use the template, false otherwise

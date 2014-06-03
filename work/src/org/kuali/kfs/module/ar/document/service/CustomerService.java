@@ -25,42 +25,50 @@ import org.kuali.rice.krad.bo.Note;
 public interface CustomerService {
 
     /**
-     * Return customer by customerNumber
+     * Return customer by customerNumber.
+     *
      * @param customerNumber
      * @return
      */
     public Customer getByPrimaryKey(String customerNumber);
 
     /**
-     * Return customer by taxNumber
+     * Return customer by taxNumber.
+     *
      * @param customerNumber
      * @return
      */
     public Customer getByTaxNumber(String taxNumber);
 
     /**
-     * This method builds the new customer number
+     * This method builds the new customer number.
+     *
      * @param newCustomer the new customer
      * @return the new customer number
      */
     public String getNextCustomerNumber(Customer newCustomer);
 
     /**
-     * This method gets a customer given his name
+     * This method gets a customer given his name.
+     *
      * @param customerName
      * @return the customer with the given name
      */
     public Customer getCustomerByName(String customerName);
 
     /**
-     * @param customer
-     * @return
+     * This method returns invoices for a given customer.
+     *
+     * @param customer used to find invoices
+     * @return Collection<CustomerInvoiceDocument> invoices for the customer
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(Customer customer);
 
     /**
-     * @param customerNumber
-     * @return
+     * This method returns invoices for a given customer based on customer number.
+     *
+     * @param customerNumber used to find the customer and get invoices
+     * @return Collection<CustomerInvoiceDocument> invoices for the customer
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber);
 

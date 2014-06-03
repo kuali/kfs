@@ -98,10 +98,26 @@ public interface PaymentApplicationDocumentService {
      */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
 
+    /**
+     * This method creates, saves and approves a PaymentApplication document for a given invoice with the
+     * given approval annotation and adhoc recipients.
+     *
+     * @param customerInvoiceDocument invoice to create PaymentApplication from
+     * @param approvalAnnotation annotation for approval action
+     * @param workflowNotificationRecipients adhoc notification recipients
+     * @return PaymentApplicationDocument that was created
+     * @throws WorkflowException if there's a problem
+     */
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException;
 
+    /**
+     * This method creates, saves and approves a PaymentApplication document for a given invoice.
+     *
+     * @param customerInvoiceDocument invoice to create PaymentApplication from
+     * @return PaymentApplicationDocument that was created
+     * @throws WorkflowException if there's a problem
+     */
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
-
 
     /**
      * This method returns true if invoicePaidApplied is the applied payment for

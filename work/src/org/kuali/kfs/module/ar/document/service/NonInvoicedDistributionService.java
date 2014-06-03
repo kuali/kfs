@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,15 +21,21 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface NonInvoicedDistributionService {
+
     /**
-     * @param documentNumber
-     * @return
+     * This method returns NonInvoicedDistribution objects corresponding to an invoice by documentNumber.
+     *
+     * @param documentNumber used to find the invoice and get the NonInvoicedDistribution objects
+     * @return Collection<NonInvoicedDistribution> non invoice distributions for the invoice
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber);
 
     /**
-     * @param invoice
-     * @return
+     * This method returns NonInvoicedDistribution objects corresponding to an invoice.
+     *
+     * @param invoice used to find the NonInvoiceDistribution objects
+     * @return Collection<NonInvoicedDistribution> non invoice distributions for the invoice
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(CustomerInvoiceDocument invoice);
+
 }

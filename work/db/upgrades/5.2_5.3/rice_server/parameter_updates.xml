@@ -168,12 +168,12 @@
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="NM" value="Current Account Balance"/>
             <column name="ACTV_IND" value="Y"/>
-        </insert>
+        </insert> 
         <insert tableName="KRCR_PARM_T">
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="CASH_BUDGET_RECORD_LEVEL"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-1"/>
+            <column name="OBJ_ID" value="KFS-PARM-178"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="N"/>
@@ -185,7 +185,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="INCOME_OBJECT_TYPE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-2"/>
+            <column name="OBJ_ID" value="KFS-PARM-179"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="CH;IC;IN;TI"/>
@@ -197,7 +197,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="EXPENSE_OBJECT_TYPE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-3"/>
+            <column name="OBJ_ID" value="KFS-PARM-180"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="EE;ES;EX;TE"/>
@@ -209,7 +209,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="ENCUMBRANCE_BALANCE_TYPE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-4"/>
+            <column name="OBJ_ID" value="KFS-PARM-181"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="EX;IE;PE;CE"/>
@@ -221,7 +221,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="CURRENT_ASSET_OBJECT_CODE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-5"/>
+            <column name="OBJ_ID" value="KFS-PARM-182"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="8000;8100"/>
@@ -233,7 +233,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="CURRENT_LIABILITY_OBJECT_CODE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-6"/>
+            <column name="OBJ_ID" value="KFS-PARM-183"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="9041"/>
@@ -245,7 +245,7 @@
             <column name="NMSPC_CD" value="KFS-GL"/>
             <column name="CMPNT_CD" value="CurrentAccountBalance"/>
             <column name="PARM_NM" value="FUND_BALANCE_OBJECT_CODE"/>
-            <column name="OBJ_ID" value="KFSCNTRB1020-7"/>
+            <column name="OBJ_ID" value="KFS-PARM-184"/>
             <column name="VER_NBR" valueNumeric="1"/>
             <column name="PARM_TYP_CD" value="VALID"/>
             <column name="VAL" value="9899"/>
@@ -261,7 +261,7 @@
 			<column name="NMSPC_CD" value="KFS-SYS"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="DEFAULT_CHART_CODE"/>
-			<column name="OBJ_ID" value="KFSCNTRB-594-PARM1"/>
+			<column name="OBJ_ID" value="KFS-PARM-185"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Used as the default chart when parameter DEFAULT_CHART_CODE_METHOD is 1 or 3. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>
@@ -272,7 +272,7 @@
 			<column name="NMSPC_CD" value="KFS-SYS"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="DEFAULT_CHART_CODE_METHOD"/>
-			<column name="OBJ_ID" value="KFSCNTRB-594-PARM2"/>
+			<column name="OBJ_ID" value="KFS-PARM-186"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Leave blank if a default chart should not be set on transactional docs; 1: Use the chart code on transactional docs in parameter DEFAULT_CHART_CODE as the default; 2: Use the initiator’s primary department chart code as the default on transactional docs; 3: Use the initiator’s primary department code as the default on transactional docs, if there is none, use the chart code in DEFAULT_CHART_CODE. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>

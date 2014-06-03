@@ -323,14 +323,6 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         return searchResults;
     }
 
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnKeys()
-     */
-    @Override
-    public List getReturnKeys() {
-        return new ArrayList();
-    }
-
     public AccountService getAccountService() {
         return accountService;
     }

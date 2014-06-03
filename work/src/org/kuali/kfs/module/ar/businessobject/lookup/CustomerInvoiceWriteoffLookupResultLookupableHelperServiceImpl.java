@@ -250,14 +250,6 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         return (new CustomerInvoiceWriteoffLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
-    /*
-     * TODO Figure out what to really send here...
-     */
-    @Override
-    public List getReturnKeys() {
-        return new ArrayList();
-    }
-
     public CustomerInvoiceWriteoffDocumentService getCustomerInvoiceWriteoffDocumentService() {
         return customerInvoiceWriteoffDocumentService;
     }

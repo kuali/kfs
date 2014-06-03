@@ -37,13 +37,12 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
@@ -70,6 +69,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
     protected DateTimeService dateTimeService;
     protected ContractsGrantsAgingReportService contractsGrantsAgingReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -257,8 +257,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 BusinessObject element = (BusinessObject) aDisplayList;
 
                 BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                String returnUrl = null;
-                String actionUrls = null;
 
                 if (ObjectUtils.isNotNull(getColumns())) {
                     List<Column> columns = getColumns();
@@ -276,27 +274,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
                         // formatters
                         if (ObjectUtils.isNotNull(prop)) {
-                            // for Booleans, always use BooleanFormatter
-                            if (prop instanceof Boolean) {
-                                formatter = new BooleanFormatter();
-                            }
-
-                            // for Dates, always use DateFormatter
-                            if (prop instanceof Date) {
-                                formatter = new DateFormatter();
-                            }
-
-                            // for collection, use the list formatter if a formatter hasn't been defined yet
-                            if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                                formatter = new CollectionFormatter();
-                            }
-
-                            if (ObjectUtils.isNotNull(formatter)) {
-                                propValue = (String) formatter.format(prop);
-                            }
-                            else {
-                                propValue = prop.toString();
-                            }
+                            propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                         }
 
                         // comparator
@@ -343,7 +321,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
                     }
 
-                    ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                    ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
                     if (element instanceof PersistableBusinessObject) {
                         row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     }
@@ -674,5 +652,13 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     public void setContractsGrantsAgingReportService(ContractsGrantsAgingReportService contractsGrantsAgingReportService) {
         this.contractsGrantsAgingReportService = contractsGrantsAgingReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

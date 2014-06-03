@@ -33,14 +33,13 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.CustomerAgingReportService;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -62,6 +61,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
     protected DateTimeService dateTimeService;
     protected CustomerAgingReportService customerAgingReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -280,9 +280,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             BusinessObject element = (BusinessObject) aDisplayList;
 
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-            String returnUrl = "www.bigfrickenRETURNurl";
-            String actionUrls = "www.someACTIONurl";
-
 
             if (ObjectUtils.isNotNull(getColumns())) {
                 List<Column> columns = getColumns();
@@ -299,39 +296,15 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                     // set comparator and formatter based on property type
                     Class propClass = propertyTypes.get(col.getPropertyName());
                     if (propClass == null) {
-                        try {
-                            propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(),    getPersistenceStructureService());
-                            if (propClass != null) {
-                                propertyTypes.put(col.getPropertyName(), propClass);
-                            }
-                        } catch (Exception e) {
-                            propClass = null;
-                            LOG.warn("Failed to find property type class for "+col.getPropertyName());
+                        propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(),    getPersistenceStructureService());
+                        if (propClass != null) {
+                            propertyTypes.put(col.getPropertyName(), propClass);
                         }
                     }
 
                     // formatters
                     if (prop != null) {
-                        // for Booleans, always use BooleanFormatter
-                        if (prop instanceof Boolean) {
-                            formatter = new BooleanFormatter();
-                        }
-
-                        // for Dates, always use DateFormatter
-                        if (prop instanceof Date) {
-                            formatter = new DateFormatter();
-                        }
-
-                        // for collection, use the list formatter if a formatter hasn't been defined yet
-                        if (prop instanceof Collection && formatter == null) {
-                            formatter = new CollectionFormatter();
-                        }
-
-                        if (formatter != null) {
-                            propValue = (String) formatter.format(prop);
-                        } else {
-                            propValue = prop.toString();
-                        }
+                        propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                     }
 
                     // comparator
@@ -360,7 +333,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
                 }
 
-                ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
                 if (element instanceof PersistableBusinessObject) {
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                 }
@@ -902,5 +875,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     public void setCustomerAgingReportService(CustomerAgingReportService customerAgingReportService) {
         this.customerAgingReportService = customerAgingReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

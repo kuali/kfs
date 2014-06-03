@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,9 +29,9 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResul
 import org.kuali.kfs.module.ar.businessobject.inquiry.CustomerInvoiceWriteoffLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -49,6 +50,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl.class);
     protected CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -191,23 +193,19 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
                 propClass = propDescriptor.getPropertyType();
             }
         }
-        catch (Exception e) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
+        }
+        catch (InvocationTargetException ite) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ite);
+        }
+        catch (NoSuchMethodException nsme) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
         }
 
         // formatters
         if (prop != null) {
-            // for Booleans, always use BooleanFormatter
-            if (prop instanceof Boolean) {
-                formatter = new BooleanFormatter();
-            }
-
-            if (formatter != null) {
-                propValue = (String) formatter.format(prop);
-            }
-            else {
-                propValue = prop.toString();
-            }
+            propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
         }
 
         // comparator
@@ -252,10 +250,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         return (new CustomerInvoiceWriteoffLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
-    @Override
     /*
      * TODO Figure out what to really send here...
      */
+    @Override
     public List getReturnKeys() {
         return new ArrayList();
     }
@@ -266,5 +264,13 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
 
     public void setCustomerInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
         this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

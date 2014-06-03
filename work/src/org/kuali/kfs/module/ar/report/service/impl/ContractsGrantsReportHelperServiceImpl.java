@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,10 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.core.web.format.CollectionFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -135,6 +140,36 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         }
 
         return titleText;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#formatByType(java.lang.Object, org.kuali.rice.core.web.format.Formatter)
+     */
+    @Override
+    public String formatByType(Object prop, Formatter preferredFormatter) {
+        Formatter formatter = preferredFormatter;
+        // for Booleans, always use BooleanFormatter
+        if (prop instanceof Boolean) {
+            formatter = new BooleanFormatter();
+        }
+
+        // for Dates, always use DateFormatter
+        if (prop instanceof Date) {
+            formatter = new DateFormatter();
+        }
+
+        // for collection, use the list formatter if a formatter hasn't been defined yet
+        if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
+            formatter = new CollectionFormatter();
+        }
+
+        if (ObjectUtils.isNotNull(formatter)) {
+            return (String)formatter.format(prop);
+        }
+        else {
+            return prop.toString();
+        }
     }
 
     public DataDictionaryService getDataDictionaryService() {

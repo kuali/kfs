@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -65,4 +66,12 @@ public interface ContractsGrantsReportHelperService {
      * @return an appropriate title
      */
     public String createTitleText(Class<? extends BusinessObject> boClass);
+
+    /**
+     * Formats a given property value by what type it is
+     * @param prop the property to format
+     * @param preferredFormatter the preferredFormatter to use
+     * @return the formatted property
+     */
+    public String formatByType(Object prop, Formatter preferredFormatter);
 }

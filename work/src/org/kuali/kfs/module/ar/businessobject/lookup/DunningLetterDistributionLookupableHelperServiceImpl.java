@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,10 +35,10 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.inquiry.DunningLetterDistributionLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -62,6 +63,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
     protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -215,23 +217,19 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
                 propClass = propDescriptor.getPropertyType();
             }
         }
-        catch (Exception e) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
+        }
+        catch (InvocationTargetException ite) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ite);
+        }
+        catch (NoSuchMethodException nsme) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
         }
 
         // Formatters
         if (ObjectUtils.isNotNull(prop)) {
-            // For Booleans, always use BooleanFormatter
-            if (prop instanceof Boolean) {
-                formatter = new BooleanFormatter();
-            }
-
-            if (ObjectUtils.isNotNull(formatter)) {
-                propValue = (String) formatter.format(prop);
-            }
-            else {
-                propValue = prop.toString();
-            }
+            propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
         }
 
         // Comparator
@@ -274,14 +272,6 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnKeys()
-     */
-    @Override
-    public List getReturnKeys() {
-        return new ArrayList();
-    }
-
-    /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
      *
      * @return Returns the contractsGrantsInvoiceDocumentService.
@@ -313,5 +303,13 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
 
     public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
         this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

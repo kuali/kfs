@@ -410,6 +410,9 @@
 		<property name="contractsAndGrantsModuleRetrieveService">
 			<ref bean="contractsAndGrantsModuleRetrieveService"/>
 		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsInvoiceLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -429,6 +432,9 @@
 		<property name="contractsAndGrantsModuleRetrieveService">
 			<ref bean="contractsAndGrantsModuleRetrieveService" />
 		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
 	</bean>
 
 	<bean id="dunningLetterDistributionLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -447,6 +453,9 @@
 		</property>
 		<property name="contractsAndGrantsModuleRetrieveService">
 			<ref bean="contractsAndGrantsModuleRetrieveService" />
+		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
 	</bean>
 
@@ -1832,6 +1841,9 @@
 		<property name="customerAgingReportService">
 			<ref bean="customerAgingReportService"/>
 		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
 	</bean>
 
 	<bean id="arCustomerAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1861,6 +1873,9 @@
 				 abstract="true" parent="lookupableHelperService">
 		<property name="customerInvoiceWriteoffDocumentService">
 			<ref bean="customerInvoiceWriteoffDocumentService" />
+		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
 	</bean>
 
@@ -2087,6 +2102,9 @@
 		<property name="contractsGrantsAgingReportService">
 			<ref bean="contractsGrantsAgingReportService"/>
 		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
 	</bean>
 
 	<bean id="arContractsAndGrantsAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -2177,6 +2195,9 @@
 	<bean id="collectionActivityInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService"/>
+		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
 	</bean>
 

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +26,9 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.CollectionFormatter;
-import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -51,6 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -144,27 +142,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
                     // formatters
                     if (ObjectUtils.isNotNull(prop)) {
-                        // for Booleans, always use BooleanFormatter
-                        if (prop instanceof Boolean) {
-                            formatter = new BooleanFormatter();
-                        }
-
-                        // for Dates, always use DateFormatter
-                        if (prop instanceof Date) {
-                            formatter = new DateFormatter();
-                        }
-
-                        // for collection, use the list formatter if a formatter hasn't been defined yet
-                        if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                            formatter = new CollectionFormatter();
-                        }
-
-                        if (ObjectUtils.isNotNull(formatter)) {
-                            propValue = (String) formatter.format(prop);
-                        }
-                        else {
-                            propValue = prop.toString();
-                        }
+                        propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                     }
 
                     // comparator
@@ -201,5 +179,13 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

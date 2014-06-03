@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +30,6 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.CollectionFormatter;
-import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -100,8 +96,6 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
             BusinessObject element = (BusinessObject) aDisplayList;
 
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-            String returnUrl = "www.bigfrickenRETURNurl";
-            String actionUrls = "www.someACTIONurl";
 
             if (ObjectUtils.isNotNull(getColumns())) {
                 List<Column> columns = getColumns();
@@ -118,27 +112,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
 
                     // formatters
                     if (ObjectUtils.isNotNull(prop)) {
-                        // for Booleans, always use BooleanFormatter
-                        if (prop instanceof Boolean) {
-                            formatter = new BooleanFormatter();
-                        }
-
-                        // for Dates, always use DateFormatter
-                        if (prop instanceof Date) {
-                            formatter = new DateFormatter();
-                        }
-
-                        // for collection, use the list formatter if a formatter hasn't been defined yet
-                        if (prop instanceof Collection && ObjectUtils.isNull(formatter)) {
-                            formatter = new CollectionFormatter();
-                        }
-
-                        if (ObjectUtils.isNotNull(formatter)) {
-                            propValue = (String) formatter.format(prop);
-                        }
-                        else {
-                            propValue = prop.toString();
-                        }
+                        propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                     }
 
                     // comparator
@@ -182,7 +156,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
 
                 }
 
-                ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+                ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
                 if (element instanceof PersistableBusinessObject) {
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                 }

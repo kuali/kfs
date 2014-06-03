@@ -1405,6 +1405,8 @@ public class KFSConstants {
     static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
     static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
     static final public String TRIAL_BAL_REPORT_YEAR = "reportYear";
+    static final public String TRIAL_BAL_REPORT_PERIOD = "reportFiscalPeriod";
+
     // Pcard Email Notification
     public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
     public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";

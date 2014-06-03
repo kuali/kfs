@@ -64,6 +64,7 @@
 	</subDataset>
 
 	<parameter name="reportYear" isForPrompting="true" class="java.lang.String"/>
+	<parameter name="reportFiscalPeriod" isForPrompting="true" class="java.lang.String"/>
 
 	<field name="chartOfAccountsCode" class="java.lang.String"/>
 	<field name="objectCode" class="java.lang.String"/>
@@ -85,6 +86,20 @@
 					<reportElement
 						style="parent"
 						x="365"
+						y="68"
+						width="148"
+						height="17"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "glBal.reportYear.label" ) + $P{reportYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="parent"
+						x="365"
 						y="80"
 						width="148"
 						height="17"
@@ -93,7 +108,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Top">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "glBal.reportYear.label" ) + $P{reportYear}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "glBal.reportFiscalPeriod.label" ) + $P{reportFiscalPeriod}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

@@ -23,6 +23,7 @@ import org.kuali.kfs.gl.businessobject.TrialBalanceReport;
 import org.kuali.kfs.gl.service.TrialBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -39,6 +40,7 @@ public class TrialBalanceLookupableHelperServiceImpl extends KualiLookupableHelp
     private TrialBalanceService trialBalanceService;
     private static final String TOTAL = "Total";
 
+
     /**
      * ASR-1212: append the rice prefix for inquiry url
      *
@@ -54,7 +56,7 @@ public class TrialBalanceLookupableHelperServiceImpl extends KualiLookupableHelp
         }
 
         // setting up url should exclude total debit/credit entry
-        if ((KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME.equals(propertyName)) && (TOTAL.equals(((TrialBalanceReport) bo).getChartOfAccountsCode()))) {
+        if ((KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(propertyName)) && (TOTAL.equals(((TrialBalanceReport) bo).getChartOfAccountsCode()))) {
             ((AnchorHtmlData) inquiryUrl).setHref("");
         }
         return inquiryUrl;
@@ -70,15 +72,16 @@ public class TrialBalanceLookupableHelperServiceImpl extends KualiLookupableHelp
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
 
-        String selectedFiscalYear = fieldValues.get(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME);
-        String chartCode = fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+        String selectedFiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String chartCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String periodCode = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
 
-        return trialBalanceService.findTrialBalance(selectedFiscalYear, chartCode);
+        return trialBalanceService.findTrialBalance(selectedFiscalYear, chartCode, periodCode);
     }
 
 
     /**
-     * validate university fiscal year
+     * Validate trial balance search params: university fiscal year and period code
      *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
@@ -86,13 +89,29 @@ public class TrialBalanceLookupableHelperServiceImpl extends KualiLookupableHelp
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
 
-        String selectedFiscalYear = (String) fieldValues.get(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME);
+        String selectedFiscalYear = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         if (StringUtils.isNotBlank(selectedFiscalYear)) {
             try {
                 int year = Integer.parseInt(selectedFiscalYear);
             }
             catch (NumberFormatException e) {
                 GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
+                throw new ValidationException("errors in search criteria");
+            }
+        }
+
+        String selectedPeriodCode = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+
+        if (StringUtils.isNotBlank(selectedPeriodCode)) {
+            try {
+                int period = Integer.parseInt(selectedPeriodCode);
+                if (period <=0 || period > 13) {
+
+                    throw new NumberFormatException();
+                }
+            }
+            catch (NumberFormatException e) {
+                GlobalVariables.getMessageMap().putError("universityFiscalPeriodCode", KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Period Code must be a number in the range of 01 to 13" });
                 throw new ValidationException("errors in search criteria");
             }
         }

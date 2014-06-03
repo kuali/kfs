@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
@@ -42,6 +43,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
     protected CustomerOpenItemReportService customerOpenItemReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -161,17 +163,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
                 // formatters
                 if (prop != null) {
-                    // for Dates, always use DateFormatter
-                    if (prop instanceof Date) {
-                        formatter = new DateFormatter();
-                    }
-
-                    if (formatter != null) {
-                        propValue = (String) formatter.format(prop);
-                    }
-                    else {
-                        propValue = prop.toString();
-                    }
+                    propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                 }
 
                 // comparator
@@ -209,8 +201,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
             }
 
-
-
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
             if (element instanceof PersistableBusinessObject) {
                 row.setObjectId(((PersistableBusinessObject) element).getObjectId());
@@ -235,5 +225,13 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
     public void setCustomerOpenItemReportService(CustomerOpenItemReportService customerOpenItemReportService) {
         this.customerOpenItemReportService = customerOpenItemReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

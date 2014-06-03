@@ -122,13 +122,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                 String dateToFieldValues = ObjectUtils.isNull(lookupFormFields.get(propertyName.toString())) ? "" : lookupFormFields.get(propertyName.toString()).toString();
 
                 if (ObjectUtils.isNotNull(event.getFollowupDate())) {
-                    try {
-                        isValid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, event.getFollowupDate(), propertyName.toString());
-                    }
-                    catch (Exception e) {
-                        // do nothing
-                        isValid = false;
-                    }
+                    isValid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, event.getFollowupDate(), propertyName.toString());
                 }
                 else {
                     isValid = false;

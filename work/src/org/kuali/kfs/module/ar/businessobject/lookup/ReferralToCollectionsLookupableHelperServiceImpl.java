@@ -201,34 +201,42 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         col.setColumnTitle(columnTitle);
         col.setMaxLength(getDataDictionaryService().getAttributeMaxLength(element.getClass(), attributeName));
 
-        Class formatterClass = getDataDictionaryService().getAttributeFormatter(element.getClass(), attributeName);
-        Formatter formatter = null;
-        if (ObjectUtils.isNotNull(formatterClass)) {
-            try {
+        try {
+            Class formatterClass = getDataDictionaryService().getAttributeFormatter(element.getClass(), attributeName);
+            Formatter formatter = null;
+            if (ObjectUtils.isNotNull(formatterClass)) {
                 formatter = (Formatter) formatterClass.newInstance();
                 col.setFormatter(formatter);
             }
-            catch (InstantiationException e) {
-                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
-                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
-            }
-            catch (IllegalAccessException e) {
-                LOG.error("Unable to get new instance of formatter class: " + formatterClass.getName());
-                throw new RuntimeException("Unable to get new instance of formatter class: " + formatterClass.getName());
-            }
-        }
 
-        // Pick off result column from result list, do formatting
-        String propValue = KFSConstants.EMPTY_STRING;
-        Object prop = ObjectUtils.getPropertyValue(element, attributeName);
+            // Pick off result column from result list, do formatting
+            String propValue = KFSConstants.EMPTY_STRING;
+            Object prop = ObjectUtils.getPropertyValue(element, attributeName);
 
-        // Set comparator and formatter based on property type
-        Class propClass = null;
-        try {
+            // Set comparator and formatter based on property type
+            Class propClass = null;
             PropertyDescriptor propDescriptor = PropertyUtils.getPropertyDescriptor(element, col.getPropertyName());
             if (ObjectUtils.isNotNull(propDescriptor)) {
                 propClass = propDescriptor.getPropertyType();
             }
+
+            // Formatters
+            if (ObjectUtils.isNotNull(prop)) {
+                propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
+            }
+
+            // Comparator
+            col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+            col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+            propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
+            col.setPropertyValue(propValue);
+
+            if (StringUtils.isNotBlank(propValue)) {
+                col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
+            }
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Unable to get new instance of formatter class for property " + col.getPropertyName(), ie);
         }
         catch (IllegalAccessException iae) {
             throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
@@ -238,21 +246,6 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         }
         catch (NoSuchMethodException nsme) {
             throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
-        }
-
-        // Formatters
-        if (ObjectUtils.isNotNull(prop)) {
-            propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
-        }
-
-        // Comparator
-        col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
-        col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-        propValue = super.maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue, businessObjectRestrictions);
-        col.setPropertyValue(propValue);
-
-        if (StringUtils.isNotBlank(propValue)) {
-            col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
         }
         return col;
     }

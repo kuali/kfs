@@ -1858,6 +1858,9 @@
 		<property name="customerOpenItemReportService">
 			<ref bean="customerOpenItemReportService"/>
 		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
 	</bean>
 
 	<bean id="arCustomerOpenItemReportLookupable"  parent="arCustomerOpenItemReportLookupable-parentBean" scope="prototype"/>
@@ -2145,6 +2148,9 @@
 		scope="prototype" parent="lookupableHelperService">
 		<property name="contractsGrantsAgingOpenInvoicesReportService">
 			<ref bean="contractsGrantsAgingOpenInvoicesReportService"/>
+		</property>
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
 	</bean>
 

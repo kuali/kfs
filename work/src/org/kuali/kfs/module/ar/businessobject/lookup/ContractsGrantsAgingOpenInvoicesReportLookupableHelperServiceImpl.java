@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsAgingOpenInvoicesReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsAgingOpenInvoicesReportService;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
@@ -44,6 +45,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 
 public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     protected ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService;
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -132,9 +134,6 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
             BusinessObject element = (BusinessObject) iter.next();
 
-            String returnUrl = "";
-            String actionUrls = "";
-
             List<Column> columns = getColumns();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
@@ -147,17 +146,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
                 // formatters
                 if (prop != null) {
-                    // for Dates, always use DateFormatter
-                    if (prop instanceof Date) {
-                        formatter = new DateFormatter();
-                    }
-
-                    if (formatter != null) {
-                        propValue = (String) formatter.format(prop);
-                    }
-                    else {
-                        propValue = prop.toString();
-                    }
+                    propValue = getContractsGrantsReportHelperService().formatByType(prop, formatter);
                 }
 
                 // comparator
@@ -180,7 +169,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
                 }
             }
 
-            ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
+            ResultRow row = new ResultRow(columns, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
             if (element instanceof PersistableBusinessObject) {
                 row.setObjectId(((PersistableBusinessObject) element).getObjectId());
             }
@@ -229,5 +218,13 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
     public void setContractsGrantsAgingOpenInvoicesReportService(ContractsGrantsAgingOpenInvoicesReportService contractsGrantsAgingOpenInvoicesReportService) {
         this.contractsGrantsAgingOpenInvoicesReportService = contractsGrantsAgingOpenInvoicesReportService;
+    }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
     }
 }

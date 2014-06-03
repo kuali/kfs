@@ -50,6 +50,13 @@ public interface ChartService {
     public List<String> getAllChartCodes();
 
     /**
+     * Retrieves all of the charts in the system and returns them in a List.
+     *
+     * @return A List of ACTIVE chart codes.
+     */
+    public List<String> getAllActiveChartCodes();
+
+    /**
      * Retrieves all of the "active" charts in the system in chart code order.
      *
      * @return

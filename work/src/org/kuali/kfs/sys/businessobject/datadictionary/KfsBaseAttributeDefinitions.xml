@@ -50,7 +50,7 @@
 	<alias alias="ChartTextControl" name="TwoCharacterTextControl" />
 
 	<bean id="ChartSelectControl" parent="SelectControlDefinition" 
-			p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false" />
+			p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false" />
 
 	<bean id="ChartSimpleSelectControl" parent="SelectControlDefinition" 
 			p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false" />

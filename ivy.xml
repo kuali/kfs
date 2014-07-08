@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
     <!ENTITY spring.version "3.1.0.RELEASE">
-    <!ENTITY rice.version "2.1.8">
+    <!ENTITY rice.version "2.1.9">
 ]>
 <ivy-module version="2.0">
 	<info organisation="org.kuali.kfs" module="kfs" />

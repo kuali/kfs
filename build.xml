@@ -16,7 +16,8 @@
 -->
 <project name="kfs" default="help" basedir="."
 	xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
-    xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators">
+    xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators"
+	xmlns:ivy="antlib:org.apache.ivy.ant">
 	<!-- run the help target to view usage instructions for public targets -->
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -49,25 +50,15 @@
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
-	<target name="check-rice-lib">
-		<if>
-			<not>
-				<available file="build/rice-lib" type="dir" />
-			</not>
-			<then>
-				<antcall target="extract-rice-libraries" />
-				<antcall target="build-eclipse-classpath" />
-			</then>
-		</if>
-	</target>
-	
-	<target name="dist-local" if="is.local.build" depends="clean,check-rice-lib,filter-project,filter-local,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="check-libs" depends="resolve,build-eclipse-classpath"/>
+			
+	<target name="dist-local" if="is.local.build" depends="clean,check-libs,filter-project,filter-local,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
 	</target>
 	
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
 	
-	<target name="filter-libraries" depends="init-properties,check-rice-lib">
+	<target name="filter-libraries" depends="init-properties,check-libs">
 		<!-- Copies over institutional lib libraries to the application's library directory -->
 		<mkdir dir="${lib.directory}" />
 				
@@ -97,6 +88,7 @@
 
 	<target name="clean-all" depends="clean" description="Delete all generated/extracted files within the project.">
 		<delete dir="${build.rice.lib.directory}" />
+		<delete dir="${build.kfs.lib.directory}" />
 		<delete dir="build/rice-datadictionary" />
 		<delete dir="work/web-root/META-INF" />
 		<delete dir="test/classes" />
@@ -444,7 +436,7 @@
 		</condition>
 	</target>
 
-	<target name="init-make-references" depends="init-properties,check-rice-lib,filter-libraries">
+	<target name="init-make-references" depends="init-properties,check-libs,filter-libraries">
 		<path id="preliminary.compile.source.classpath">
 			<fileset dir="${build.kfs.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.rice.lib.directory}" includes="*.jar" />
@@ -487,6 +479,17 @@
 		</path>
 	</target>
 	
+	<target name="resolve" description="--> retrieve dependencies with ivy">
+	    <ivy:retrieve conf="rice-lib" pattern="build/[conf]/[artifact](-[classifier])-[revision].[ext]"/>
+		<ivy:retrieve conf="rice-sources"  pattern="build/[conf]/[artifact](-[classifier])-[revision]-sources.[ext]"/>
+		<ivy:retrieve conf="rice-war"  pattern="build/external/appserver/[artifact](-[classifier])-[revision].[ext]"/>
+		<ivy:retrieve conf="kfs-lib"  pattern="build/[conf]/[artifact](-[classifier])-[revision].[ext]"/>
+	</target>
+	
+	<target name="report" description="--> retrieve dependencies with ivy">
+			<ivy:report conf="kfs-lib" organisation="org.kuali.kfs" module="kfs"/>
+		</target>
+	
 	<target name="make-javadoc" depends="init-make-references">
 		<mkdir dir="${doc.directory}"/>
 		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
@@ -526,8 +529,7 @@
 		</delete>
 	</target>
 	
-	<target name="clean-project" depends="init-properties,clean-help,clean-rice">
-		<delete dir="${build.rice.lib.directory}" />
+	<target name="clean-project" depends="init-properties,clean-help,clean-rice,clean-lib">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir.safe}">
 				<include name="${source.directory}/${configuration.file}" />
@@ -557,6 +559,14 @@
 		</delete>
 	</target>
 
+	<target name="clean-lib">
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${build.kfs.lib.directory}"/>
+			<fileset dir="${build.rice.lib.directory}"/>
+			<fileset dir="${build.rice.sources.directory}"/>
+		</delete>	
+	</target>
+	
 	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-properties">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="kfs-*/**" />
@@ -650,7 +660,7 @@
 	</target>
 	
 	
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-rice-lib,filter-libraries">
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-libs,filter-libraries">
 	
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 	    <if>
@@ -679,7 +689,7 @@
 			<path refid="compile.source.classpath" />
 			<path refid="database.drivers.classpath" />
 		</path>
-		
+
 		<condition property="rebuild.dd.schema" value='false'><not><isset property="rebuild.dd.schema"/></not></condition>
 		
 		<java classname="org.kuali.kfs.sys.context.SchemaBuilder" fork="true">
@@ -772,7 +782,7 @@
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${classes.directory}" />
-		<javac destdir="${classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
+		<javac destdir="${classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.7" target="1.7" failonerror="${fail.when.compile.fails}"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
 			<classpath refid="compile.source.classpath" />			
 			<compilerarg line="-Xmaxerrs 500"/>
@@ -785,7 +795,7 @@
 	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${institution.source.directory} into ${classes.directory}" />
         <javac destdir="${classes.directory}" srcdir="${institution.source.directory}"
-               debug="true" fork="true"  source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
+               debug="true" fork="true"  source="1.7" target="1.7" failonerror="${fail.when.compile.fails}"
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
@@ -830,7 +840,7 @@ Includes: ${tests.compile.includes}
 Excludes: ${tests.compile.excludes}
 *********************************************</echo>
 		<javac destdir="${test.classes.directory}" 
-	 	    source="1.6" target="1.6"
+	 	    source="1.7" target="1.7"
 			debug="true" nowarn="true" failonerror="${fail.when.compile.fails}" 
 			optimize="true" fork="true" 
 			memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
@@ -854,7 +864,7 @@ Excludes: ${tests.compile.excludes}
 	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
         <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
         <javac destdir="${test.classes.directory}" debug="true" nowarn="true" 
-		 	    source="1.6" target="1.6"
+		 	    source="1.7" target="1.7"
         	   optimize="true" fork="true" failonerror="${fail.when.compile.fails}" 
         	   memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			   includes="${tests.compile.includes}"
@@ -1090,20 +1100,6 @@ The workflow files you want to run must exist in the pending subdirectory and wi
         </java>
         
     </target>
-
-	<target name="extract-rice-libraries" depends="init-properties">
-		<mkdir dir="${build.rice.lib.directory}" />
-		<delete verbose="true" failonerror="false">
-			<fileset dir="${build.rice.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-		</delete>
-
-		<unzip dest="${build.rice.lib.directory}" src="${rice.server.war.directory}/${rice.server.war.file.name}">
-			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
-		    <mapper type="flatten"/>
-		</unzip>
-	</target>
 	
 	<target name="build-eclipse-classpath" depends="init-properties" unless="dont.build.eclipse.classpath">
 		<!-- this property is here to make it easy to test without replacing the classpath -->

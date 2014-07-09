@@ -1,0 +1,440 @@
+<?xml version="1.0"?>
+<!DOCTYPE ivy-module [
+    <!ENTITY spring.version "3.1.0.RELEASE">
+    <!ENTITY rice.version "2.1.9">
+]>
+<ivy-module version="2.0">
+	<info organisation="org.kuali.kfs" module="kfs" />
+
+	<configurations>
+		<conf name="kfs-lib" description="kfs dependency jars" />
+		<conf name="rice-lib" description="rice dependency jars" />
+		<conf name="rice-sources" description="rice source jars" />
+		<conf name="rice-war" description="rice war" />
+	</configurations>
+	<dependencies>
+		
+	<!-- Rice libs; put these in rice-lib -->
+		<dependency org="aopalliance" name="aopalliance" rev="1.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="asm" name="asm" rev="3.3.1" transitive="false"
+			conf="rice-lib->default" />
+		<dependency org="org.aspectj" name="aspectjrt" rev="1.6.8"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.aspectj" name="aspectjweaver" rev="1.6.8"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="avalon-framework" name="avalon-framework"
+			rev="4.1.5" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.bouncycastle" name="bcprov-jdk16" rev="1.46"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.btm" name="btm" rev="2.1.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.ow2.carol" name="carol" rev="3.0.6"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.ow2.carol" name="carol-interceptors"
+			rev="1.0.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.jasig.cas.client" name="cas-client-core" rev="3.2.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="cglib" name="cglib-nodep" rev="2.2.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.kuali.commons" name="commons-beanutils"
+			rev="1.8.3-kuali-4" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-chain" name="commons-chain" rev="1.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-codec" name="commons-codec" rev="1.6"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-collections" name="commons-collections"
+			rev="3.2.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-dbcp" name="commons-dbcp" rev="1.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-digester" name="commons-digester"
+			rev="2.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-fileupload" name="commons-fileupload"
+			rev="1.3.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-httpclient" name="commons-httpclient"
+			rev="3.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-io" name="commons-io" rev="2.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-lang" name="commons-lang" rev="2.6"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-pool" name="commons-pool" rev="1.5.7"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-transaction" name="commons-transaction"
+			rev="1.2" transitive="false" conf="rice-lib->default" />
+		<dependency org="commons-validator" name="commons-validator"
+			rev="1.3.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-api" rev="2.7.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-bindings-soap"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-bindings-xml"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-core" rev="2.7.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-databinding-aegis"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-databinding-jaxb"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxrs"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-frontend-simple"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-transports-http"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-ws-addr" rev="2.7.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-ws-security"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.cxf" name="cxf-rt-ws-policy"
+			rev="2.7.0" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.kuali.db.ojb" name="db-ojb" rev="1.0.4-patch8"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="displaytag" name="displaytag" rev="1.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="dom4j" name="dom4j" rev="1.6.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.directwebremoting" name="dwr" rev="3.0.RC2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="net.sf.ehcache" name="ehcache-core" rev="2.5.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.groovy" name="groovy-all"
+			rev="1.8.5" transitive="false" conf="rice-lib->default" />
+		<dependency org="com.google.guava" name="guava" rev="11.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.hibernate" name="hibernate-core"
+			rev="3.6.9.Final" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.hibernate.javax.persistence" name="hibernate-jpa-2.0-api"
+			rev="1.0.1.Final" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.hibernate" name="hibernate-commons-annotations"
+			rev="3.2.0.Final" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.hibernate" name="hibernate-entitymanager"
+			rev="3.6.9.Final" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.objectweb.howl" name="howl" rev="1.0.1-1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.ow2.carol.irmi" name="irmi" rev="1.1.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.jackson" name="jackson-core-asl"
+			rev="1.8.8" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl"
+			rev="1.8.8" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.jacorb" name="jacorb"
+			rev="2.2.3-jonas-patch-20071018" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.jacorb" name="jacorb-idl"
+			rev="2.2.3-jonas-patch-20071018" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.javassist" name="javassist" rev="3.15.0-GA"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="javax.inject" name="javax.inject" rev="1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="javax.ws.rs" name="javax.ws.rs-api" rev="2.0-m10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.2.6"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.6.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.jdom" name="jdom" rev="1.1" transitive="false"
+			conf="rice-lib->default" />
+		<dependency org="joda-time" name="joda-time" rev="2.0"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="joda-time" name="joda-time-jsptags" rev="1.1.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.ow2.jotm" name="jotm-core" rev="2.1.10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="com.google.code.findbugs" name="jsr305"
+			rev="1.3.9" transitive="false" conf="rice-lib->default" />
+		<dependency org="javax.ws.rs" name="jsr311-api" rev="1.1.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="javax.servlet.jsp.jstl" name="jstl-api"
+			rev="1.2" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.glassfish.web" name="jstl-impl"
+			rev="1.2" transitive="false" conf="rice-lib->default" />
+		<dependency org="javax.mail" name="mail" rev="1.4.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.neethi" name="neethi" rev="3.0.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.opensaml" name="opensaml" rev="2.5.1-1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.opensaml" name="openws" rev="1.4.2-1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="oro" name="oro" rev="2.0.8" transitive="false"
+			conf="rice-lib->default" />
+		<dependency org="org.quartz-scheduler" name="quartz" rev="1.8.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.kuali.rice" name="rice-core-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-web" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-web" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-edl-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-edl-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-ken-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-kns" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-app-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-web-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-client-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-server-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-web" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-api" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-framework" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-impl" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="xalan" name="serializer" rev="2.7.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-aop"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-asm"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-beans"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-context"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-context-support"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-core"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-expression"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-jdbc"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springmodules" name="spring-modules-ojb"
+			rev="0.8a" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-orm"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework.security" name="spring-security-cas"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework.security" name="spring-security-core"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework.security" name="spring-security-crypto"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework.security" name="spring-security-web"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-tx" rev="&spring.version;"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-web"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.springframework" name="spring-webmvc"
+			rev="&spring.version;" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.woodstox" name="stax2-api"
+			rev="3.1.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.struts" name="struts-core" rev="1.3.10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.struts" name="struts-el" rev="1.3.10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.struts" name="struts-extras" rev="1.3.10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.struts" name="struts-taglib" rev="1.3.10"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.tiles" name="tiles-api" rev="2.2.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.tiles" name="tiles-core" rev="2.2.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.tiles" name="tiles-jsp" rev="2.2.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.tiles" name="tiles-servlet"
+			rev="2.2.2" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.tiles" name="tiles-template"
+			rev="2.2.2" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.woodstox" name="woodstox-core-asl"
+			rev="4.1.1" transitive="false" conf="rice-lib->default" />
+		<dependency org="wsdl4j" name="wsdl4j" rev="1.6.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.ws.security" name="wss4j" rev="1.6.7"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.codehaus.woodstox" name="wstx-asl"
+			rev="3.2.9" transitive="false" conf="rice-lib->default" />
+		<dependency org="xalan" name="xalan" rev="2.7.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="xapool" name="xapool" rev="1.5.0-patch4"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="xerces" name="xercesImpl" rev="2.9.1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="xml-resolver" name="xml-resolver" rev="1.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.ws.xmlschema" name="xmlschema-core"
+			rev="2.0.3" transitive="false" conf="rice-lib->default" />
+		<dependency org="org.apache.santuario" name="xmlsec" rev="1.5.2"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="org.opensaml" name="xmltooling" rev="1.3.2-1"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="xpp3" name="xpp3_min" rev="1.1.3.4.O"
+			transitive="false" conf="rice-lib->default" />
+		<dependency org="com.thoughtworks.xstream" name="xstream" rev="1.2.2"
+			transitive="false" conf="rice-lib->default" />
+
+	<!-- Rice sources; put these in rice-sources-->
+		<dependency org="org.kuali.rice" name="rice-core-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-service-web" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-core-web" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-edl-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-edl-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-ken-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kew-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kim-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-kns" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-app-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-web-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krms-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-client-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-server-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-ksb-web" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-api" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-framework" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-impl" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+
+		<!--  Rice war; move this to external/appserver -->
+		<dependency org="org.kuali.rice" name="rice-web" rev="&rice.version;"
+			transitive="false" conf="rice-war->default"/>
+		<dependency org="org.ow2.carol" name="carol" rev="3.0.6"
+			transitive="false" conf="rice-war->default" />
+		<dependency org="org.ow2.carol" name="carol-interceptors"
+			rev="1.0.1" transitive="false" conf="rice-war->default" />
+		<dependency org="commons-cli" name="commons-cli"
+			rev="1.0" transitive="false" conf="rice-war->default" />
+		<dependency org="javax.resource" name="connector-api"
+			rev="1.5" transitive="false" conf="rice-war->default" />
+		<dependency org="org.objectweb.howl" name="howl" rev="1.0.1-1"
+			transitive="false" conf="rice-war->default" />
+		<dependency org="org.ow2.jotm" name="jotm-core" rev="2.1.10"
+			transitive="false" conf="rice-war->default" />
+		<dependency org="javax.transaction" name="jta" rev="1.1"
+			transitive="false" conf="rice-war->default" />
+		<dependency org="p6spy" name="p6spy" rev="1.3-patched"
+			transitive="false" conf="rice-war->default" />
+		<dependency org="xapool" name="xapool" rev="1.5.0-patch4"
+			transitive="false" conf="rice-war->default" />
+
+
+		<!-- KFS libs; put these in kfs-lib -->
+		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1" transitive="false" 
+			conf="kfs-lib->default"/>
+		<dependency org="commons-net-ftp" name="commons-net-ftp"
+			rev="2.0" transitive="false" conf="kfs-lib->default" />
+		<dependency org="com.sun.xml.fastinfoset" name="FastInfoset"
+			rev="1.2.2" transitive="false" conf="kfs-lib->default" />
+		<!-- <dependency org="org.apache.xmlgraphics" name="fop" rev="0.94"
+			transitive="true" conf="kfs-lib->default" /> -->
+		<dependency org="com.lowagie" name="itext" rev="1.4.8" transitive="false" 
+			conf="kfs-lib->default" /> 
+		<dependency org="jasperreports" name="jasperreports" rev="2.0.4"
+			transitive="false" conf="kfs-lib->default" />
+		<dependency org="net.bull.javamelody" name="javamelody-core"
+			rev="1.49.0" transitive="false" conf="kfs-lib->default" />
+		<dependency org="javax.inject" name="javax.inject" rev="1"
+			transitive="false" conf="kfs-lib->default" />
+		<dependency org="org.jrobin" name="jrobin" rev="1.5.9"
+			transitive="false" conf="kfs-lib->default" />
+		<dependency org="net.sf.opencsv" name="opencsv" rev="2.3"
+			transitive="false" conf="kfs-lib->default" />
+		<dependency org="org.opensaml" name="opensaml" rev="1.1"
+			transitive="false" conf="kfs-lib->default" />
+		<dependency org="taglibs" name="log" rev="1.0" transitive="false" 
+			conf="kfs-lib->default" /> 
+		<dependency org="org.apache.velocity" name="velocity" rev="1.5"
+			transitive="false" conf="kfs-lib->default" />
+
+
+		<exclude type="src" ext="jar" conf="runtime" />
+		<exclude type="javadoc" ext="jar" conf="runtime" />
+		<exclude type="license" ext="txt" conf="runtime" />
+
+	</dependencies>
+
+
+</ivy-module> 

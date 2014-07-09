@@ -1,0 +1,12 @@
+<ivysettings>
+    <settings defaultResolver="chain"/>
+    <resolvers>
+    	<chain name="chain">
+    	   	<ibiblio name="central" m2compatible="true" />
+    		<ibiblio name="kuali" m2compatible="true" root="http://nexus.kuali.org/content/groups/public"/>
+    	</chain>
+        <filesystem name="local">
+            <artifact pattern="${ivy.settings.dir}/lib/[artifact]-[revision].[ext]"/>
+        </filesystem>
+    </resolvers>
+</ivysettings>

@@ -4303,6 +4303,9 @@
         <foreign-key foreignTable="CG_AWD_STAT_T" name="CG_AWD_TR3">
             <reference foreign="CGAWD_STAT_CD" local="CGAWD_STAT_CD"/>
         </foreign-key>
+        <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_AWD_TR4">
+            <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>
+        </foreign-key>
         <foreign-key foreignTable="CG_GRANT_DESC_T" name="CG_AWD_TR5">
             <reference foreign="CG_GRANT_DESC_CD" local="CG_GRANT_DESC_CD"/>
         </foreign-key>

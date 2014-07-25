@@ -35,7 +35,6 @@
 	<field name="accountNumber" class="java.lang.String"/>
 	<field name="milestoneNumber" class="java.lang.Long"/>
 
-
 		<group  name="sortedFieldGroup" >
 			<groupExpression><![CDATA[$F{sortedFieldValue}]]></groupExpression>
 			<groupHeader>

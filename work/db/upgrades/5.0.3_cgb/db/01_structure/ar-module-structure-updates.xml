@@ -321,6 +321,45 @@
 			<column name="EST_AMT" type="DECIMAL(7,0)" />
 			<column name="BILLED_IND" type="VARCHAR(1)" />
 		</createTable>
+		<createTable tableName="AR_INV_DOC_ERROR_LOG_T">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_LOG_TP1" />
+			</column>
+			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_LOG_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DOC_ERROR_LOG_TC0" />
+			</column>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACCOUNTS" type="VARCHAR(200)" />
+			<column name="AWD_START_DT" type="DATETIME" />
+			<column name="AWD_STOP_DT" type="DATETIME" />
+			<column name="AWD_TOT_AMT" type="DECIMAL(19,2)" />
+			<column name="CUM_EXPND_AMT" type="DECIMAL(12,2)"  />
+			<column name="ERROR_DT" type="DATETIME" />
+			<column name="BATCH_IND" type="VARCHAR(1)" defaultValue="Y" />
+		</createTable>
+		<createTable tableName="AR_INV_DOC_ERROR_CAT_T">
+			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_CAT_TP1" />
+			</column>
+			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_CAT_TP1" />
+			</column>
+			<column name="VAL_CAT_ID" type="DECIMAL(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_CAT_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DOC_ERROR_CAT_TC0" />
+			</column>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="VAL_CAT_TXT" type="VARCHAR(200)" />
+		</createTable>
 		<createTable tableName="AR_INV_DTL_ACCT_OBJ_CD_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
 				<constraints primaryKey="true" primaryKeyName="AR_INV_DTL_ACCT_OBJ_CD_TP1"/>
@@ -613,6 +652,9 @@
 			<column name="SUSP_CTGRY_DESC" type="VARCHAR(200)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_MODIFIED_AR_TABLES">
@@ -666,17 +708,22 @@
 			<column name="REFND_FIN_OBJECT_CD" type="VARCHAR(4)" />
 			<column name="REFND_DOC_LOC_CD" type="VARCHAR(2)" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_oracle" dbms="oracle">
 		<createSequence sequenceName="AR_BILL_ID_SEQ" />
 		<createSequence sequenceName="AR_DUN_LTR_DIST_ID_SEQ" />
 		<createSequence sequenceName="AR_ENTRY_ID_SEQ" />
+		<createSequence sequenceName="AR_ERROR_LOG_ID_SEQ" />
 		<createSequence sequenceName="AR_EVENT_ID_SEQ" />
 		<createSequence sequenceName="AR_INV_DTL_ID_SEQ" />
 		<createSequence sequenceName="AR_LTRCR_RVW_DTL_ID_SEQ" />
 		<createSequence sequenceName="AR_MLSTN_ID_SEQ" />
 		<createSequence sequenceName="AR_RFRL_TO_CLCTNS_DTL_ID_SEQ" />
+		<createSequence sequenceName="AR_VAL_CAT_ID_ID_SEQ" />
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_mysql" dbms="mysql">
@@ -691,6 +738,11 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_ENTRY_ID_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="AR_ERROR_LOG_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true"/>
 			</column>
@@ -716,6 +768,11 @@
 			</column>
 		</createTable>
 		<createTable tableName="AR_RFRL_TO_CLCTNS_DTL_ID_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="AR_VAL_CAT_ID_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true"/>
 			</column>

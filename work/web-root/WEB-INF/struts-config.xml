@@ -113,6 +113,9 @@
 		<form-bean name="CustomerInvoiceForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />
 		<!-- AR and CG related -->
+		<form-bean name="ContractsGrantsInvoiceDocumentErrorLogReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentErrorLogReportForm" />
+			
 		<form-bean name="ContractsGrantsInvoiceDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentForm" />
 
@@ -953,6 +956,15 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/cg/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsInvoiceDocumentErrorLogReport" name="ContractsGrantsInvoiceDocumentErrorLogReportForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentErrorLogReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
 		<action path="/contractsGrantsInvoiceReport" name="ContractsGrantsInvoiceReportLookupForm"

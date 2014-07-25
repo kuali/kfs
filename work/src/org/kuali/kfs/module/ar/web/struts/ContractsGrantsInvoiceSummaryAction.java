@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupUtil;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
@@ -129,21 +131,29 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         }
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-        contractsGrantsInvoiceSummaryForm.setAwardInvoicedInd(true);// set to false before creating invoices
+        contractsGrantsInvoiceSummaryForm.setAwardInvoicedInd(true);
+        int validationErrors = 0;
+        int validAwards = 0;
+
         // Create Invoices from list of Awards.
         for (ContractsGrantsInvoiceLookupResult contractsGrantsInvoiceLookupResult : lookupResults) {
 
-            String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+//            String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             String errOutputFile2 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.CGINVOICE_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             Collection<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceLookupResult.getAwards();
-            awards = cgInvoiceDocumentCreateService.validateAwards(awards, errOutputFile1);
-
+            Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
+            awards = cgInvoiceDocumentCreateService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs);
+            validationErrors += contractsGrantsInvoiceDocumentErrorLogs.size();
+            validAwards += awards.size();
             cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, errOutputFile2);
-
         }
-        // set isInvoiced to true
-
-        KNSGlobalVariables.getMessageList().add(ArKeyConstants.ContractsGrantsInvoiceConstants.MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT);
+        if (validationErrors > 0) {
+            // At a minimum, show users a message that errors occurred, check report for details.
+            KNSGlobalVariables.getMessageList().add(ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_AWARDS_INVALID);
+        }
+        if (validAwards > 0) {
+            KNSGlobalVariables.getMessageList().add(ArKeyConstants.ContractsGrantsInvoiceConstants.MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT);
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

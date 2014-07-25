@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.AccountFixture;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -70,6 +69,7 @@ public class CurrentAccountBalanceLookupableHelperServiceTest extends AbstractGe
     private static final String ACCOUNT_SUPERVISOR_PRINCIPAL_NAME_VAL = "jaraujo"; // Name not in UserNameFixture.java
     private static final String ORGINIZATION_CODE_VAL = "PSY"; // Only found in DB bootstrap *.sql
     private static final String ACCOUNT_EXPIRATION_DATE = "2101-09-30";
+    private static final Integer UNIVERSITY_FISCAL_YEAR = 2014;
 
     // Instance variables, required service classes
     private AccountBalanceService accountBalanceService;
@@ -125,7 +125,7 @@ public class CurrentAccountBalanceLookupableHelperServiceTest extends AbstractGe
      */
     private void initRequiredFieldToValueMap(){
         requiredFieldToValueMap = new HashMap<String, String>();
-        requiredFieldToValueMap.put(UNIVERSITY_FISCAL_YEAR_KEY, pendingEntry.getUniversityFiscalYear().toString());
+        requiredFieldToValueMap.put(UNIVERSITY_FISCAL_YEAR_KEY, UNIVERSITY_FISCAL_YEAR.toString());
         requiredFieldToValueMap.put(UNIVERSITY_FISCAL_PERIOD_CODE_KEY, pendingEntry.getUniversityFiscalPeriodCode());
     }
 
@@ -344,6 +344,7 @@ public class CurrentAccountBalanceLookupableHelperServiceTest extends AbstractGe
 
        // Used to persist generated record
        Balance balance = new Balance(pendingEntry);
+       balance.setUniversityFiscalYear(UNIVERSITY_FISCAL_YEAR);
 
        // Used for testing lookup
        CurrentAccountBalance currentAccountBalance = generateCurrentAccountBalance(balance);
@@ -406,7 +407,7 @@ public class CurrentAccountBalanceLookupableHelperServiceTest extends AbstractGe
    private CurrentAccountBalance generateCurrentAccountBalance(Balance balance){
        CurrentAccountBalance currentAccountBalance = new CurrentAccountBalance();
        ObjectUtil.buildObject(currentAccountBalance, balance);
-       currentAccountBalance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting());
+       currentAccountBalance.setUniversityFiscalYear(UNIVERSITY_FISCAL_YEAR);
        currentAccountBalance.setAccount(generateAccount());
        currentAccountBalance.setUniversityFiscalPeriodCode(requiredFieldToValueMap.get(UNIVERSITY_FISCAL_PERIOD_CODE_KEY));
        return currentAccountBalance;

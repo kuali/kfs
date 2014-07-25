@@ -27,7 +27,6 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.IcrEncumbranceService;
 import org.kuali.kfs.gl.dataaccess.IcrEncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +37,7 @@ public class IcrEncumbranceServiceImpl implements IcrEncumbranceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrEncumbranceServiceImpl.class);
 
     protected IcrEncumbranceDao icrEncumbranceDao;
+    protected ObjectTypeService objectTypeService;
     protected ParameterService parameterService;
     protected UniversityDateService universityDateService;
     protected String batchFileDirectoryName;
@@ -53,7 +53,6 @@ public class IcrEncumbranceServiceImpl implements IcrEncumbranceService {
         String currentFiscalPeriod = universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod();
 
         //Get Expense Object Types and Cost Share Sub-Account Type
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         String[] expenseObjectTypes = objectTypeService.getBasicExpenseObjectTypes(currentFiscalYear).toArray(new String[0]);
         String costShareSubAccountType = KFSConstants.SubAccountType.COST_SHARE;
 
@@ -102,6 +101,15 @@ public class IcrEncumbranceServiceImpl implements IcrEncumbranceService {
      */
     public void setIcrEncumbranceDao(IcrEncumbranceDao icrEncumbranceDao) {
         this.icrEncumbranceDao = icrEncumbranceDao;
+    }
+
+    /**
+     * Sets the objectTypeService attribute, allowing injection of an implementation of that service
+     *
+     * @param objectTypeService the objectTypeService to set.
+     */
+    public void setObjectTypeService(ObjectTypeService objectTypeService) {
+        this.objectTypeService = objectTypeService;
     }
 
     /**

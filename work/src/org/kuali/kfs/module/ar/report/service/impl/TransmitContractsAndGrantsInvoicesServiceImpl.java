@@ -108,25 +108,20 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
             fieldValues.put(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_TRANSMISSION_METHOD_CODE, invoiceTransmissionMethodCode);
         }
 
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode() + "|" + DocumentStatus.PROCESSED.getCode());
+
         Collection<ContractsGrantsInvoiceDocument> list = getContractsGrantsInvoiceDocumentService().retrieveAllCGInvoicesByCriteria(fieldValues);
         Collection<ContractsGrantsInvoiceDocument> finalList = new ArrayList<ContractsGrantsInvoiceDocument>();
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
         for (ContractsGrantsInvoiceDocument item : list) {
-            if (ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
-                ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
+            ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
 
-                boolean invoiceIsFinal = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.FINAL.getCode());
-                boolean invoiceIsProcessed = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.PROCESSED.getCode());
-
-                if ( invoiceIsFinal || invoiceIsProcessed ) {
-                    if (isInvoiceBetween(invoice, fromDate, toDate)) {
-                        if ((StringUtils.equals(ArConstants.InvoiceTransmissionMethod.EMAIL, invoiceTransmissionMethodCode) && isInvoiceValidToEmail(invoice)) ||
-                            (StringUtils.equals(ArConstants.InvoiceTransmissionMethod.MAIL, invoiceTransmissionMethodCode) && isInvoiceValidToMail(invoice))) {
-                            finalList.add(invoice);
-                        }
-                    }
+            if (isInvoiceBetween(invoice, fromDate, toDate)) {
+                if ((StringUtils.equals(ArConstants.InvoiceTransmissionMethod.EMAIL, invoiceTransmissionMethodCode) && isInvoiceValidToEmail(invoice)) ||
+                    (StringUtils.equals(ArConstants.InvoiceTransmissionMethod.MAIL, invoiceTransmissionMethodCode) && isInvoiceValidToMail(invoice))) {
+                    finalList.add(invoice);
                 }
             }
         }

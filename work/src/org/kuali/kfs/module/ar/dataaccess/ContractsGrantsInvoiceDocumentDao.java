@@ -35,7 +35,7 @@ public interface ContractsGrantsInvoiceDocumentDao {
     public Collection<ContractsGrantsInvoiceDocument> getOpenInvoicesByCustomerNumber(String customerNumber);
 
     /**
-     * This method retrieves all Invoice Documents that match the given field values.
+     * This method retrieves all Invoice Documents (distinct list) that match the given field values.
      *
      * @param fieldValues for search criteria.
      * @return Returns the invoices which matches the given field values.

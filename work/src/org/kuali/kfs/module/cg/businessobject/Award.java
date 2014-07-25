@@ -28,7 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -392,7 +392,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     @Override
     public Date getLastBilledDate() {
-        return SpringContext.getBean(AccountsReceivableModuleService.class).getLastBilledDate(this);
+        return SpringContext.getBean(AccountsReceivableModuleBillingService.class).getLastBilledDate(this);
     }
 
     /**
@@ -1655,7 +1655,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         if (milestoneSchedule != null) {
-            SpringContext.getBean(AccountsReceivableModuleService.class).setProposalNumber(milestoneSchedule, proposalNumber);
+            SpringContext.getBean(AccountsReceivableModuleBillingService.class).setProposalNumber(milestoneSchedule, proposalNumber);
         }
         return milestoneSchedule;
     }
@@ -1676,7 +1676,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
         if (predeterminedBillingSchedule != null) {
-            SpringContext.getBean(AccountsReceivableModuleService.class).setProposalNumber(predeterminedBillingSchedule, proposalNumber);
+            SpringContext.getBean(AccountsReceivableModuleBillingService.class).setProposalNumber(predeterminedBillingSchedule, proposalNumber);
         }
         return predeterminedBillingSchedule;
     }
@@ -1869,6 +1869,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.stopWorkIndicator = stopWorkIndicator;
     }
 
+    @Override
     public String getStopWorkReason() {
         return stopWorkReason;
     }

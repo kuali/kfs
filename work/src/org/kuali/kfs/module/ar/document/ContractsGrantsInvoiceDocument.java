@@ -26,15 +26,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -258,7 +258,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
 
             // To set invoiceDocumentStatus to award Account
-            SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAwardAccountInvoiceDocumentStatus(mapKey, value);
+            SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAwardAccountInvoiceDocumentStatus(mapKey, value);
         }
     }
 

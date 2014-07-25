@@ -57,7 +57,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -148,7 +148,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
-    protected ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ConfigurationService configurationService;
     protected CustomerService customerService;
     protected FinancialSystemUserService financialSystemUserService;
@@ -1197,7 +1197,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            contractsAndGrantsModuleUpdateService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
+            contractsAndGrantsModuleBillingService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
         }
 
     }
@@ -3458,7 +3458,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
             // To set last billed Date to award.
-            contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(proposalNumber, getLastBilledDate(award));
+            contractsAndGrantsModuleBillingService.setLastBilledDateToAward(proposalNumber, getLastBilledDate(award));
         }
 
     }
@@ -3513,7 +3513,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         // To set previous and current last Billed Date for award account .
-        contractsAndGrantsModuleUpdateService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
+        contractsAndGrantsModuleBillingService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
 
     }
 
@@ -3576,7 +3576,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         // To set final Billed to award Account
-        contractsAndGrantsModuleUpdateService.setFinalBilledToAwardAccount(mapKey, value);
+        contractsAndGrantsModuleBillingService.setFinalBilledToAwardAccount(mapKey, value);
     }
 
     /**
@@ -3597,7 +3597,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         // To set previous and current last Billed Date for award account .
-        contractsAndGrantsModuleUpdateService.setFinalBilledAndLastBilledDateToAwardAccount(mapKey, finalBilled, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
+        contractsAndGrantsModuleBillingService.setFinalBilledAndLastBilledDateToAwardAccount(mapKey, finalBilled, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
     }
 
     /**
@@ -4605,12 +4605,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.customerService = customerService;
     }
 
-    public ContractsAndGrantsModuleUpdateService getContractsAndGrantsModuleUpdateService() {
-        return contractsAndGrantsModuleUpdateService;
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
     }
 
-    public void setContractsAndGrantsModuleUpdateService(ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService) {
-        this.contractsAndGrantsModuleUpdateService = contractsAndGrantsModuleUpdateService;
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
     public KualiModuleService getKualiModuleService() {

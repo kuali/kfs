@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -59,7 +59,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public AgencyRule() {
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
+        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**

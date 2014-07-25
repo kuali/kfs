@@ -33,7 +33,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
@@ -75,7 +75,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected BusinessObjectService businessObjectService;
     protected ConfigurationService configService;
-    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
@@ -989,13 +989,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
 
-    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
-        return contractsAndGrantsModuleRetrieveService;
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
     }
 
 
-    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
-        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
 

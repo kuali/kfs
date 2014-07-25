@@ -23,7 +23,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
@@ -290,24 +289,6 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long)
-     */
-    @Override
-    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#calculateTotalPaymentsToDateByAward(java.lang.Long)
-     */
-    @Override
-    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
     @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
@@ -323,76 +304,5 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     @Override
     public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    @Override
-    public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    @Override
-    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    @Override
-    public Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public boolean hasPredeterminedBillingSchedule(Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
-    public boolean hasMilestoneSchedule(Long proposalNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
-    public String getContractsGrantsInvoiceDocumentType() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    /**
-     * Note that since AR is required for CGB, returning false here results in the correct, desired behavior even
-     * without attempting to obtain and return the value from the CGB configuration property. Specifying the CGB
-     * enhancement config enabled property to true but disabling AR is an invalid configuration.
-     *
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isContractsGrantsBillingEnhancementActive()
-     */
-    @Override
-    public boolean isContractsGrantsBillingEnhancementActive() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
-    public Collection<String> getDoNotInvoiceStatuses() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
     }
 }

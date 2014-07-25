@@ -32,7 +32,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -417,8 +417,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
                     if (detail.getAccountNumber().equals(awardAccount.getAccountNumber())) {
-                        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAmountToDrawToAwardAccount(criteria, detail.getAmountToDraw());
-                        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCReviewIndicatorToAwardAccount(criteria, true);
+                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, detail.getAmountToDraw());
+                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, true);
                     }
                 }
             }
@@ -501,11 +501,11 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             for (ContractsAndGrantsBillingAward award : awards) {
                 if (ObjectUtils.isNotNull(this.getLetterOfCreditFundCode())) {
 
-                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
                 }
                 else {
 
-                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND_GRP);
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND_GRP);
                 }
 
             }
@@ -548,13 +548,13 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);// clear
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);// clear
                     // values
-                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);// clear
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);// clear
                     // values
 
                 }
-                SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
+                SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
 
             }
 

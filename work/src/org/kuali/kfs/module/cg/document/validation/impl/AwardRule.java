@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -58,7 +59,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     public AwardRule() {
         super();
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive();
+        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**
@@ -521,7 +522,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     protected boolean checkInvoicingOptions() {
         boolean success = true;
-        List<String> errorString = SpringContext.getBean(AccountsReceivableModuleService.class).checkAwardContractControlAccounts(newAwardCopy);
+        List<String> errorString = SpringContext.getBean(AccountsReceivableModuleBillingService.class).checkAwardContractControlAccounts(newAwardCopy);
         if (CollectionUtils.isNotEmpty(errorString) && errorString.size() > 1) {
             success = false;
             putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTIONS, errorString.get(0), errorString.get(1));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 The Kuali Foundation.
+ * Copyright 2014 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,13 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateDto;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateStatusDto;
 import org.kuali.kfs.module.external.kc.dto.AwardFieldValuesDto;
@@ -30,8 +33,26 @@ import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGrantsModuleUpdateService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleUpdateServiceImpl.class);
+/**
+ * Implementation of Contracts & Grants module billing service which will allow AR to utilize KC functionality to perform CGB actions.
+ */
+public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndGrantsModuleBillingService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleBillingServiceImpl.class);
+
+    protected AwardServiceImpl awardService;
+
+    @Override
+    public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded) {
+        return (List<Award>)getAwardService().getSearchResults(fieldValues);
+    }
+
+    public AwardServiceImpl getAwardService() {
+        return awardService;
+    }
+
+    public void setAwardService(AwardServiceImpl awardService) {
+        this.awardService = awardService;
+    }
 
     @Override
     public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
@@ -164,5 +185,4 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
         return awardWebService;
     }
-
 }

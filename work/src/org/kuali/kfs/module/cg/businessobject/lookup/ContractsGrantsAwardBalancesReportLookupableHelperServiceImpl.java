@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport;
 import org.kuali.kfs.module.cg.report.ContractsGrantsReportUtils;
@@ -47,7 +47,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl.class);
 
-    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -91,11 +91,11 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
             awardBalancesReportEntry.setAwardTotalAmountForReport(award.getAwardTotalAmount());
 
-            KualiDecimal awardBilledToDateAmount = accountsReceivableModuleService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
+            KualiDecimal awardBilledToDateAmount = getAccountsReceivableModuleBillingService().getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
             awardBalancesReportEntry.setTotalBilledToDate(awardBilledToDateAmount);
 
             // calculate Total Payments To Date
-            KualiDecimal totalPayments = accountsReceivableModuleService.calculateTotalPaymentsToDateByAward(award.getProposalNumber());
+            KualiDecimal totalPayments = getAccountsReceivableModuleBillingService().calculateTotalPaymentsToDateByAward(award.getProposalNumber());
             awardBalancesReportEntry.setTotalPaymentsToDate(totalPayments);
             awardBalancesReportEntry.setAmountCurrentlyDue(awardBilledToDateAmount.subtract(totalPayments));
 
@@ -177,13 +177,13 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
         return titleText;
     }
 
-    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
+    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        return accountsReceivableModuleBillingService;
     }
 
 
-    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
-        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
+        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
 }

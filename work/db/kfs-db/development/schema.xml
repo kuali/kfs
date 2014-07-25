@@ -840,13 +840,10 @@
         <column name="INV_BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_CUM_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="INV_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CTGRY_CD" size="4" type="VARCHAR"/>
         <column name="CTGRY_NM" size="255" type="VARCHAR"/>
-        <column default="0" name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
-        <column default="0" name="ADJ_CUM_EXPND" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="ADJ_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CGB_INV_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1232,7 +1229,6 @@
         <column name="BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="EXP_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CUM_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CNTRCT_CNTRL_ACCT_NBR" size="7" type="VARCHAR"/>
         <column default="0" name="BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ACCT_DTL_TR1">
@@ -4063,7 +4059,6 @@
         <column name="PERSON_UNVL_ID" size="40" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="FINAL_BILLED" size="1" type="VARCHAR"/>
-        <column name="INV_DOC_STS" size="45" type="VARCHAR"/>
         <column default="0" name="AMT_TO_DRW" scale="2" size="19" type="DECIMAL"/>
         <column name="LTRCR_RVW_IND" size="1" type="VARCHAR"/>
         <column name="CURR_LST_BILLED_DT" type="TIMESTAMP"/>

@@ -1115,6 +1115,9 @@
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>
+		<property name="noteService">
+            <ref bean="noteService" />
+        </property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>

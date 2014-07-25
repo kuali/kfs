@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -48,7 +47,6 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     private static final long serialVersionUID = 1L;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ContractsGrantsAgingReportForm.class);
-    private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
     private String awardInquiryTitle;
     private String formKey;
     private String backLocation;
@@ -220,25 +218,6 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
         }
     }
 
-
-    /**
-     * Gets the awardInquiryTitle attribute.
-     *
-     * @return Returns the awardInquiryTitle.
-     */
-    public String getAwardInquiryTitle() {
-        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
-    }
-
-    /**
-     * Sets the awardInquiryTitle attribute value.
-     *
-     * @param awardInquiryTitle The awardInquiryTitle to set.
-     */
-    public void setAwardInquiryTitle(String awardInquiryTitle) {
-        this.awardInquiryTitle = awardInquiryTitle;
-    }
-
     /**
      * @return Returns the lookupableImplServiceName.
      */
@@ -254,7 +233,6 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     public void setLookupableImplServiceName(String lookupableImplServiceName) {
         this.lookupableImplServiceName = lookupableImplServiceName;
     }
-
 
     /**
      * @return Returns the backLocation.

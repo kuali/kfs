@@ -36,8 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -122,7 +120,6 @@ import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -4762,26 +4759,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
 
         return (CollectionUtils.isNotEmpty(invoiceMilestones));
-    }
-
-
-    /**
-     * Finds all in process contracts & grants invoice docs and then uses the AR e-mail service to send out e-mails about them
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#emailInProcessContractsGrantsInvoiceDocuments()
-     */
-    @Override
-    public void emailInProcessContractsGrantsInvoiceDocuments() throws InvalidAddressException, MessagingException {
-        List<ContractsGrantsInvoiceDocument> collection = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // Get the list of CG Invoice Documents that have the marked for processing flag set
-        Collection<ContractsGrantsInvoiceDocument> invoices = getAllCGInvoiceDocuments(false);
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            // invoice has been marked for processing
-            if (StringUtils.equalsIgnoreCase(ArConstants.INV_RPT_PRCS_IN_PROGRESS, invoice.getMarkedForProcessing())) {
-                collection.add(invoice);
-            }
-        }
-        arEmailService.sendInvoicesViaEmail(collection);
     }
 
     /**

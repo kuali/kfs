@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -41,7 +39,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 
 /**
  * This class defines all the service methods for Contracts and Grants invoice Document.
@@ -609,14 +606,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the Milestone has been copied, false if otherwise
      */
     public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId);
-
-    /**
-     * Sends out e-mails about all in process Contrancts & Grants Invoice documents
-     *
-     * @throws AddressException
-     * @throws MessagingException
-     */
-    public void emailInProcessContractsGrantsInvoiceDocuments() throws InvalidAddressException, MessagingException;
 
     /**
      * Determines if the given invoice template can be utilized by the given current user

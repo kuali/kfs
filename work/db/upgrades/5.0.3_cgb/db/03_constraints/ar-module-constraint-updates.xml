@@ -6,8 +6,8 @@
 		<addForeignKeyConstraint constraintName="AR_BILL_TR1"
 			referencedTableName="AR_PRDTRMND_BILL_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_BILL_T" referencedColumnNames="PRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_TR1"
-			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+		<addForeignKeyConstraint constraintName="AR_CGB_INV_DTL_TR1"
+			referencedTableName="AR_CGB_INV_DTL_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
 		<addForeignKeyConstraint constraintName="AR_DUN_LTR_DIST_DOC_TR1"
 			referencedTableName="AR_DUN_CMPGN_DOC_T" baseColumnNames="CMPGN_ID"

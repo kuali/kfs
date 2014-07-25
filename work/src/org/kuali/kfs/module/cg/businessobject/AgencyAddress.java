@@ -61,13 +61,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     private Agency agency;
     private CountryEbo agencyCountry;
 
-    /**
-     * Default constructor.o
-     */
-    public AgencyAddress() {
-
-    }
-
      /**
      * Gets the agencyNumber attribute.
      *

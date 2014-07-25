@@ -23,27 +23,22 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
-import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.LookupService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * See functional documentation.
  */
 public class Proposal extends PersistableBusinessObjectBase implements MutableInactivatable, ContractAndGrantsProposal {
-
     private Long proposalNumber;
     private Date proposalBeginningDate;
     private Date proposalEndingDate;
@@ -650,6 +645,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalAwardType The {@link ProposalAwardType} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
         this.proposalAwardType = proposalAwardType;
     }
@@ -669,6 +665,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param agency The {@link Agency} to set.
      * @deprecated
      */
+    @Deprecated
     public void setAgency(Agency agency) {
         this.agency = agency;
     }
@@ -688,6 +685,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalStatus The {@link ProposalStatus} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalStatus(ProposalStatus proposalStatus) {
         this.proposalStatus = proposalStatus;
     }
@@ -707,6 +705,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param federalPassThroughAgency The federalPassThrough {@link Agency} to set.
      * @deprecated
      */
+    @Deprecated
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
     }
@@ -726,6 +725,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalPurpose The {@link ProposalPurpose} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalPurpose(ProposalPurpose proposalPurpose) {
         this.proposalPurpose = proposalPurpose;
     }
@@ -745,6 +745,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param cfda The {@link CFDA} to set.
      * @deprecated
      */
+    @Deprecated
     public void setCfda(CFDA cfda) {
         this.cfda = cfda;
     }

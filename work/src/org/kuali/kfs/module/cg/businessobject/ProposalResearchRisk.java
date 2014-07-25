@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
  */
 public class ProposalResearchRisk extends PersistableBusinessObjectBase implements MutableInactivatable {
-
     private String researchRiskTypeCode;
     private Long proposalNumber;
     private boolean active;
@@ -33,14 +32,6 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
 
-    /**
-     * Default constructor.
-     */
-    public ProposalResearchRisk() {
-        super();
-    }
-
-    
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
@@ -53,7 +44,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the {@link Proposal}.
-     * 
+     *
      * @return
      */
     public Proposal getProposal() {
@@ -62,7 +53,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the {@link Proposal}.
-     * 
+     *
      * @param proposal
      */
     public void setProposal(Proposal proposal) {
@@ -71,7 +62,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the {@link ResearchRiskType} of the risk associated with the {@link Proposal}.
-     * 
+     *
      * @return the {@link ResearchRiskType}.
      */
     public ResearchRiskType getResearchRiskType() {
@@ -80,7 +71,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the {@link ResearchRiskType} associated with the {@link Proposal}.
-     * 
+     *
      * @param researchRiskType
      */
     public void setResearchRiskType(ResearchRiskType researchRiskType) {
@@ -89,25 +80,27 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Returns whether or not this object is active.
-     * 
+     *
      * @return true or false
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active indicator for this object.
-     * 
+     *
      * @param active
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the key of the {@link Proposal} related to the {@link ResearchRisk}.
-     * 
+     *
      * @return the id of the {@link Proposal} related to the {@link ResearchRisk}.
      */
     public Long getProposalNumber() {
@@ -116,7 +109,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the key of the {@link Proposal} related to the {@link ResearchRisk}.
-     * 
+     *
      * @param the id of the {@link Proposal} related to the {@link ResearchRisk}.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -125,7 +118,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
-     * 
+     *
      * @return the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
      */
     public String getResearchRiskTypeCode() {
@@ -134,7 +127,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
-     * 
+     *
      * @param the code of the type of the {@link ResearchRiskType} associated to the {@link Proposal}.
      */
     public void setResearchRiskTypeCode(String researchRiskTypeCode) {

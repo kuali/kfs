@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -44,14 +44,9 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
-     * Default no-args constructor.
-     */
-    public AwardProjectDirector() {
-    }
-
-    /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
@@ -59,6 +54,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPrincipalId(java.lang.String)
      */
+    @Override
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -67,6 +63,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -74,6 +71,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
+    @Override
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
@@ -81,7 +79,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the awardPrimaryProjectDirectorIndicator attribute.
-     * 
+     *
      * @return Returns the awardPrimaryProjectDirectorIndicator
      */
     public boolean isAwardPrimaryProjectDirectorIndicator() {
@@ -91,7 +89,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the awardPrimaryProjectDirectorIndicator attribute.
-     * 
+     *
      * @param awardPrimaryProjectDirectorIndicator The awardPrimaryProjectDirectorIndicator to set.
      */
     public void setAwardPrimaryProjectDirectorIndicator(boolean awardPrimaryProjectDirectorIndicator) {
@@ -101,7 +99,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the awardProjectDirectorProjectTitle attribute.
-     * 
+     *
      * @return Returns the awardProjectDirectorProjectTitle
      */
     public String getAwardProjectDirectorProjectTitle() {
@@ -110,7 +108,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the awardProjectDirectorProjectTitle attribute.
-     * 
+     *
      * @param awardProjectDirectorProjectTitle The awardProjectDirectorProjectTitle to set.
      */
     public void setAwardProjectDirectorProjectTitle(String awardProjectDirectorProjectTitle) {
@@ -120,6 +118,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
+    @Override
     public Person getProjectDirector() {
         projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
@@ -128,6 +127,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProjectDirector(org.kuali.kfs.module.cg.businessobject.ProjectDirector)
      */
+    @Override
     public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }
@@ -135,6 +135,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see Primaryable#isPrimary()
      */
+    @Override
     public boolean isPrimary() {
         return isAwardPrimaryProjectDirectorIndicator();
     }
@@ -142,6 +143,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -149,13 +151,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @return
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -163,16 +166,16 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param userLookupRoleNamespaceCode
      */
     public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @return
      */
     public String getUserLookupRoleName() {
@@ -180,8 +183,8 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**s
-     * 
-     * 
+     *
+     *
      * @param userLookupRoleName
      */
     public void setUserLookupRoleName(String userLookupRoleName) {
@@ -191,7 +194,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, this.principalId);

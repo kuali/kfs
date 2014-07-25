@@ -78,7 +78,7 @@ public class CloseServiceImpl implements CloseService {
         String noteText = null;
         if (max.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
 
-            try {
+           try {
 
                 Collection<Proposal> proposals = closeDao.getProposalsToClose(max);
                 Long proposalCloseCount = new Long(proposals.size());

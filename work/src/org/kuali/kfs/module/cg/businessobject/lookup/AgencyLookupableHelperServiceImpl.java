@@ -99,9 +99,7 @@ public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServ
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(),
                     getBusinessObjectClass());
-        } catch (InstantiationException e) {
-            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
         }
 

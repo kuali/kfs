@@ -242,13 +242,8 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
         Agency agency = getAgency();
         String parameterDunningCampaignCode = "";
         // Default Billing Frequency
-        try {
-            // Retrieve default value from the corresponding default value parameter
-            parameterDunningCampaignCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-            agency.setDunningCampaign(parameterDunningCampaignCode);
-        }
-        catch (Exception e) {
-            LOG.debug("Exception : " + e.getMessage() + " happened when getting default values from parameter");
-        }
+        // Retrieve default value from the corresponding default value parameter
+        parameterDunningCampaignCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
+        agency.setDunningCampaign(parameterDunningCampaignCode);
     }
 }

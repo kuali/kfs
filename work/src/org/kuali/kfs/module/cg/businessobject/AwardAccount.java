@@ -82,10 +82,10 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         // Struts needs this instance to populate the secondary key, principalName.
         if ( SpringContext.isInitialized() ) {
             try {
-                projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+                projectDirector = SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
             }
-            catch (Exception ex) {
-                LOG.error( "Unable to create a template person object.", ex );
+            catch (InstantiationException | IllegalAccessException ex) {
+                throw new RuntimeException("Could not create blank Person object for project director", ex);
             }
         }
     }

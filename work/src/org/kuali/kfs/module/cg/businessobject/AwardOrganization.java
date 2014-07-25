@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,24 +41,18 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private Organization organization;
 
     /**
-     * Default no-args constructor.
-     */
-    public AwardOrganization() {
-
-    }
-
-    /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -67,16 +61,17 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
+    @Override
     public String getOrganizationCode() {
         return organizationCode;
     }
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -85,16 +80,17 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -103,16 +99,17 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the awardPrimaryOrganizationIndicator attribute.
-     * 
+     *
      * @return Returns the awardPrimaryOrganizationIndicator
      */
+    @Override
     public boolean isAwardPrimaryOrganizationIndicator() {
         return awardPrimaryOrganizationIndicator;
     }
 
     /**
      * Sets the awardPrimaryOrganizationIndicator attribute.
-     * 
+     *
      * @param awardPrimaryOrganizationIndicator The awardPrimaryOrganizationIndicator to set.
      */
     public void setAwardPrimaryOrganizationIndicator(boolean awardPrimaryOrganizationIndicator) {
@@ -121,16 +118,17 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
+    @Override
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -142,16 +140,17 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization
      */
+    @Override
     public Organization getOrganization() {
         return organization;
     }
 
     /**
      * Sets the organization attribute.
-     * 
+     *
      * @param organization The organization to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -164,6 +163,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     /**
      * @see Primaryable#isPrimary()
      */
+    @Override
     public boolean isPrimary() {
         return isAwardPrimaryOrganizationIndicator();
     }
@@ -171,6 +171,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -178,6 +179,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -186,7 +188,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);

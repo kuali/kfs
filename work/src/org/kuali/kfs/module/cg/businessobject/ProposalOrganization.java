@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Represents a relationship between a {@link Proposal} and an {@Org}.
  */
 public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable, MutableInactivatable {
-
     private String chartOfAccountsCode;
     private String organizationCode;
     private Long proposalNumber;
@@ -39,14 +38,8 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     private Chart chartOfAccounts;
 
     /**
-     * Default constructor.
-     */
-    public ProposalOrganization() {
-    }
-
-    /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -55,7 +48,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -65,7 +58,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -74,7 +67,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -84,7 +77,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
     public Long getProposalNumber() {
@@ -93,7 +86,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -110,6 +103,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     /**
      * @see Primaryable#isPrimary()
      */
+    @Override
     public boolean isPrimary() {
         return isProposalPrimaryOrganizationIndicator();
     }
@@ -123,25 +117,27 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active attribute.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active true if the instance is active, false otherwise
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization
      */
     public Organization getOrganization() {
@@ -150,17 +146,18 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the organization attribute.
-     * 
+     *
      * @param organization The organization to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -169,10 +166,11 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -192,7 +190,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * This can be displayed by Proposal.xml lookup results.
-     * 
+     *
      * @see Object#toString()
      */
     @Override

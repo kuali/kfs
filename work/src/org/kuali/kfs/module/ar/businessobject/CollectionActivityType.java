@@ -34,12 +34,6 @@ public class CollectionActivityType extends PersistableBusinessObjectBase implem
     private boolean dunningProcessIndicator;
 
     /**
-     * Default constructor.
-     */
-    public CollectionActivityType() {
-    }
-
-    /**
      * Gets the activityCode attribute.
      *
      * @return Returns the activityCode

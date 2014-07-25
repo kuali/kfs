@@ -31,13 +31,6 @@ public class CollectionStatus extends PersistableBusinessObjectBase implements M
     private boolean active;
 
     /**
-     * Default constructor
-     */
-    public CollectionStatus() {
-        super();
-    }
-
-    /**
      * Gets the statusCode attribute.
      *
      * @return Returns statusCode.

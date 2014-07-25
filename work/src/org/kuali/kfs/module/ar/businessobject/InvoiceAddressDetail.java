@@ -40,13 +40,6 @@ public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
     private CustomerAddress customerAddress;
 
     /**
-     * Default constructor.
-     */
-    public InvoiceAddressDetail() {
-
-    }
-
-    /**
      * Gets the invoiceTransmissionMethodCode attribute.
      *
      * @return Returns the invoiceTransmissionMethodCode.

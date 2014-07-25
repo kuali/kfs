@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,27 +30,20 @@ public class CustomerProcessingType extends PersistableBusinessObjectBase implem
 	private boolean active;
 
 	/**
-	 * Default constructor.
-	 */
-	public CustomerProcessingType() {
-
-	}
-
-	/**
 	 * Gets the customerSpecialProcessingCode attribute.
-	 * 
+	 *
 	 * @return Returns the customerSpecialProcessingCode
-	 * 
+	 *
 	 */
-	public String getCustomerSpecialProcessingCode() { 
+	public String getCustomerSpecialProcessingCode() {
 		return customerSpecialProcessingCode;
 	}
 
 	/**
 	 * Sets the customerSpecialProcessingCode attribute.
-	 * 
+	 *
 	 * @param customerSpecialProcessingCode The customerSpecialProcessingCode to set.
-	 * 
+	 *
 	 */
 	public void setCustomerSpecialProcessingCode(String customerSpecialProcessingCode) {
 		this.customerSpecialProcessingCode = customerSpecialProcessingCode;
@@ -59,19 +52,19 @@ public class CustomerProcessingType extends PersistableBusinessObjectBase implem
 
 	/**
 	 * Gets the customerSpecialProcessingDescription attribute.
-	 * 
+	 *
 	 * @return Returns the customerSpecialProcessingDescription
-	 * 
+	 *
 	 */
-	public String getCustomerSpecialProcessingDescription() { 
+	public String getCustomerSpecialProcessingDescription() {
 		return customerSpecialProcessingDescription;
 	}
 
 	/**
 	 * Sets the customerSpecialProcessingDescription attribute.
-	 * 
+	 *
 	 * @param customerSpecialProcessingDescription The customerSpecialProcessingDescription to set.
-	 * 
+	 *
 	 */
 	public void setCustomerSpecialProcessingDescription(String customerSpecialProcessingDescription) {
 		this.customerSpecialProcessingDescription = customerSpecialProcessingDescription;
@@ -80,21 +73,23 @@ public class CustomerProcessingType extends PersistableBusinessObjectBase implem
 
 	/**
 	 * Gets the active attribute.
-	 * 
+	 *
 	 * @return Returns the active
-	 * 
+	 *
 	 */
-	public boolean isActive() { 
+	@Override
+    public boolean isActive() {
 		return active;
 	}
 
 	/**
 	 * Sets the active attribute.
-	 * 
+	 *
 	 * @param active The active to set.
-	 * 
+	 *
 	 */
-	public void setActive(boolean active) {
+	@Override
+    public void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -103,7 +98,7 @@ public class CustomerProcessingType extends PersistableBusinessObjectBase implem
 	 */
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         m.put("customerSpecialProcessingCode", this.customerSpecialProcessingCode);
 	    return m;
     }

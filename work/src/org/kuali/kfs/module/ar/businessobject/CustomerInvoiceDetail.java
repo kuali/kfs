@@ -60,7 +60,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     private String invoiceItemDescription;
     private String accountsReceivableObjectCode;
     private String accountsReceivableSubObjectCode;
-    private KualiDecimal invoiceItemTaxAmount;
+    private KualiDecimal invoiceItemTaxAmount = KualiDecimal.ZERO;;
     private boolean taxableIndicator;
     private boolean isDebit;
     private Integer invoiceItemDiscountLineNumber;
@@ -78,14 +78,6 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     // fields used for CustomerInvoiceWriteoffDocument
     private KualiDecimal writeoffAmount;
     private String customerInvoiceWriteoffDocumentNumber;
-
-    /**
-     * Default constructor.
-     */
-    public CustomerInvoiceDetail() {
-        super();
-        invoiceItemTaxAmount = KualiDecimal.ZERO;
-    }
 
     // ---- BEGIN OPEN AMOUNTS
 
@@ -344,6 +336,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      *
      * @param accountsReceivableObjectCode The accountsReceivableObjectCode to set.
      */
+    @Override
     public void setAccountsReceivableObjectCode(String accountsReceivableObjectCode) {
         this.accountsReceivableObjectCode = accountsReceivableObjectCode;
     }
@@ -380,6 +373,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      *
      * @param invoiceItemQuantity The invoiceItemQuantity to set.
      */
+    @Override
     public void setInvoiceItemQuantity(BigDecimal invoiceItemQuantity) {
         this.invoiceItemQuantity = invoiceItemQuantity;
     }
@@ -414,6 +408,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * @param invoiceItemUnitPrice
      */
+    @Override
     public void setInvoiceItemUnitPrice(KualiDecimal invoiceItemUnitPrice) {
         if (ObjectUtils.isNotNull(invoiceItemUnitPrice)) {
             this.invoiceItemUnitPrice = invoiceItemUnitPrice.bigDecimalValue();
@@ -579,6 +574,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * Update line amount based on quantity and unit price
      */
+    @Override
     public void updateAmountBasedOnQuantityAndUnitPrice() {
         setAmount(getInvoiceItemPreTaxAmount());
     }

@@ -48,10 +48,6 @@ public class ContractsGrantsInvoiceLookupResult extends TransientBusinessObjectB
     private Collection<ContractsAndGrantsBillingAward> awards;
     private ContractsAndGrantsBillingFrequency billingFrequency;
 
-    public ContractsGrantsInvoiceLookupResult() {
-
-    }
-
 
     /**
      * Gets the proposalNumber attribute.

@@ -31,12 +31,6 @@ public class ArGenericAttributes extends PersistableBusinessObjectBase {
     private String letterOfCreditFundGroupCode;
 
     /**
-     * Default constructor
-     */
-    public ArGenericAttributes() {
-    }
-
-    /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {

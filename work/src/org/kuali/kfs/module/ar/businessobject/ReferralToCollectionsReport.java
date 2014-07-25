@@ -64,14 +64,6 @@ public class ReferralToCollectionsReport extends TransientBusinessObjectBase {
     private Account account;
     private Chart chart;
 
-    /**
-     * Constructs a ReferralToCollectionsReport
-     */
-    public ReferralToCollectionsReport() {
-        super();
-    }
-
-
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);

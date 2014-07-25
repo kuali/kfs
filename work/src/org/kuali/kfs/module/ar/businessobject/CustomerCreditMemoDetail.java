@@ -52,13 +52,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     private boolean invoiceOpenItemQuantityZero; // not in DB
 
     /**
-     * Default constructor.
-     */
-    public CustomerCreditMemoDetail() {
-
-    }
-
-    /**
      * Gets the documentNumber attribute.
      *
      * @return Returns the documentNumber

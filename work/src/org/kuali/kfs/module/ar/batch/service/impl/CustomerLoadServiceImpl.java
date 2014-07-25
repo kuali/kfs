@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,9 +105,6 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     private List<BatchInputFileType> batchInputFileTypes;
     private CustomerDigesterAdapter adapter;
     private String reportsDirectory;
-
-    public CustomerLoadServiceImpl() {
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFiles()
@@ -341,17 +339,15 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         byte[] fileByteContent;
         try {
             fileContents = new FileInputStream(fileName);
-        }
-        catch (FileNotFoundException e1) {
-            LOG.error("Batch file not found [" + fileName + "]. " + e1.getMessage());
-            throw new RuntimeException("Batch File not found [" + fileName + "]. " + e1.getMessage());
-        }
-        try {
             fileByteContent = IOUtils.toByteArray(fileContents);
         }
-        catch (IOException e1) {
-            LOG.error("IO Exception loading: [" + fileName + "]. " + e1.getMessage());
-            throw new RuntimeException("IO Exception loading: [" + fileName + "]. " + e1.getMessage());
+        catch (FileNotFoundException fnfe) {
+            LOG.error("Batch file not found [" + fileName + "]. " + fnfe.getMessage());
+            throw new RuntimeException("Batch File not found [" + fileName + "]. " + fnfe.getMessage());
+        }
+        catch (IOException ioe) {
+            LOG.error("IO Exception loading: [" + fileName + "]. " + ioe.getMessage());
+            throw new RuntimeException("IO Exception loading: [" + fileName + "]. " + ioe.getMessage());
         }
         return fileByteContent;
     }
@@ -637,8 +633,9 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         try {
             clonedAddress = (CustomerAddress) BeanUtils.cloneBean(address);
         }
-        catch (Exception ex) {
+        catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException ex) {
             LOG.error("Unable to clone address [" + address + "]", ex);
+            throw new RuntimeException("Unable to clone address [" + address + "]", ex);
         }
         return clonedAddress;
     }
@@ -772,36 +769,26 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         //  try to retrieve the property type to see if it exists at all
         try {
             propertyClass = PropertyUtils.getPropertyType(batchCustomer, propertyName);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Could not access properties on the Customer object.", e);
-        }
 
-        //  if the property doesnt exist, then throw an exception
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("The propertyName specified [" + propertyName + "] doesnt exist on the Customer object.");
-        }
+            //  if the property doesnt exist, then throw an exception
+            if (propertyClass == null) {
+                throw new IllegalArgumentException("The propertyName specified [" + propertyName + "] doesnt exist on the Customer object.");
+            }
 
-        //  get the String values of both batch and existing, to compare
-        try {
+            //  get the String values of both batch and existing, to compare
             batchValue = BeanUtils.getSimpleProperty(batchCustomer, propertyName);
             existingValue = BeanUtils.getSimpleProperty(existingCustomer, propertyName);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Could not access properties on the Customer object.", e);
-        }
 
-        //  if the existing is non-blank, and the new is blank, then over-write the new with the existing value
-        if (StringUtils.isBlank(batchValue) && StringUtils.isNotBlank(existingValue)) {
+            //  if the existing is non-blank, and the new is blank, then over-write the new with the existing value
+            if (StringUtils.isBlank(batchValue) && StringUtils.isNotBlank(existingValue)) {
 
-            //  get the real typed value, and then try to set the property value
-            try {
+                //  get the real typed value, and then try to set the property value
                 Object typedValue = PropertyUtils.getProperty(existingCustomer, propertyName);
                 BeanUtils.setProperty(batchCustomer, propertyName, typedValue);
             }
-            catch (Exception e) {
-                throw new RuntimeException("Could not set properties on the Customer object.", e);
-            }
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Could not set properties on the Customer object", ex);
         }
     }
 

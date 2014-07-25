@@ -82,13 +82,6 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private boolean finalInvoiceInd;
 
     /**
-     * Constructs a ContractsAndGrantsAgingReportDetail.java.
-     */
-    public ContractsAndGrantsAgingReport() {
-        super();
-    }
-
-    /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
 

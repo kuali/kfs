@@ -31,13 +31,6 @@ public class ReferralType extends PersistableBusinessObjectBase implements Mutab
     private boolean outsideCollectionAgencyInd;
 
     /**
-     * Default constructor
-     */
-    public ReferralType() {
-        super();
-    }
-
-    /**
      * Gets the active attribute.
      *
      * @return Returns the active.

@@ -31,13 +31,6 @@ public class CustomerAddressType extends PersistableBusinessObjectBase implement
 	private boolean active;
 
 	/**
-	 * Default constructor.
-	 */
-	public CustomerAddressType() {
-
-	}
-
-	/**
 	 * Gets the customerAddressTypeCode attribute.
 	 *
 	 * @return Returns the customerAddressTypeCode

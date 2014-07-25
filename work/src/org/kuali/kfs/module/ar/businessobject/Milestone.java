@@ -43,18 +43,10 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
 
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
-    private boolean billedIndicator;
+    private boolean billedIndicator = false;
     private boolean active;
 
     private ContractsAndGrantsBillingAward award;
-
-
-    /**
-     * Constructs a Milestones.java.
-     */
-    public Milestone() {
-        this.setBilledIndicator(false);
-    }
 
     /**
      * Gets the proposalNumber attribute.

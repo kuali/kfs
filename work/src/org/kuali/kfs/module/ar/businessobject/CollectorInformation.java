@@ -39,13 +39,6 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
 
     /**
-     * Default constructor
-     */
-    public CollectorInformation() {
-        super();
-    }
-
-    /**
      * Gets the headPrincipalId attribute.
      *
      * @return Returns the headPrincipalId.

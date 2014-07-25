@@ -31,13 +31,6 @@ public class FinalDisposition extends PersistableBusinessObjectBase implements M
     private boolean active;
 
     /**
-     * Default constructor
-     */
-    public FinalDisposition() {
-        super();
-    }
-
-    /**
      * Gets the dispositionCode attribute.
      *
      * @return Returns the dispositionCode.

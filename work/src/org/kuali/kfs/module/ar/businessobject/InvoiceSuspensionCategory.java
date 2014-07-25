@@ -31,10 +31,8 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     private SuspensionCategory suspensionCategory;
 
-    /**
-     * Default constructor.
-     */
     public InvoiceSuspensionCategory() {
+        super();
     }
 
     /**

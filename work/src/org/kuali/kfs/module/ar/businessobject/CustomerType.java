@@ -32,13 +32,6 @@ public class CustomerType extends PersistableBusinessObjectBase implements Mutab
 	private boolean active;
 
 	/**
-	 * Default constructor.
-	 */
-	public CustomerType() {
-
-	}
-
-	/**
 	 * Gets the customerTypeCode attribute.
 	 *
 	 * @return Returns the customerTypeCode

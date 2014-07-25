@@ -43,13 +43,6 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase impleme
     private String date;
 
     /**
-     * Default constructor
-     */
-    public DunningLetterTemplate() {
-        super();
-    }
-
-    /**
      * Gets the letterTemplateCode attribute.
      *
      * @return Returns letterTemplateCode.

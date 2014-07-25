@@ -48,10 +48,6 @@ public class CollectionActivityInvoiceLookup extends TransientBusinessObjectBase
     private Integer age;
     private Date lastPaymentDate;
 
-    public CollectionActivityInvoiceLookup() {
-
-    }
-
 
     /**
      * Gets the proposalNumber attribute.

@@ -64,13 +64,6 @@ public class CollectionActivityReport extends TransientBusinessObjectBase {
     private Account account;
     private Chart chart;
 
-    /**
-     * Constructs a CollectionActivityReport
-     */
-    public CollectionActivityReport() {
-        super();
-    }
-
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();

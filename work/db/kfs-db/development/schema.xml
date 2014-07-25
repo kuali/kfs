@@ -847,6 +847,9 @@
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
         <column default="0" name="ADJ_CUM_EXPND" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="ADJ_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CGB_INV_DTL_TR1">
+            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
+        </foreign-key>
         <unique name="AR_CGB_INV_DTL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1232,6 +1235,9 @@
         <column name="BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CNTRCT_CNTRL_ACCT_NBR" size="7" type="VARCHAR"/>
         <column default="0" name="BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ACCT_DTL_TR1">
+            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
+        </foreign-key>
         <unique name="AR_INV_ACCT_DTL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

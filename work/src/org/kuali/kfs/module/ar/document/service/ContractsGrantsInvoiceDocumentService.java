@@ -625,5 +625,4 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the document can utilize the template, false otherwise
      */
     public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
-
 }

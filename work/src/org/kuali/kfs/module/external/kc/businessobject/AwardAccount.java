@@ -360,9 +360,4 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     public boolean isLetterOfCreditReviewIndicator() {
         return letterOfCreditReviewIndicator;
     }
-
-    @Override
-    public String getInvoiceDocumentStatus() {
-        return invoiceDocumentStatus;
-    }
 }

@@ -161,7 +161,6 @@
 		</addColumn>
 		<addColumn tableName="CG_AWD_ACCT_T">
 			<column name="FINAL_BILLED" type="VARCHAR(1)" />
-			<column name="INV_DOC_STS" type="VARCHAR(45)" />
 			<column name="AMT_TO_DRW" type="DECIMAL(19,2)" defaultValue="0" />
 			<column name="LTRCR_RVW_IND" type="VARCHAR(1)" />
 			<column name="CURR_LST_BILLED_DT" type="DATETIME" />

@@ -85,14 +85,6 @@ public interface ContractsAndGrantsModuleBillingService {
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled);
 
     /**
-     * This method sets invoice Document Status to award Account.
-     *
-     * @param criteria
-     * @param invoiceDocumentStatus
-     */
-    public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus);
-
-    /**
      * This method sets final billed and last billed date to Award Account.
      *
      * @param mapKey

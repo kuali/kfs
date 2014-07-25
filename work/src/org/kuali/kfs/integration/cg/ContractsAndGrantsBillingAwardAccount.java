@@ -61,6 +61,4 @@ public interface ContractsAndGrantsBillingAwardAccount extends ContractsAndGrant
      * @return Returns the letterOfCreditReviewIndicator.
      */
     public boolean isLetterOfCreditReviewIndicator();
-
-    public String getInvoiceDocumentStatus();
 }

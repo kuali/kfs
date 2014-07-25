@@ -553,7 +553,6 @@
 		<field-descriptor name="letterOfCreditReviewIndicator" column="LTRCR_RVW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="currentLastBilledDate" column="CURR_LST_BILLED_DT" jdbc-type="DATE" />
 		<field-descriptor name="previousLastBilledDate" column="PREV_LST_BILLED_DT" jdbc-type="DATE" />
-		<field-descriptor name="invoiceDocumentStatus" column="INV_DOC_STS" jdbc-type="VARCHAR" index="true" />
 		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
 			auto-delete="none" proxy="true">
 			<foreignkey field-ref="proposalNumber" />

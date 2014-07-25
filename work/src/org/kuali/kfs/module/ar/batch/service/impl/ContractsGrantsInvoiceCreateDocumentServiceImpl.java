@@ -30,6 +30,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -39,6 +40,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -49,7 +51,6 @@ import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -71,6 +72,7 @@ import org.springframework.util.CollectionUtils;
 public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements ContractsGrantsInvoiceCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceCreateDocumentServiceImpl.class);
 
+    protected AccountService accountService;
     protected AccountingPeriodService accountingPeriodService;
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected BusinessObjectService businessObjectService;
@@ -114,8 +116,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             tmpAcctList1.clear();
                             // only one account is added into the list to create cgin
                             tmpAcctList1.add(awardAccount);
-                            // coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                            // orgCode = awardAccount.getAccount().getOrganizationCode();
+
                             coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
                             orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
                             // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
@@ -278,23 +279,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
             try {
                 outputFileStream = new PrintStream(errOutPutfile);
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            for (String line : errLines) {
-                try {
-                    writeErrorEntry(line, outputFileStream);
+                for (String line : errLines) {
+                    outputFileStream.printf("%s\n", line);
                 }
-                catch (IOException ioe) {
-                    LOG.error("ContractsGrantsInvoiceDocumentCreateServiceImpl.createCGInvoiceDocumentsByAwards Stopped: " + ioe.getMessage());
-                    throw new RuntimeException("ContractsGrantsInvoiceDocumentCreateServiceImpl.createCGInvoiceDocumentsByAwards Stopped: " + ioe.getMessage(), ioe);
+                errLines.clear();
+            } catch (IOException ex) {
+                throw new RuntimeException("Could not write error entries for batch Contracts and Grants Invoice document creation", ex);
+            } finally {
+                if (outputFileStream != null) {
+                    outputFileStream.close();
                 }
-
-
             }
-            errLines.clear();
-            outputFileStream.close();
         }
 
         return true;
@@ -621,30 +616,28 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         try {
             outputFileStream = new PrintStream(errOutPutfile);
             writeReportHeader(outputFileStream);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
-            try {
-                writeErrorEntryByAward(award, invalidGroup.get(award), outputFileStream);
+            for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
+                try {
+                    writeErrorEntryByAward(award, invalidGroup.get(award), outputFileStream);
+                }
+                catch (IOException ioe) {
+                    LOG.error("ContractsGrantsInvoiceDocumentCreateServiceImpl.validateAwards Stopped: " + ioe.getMessage());
+                    throw new RuntimeException("ContractsGrantsInvoiceDocumentCreateServiceImpl.validateAwards Stopped: " + ioe.getMessage(), ioe);
+                }
             }
-            catch (IOException ioe) {
-                LOG.error("ContractsGrantsInvoiceDocumentCreateServiceImpl.validateAwards Stopped: " + ioe.getMessage());
-                throw new RuntimeException("ContractsGrantsInvoiceDocumentCreateServiceImpl.validateAwards Stopped: " + ioe.getMessage(), ioe);
-            }
-        }
-        // clean the error list for next iteration
-        invalidGroup.clear();
+            // clean the error list for next iteration
+            invalidGroup.clear();
 
-        try {
-            writeNewLines("", outputFileStream);
-        }
-        catch (IOException ex) {
+            outputFileStream.printf("\r\n");
+        } catch (IOException ex) {
             LOG.error("ContractsGrantsInvoiceDocumentCreateServiceImpl.writeErrorToFile Stopped: " + ex.getMessage());
+            throw new RuntimeException("Could not write contracts and grants invoice validation errors to file", ex);
+        } finally {
+            if (outputFileStream != null) {
+                outputFileStream.close();
+            }
         }
-        outputFileStream.close();
     }
 
 
@@ -698,8 +691,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // calling workflow service to bypass business rule checks
                 workflowDocumentService.route(cgInvoicDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
-            catch (WorkflowException e) {
+            } catch (WorkflowException e) {
                 LOG.error("Error routing document # " + cgInvoiceDocId + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage(), e);
             }
@@ -741,16 +733,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return routeDocHeader.substring(rightBound, leftBound);
     }
 
-
-    protected void writeErrorEntry(String line, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\n", line);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-
     protected void writeErrorEntryByAward(ContractsAndGrantsBillingAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
         // %15s %18s %20s %19s %15s %18s %23s %18s
         boolean firstLineFlag = true;
@@ -784,78 +766,49 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
         // calculate cumulativeExpenses
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-
             cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
-
         }
 
-        try {
-            if (ObjectUtils.isNotNull(award)){
+        if (ObjectUtils.isNotNull(award)){
+            boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
 
-                boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
-
-                if (!isActiveAwardAccountsEmpty) {
-                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        if (firstLineFlag) {
-                            writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
-                            firstLineFlag = false;
-                        }
-                        else {
-                            writeToReport("", awardAccount.getAccountNumber(), "", "", "", "", printStream);
-                        }
-                    }
-                }
-                else {
-                    if (isActiveAwardAccountsEmpty) {
-                        writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+            if (!isActiveAwardAccountsEmpty) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                    if (firstLineFlag) {
+                        writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                        firstLineFlag = false;
                     }
                     else {
-                        writeToReport(proposalNumber, award.getActiveAwardAccounts().get(0).getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                        writeToReport("", awardAccount.getAccountNumber(), "", "", "", "", printStream);
                     }
                 }
             }
-            // To print all the errors from the validation category.
-            for (String vCat : validationCategory) {
-                printStream.printf("%s", "     " + vCat);
-                writeNewLines("", printStream);
+            else {
+                if (isActiveAwardAccountsEmpty) {
+                    writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                }
+                else {
+                    writeToReport(proposalNumber, award.getActiveAwardAccounts().get(0).getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                }
             }
-            printStream.printf(REPORT_LINE_DIVIDER);
-            writeNewLines("", printStream);
-
         }
-        catch (Exception e) {
-            throw new IOException(e.toString());
+        // To print all the errors from the validation category.
+        for (String vCat : validationCategory) {
+            printStream.printf("%s", "     " + vCat);
+            printStream.printf("\r\n");
         }
+        printStream.printf(REPORT_LINE_DIVIDER);
+        printStream.printf("\r\n");
     }
 
     protected void writeToReport(String proposalNumber, String accountNumber, String awardBeginningDate, String awardEndingDate, String awardTotalAmount, String cumulativeExpenses, PrintStream printStream) throws IOException {
-
-        try {
-            printStream.printf("%15s", proposalNumber);
-            printStream.printf("%18s", accountNumber);
-            printStream.printf("%20s", awardBeginningDate);
-            printStream.printf("%19s", awardEndingDate);
-            printStream.printf("%15s", awardTotalAmount);
-            printStream.printf("%23s", cumulativeExpenses);
-            writeNewLines("", printStream);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-
-    /**
-     * @param newline
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeNewLines(String newline, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\r\n", newline);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
+        printStream.printf("%15s", proposalNumber);
+        printStream.printf("%18s", accountNumber);
+        printStream.printf("%20s", awardBeginningDate);
+        printStream.printf("%19s", awardEndingDate);
+        printStream.printf("%15s", awardTotalAmount);
+        printStream.printf("%23s", cumulativeExpenses);
+        printStream.printf("\r\n");
     }
 
     /**
@@ -863,17 +816,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @throws IOException
      */
     protected void writeReportHeader(PrintStream printStream) throws IOException {
-
-        try {
-            printStream.printf("%15s%18s%20s%19s%15s%23s\r\n", "Proposal Number", "Account Number", "Award Start Date", "Award Stop Date", "Award Total", "Cumulative Expenses");
-            printStream.printf("%23s", "Validation Category");
-            writeNewLines("", printStream);
-            printStream.printf(REPORT_LINE_DIVIDER);
-            writeNewLines("", printStream);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
+        printStream.printf("%15s%18s%20s%19s%15s%23s\r\n", "Proposal Number", "Account Number", "Award Start Date", "Award Stop Date", "Award Total", "Cumulative Expenses");
+        printStream.printf("%23s", "Validation Category");
+        printStream.printf("\r\n");
+        printStream.printf(REPORT_LINE_DIVIDER);
+        printStream.printf("\r\n");
     }
 
 
@@ -884,11 +831,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return valid awardAccounts
      */
     protected List<ContractsAndGrantsBillingAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
-        List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         if (!award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            // TO check if there are invoices in progress.
+            List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+            final Set<Account> invalidAccounts = harvestAccountsFromContractsGrantsInvoices(getInProgressInvoicesForAward(award));
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-                if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_LABEL)) {
+                if (!invalidAccounts.contains(awardAccount.getAccount())) {
                     validAwardAccounts.add(awardAccount);
                 }
             }
@@ -901,6 +848,44 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     }
 
+    /**
+     * Pulls all the unique accounts from the source accounting lines on the given ContractsGrantsInvoiceDocument
+     * @param contractsGrantsInvoices the invoices to pull unique accounts from
+     * @return a Set of the unique accounts
+     */
+    protected Set<Account> harvestAccountsFromContractsGrantsInvoices(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoices) {
+       Set<Account> accounts = new HashSet<Account>();
+       for (ContractsGrantsInvoiceDocument invoice : contractsGrantsInvoices) {
+           for (InvoiceAccountDetail invoiceAccountDetail : invoice.getAccountDetails()) {
+               final Account account = getAccountService().getByPrimaryId(invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber());
+               if (!ObjectUtils.isNull(account)) {
+                   accounts.add(account);
+               }
+           }
+       }
+       return accounts;
+    }
+
+    /**
+     * Looks up all the in progress contracts & grants invoices for the award
+     * @param award the award to look up contracts & grants invoices for
+     * @return a Collection matching in progress/pending Contracts & Grants Invoice documents
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> getInProgressInvoicesForAward(ContractsAndGrantsBillingAward award) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, financialSystemDocumentService.getPendingDocumentStatuses());
+
+        return businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     /**
      * Sets the accountingPeriodService attribute value.

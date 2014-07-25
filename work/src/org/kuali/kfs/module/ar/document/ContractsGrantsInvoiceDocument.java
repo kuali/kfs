@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -256,9 +255,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-
-            // To set invoiceDocumentStatus to award Account
-            SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAwardAccountInvoiceDocumentStatus(mapKey, value);
         }
     }
 

@@ -18,9 +18,11 @@ package org.kuali.kfs.sys.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -32,6 +34,7 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
@@ -143,6 +146,17 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         return getBusinessObjectService().findByPrimaryKey(FinancialSystemDocumentHeader.class, fieldValues);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#getPendingDocumentStatuses()
+     */
+    @Override
+    public Set<String> getPendingDocumentStatuses() {
+        Set<String> statuses = new HashSet<String>();
+        for (DocumentStatus docStatus : DocumentStatus.getStatusesForCategory(DocumentStatusCategory.PENDING)) {
+            statuses.add(docStatus.getCode());
+        }
+        return statuses;
+    }
 
     /**
      * Returns the maximum number of results that should be returned from the document search.

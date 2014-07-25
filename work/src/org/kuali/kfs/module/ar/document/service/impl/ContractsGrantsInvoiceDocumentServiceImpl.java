@@ -105,12 +105,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -148,6 +148,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ConfigurationService configurationService;
     protected CustomerService customerService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
     protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected BillDao billDao;
@@ -2125,21 +2126,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, getFinancialSystemDocumentService().getPendingDocumentStatuses());
 
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        ContractsAndGrantsBillingAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
-        while (iterator.hasNext()) {
-            awardAccount = iterator.next();
-            if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_LABEL)) {
-                awardAccounts.add(awardAccount);
-            }
-            if (CollectionUtils.isEmpty(awardAccounts)) {
-                return true;
-            }
-        }
-
-        return false;
+        final int inProgressCount = getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+        return inProgressCount > 0;
     }
 
     /**
@@ -4812,6 +4804,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
+    }
+
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
     public UniversityDateService getUniversityDateService() {

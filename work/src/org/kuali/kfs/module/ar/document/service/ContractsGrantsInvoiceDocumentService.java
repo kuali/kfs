@@ -110,13 +110,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
-     * Retrieves all open Contracts and Grants Invoice Document.
-     *
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments();
-
-    /**
      * This method removes the InvoiceDetailAccountObjectCodes where the current expenditure is zero.
      *
      * @param invoiceDetailAccountObjectCode

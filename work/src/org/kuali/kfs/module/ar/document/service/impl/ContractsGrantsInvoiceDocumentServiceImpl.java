@@ -849,19 +849,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllOpenContractsGrantsInvoiceDocuments(boolean)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments() {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, Boolean.TRUE);
-        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        Collection<ContractsGrantsInvoiceDocument> invoices =  getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-        return invoices;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long)
      */
     @Override

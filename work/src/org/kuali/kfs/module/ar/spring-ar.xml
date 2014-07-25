@@ -563,8 +563,8 @@
 
 	<bean id="contractsGrantsInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
 		</property>
 	</bean>
 
@@ -659,8 +659,8 @@
 
 	<bean id="contractsGrantsLOCReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
-		<property name="workflowDocumentService">
-			<ref bean="rice.kew.workflowDocumentService" />
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
 		</property>
 	</bean>
 

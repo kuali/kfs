@@ -1,0 +1,141 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFSCGB" id="CG_UPDT_FIELD_DEFS">
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="ANNU" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-1" />
+			<column name="BILL_FREQ_DESC" value="Annually" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="5" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="LOCB" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-2" />
+			<column name="BILL_FREQ_DESC" value="LOC Billing" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="0" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="MILE" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-3" />
+			<column name="BILL_FREQ_DESC" value="Milestone" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="0" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="MNTH" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-4" />
+			<column name="BILL_FREQ_DESC" value="Monthly" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="0" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="PDBS" />
+			<column name="BILL_FREQ_DESC" value="Predetermined Billing Schedule" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-5" />
+			<column name="GRACE_PERIOD" value="32" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="QUAR" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-6" />
+			<column name="BILL_FREQ_DESC" value="Quarterly" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="5" />
+		</insert>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="SEMI" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-BILL-FREQ-7" />
+			<column name="BILL_FREQ_DESC" value="Semi Annually" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="GRACE_PERIOD" value="5" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTCS" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-1" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Cost Share" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTFP" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-2" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Fixed Price" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTMS" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-3" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Milestone" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTPB" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-4" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Predetermined Billing Schedule" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTPP" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-5" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Prepaid" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTRB" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-6" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Reimbursement" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="CTSC" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-7" />
+			<column name="INSTRMNT_TYP_DESC" value="Contract - Subcontract" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTCS" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-8" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Cost Share" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTFP" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-9" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Fixed Price" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTMS" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-10" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Milestone" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTPB" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-11" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Predetermined Billing Schedule" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTPP" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-12" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Prepaid" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTRI" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-13" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Reimbursement" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="CG_INSTRMNT_TYP_T">
+			<column name="INSTRMNT_TYP_CD" value="GTSC" />
+			<column name="OBJ_ID" value="KFS-CGB-CG-INSTRMNT-TYP-14" />
+			<column name="INSTRMNT_TYP_DESC" value="Grant - Subcontract" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>

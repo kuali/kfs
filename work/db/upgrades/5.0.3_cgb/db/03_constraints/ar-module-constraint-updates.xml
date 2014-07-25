@@ -1,0 +1,38 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFSCGB" id="KFS_CGB_AR_CONSTRAINTS">
+		<addForeignKeyConstraint constraintName="AR_BILL_TR1"
+			referencedTableName="AR_PRDTRMND_BILL_SCHDL_T" baseColumnNames="PRPSL_NBR"
+			baseTableName="AR_BILL_T" referencedColumnNames="PRPSL_NBR" />
+		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_TR1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_DUN_LTR_DIST_DOC_TR1"
+			referencedTableName="AR_DUN_CMPGN_DOC_T" baseColumnNames="CMPGN_ID"
+			baseTableName="AR_DUN_LTR_DIST_T" referencedColumnNames="CMPGN_ID" />
+		<addForeignKeyConstraint constraintName="AR_EVENT_FK1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="INVOICE_NBR"
+			baseTableName="AR_EVENT_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
+			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
+			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
+		<addForeignKeyConstraint constraintName="AR_INV_ACCT_DTL_TR1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_INV_ACCT_DTL_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_INV_ADDR_DTL_TR1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_INV_ADDR_DTL_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_INV_BILL_R1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_R1"
+			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_INV_MLSTN_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_R1"
+			referencedTableName="AR_LTRCR_RVW_DOC_T" baseColumnNames="FDOC_NBR"
+			baseTableName="AR_LTRCR_RVW_DTL_T" referencedColumnNames="FDOC_NBR" />
+	</changeSet>
+
+</databaseChangeLog>

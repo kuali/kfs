@@ -3,7 +3,9 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
-	<include file="02_data/cgb-module-data-updates.xml"/>
+	<include file="02_data/ar-module-data-updates.xml"/>
+	<include file="02_data/cg-module-data-updates.xml"/>
+	<include file="02_data/kc-module-data-updates.xml"/>
 		
 </databaseChangeLog>
 	

@@ -74,7 +74,8 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceTest extends KualiTest
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode);
+        List<String> errLines = new ArrayList<String>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errLines);
 
         DocumentHeader documentHeader = cgInvoice.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();

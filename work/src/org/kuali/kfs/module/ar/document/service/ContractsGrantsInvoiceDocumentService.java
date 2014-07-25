@@ -312,7 +312,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
+    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
 
     /**
      * Check iF Award has no accounts assigned

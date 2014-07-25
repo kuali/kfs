@@ -41,7 +41,8 @@ public class ContractsGrantsInvoiceRouteDocumentsStep extends AbstractStep {
             throw new RuntimeException(e);
         }
 
-        return cgInvoiceDocumentCreateService.routeContractsGrantsInvoiceDocuments();
+        cgInvoiceDocumentCreateService.routeContractsGrantsInvoiceDocuments();
+        return true;
     }
 
     /**

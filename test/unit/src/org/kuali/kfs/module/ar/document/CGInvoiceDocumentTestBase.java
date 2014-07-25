@@ -128,7 +128,8 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                         offset.setFinancialBalanceTypeCode("AC");
                         boService.save(offset);
                     }
-                    document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode);
+                    List<String> errLines = new ArrayList<String>();
+                    document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode, errLines);
                     for (InvoiceAddressDetail invoiceAddressDetail : document.getInvoiceAddressDetails()) {
                         invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
                         invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");

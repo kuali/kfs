@@ -76,7 +76,8 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode);
+        List<String> errLines = new ArrayList<String>();
+        cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errLines);
 
         DocumentHeader documentHeader = cgInvoice.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();

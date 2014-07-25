@@ -32,9 +32,9 @@
 	
 	<bean id="SalaryExpenseTransferDocument-validAmountTransferredByObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation" ></bean>
 
-	<bean id="SalaryExpenseTransferDocument-errorCertificationValidation" scope="prototype" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferErrorCertificationValidation">
+	<bean id="SalaryExpenseTransferDocument-errorCertificationValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferErrorCertificationValidation">
 		<property name="parameterService" ref="parameterService" />
-		<property name="universityDateService" ref="universityDateService" />
+		<property name="salaryExpenseTransferTransactionAgeService" ref="salaryExpenseTransferTransactionAgeService" />
 	</bean>
 	
 	<bean id="SalaryExpenseTransferDocument-errorCertificationTabValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.ErrorCertificationValidation" />

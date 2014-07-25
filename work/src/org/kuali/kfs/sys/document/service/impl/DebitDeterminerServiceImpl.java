@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.sys.document.service.impl;
 
-import java.text.DecimalFormat;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -46,6 +46,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#disallowErrorCorrectionDocumentCheck(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource)
      */
+    @Override
     public void disallowErrorCorrectionDocumentCheck(GeneralLedgerPendingEntrySource poster) {
         LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - start");
 
@@ -59,6 +60,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isAsset(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isAsset(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isAsset(AccountingLine) - start");
 
@@ -70,6 +72,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isAssetTypeCode(java.lang.String)
      */
+    @Override
     public boolean isAssetTypeCode(String objectTypeCode) {
         LOG.debug("isAssetTypeCode(String) - start");
 
@@ -81,6 +84,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitCode(java.lang.String)
      */
+    @Override
     public boolean isDebitCode(String debitCreditCode) {
         LOG.debug("isDebitCode(String) - start");
 
@@ -92,6 +96,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringNothingPositiveOnly(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
@@ -103,12 +108,12 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
             isDebit = true;
         }
         else {
-            // non error correction
-            if (!isErrorCorrection(poster)) {
+            // non error correction or DV
+            if (!isErrorCorrection(poster) && !(poster instanceof DisbursementVoucherDocument) && !(poster instanceof NonCheckDisbursementDocument)) {
                 throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
 
             }
-            // error correction
+            // error correction or DV
             else {
                 isDebit = false;
             }
@@ -121,6 +126,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringSection(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
+    @Override
     public boolean isDebitConsideringSection(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         LOG.debug("isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
@@ -163,6 +169,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringSectionAndTypePositiveOnly(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
+    @Override
     public boolean isDebitConsideringSectionAndTypePositiveOnly(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         LOG.debug("isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
@@ -206,6 +213,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringType(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isDebitConsideringType(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringType(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
@@ -238,6 +246,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isErrorCorrection(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource)
      */
+    @Override
     public boolean isErrorCorrection(GeneralLedgerPendingEntrySource poster) {
         return StringUtils.isNotBlank(poster.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
@@ -245,6 +254,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isExpense(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isExpense(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isExpense(AccountingLine) - start");
 
@@ -256,6 +266,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isExpenseOrAsset(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isExpenseOrAsset(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isExpenseOrAsset(AccountingLine) - start");
 
@@ -267,6 +278,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isIncome(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isIncome(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isIncome(AccountingLine) - start");
 
@@ -278,6 +290,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isIncomeOrLiability(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isIncomeOrLiability(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isIncomeOrLiability(AccountingLine) - start");
 
@@ -289,6 +302,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isLiability(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isLiability(GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isLiability(AccountingLine) - start");
 
@@ -300,6 +314,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     /**
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isLiabilityTypeCode(java.lang.String)
      */
+    @Override
     public boolean isLiabilityTypeCode(String objectTypeCode) {
         LOG.debug("isLiabilityTypeCode(String) - start");
 
@@ -308,24 +323,25 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
         return returnboolean;
     }
 
+    @Override
     public String getConvertedAmount(String objectType , String debitCreditCode , String amount ) {
         SystemOptions systemOption = optionsService.getCurrentYearOptions();
-        
+
         // If entries lack a debit and credit code that means they're budget entries and should already be signed appropriately + or -.
         // so we should just be able to grab those without having to do any change.
         if(StringHelper.isNullOrEmpty(debitCreditCode)) {
             return amount;
         }
-        
+
         if(systemOption.getFinancialObjectTypeAssetsCd().equals(objectType)
-                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType)  
+                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType)
                 ||systemOption.getFinObjTypeExpenditureexpCd().equals(objectType)
-                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType) 
+                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType)
                 ||systemOption.getFinancialObjectTypeTransferExpenseCd().equals(objectType)) {
-           
+
             if  (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
                 amount = "-" + amount;
-            }   
+            }
         }
         else if (systemOption.getFinObjTypeCshNotIncomeCd().equals(objectType)
                 || systemOption.getFinObjectTypeFundBalanceCd().equals(objectType)
@@ -336,9 +352,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
             if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
               amount = "-" + amount;
             }
-          
+
         }
-      
+
         return amount;
     }
 
@@ -349,6 +365,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
 /**
  * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isRevenue(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
  */
+@Override
 public boolean isRevenue(GeneralLedgerPendingEntrySourceDetail postable) {
     LOG.debug("isRevenue(AccountingLine) - start");
 
@@ -374,25 +391,28 @@ public void setOptionsService(OptionsService optionsService) {
 }
 
 /**
- * Gets the isDebitCalculationIllegalStateExceptionMessage attribute. 
+ * Gets the isDebitCalculationIllegalStateExceptionMessage attribute.
  * @return Returns the isDebitCalculationIllegalStateExceptionMessage.
  */
+@Override
 public String getDebitCalculationIllegalStateExceptionMessage() {
     return isDebitCalculationIllegalStateExceptionMessage;
 }
 
 /**
- * Gets the isErrorCorrectionIllegalStateExceptionMessage attribute. 
+ * Gets the isErrorCorrectionIllegalStateExceptionMessage attribute.
  * @return Returns the isErrorCorrectionIllegalStateExceptionMessage.
  */
+@Override
 public String getErrorCorrectionIllegalStateExceptionMessage() {
     return isErrorCorrectionIllegalStateExceptionMessage;
 }
 
 /**
- * Gets the isInvalidLineTypeIllegalArgumentExceptionMessage attribute. 
+ * Gets the isInvalidLineTypeIllegalArgumentExceptionMessage attribute.
  * @return Returns the isInvalidLineTypeIllegalArgumentExceptionMessage.
  */
+@Override
 public String getInvalidLineTypeIllegalArgumentExceptionMessage() {
     return isInvalidLineTypeIllegalArgumentExceptionMessage;
 }

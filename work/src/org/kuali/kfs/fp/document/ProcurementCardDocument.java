@@ -185,6 +185,22 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     }
 
     /**
+     * Get source accounting lines for specific transactions line
+     *
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLines()
+     */
+    public List getSourceAccountingLines(Integer docuemntLineNumber) {
+        List sourceAccountingLines = new ArrayList();
+
+        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(docuemntLineNumber);
+        for (Iterator iterator = transactionEntry.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+            SourceAccountingLine sourceLine = (SourceAccountingLine) iterator.next();
+            sourceAccountingLines.add(sourceLine);
+        }
+        return sourceAccountingLines;
+    }
+
+    /**
      * Override to get target accounting lines out of transactions
      *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
@@ -203,6 +219,23 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
         return targetAccountingLines;
     }
+
+    /**
+     * Get target accounting lines for specific transactions line
+     *
+     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
+     */
+    public List getTargetAccountingLines(Integer docuemntLineNumber) {
+        List targetAccountingLines = new ArrayList();
+
+        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(docuemntLineNumber);
+        for (Iterator iterator = transactionEntry.getTargetAccountingLines().iterator(); iterator.hasNext();) {
+            TargetAccountingLine targetLine = (TargetAccountingLine) iterator.next();
+            targetAccountingLines.add(targetLine);
+        }
+        return targetAccountingLines;
+    }
+
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
@@ -326,7 +359,17 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
 
-        Date postingDate = getProcurementCardTransactionPostingDetailDate();
+        int lineNumber = 0;
+        if(postable instanceof ProcurementCardSourceAccountingLine) {
+            ProcurementCardSourceAccountingLine cardDetail =  (ProcurementCardSourceAccountingLine) postable;
+            lineNumber = cardDetail.getFinancialDocumentTransactionLineNumber() - 1;
+        }
+        else if (postable instanceof ProcurementCardTargetAccountingLine) {
+            ProcurementCardTargetAccountingLine cardDetail =  (ProcurementCardTargetAccountingLine) postable;
+            lineNumber = cardDetail.getFinancialDocumentTransactionLineNumber() - 1;
+        }
+
+        Date postingDate = getProcurementCardTransactionPostingDetailDate(lineNumber);
 
         if (ObjectUtils.isNotNull(postingDate) && allowBackpost(postingDate)) {
             Integer prevFiscYr = getPreviousFiscalYear();
@@ -334,13 +377,13 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
             explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
             explicitEntry.setUniversityFiscalYear(prevFiscYr);
 
-            List<SourceAccountingLine> srcLines = getSourceAccountingLines();
+            List<SourceAccountingLine> srcLines = getSourceAccountingLines(lineNumber);
 
             for (SourceAccountingLine src : srcLines) {
                 src.setPostingYear(prevFiscYr);
             }
 
-            List<TargetAccountingLine> trgLines = getTargetAccountingLines();
+            List<TargetAccountingLine> trgLines = getTargetAccountingLines(lineNumber);
 
             for (TargetAccountingLine trg : trgLines) {
                 trg.setPostingYear(prevFiscYr);
@@ -353,10 +396,10 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     *
     * @return Date
     */
-    private Date getProcurementCardTransactionPostingDetailDate() {
+    private Date getProcurementCardTransactionPostingDetailDate(Integer lineNumber) {
         Date date = null;
 
-        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(0);
+        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(lineNumber);
         date = transactionEntry.getTransactionPostingDate();
 
         return date;

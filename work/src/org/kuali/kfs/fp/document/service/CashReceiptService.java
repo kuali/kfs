@@ -68,6 +68,16 @@ public interface CashReceiptService {
     public void addCashDetailsToCashDrawer(CashReceiptDocument crDoc);
 
     /**
+     * Deprecated: Please use areCashAmountsInvalid.
+     * Checks whether the CashReceiptDocument's cash totals are invalid, generating global errors if so.
+     *
+     * @param cashReceiptDocument submitted cash receipt document
+     * @return true if CashReceiptDocument's cash totals are valid
+     */
+    @Deprecated
+    public abstract boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument);
+
+    /**
      * Checks whether the CashReceiptDocument's detail and total amounts in each category is invalid, generating global errors if so.
      * A Cash Receipt document is considered containing invalid amount if any of the following is true:
      *  1. The total check amount is negative;

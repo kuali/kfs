@@ -958,6 +958,22 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     /**
+     * Gets a list of strings of receiving line item document numbers where  applicationdocumentstatus = 'Awaiting Purchase Order Open Status'
+     * If there are documents then the document number is added to the list
+     *
+     * @return list of documentNumbers to retrieve line item receiving documents.
+     */
+    @Deprecated
+    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
+        List<String> receivingDocumentNumbers = new ArrayList<String>();
+        List<LineItemReceivingDocument> receivingDocuments= getDocumentsAwaitingPurchaseOrderOpenStatus();
+        for (LineItemReceivingDocument document : receivingDocuments) {
+            receivingDocumentNumbers.add(document.getDocumentNumber());
+        }
+        return receivingDocumentNumbers;
+    }
+
+    /**
      * Gets a list of receiving line item documents where  applicationdocumentstatus = 'Awaiting Purchase Order Open Status'
      * @return list of line item receiving documents.
      */

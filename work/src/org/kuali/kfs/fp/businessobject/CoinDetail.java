@@ -35,8 +35,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String financialDocumentTypeCode;
     private String cashieringStatus;
-//    // the line number associated with cashier transactions in CMD; set to 0 if not associated with any transaction
-//    private Integer financialDocumentTransactionLineNumber;
 
     private KualiDecimal financialDocumentFiftyCentAmount = KualiDecimal.ZERO;
     private KualiDecimal financialDocumentTwentyFiveCentAmount = KualiDecimal.ZERO;

@@ -263,6 +263,15 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
     @Override
+    @Deprecated
+    public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
+        return areCashAmountsInvalid(cashReceiptDocument);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
+     */
+    @Override
     public boolean areCashAmountsInvalid(CashReceiptDocument cashReceiptDocument) {
         /* FIXME FIXED by KFSCNTRB-1793
          * The previous code didn't validate change amounts, and there was no validation on each currency/coin detail amount either.

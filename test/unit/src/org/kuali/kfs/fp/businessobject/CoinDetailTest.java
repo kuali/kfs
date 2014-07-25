@@ -152,25 +152,6 @@ public class CoinDetailTest extends KualiTestBase {
             assertEquals(goodDetail.getOneCentRollCount(), new Integer(1));
         }
 
-
-//        // but we can always test based on the invariant formula by which count/roll/amount are computed, as follows:
-//        // create CoinDetail with good amounts, retrieve counts from it, and convert
-//        Integer hundredCentCount = goodDetail.getHundredCentCount();
-//        Integer fiftyCentCount = goodDetail.getFiftyCentCount();
-//        Integer twentyFiveCentCount = goodDetail.getTwentyFiveCentCount();
-//        Integer tenCentCount = goodDetail.getTenCentCount();
-//        Integer fiveCentCount = goodDetail.getFiftyCentCount();
-//        Integer oneCentCount = goodDetail.getOneCentCount();
-//        Integer hundredCentRollCount = goodDetail.getHundredCentRollCount();
-//        Integer fiftyCentRollCount = goodDetail.getFiftyCentRollCount();
-//        Integer twentyFiveCentRollCount = goodDetail.getTwentyFiveCentRollCount();
-//        Integer tenCentRollCount = goodDetail.getTenCentRollCount();
-//        Integer fiveCentRollCount = goodDetail.getFiftyCentRollCount();
-//        Integer oneCentRollCount = goodDetail.getOneCentRollCount();
-//
-//        // use the above counts to create CoinDetail copy, and compute amounts of the copy;
-//        // the result amounts should equal to the original amounts.
-
     }
 
     public void testCountToAmountConversion() {

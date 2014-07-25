@@ -65,12 +65,14 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -262,7 +264,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     @NonTransactional
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
         BatchParameters parameters = createPreTagBatchParameters();
-        return extractDao.findPreTaggablePOAccounts(parameters);
+        return extractDao.findPreTaggablePOAccounts(parameters, getDocumentsNumbersAwaitingPurchaseOrderOpenStatus());
     }
 
 
@@ -961,6 +963,24 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             }
         }
     }
+
+    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
+        List<String> poDocumentNumbers = new ArrayList<String>();
+        List<PurchaseOrderDocument> poDocuments = new ArrayList<PurchaseOrderDocument>();
+        try {
+            // This should pick up all types of POs (Amendments, Voids, etc)
+            poDocuments = (List<PurchaseOrderDocument>) SpringContext.getBean(FinancialSystemDocumentService.class).findByApplicationDocumentStatus(
+                PurchaseOrderDocument.class, CabConstants.PO_STATUS_CODE_OPEN);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException(we);
+        }
+        for (PurchaseOrderDocument poDocument : poDocuments) {
+            poDocumentNumbers.add(poDocument.getDocumentNumber());
+        }
+        return poDocumentNumbers;
+    }
+
 
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)

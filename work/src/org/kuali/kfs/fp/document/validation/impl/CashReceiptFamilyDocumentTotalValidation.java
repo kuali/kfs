@@ -57,7 +57,6 @@ public class CashReceiptFamilyDocumentTotalValidation extends GenericValidation 
          * We need to make sure that the net total (with change total taken out) is greater than 0.
          */
         // make sure that net reconciliation total is greater than zero
-        //boolean isValid = getCashReceiptFamilyDocumentForValidation().getTotalDollarAmount().compareTo(KualiDecimal.ZERO) > 0;
         if (!totalAmount.isPositive()) {
             isValid = false;
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NET_TOTAL_NOT_GREATER_THAN_ZERO);

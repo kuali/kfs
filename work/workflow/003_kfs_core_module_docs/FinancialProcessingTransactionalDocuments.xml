@@ -120,7 +120,6 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
-          <!-- don't need mandatoryRoute -->
         </role>
         <split name="RequireReview">
           <type>
@@ -132,7 +131,7 @@
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
           <activationType>
-            P				<!-- P means workflow action request is sent in parallel to all qualified role members -->
+            P				
           </activationType>                  
         </role>	
         <simple name="NoOp">

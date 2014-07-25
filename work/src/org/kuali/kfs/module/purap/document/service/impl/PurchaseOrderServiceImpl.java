@@ -2291,11 +2291,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<PurchaseOrderDocument> filteredPaymentRequestDocuments = new ArrayList<PurchaseOrderDocument>();
         // add to filtered collection if the app doc list contains payment request's application document status.
         for (PurchaseOrderDocument po : purchaseOrderDocuments) {
-            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(po.getDocumentNumber()).getApplicationDocumentStatus())) {
+            if(appDocStatusList.contains(po.getApplicationDocumentStatus())) {
                 filteredPaymentRequestDocuments.add(po);
             }
         }
         return filteredPaymentRequestDocuments;
+    }
+
+    /**
+     * Query appDocStatus using financialSystemDocumentService and filter against the provided status list
+     *
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return List<String> purchaseOrderDocumentNumbers
+     */
+    @Deprecated
+    protected List<String> filterPurchaseOrderDocumentNumbersByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+        List<String> purchaseOrderDocNumbers = new ArrayList<String>();
+        List<String> appDocStatusList = Arrays.asList(appDocStatus);
+        for (String docNumber : lookupDocNumbers) {
+            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(docNumber).getApplicationDocumentStatus())) {
+                purchaseOrderDocNumbers.add(docNumber);
+            }
+        }
+        return purchaseOrderDocNumbers;
     }
 
     @Override

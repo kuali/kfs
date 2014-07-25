@@ -309,14 +309,11 @@ public class ArConstants{
         static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "error.cginvoice.award.startDate.missing";
         static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "error.cginvoice.user.suspended";
         static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "error.cginvoice.award.inactive";
-        static final public String CGINVOICE_CREATION_AWARD_CLOSED_ERROR = "error.cginvoice.award.closed";
-        static final public String CGINVOICE_CREATION_AWARD_PAST_STOP_DATE_ERROR = "error.cginvoice.award.past.stop.date";
         static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "error.cginvoice.award.missing";
         static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "error.cginvoice.billing.missing.frequency";
         static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "error.cginvoice.no.account.assigned";
         static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "error.cginvoice.already.billed";
         static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
-        static final public String CGINVOICE_CREATION_AWARD_TOO_STALE_ERROR = "error.cginvice.award.too.stale";
         static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";
         static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "error.loc.not.final";
         static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "error.loc.csh.ctrl.in.progress";

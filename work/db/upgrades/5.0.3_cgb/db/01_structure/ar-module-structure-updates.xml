@@ -335,13 +335,13 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="ACCOUNTS" type="VARCHAR(200)" />
-			<column name="AWD_START_DT" type="DATETIME" />
-			<column name="AWD_STOP_DT" type="DATETIME" />
-			<column name="AWD_TOT_AMT" type="DECIMAL(19,2)" />
+			<column name="CGAWD_BEG_DT" type="DATE" />
+			<column name="CGAWD_END_DT" type="DATE" />
+			<column name="CGAWD_TOT_AMT" type="DECIMAL(19,2)" />
 			<column name="CUM_EXPND_AMT" type="DECIMAL(12,2)"  />
 			<column name="ERROR_DT" type="DATETIME" />
-			<column name="BATCH_IND" type="VARCHAR(1)" defaultValue="Y" />
 			<column name="PRM_FNDMGR_PRNCPL_NM" type="VARCHAR(100)" />
+			<column name="BATCH_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
 		<createTable tableName="AR_INV_DOC_ERROR_CAT_T">
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >

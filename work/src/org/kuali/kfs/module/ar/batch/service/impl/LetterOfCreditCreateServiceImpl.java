@@ -415,42 +415,48 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCF_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             // To create error file and store all the errors in it.
             File errOutPutFile = new File(errOutputFile);
-            PrintStream outputFileStream = new PrintStream(errOutPutFile);
+            PrintStream outputFileStream = null;
+            try {
+                outputFileStream = new PrintStream(errOutPutFile);
 
-            // Case 2. set locCreationType = By Letter of Credit Fund
-            locCreationType = ArConstants.LOC_BY_LOC_FUND;
-            // Get the list of LOC Funds from the Maintenance document.
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsLetterOfCreditFund> letterOfCreditFunds = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFund.class, map);
-            Iterator<ContractsAndGrantsLetterOfCreditFund> it = letterOfCreditFunds.iterator();
-            while (it.hasNext()) {
-                ContractsAndGrantsLetterOfCreditFund letterOfCreditFund = it.next();
-                // Retrieve invoices per loc fund and loc creation type specification.
-                Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
-                // When all the invoices are final.
-                if (!CollectionUtils.isEmpty(cgInvoices)) {
-                    KualiDecimal totalAmount = KualiDecimal.ZERO;
-                    // Get the total amount for the cash control document.
-                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
-                    }
-                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
-                    // If this is LOC by fund, then the way to retrieve invoices in payment application form is locfundCode
-                    locValue = letterOfCreditFund.getLetterOfCreditFundCode();
-                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
-                    // number combination.
+                // Case 2. set locCreationType = By Letter of Credit Fund
+                locCreationType = ArConstants.LOC_BY_LOC_FUND;
+                // Get the list of LOC Funds from the Maintenance document.
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(KFSPropertyConstants.ACTIVE, true);
+                Collection<ContractsAndGrantsLetterOfCreditFund> letterOfCreditFunds = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFund.class, map);
+                Iterator<ContractsAndGrantsLetterOfCreditFund> it = letterOfCreditFunds.iterator();
+                while (it.hasNext()) {
+                    ContractsAndGrantsLetterOfCreditFund letterOfCreditFund = it.next();
+                    // Retrieve invoices per loc fund and loc creation type specification.
+                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFund(letterOfCreditFund.getLetterOfCreditFundCode(), errOutputFile);
+                    // When all the invoices are final.
+                    if (!CollectionUtils.isEmpty(cgInvoices)) {
+                        KualiDecimal totalAmount = KualiDecimal.ZERO;
+                        // Get the total amount for the cash control document.
+                        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                            totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                        }
+                        customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                        // If this is LOC by fund, then the way to retrieve invoices in payment application form is locfundCode
+                        locValue = letterOfCreditFund.getLetterOfCreditFundCode();
+                        // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                        // number combination.
 
-                    cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
+                        cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
 
-                    if (!cashControlDocumentExists) {
-                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                        if (!cashControlDocumentExists) {
+                            // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                            createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                        }
                     }
                 }
+            } finally {
+                // Close the error file.
+                if (outputFileStream != null) {
+                    outputFileStream.close();
+                }
             }
-            // Close the error file.
-            outputFileStream.close();
         }
         catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);
@@ -472,42 +478,48 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             String errOutputFile = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.LOC_CREATION_BY_LOCFG_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             // To create error file and store all the errors in it.
             File errOutPutFile = new File(errOutputFile);
-            PrintStream outputFileStream = new PrintStream(errOutPutFile);
-            // Case 2. set locCreationType = By Letter of Credit Fund
-            locCreationType = ArConstants.LOC_BY_LOC_FUND_GRP;
-            // Retrieve list of letter of credit Fund groups from the Maintenance document.
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsLetterOfCreditFundGroup> letterOfCreditFundGroups = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFundGroup.class, map);
+            PrintStream outputFileStream = null;
+            try {
+                outputFileStream = new PrintStream(errOutPutFile);
+                // Case 2. set locCreationType = By Letter of Credit Fund
+                locCreationType = ArConstants.LOC_BY_LOC_FUND_GRP;
+                // Retrieve list of letter of credit Fund groups from the Maintenance document.
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(KFSPropertyConstants.ACTIVE, true);
+                Collection<ContractsAndGrantsLetterOfCreditFundGroup> letterOfCreditFundGroups = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).getExternalizableBusinessObjectsList(ContractsAndGrantsLetterOfCreditFundGroup.class, map);
 
-            Iterator<ContractsAndGrantsLetterOfCreditFundGroup> it = letterOfCreditFundGroups.iterator();
-            while (it.hasNext()) {
-                ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
+                Iterator<ContractsAndGrantsLetterOfCreditFundGroup> it = letterOfCreditFundGroups.iterator();
+                while (it.hasNext()) {
+                    ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup = it.next();
 
-                // Retrieve invoices per loc fund group and loc creation type specification.
-                Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
-                if (!CollectionUtils.isEmpty(cgInvoices)) {
-                    KualiDecimal totalAmount = KualiDecimal.ZERO;
-                    // Get the total amount for the cash control document.
-                    for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-                        totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
-                    }
-                    customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
-                    // If this is LOC by fund group, then the way to retrieve invoices in payment application form is locfundGroupCode
-                    locValue = letterOfCreditFundGroup.getLetterOfCreditFundGroupCode();
-                    // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
-                    // number combination.
+                    // Retrieve invoices per loc fund group and loc creation type specification.
+                    Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByLOCFundGroup(letterOfCreditFundGroup.getLetterOfCreditFundGroupCode(), errOutputFile);
+                    if (!CollectionUtils.isEmpty(cgInvoices)) {
+                        KualiDecimal totalAmount = KualiDecimal.ZERO;
+                        // Get the total amount for the cash control document.
+                        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                            totalAmount = totalAmount.add(cgInvoice.getOpenAmount());
+                        }
+                        customerNumber = cgInvoices.iterator().next().getAccountsReceivableDocumentHeader().getCustomerNumber();// to get customer number from first invoice
+                        // If this is LOC by fund group, then the way to retrieve invoices in payment application form is locfundGroupCode
+                        locValue = letterOfCreditFundGroup.getLetterOfCreditFundGroupCode();
+                        // To validate if there are any existing cash control documents for the same letterofcreditfundgroup and customer
+                        // number combination.
 
-                    cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
+                        cashControlDocumentExists = validatecashControlDocument(customerNumber, locCreationType, locValue, outputFileStream);
 
-                    if (!cashControlDocumentExists) {
-                        // Pass the parameters and error file stream to maintain a single file for recording all the errors.
-                        createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                        if (!cashControlDocumentExists) {
+                            // Pass the parameters and error file stream to maintain a single file for recording all the errors.
+                            createCashControlDocuments(customerNumber, locCreationType, locValue, totalAmount, outputFileStream);
+                        }
                     }
                 }
+            } finally {
+                // Close the error file.
+                if (outputFileStream != null) {
+                    outputFileStream.close();
+                }
             }
-            // Close the error file.
-            outputFileStream.close();
         }
         catch (FileNotFoundException fnfe) {
             throw new RuntimeException("Could not write to file in "+batchFileDirectoryName, fnfe);

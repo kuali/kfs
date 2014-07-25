@@ -1298,6 +1298,7 @@
         <column name="CUM_EXPND_AMT" scale="2" size="12" type="DECIMAL"/>
         <column name="ERROR_DT" type="DATE"/>
         <column default="Y" name="BATCH_IND" size="1" type="VARCHAR"/>
+        <column name="PRM_FNDMGR_PRNCPL_NM" size="100" type="VARCHAR"/>
         <unique name="AR_INV_DOC_ERROR_LOG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

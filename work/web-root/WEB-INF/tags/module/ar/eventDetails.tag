@@ -47,7 +47,7 @@
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
-			property="${propertyName}.activityText" readOnly="${readOnly}" /></td>
+			property="${propertyName}.activityText" readOnly="${readOnly}" expandedTextArea="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
 			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"

@@ -98,6 +98,7 @@
 		<property name="name" value="awardPrimaryProjectDirectorName" />
 		<property name="label" value="Primary Project Director Name" />
 		<property name="shortLabel" value="Primary Proj Director Name" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 
@@ -109,6 +110,7 @@
 		<property name="name" value="awardPrimaryFundManagerName" />
 		<property name="label" value="Primary Fund Manager Name" />
 		<property name="shortLabel" value="Primary Fund Manager" />
+		<property name="maxLength"><null/></property>
 		<property name="control">
 			<ref bean="StandardNameTextControl" />
 		</property>

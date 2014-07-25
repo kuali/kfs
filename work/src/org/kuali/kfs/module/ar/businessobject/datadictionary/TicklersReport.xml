@@ -235,7 +235,6 @@
     <property name="name" value="activityDescription"/>
     <property name="label" value="Collection Activity Type Description"/>
     <property name="shortLabel" value="Collection Activity Type Description"/>
-    <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
@@ -251,7 +250,6 @@
     <property name="name" value="activityText"/>
     <property name="label" value="Collection Activity Comment"/>
     <property name="shortLabel" value="Collection Activity Comment"/>
-    <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
@@ -311,7 +309,6 @@
 		<property name="name" value="collectionActivityInquiryTitle" />
 		<property name="label" value="Actions" />
 		<property name="shortLabel" value="Actions" />
-		<property name="maxLength" value="255" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>

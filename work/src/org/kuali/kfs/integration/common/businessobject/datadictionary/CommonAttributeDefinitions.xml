@@ -42,7 +42,6 @@
 		<property name="name" value="milestoneScheduleInquiryTitle" />
 		<property name="label" value="Milestone Schedule" />
 		<property name="shortLabel" value="Milestone Schedule" />
-		<property name="maxLength" value="255" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
@@ -56,7 +55,6 @@
 		<property name="name" value="predeterminedBillingScheduleInquiryTitle" />
 		<property name="label" value="Predetermined Billing Schedule" />
 		<property name="shortLabel" value="Predetermined Billing Schedule" />
-		<property name="maxLength" value="255" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>

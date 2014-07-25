@@ -131,6 +131,7 @@
 		<property name="name" value="awardFundManager.name" />
 		<property name="label" value="Fund Manager Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.principalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.principalName-parentBean" />
@@ -149,6 +150,7 @@
 		<property name="name" value="fundManagerPrincipalName" />
 		<property name="label" value="Fund Manager Principal Name" />
 		<property name="shortLabel" value="Fund Mgr Prncpl Nm" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalId" parent="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalId-parentBean" />
@@ -178,6 +180,7 @@
 		<property name="name" value="awardProjectDirector.name" />
 		<property name="label" value="Project Director Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.principalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.principalName-parentBean" />
@@ -197,6 +200,7 @@
 		<property name="name" value="projectDirectorPrincipalName" />
 		<property name="label" value="Project Director Name" />
 		<property name="shortLabel" value="ProjectDirector Name Name" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardTotal" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardTotal-parentBean" />

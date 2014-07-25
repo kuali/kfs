@@ -278,6 +278,7 @@
 		<property name="name" value="collector.name" />
 		<property name="label" value="Collector Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
   <bean id="ContractsAndGrantsAgingReport-principalId" parent="ContractsAndGrantsAgingReport-principalId-parentBean"/>
@@ -471,6 +472,7 @@
 		<property name="name" value="lookupFundMgrPerson.name" />
 		<property name="label" value="Fund Manager Principal Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsAndGrantsAgingReport-invoiceDate" parent="ContractsAndGrantsAgingReport-invoiceDate-parentBean" />

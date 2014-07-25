@@ -908,6 +908,7 @@
 		<property name="documentAdHocService" ref="documentAdHocService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
+		<property name="financialSystemDocumentHeaderDao" ref="financialSystemDocumentHeaderDao"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 

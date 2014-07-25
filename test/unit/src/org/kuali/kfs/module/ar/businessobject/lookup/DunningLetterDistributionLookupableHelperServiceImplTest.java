@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.fixture.DunningCampaignFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterDistributionFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterTemplateFixture;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -79,6 +80,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         super.setUp();
         dunningLetterDistributionLookupableHelperServiceImpl = new DunningLetterDistributionLookupableHelperServiceImpl();
         dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
+        dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
         dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectClass(DunningLetterDistributionLookupResult.class);
         dunningLetterDistributionLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
         DocumentService documentService = SpringContext.getBean(DocumentService.class);

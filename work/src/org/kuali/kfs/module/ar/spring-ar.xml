@@ -315,7 +315,7 @@
 
 	<bean id="arEmailService" parent = "arEmailService-parentBean" />
 	<bean id="arEmailService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AREmailServiceImpl" abstract="true">
-		<property name="mailService" ref="mailService" />
+		<property name="mailService" ref="attachmentMailService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />

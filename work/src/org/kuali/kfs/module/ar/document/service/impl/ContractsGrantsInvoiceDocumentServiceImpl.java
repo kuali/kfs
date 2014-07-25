@@ -37,7 +37,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -123,6 +122,7 @@ import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -4770,7 +4770,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#emailInProcessContractsGrantsInvoiceDocuments()
      */
     @Override
-    public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException {
+    public void emailInProcessContractsGrantsInvoiceDocuments() throws InvalidAddressException, MessagingException {
         List<ContractsGrantsInvoiceDocument> collection = new ArrayList<ContractsGrantsInvoiceDocument>();
 
         // Get the list of CG Invoice Documents that have the marked for processing flag set

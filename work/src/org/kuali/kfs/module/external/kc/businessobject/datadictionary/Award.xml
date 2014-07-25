@@ -45,7 +45,6 @@
                 <ref bean="Award-awardEndingDate" />
                 <ref bean="Award-awardPrimaryProjectDirector.projectDirector.principalId" />
                 <ref bean="Award-awardPrimaryFundManager.fundManager.principalId"/>
-                <ref bean="Award-letterOfCreditFund.letterOfCreditFundGroupCode" />
 			</list>
 		</property>
 		<property name="primaryKeys">
@@ -219,12 +218,12 @@
   </bean>
   
   <bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId" parent="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean"/>
-  <bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean" abstract="true" parent="Person-principalId">
+  <bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
 	<property name="name" value="awardPrimaryProjectDirector.projectDirector.principalId"/>
   </bean>
   
   <bean id="Award-awardPrimaryFundManager.fundManager.principalId" parent="Award-awardPrimaryFundManager.fundManager.principalId-parentBean"/>
-  <bean id="Award-awardPrimaryFundManager.fundManager.principalId-parentBean" abstract="true" parent="Person-principalId">
+  <bean id="Award-awardPrimaryFundManager.fundManager.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
 	<property name="name" value="awardPrimaryFundManager.fundManager.principalId"/>
   </bean>
 

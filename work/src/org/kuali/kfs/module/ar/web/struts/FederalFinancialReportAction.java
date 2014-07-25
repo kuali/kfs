@@ -167,11 +167,16 @@ public class FederalFinancialReportAction extends KualiAction {
             response.setContentLength(pdfHolder.getReportBytes().size());
 
             // write to output
-            ServletOutputStream sos;
-            sos = response.getOutputStream();
-            pdfHolder.getReportBytes().writeTo(sos);
-            sos.flush();
-            sos.close();
+            ServletOutputStream sos = null;
+            try {
+                sos = response.getOutputStream();
+                pdfHolder.getReportBytes().writeTo(sos);
+            } finally {
+                if (sos != null) {
+                    sos.flush();
+                    sos.close();
+                }
+            }
         }
         return null;
 

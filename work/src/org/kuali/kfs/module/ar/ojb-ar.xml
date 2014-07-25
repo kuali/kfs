@@ -2033,16 +2033,6 @@
 
 	</class-descriptor>
 	
-	
-	<!--  Collector Information -->
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectorInformation" table="AR_CLCTR_INFO_T">
-		<field-descriptor name="principalId" column="CLCTR_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="headPrincipalId" column="CLCTR_HEAD_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
 	<!-- Final Disposition  -->
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.FinalDisposition" table="AR_FINAL_DISPOS_T">
 		<field-descriptor name="dispositionCode" column="AR_FINAL_DISPOS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

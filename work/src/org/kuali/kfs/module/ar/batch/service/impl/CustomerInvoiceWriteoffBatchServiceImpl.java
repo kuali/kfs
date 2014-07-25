@@ -92,50 +92,57 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
 
         //  create the pdf doc
         com.lowagie.text.Document pdfdoc = null;
-        if (isAnyFilesFound) {
-            pdfdoc = getPdfDoc();
-        }
-
         //  process each file in turn
-        List<String> processedFiles = new ArrayList<String>();
-        for (String inputFileName : fileNamesToLoad) {
-
-            LOG.info("Beginning processing of filename: " + inputFileName + ".");
-
-            //  setup the results reporting
-            writeFileNameSectionTitle(pdfdoc, inputFileName);
-
-            //  load the file
-            boolean successInd = false;
+        List<String> processedFiles;
+        try {
+            if (isAnyFilesFound) {
+                pdfdoc = getPdfDoc();
+            }
             try {
-                successInd = loadFile(inputFileName, pdfdoc);
-            }
-            catch (Exception e) {
-                LOG.error("An unhandled error occurred.  " + e.getMessage());
-                writeInvoiceSectionMessage(pdfdoc, "ERROR - Unhandled exception caught.");
-                writeInvoiceSectionMessage(pdfdoc, e.getMessage());
-            }
-            resultInd &= successInd;
+                processedFiles = new ArrayList<String>();
+                for (String inputFileName : fileNamesToLoad) {
 
-            //  handle result
-            if (successInd) {
-                resultInd &= true;
-                writeInvoiceSectionMessage(pdfdoc, "File successfully completed processing.");
-                processedFiles.add(inputFileName);
+                    LOG.info("Beginning processing of filename: " + inputFileName + ".");
+
+                    //  setup the results reporting
+                    writeFileNameSectionTitle(pdfdoc, inputFileName);
+
+                    //  load the file
+                    boolean successInd = false;
+                    try {
+                        successInd = loadFile(inputFileName, pdfdoc);
+                    }
+                    catch (Exception e) {
+                       LOG.error("An unhandled error occurred.  " + e.getMessage());
+                       writeInvoiceSectionMessage(pdfdoc, "ERROR - Unhandled exception caught.");
+                       writeInvoiceSectionMessage(pdfdoc, e.getMessage());
+                    }
+                    resultInd &= successInd;
+
+                    //  handle result
+                    if (successInd) {
+                        resultInd &= true;
+                        writeInvoiceSectionMessage(pdfdoc, "File successfully completed processing.");
+                        processedFiles.add(inputFileName);
+                    }
+                    else {
+                        writeInvoiceSectionMessage(pdfdoc, "File failed to process successfully.");
+                        resultInd &= false;
+                    }
+                }
+            } finally {
+                //  if we've written anything, then spool it out to the file
+                if (pdfdoc != null) {
+                    pdfdoc.close();
+                }
             }
-            else {
-                writeInvoiceSectionMessage(pdfdoc, "File failed to process successfully.");
-                resultInd &= false;
-            }
+
+            //  remove done files
+            removeDoneFiles(processedFiles);
         }
-
-        //  if we've written anything, then spool it out to the file
-        if (pdfdoc != null) {
-            pdfdoc.close();
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Could not load customer invoice writeoff files", ex);
         }
-
-        //  remove done files
-        removeDoneFiles(processedFiles);
 
         return resultInd;
     }
@@ -309,7 +316,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return fileNamesToLoad;
     }
 
-    protected com.lowagie.text.Document getPdfDoc() {
+    protected com.lowagie.text.Document getPdfDoc() throws IOException, DocumentException {
 
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerInvoiceWriteoff.CUSTOMER_INVOICE_WRITEOFF_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerInvoiceWriteoff.BATCH_REPORT_BASENAME + "_" +
@@ -318,23 +325,11 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         //  setup the writer
         File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
-        try {
-            fileOutStream = new FileOutputStream(reportFile);
-        }
-        catch (IOException e) {
-            LOG.error("IOException thrown when trying to open the FileOutputStream.", e);
-            throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
-        }
+        fileOutStream = new FileOutputStream(reportFile);
         BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
 
         com.lowagie.text.Document pdfdoc = new com.lowagie.text.Document(PageSize.LETTER, 54, 54, 72, 72);
-        try {
-            PdfWriter.getInstance(pdfdoc, buffOutStream);
-        }
-        catch (DocumentException e) {
-            LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-            throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-        }
+        PdfWriter.getInstance(pdfdoc, buffOutStream);
 
         pdfdoc.open();
 
@@ -470,33 +465,26 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(filename);
-        }
-        catch (FileNotFoundException e) {
-            throw new RuntimeException("Could not find/create output file at: '" + filename + "'.", e);
-        }
+            try {
+                //  setup the output format
+                OutputFormat of = new OutputFormat("XML", "UTF-8", true);
+                of.setIndent(1);
+                of.setIndenting(true);
 
-        //  setup the output format
-        OutputFormat of = new OutputFormat("XML", "UTF-8", true);
-        of.setIndent(1);
-        of.setIndenting(true);
-
-        //  setup the xml serializer and do the serialization
-        Element docElement = xmldoc.getDocumentElement();
-        XMLSerializer serializer = new XMLSerializer(fos, of);
-        try {
-            serializer.asDOMSerializer();
-            serializer.serialize(docElement);
+                //  setup the xml serializer and do the serialization
+                Element docElement = xmldoc.getDocumentElement();
+                XMLSerializer serializer = new XMLSerializer(fos, of);
+                serializer.asDOMSerializer();
+                serializer.serialize(docElement);
+            } finally {
+                // close the output stream
+                if (fos != null) {
+                    fos.close();
+                }
+            }
         }
         catch (IOException e) {
-            throw new RuntimeException("Exception while serializing the DOM Document.", e);
-        }
-
-        //  close the output stream
-        try {
-            fos.close();
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Exception while closing the FileOutputStream.", e);
+            throw new RuntimeException("Exception while writing customer invoice writeoff xml file.", e);
         }
 
         return filename;

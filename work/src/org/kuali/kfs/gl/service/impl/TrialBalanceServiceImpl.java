@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.dataaccess.TrialBalanceDao;
 import org.kuali.kfs.gl.service.TrialBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -49,11 +50,27 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
 
 
     @Override
-    public List findTrialBalance(String selectedFiscalYear, String chartCode) {
-        if ("*".equals(chartCode)) {
+    public List findTrialBalance(String selectedFiscalYear, String chartCode, String periodCode) {
+
+        if ( StringUtils.isEmpty(chartCode) || "*".equals(chartCode)) {
             chartCode = "";
         }
-        return trialBalanceDao.findBalanceByFields(selectedFiscalYear, chartCode);
+
+        //for invalid options of financialPeriodCode, it will be considered empty, which is equivalent to getting the current fp
+        if ( StringUtils.isEmpty(periodCode) || "*".equals(periodCode) ) {
+            periodCode = "";
+        }
+
+        try {
+            Integer period = Integer.parseInt( periodCode );
+            if ( 0>= period || period > 13){
+                periodCode = "";
+            }
+        } catch ( NumberFormatException e){
+            periodCode = "";
+        }
+
+        return trialBalanceDao.findBalanceByFields(selectedFiscalYear, chartCode, periodCode);
     }
 
     /**
@@ -61,7 +78,23 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
      *      java.util.Date)
      */
     @Override
-    public String generateReportForExtractProcess(Collection dataSource, String fiscalYear) {
+    public String generateReportForExtractProcess(Collection dataSource, String fiscalYear, String periodCode) {
+        String fiscalPeriod = "Current";
+
+        if ( !StringUtils.isEmpty(periodCode) && !"*".equals(periodCode) ) {
+            try {
+                Integer period = Integer.parseInt( periodCode );
+                if ( 0>= period || period > 13){
+                    periodCode = "";
+                }
+            } catch ( NumberFormatException e){
+                periodCode = "";
+            }
+            if ( !StringUtils.isEmpty(periodCode) ) {
+                fiscalPeriod = periodCode;
+            }
+        }
+
         String reportFileName = glTrialBalanceReportInfo.getReportFileName();
         String reportDirectory = glTrialBalanceReportInfo.getReportsDirectory();
         String reportTemplateClassPath = glTrialBalanceReportInfo.getReportTemplateClassPath();
@@ -72,6 +105,7 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
 
         Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put(KFSConstants.TRIAL_BAL_REPORT_YEAR, fiscalYear);
+        reportData.put(KFSConstants.TRIAL_BAL_REPORT_PERIOD, fiscalPeriod);
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
         reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
         reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);

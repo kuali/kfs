@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.gl.service.TrialBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.lookup.Lookupable;
@@ -147,9 +148,10 @@ public class TrialBalanceReportAction extends KualiLookupAction {
         displayList = kualiLookupable.performLookup(lookupForm, resultTable, bounded);
 
         if (!displayList.isEmpty()) {
-            String reportYear = lookupForm.getFields().get(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME);
+            String reportYear = lookupForm.getFields().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            String periodCode = lookupForm.getFields().get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
 
-            String reportFileFullName = SpringContext.getBean(TrialBalanceService.class).generateReportForExtractProcess(displayList, reportYear);
+            String reportFileFullName = SpringContext.getBean(TrialBalanceService.class).generateReportForExtractProcess(displayList, reportYear, periodCode);
 
             // using itext for pdf
             ByteArrayOutputStream baos = generatePdfOutStream(reportFileFullName);

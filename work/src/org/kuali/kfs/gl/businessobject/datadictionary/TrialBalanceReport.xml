@@ -40,6 +40,7 @@
         <ref bean="TrialBalanceReport-timestamp"/>
         <ref bean="TrialBalanceReport-finChartOfAccountDescription"/>
         <ref bean="TrialBalanceReport-financialObjectCodeName"/>
+        <ref bean="TrialBalanceReport-universityFiscalPeriodCode"/>
         <ref bean="TrialBalanceReport-index"/>
       </list>
     </property>
@@ -170,6 +171,13 @@
   	<property name="name" value="financialObjectCodeName" />
   </bean>
   
+  <bean id="TrialBalanceReport-universityFiscalPeriodCode" parent="TrialBalanceReport-universityFiscalPeriodCode-parentBean"/>
+  <bean id="TrialBalanceReport-universityFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
+    <property name="name" value="universityFiscalPeriodCode"/>
+    <property name="label" value="Fiscal Period"/>
+    <property name="shortLabel" value="Fiscal Period"/>
+  </bean>
+  
   <bean id="TrialBalanceReport-index" parent="TrialBalanceReport-index-parentBean"/>
   	<bean id="TrialBalanceReport-index-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
   	<property name="name" value="index" />
@@ -199,6 +207,7 @@
       <list>
         <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
         <bean parent="FieldDefinition" p:required="false" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="universityFiscalPeriodCode" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder"/>
       </list>
     </property>
     <property name="resultFields">

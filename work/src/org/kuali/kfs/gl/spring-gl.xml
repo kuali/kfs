@@ -2981,4 +2981,20 @@
 		</property>
 	</bean>
     
+    <bean id="glCurrentAccountBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.CurrentAccountBalanceLookupableHelperServiceImpl" scope="prototype">
+        <property name="personService" ref="personService" />
+        <property name="balanceService" ref="glBalanceService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+        <property name="postBalance" ref="glPostBalance" />
+        <property name="accountingPeriodService" ref="accountingPeriodService"/>
+        <property name="lookupService" ref="lookupService" />               
+    </bean>
+    
+    <bean id="glCurrentAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="glCurrentAccountBalanceLookupableHelperService" />
+        </property>
+    </bean>
+    
 </beans>

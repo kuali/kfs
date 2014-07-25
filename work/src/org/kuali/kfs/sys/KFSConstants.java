@@ -1333,6 +1333,10 @@ public class KFSConstants {
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
+        public final static String DEFAULT_CHART_METHOD = "1";
+        public final static String DEFAULT_PRIMARY_DEPT_METHOD = "2";
+        public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
+
     }
 
     public static class ReportConstants{
@@ -1424,6 +1428,8 @@ public class KFSConstants {
     static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
     static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
     static final public String TRIAL_BAL_REPORT_YEAR = "reportYear";
+    static final public String TRIAL_BAL_REPORT_PERIOD = "reportFiscalPeriod";
+
     // Pcard Email Notification
     public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
     public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";

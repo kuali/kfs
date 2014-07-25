@@ -32,6 +32,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.batch.service.FilteringBalanceIterator;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.CashBalance;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -40,6 +41,7 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -625,6 +627,25 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
+     * Returns the count of balances for a given fiscal year and specified charts; this method is used for year end job reporting
+     * @param year the university fiscal year to count balances for
+     * @param charts list of charts to count balances for
+     * @return an int with the count of balances for all charts specied in that fiscal year
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#countBalancesForFiscalYear(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public int countBalancesForFiscalYear(Integer year, List<String> charts) {
+        LOG.debug("countBalancesForFiscalYear(year, charts) started");
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+
+    /**
      * Finds all of the balances for the fiscal year that should be processed by nominal activity closing
      *
      * @param year the university fiscal year of balances to find
@@ -639,6 +660,32 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, currentYearOptions.getActualFinancialBalanceTypeCd());
         c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, nominalActivityObjectTypeCodes);
+        c.addNotEqualTo("accountLineAnnualBalanceAmount", KualiDecimal.ZERO);
+
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+     /**
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findNominalActivityBalancesForFiscalYear(java.lang.Integer, java.util.Collection, org.kuali.kfs.sys.businessobject.SystemOptions, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, Collection<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions, List<String> charts) {
+        LOG.debug("findNominalActivityBalancesForFiscalYear(year, charts) started");
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, currentYearOptions.getActualFinancialBalanceTypeCd());
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, nominalActivityObjectTypeCodes);
+        c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
         c.addNotEqualTo("accountLineAnnualBalanceAmount", KualiDecimal.ZERO);
 
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
@@ -677,6 +724,36 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
         return balances;
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer, java.util.Collection, java.util.Collection, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, Collection<String> generalForwardBalanceObjectTypes, Collection<String> generalBalanceForwardBalanceTypes, List<String> charts) {
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
+        c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, generalBalanceForwardBalanceTypes);
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, generalBalanceForwardBalanceTypes);
+
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
+
+        Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
+
+        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
+        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
     }
 
     /**
@@ -719,6 +796,51 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
         return balances;
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer, java.util.Collection, java.util.Collection, java.util.Collection, java.util.Collection, boolean, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, Collection<String> cumulativeForwardBalanceObjectTypes, Collection<String> contractsAndGrantsDenotingValues, Collection<String> subFundGroupsForCumulativeBalanceForwarding, Collection<String> cumulativeBalanceForwardBalanceTypes, boolean fundGroupDenotesCGInd, List<String> charts) {
+
+        Criteria c = new Criteria();
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
+        c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, cumulativeBalanceForwardBalanceTypes);
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, cumulativeForwardBalanceObjectTypes);
+
+        Criteria forCGCrit = new Criteria();
+        if (fundGroupDenotesCGInd) {
+           for (String value : contractsAndGrantsDenotingValues) {
+               forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", value);
+           }
+        } else {
+            for (String value : contractsAndGrantsDenotingValues) {
+                forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", value);
+            }
+        }
+
+        Criteria subFundGroupCrit = new Criteria();
+        subFundGroupCrit.addIn("priorYearAccount.subFundGroupCode", subFundGroupsForCumulativeBalanceForwarding);
+        forCGCrit.addOrCriteria(subFundGroupCrit);
+        c.addAndCriteria(forCGCrit);
+
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_TYPE_CODE);
+
+        Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
+
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class,"glBalanceAnnualAndCGTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
     }
 
     /**

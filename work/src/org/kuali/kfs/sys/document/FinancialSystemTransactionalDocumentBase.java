@@ -191,8 +191,10 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             final KualiDecimal currentTotal = ((AmountTotaling)this).getTotalDollarAmount();
             if (!currentTotal.equals(getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount())) {
                 getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(currentTotal);
-                getBusinessObjectService().save(getFinancialSystemDocumentHeader());
             }
+        }
+        if (this instanceof AmountTotaling || !StringUtils.isBlank(getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            getBusinessObjectService().save(getFinancialSystemDocumentHeader());
         }
         super.doRouteLevelChange(levelChangeEvent);
     }

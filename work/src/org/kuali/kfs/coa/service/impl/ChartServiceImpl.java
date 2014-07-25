@@ -87,12 +87,16 @@ public class ChartServiceImpl implements ChartService {
     @Cacheable(value=Chart.CACHE_NAME,key="'AllChartCodes'")
     public List<String> getAllChartCodes() {
         Collection<Chart> charts = businessObjectService.findAllOrderBy(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, true);
-        List<String> chartCodes = new ArrayList<String>(charts.size());
-        for (Chart chart : charts) {
-            chartCodes.add(chart.getChartOfAccountsCode());
-        }
+        return getChartCodes(charts);
+    }
 
-        return chartCodes;
+    /**
+     * @see org.kuali.kfs.coa.service.ChartService#getAllActiveChartCodes()
+     */
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="'AllActiveChartCodes'")
+    public List<String> getAllActiveChartCodes() {
+        return getChartCodes(getAllActiveCharts());
     }
 
     @Override
@@ -163,6 +167,14 @@ public class ChartServiceImpl implements ChartService {
         }
 
         return chartManager;
+    }
+
+    protected List<String> getChartCodes(Collection<Chart> charts) {
+        List<String> chartCodes = new ArrayList<String>(charts.size());
+        for (Chart chart : charts) {
+            chartCodes.add(chart.getChartOfAccountsCode());
+        }
+        return chartCodes;
     }
 
     protected RoleService getRoleService() {

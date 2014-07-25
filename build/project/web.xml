@@ -418,13 +418,6 @@
 			<http-method>PUT</http-method>
 		</web-resource-collection>
 		<auth-constraint />
-	</security-constraint>
-  <error-page>
-      <error-code>500</error-code>
-      <location>/500.html</location>
-  </error-page>
-  <error-page> 
-      <error-code>404</error-code> 
-	  <location>/404.html</location> 
-  </error-page>	
+	</security-constraint>	
+	${error.page.definition}  	
 </web-app>

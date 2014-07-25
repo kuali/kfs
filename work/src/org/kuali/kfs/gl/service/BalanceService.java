@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ public interface BalanceService {
 
     /**
      * This method...
-     * 
+     *
      * @param account
      * @return
      */
@@ -38,7 +38,7 @@ public interface BalanceService {
 
     /**
      * This method...
-     * 
+     *
      * @param account
      * @return
      */
@@ -46,7 +46,7 @@ public interface BalanceService {
 
     /**
      * This method...
-     * 
+     *
      * @param account
      * @return
      */
@@ -54,7 +54,7 @@ public interface BalanceService {
 
     /**
      * This method...
-     * 
+     *
      * @param account
      * @return
      */
@@ -62,7 +62,7 @@ public interface BalanceService {
 
     /**
      * This method...
-     * 
+     *
      * @param account
      * @return
      */
@@ -70,7 +70,7 @@ public interface BalanceService {
 
     /**
      * Returns all of the balances for a given fiscal year.
-     * 
+     *
      * @param fiscalYear the fiscal year to find balances for
      * @return an Iterator over all balances for a given year
      */
@@ -79,7 +79,7 @@ public interface BalanceService {
     /**
      * This method finds the summary records of balance entries according to input fields an values. The results will be limited to
      * the system lookup results limit.
-     * 
+     *
      * @param fieldValues the input fields an values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
@@ -88,7 +88,7 @@ public interface BalanceService {
 
     /**
      * This method gets the size of cash balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the count of cash balance entries
@@ -97,7 +97,7 @@ public interface BalanceService {
 
     /**
      * This method gets the size of balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the size of balance entries
@@ -106,7 +106,7 @@ public interface BalanceService {
 
     /**
      * This method finds the summary records of balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
@@ -115,7 +115,7 @@ public interface BalanceService {
 
     /**
      * Purge the sufficient funds balance table by year/chart
-     * 
+     *
      * @param chart the chart purged balances should have
      * @param year the fiscal year purged balances should have
      */
@@ -123,7 +123,7 @@ public interface BalanceService {
 
     /**
      * Get the GL Balance summary for the GL Summary report
-     * 
+     *
      * @param universityFiscalYear
      * @param balanceTypeCodes
      * @return a list of summarized GL balances
@@ -132,39 +132,75 @@ public interface BalanceService {
 
     /**
      * This method returns the total count of balances for a fiscal year
-     * 
+     *
      * @param year fiscal year to check
      * @return the count of balances
      */
     public int countBalancesForFiscalYear(Integer year);
 
     /**
+     * This method returns the total count of balances for a fiscal year and specified charts
+     *
+     * @param year fiscal year to check
+     * @param list of specified charts
+     * @return the count of balances
+     */
+    public int countBalancesForFiscalYear(Integer year, List<String> charts);
+
+    /**
      * This method returns all of the balances specifically for the nominal activity closing job
-     * 
+     *
      * @param year year to find balances for
      * @return an Iterator of nominal activity balances
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year);
 
     /**
+     * This method returns all of the balances specifically for the nominal activity closing job when annual closing charts are specified
+     *
+     * @param year year to find balances for
+     * @param charts list of charts to find balances for
+     * @return an Iterator of nominal activity balances
+     */
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> charts);
+
+    /**
      * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
-     * 
+     *
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the general balance forward process
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year);
 
     /**
+     * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * for the specified fiscal year and charts
+     *
+     * @param year the fiscal year to find balances for
+     * @param charts charts to find balances for
+     * @return an Iterator of balances to process for the general balance forward process
+     */
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> charts);
+
+    /**
      * Returns all the balances to be forwarded for the "cumulative" rule
-     * 
+     *
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the cumulative/active balance forward process
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
 
     /**
+     * Returns all the balances to be forwarded for the "cumulative" rule
+     * @param year the fiscal year to find balances for
+     * @param charts charts to find balances for
+     * @return an Iterator of balances to process for the cumulative/active balance forward process
+     */
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> charts);
+
+    /**
      * Returns all of the balances to be forwarded for the organization reversion process
-     * 
+     *
      * @param year the year of balances to find
      * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or
      *        beginning of year (after the fiscal year change over)

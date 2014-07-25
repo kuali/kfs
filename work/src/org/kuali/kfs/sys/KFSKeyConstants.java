@@ -490,6 +490,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DC_INDICATOR_MUST_BE_D_OR_C = "error.gl.DCIndicatorMustBeDorC";
     public static final String ERROR_DC_INDICATOR_MUST_BE_NEITHER_D_NOR_C = "error.gl.DCIndicatorMustBeNeitherDNorC";
     public static final String ERROR_TRANSACTION_DATE_INVALID = "error.gl.TransactionDateInvalid";
+    public static final String ERROR_CURRBALANCE_LOOKUP_CRITERIA_REQD = "error.currentbalance.lookup.criteria.required";
 
     public static final String ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE = "error.gl.NumberFormatOriginEntryFromTextFile";
     public static final String ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE = "error.gl.InvalidFormatOriginEntryFromTextFile";

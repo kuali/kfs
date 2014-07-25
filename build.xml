@@ -236,7 +236,7 @@
 		<condition property="internal.contracts.and.grants.spring.files" value="${contracts.and.grants.spring.files}" else="">
 			<istrue value="${module.contracts.and.grants.enabled}"/>
 		</condition>
-		<condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}" else="">
+        <condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}${institution.coeus.spring.source.file}" else="">
 			<istrue value="${module.external.kuali.coeus.enabled}"/>
 		</condition>
 		<condition property="internal.accounts.receivable.spring.files" value="${accounts.receivable.spring.files}" else="">

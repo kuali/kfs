@@ -19,9 +19,9 @@
 //#TL
     function transform() {
         $0.ar_rfrl_type_cd := replace(nvl($ar_rfrl_type_cd, ""), "~!~", "|" );
-        $0.rfrl_typ_desc := replace(nvl($rfrl_typ_desc, ""), "~!~", "|" );
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
+        $0.rfrl_typ_desc := replace(nvl($rfrl_typ_desc, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.outsd_clctn_agency_ind := replace(nvl($outsd_clctn_agency_ind, ""), "~!~", "|" );
    }

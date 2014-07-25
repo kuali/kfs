@@ -1040,6 +1040,8 @@ public class KFSConstants {
         public final static String JASPER_REPORT_EXTENSION = ".jasper";
         public final static String PDF_FILE_EXTENSION = ".pdf";
         public final static String PDF_MIME_TYPE = "application/pdf";
+        public final static String ZIP_FILE_EXTENSION = ".zip";
+        public final static String ZIP_MIME_TYPE = "application/zip";
         public final static String TEXT_MIME_TYPE = "text/plain";
         public final static String ACCOUNT_EXPORT_FILE_NAME = "account_export.txt";
         public final static String MONTHLY_EXPORT_FILE_NAME = "monthly_export.txt";

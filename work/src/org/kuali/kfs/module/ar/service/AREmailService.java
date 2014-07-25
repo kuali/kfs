@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -36,7 +37,7 @@ public interface AREmailService {
      * @throws AddressException
      * @throws MessagingException
      */
-    public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException;
+    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException;
 
     /**
      * Send email for upcoming milestones for Award

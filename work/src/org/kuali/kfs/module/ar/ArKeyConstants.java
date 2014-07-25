@@ -348,6 +348,15 @@ public class ArKeyConstants {
      public static final String ERROR_DUPLICATE_BILL_NUMBER = "error.duplicate.bill.number";
      public static final String ERROR_DUPLICATE_MILESTONE_NUMBER = "error.duplicate.milestone.number";
 
+     // messages for Transmit Contracts & Grants Invoices
+     public static final String NO_DELIVERY_TYPE_SELECTED = "error.no.delivery.type.selected";
+     public static final String NO_PRINCIPAL_NAME_FOUND = "error.no.principal.name.found";
+     public static final String NO_MATCHING_INVOICE = "error.no.matching.invoice";
+     public static final String MARKED_FOR_PROCESSING_BY_BATCH_JOB = "message.marked.for.processing.by.batch.job";
+     public static final String ERROR_SENDING_INVOICE_EMAILS = "error.sending.invoice.emails";
+     public static final String INVOICES_PRINT_SUCCESSFULL = "message.invoices.print.successfull";
+     public static final String INVOICES_PRINT_UNSUCCESSFULL = "error.invoices.print.unsuccessful";
+
      public static final String CONTRACTS_REPORTS_AGING_REPORT_TITLE = "contracts.grants.aging.report.title";
 
 }

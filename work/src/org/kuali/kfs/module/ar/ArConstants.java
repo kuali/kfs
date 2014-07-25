@@ -485,6 +485,11 @@ public class ArConstants{
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
 
+    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
+    public static final String INVOICES_FILE_PREFIX = "Invoices-";
+    public static final String INVOICE_ENVELOPES_FILE_PREFIX = "InvoiceEnvelopes-";
+    public static final String INVOICE_ZIP_FILE_PREFIX = "Invoice-report";
+
     public static class ReportBuilderDataServiceBeanNames {
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
         public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";
@@ -496,6 +501,9 @@ public class ArConstants{
         public static final String TICKLERS = "ticklersReportBuilderService";
         public static final String REFERRAL_TO_COLLECTION = "referralToCollectionsReportBuilderService";
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
+    }
+    public static class Actions {
+        public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
     }
 
     public static class MultipleValueReturnActions {

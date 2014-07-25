@@ -314,8 +314,22 @@ public class ArPropertyConstants{
     public static final String COLLECTOR_HEAD = "principalId";
     public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
 
+    public static final String INVOICE_AMOUNT_LABEL = "Invoice Amount";
+    public static final String PRINT_INVOICES_FROM_LABEL = "Print Invoices From";
+    public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
+
     // CG Invoice Reports
     public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
+
+    public static class TransmitContractsAndGrantsInvoicesFields {
+        public static final String INVOICE_INITIATOR_PRINCIPAL_NAME = "invoiceInitiatorPrincipalName";
+        public static final String INVOICE_AMOUNT = "invoiceAmount";
+        public static final String INVOICE_PRINT_DATE_TO = "invoicePrintDate";
+        public static final String INVOICE_PRINT_DATE_FROM = "rangeLowerBoundKeyPrefix_invoicePrintDate";
+    }
+
+    public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceTransmissionMethodCode";
+    public static final String LOOKUP_SECTION_ID = "lookup";
 
     // Collection Activity Type
     public static class CollectionActivityTypeFields {

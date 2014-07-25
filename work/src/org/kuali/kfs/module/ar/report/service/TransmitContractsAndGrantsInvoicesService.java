@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -27,12 +31,13 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import com.lowagie.text.DocumentException;
 
 /**
- * Service to help the InvoiceReportDeliveryAction
+ * Service to help the TransmitContractsAndGrantsInvoicesAction
  */
-public interface InvoiceReportDeliveryService {
+public interface TransmitContractsAndGrantsInvoicesService {
 
     /**
-     * This seems to collect contracts and grants invoices by the given lookup parameters
+     * This seems to collect contracts and grants invoices by the given lookup parameters.
+     *
      * @param userId the user carrying out this operation
      * @param documentNumber if present, searches by document number
      * @param proposalNumber if present, searches by the proposal number
@@ -41,14 +46,32 @@ public interface InvoiceReportDeliveryService {
      * @param organizationCode if present, searches on the organization
      * @param unformattedToDate if present, searches on the to date
      * @param unformattedFromDate if present, searches on the from date
+     * @param invoiceTransmissionMethodCode searches for invoice transmission method of EMAIL, MAIL, or BOTH (all invoices)
      * @return a Collection of ContractsGrantsInvoiceDocument objects
      * @throws WorkflowException thrown if document could not be retrieved
      * @throws ParseException thrown if dates could not be parsed
      */
-    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(String userId, String documentNumber, String proposalNumber, String invoiceAmount, String chartOfAccountsCode, String organizationCode, String unformattedToDate, String unformattedFromDate) throws WorkflowException, ParseException;
+    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(String userId, String documentNumber, String proposalNumber, String invoiceAmount, String chartOfAccountsCode, String organizationCode, String unformattedToDate, String unformattedFromDate, String invoiceTransmissionMethodCode) throws WorkflowException, ParseException;
+
+    /**
+     * Is the invoice valid to email (has Email transmission method and hasn't been marked for processing)?
+     *
+     * @param contractsGrantsInvoiceDocument
+     * @return true if invoice is valid to email, false otherwise
+     */
+    public boolean isInvoiceValidToEmail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
+
+    /**
+     * Is the invoice valid to mail (has Mail transmission method and hasn't been processed)?
+     *
+     * @param contractsGrantsInvoiceDocument
+     * @return true if invoice is valid to email, false otherwise
+     */
+    public boolean isInvoiceValidToMail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
      * This method generates the actual pdf files to print.
+     *
      * @param list the list of invoice documents to print
      * @param a ByteArrayOutputStream to write out to
      * @return true if printing succeeded, false otherwise
@@ -58,7 +81,24 @@ public interface InvoiceReportDeliveryService {
     public boolean printInvoicesAndEnvelopesZip(Collection<ContractsGrantsInvoiceDocument> list, ByteArrayOutputStream baos) throws DocumentException, IOException;
 
     /**
+     * This method returns the date format for a timestamp to include in the report file name.
+     *
      * @return the format for formatting a timestamp to match the right file name
      */
     public SimpleDateFormat getFileNameTimestampFormat();
+
+    /**
+     * Validate search parameters for the Transmit Contracts & Grants Invoices lookup.
+     *
+     * @param fieldValues search parameters to validate
+     */
+    public void validateSearchParameters(Map<String,String> fieldValues);
+
+    /**
+     * This method marks invoices for the ArEmailService for Email reports delivery.
+     *
+     * @param list
+     */
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws AddressException, MessagingException;
+
 }

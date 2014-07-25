@@ -172,8 +172,8 @@
 		<form-bean name="FederalFinancialReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportForm" />
 
-		<form-bean name="InvoiceReportDeliveryForm"
-			type="org.kuali.kfs.module.ar.web.struts.InvoiceReportDeliveryForm" />
+		<form-bean name="TransmitContractsAndGrantsInvoicesForm"
+			type="org.kuali.kfs.module.ar.web.struts.TransmitContractsAndGrantsInvoicesForm" />
 
 
 		<!-- Labor Distribution Bean Definitions -->
@@ -575,11 +575,12 @@
 				redirect="false" />
 		</action>
 
-		<action path="/arInvoiceReportDelivery" name="InvoiceReportDeliveryForm"
+		<action path="/arTransmitContractsAndGrantsInvoices" name="TransmitContractsAndGrantsInvoicesForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.InvoiceReportDeliveryAction">
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.TransmitContractsAndGrantsInvoicesAction">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/ar/InvoiceReportDelivery.jsp" />
+			<forward name="basic" path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
 		<action path="/arContractsGrantsInvoiceSummary" name="ContractsGrantsInvoiceSummaryForm"

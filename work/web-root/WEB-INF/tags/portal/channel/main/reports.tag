@@ -39,9 +39,6 @@
 						title="Outstanding Invoice Report"
 						url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Invoice Report Delivery"
-						url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
-				<li><portal:portalLink displayTitle="true"
 						title="LOC Report"
 						url="contractsGrantsLOCReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>

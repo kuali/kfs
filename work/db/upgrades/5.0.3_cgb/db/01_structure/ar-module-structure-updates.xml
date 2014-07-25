@@ -654,7 +654,7 @@
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />
-			<column name="MRKD_FOR_PRCSSNG" type="VARCHAR(45)" />
+			<column name="EMAIL_PROCESSED_DT" type="DATE" />
 			<column name="RPRT_PROCESSED_DT" type="DATE" />
 			<column name="RFRL_TYP_CD" type="VARCHAR(6)" />
 			<column name="FINAL_DISPOS_CD" type="VARCHAR(4)" />

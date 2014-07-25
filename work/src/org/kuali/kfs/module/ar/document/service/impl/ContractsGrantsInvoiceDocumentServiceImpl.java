@@ -3668,8 +3668,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
 
-        // to set Marked for processing and Date report processed to null.
-        document.setMarkedForProcessing(null);
+        // to set Date email processed and Date report processed to null.
+        document.setDateEmailProcessed(null);
         document.setDateReportProcessed(null);
 
     }

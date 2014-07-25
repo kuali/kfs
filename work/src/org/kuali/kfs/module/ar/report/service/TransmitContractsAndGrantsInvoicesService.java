@@ -31,7 +31,7 @@ import org.kuali.rice.krad.exception.InvalidAddressException;
 import com.lowagie.text.DocumentException;
 
 /**
- * Service to help the TransmitContractsAndGrantsInvoicesAction
+ * Service to help the TransmitContractsAndGrantsInvoicesLookupAction
  */
 public interface TransmitContractsAndGrantsInvoicesService {
 
@@ -51,7 +51,7 @@ public interface TransmitContractsAndGrantsInvoicesService {
      * @throws WorkflowException thrown if document could not be retrieved
      * @throws ParseException thrown if dates could not be parsed
      */
-    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(String userId, String documentNumber, String proposalNumber, String invoiceAmount, String chartOfAccountsCode, String organizationCode, String unformattedToDate, String unformattedFromDate, String invoiceTransmissionMethodCode) throws WorkflowException, ParseException;
+    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(Map fieldValues) throws WorkflowException, ParseException;
 
     /**
      * Is the invoice valid to email (has Email transmission method and hasn't been marked for processing)?

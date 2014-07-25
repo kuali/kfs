@@ -86,8 +86,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private FinalDisposition finalDisposition;
 
     public java.util.Date dateReportProcessed;
+    private java.util.Date dateEmailProcessed;
     public Date paymentDate;
-    public String markedForProcessing;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
     private boolean showEventsInd = true;
 
@@ -128,25 +128,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the markedForProcessing attribute.
-     *
-     * @return Returns the markedForProcessing.
-     */
-    public String getMarkedForProcessing() {
-        return markedForProcessing;
-    }
-
-    /**
-     * Sets the markedForProcessing attribute value.
-     *
-     * @param markedForProcessing The markedForProcessing to set.
-     */
-
-    public void setMarkedForProcessing(String markedForProcessing) {
-        this.markedForProcessing = markedForProcessing;
-    }
-
-    /**
      * Gets the dateReportProcessed attribute.
      *
      * @return Returns the dateReportProcessed.
@@ -162,6 +143,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public void setDateReportProcessed(java.util.Date date) {
         this.dateReportProcessed = date;
+    }
+
+    public java.util.Date getDateEmailProcessed() {
+        return dateEmailProcessed;
+    }
+
+    public void setDateEmailProcessed(java.util.Date dateEmailProcessed) {
+        this.dateEmailProcessed = dateEmailProcessed;
     }
 
     /**

@@ -2228,6 +2228,7 @@
 	<bean id="transmitContractsAndGrantsInvoicesService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TransmitContractsAndGrantsInvoicesServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 		<property name="contractsGrantsInvoiceReportService" ref="contractsGrantsInvoiceReportService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="documentService" ref="documentService"/>
 		<property name="arEmailService" ref="arEmailService"/>
 		<property name="personService" ref="personService"/>

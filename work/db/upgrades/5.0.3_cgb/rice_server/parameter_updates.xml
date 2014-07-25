@@ -130,9 +130,9 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_SUBJECT">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="TransmitContractsAndGrantsInvoicesLookup" />
-			<column name="PARM_NM" value="CG_INVOICE_EMAIL_SUBJECT" />
-			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-SUBJECT" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
+			<column name="PARM_NM" value="EMAIL_SUBJECT" />
+			<column name="OBJ_ID" value="CGB-EMAIL-SUBJECT-PARM" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL"
@@ -147,9 +147,9 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_SENDER">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="TransmitContractsAndGrantsInvoicesLookup" />
-			<column name="PARM_NM" value="CG_INVOICE_FROM_EMAIL_ADDRESS" />
-			<column name="OBJ_ID" value="CG-INVOICE-FROM-EMAIL-ADDRESS" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
+			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS" />
+			<column name="OBJ_ID" value="CGB-FROM-EMAIL-ADDRESS-PARM" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="knoreceipt-l@indiana.edu" />
@@ -162,9 +162,9 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY" dbms="oracle">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="TransmitContractsAndGrantsInvoicesLookup" />
-			<column name="PARM_NM" value="CG_INVOICE_EMAIL_BODY" />
-			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-BODY" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
+			<column name="PARM_NM" value="EMAIL_BODY" />
+			<column name="OBJ_ID" value="CGB-EMAIL-BODY-PARM" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL"
@@ -180,9 +180,9 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY" dbms="mysql">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="CMPNT_CD" value="TransmitContractsAndGrantsInvoicesLookup" />
-			<column name="PARM_NM" value="CG_INVOICE_EMAIL_BODY" />
-			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-BODY" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoice" />
+			<column name="PARM_NM" value="EMAIL_BODY" />
+			<column name="OBJ_ID" value="CGB-EMAIL-BODY-PARM" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL"

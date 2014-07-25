@@ -55,12 +55,12 @@ public class ArConstants{
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
 
-    public static final String CG_INVOICE_FROM_EMAIL_ADDRESS = "CG_INVOICE_FROM_EMAIL_ADDRESS";
-    public static final String CG_INVOICE_EMAIL_SUBJECT = "CG_INVOICE_EMAIL_SUBJECT";
+    public static final String EMAIL_BODY = "EMAIL_BODY";
+    public static final String EMAIL_SUBJECT = "EMAIL_SUBJECT";
+    public static final String FROM_EMAIL_ADDRESS = "FROM_EMAIL_ADDRESS";
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";
     public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
-    public static final String CG_INVOICE_EMAIL_BODY = "CG_INVOICE_EMAIL_BODY";
     public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
 
     public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
@@ -378,7 +378,6 @@ public class ArConstants{
     public static class InvoiceTransmissionMethod {
         static final public String MAIL = "MAIL";
         static final public String EMAIL = "EMAIL";
-        static final public String BOTH = "BOTH";
     }
 
     public static class DunningLetters {
@@ -454,8 +453,6 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts and Grants Invoice";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
-    public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
-    public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
 
     public static final String LETTER_OF_CREDIT_FUND_GROUP = "Letter of Credit Fund Group";
     public static final String LETTER_OF_CREDIT_REVIEW_DOCUMENT = "Letter Of Credit Review Document.";

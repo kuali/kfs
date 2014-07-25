@@ -22,11 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
-import org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookup;
+import org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookupDataHolder;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService;
@@ -71,24 +68,16 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
      */
     @Override
     public List getSearchResultsUnbounded(Map fieldValues) {
-        List<TransmitContractsAndGrantsInvoicesLookup> results = new ArrayList<TransmitContractsAndGrantsInvoicesLookup>();
+        List<TransmitContractsAndGrantsInvoicesLookupDataHolder> results = new ArrayList<TransmitContractsAndGrantsInvoicesLookupDataHolder>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        String chartOfAccountsCode = (String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        String organizationCode = (String) fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
-        String invoiceInitiatorPrincipalName = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
-        String invoicePrintDateFromString = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_FROM);
-        String invoicePrintDateToString = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_TO);
         String invoiceTransmissionMethodCode = (String) fieldValues.get(ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE);
-        String proposalNumber = (String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-        String invoiceAmount = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_AMOUNT);
-        String documentNumber = (String) fieldValues.get(KFSPropertyConstants.DOCUMENT_NUMBER);
 
         // Fetch the invoices with the input parameters
         Collection<ContractsGrantsInvoiceDocument> list;
         try {
-            list = transmitContractsAndGrantsInvoicesService.getInvoicesByParametersFromRequest(invoiceInitiatorPrincipalName, documentNumber, proposalNumber, invoiceAmount, chartOfAccountsCode, organizationCode, invoicePrintDateToString, invoicePrintDateFromString, invoiceTransmissionMethodCode);
+            list = transmitContractsAndGrantsInvoicesService.getInvoicesByParametersFromRequest(fieldValues);
         }
         catch (WorkflowException | ParseException ex) {
             LOG.error("Problem searching for invoices ready to transmit.", ex);
@@ -96,25 +85,12 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
         }
         if (ObjectUtils.isNotNull(list)) {
             for (ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument:list) {
-                for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
-                    String invoiceAddressTransmissionMethodCode = invoiceAddressDetail.getInvoiceTransmissionMethodCode();
-                    if (StringUtils.equalsIgnoreCase(invoiceTransmissionMethodCode, ArConstants.InvoiceTransmissionMethod.BOTH) ||
-                        StringUtils.equalsIgnoreCase(invoiceTransmissionMethodCode, invoiceAddressTransmissionMethodCode)) {
-                        if (StringUtils.equalsIgnoreCase(invoiceAddressTransmissionMethodCode, ArConstants.InvoiceTransmissionMethod.EMAIL)) {
-                            if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getMarkedForProcessing())) {
-                                TransmitContractsAndGrantsInvoicesLookup result = setupResultRecord(contractsGrantsInvoiceDocument, invoiceAddressDetail.getInvoiceTransmissionMethodCode());
-                                results.add(result);
-                            }
-                        } else if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getDateReportProcessed())) {
-                            TransmitContractsAndGrantsInvoicesLookup result = setupResultRecord(contractsGrantsInvoiceDocument, invoiceAddressDetail.getInvoiceTransmissionMethodCode());
-                            results.add(result);
-                        }
-                    }
-                }
+                TransmitContractsAndGrantsInvoicesLookupDataHolder result = setupResultRecord(contractsGrantsInvoiceDocument, invoiceTransmissionMethodCode);
+                results.add(result);
             }
         }
 
-        return new CollectionIncomplete<TransmitContractsAndGrantsInvoicesLookup>(results, (long) results.size());
+        return new CollectionIncomplete<TransmitContractsAndGrantsInvoicesLookupDataHolder>(results, (long) results.size());
     }
 
 
@@ -123,10 +99,10 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    private TransmitContractsAndGrantsInvoicesLookup setupResultRecord(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, String invoiceTransmissionMethodCode) {
-        TransmitContractsAndGrantsInvoicesLookup result = new TransmitContractsAndGrantsInvoicesLookup();
-        result.setChartOfAccountsCode(contractsGrantsInvoiceDocument.getBillByChartOfAccountCode());
-        result.setOrganizationCode(contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
+    private TransmitContractsAndGrantsInvoicesLookupDataHolder setupResultRecord(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, String invoiceTransmissionMethodCode) {
+        TransmitContractsAndGrantsInvoicesLookupDataHolder result = new TransmitContractsAndGrantsInvoicesLookupDataHolder();
+        result.setBillByChartOfAccountCode(contractsGrantsInvoiceDocument.getBillByChartOfAccountCode());
+        result.setBilledByOrganizationCode(contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
         result.setInvoiceInitiatorPrincipalName(contractsGrantsInvoiceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         result.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
         result.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());

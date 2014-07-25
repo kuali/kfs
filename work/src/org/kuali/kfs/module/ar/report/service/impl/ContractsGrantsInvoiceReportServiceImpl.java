@@ -696,17 +696,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#sendEmailForListofInvoicesToAgency(java.util.Collection)
-     */
-    @Override
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
-        for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
-            invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
-            documentService.updateDocument(invoiceDocument);
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesPdfToPrint(java.util.Collection)
      */
     @Override

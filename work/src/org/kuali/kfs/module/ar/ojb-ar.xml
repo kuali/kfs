@@ -1793,7 +1793,7 @@
 		<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="markedForProcessing" column="MRKD_FOR_PRCSSNG" jdbc-type="VARCHAR" />
+		<field-descriptor name="dateEmailProcessed" column="EMAIL_PROCESSED_DT" jdbc-type="DATE" />
 		<field-descriptor name="dateReportProcessed" column="RPRT_PROCESSED_DT" jdbc-type="DATE" />
 		<field-descriptor name="referralTypeCode" column="RFRL_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="finalDispositionCode" column="FINAL_DISPOS_CD" jdbc-type="VARCHAR" />

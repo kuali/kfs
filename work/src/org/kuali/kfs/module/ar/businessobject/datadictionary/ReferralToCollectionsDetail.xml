@@ -15,7 +15,7 @@
 
 	<bean id="ReferralToCollectionsDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail" />
-		<property name="objectLabel" value="Referral To Collections Detail" />
+		<property name="objectLabel" value="Referral To Collections" />
 	    <property name="inquiryDefinition">
     	  <ref bean="ReferralToCollectionsDetail-inquiryDefinition"/>
     	</property>

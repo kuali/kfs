@@ -21,7 +21,7 @@
 		<property name="lookupDefinition">
 			<ref bean="ReferralToCollectionsReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="ReferralToCollectionsReport" />
+		<property name="objectLabel" value="Referral To Collections Report" />
 		<property name="attributes">
 			<list>
 				<ref bean="ReferralToCollectionsReport-principalId"/>

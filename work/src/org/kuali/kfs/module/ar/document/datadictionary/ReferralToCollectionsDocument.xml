@@ -21,9 +21,9 @@
 		<property name="businessRulesClass"
 			value="org.kuali.kfs.module.ar.document.validation.impl.ReferralToCollectionsDocumentRule" />
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.ReferralToCollectionsDocumentAuthorizer" />
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
 		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.ReferralToCollectionsDocumentPresentationController" />
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
 		<property name="attributes">
 			<list>
 				<ref bean="ReferralToCollectionsDocument-agencyNumber" />

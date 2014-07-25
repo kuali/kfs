@@ -25,7 +25,7 @@
 			<ref bean="MilestoneSchedule-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="milestoneScheduleInquiryTitle" />
-		<property name="objectLabel" value="MilestoneSchedule" />
+		<property name="objectLabel" value="Milestone Schedule" />
 		<property name="attributes">
 			<list>
 				<ref bean="MilestoneSchedule-proposalNumber" />

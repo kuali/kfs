@@ -20,7 +20,7 @@
 			<ref bean="ContractsGrantsSuspendedInvoiceDetailReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="ContractsGrantsSuspendedInvoiceDetailReportInquiryTitle" />
-		<property name="objectLabel" value="ContractsGrantsSuspendedInvoiceDetailReport" />
+		<property name="objectLabel" value="Suspended Invoice Detail Report" />
 
 		<property name="attributes">
 			<list>

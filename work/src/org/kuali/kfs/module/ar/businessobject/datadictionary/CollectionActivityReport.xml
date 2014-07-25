@@ -21,7 +21,7 @@
 		<property name="lookupDefinition">
 			<ref bean="CollectionActivityReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="CollectionActivityReport" />
+		<property name="objectLabel" value="Collection Activity Report" />
 		<property name="attributes">
 			<list>
 				<ref bean="CollectionActivityReport-principalId"/>

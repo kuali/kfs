@@ -20,7 +20,7 @@
 	<bean id="FinalBilledIndicatorEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.FinalBilledIndicatorEntry" />
 		<property name="titleAttribute" value="id" />
-		<property name="objectLabel" value="FinalBilledIndicatorEntry" />
+		<property name="objectLabel" value="Final Billed Indicator Entry" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="FinalBilledIndicatorEntry-invoiceDocumentNumber" />

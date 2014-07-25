@@ -23,7 +23,7 @@
 			<ref bean="ContractsGrantsPaymentHistoryReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="ContractsGrantsPaymentHistoryReportInquiryTitle" />
-		<property name="objectLabel" value="ContractsGrantsPaymentHistoryReport" />
+		<property name="objectLabel" value="Payment History Report" />
 
 		<property name="attributes">
 			<list>

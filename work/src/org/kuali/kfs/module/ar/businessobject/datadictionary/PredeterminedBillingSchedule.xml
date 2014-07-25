@@ -25,7 +25,7 @@
 			<ref bean="PredeterminedBillingSchedule-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="predeterminedBillingScheduleInquiryTitle" />
-		<property name="objectLabel" value="PredeterminedBillingSchedule" />
+		<property name="objectLabel" value="Predetermined Billing Schedule" />
 		<property name="attributes">
 			<list>
 				<ref bean="PredeterminedBillingSchedule-proposalNumber" />

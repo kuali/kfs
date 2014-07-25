@@ -20,7 +20,7 @@
 	<bean id="ContractsAndGrantsCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
 
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory" />
-		<property name="objectLabel" value="ContractsAndGrantsCategory" />
+		<property name="objectLabel" value="Contracts And Grants Category" />
 		<property name="titleAttribute" value="categoryCode"/>
 		<property name="attributes">
 			<list>

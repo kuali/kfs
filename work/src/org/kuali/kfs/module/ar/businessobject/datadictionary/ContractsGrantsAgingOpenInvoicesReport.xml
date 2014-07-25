@@ -160,7 +160,7 @@
   <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition" parent="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean"/>
 
   <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Contracts Grants Aging Open Invoices Report"/>
+    <property name="title" value="Contracts Grants Aging Open Invoices Report Inquiry"/>
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">

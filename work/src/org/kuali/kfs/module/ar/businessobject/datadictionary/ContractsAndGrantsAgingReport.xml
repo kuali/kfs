@@ -490,7 +490,7 @@
 
 	<bean id="ContractsAndGrantsAgingReport-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Balances By Consolidation" />
+		<property name="title" value="Contracts and Grants Aging Report Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

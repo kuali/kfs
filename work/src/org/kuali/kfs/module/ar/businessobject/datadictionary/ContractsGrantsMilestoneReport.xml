@@ -21,7 +21,7 @@
 			<ref bean="ContractsGrantsMilestoneReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="milestoneNumber" />
-		<property name="objectLabel" value="ContractsGrantsMilestoneReport" />
+		<property name="objectLabel" value="Milestone Report" />
 		<property name="attributes">
 			<list>
 				<ref bean="ContractsGrantsMilestoneReport-proposalNumber" />

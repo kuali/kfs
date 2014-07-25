@@ -25,8 +25,10 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * Interface for services which want to build AR Contracts & Grants Billing reports
  */
 public interface ContractsGrantsReportDataBuilderService {
+
     /**
-     * Builds a new ContractsGrantsReportDataHolder object for a set of details
+     * Builds a new ContractsGrantsReportDataHolder object for a set of details.
+     *
      * @param displayList the set of looked-up data to build a report from
      * @param sortPropertyName the name of the property to sort everything by
      * @return a ContractsGrantsReportDataHolder for a class
@@ -34,12 +36,17 @@ public interface ContractsGrantsReportDataBuilderService {
     public ContractsGrantsReportDataHolder buildReportDataHolder(List<? extends BusinessObject> displayList, String sortPropertyName);
 
     /**
+     * This method returns the class of the details that the given implementation builds report details out of.
+     *
      * @return the class of the details that the given implementation builds report details out of
      */
     public Class<? extends BusinessObject> getDetailsClass();
 
     /**
+     * This method returns the ReportInfo object associated with this report.
+     *
      * @return the ReportInfo object associated with this report
      */
     public ReportInfo getReportInfo();
+
 }

@@ -44,7 +44,7 @@ public interface ContractsGrantsAgingReportService {
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date startDate, java.sql.Date endDate) throws ParseException;
 
     /**
-     * This method is used to generate csv reports for the Contracts Grants Aging report.
+     * This method is used to generate csv export for the Contracts Grants Aging report lookup.
      *
      * @param cgInvoiceReportDataHolder
      * @param displayList

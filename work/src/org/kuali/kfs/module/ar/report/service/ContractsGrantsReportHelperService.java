@@ -27,6 +27,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * Interface of services which want to help out with building Contracts & Grants Report Services
  */
 public interface ContractsGrantsReportHelperService {
+
     /**
      * This method generates reports for the Contracts Grants Report Services
      * @param reportDataHolder

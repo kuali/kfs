@@ -31,6 +31,7 @@ import com.lowagie.text.DocumentException;
  * This interface defines the methods required for the report generation process for Contracts and Grants.
  */
 public interface ContractsGrantsInvoiceReportService {
+
     /**
      * This method is used to generate pdf reports for Contracts and Grants LOC review document.
      *

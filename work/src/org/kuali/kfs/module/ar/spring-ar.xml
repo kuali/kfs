@@ -2108,6 +2108,15 @@
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
+		<property name="customerAgingReportService">
+			<ref bean="customerAgingReportService"/>
+		</property>
+		<property name="customerCreditMemoDocumentService">
+			<ref bean="customerCreditMemoDocumentService"/>
+		</property>
+		<property name="moduleService">
+			<ref bean="kualiModuleService"/>
+		</property>
 	</bean>
 
 	<bean id="arContractsAndGrantsAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

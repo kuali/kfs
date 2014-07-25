@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * This class is used to get the services for PDF generation and other services for Contracts And Grants Aging Report
  */
 public interface ContractsGrantsAgingReportService {
+
     /**
      * This method is used to filter the contracts and grants invoice docs according to criteria
      *
@@ -42,12 +43,12 @@ public interface ContractsGrantsAgingReportService {
      */
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date startDate, java.sql.Date endDate) throws ParseException;
 
-
     /**
-     * This method is used to generate xls reports for the Contracts Grants Aging report.
+     * This method is used to generate csv reports for the Contracts Grants Aging report.
      *
-     * @param details
-     * @param totalDataHolder
+     * @param cgInvoiceReportDataHolder
+     * @param displayList
+     * @param sortPropertyName
      * @return Returns the generated file in byte array.
      */
     public byte[] generateCSVToExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName);

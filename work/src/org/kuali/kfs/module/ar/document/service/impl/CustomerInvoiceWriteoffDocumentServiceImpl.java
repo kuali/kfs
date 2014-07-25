@@ -131,7 +131,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         }
 
         //  close the document
-        customerInvoiceDocumentService.addCloseNote(invoice, writeoff.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), writeoff.getDocumentNumber());
+        customerInvoiceDocumentService.addCloseNote(invoice, writeoff.getDocumentHeader().getWorkflowDocument());
         invoice.setOpenInvoiceIndicator(false);
         invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
         documentService.updateDocument(invoice);

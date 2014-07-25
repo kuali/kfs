@@ -1021,7 +1021,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
          * the parameter.
          */
         Collection<String> fundGroups = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.EXPIRATION_DATE_BACKDATING_FUND_GROUPS);
-        if (fundGroups != null && !ObjectUtils.isNull(newAccount.getSubFundGroup()) && fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
+        if (fundGroups != null && ObjectUtils.isNotNull(newAccount.getSubFundGroup()) && fundGroups.contains(newAccount.getSubFundGroup().getFundGroupCode())) {
             return false;
         }
         return newExpDate.before(today);

@@ -298,7 +298,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             FinancialSystemDocumentHeader dh = crDoc.getFinancialSystemDocumentHeader();
 
             // change the doc status if it is not interim
-            String statusCode = isFinalDeposit ? DocumentStatusCodes.FINAL : CashReceipt.INTERIM;
+            String statusCode = isFinalDeposit ? CashReceipt.FINAL : CashReceipt.INTERIM;
             if (!dh.getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.INTERIM)) {
                 dh.setFinancialDocumentStatusCode(statusCode);
                 documentService.updateDocument(crDoc);
@@ -730,7 +730,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         List cashReceipts = this.retrieveCashReceipts(deposit);
         for (Object o: cashReceipts) {
             CashReceiptDocument crDoc = (CashReceiptDocument)o;
-            crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.FINAL);
+            crDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(CashReceipt.FINAL);
             documentService.updateDocument(crDoc);
         }
     }
@@ -1179,7 +1179,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     protected boolean existCashReceipts(CashManagementDocument cmDoc) {
         List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(),
-        		new String[] {CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL} );
+        		new String[] {CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL} );
         return cashReceipts != null && cashReceipts.size() > 0;
     }
 

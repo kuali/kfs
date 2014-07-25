@@ -82,6 +82,27 @@ public interface DebitDeterminerService {
      * @param accountingLine
      * @return boolean
      */
+    public abstract boolean isDebitConsideringNothingPositiveOrNegative(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable);
+
+    /**
+     * <ol>
+     * <li>object type is not included in determining if a line is debit or credit.
+     * <li>accounting line section (source/target) is not included in determining if a line is debit or credit.
+     * </ol>
+     * the following are credits (return false)
+     * <ol>
+     * <li> lineAmount <= 0
+     * </ol>
+     * the following are debits (return true)
+     * <ol>
+     * <li> (isIncome || isLiability || isExpense || isAsset) && (lineAmount > 0)
+     * </ol>
+     *
+     * @param rule
+     * @param accountingDocument
+     * @param accountingLine
+     * @return boolean
+     */
     public abstract boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable);
 
     /**

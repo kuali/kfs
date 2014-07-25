@@ -534,8 +534,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     private boolean shouldAdhocFyi(String reqSourceCode) {
         Collection<String> excludeList = new ArrayList<String>();
-        if (SpringContext.getBean(ParameterService.class).parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS)) {
-            excludeList = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS);
+        if (parameterService.parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS)) {
+            excludeList = parameterService.getParameterValuesAsString(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS);
         }
         return !excludeList.contains(reqSourceCode);
     }
@@ -992,36 +992,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     }
 
+    /**
+     * First we check that vendor commodity codes should indeed be added, and if so-
+     * If there are commodity codes on the items on the PurchaseOrderDocument that haven't existed yet on the vendor that the
+     * PurchaseOrderDocument is using, then we will spawn a new VendorDetailMaintenanceDocument automatically to update the vendor
+     * with the commodity codes that aren't already existing on the vendor.
+     *
+     * @param po The PurchaseOrderDocument containing the vendor that we want to update.
+     */
     @Override
-    /**
-     * First we check that vendor commodity codes should indeed be added, and of so-
-     * If there are commodity codes on the items on the PurchaseOrderDocument that haven't existed yet on the vendor that the
-     * PurchaseOrderDocument is using, then we will spawn a new VendorDetailMaintenanceDocument automatically to update the vendor
-     * with the commodity codes that aren't already existing on the vendor.
-     *
-     * @param po The PurchaseOrderDocument containing the vendor that we want to update.
-     */
     public void updateVendorCommodityCode(PurchaseOrderDocument po) {
-        ParameterService params = SpringContext.getBean(ParameterService.class);
-        /*we default to adding vendor commodity codes.*/
-        Boolean shouldUpdate= params.getParameterValueAsBoolean(RequisitionDocument.class, PurapParameterConstants.UPDATE_VENDOR_SETTING, Boolean.TRUE);
-        if(shouldUpdate){
-            updateVendorCommodityCodeImpl(po);
-        }
-    }
-
-    /**
-     * If there are commodity codes on the items on the PurchaseOrderDocument that haven't existed yet on the vendor that the
-     * PurchaseOrderDocument is using, then we will spawn a new VendorDetailMaintenanceDocument automatically to update the vendor
-     * with the commodity codes that aren't already existing on the vendor.
-     *
-     * @param po The PurchaseOrderDocument containing the vendor that we want to update.
-     */
-    protected void updateVendorCommodityCodeImpl(PurchaseOrderDocument po) {
         String noteText = "";
         VendorDetail oldVendorDetail = po.getVendorDetail();
         VendorDetail newVendorDetail = updateVendorWithMissingCommodityCodesIfNecessary(po);
-        if (newVendorDetail != null) {
+
+        //we default to adding vendor commodity codes.
+        Boolean shouldUpdate= parameterService.getParameterValueAsBoolean(RequisitionDocument.class, PurapParameterConstants.UPDATE_VENDOR_SETTING, Boolean.TRUE);
+        if (shouldUpdate && newVendorDetail != null) {
             try {
                 // spawn a new vendor maintenance document to add the note
                 MaintenanceDocument vendorMaintDoc = null;

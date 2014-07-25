@@ -60,11 +60,7 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
         }
 
         //check whether the change request is valid
-        /* FIXME FIXED by KFSCNTRB-1793:
-         * The previous code only does validation when neither change currency nor coin detail is null.
-         * It should do validation when either one of them is not null. In fact, since these details are always
-         * initialized to default 0, they are never null, so we should check if they are empty instead.
-         */
+        // Since these details are always initialized to default 0, they are never null, so we should check if they are empty instead.
         CashReceiptDocument crDoc = (CashReceiptDocument)cashReceiptDocumentForValidation;
         if (crDoc.isConfirmedChangeRequested()) {
             return checkChangeRequestIsValid();

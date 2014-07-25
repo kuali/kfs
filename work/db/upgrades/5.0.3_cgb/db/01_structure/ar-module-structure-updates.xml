@@ -653,9 +653,6 @@
 			<column name="SUSP_CTGRY_DESC" type="VARCHAR(200)" />
 			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</createTable>
-		<modifySql dbms="oracle">
-			<replace replace="DATETIME" with="DATE" />
-		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_MODIFIED_AR_TABLES">
@@ -709,9 +706,6 @@
 			<column name="REFND_FIN_OBJECT_CD" type="VARCHAR(4)" />
 			<column name="REFND_DOC_LOC_CD" type="VARCHAR(2)" />
 		</addColumn>
-		<modifySql dbms="oracle">
-			<replace replace="DATETIME" with="DATE" />
-		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_oracle" dbms="oracle">

@@ -1101,11 +1101,10 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
-	</bean>
-
-	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean" />
-
-	<bean id="customerInvoiceWriteoffDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl" abstract="true">
+	
+	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean"/>
+	
+	<bean id="customerInvoiceWriteoffDocumentService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
@@ -1142,6 +1141,18 @@
 		<property name="paidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>
+		<property name="noteService">
+            <ref bean="noteService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="identityService">
+            <ref bean="identityService" />
+        </property>
 	</bean>
 
 	<bean id="customerInvoiceGLPEService"  parent="customerInvoiceGLPEService-parentBean"/>

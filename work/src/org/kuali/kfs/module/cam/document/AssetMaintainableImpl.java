@@ -48,6 +48,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
@@ -70,8 +71,8 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     private Asset asset;
     private Asset copyAsset;
     private boolean fabricationOn;
-
-    private static volatile DocumentService documentService;
+    protected static volatile IdentityService identityService;
+    protected static volatile DocumentService documentService;
     
     
     private static final Map<String, String> FINANCIAL_DOC_NAME_MAP = new HashMap<String, String>();
@@ -227,9 +228,9 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
                 final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CamsKeyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_TEXT);
                 Object[] arguments = { userPrincipalName, asset.getCapitalAssetNumber().toString() };
                 String noteText = MessageFormat.format(noteTextPattern, arguments);
-                //String noteText = "User " + userPrincipalName + " changed Asset " + asset.getCapitalAssetNumber().toString() + ": "  + CamsPropertyConstants.Asset.LAST_INVENTORY_DATE_UPDATE_NOTE_BASIC_TEXT;
-                Note LastInventoryDateUpdatedNote = getDocumentService().createNoteFromDocument(document, noteText);
-                document.addNote(LastInventoryDateUpdatedNote);
+                Note lastInventoryDateUpdatedNote = getDocumentService().createNoteFromDocument(document, noteText);
+                lastInventoryDateUpdatedNote.setAuthorUniversalIdentifier(getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
+                document.addNote(lastInventoryDateUpdatedNote);
                 getDocumentService().saveDocumentNotes(document);
             }
         }
@@ -329,5 +330,16 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             documentService = SpringContext.getBean(DocumentService.class);
         }
         return documentService;
+    }
+
+    public IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = SpringContext.getBean(IdentityService.class);
+        }
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 }

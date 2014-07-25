@@ -509,6 +509,7 @@ public class ArConstants{
     }
     public static class Actions {
         public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
+        public static final String CONTRACTS_GRANTS_LOC_REPORT = "contractsGrantsLOCReport";
     }
 
     public static class MultipleValueReturnActions {

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
@@ -47,16 +48,6 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
 
         String reportType = (String) lookupFormFields.get("reportType");
 
-        if (reportType.equals("AmountsNotDrawn")) {
-            return performDrawDetailsReportLookup(lookupForm, resultTable, bounded);
-        } else {
-            return performAmountsNotDrawnReportLookup(lookupForm, resultTable, bounded);
-        }
-    }
-
-    private Collection performDrawDetailsReportLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Map lookupFormFields = lookupForm.getFieldsForLookup();
-
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
@@ -73,7 +64,7 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                 KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
                 KualiDecimal totalFundsNotDrawn = KualiDecimal.ZERO;
 
-                ContractsGrantsLOCReport cgLOCDrawDetailsReport = new ContractsGrantsLOCReport();
+                ContractsGrantsLOCReport cgLOCReport = new ContractsGrantsLOCReport();
 
                 for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : accountReviewDetails) {
                     KualiDecimal claimOnCashBalance = ObjectUtils.isNull(accountReviewDetailEntry.getClaimOnCashBalance()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getClaimOnCashBalance();
@@ -91,85 +82,27 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                     totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
                 }
 
-                cgLOCDrawDetailsReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
-                cgLOCDrawDetailsReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
-                cgLOCDrawDetailsReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
+                cgLOCReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
+                cgLOCReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
+                cgLOCReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
                 final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
                 if (ObjectUtils.isNotNull(dateCreated)) {
-                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
+                    cgLOCReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
                 }
-                cgLOCDrawDetailsReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
-                cgLOCDrawDetailsReport.setClaimOnCashBalance(totalClaimOnCashBalance);
-                cgLOCDrawDetailsReport.setAmountToDraw(totalAmountToDraw);
-                cgLOCDrawDetailsReport.setFundsNotDrawn(totalFundsNotDrawn);
+                cgLOCReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
+                cgLOCReport.setClaimOnCashBalance(totalClaimOnCashBalance);
+                cgLOCReport.setAmountToDraw(totalAmountToDraw);
+                cgLOCReport.setFundsNotDrawn(totalFundsNotDrawn);
 
-                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCDrawDetailsReport, "ContractsGrantsLOCReport")) {
-                    displayList.add(cgLOCDrawDetailsReport);
-                }
-            }
-        }
-
-        buildResultTable(lookupForm, displayList, resultTable);
-        return displayList;
-    }
-
-    private Collection performAmountsNotDrawnReportLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Map lookupFormFields = lookupForm.getFieldsForLookup();
-
-        setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
-        setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
-
-        Collection<ContractsGrantsLOCReport> displayList = new ArrayList<ContractsGrantsLOCReport>();
-        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
-
-        for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
-            List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
-            List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
-            if (accountReviewDetails.size() > 0) {
-
-                KualiDecimal totalAmountAvailableToDraw = KualiDecimal.ZERO;
-                KualiDecimal totalClaimOnCashBalance = KualiDecimal.ZERO;
-                KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
-                KualiDecimal totalFundsNotDrawn = KualiDecimal.ZERO;
-
-                ContractsGrantsLOCReport cgLOCAmountNotDrawnReport = new ContractsGrantsLOCReport();
-
-                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : accountReviewDetails) {
-                    KualiDecimal claimOnCashBalance = ObjectUtils.isNull(accountReviewDetailEntry.getClaimOnCashBalance()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getClaimOnCashBalance();
-                    // PreviousDraw should be sum of amountToDraw?
-                    KualiDecimal previousDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountToDraw();
-                    KualiDecimal fundsNotDrawn = ObjectUtils.isNull(accountReviewDetailEntry.getFundsNotDrawn()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getFundsNotDrawn();
-
-                    totalClaimOnCashBalance = totalClaimOnCashBalance.add(claimOnCashBalance);
-                    totalAmountToDraw = totalAmountToDraw.add(previousDraw);
-                    totalFundsNotDrawn = totalFundsNotDrawn.add(fundsNotDrawn);
-                }
-
-                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : headerReviewDetails) {
-                    KualiDecimal amountAvailableToDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountAvailableToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountAvailableToDraw();
-                    totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
-                }
-
-                cgLOCAmountNotDrawnReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
-                cgLOCAmountNotDrawnReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
-                cgLOCAmountNotDrawnReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
-
-                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
-                if (ObjectUtils.isNotNull(dateCreated)) {
-                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
-                }
-                cgLOCAmountNotDrawnReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
-                cgLOCAmountNotDrawnReport.setClaimOnCashBalance(totalClaimOnCashBalance);
-                cgLOCAmountNotDrawnReport.setAmountToDraw(totalAmountToDraw);
-                cgLOCAmountNotDrawnReport.setFundsNotDrawn(totalFundsNotDrawn);
-
-                // Only adding entries with funds not drawn amount greater than zero
-                if (totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
-                    if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCAmountNotDrawnReport, "ContractsGrantsLOCAmountsNotDrawnReport")) {
-                        displayList.add(cgLOCAmountNotDrawnReport);
+                if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN) && totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
+                    if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCReport, ArConstants.CONTRACTS_GRANTS_LOC_REPORT)) {
+                        displayList.add(cgLOCReport);
                     }
+                } else if(ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCReport, ArConstants.CONTRACTS_GRANTS_LOC_REPORT)) {
+                    displayList.add(cgLOCReport);
                 }
+
             }
         }
 

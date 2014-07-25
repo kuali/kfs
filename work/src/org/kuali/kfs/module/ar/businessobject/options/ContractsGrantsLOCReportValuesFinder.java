@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -29,8 +30,8 @@ public class ContractsGrantsLOCReportValuesFinder extends KeyValuesBase implemen
     public List<KeyValue> getKeyValues() {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("AmountsNotDrawn", "Amounts Not Drawn Report"));
-        keyValues.add(new ConcreteKeyValue("Details", "Details Report"));
+        keyValues.add(new ConcreteKeyValue(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN, ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN));
+        keyValues.add(new ConcreteKeyValue(ArConstants.LOCReportTypeFieldValues.DRAW_DETAILS, ArConstants.LOCReportTypeFieldValues.DRAW_DETAILS));
 
         return keyValues;
     }

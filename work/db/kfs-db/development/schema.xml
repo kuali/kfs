@@ -1341,10 +1341,10 @@
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
-        <column name="MRKD_FOR_PRCSSNG" size="45" type="VARCHAR"/>
         <column name="RPRT_PROCESSED_DT" type="DATE"/>
         <column name="RFRL_TYP_CD" size="6" type="VARCHAR"/>
         <column name="FINAL_DISPOS_CD" size="4" type="VARCHAR"/>
+        <column name="EMAIL_PROCESSED_DT" type="DATE"/>
         <foreign-key foreignTable="AR_CUST_PRCS_TYP_T" name="AR_INV_DOC_TR1">
             <reference foreign="CUST_SPCL_PRCS_CD" local="CUST_SPCL_PRCS_CD"/>
         </foreign-key>
@@ -1716,8 +1716,6 @@
         <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="TOT_AMT_SCHDL" scale="2" size="19" type="DECIMAL"/>
-        <column name="TOT_AWD_RMNG" scale="2" size="19" type="DECIMAL"/>
         <unique name="AR_MLSTN_SCHDL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2037,8 +2035,6 @@
         <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="TOT_AMT_SCHDL" scale="2" size="19" type="DECIMAL"/>
-        <column name="TOT_AWD_RMNG" scale="2" size="19" type="DECIMAL"/>
         <unique name="AR_PRDTRMND_BILL_SCHDL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

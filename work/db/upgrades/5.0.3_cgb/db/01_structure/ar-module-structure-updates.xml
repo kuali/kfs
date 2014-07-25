@@ -80,7 +80,6 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INV_BDGT_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_EXPND_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_CUM_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_BAL_AMT" type="DECIMAL(19,2)" />
@@ -88,8 +87,6 @@
 			<column name="CTGRY_NM" type="VARCHAR(255)" />
 			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
 			<column name="IND_CST_IND" type="VARCHAR(1)" />
-			<column name="ADJ_CUM_EXPND" type="DECIMAL(19,2)"	defaultValue="0" />
-			<column name="ADJ_BAL_AMT" type="DECIMAL(19,2)" defaultValue="0" />
 		</createTable>
 		<createTable tableName="AR_CLCTN_ACTVTY_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">
@@ -276,7 +273,6 @@
 			<column name="BDGT_AMT" type="DECIMAL(19,2)" />
 			<column name="EXP_AMT" type="DECIMAL(19,2)" />
 			<column name="CUM_AMT" type="DECIMAL(19,2)" />
-			<column name="BAL_AMT" type="DECIMAL(19,2)" />
 			<column name="CNTRCT_CNTRL_ACCT_NBR" type="VARCHAR(7)"/>
 			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
 		</createTable>

@@ -69,7 +69,6 @@ public enum InvoiceAccountDetailFixture {
         invoiceAccountDetail.setBudgetAmount(this.budgetAmount);
         invoiceAccountDetail.setExpenditureAmount(this.expenditureAmount);
         invoiceAccountDetail.setCumulativeAmount(this.cumulativeAmount);
-        invoiceAccountDetail.setBalanceAmount(this.balanceAmount);
         invoiceAccountDetail.setBilledAmount(this.billedAmount);
 
 

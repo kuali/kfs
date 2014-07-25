@@ -120,6 +120,7 @@ public class ArPropertyConstants{
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_GENERAL_INFORMATION = "customerGeneralInformation";
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
+        public static final String CUSTOMER_ADDRESS = "customerAddress";
         public static final String CUSTOMER_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.customerAddresses";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";

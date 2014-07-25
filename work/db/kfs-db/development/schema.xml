@@ -1275,6 +1275,33 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="AR_INV_DOC_ERROR_CAT_T">
+        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="ERROR_LOG_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="VAL_CAT_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VAL_CAT_TXT" size="200" type="VARCHAR"/>
+        <unique name="AR_INV_DOC_ERROR_CAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_INV_DOC_ERROR_LOG_T">
+        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="ERROR_LOG_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="ACCOUNTS" size="200" type="VARCHAR"/>
+        <column name="AWD_START_DT" type="DATE"/>
+        <column name="AWD_STOP_DT" type="DATE"/>
+        <column name="AWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="CUM_EXPND_AMT" scale="2" size="12" type="DECIMAL"/>
+        <column name="ERROR_DT" type="DATE"/>
+        <column default="Y" name="BATCH_IND" size="1" type="VARCHAR"/>
+        <unique name="AR_INV_DOC_ERROR_LOG_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="AR_INV_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -16795,12 +16822,14 @@
     <sequence name="AR_BILL_ID_SEQ" nextval="41"/>
     <sequence name="AR_DUN_LTR_DIST_ID_SEQ" nextval="21"/>
     <sequence name="AR_ENTRY_ID_SEQ" nextval="1"/>
+    <sequence name="AR_ERROR_LOG_ID_SEQ" nextval="1"/>
     <sequence name="AR_EVENT_ID_SEQ" nextval="1"/>
     <sequence name="AR_INV_DTL_ID_SEQ" nextval="1"/>
     <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
     <sequence name="AR_LTRCR_RVW_DTL_ID_SEQ" nextval="1"/>
     <sequence name="AR_MLSTN_ID_SEQ" nextval="48"/>
     <sequence name="AR_RFRL_TO_CLCTNS_DTL_ID_SEQ" nextval="1"/>
+    <sequence name="AR_VAL_CAT_ID_ID_SEQ" nextval="1"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
     <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
     <sequence name="CA_ACCT_AUTO_CREATE_DFLT_SEQ" nextval="1"/>

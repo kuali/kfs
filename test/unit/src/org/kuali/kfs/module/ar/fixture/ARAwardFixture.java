@@ -26,6 +26,7 @@ import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.BillingFrequency;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -54,7 +55,8 @@ public enum ARAwardFixture {
     CG_AWARD_QUAR_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", Date.valueOf("2011-06-30"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_QUAR.createBillingFrequency()),
     CG_AWARD_SEMI_ANN_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", Date.valueOf("2011-06-30"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_SEMI_ANN.createBillingFrequency()),
     CG_AWARD_ANNUAL_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", Date.valueOf("2010-06-30"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_ANNUALLY.createBillingFrequency()),
-    CG_AWARD_LOCB_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", Date.valueOf("2010-12-13"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_LOCB.createBillingFrequency());
+    CG_AWARD_LOCB_BILLED_DATE_VALID(new Long(111), "2011-01-01", "2011-09-22", Date.valueOf("2010-12-13"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_LOCB.createBillingFrequency()),
+    CG_AWARD_MONTHLY_INVALID_DATES(new Long(11), "2012-01-01", "2011-09-22", new Date(System.currentTimeMillis() + 604800000), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, BillingFrequencyFixture.BILL_FREQ_MON.createBillingFrequency());
 
     private Long proposalNumber;
     private String awardBeginningDate;
@@ -117,7 +119,7 @@ public enum ARAwardFixture {
         award.setAwardAccounts(awardAccounts);
 
         BillingFrequencyFixture.BILL_FREQ_LOCB.createBillingFrequency();
-        
+
         // Set auto approve to true
         award.setAutoApproveIndicator(true);
 
@@ -136,4 +138,11 @@ public enum ARAwardFixture {
         award.setDunningCampaign(dunningCampaign.getCampaignID());
         return award;
     }
+
+    public Award setAwardOrganizationFromFixture(Award award) {
+        AwardOrganization awardOrganization = ARAwardOrganizationFixture.AWD_ORG1.createAwardOrganization();
+        award.getAwardOrganizations().add(awardOrganization);
+        return award;
+    }
+
 }

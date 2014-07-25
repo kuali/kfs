@@ -36,7 +36,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -57,7 +57,7 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceDetailAccountObjectCodeFixture;
-import org.kuali.kfs.module.ar.fixture.InvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceSuspensionCategoryFixture;
@@ -111,9 +111,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL2.createInvoiceDetail();
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL2.createInvoiceDetail();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
@@ -168,13 +168,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
      * Tests the updateInvoiceDetailTotalDirectCost() method of service.
      */
     public void testUpdateInvoiceDetailTotalDirectCost() {
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
         KualiDecimal value1 = new KualiDecimal(2.23);
         KualiDecimal value2 = new KualiDecimal(5.43);
         invoiceDetail_1.setExpenditures(value1);
         invoiceDetail_2.setExpenditures(value2);
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
 
@@ -233,13 +233,13 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         KualiDecimal value2 = new KualiDecimal(6.50);
 
         // set InvoiceDetails
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
 
         invoiceDetail_1.setExpenditures(value1);
         invoiceDetail_2.setExpenditures(value2);
 
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);
@@ -355,9 +355,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         InvoiceGeneralDetail inv_Gnrl_Dtl_Bill = InvoiceGeneralDetailFixture.INV_GNRL_DTL4.createInvoiceGeneralDetail();
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
 
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL1.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL3.createInvoiceDetail();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
         contractsGrantsInvoiceDocument.setInvoiceDetails(invoiceDetails);

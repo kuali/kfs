@@ -65,7 +65,8 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -76,7 +77,6 @@ import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -444,7 +444,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void recalculateNewTotalBilled(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
 
-        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
 
         // To verify the expenditure amounts have been changed and
         // update the invoiceDetailObjectCode
@@ -455,7 +455,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             KualiDecimal totalDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts());
 
             // Set expenditures to Direct Cost invoice Details
-            InvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
+            ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)){
                 totalDirectCostInvoiceDetail.setExpenditures(totalDirectCostExpenditures);
             }
@@ -464,7 +464,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             KualiDecimal totalInDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly());
 
             // Set expenditures to Indirect Cost invoice Details
-            InvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
+            ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)){
                 totalInDirectCostInvoiceDetail.setExpenditures(totalInDirectCostExpenditures);
             }
@@ -489,9 +489,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoiceDetails
      * @return
      */
-    public KualiDecimal getInvoiceDetailExpenditureSum(List<InvoiceDetail> invoiceDetails) {
+    public KualiDecimal getInvoiceDetailExpenditureSum(List<ContractsGrantsInvoiceDetail> invoiceDetails) {
         KualiDecimal totalExpenditures = KualiDecimal.ZERO;
-        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail : invoiceDetails) {
             totalExpenditures = totalExpenditures.add(invoiceDetail.getExpenditures());
         }
         return totalExpenditures;
@@ -545,7 +545,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         KualiDecimal totalCost = new KualiDecimal(0); // Amount to be billed on this invoice
         // must iterate through the invoice details because the user might have manually changed the value
-        for (InvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+        for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             totalCost = totalCost.add(invD.getExpenditures());
         }
         KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed
@@ -561,7 +561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 BigDecimal percentage = amountEligibleForBilling.bigDecimalValue().divide(totalCost.bigDecimalValue(), 10, BigDecimal.ROUND_HALF_DOWN);
                 KualiDecimal amountToBill = new KualiDecimal(0); // use to check if rounding has left a few cents off
 
-                for (InvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+                for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
                     BigDecimal newValue = invD.getExpenditures().bigDecimalValue().multiply(percentage);
                     KualiDecimal newKualiDecimalValue = new KualiDecimal(newValue.setScale(2, BigDecimal.ROUND_DOWN));
                     invD.setExpenditures(newKualiDecimalValue);
@@ -651,7 +651,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // figure out if any of the current expenditures for the category has been changed. If yes, then update the
         // invoiceDetailObjectCode
         // and update account details
-        for (InvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             KualiDecimal total = getSumOfExpendituresOfCategory(invoiceDetailAccountObjectCodeMap.get(invoiceDetail.getCategoryCode()));
             // To set expenditures to zero if its blank - to avoid exceptions.
             if (ObjectUtils.isNull(invoiceDetail.getExpenditures())) {
@@ -690,7 +690,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param total is the sum of the current expenditures from all the object codes in that category
      * @param invoiceDetailAccountObjectCodes
      */
-    protected void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+    protected void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
         KualiDecimal currentExpenditure = invoiceDetail.getExpenditures();
         KualiDecimal newTotalAmount = KualiDecimal.ZERO;
 
@@ -745,15 +745,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      */
-    protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail) {
+    protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail) {
         String categoryCode = invoiceDetail.getCategoryCode();
         if (categoryCode == null) {
             LOG.error("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
         // get the category that matches this category code.
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findAll(ContractsAndGrantsCategories.class);
-        Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
-        ContractsAndGrantsCategories category = null;
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findAll(ContractsAndGrantsCategory.class);
+        Iterator<ContractsAndGrantsCategory> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
+        ContractsAndGrantsCategory category = null;
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
             category = contractsAndGrantsCategoriesIterator.next();
             if (category.getCategoryCode().equals(categoryCode)) {
@@ -1577,7 +1577,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     protected boolean isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
             KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
@@ -3155,12 +3155,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceDetailsWithoutIndirectCosts())) {
-            InvoiceDetail firstInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts().get(0);
+            ContractsGrantsInvoiceDetail firstInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts().get(0);
 
             for (int i = 0; i < document.getInvoiceDetailsWithoutIndirectCosts().size(); i++) {
                 parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getInvoiceDetailIdentifier()));
                 parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getDocumentNumber()));
-                parameterMap.put("invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCategory()));
+                parameterMap.put("invoiceDetail[" + i + "].category", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCategoryName()));
                 parameterMap.put("invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getBudget()));
                 parameterMap.put("invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getExpenditures()));
                 parameterMap.put("invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCumulative()));
@@ -3170,11 +3170,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(firstInvoiceDetail.getAdjustedBalance()));
             }
         }
-        InvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
             parameterMap.put("directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("directCostInvoiceDetail.documentNumber", returnProperStringValue(totalDirectCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("directCostInvoiceDetail.categories", returnProperStringValue(totalDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("directCostInvoiceDetail.category", returnProperStringValue(totalDirectCostInvoiceDetail.getCategoryName()));
             parameterMap.put("directCostInvoiceDetail.budget", returnProperStringValue(totalDirectCostInvoiceDetail.getBudget()));
             parameterMap.put("directCostInvoiceDetail.expenditure", returnProperStringValue(totalDirectCostInvoiceDetail.getExpenditures()));
             parameterMap.put("directCostInvoiceDetail.cumulative", returnProperStringValue(totalDirectCostInvoiceDetail.getCumulative()));
@@ -3183,11 +3183,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(totalDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
             parameterMap.put("directCostInvoiceDetail.adjustedBalance", returnProperStringValue(totalDirectCostInvoiceDetail.getAdjustedBalance()));
         }
-        InvoiceDetail totalInDirectCostInvoiceDetail = document.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = document.getTotalInDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)) {
             parameterMap.put("inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalInDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(totalInDirectCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(totalInDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(totalInDirectCostInvoiceDetail.getCategoryName()));
             parameterMap.put("inDirectCostInvoiceDetail.budget", returnProperStringValue(totalInDirectCostInvoiceDetail.getBudget()));
             parameterMap.put("inDirectCostInvoiceDetail.expenditure", returnProperStringValue(totalInDirectCostInvoiceDetail.getExpenditures()));
             parameterMap.put("inDirectCostInvoiceDetail.cumulative", returnProperStringValue(totalInDirectCostInvoiceDetail.getCumulative()));
@@ -3196,11 +3196,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(totalInDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
             parameterMap.put("inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(totalInDirectCostInvoiceDetail.getAdjustedBalance()));
         }
-        InvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             parameterMap.put("totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("totalInvoiceDetail.documentNumber", returnProperStringValue(totalCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(totalCostInvoiceDetail.getCategory()));
+            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(totalCostInvoiceDetail.getCategoryName()));
             parameterMap.put("totalInvoiceDetail.budget", returnProperStringValue(totalCostInvoiceDetail.getBudget()));
             parameterMap.put("totalInvoiceDetail.expenditure", returnProperStringValue(totalCostInvoiceDetail.getExpenditures()));
             parameterMap.put("totalInvoiceDetail.cumulative", returnProperStringValue(totalCostInvoiceDetail.getCumulative()));
@@ -3618,7 +3618,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Iterator iterator = document.getInvoiceDetailsWithoutIndirectCosts().iterator();
         // correct Invoice Details.
         while (iterator.hasNext()) {
-            InvoiceDetail id = (InvoiceDetail) iterator.next();
+            ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
             id.correctInvoiceDetailsCurrentExpenditure();
         }
 
@@ -3678,7 +3678,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         else {
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
             // update the new total billed for the invoice.
-            InvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
+            ContractsGrantsInvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalCostInvoiceDetail)){
                 document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalCostInvoiceDetail.getExpenditures()));
             }
@@ -4027,9 +4027,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
         // get the categories and create a new arraylist for each one
-        for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
+        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
             // populate the category object code maps
             objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category, document));
 
@@ -4061,7 +4061,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
 
-                for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
+                for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
                     Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
 
                     // if the object code from this balance is in the list of object code retrieved from the category, then include
@@ -4230,21 +4230,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // To get only the active categories.
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
-        Iterator<ContractsAndGrantsCategories> it = contractsAndGrantsCategories.iterator();
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        Iterator<ContractsAndGrantsCategory> it = contractsAndGrantsCategories.iterator();
 
         // query database for award account object code details. then divi them up into categories
         List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
         while (it.hasNext()) {
-            ContractsAndGrantsCategories category = it.next();
+            ContractsAndGrantsCategory category = it.next();
             // To add all the values from Category Array to Invoice Details category only if they are retrieved well.
 
-            InvoiceDetail invDetail = new InvoiceDetail();
+            ContractsGrantsInvoiceDetail invDetail = new ContractsGrantsInvoiceDetail();
             invDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-
-            invDetail.setCategory(category.getCategoryName());
             invDetail.setCategoryCode(category.getCategoryCode());
+            invDetail.setCategoryName(category.getCategoryName());
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first
             Set<String> completeObjectCodeArrayForSingleCategory = getObjectCodeArrayFromSingleCategory(category, document);
@@ -4269,11 +4268,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         KualiDecimal totalInDirectCostExpenditures = KualiDecimal.ZERO;
         KualiDecimal totalInDirectCostBalance = KualiDecimal.ZERO;
         KualiDecimal totalInDirectCostBilled = KualiDecimal.ZERO;
-        Iterator<InvoiceDetail> o = document.getInvoiceDetailsWithIndirectCosts().iterator();
+        Iterator<ContractsGrantsInvoiceDetail> o = document.getInvoiceDetailsWithIndirectCosts().iterator();
 
         while (o.hasNext()) {
 
-            InvoiceDetail invD = o.next();
+            ContractsGrantsInvoiceDetail invD = o.next();
             // To sum up values for indirect Cost Invoice Details
 
             if (invD.isIndirectCostIndicator()) {
@@ -4314,11 +4313,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
             }
         }
-        InvoiceDetail directCostInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail directCostInvDetail = new ContractsGrantsInvoiceDetail();
         directCostInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
 
-        directCostInvDetail.setCategory(ArConstants.TOTAL_DIRECT_COST);
         directCostInvDetail.setCategoryCode(ArConstants.TOTAL_DIRECT_COST_CD);
+        directCostInvDetail.setCategoryName(ArConstants.TOTAL_DIRECT_COST);
         directCostInvDetail.setBudget(totalDirectCostBudget);
         directCostInvDetail.setExpenditures(totalDirectCostExpenditures);
         directCostInvDetail.setCumulative(totalDirectCostCumulative);
@@ -4328,11 +4327,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
 
-        InvoiceDetail indInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail indInvDetail = new ContractsGrantsInvoiceDetail();
         indInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
         indInvDetail.setIndirectCostIndicator(true);
-        indInvDetail.setCategory(ArConstants.TOTAL_IN_DIRECT_COST);
         indInvDetail.setCategoryCode(ArConstants.TOTAL_IN_DIRECT_COST_CD);
+        indInvDetail.setCategoryName(ArConstants.TOTAL_IN_DIRECT_COST);
         indInvDetail.setBudget(totalInDirectCostBudget);
         indInvDetail.setExpenditures(totalInDirectCostExpenditures);
         indInvDetail.setCumulative(totalInDirectCostCumulative);
@@ -4342,13 +4341,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // Sum up the direct cost and indirect cost invoice details.
 
-        InvoiceDetail totalInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInvDetail = new ContractsGrantsInvoiceDetail();
         totalInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-
-        totalInvDetail.setCategory(ArConstants.TOTAL_COST);
         totalInvDetail.setCategoryCode(ArConstants.TOTAL_COST_CD);
+        totalInvDetail.setCategoryName(ArConstants.TOTAL_COST);
 
-        InvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
             totalInvDetail.setBudget(totalDirectCostInvoiceDetail.getBudget().add(totalInDirectCostBudget));
             totalInvDetail.setExpenditures(totalDirectCostInvoiceDetail.getExpenditures().add(totalInDirectCostExpenditures));
@@ -4368,7 +4366,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param objectCodes set of object codes pertaining to a single category
      * @param awardBeginningDate the beginning date for the award
      */
-    protected void performBudgetCalculationsOnInvoiceDetail(InvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
+    protected void performBudgetCalculationsOnInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
         KualiDecimal budAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
@@ -4416,7 +4414,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoiceDetailAccountObjectCodes the invoice detail account object codes
      * @param objectCodesForCategory the object codes for the given category
      */
-    protected void performBilledAndExpenditureCalculationForDetail(InvoiceDetail invoiceDetail, List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
+    protected void performBilledAndExpenditureCalculationForDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
         invoiceDetail.setCumulative(KualiDecimal.ZERO);
         invoiceDetail.setExpenditures(KualiDecimal.ZERO);
         invoiceDetail.setBilled(KualiDecimal.ZERO);
@@ -4441,7 +4439,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return Set<String> objectCodes
      */
     @Override
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
+    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategory category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
         Set<String> objectCodeArray = new HashSet<String>();
         Set<String> levels = new HashSet<String>();
         if (ObjectUtils.isNotNull(category.getCategoryObjectCodes()) && StringUtils.isNotEmpty(category.getCategoryObjectCodes())) {
@@ -4549,11 +4547,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Set<String> objectCodeArray = new HashSet<String>();
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
-        Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        Iterator<ContractsAndGrantsCategory> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
 
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
-            ContractsAndGrantsCategories category = contractsAndGrantsCategoriesIterator.next();
+            ContractsAndGrantsCategory category = contractsAndGrantsCategoriesIterator.next();
             objectCodeArray.addAll(getObjectCodeArrayFromSingleCategory(category, document));
         }
 

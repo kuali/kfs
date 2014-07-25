@@ -30,7 +30,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -574,7 +574,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return Set<String> objectCodes
      * @throws IllegalArgumentException
      */
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException;
+    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategory category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException;
 
     /**
      * Calculate the lastBilledDate for the Award based on it's AwardAccounts

@@ -11,17 +11,17 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument" parent="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" />
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument" parent="ContractsAndGrantsCategoryMaintenanceDocument-parentBean" />
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" abstract="true"
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories" />
+			value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory" />
 		<property name="maintainableClass"
 			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 		<property name="maintainableSections">
 			<list>
-				<ref bean="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory" />
+				<ref bean="ContractsAndGrantsCategoryMaintenanceDocument-EditCategory" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -36,16 +36,16 @@
 		<property name="documentPresentationControllerClass"
 			value="org.kuali.kfs.module.ar.document.authorization.CategoryDocumentPresentationController" />
 		<property name="workflowAttributes">
-			<ref bean="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes" />
+			<ref bean="ContractsAndGrantsCategoryMaintenanceDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 
 
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory" parent="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean" />
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument-EditCategory" parent="ContractsAndGrantsCategoryMaintenanceDocument-EditCategory-parentBean" />
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean"
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument-EditCategory-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="EditCategory" />
 		<property name="title" value="Edit Cost Category" />
@@ -66,10 +66,10 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes"
-		parent="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument-workflowAttributes"
+		parent="ContractsAndGrantsCategoryMaintenanceDocument-workflowAttributes-parentBean" />
 
-	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes-parentBean"
+	<bean id="ContractsAndGrantsCategoryMaintenanceDocument-workflowAttributes-parentBean"
 		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
 
 </beans>

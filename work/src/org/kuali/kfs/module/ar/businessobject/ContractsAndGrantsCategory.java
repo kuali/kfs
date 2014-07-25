@@ -21,9 +21,9 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Defines the Categories on the Contracts and Grants Invoices.
+ * Defines a Category on Contracts and Grants Invoices.
  */
-public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class ContractsAndGrantsCategory extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String categoryCode;
     private String categoryName;

@@ -15,39 +15,39 @@
  limitations under the License. 
 -->
 
-	<bean id="ContractsAndGrantsCategories" parent="ContractsAndGrantsCategories-parentBean" />
+	<bean id="ContractsAndGrantsCategory" parent="ContractsAndGrantsCategory-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="ContractsAndGrantsCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
 
-		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories" />
-		<property name="objectLabel" value="ContractsAndGrantsCategories" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory" />
+		<property name="objectLabel" value="ContractsAndGrantsCategory" />
 		<property name="titleAttribute" value="categoryCode"/>
 		<property name="attributes">
 			<list>
-				<ref bean="ContractsAndGrantsCategories-categoryCode" />
-				<ref bean="ContractsAndGrantsCategories-categoryName" />
-				<ref bean="ContractsAndGrantsCategories-categoryDescription" />
-				<ref bean="ContractsAndGrantsCategories-categoryObjectCodes" />
-				<ref bean="ContractsAndGrantsCategories-categoryConsolidations" />
-				<ref bean="ContractsAndGrantsCategories-categoryLevels" />
-				<ref bean="ContractsAndGrantsCategories-indirectCostIndicator" />
-				<ref bean="ContractsAndGrantsCategories-active" />
+				<ref bean="ContractsAndGrantsCategory-categoryCode" />
+				<ref bean="ContractsAndGrantsCategory-categoryName" />
+				<ref bean="ContractsAndGrantsCategory-categoryDescription" />
+				<ref bean="ContractsAndGrantsCategory-categoryObjectCodes" />
+				<ref bean="ContractsAndGrantsCategory-categoryConsolidations" />
+				<ref bean="ContractsAndGrantsCategory-categoryLevels" />
+				<ref bean="ContractsAndGrantsCategory-indirectCostIndicator" />
+				<ref bean="ContractsAndGrantsCategory-active" />
 			</list>
 		</property>
 		<property name="inquiryDefinition">
-      		<ref bean="ContractsAndGrantsCategories-inquiryDefinition"/>
+      		<ref bean="ContractsAndGrantsCategory-inquiryDefinition"/>
     	</property>
 		<property name="lookupDefinition">
-			<ref bean="ContractsAndGrantsCategories-lookupDefinition" />
+			<ref bean="ContractsAndGrantsCategory-lookupDefinition" />
 		</property>	
 	</bean>
 
 	<!-- Attribute Definitions -->
 
 
-	<bean id="ContractsAndGrantsCategories-categoryCode" parent="ContractsAndGrantsCategories-categoryCode-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryCode" parent="ContractsAndGrantsCategory-categoryCode-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Cost Category Code" />
@@ -59,9 +59,9 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-categoryName" parent="ContractsAndGrantsCategories-categoryName-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryName" parent="ContractsAndGrantsCategory-categoryName-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-categoryName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Cost Category Name" />
@@ -73,10 +73,10 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-categoryDescription" parent="ContractsAndGrantsCategories-categoryDescription-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryDescription" parent="ContractsAndGrantsCategory-categoryDescription-parentBean" />
 
 
-	<bean id="ContractsAndGrantsCategories-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Cost Category Description" />
@@ -88,9 +88,9 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-categoryObjectCodes" parent="ContractsAndGrantsCategories-categoryObjectCodes-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryObjectCodes" parent="ContractsAndGrantsCategory-categoryObjectCodes-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-categoryObjectCodes-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryObjectCodes-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryObjectCodes" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Cost Category Object Codes" />
@@ -105,9 +105,9 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-categoryConsolidations" parent="ContractsAndGrantsCategories-categoryConsolidations-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryConsolidations" parent="ContractsAndGrantsCategory-categoryConsolidations-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-categoryConsolidations-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryConsolidations-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryConsolidations" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Cost Category Consolidations" />
@@ -119,9 +119,9 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-categoryLevels" parent="ContractsAndGrantsCategories-categoryLevels-parentBean" />
+	<bean id="ContractsAndGrantsCategory-categoryLevels" parent="ContractsAndGrantsCategory-categoryLevels-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-categoryLevels-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsAndGrantsCategory-categoryLevels-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryLevels" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Cost Category Levels" />
@@ -132,24 +132,24 @@
 		</property>
 	</bean>
 	
-	<bean id="ContractsAndGrantsCategories-indirectCostIndicator" parent="ContractsAndGrantsCategories-indirectCostIndicator-parentBean" />
+	<bean id="ContractsAndGrantsCategory-indirectCostIndicator" parent="ContractsAndGrantsCategory-indirectCostIndicator-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-indirectCostIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+	<bean id="ContractsAndGrantsCategory-indirectCostIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="indirectCostIndicator" />
 		<property name="label" value="Indirect Cost Indicator" />
 		<property name="shortLabel" value="Indirect Cost Indicator" />
 	</bean>
 
 
-	<bean id="ContractsAndGrantsCategories-active" parent="ContractsAndGrantsCategories-active-parentBean" />
+	<bean id="ContractsAndGrantsCategory-active" parent="ContractsAndGrantsCategory-active-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	<bean id="ContractsAndGrantsCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="ContractsAndGrantsCategories-lookupDefinition" parent="ContractsAndGrantsCategories-lookupDefinition-parentBean" />
+	<bean id="ContractsAndGrantsCategory-lookupDefinition" parent="ContractsAndGrantsCategory-lookupDefinition-parentBean" />
 
-	<bean id="ContractsAndGrantsCategories-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="ContractsAndGrantsCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Cost Category Lookup" />
 
 		<property name="defaultSort">
@@ -178,9 +178,9 @@
 	
 	<!-- Business Object Inquiry Definition -->
 	
-	<bean id="ContractsAndGrantsCategories-inquiryDefinition" parent="ContractsAndGrantsCategories-inquiryDefinition-parentBean"/>
+	<bean id="ContractsAndGrantsCategory-inquiryDefinition" parent="ContractsAndGrantsCategory-inquiryDefinition-parentBean"/>
 	
-	<bean id="ContractsAndGrantsCategories-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="ContractsAndGrantsCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 	  <property name="title" value="Cost Category Inquiry"/>
 	  <property name="inquirySections">
 	    <list>

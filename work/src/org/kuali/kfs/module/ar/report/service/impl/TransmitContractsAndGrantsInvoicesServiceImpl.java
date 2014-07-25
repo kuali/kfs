@@ -52,6 +52,8 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -69,7 +71,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
     protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected AREmailService arEmailService;
-    protected PersonService personService;
 
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
 
@@ -90,9 +91,9 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         }
         String invoiceInitiatorPrincipalName = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {
-            Person person = personService.getPersonByPrincipalName(invoiceInitiatorPrincipalName);
-            if (ObjectUtils.isNotNull(person)) {
-                fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.INITIATOR_PRINCIPAL_ID, person.getPrincipalId());
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(invoiceInitiatorPrincipalName);
+            if (ObjectUtils.isNotNull(principal)) {
+                fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.INITIATOR_PRINCIPAL_ID, principal.getPrincipalId());
             } else {
                 throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + invoiceInitiatorPrincipalName + "] passed in does not map to a person.");
             }
@@ -337,14 +338,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     public void setArEmailService(AREmailService arEmailService) {
         this.arEmailService = arEmailService;
-    }
-
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
 }

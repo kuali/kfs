@@ -90,7 +90,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         }
         String invoiceInitiatorPrincipalName = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {
-            Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(invoiceInitiatorPrincipalName);
+            Person person = personService.getPersonByPrincipalName(invoiceInitiatorPrincipalName);
             if (ObjectUtils.isNotNull(person)) {
                 fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.INITIATOR_PRINCIPAL_ID, person.getPrincipalId());
             } else {

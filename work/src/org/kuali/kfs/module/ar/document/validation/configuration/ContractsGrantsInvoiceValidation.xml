@@ -51,7 +51,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="false" />
 				</bean>
 			</list>
 		</property>

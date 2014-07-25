@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ContractsGrantsLOCReport" parent="ContractsGrantsLOCReport-parentBean" />
+
+	<bean id="ContractsGrantsLOCReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport" />
+		<property name="lookupDefinition">
+			<ref bean="ContractsGrantsLOCReport-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="ContractsGrantsLOCReportInquiryTitle" />
+		<property name="objectLabel" value="Contracts and Grants LOC Report" />
+
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsLOCReport-documentNumber" />
+				<ref bean="ContractsGrantsLOCReport-letterOfCreditFundGroupCode" />
+				<ref bean="ContractsGrantsLOCReport-letterOfCreditFundCode" />
+				<ref bean="ContractsGrantsLOCReport-letterOfCreditReviewCreateDate" />
+				<ref bean="ContractsGrantsLOCReport-amountAvailableToDraw" />
+				<ref bean="ContractsGrantsLOCReport-claimOnCashBalance" />
+				<ref bean="ContractsGrantsLOCReport-amountToDraw" />
+				<ref bean="ContractsGrantsLOCReport-fundsNotDrawn" />
+				<ref bean="ContractsGrantsLOCReport-reportType" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-documentNumber" parent="ContractsGrantsLOCReport-documentNumber-parentBean" />
+	<bean id="ContractsGrantsLOCReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+	<bean id="ContractsGrantsLOCReport-letterOfCreditFundGroupCode" parent="ContractsGrantsLOCReport-letterOfCreditFundGroupCode-parentBean" />
+	<bean id="ContractsGrantsLOCReport-letterOfCreditFundGroupCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundGroupCode">
+		<property name="label" value="Letter Of Credit Fund Group" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundGroupValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-letterOfCreditFundCode" parent="ContractsGrantsLOCReport-letterOfCreditFundCode-parentBean" />
+	<bean id="ContractsGrantsLOCReport-letterOfCreditFundCode-parentBean" abstract="true" parent="ArGenericAttributes-letterOfCreditFundCode">
+		<property name="label" value="Letter Of Credit Fund" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-letterOfCreditReviewCreateDate" parent="ContractsGrantsLOCReport-letterOfCreditReviewCreateDate-parentBean" />
+	<bean id="ContractsGrantsLOCReport-letterOfCreditReviewCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="letterOfCreditReviewCreateDate" />
+		<property name="label" value="LOC Review Create Date" />
+		<property name="shortLabel" value="Create Date" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-amountAvailableToDraw" parent="ContractsGrantsLOCReport-amountAvailableToDraw-parentBean" />
+	<bean id="ContractsGrantsLOCReport-amountAvailableToDraw-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountAvailableToDraw" />
+		<property name="label" value="Amount Available To Draw" />
+		<property name="shortLabel" value="Avail Amount To Draw" />
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-claimOnCashBalance" parent="ContractsGrantsLOCReport-claimOnCashBalance-parentBean" />
+	<bean id="ContractsGrantsLOCReport-claimOnCashBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="claimOnCashBalance" />
+		<property name="label" value="Claim On Cash Balance" />
+		<property name="shortLabel" value="Claim On Balance" />
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-amountToDraw" parent="ContractsGrantsLOCReport-amountToDraw-parentBean" />
+	<bean id="ContractsGrantsLOCReport-amountToDraw-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountToDraw" />
+		<property name="label" value="Amount To Draw" />
+		<property name="shortLabel" value="Amount To Draw" />
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-fundsNotDrawn" parent="ContractsGrantsLOCReport-fundsNotDrawn-parentBean" />
+	<bean id="ContractsGrantsLOCReport-fundsNotDrawn-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="fundsNotDrawn" />
+		<property name="label" value="Funds Not Drawn" />
+		<property name="shortLabel" value="Funds Not Drawn" />
+	</bean>
+
+	<bean id="ContractsGrantsLOCReport-reportType" parent="ContractsGrantsLOCReport-reportType-parentBean" />
+	<bean id="ContractsGrantsLOCReport-reportType-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportType" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Type" />
+		<property name="shortLabel" value="Report Type" />
+		<property name="maxLength" value="99" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ContractsGrantsLOCReportValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="ContractsGrantsLOCReport-lookupDefinition" parent="ContractsGrantsLOCReport-lookupDefinition-parentBean" />
+
+	<bean id="ContractsGrantsLOCReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Letter of Credit Draw Details Report" />
+		<property name="lookupableID" value="contractsGrantsLOCReportLookupResultLookupable" />
+
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditReviewCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="amountAvailableToDraw" />
+				<bean parent="FieldDefinition" p:attributeName="claimOnCashBalance" />
+				<bean parent="FieldDefinition" p:attributeName="amountToDraw" />
+				<bean parent="FieldDefinition" p:attributeName="fundsNotDrawn" />
+				<bean parent="FieldDefinition" p:attributeName="reportType" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditReviewCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="amountAvailableToDraw" />
+				<bean parent="FieldDefinition" p:attributeName="claimOnCashBalance" />
+				<bean parent="FieldDefinition" p:attributeName="amountToDraw" />
+				<bean parent="FieldDefinition" p:attributeName="fundsNotDrawn" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

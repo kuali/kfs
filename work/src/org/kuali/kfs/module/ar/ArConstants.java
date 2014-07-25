@@ -361,9 +361,7 @@ public class ArConstants{
             cgPaymentHistoryReportSubtotalFieldsList.add("paymentDate");
         }
 
-        public static final List<String> cgLOCDrawDetailsReportSubtotalFieldsList = new ArrayList<String>();
-
-        public static final List<String> cgLOCAmountsNotDrawnReportSubtotalFieldsList = new ArrayList<String>();
+        public static final List<String> cgLOCReportSubtotalFieldsList = new ArrayList<String>();
 
         public static final List<String> cgSuspendedInvoiceDetailReportSubtotalFieldsList = new ArrayList<String>();
 
@@ -427,8 +425,7 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT = "ContractsGrantsSuspendedInvoiceSummaryReport";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL_REPORT = "ContractsGrantsSuspendedInvoiceDetailReport";
     public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY_REPORT = "ContractsGrantsPaymentHistoryReport";
-    public static final String CONTRACTS_GRANTS_LOC_NOT_DRAWN_REPORT = "ContractsGrantsLOCAmountsNotDrawnReport";
-    public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS_REPORT = "ContractsGrantsLOCDrawDetailsReport";
+    public static final String CONTRACTS_GRANTS_LOC_REPORT = "ContractsGrantsLOCReport";
     public static final String CONTRACTS_GRANTS_MILESTONE_REPORT = "ContractsGrantsMilestoneReport";
     public static final String COLLECTION_ACTIVITY_REPORT_SORT_FIELD = "CollectionActivityReport";
     public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
@@ -493,8 +490,7 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";
         public static final String CONTRACTS_GRANTS_INVOICE = "contractsGrantsInvoiceReportBuilderService";
         public static final String COLLECTION_ACTIVITY = "collectionActivityReportBuilderService";
-        public static final String CONTRACTS_GRANTS_LOC_AMOUNTS_NOT_DRAWN = "contractsGrantsLOCAmountsNotDrawnReportBuilderService";
-        public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS = "contractsGrantsLOCDrawDetailsReportBuilderService";
+        public static final String CONTRACTS_GRANTS_LOC = "contractsGrantsLOCReportBuilderService";
         public static final String CONTRACTS_GRANTS_MILESTONE = "contractsGrantsMilestoneReportBuilderService";
         public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY = "contractsGrantsPaymentHistoryReportBuilderService";
         public static final String TICKLERS = "ticklersReportBuilderService";

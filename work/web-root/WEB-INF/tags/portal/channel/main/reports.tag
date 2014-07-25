@@ -42,12 +42,8 @@
 						title="Invoice Report Delivery"
 						url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="LOC Amounts Not Drawn Report"
-						url="contractsGrantsLOCAmountsNotDrawnReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
-						title="LOC Draw Details Report"
-						url="contractsGrantsLOCDrawDetailsReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+						title="LOC Report"
+						url="contractsGrantsLOCReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Milestone Report"

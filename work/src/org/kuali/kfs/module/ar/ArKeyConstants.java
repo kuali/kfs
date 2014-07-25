@@ -348,4 +348,6 @@ public class ArKeyConstants {
      public static final String ERROR_DUPLICATE_BILL_NUMBER = "error.duplicate.bill.number";
      public static final String ERROR_DUPLICATE_MILESTONE_NUMBER = "error.duplicate.milestone.number";
 
+     public static final String CONTRACTS_REPORTS_AGING_REPORT_TITLE = "contracts.grants.aging.report.title";
+
 }

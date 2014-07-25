@@ -43,7 +43,7 @@ public class CollectionActivityReportAction extends ContractsGrantsReportLookupA
      */
     @Override
     public String generateReportTitle(LookupForm lookupForm) {
-        return "Collection Activity Report";
+        return ArConstants.COLLECTION_ACTIVITY_REPORT_TITLE;
     }
 
     /**

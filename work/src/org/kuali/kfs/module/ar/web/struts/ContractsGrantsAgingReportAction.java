@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl;
@@ -35,6 +37,7 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHol
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
@@ -55,6 +58,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportAction.class);
     private static volatile ContractsGrantsAgingReportService contractsGrantsAgingReportService;
+    private static volatile ConfigurationService configurationService;
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
@@ -163,7 +167,8 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      */
     @Override
     public String generateReportTitle(LookupForm lookupForm) {
-        return "Contracts and Grants Aged Accounts Receivable Report \nAging Group: Total as of " + (String) lookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
+        final String reportTitlePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_REPORTS_AGING_REPORT_TITLE);
+        return MessageFormat.format(reportTitlePattern, (String) lookupForm.getFieldsForLookup().get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
     }
 
     /**
@@ -247,5 +252,12 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             contractsGrantsAgingReportService = SpringContext.getBean(ContractsGrantsAgingReportService.class);
         }
         return contractsGrantsAgingReportService;
+    }
+
+    public static ConfigurationService getConfigurationService() {
+        if (configurationService == null) {
+            configurationService = SpringContext.getBean(ConfigurationService.class);
+        }
+        return configurationService;
     }
 }

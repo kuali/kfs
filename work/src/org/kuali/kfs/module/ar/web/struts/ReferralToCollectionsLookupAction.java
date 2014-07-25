@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
@@ -98,6 +99,6 @@ public class ReferralToCollectionsLookupAction extends ContractsGrantsMultipleVa
      */
     @Override
     protected String getActionUrl() {
-        return "arReferralToCollectionsSummary.do";
+        return ArConstants.MultipleValueReturnActions.REFERRAL_TO_COLLECTIONS;
     }
 }

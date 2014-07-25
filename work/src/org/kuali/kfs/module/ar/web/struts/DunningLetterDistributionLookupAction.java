@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionResultRow;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
@@ -97,6 +98,6 @@ public class DunningLetterDistributionLookupAction extends ContractsGrantsMultip
      */
     @Override
     protected String getActionUrl() {
-        return "arDunningLetterDistributionSummary.do";
+        return ArConstants.MultipleValueReturnActions.DUNNING_LETTER_DISTRIBUTIONS;
     }
 }

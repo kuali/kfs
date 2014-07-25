@@ -86,63 +86,56 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
                 // Documentss that have a problem to get documentHeader won't be on the report
                 try {
                     cgInvoiceDocWithHeader = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(cgInvoiceDoc.getDocumentNumber());
-                }
-                catch (WorkflowException e) {
-                    LOG.debug("WorkflowException happened while retrives documentHeader");
-                    continue;
-                }
 
-                WorkflowDocument workflowDocument = null;
-                try {
-                    workflowDocument = cgInvoiceDocWithHeader.getDocumentHeader().getWorkflowDocument();
-                }
-                catch (RuntimeException e) {
-                    LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                    continue;
-                }
+                    WorkflowDocument workflowDocument = cgInvoiceDocWithHeader.getDocumentHeader().getWorkflowDocument();
 
-                boolean isStatusFinalOrProcessed = false;
-                // Check status of document
-                if (ObjectUtils.isNotNull(workflowDocument)) {
-                    isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
-                }
+                    boolean isStatusFinalOrProcessed = false;
+                    // Check status of document
+                    if (ObjectUtils.isNotNull(workflowDocument)) {
+                        isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
+                    }
 
-                // If status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
-                if (isStatusFinalOrProcessed) {
-                    continue;
-                }
+                    // If status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
+                    if (isStatusFinalOrProcessed) {
+                        continue;
+                    }
 
-                ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
-                cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
-                cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
-                cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
-                if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
-                    if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
-                        cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                    ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
+                    cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
+                    cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
+                    cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
+                    if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
+                        if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
+                            cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                        }
+                    }
+                    Person fundManager;
+                    Person projectDirector;
+
+                    String fundManagerPrincipalName = "";
+                    String projectDirectorPrincipalName = "";
+
+                    ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
+                    fundManager = award.getAwardPrimaryFundManager().getFundManager();
+                    fundManagerPrincipalName = fundManager.getPrincipalName();
+
+                    projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
+                    projectDirectorPrincipalName = projectDirector.getPrincipalName();
+
+                    cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
+                    cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
+                    cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
+                    cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
+
+                    cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
+
+                    if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceDetailReport, "ContractsGrantsSuspendedInvoiceDetailReport")) {
+                        displayList.add(cgSuspendedInvoiceDetailReport);
                     }
                 }
-                Person fundManager;
-                Person projectDirector;
-
-                String fundManagerPrincipalName = "";
-                String projectDirectorPrincipalName = "";
-
-                ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
-                fundManager = award.getAwardPrimaryFundManager().getFundManager();
-                fundManagerPrincipalName = fundManager.getPrincipalName();
-
-                projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
-                projectDirectorPrincipalName = projectDirector.getPrincipalName();
-
-                cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
-                cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
-                cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
-                cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
-
-                cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
-
-                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceDetailReport, "ContractsGrantsSuspendedInvoiceDetailReport")) {
-                    displayList.add(cgSuspendedInvoiceDetailReport);
+                catch (WorkflowException e) {
+                    LOG.error("WorkflowException happened while retrives documentHeader");
+                    throw new RuntimeException("WorkflowException happened while retrives documentHeader", e);
                 }
             }
         }

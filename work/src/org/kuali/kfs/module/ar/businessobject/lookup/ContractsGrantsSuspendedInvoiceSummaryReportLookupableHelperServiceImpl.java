@@ -69,41 +69,33 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
             ContractsGrantsInvoiceDocument cgInvoiceDocument;
             try {
                 cgInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(invoiceSuspensionCategory.getDocumentNumber());
+
+                WorkflowDocument workflowDocument = cgInvoiceDocument.getDocumentHeader().getWorkflowDocument();
+
+                boolean isStatusFinalOrProcessed = false;
+                // check status of document
+                if (ObjectUtils.isNotNull(workflowDocument)) {
+                    isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
+                }
+
+                // if status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
+                if (isStatusFinalOrProcessed) {
+                    continue;
+                }
+
+                if (ObjectUtils.isNull(documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()))) {
+                    List<String> documentNumbers = new ArrayList<String>();
+                    documentNumbers.add(invoiceSuspensionCategory.getDocumentNumber());
+                    documentNumbersByCategory.put(invoiceSuspensionCategory.getSuspensionCategoryCode(), documentNumbers);
+                }
+                else {
+
+                    documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()).add(invoiceSuspensionCategory.getDocumentNumber());
+                }
             }
             catch (WorkflowException e) {
-                LOG.debug("WorkflowException happened while retrives documentHeader");
-                continue;
-            }
-
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = cgInvoiceDocument.getDocumentHeader().getWorkflowDocument();
-            }
-            catch (RuntimeException e) {
-                LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                continue;
-            }
-
-            boolean isStatusFinalOrProcessed = false;
-            // check status of document
-            if (ObjectUtils.isNotNull(workflowDocument)) {
-                isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
-            }
-
-            // if status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
-            if (isStatusFinalOrProcessed) {
-                continue;
-            }
-
-
-            if (ObjectUtils.isNull(documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()))) {
-                List<String> documentNumbers = new ArrayList<String>();
-                documentNumbers.add(invoiceSuspensionCategory.getDocumentNumber());
-                documentNumbersByCategory.put(invoiceSuspensionCategory.getSuspensionCategoryCode(), documentNumbers);
-            }
-            else {
-
-                documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()).add(invoiceSuspensionCategory.getDocumentNumber());
+                LOG.error("WorkflowException happened while retrives documentHeader");
+                throw new RuntimeException("WorkflowException happened while retrives documentHeader", e);
             }
         }
 

@@ -82,6 +82,20 @@ public interface FinancialSystemDocumentService {
     public Set<String> getPendingDocumentStatuses();
 
     /**
+     * Convenience method which turns the DocumentStatusCategory.SUCCESSFUL document statuses into a Set of status codes as Strings
+     * As of the time of this commenting, the successful statuses are Processed (P) and Final (F)
+     * @return a Set of Statuses which are considered "successful"
+     */
+    public Set<String> getSuccessfulDocumentStatuses();
+
+    /**
+     * Convenience method which turns the DocumentStatusCategory.UNSUCCESSFUL document statuses into a Set of status codes as Strings
+     * As of the time of this commenting, the unsuccessful statuses are Canceled (X), Disapproved (D), and Recalled (L)
+     * @return a Set of Statuses which are considered "unsuccessful"
+     */
+    public Set<String> getUnsuccessfulDocumentStatuses();
+
+    /**
      * @param id
      * @return documentHeader of the document which corrects the document with the given documentId
      */

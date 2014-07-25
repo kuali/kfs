@@ -279,6 +279,7 @@ public class ArKeyConstants {
         public static final String DIFFERING_CONTROL_ACCOUNTS = "error.invoice.create.document.different.control.accounts";
         public static final String NOT_ALL_BILLABLE_ACCOUNTS = "error.invoice.create.document.not.all.billable.accounts";
         public static final String NO_AWARD = "error.invoice.create.document.no.award";
+        public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
     }
 
     // Final Billed Indicator Error

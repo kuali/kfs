@@ -3033,20 +3033,22 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     Map<String, String> replacementList = getTemplateParameterList(document);
                     CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
                     String fullAddress = "";
-                    if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
-                        fullAddress += returnProperStringValue(address.getCustomerCityName());
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
-                        fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
-                        fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
+                    if (ObjectUtils.isNotNull(address)) {
+                        if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
+                            fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
+                            fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                            fullAddress += returnProperStringValue(address.getCustomerCityName());
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                            fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                            fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
+                        }
                     }
                     replacementList.put("customer.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
@@ -3132,7 +3134,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
             parameterMap.put("date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())));
         }
-        if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
+        if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateFinalized())) {
             parameterMap.put("finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
         }
         parameterMap.put("proposalNumber", returnProperStringValue(document.getProposalNumber()));
@@ -3364,7 +3366,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
             parameterMap.put("award.stopWorkIndicator", returnProperStringValue(award.isStopWorkIndicator()));
             parameterMap.put("award.stopWorkReason", returnProperStringValue(award.getStopWorkReason()));
-            parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            if (ObjectUtils.isNotNull(award.getAwardPrimaryProjectDirector())) {
+                parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            }
             parameterMap.put("award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
             if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
                 parameterMap.put("award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));

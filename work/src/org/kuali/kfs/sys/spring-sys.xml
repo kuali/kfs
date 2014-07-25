@@ -1254,7 +1254,10 @@
 
 	<bean id="attachmentMailService" parent="attachmentMailService-parentBean"/>
 	<bean id="attachmentMailService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.AttachmentMailServiceImpl">
-	   <property name="mailer" ref="attachmentMailer" />
+	   	<property name="mailer" ref="attachmentMailer" />
+    	<property name="batchMailingList" value="${mailing.list.batch}"/>
+    	<property name="nonProductionNotificationMailingList" value="${nonproduction.notification.mailing.list}" />
+    	<property name="realNotificationsEnabled" value="${real.notifications.enabled}" />
 	</bean>
      
     <import resource="spring-sys-bus-exports.xml"/>

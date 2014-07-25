@@ -55,7 +55,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agency = agency;
         this.agencyNumber = agency.getAgencyNumber();
         this.agencyAddressIdentifier = kcAddress.getRolodexId().longValue();
-        this.agencyAddressName = kcAddress.getOrganizaitonName();
+        this.agencyAddressName = kcAddress.getOrganizationName();
         this.agencyLine1StreetAddress = kcAddress.getAddressLine1();
         this.agencyLine2StreetAddress = kcAddress.getAddressLine2();
         this.agencyLine3StreetAddress = kcAddress.getAddressLine3();

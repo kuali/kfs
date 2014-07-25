@@ -1639,29 +1639,30 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
         String currentPeriodCode = currPeriod.getUniversityFiscalPeriodCode();
 
-        // 3. Now to iterate over the period codes and find the amounts for the differnce between invoice Period and current Period
+        // 3. Now to iterate over the period codes and find the amounts for the difference between invoice Period and current Period
         // - Assuming its the same fiscal year
-        List<AccountingPeriod> acctPeriodList = new ArrayList<AccountingPeriod>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currPeriod.getUniversityFiscalYear());
 
-        acctPeriodList = (List<AccountingPeriod>) accountingPeriodService.getAllAccountingPeriods();
+        List<AccountingPeriod> acctPeriodList = new ArrayList<AccountingPeriod>();
+        acctPeriodList.addAll(businessObjectService.findMatching(AccountingPeriod.class, fieldValues));
         KualiDecimal currentBalanceAmount = KualiDecimal.ZERO;
         java.lang.reflect.Method method;
 
         if (CollectionUtils.isNotEmpty(acctPeriodList)) {
 
-            for (int i = acctPeriodList.indexOf(invoicePeriod) + 1; i <= acctPeriodList.indexOf(currPeriod); i++) {
-                if (acctPeriodList.get(i).getUniversityFiscalYear().equals(currPeriod.getUniversityFiscalYear()) && acctPeriodList.get(i).isActive()) {
-                    // Now to get the month for the period.
-                    String periodCode = acctPeriodList.get(i).getUniversityFiscalPeriodCode().replaceFirst("^0*", "");
-                    String methodName = "getMonth" + periodCode + "Amount";
-                    try {
-                        method = glBalance.getClass().getMethod(methodName);
-                        currentBalanceAmount = currentBalanceAmount.add((KualiDecimal) method.invoke(glBalance));
+            for (AccountingPeriod accountingPeriod : acctPeriodList) {
+                // Now to get the month for the period.
+                String periodCode = accountingPeriod.getUniversityFiscalPeriodCode().replaceFirst("^0*", "");
+                String methodName = "getMonth" + periodCode + "Amount";
+                try {
+                    method = glBalance.getClass().getMethod(methodName);
+                    currentBalanceAmount = currentBalanceAmount.add((KualiDecimal) method.invoke(glBalance));
 
-                    }
-                    catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
+                }
+                catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+                    throw new RuntimeException(e.getMessage());
                 }
             }
         }

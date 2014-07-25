@@ -414,6 +414,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>

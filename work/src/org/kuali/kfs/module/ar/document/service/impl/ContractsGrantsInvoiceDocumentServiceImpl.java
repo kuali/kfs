@@ -852,82 +852,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllOpenContractsGrantsInvoiceDocuments(boolean)
      */
     @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments(boolean includeWorkflowHeaders) {
-        Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // retrieve the set of documents without workflow headers
-        invoices = getAllOpenContractsGrantsInvoiceDocuments();
-
-        // if we dont need workflow headers, then we're done
-        if (!includeWorkflowHeaders || invoices.isEmpty()) {
-            return invoices;
-        }
-        else {
-            return populateWorkflowHeaders(invoices);
-        }
-    }
-
-    /**
-     * @return all open, approved ContractsGrantsInvoiceDocuments
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments() {
+    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, Boolean.TRUE);
         fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
-        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllCGInvoiceDocuments(boolean)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments(boolean includeWorkflowHeaders) {
-        Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // retrieve the set of documents without workflow headers
-        invoices = getAllCGInvoiceDocuments();
-
-        // if we dont need workflow headers, then we're done
-        if (!includeWorkflowHeaders || invoices.isEmpty()) {
-            return invoices;
-        }
-        else {
-            return populateWorkflowHeaders(invoices);
-        }
-    }
-
-    /**
-     * @return all approved ContractsGrantsInvoiceDocuments
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments() {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-    }
-
-    /**
-     * @param invoices
-     * @return
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> populateWorkflowHeaders(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        // make a list of necessary workflow docs to retrieve
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            documentHeaderIds.add(invoice.getDocumentNumber());
-        }
-        // get all of our docs with full workflow headers
-        Collection<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
-        try {
-            for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)) {
-                docs.add((ContractsGrantsInvoiceDocument) doc);
-            }
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }
-        return docs;
+        Collection<ContractsGrantsInvoiceDocument> invoices =  getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+        return invoices;
     }
 
     /**

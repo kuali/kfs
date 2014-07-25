@@ -36,8 +36,10 @@
 				<ref bean="Award-awardSubcontractors.subcontractor.subcontractorNumber" />
 				<ref bean="Award-awardProjectDirectors.principalId" />
 				<ref bean="Award-awardPrimaryProjectDirector.projectDirector.name" />
+				<ref bean="Award-awardPrimaryProjectDirector.projectDirector.principalId" />
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
+				<ref bean="Award-awardPrimaryFundManager.fundManager.principalId"/>
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
 				<ref bean="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
   				<ref bean="Award-lookupPersonUniversalIdentifier" />
@@ -80,8 +82,8 @@
 				<ref bean="Award-federalPassThroughFundedAmount" />
 				<ref bean="Award-federalPassThroughIndicator" />
 				<ref bean="Award-grantDescriptionCode" />
-				<ref
-					bean="Award-letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<ref bean="Award-letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<ref bean="Award-letterOfCreditFund.letterOfCreditFundGroupCode" />
 				<ref bean="Award-letterOfCreditFundCode" />
 				<ref bean="Award-oldProposalNumber" />
 				<ref bean="Award-proposalAwardTypeCode" />
@@ -338,6 +340,11 @@
 		<property name="label" value="Primary Project Director Name" />
 		<property name="shortLabel" value="Primary Proj Director Name" />
 	</bean>
+	
+	<bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId" parent="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean"/>
+	<bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean" abstract="true" parent="AwardProjectDirector-principalId">
+		<property name="name" value="awardPrimaryProjectDirector.projectDirector.principalId"/>
+	</bean>
 
 
 	<bean id="Award-awardFundManagers.principalId" parent="Award-awardFundManagers.principalId-parentBean" />
@@ -363,6 +370,11 @@
 		<property name="control">
 			<ref bean="StandardNameTextControl" />
 		</property>
+	</bean>
+	
+	<bean id="Award-awardPrimaryFundManager.fundManager.principalId" parent="Award-awardPrimaryFundManager.fundManager.principalId-parentBean"/>
+	<bean id="Award-awardPrimaryFundManager.fundManager.principalId-parentBean" abstract="true" parent="AwardFundManager-principalId">
+		<property name="name" value="awardPrimaryFundManager.fundManager.principalId"/>
 	</bean>
 
 	<bean id="Award-milestoneSchedule.milestoneScheduleInquiryTitle"
@@ -815,6 +827,11 @@
 		<property name="name"
 			value="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 		<property name="label" value="Invoicing Letter Of Credit Fund Group" />
+	</bean>
+	
+	<bean id="Award-letterOfCreditFund.letterOfCreditFundGroupCode" parent="Award-letterOfCreditFund.letterOfCreditFundGroupCode-parentBean"/>
+	<bean id="Award-letterOfCreditFund.letterOfCreditFundGroupCode-parentBean" abstract="true" parent="LetterOfCreditFund-letterOfCreditFundGroupCode">
+		<property name="name" value="letterOfCreditFund.letterOfCreditFundGroupCode"/>
 	</bean>
 
 	<bean id="Award-letterOfCreditFundCode" parent="Award-letterOfCreditFundCode-parentBean" />

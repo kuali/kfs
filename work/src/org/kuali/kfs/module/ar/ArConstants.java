@@ -418,13 +418,20 @@ public class ArConstants{
 
     public static final String PRORATE_WARNING = "document.prorateWarning";
 
+    public static final String AWARD_TOTAL = "awardTotal";
+    public static final String AWARD_FUND_MANAGER = "awardFundManager";
+    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
+    public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
+    public static final String AWARD_PROJECT_DIRECTOR = "awardProjectDirector";
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
     public static final String OUTSTANDING_INVOICE_REPORT = "Outstanding Invoice Report";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
+    public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_PROPERTY = "letterOfCreditFundGroup";
+    public static final String FUND_MANAGER = "fundManager";
     public static final String FUNDS_NOT_DRAWN_PROPERTY = "fundsNotDrawn";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT = "ContractsGrantsSuspendedInvoiceSummaryReport";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL_REPORT = "ContractsGrantsSuspendedInvoiceDetailReport";
@@ -435,6 +442,7 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
     public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
+    public static final String PROJECT_DIRECTOR = "projectDirector";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";

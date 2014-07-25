@@ -29,7 +29,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -55,10 +54,8 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
         Collection<ContractsGrantsPaymentHistoryReport> displayList = new ArrayList<ContractsGrantsPaymentHistoryReport>();
 
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("invoiceDocumentType", ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-
-        Collection<CashControlDocument> cgCashControlDocs = businessObjectService.findMatching(CashControlDocument.class, criteria);
+        lookupFormFields.put("invoiceDocumentType", ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        Collection<CashControlDocument> cgCashControlDocs = getLookupService().findCollectionBySearchHelper(CashControlDocument.class, lookupFormFields, true);
 
 
         // build search result fields
@@ -92,7 +89,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         cgPaymentHistoryReport.setInvoiceNumber(appliedPayment.getFinancialDocumentReferenceInvoiceNumber());
                         cgPaymentHistoryReport.setInvoiceAmount(appliedPayment.getCustomerInvoiceDocument().getTotalDollarAmount());
 
-                        criteria.clear();
+                        Map<String, String> criteria = new HashMap<String, String>();
                         criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, cgPaymentHistoryReport.getInvoiceNumber());
                         ContractsGrantsInvoiceDocument cgInvoiceDocument = businessObjectService.findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
 
@@ -101,9 +98,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
                         cgPaymentHistoryReport.setAppliedIndicator(true);
 
-                        if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgPaymentHistoryReport, "ContractsGrantsPaymentHistoryReport")) {
-                            displayList.add(cgPaymentHistoryReport);
-                        }
+                        displayList.add(cgPaymentHistoryReport);
                     }
 
                 }

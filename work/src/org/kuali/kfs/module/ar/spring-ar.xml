@@ -719,8 +719,14 @@
 
 	<bean id="contractsGrantsSuspendedInvoiceDetailReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService"/>
+		</property>
+		<property name="personService">
+			<ref bean="personService"/>
+		</property>
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
 	</bean>
 

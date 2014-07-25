@@ -17,19 +17,15 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
@@ -62,24 +58,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsMilestoneReport> displayList = new ArrayList<ContractsGrantsMilestoneReport>();
-        Collection<Milestone> milestones;
-
-        String lookupFieldValue = (String) lookupFormFields.get(KFSPropertyConstants.ACTIVE);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("billedIndicator", true);
-        if (StringUtils.isNotEmpty(lookupFieldValue)) {
-            map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
-        }
-        milestones = getBusinessObjectService().findMatching(Milestone.class, map);
-        map.clear();
-        map.put("billedIndicator", false);
-        if (StringUtils.isNotEmpty(lookupFieldValue)) {
-            map.put(KFSPropertyConstants.ACTIVE, lookupFieldValue);
-        }
-        Collection<Milestone> notBilledMilestones = getBusinessObjectService().findMatching(Milestone.class, map);
-
-        milestones.addAll(notBilledMilestones);
+        Collection<Milestone> milestones = getLookupService().findCollectionBySearchHelper(Milestone.class, lookupFormFields, true);
 
         // build search result fields
         for (Milestone milestone : milestones) {
@@ -104,12 +83,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
             cgMilestoneReport.setActive(milestone.isActive());
 
-            // filter using lookupForm.getFieldsForLookup()
-
-            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgMilestoneReport, "ContractsGrantsMilestoneReport")) {
-                displayList.add(cgMilestoneReport);
-            }
-
+            displayList.add(cgMilestoneReport);
         }
 
         buildResultTable(lookupForm, displayList, resultTable);

@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,7 +57,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsInvoiceReport> displayList = new ArrayList<ContractsGrantsInvoiceReport>();
-        Collection<ContractsGrantsInvoiceDocument> openCGInvoiceDocs = contractsGrantsInvoiceDocumentService.getAllOpenContractsGrantsInvoiceDocuments(true);
+        Collection<ContractsGrantsInvoiceDocument> openCGInvoiceDocs = contractsGrantsInvoiceDocumentService.getAllOpenContractsGrantsInvoiceDocuments();
 
         String invoiceReportOption = lookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
 
@@ -75,14 +74,12 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) openCGInvoiceDoc.getDocumentHeader();
             ContractsGrantsInvoiceReport cgInvoiceReport = new ContractsGrantsInvoiceReport();
 
-            WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
-
             String documentNumber = ObjectUtils.isNull(documentHeader) ? "" : documentHeader.getDocumentNumber();
             cgInvoiceReport.setDocumentNumber(openCGInvoiceDoc.getDocumentNumber());
             cgInvoiceReport.setProposalNumber(openCGInvoiceDoc.getProposalNumber());
-            cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
+            cgInvoiceReport.setInvoiceType(documentHeader.getWorkflowDocumentTypeName());
 
-            Date docCreateDate = workflowDocument.getDateCreated().toDate();
+            Date docCreateDate = documentHeader.getWorkflowCreateDate();
             cgInvoiceReport.setInvoiceDate(new java.sql.Date(docCreateDate.getTime()));
             cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
             if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {

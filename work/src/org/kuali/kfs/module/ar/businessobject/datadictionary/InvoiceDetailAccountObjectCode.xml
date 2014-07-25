@@ -27,7 +27,7 @@
 				<ref bean="InvoiceDetailAccountObjectCode-documentNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-proposalNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-chartOfAccountsCode" />
-				<ref bean="InvoiceDetailAccountObjectCode-accountNumber" /><!-- <ref bean="InvoiceDetailAccountObjectCode-financialObjectCode"/> -->
+				<ref bean="InvoiceDetailAccountObjectCode-accountNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-currentExpenditures" />
 				<ref bean="InvoiceDetailAccountObjectCode-cumulativeExpenditures" />
 				<ref bean="InvoiceDetailAccountObjectCode-totalBilled" />

@@ -82,7 +82,7 @@
   
   <bean id="ReferralType-outsideCollectionAgencyInd" parent="ReferralType-outsideCollectionAgencyInd-parentBean"/>
 
-  <bean id="ReferralType-outsideCollectionAgencyInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="ReferralType-outsideCollectionAgencyInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="outsideCollectionAgencyInd"/>
     <property name="label" value="Outside Collection Agency"/>
     <property name="shortLabel" value="Outside Collection Agency"/>

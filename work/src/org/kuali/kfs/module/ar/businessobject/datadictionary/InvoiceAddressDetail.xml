@@ -58,15 +58,8 @@
 	</bean>
 	<bean id="InvoiceAddressDetail-customerNumber" parent="InvoiceAddressDetail-customerNumber-parentBean" />
 
-	<bean id="InvoiceAddressDetail-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Number" />
-		<property name="shortLabel" value="Number" />
+	<bean id="InvoiceAddressDetail-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
 		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="42" />
 		</property>

@@ -500,15 +500,10 @@
 	
 	<bean id="Customer-stopWorkIndicator" parent="Customer-stopWorkIndicator-parentBean" />
 
-	<bean id="Customer-stopWorkIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Customer-stopWorkIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="stopWorkIndicator" />
 		<property name="label" value="Stop Work" />
 		<property name="shortLabel" value="Stop Work" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 	
 	

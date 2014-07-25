@@ -14,12 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ attribute name="invoiceAttributes" required="true" type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="propertyName" required="true" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="referralToCollectionsLookupResultAttributes" value="${DataDictionary.ReferralToCollectionsLookupResult.attributes}" />
 <c:set var="accountDetails" value="${DataDictionary.Account.attributes}" />
+<c:set var="invoiceAttributes" value="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"/>
 
 <div class="tab-container" align="center">
 	<h3>Contracts & Grants Invoices</h3>
@@ -34,8 +32,8 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAttributes.openAmount}" useShortLabel="false" hideRequiredAsterisk="true" />
 			</tr>
 		</thead>
-		<logic:iterate id="invoices" name="KualiForm" property="${propertyName}.invoices" indexId="ctr">
-			<ar:referralToCollectionsSummarySubResult invoiceAttributes="${invoiceAttributes}" accountDetails="${accountDetails}" propertyName="${propertyName}.invoices[${ctr}]" />
+		<logic:iterate id="invoices" name="KualiForm" property="${requestScope.propertyName}.invoices" indexId="ctr">
+			<ar:referralToCollectionsSummarySubResult invoiceAttributes="${invoiceAttributes}" accountDetails="${accountDetails}" propertyName="${requestScope.propertyName}.invoices[${ctr}]" />
 		</logic:iterate>
 	</table>
 </div>

@@ -30,8 +30,9 @@
 
 		<c:if test="${!KualiForm.dunningLetterNotSent}">
 
-			<ar:dunningLetterDistributionSummaryResults
-				invoiceAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}" />
+			<ar:documentSummaryResults lookupResultsProperty="dunningLetterDistributionLookupResults" lookupResultTitleProperties="proposalNumber" tabTitleName="Award">
+				<ar:dunningLetterDistributionSummaryResultContent/>
+			</ar:documentSummaryResults>
 			<kul:panelFooter />
 			<html:image
 				src="${ConfigProperties.externalizable.images.url}buttonsmall_create.gif"

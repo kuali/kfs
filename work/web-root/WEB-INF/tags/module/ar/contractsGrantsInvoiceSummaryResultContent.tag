@@ -14,11 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ attribute name="awardAttributes" required="true" type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="propertyName" required="true" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="contractsGrantsInvoiceLookupResultAttributes" value="${DataDictionary.ContractsGrantsInvoiceLookupResult.attributes}" />
+<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}"/>
 
 <div class="tab-container" align="center">
 	<h3>Awards to be Invoiced</h3>
@@ -34,8 +32,8 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.awardTotalAmount}" useShortLabel="false" hideRequiredAsterisk="true" />
 			</tr>
 		</thead>
-		<logic:iterate id="awards" name="KualiForm" property="${propertyName}.awards" indexId="ctr">
-			<ar:contractsGrantsInvoiceSummarySubResult awardAttributes="${awardAttributes}" propertyName="${propertyName}.awards[${ctr}]" />
+		<logic:iterate id="awards" name="KualiForm" property="${requestScope.propertyName}.awards" indexId="ctr">
+			<ar:contractsGrantsInvoiceSummarySubResult awardAttributes="${awardAttributes}" propertyName="${requestScope.propertyName}.awards[${ctr}]" />
 		</logic:iterate>
 	</table>
 </div>

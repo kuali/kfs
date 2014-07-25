@@ -14,13 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ attribute name="invoiceAttributes" required="true" type="java.util.Map"
-	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="propertyName" required="true" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="dunningLetterDistributionLookupResultAttributes" value="${DataDictionary.DunningLetterDistributionLookupResult.attributes}" />
 <c:set var="accountDetails" value="${DataDictionary.Account.attributes}" />
 <c:set var="invoiceGeneralDetails" value="${DataDictionary.InvoiceGeneralDetail.attributes}" />
+<c:set var="invoiceAttributes" value="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"/>
 <div class="tab-container" align="center">
 	<h3>Contracts & Grants Invoices</h3>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -35,8 +33,8 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${invoiceGeneralDetails.dunningLetterTemplateSentDate}" useShortLabel="false" hideRequiredAsterisk="true" />
 			</tr>
 		</thead>
-		<logic:iterate id="invoices" name="KualiForm" property="${propertyName}.invoices" indexId="ctr">
-			<ar:dunningLetterDistributionSummarySubResult invoiceAttributes="${invoiceAttributes}" propertyName="${propertyName}.invoices[${ctr}]" />
+		<logic:iterate id="invoices" name="KualiForm" property="${requestScope.propertyName}.invoices" indexId="ctr">
+			<ar:dunningLetterDistributionSummarySubResult invoiceAttributes="${invoiceAttributes}" propertyName="${requestScope.propertyName}.invoices[${ctr}]" />
 		</logic:iterate>
 	</table>
 </div>

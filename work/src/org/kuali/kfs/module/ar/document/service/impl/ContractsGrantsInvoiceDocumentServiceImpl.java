@@ -3513,12 +3513,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException {
+        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
         Iterator iterator = document.getInvoiceDetailsWithoutIndirectCosts().iterator();
         // correct Invoice Details.
         while (iterator.hasNext()) {
             ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
             correctInvoiceDetail(id);
+            directCostTotal.sumInvoiceDetail(id);
         }
+        correctInvoiceDetailTotals(document, directCostTotal);
 
         // update correction to the InvoiceAccountDetail objects
         iterator = document.getAccountDetails().iterator();
@@ -3584,6 +3587,34 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         invoiceDetail.setExpenditures(invoiceDetail.getExpenditures().negated());
         invoiceDetail.setCumulative(KualiDecimal.ZERO);
         invoiceDetail.setInvoiceDocument(null);
+    }
+
+    /**
+     * Corrects the sums on the direct cost sub-total invoice detail and the total invoice detail on the given contracts and grants invoice document
+     * @param document contracts and grants invoice performing error correction
+     * @param directCostTotal the category totals from the corrected direct cost invoice details
+     */
+    protected void correctInvoiceDetailTotals(ContractsGrantsInvoiceDocument document, InvoiceDetailTotal directCostTotal) {
+        ContractsGrantsInvoiceDetail directCostSubTotal = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail indirectCostSubTotal = document.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail costTotal = document.getTotalCostInvoiceDetail();
+
+        if (directCostSubTotal != null && indirectCostSubTotal != null && costTotal != null) {
+            directCostSubTotal.setBudget(directCostTotal.getBudget());
+            directCostSubTotal.setBilled(directCostTotal.getBilled());
+            directCostSubTotal.setCumulative(directCostTotal.getCumulative());
+            directCostSubTotal.setExpenditures(directCostTotal.getExpenditures());
+
+            // now let's fix the total
+            final KualiDecimal indirectBudget = (null != indirectCostSubTotal.getBudget()) ? indirectCostSubTotal.getBudget() : KualiDecimal.ZERO;
+            costTotal.setBudget(directCostTotal.getBudget().add(indirectBudget));
+            final KualiDecimal indirectBilled = (null != indirectCostSubTotal.getBilled()) ? indirectCostSubTotal.getBilled() : KualiDecimal.ZERO;
+            costTotal.setBilled(directCostTotal.getBilled().add(indirectBilled));
+            final KualiDecimal indirectCumulative = (null != indirectCostSubTotal.getCumulative()) ? indirectCostSubTotal.getCumulative() : KualiDecimal.ZERO;
+            costTotal.setCumulative(directCostTotal.getCumulative().add(indirectCumulative));
+            final KualiDecimal indirectExpenditures = (null != indirectCostSubTotal.getExpenditures()) ? indirectCostSubTotal.getExpenditures() : KualiDecimal.ZERO;
+            costTotal.setExpenditures(directCostTotal.getExpenditures().add(indirectExpenditures));
+        }
     }
 
     /**
@@ -4164,60 +4195,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To calculate total values for Invoice Detail section.
+        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
+        InvoiceDetailTotal indirectCostTotal = new InvoiceDetailTotal();
 
-        KualiDecimal totalDirectCostBudget = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostCumulative = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostExpenditures = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostBalance = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostBilled = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBudget = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostCumulative = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostExpenditures = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBalance = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBilled = KualiDecimal.ZERO;
-        Iterator<ContractsGrantsInvoiceDetail> o = document.getInvoiceDetailsWithIndirectCosts().iterator();
-
-        while (o.hasNext()) {
-
-            ContractsGrantsInvoiceDetail invD = o.next();
+        for (ContractsGrantsInvoiceDetail invD : document.getInvoiceDetailsWithIndirectCosts()) {
             // To sum up values for indirect Cost Invoice Details
-
             if (invD.isIndirectCostIndicator()) {
-                if (null != invD.getBudget()) {
-                    totalInDirectCostBudget = totalInDirectCostBudget.add(invD.getBudget());
-                }
-                if (null != invD.getCumulative()) {
-                    totalInDirectCostCumulative = totalInDirectCostCumulative.add(invD.getCumulative());
-
-                }
-                if (null != invD.getBalance()) {
-                    totalInDirectCostBalance = totalInDirectCostBalance.add(invD.getBalance());
-                }
-                if (null != invD.getBilled()) {
-                    totalInDirectCostBilled = totalInDirectCostBilled.add(invD.getBilled());
-                }
-                if (null != invD.getExpenditures()) {
-                    totalInDirectCostExpenditures = totalInDirectCostExpenditures.add(invD.getExpenditures());
-                }
-
+                indirectCostTotal.sumInvoiceDetail(invD);
             }
             else {
-                if (null != invD.getBudget()) {
-                    totalDirectCostBudget = totalDirectCostBudget.add(invD.getBudget());
-                }
-                if (null != invD.getCumulative()) {
-                    totalDirectCostCumulative = totalDirectCostCumulative.add(invD.getCumulative());
-
-                }
-                if (null != invD.getBalance()) {
-                    totalDirectCostBalance = totalDirectCostBalance.add(invD.getBalance());
-                }
-                if (null != invD.getBilled()) {
-                    totalDirectCostBilled = totalDirectCostBilled.add(invD.getBilled());
-                }
-                if (null != invD.getExpenditures()) {
-                    totalDirectCostExpenditures = totalDirectCostExpenditures.add(invD.getExpenditures());
-                }
+                directCostTotal.sumInvoiceDetail(invD);
             }
         }
         ContractsGrantsInvoiceDetail directCostInvDetail = new ContractsGrantsInvoiceDetail();
@@ -4225,10 +4212,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         directCostInvDetail.setCategoryCode(ArConstants.TOTAL_DIRECT_COST_CD);
         directCostInvDetail.setCategoryName(ArConstants.TOTAL_DIRECT_COST);
-        directCostInvDetail.setBudget(totalDirectCostBudget);
-        directCostInvDetail.setExpenditures(totalDirectCostExpenditures);
-        directCostInvDetail.setCumulative(totalDirectCostCumulative);
-        directCostInvDetail.setBilled(totalDirectCostBilled);
+        directCostInvDetail.setBudget(directCostTotal.getBudget());
+        directCostInvDetail.setExpenditures(directCostTotal.getExpenditures());
+        directCostInvDetail.setCumulative(directCostTotal.getCumulative());
+        directCostInvDetail.setBilled(directCostTotal.getBilled());
         document.getInvoiceDetails().add(directCostInvDetail);
 
         // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
@@ -4238,10 +4225,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         indInvDetail.setIndirectCostIndicator(true);
         indInvDetail.setCategoryCode(ArConstants.TOTAL_IN_DIRECT_COST_CD);
         indInvDetail.setCategoryName(ArConstants.TOTAL_IN_DIRECT_COST);
-        indInvDetail.setBudget(totalInDirectCostBudget);
-        indInvDetail.setExpenditures(totalInDirectCostExpenditures);
-        indInvDetail.setCumulative(totalInDirectCostCumulative);
-        indInvDetail.setBilled(totalInDirectCostBilled);
+        indInvDetail.setBudget(indirectCostTotal.getBudget());
+        indInvDetail.setExpenditures(indirectCostTotal.getExpenditures());
+        indInvDetail.setCumulative(indirectCostTotal.getCumulative());
+        indInvDetail.setBilled(indirectCostTotal.getBilled());
         document.getInvoiceDetails().add(indInvDetail);
 
         // Sum up the direct cost and indirect cost invoice details.
@@ -4253,13 +4240,58 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
-            totalInvDetail.setBudget(totalDirectCostInvoiceDetail.getBudget().add(totalInDirectCostBudget));
-            totalInvDetail.setExpenditures(totalDirectCostInvoiceDetail.getExpenditures().add(totalInDirectCostExpenditures));
-            totalInvDetail.setCumulative(totalDirectCostInvoiceDetail.getCumulative().add(totalInDirectCostCumulative));
-            totalInvDetail.setBilled(totalDirectCostInvoiceDetail.getBilled().add(totalInDirectCostBilled));
+            totalInvDetail.setBudget(directCostTotal.getBudget().add(indirectCostTotal.getBudget()));
+            totalInvDetail.setExpenditures(directCostTotal.getExpenditures().add(indirectCostTotal.getExpenditures()));
+            totalInvDetail.setCumulative(directCostTotal.getCumulative().add(indirectCostTotal.getCumulative()));
+            totalInvDetail.setBilled(directCostTotal.getBilled().add(indirectCostTotal.getBilled()));
         }
 
         document.getInvoiceDetails().add(totalInvDetail);
+    }
+
+    /**
+     * Convenience inner class to hold the totals in certain categories as they are created
+     */
+    protected class InvoiceDetailTotal {
+        protected KualiDecimal budget = KualiDecimal.ZERO;
+        protected KualiDecimal cumulative = KualiDecimal.ZERO;
+        protected KualiDecimal expenditures = KualiDecimal.ZERO;
+        protected KualiDecimal balance = KualiDecimal.ZERO;
+        protected KualiDecimal billed = KualiDecimal.ZERO;
+
+        public KualiDecimal getBudget() {
+            return budget;
+        }
+        public KualiDecimal getCumulative() {
+            return cumulative;
+        }
+        public KualiDecimal getExpenditures() {
+            return expenditures;
+        }
+        public KualiDecimal getBalance() {
+            return balance;
+        }
+        public KualiDecimal getBilled() {
+            return billed;
+        }
+
+        public void sumInvoiceDetail(ContractsGrantsInvoiceDetail contractsGrantsInvoiceDetail) {
+            if (null != contractsGrantsInvoiceDetail.getBudget()) {
+                budget = budget.add(contractsGrantsInvoiceDetail.getBudget());
+            }
+            if (null != contractsGrantsInvoiceDetail.getCumulative()) {
+                cumulative = cumulative.add(contractsGrantsInvoiceDetail.getCumulative());
+            }
+            if (null != contractsGrantsInvoiceDetail.getExpenditures()) {
+                expenditures = expenditures.add(contractsGrantsInvoiceDetail.getExpenditures());
+            }
+            if (null != contractsGrantsInvoiceDetail.getBalance()) {
+                balance = balance.add(contractsGrantsInvoiceDetail.getBalance());
+            }
+            if (null != contractsGrantsInvoiceDetail.getBilled()) {
+                billed = billed.add(contractsGrantsInvoiceDetail.getBilled());
+            }
+        }
     }
 
     /**

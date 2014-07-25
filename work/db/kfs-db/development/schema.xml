@@ -4081,6 +4081,9 @@
         <foreign-key foreignTable="CA_CHART_T" name="CG_AWD_ACCT_TR2">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_ACCT_TR4">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
         <unique name="CG_AWD_ACCT_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4100,6 +4103,9 @@
         <column name="CGAWD_PRM_FNDMGR_IND" size="1" type="VARCHAR"/>
         <column name="CGAWD_FNDMGR_PRJ_TTL" size="100" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_FNDMGR_TR1">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
         <unique name="CG_AWD_FNDMGR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4144,6 +4150,9 @@
         <foreign-key foreignTable="CA_PROJECT_T" name="CG_AWD_INV_ACCT_R7">
             <reference foreign="PROJECT_CD" local="PROJECT_CD"/>
         </foreign-key>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_INV_ACCT_TR1">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
         <unique name="CG_AWD_INV_ACCT_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4163,6 +4172,9 @@
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ORG_CD" local="ORG_CD"/>
         </foreign-key>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_ORG_TR3">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
         <unique name="CG_AWD_ORG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4178,6 +4190,9 @@
         <column name="CGAWD_PRMPRJDR_IND" size="1" type="VARCHAR"/>
         <column name="CGAWD_PRJDRPRJ_TTL" size="100" type="VARCHAR"/>
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_PRJDR_TR2">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
         <unique name="CG_AWD_PRJDR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4210,6 +4225,9 @@
         <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="CG_SUBCNR_T" name="CG_AWD_SUBCN_TR1">
             <reference foreign="CG_SUBCNR_NBR" local="CG_SUBCNR_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_SUBCN_TR2">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
         </foreign-key>
         <unique name="CG_AWD_SUBCN_TC0">
             <unique-column name="OBJ_ID"/>
@@ -4275,6 +4293,27 @@
         <column name="STOP_WRK_REASON_TXT" size="120" type="VARCHAR"/>
         <foreign-key foreignTable="CG_LTRCR_FND_T" name="CG_AWD_R1">
             <reference foreign="CG_LTRCR_FND_CD" local="CG_LTRCR_FND_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_PRPSL_T" name="CG_AWD_TR1">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_PRPSL_AWD_TYP_T" name="CG_AWD_TR2">
+            <reference foreign="CGPRPSL_AWD_TYP_CD" local="CGPRPSL_AWD_TYP_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_AWD_STAT_T" name="CG_AWD_TR3">
+            <reference foreign="CGAWD_STAT_CD" local="CGAWD_STAT_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_GRANT_DESC_T" name="CG_AWD_TR5">
+            <reference foreign="CG_GRANT_DESC_CD" local="CG_GRANT_DESC_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_AGENCY_T" name="CG_AWD_TR6">
+            <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_AGENCY_T" name="CG_AWD_TR7">
+            <reference foreign="CG_AGENCY_NBR" local="CG_FEDPT_AGNCY_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_PRPSL_PURPOSE_T" name="CG_AWD_TR8">
+            <reference foreign="CGPRPSL_PURPOSE_CD" local="CGAWD_PURPOSE_CD"/>
         </foreign-key>
         <unique name="CG_AWD_TC0">
             <unique-column name="OBJ_ID"/>

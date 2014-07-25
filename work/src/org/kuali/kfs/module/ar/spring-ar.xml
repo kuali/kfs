@@ -689,8 +689,8 @@
 
 	<bean id="contractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService"/>
 		</property>
 	</bean>
 

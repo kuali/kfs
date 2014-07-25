@@ -33,14 +33,11 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
-import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -59,9 +56,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a lookupable helper class for Suspended Invoice Detail Report.
  */
-public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImplBase {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl.class);
-    protected FinancialSystemDocumentService financialSystemDocumentService;
     protected PersonService personService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
 
@@ -99,11 +95,8 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
             }
         }
 
-        List<String> processingDocumentStatuses = new ArrayList<String>();
-        processingDocumentStatuses.addAll(getFinancialSystemDocumentService().getPendingDocumentStatuses());
-        processingDocumentStatuses.add(DocumentStatus.PROCESSED.getCode());
-        final String processingDocumentStatusesForLookup = StringUtils.join(processingDocumentStatuses, "|");
-        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatusesForLookup);
+        final String processingDocumentStatuses = buildProcessingDocumentStatusesForLookup();
+        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
         Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFormFields, true);
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
@@ -141,25 +134,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         buildResultTable(lookupForm, displayList, resultTable);
         return displayList;
-    }
-
-    /**
-     * The suspension category code input on the form may use wild cards, so we'll do a lookup on matching suspension categories
-     * @param suspensionCategoryCode the code String to lookup - it may control wildcards
-     * @return a Set of the matching suspension category code Strings
-     */
-    protected Set<String> retrieveMatchingSuspensionCategories(String suspensionCategoryCode) {
-        Set<String> matchingSuspensionCodes = new HashSet<String>();
-
-        if (!StringUtils.isBlank(suspensionCategoryCode)) {
-            Map<String, String> fields = new HashMap<String, String>();
-            fields.put(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE, suspensionCategoryCode);
-            final Collection<SuspensionCategory> suspensionCategories = getLookupService().findCollectionBySearchHelper(SuspensionCategory.class, fields, true);
-            for (SuspensionCategory suspensionCategory : suspensionCategories) {
-                matchingSuspensionCodes.add(suspensionCategory.getSuspensionCategoryCode());
-            }
-        }
-        return matchingSuspensionCodes;
     }
 
     /**
@@ -323,14 +297,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
             resultTable.add(row);
         }
         lookupForm.setHasReturnableRow(hasReturnableRow);
-    }
-
-    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
-        return financialSystemDocumentService;
-    }
-
-    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
-        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 
     public PersonService getPersonService() {

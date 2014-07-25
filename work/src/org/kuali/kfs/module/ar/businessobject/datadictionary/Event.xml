@@ -75,7 +75,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <ref bean="FourCharacterTextControl" />
+      	<bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
 
@@ -192,6 +192,9 @@
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User Principal Id"/>
     <property name="description" value="A free-form text field for the full name of the user, expressed as &quot;Lastname, Firstname Initial&quot;"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
   
   <!-- Business Object Inquiry Definition -->

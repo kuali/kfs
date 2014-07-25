@@ -93,11 +93,13 @@
 		</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-chartOfAccountsCode"
-		parent="OrganizationAccountingDefault-chartOfAccountsCode-parentBean" />
-
+		parent="OrganizationAccountingDefault-chartOfAccountsCode-parentBean"/>
 	<bean id="OrganizationAccountingDefault-chartOfAccountsCode-parentBean"
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="label" value="Billing Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultInvoiceAccountNumber"
 		parent="OrganizationAccountingDefault-defaultInvoiceAccountNumber-parentBean" />
@@ -108,6 +110,9 @@
 		<property name="name" value="defaultInvoiceAccountNumber" />
 		<property name="shortLabel" value="Def. Inv. Acct. Nbr." />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode"
 		parent="OrganizationAccountingDefault-defaultInvoiceChartOfAccountsCode-parentBean" />
@@ -118,6 +123,9 @@
 		<property name="name" value="defaultInvoiceChartOfAccountsCode" />
 		<property name="shortLabel" value="Def. Inv. Chart" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode"
 		parent="OrganizationAccountingDefault-defaultInvoiceFinancialObjectCode-parentBean" />
@@ -128,6 +136,9 @@
 		<property name="name" value="defaultInvoiceFinancialObjectCode" />
 		<property name="shortLabel" value="InvoiceObjCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-defaultInvoiceFinancialSubObjectCode"
@@ -139,6 +150,9 @@
 		<property name="name" value="defaultInvoiceFinancialSubObjectCode" />
 		<property name="shortLabel" value="Invoice Sub-Obj Cd" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-defaultInvoiceOrganizationReferenceIdentifier"
@@ -169,6 +183,9 @@
 		<property name="name" value="defaultInvoiceProjectCode" />
 		<property name="shortLabel" value="InvoiceProjCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber"
 		parent="OrganizationAccountingDefault-defaultInvoiceSubAccountNumber-parentBean" />
@@ -180,6 +197,9 @@
 		<property name="label" value="Sub Account Number" />
 		<property name="shortLabel" value="Def Invoice Sub-Acct Nbr" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultPaymentAccountNumber"
 		parent="OrganizationAccountingDefault-defaultPaymentAccountNumber-parentBean" />
@@ -190,6 +210,9 @@
 		<property name="name" value="defaultPaymentAccountNumber" />
 		<property name="shortLabel" value="Def. Payment Acct. Nbr." />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode"
 		parent="OrganizationAccountingDefault-defaultPaymentChartOfAccountsCode-parentBean" />
@@ -200,6 +223,9 @@
 		<property name="name" value="defaultPaymentChartOfAccountsCode" />
 		<property name="shortLabel" value="Def. Payment Chart" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-defaultPaymentOrganizationReferenceIdentifier"
@@ -230,6 +256,9 @@
 		<property name="name" value="defaultPaymentProjectCode" />
 		<property name="shortLabel" value="PaymentProjCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultPaymentSubAccountNumber"
 		parent="OrganizationAccountingDefault-defaultPaymentSubAccountNumber-parentBean" />
@@ -241,6 +270,9 @@
 		<property name="label" value="Sub Account Number" />
 		<property name="shortLabel" value="Def Payment Sub-Acct Nbr" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode"
 		parent="OrganizationAccountingDefault-defaultPaymentFinancialObjectCode-parentBean" />
@@ -251,6 +283,9 @@
 		<property name="name" value="defaultPaymentFinancialObjectCode" />
 		<property name="shortLabel" value="Object Code" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-defaultPaymentFinancialSubObjectCode"
@@ -262,6 +297,9 @@
 		<property name="name" value="defaultPaymentFinancialSubObjectCode" />
 		<property name="shortLabel" value="Sub-Object Code" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-organizationCode"
 		parent="OrganizationAccountingDefault-organizationCode-parentBean" />
@@ -270,6 +308,9 @@
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Billing Organization Code" />
 		<property name="shortLabel" value="OrgCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="OrganizationAccountingDefault-organization.codeAndDescription"
@@ -280,6 +321,9 @@
 		abstract="true" parent="Organization-codeAndDescription-parentBean">
 		<property name="name" value="organization.codeAndDescription" />
 		<property name="label" value="Billing Organization Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="47"/>
+    	</property>
 	</bean>
 
 	<bean id="OrganizationAccountingDefault-organizationLateChargeObjectCode"
@@ -292,6 +336,9 @@
 		<property name="label" value="Late Charge Object Code" />
 		<property name="shortLabel" value="LateChargeObjCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffChartOfAccountsCode"
 		parent="OrganizationAccountingDefault-writeoffChartOfAccountsCode-parentBean" />
@@ -302,6 +349,9 @@
 		<property name="name" value="writeoffChartOfAccountsCode" />
 		<property name="shortLabel" value="Def. Writeoff Chart" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffAccountNumber"
 		parent="OrganizationAccountingDefault-writeoffAccountNumber-parentBean" />
@@ -311,6 +361,9 @@
 		<property name="name" value="writeoffAccountNumber" />
 		<property name="shortLabel" value="Def. Writeoff Acct. Nbr." />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffSubAccountNumber"
 		parent="OrganizationAccountingDefault-writeoffSubAccountNumber-parentBean" />
@@ -322,6 +375,9 @@
 		<property name="label" value="Sub Account Number" />
 		<property name="shortLabel" value="Def Writeoff Sub-Acct Nbr" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffFinancialObjectCode"
 		parent="OrganizationAccountingDefault-writeoffFinancialObjectCode-parentBean" />
@@ -332,6 +388,9 @@
 		<property name="name" value="writeoffFinancialObjectCode" />
 		<property name="shortLabel" value="Writeoff Object Code" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffFinancialSubObjectCode"
 		parent="OrganizationAccountingDefault-writeoffFinancialSubObjectCode-parentBean" />
@@ -342,6 +401,9 @@
 		<property name="name" value="writeoffFinancialSubObjectCode" />
 		<property name="shortLabel" value="Writeoff Sub-Obj Cd" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 	<bean id="OrganizationAccountingDefault-writeoffProjectCode"
 		parent="OrganizationAccountingDefault-writeoffProjectCode-parentBean" />
@@ -351,6 +413,9 @@
 		<property name="name" value="writeoffProjectCode" />
 		<property name="shortLabel" value="WriteoffProjCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
 	</bean>
 	<bean
 		id="OrganizationAccountingDefault-writeoffOrganizationReferenceIdentifier"
@@ -380,6 +445,9 @@
 		<property name="label" value="Fiscal Year" />
 		<property name="shortLabel" value="FY" />
 		<property name="required" value="true" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

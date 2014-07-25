@@ -88,6 +88,9 @@
     <property name="label" value="Bank Code"/>
     <property name="shortLabel" value="Bank Code"/>
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
 
 	<bean id="CashControlDocument-invoiceDocumentType" parent="CashControlDocument-invoiceDocumentType-parentBean" />

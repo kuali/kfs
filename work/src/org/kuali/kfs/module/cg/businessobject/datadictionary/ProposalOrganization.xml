@@ -59,6 +59,9 @@
 	<bean id="ProposalOrganization-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="shortLabel" value="Org Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="ProposalOrganization-organization.organizationName"
 		parent="ProposalOrganization-organization.organizationName-parentBean" />
@@ -68,6 +71,9 @@
 		<property name="name" value="organization.organizationName" />
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="ProposalOrganization-proposalNumber" parent="ProposalOrganization-proposalNumber-parentBean" />
 

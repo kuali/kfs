@@ -53,8 +53,8 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="1" />
-		</property>
+      		<bean parent="TextControlDefinition" p:size="3"/>
+    	</property>
 	</bean>
 	<bean id="AgencyType-name" parent="AgencyType-name-parentBean" />
 

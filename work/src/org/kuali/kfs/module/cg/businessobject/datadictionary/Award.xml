@@ -240,6 +240,9 @@
 		<property name="name" value="primaryAwardOrganization.organizationCode" />
 		<property name="label" value="Primary Organization Code" />
 		<property name="shortLabel" value="Primary Org Cd" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean" />
@@ -273,6 +276,9 @@
 		<property name="name" value="awardAccounts.account.accountNumber" />
 		<property name="label" value="Award Account Number" />
 		<property name="shortLabel" value="Acct Num" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardInvoiceAccounts.account.accountNumber"
@@ -294,6 +300,9 @@
 		<property name="name"
 			value="awardOrganizations.organization.organizationCode" />
 		<property name="shortLabel" value="Org Cd" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="Award-awardSubcontractors.subcontractor.subcontractorNumber"
 		parent="Award-awardSubcontractors.subcontractor.subcontractorNumber-parentBean" />
@@ -313,6 +322,9 @@
 		<property name="name" value="awardProjectDirectors.principalId" />
 		<property name="label" value="Project Director ID" />
 		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardPrimaryProjectDirector.projectDirector.name"
@@ -336,6 +348,9 @@
 		<property name="name" value="awardFundManagers.principalId" />
 		<property name="label" value="Fund Manager ID" />
 		<property name="shortLabel" value="Fund Mgr ID" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardPrimaryFundManager.fundManager.name"

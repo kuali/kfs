@@ -57,7 +57,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+			<bean parent="TextControlDefinition" p:size="12" />
 		</property>
 	</bean>
 	<bean id="InvoiceTransmissionMethod-invoiceTransmissionMethodDescription"

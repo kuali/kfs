@@ -294,6 +294,9 @@
 	<bean id="AgencyAddress-agencyZipCode-parentBean" abstract="true"
 		parent="PostalCode-code">
 		<property name="name" value="agencyZipCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="22"/>
+    	</property>
 	</bean>
 
 	<bean id="AgencyAddress-agencyCountryCode" parent="AgencyAddress-agencyCountryCode-parentBean" />
@@ -363,7 +366,7 @@
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="45" />
+			<bean parent="TextControlDefinition" p:size="47" />
 		</property>
 	</bean>
 

@@ -81,6 +81,9 @@
 		<property name="name" value="fundManager.principalName" />
 		<property name="label" value="Fund Manager Principal Name" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="AwardFundManager-fundManager.name" parent="AwardFundManager-fundManager.name-parentBean" />
 

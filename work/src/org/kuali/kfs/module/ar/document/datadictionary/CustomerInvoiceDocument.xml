@@ -131,7 +131,6 @@
     <property name="name" value="documentHeader.documentDescription"/>
   </bean>
   <bean id="CustomerInvoiceDocument-invoiceHeaderText" parent="CustomerInvoiceDocument-invoiceHeaderText-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-invoiceHeaderText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceHeaderText"/>
     <property name="forceUppercase" value="false"/>
@@ -145,7 +144,6 @@
   </bean>
   
   <bean id="CustomerInvoiceDocument-age" parent="CustomerInvoiceDocument-age-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-age-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="age"/>
     <property name="forceUppercase" value="false"/>
@@ -154,12 +152,11 @@
     <property name="maxLength" value="5"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>  
   
   <bean id="CustomerInvoiceDocument-invoiceAttentionLineText" parent="CustomerInvoiceDocument-invoiceAttentionLineText-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-invoiceAttentionLineText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceAttentionLineText"/>
     <property name="forceUppercase" value="false"/>
@@ -168,48 +165,48 @@
     <property name="maxLength" value="80"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="80"/>
+      <bean parent="TextControlDefinition" p:size="82"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-invoiceDueDate" parent="CustomerInvoiceDocument-invoiceDueDate-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-invoiceDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="invoiceDueDate"/>
     <property name="label" value="Due Date"/>
     <property name="shortLabel" value="Due Date"/>
     <property name="required" value="true"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-billingDate" parent="CustomerInvoiceDocument-billingDate-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-billingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="billingDate"/>
     <property name="label" value="Billing Date"/>
     <property name="shortLabel" value="Billing Date"/>
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-printDate" parent="CustomerInvoiceDocument-printDate-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-printDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="printDate"/>
     <property name="label" value="Print Date"/>
     <property name="shortLabel" value="Print Date"/>
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-invoiceTermsText" parent="CustomerInvoiceDocument-invoiceTermsText-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-invoiceTermsText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceTermsText"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Terms"/>
     <property name="shortLabel" value="Terms"/>
-    <property name="maxLength" value="40"/>
+    <property name="maxLength" value="42"/>
     <property name="required" value="false"/>
     <property name="control">
-      <ref bean="StandardNameTextControl" />
+      	<bean parent="TextControlDefinition" p:size="44"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-organizationInvoiceNumber" parent="CustomerInvoiceDocument-organizationInvoiceNumber-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-organizationInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationInvoiceNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -218,23 +215,21 @@
     <property name="maxLength" value="9"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
 
   <bean id="CustomerInvoiceDocument-parentInvoiceNumber" parent="CustomerInvoiceDocument-parentInvoiceNumber-parentBean"/>
-  
   <bean id="CustomerInvoiceDocument-parentInvoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber">
     <property name="name" value="parentInvoiceNumber"/>
     <property name="label" value="Parent Invoice Number"/>
     <property name="shortLabel" value="Parent Invoice Number"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="14"/>
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber" parent="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerPurchaseOrderNumber"/>
     <property name="forceUppercase" value="false"/>
@@ -243,11 +238,11 @@
     <property name="maxLength" value="25"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="25"/>
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-printInvoiceIndicator" parent="CustomerInvoiceDocument-printInvoiceIndicator-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-printInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="printInvoiceIndicator"/>
     <property name="forceUppercase" value="false"/>
@@ -261,15 +256,14 @@
   </bean>
 
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderDate" parent="CustomerInvoiceDocument-customerPurchaseOrderDate-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerPurchaseOrderDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="customerPurchaseOrderDate"/>
     <property name="label" value="Customer Purchase Order Date"/>
     <property name="shortLabel" value="P.O. Date"/>
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-billByChartOfAccountCode" parent="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-billByChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="billByChartOfAccountCode"/>
     <property name="forceUppercase" value="true"/>
@@ -279,16 +273,19 @@
       <ref bean="ChartSelectControl" />
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-billedByOrganizationCode" parent="CustomerInvoiceDocument-billedByOrganizationCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-billedByOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
     <property name="name" value="billedByOrganizationCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Billing Organization Code"/>
     <property name="shortLabel" value="Billing Org Code"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-customerShipToAddressIdentifier" parent="CustomerInvoiceDocument-customerShipToAddressIdentifier-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerShipToAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerShipToAddressIdentifier"/>
     <property name="forceUppercase" value="false"/>
@@ -300,8 +297,8 @@
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-customerBillToAddressIdentifier" parent="CustomerInvoiceDocument-customerBillToAddressIdentifier-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerBillToAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerBillToAddressIdentifier"/>
     <property name="forceUppercase" value="false"/>
@@ -313,8 +310,8 @@
       <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-customerSpecialProcessingCode" parent="CustomerInvoiceDocument-customerSpecialProcessingCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerSpecialProcessingCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerSpecialProcessingCode"/>
     <property name="forceUppercase" value="false"/>
@@ -323,11 +320,11 @@
     <property name="maxLength" value="2"/>
     <property name="required" value="false"/>
     <property name="control">
-      <ref bean="TwoCharacterTextControl" />
+      <ref bean="FourCharacterTextControl" />
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-customerRecordAttachmentIndicator" parent="CustomerInvoiceDocument-customerRecordAttachmentIndicator-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-customerRecordAttachmentIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="customerRecordAttachmentIndicator"/>
     <property name="forceUppercase" value="false"/>
@@ -339,8 +336,8 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-openInvoiceIndicator" parent="CustomerInvoiceDocument-openInvoiceIndicator-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-openInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="openInvoiceIndicator"/>
     <property name="forceUppercase" value="false"/>
@@ -352,15 +349,15 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-sourceTotal" parent="CustomerInvoiceDocument-sourceTotal-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-sourceTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="sourceTotal"/>
     <property name="label" value="Invoice Total Amount"/>
     <property name="shortLabel" value="Invoice Total Amount"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentChartOfAccountsCode" parent="CustomerInvoiceDocument-paymentChartOfAccountsCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     <property name="name" value="paymentChartOfAccountsCode"/>
     <property name="required" value="false"/>
@@ -368,20 +365,26 @@
       <ref bean="ChartSimpleSelectControl" />
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentFinancialObjectCode" parent="CustomerInvoiceDocument-paymentFinancialObjectCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     <property name="name" value="paymentFinancialObjectCode"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentAccountNumber" parent="CustomerInvoiceDocument-paymentAccountNumber-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
     <property name="name" value="paymentAccountNumber"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentOrganizationReferenceIdentifier" parent="CustomerInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentOrganizationReferenceIdentifier"/>
     <property name="forceUppercase" value="true"/>
@@ -396,41 +399,49 @@
       <ref bean="TenCharacterTextControl" />
     </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentSubAccountNumber" parent="CustomerInvoiceDocument-paymentSubAccountNumber-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
     <property name="name" value="paymentSubAccountNumber"/>
     <property name="label" value="Sub-Account Code"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentProjectCode" parent="CustomerInvoiceDocument-paymentProjectCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
     <property name="name" value="paymentProjectCode"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-paymentFinancialSubObjectCode" parent="CustomerInvoiceDocument-paymentFinancialSubObjectCode-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-paymentFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
     <property name="name" value="paymentFinancialSubObjectCode"/>
     <property name="label" value="Sub Object Code"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-billingDateForDisplay" parent="CustomerInvoiceDocument-billingDateForDisplay-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-billingDateForDisplay-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="billingDateForDisplay"/>
     <property name="label" value="Billing Date"/>
     <property name="shortLabel" value="Billing Date"/>
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="CustomerInvoiceDocument-versionNumber" parent="CustomerInvoiceDocument-versionNumber-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="CustomerInvoiceDocument-openAmount" parent="CustomerInvoiceDocument-openAmount-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-openAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="openAmount"/>
     <property name="label" value="Open Amount"/>
@@ -438,160 +449,132 @@
   </bean>  
   
   <bean id="CustomerInvoiceDocument-customerName" parent="CustomerInvoiceDocument-customerName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-customerName-parentBean" abstract="true" parent="Customer-customerName"/>
 
-	<bean id="CustomerInvoiceDocument-customerName-parentBean" abstract="true" parent="Customer-customerName"/>
+  <bean id="CustomerInvoiceDocument-billingAddressName" parent="CustomerInvoiceDocument-billingAddressName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
+	<property name="name" value="billingAddressName"/>
+  </bean>
+					
+  <bean id="CustomerInvoiceDocument-billingCityName" parent="CustomerInvoiceDocument-billingCityName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName">
+	<property name="name" value="billingCityName"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingStateCode" parent="CustomerInvoiceDocument-billingStateCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode">
+	<property name="name" value="billingStateCode"/>
+  </bean>
 					
 					
-	<bean id="CustomerInvoiceDocument-billingAddressName" parent="CustomerInvoiceDocument-billingAddressName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
-		<property name="name" value="billingAddressName"/>
-	</bean>
+  <bean id="CustomerInvoiceDocument-billingZipCode" parent="CustomerInvoiceDocument-billingZipCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
+	<property name="name" value="billingZipCode"/>
+	<property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
+    </property>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingCountryCode" parent="CustomerInvoiceDocument-billingCountryCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode">
+	<property name="name" value="billingCountryCode"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingAddressInternationalProvinceName" parent="CustomerInvoiceDocument-billingAddressInternationalProvinceName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
+	<property name="name" value="billingAddressInternationalProvinceName"/>
+	<property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingInternationalMailCode" parent="CustomerInvoiceDocument-billingInternationalMailCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode">
+	<property name="name" value="billingInternationalMailCode"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingEmailAddress" parent="CustomerInvoiceDocument-billingEmailAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress">
+	<property name="name" value="billingEmailAddress"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-billingAddressTypeCode" parent="CustomerInvoiceDocument-billingAddressTypeCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingAddressTypeCode-parentBean" abstract="true" parent="CustomerAddress-customerAddressTypeCode">
+	<property name="name" value="billingAddressTypeCode"/>
+  </bean>
+
+  <bean id="CustomerInvoiceDocument-shippingAddressName" parent="CustomerInvoiceDocument-shippingAddressName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
+	<property name="name" value="shippingAddressName"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingCityName" parent="CustomerInvoiceDocument-shippingCityName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName">
+	<property name="name" value="shippingCityName"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingStateCode" parent="CustomerInvoiceDocument-shippingStateCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode">
+	<property name="name" value="shippingStateCode"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingZipCode" parent="CustomerInvoiceDocument-shippingZipCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
+	<property name="name" value="shippingZipCode"/>
+	<property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
+    </property>
+  </bean>
 					
-					
-	<bean id="CustomerInvoiceDocument-billingCityName" parent="CustomerInvoiceDocument-billingCityName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName">
-		<property name="name" value="billingCityName"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingStateCode" parent="CustomerInvoiceDocument-billingStateCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode">
-		<property name="name" value="billingStateCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingZipCode" parent="CustomerInvoiceDocument-billingZipCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
-		<property name="name" value="billingZipCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingCountryCode" parent="CustomerInvoiceDocument-billingCountryCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode">
-		<property name="name" value="billingCountryCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingAddressInternationalProvinceName" parent="CustomerInvoiceDocument-billingAddressInternationalProvinceName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
-		<property name="name" value="billingAddressInternationalProvinceName"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingInternationalMailCode" parent="CustomerInvoiceDocument-billingInternationalMailCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode">
-		<property name="name" value="billingInternationalMailCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingEmailAddress" parent="CustomerInvoiceDocument-billingEmailAddress-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress">
-		<property name="name" value="billingEmailAddress"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-billingAddressTypeCode" parent="CustomerInvoiceDocument-billingAddressTypeCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-billingAddressTypeCode-parentBean" abstract="true" parent="CustomerAddress-customerAddressTypeCode">
-		<property name="name" value="billingAddressTypeCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingAddressName" parent="CustomerInvoiceDocument-shippingAddressName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingAddressName-parentBean" abstract="true" parent="CustomerAddress-customerAddressName">
-		<property name="name" value="shippingAddressName"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingCityName" parent="CustomerInvoiceDocument-shippingCityName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingCityName-parentBean" abstract="true" parent="CustomerAddress-customerCityName">
-		<property name="name" value="shippingCityName"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingStateCode" parent="CustomerInvoiceDocument-shippingStateCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingStateCode-parentBean" abstract="true" parent="CustomerAddress-customerStateCode">
-		<property name="name" value="shippingStateCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingZipCode" parent="CustomerInvoiceDocument-shippingZipCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingZipCode-parentBean" abstract="true" parent="CustomerAddress-customerZipCode">
-		<property name="name" value="shippingZipCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingCountryCode" parent="CustomerInvoiceDocument-shippingCountryCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode">
-		<property name="name" value="shippingCountryCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingAddressInternationalProvinceName" parent="CustomerInvoiceDocument-shippingAddressInternationalProvinceName-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
-		<property name="name" value="shippingAddressInternationalProvinceName"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingInternationalMailCode" parent="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode">
-		<property name="name" value="shippingInternationalMailCode"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingEmailAddress" parent="CustomerInvoiceDocument-shippingEmailAddress-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress">
-		<property name="name" value="shippingEmailAddress"/>
-	</bean>
-					
-					
-	<bean id="CustomerInvoiceDocument-shippingAddressTypeCode" parent="CustomerInvoiceDocument-shippingAddressTypeCode-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingAddressTypeCode-parentBean" abstract="true" parent="CustomerAddress-customerAddressTypeCode">
-		<property name="name" value="shippingAddressTypeCode"/>
-	</bean>
+  <bean id="CustomerInvoiceDocument-shippingCountryCode" parent="CustomerInvoiceDocument-shippingCountryCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingCountryCode-parentBean" abstract="true" parent="CustomerAddress-customerCountryCode">
+	<property name="name" value="shippingCountryCode"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingAddressInternationalProvinceName" parent="CustomerInvoiceDocument-shippingAddressInternationalProvinceName-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingAddressInternationalProvinceName-parentBean" abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
+	<property name="name" value="shippingAddressInternationalProvinceName"/>
+	<property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingInternationalMailCode" parent="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingInternationalMailCode-parentBean" abstract="true" parent="CustomerAddress-customerInternationalMailCode">
+	<property name="name" value="shippingInternationalMailCode"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingEmailAddress" parent="CustomerInvoiceDocument-shippingEmailAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingEmailAddress-parentBean" abstract="true" parent="CustomerAddress-customerEmailAddress">
+	<property name="name" value="shippingEmailAddress"/>
+  </bean>
+									
+  <bean id="CustomerInvoiceDocument-shippingAddressTypeCode" parent="CustomerInvoiceDocument-shippingAddressTypeCode-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingAddressTypeCode-parentBean" abstract="true" parent="CustomerAddress-customerAddressTypeCode">
+	<property name="name" value="shippingAddressTypeCode"/>
+  </bean>
 				
-	<bean id="CustomerInvoiceDocument-billingLine1StreetAddress" parent="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingLine1StreetAddress" parent="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
+	<property name="name" value="billingLine1StreetAddress"/>
+  </bean>
 	
-	<bean id="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
-		<property name="name" value="billingLine1StreetAddress"/>
-	</bean>
+  <bean id="CustomerInvoiceDocument-billingLine2StreetAddress" parent="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
+	<property name="name" value="billingLine2StreetAddress"/>
+  </bean>
 	
-	<bean id="CustomerInvoiceDocument-billingLine2StreetAddress" parent="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingLine1StreetAddress" parent="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
+	<property name="name" value="shippingLine1StreetAddress"/>
+  </bean>
 	
-	<bean id="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
-		<property name="name" value="billingLine2StreetAddress"/>
-	</bean>
-	
-	<bean id="CustomerInvoiceDocument-shippingLine1StreetAddress" parent="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
-		<property name="name" value="shippingLine1StreetAddress"/>
-	</bean>
-	
-	<bean id="CustomerInvoiceDocument-shippingLine2StreetAddress" parent="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean"/>
-	
-	<bean id="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
-		<property name="name" value="shippingLine2StreetAddress"/>
-	</bean>
+  <bean id="CustomerInvoiceDocument-shippingLine2StreetAddress" parent="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean"/>
+  <bean id="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
+	<property name="name" value="shippingLine2StreetAddress"/>
+  </bean>
+  
   <bean id="CustomerInvoiceDocument-recurredInvoiceIndicator" parent="CustomerInvoiceDocument-recurredInvoiceIndicator-parentBean"/>
-
   <bean id="CustomerInvoiceDocument-recurredInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="recurredInvoiceIndicator"/>
     <property name="forceUppercase" value="false"/>
@@ -605,7 +588,6 @@
   </bean>
 	  
   <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean"/>
-  
   <bean id="CustomerInvoiceDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map key-type="java.lang.Class">			

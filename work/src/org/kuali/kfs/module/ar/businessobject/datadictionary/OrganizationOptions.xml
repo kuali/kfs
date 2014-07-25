@@ -97,11 +97,17 @@
 
   <bean id="OrganizationOptions-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   	<property name="label" value="Billing Chart Code"/>
+  	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="4"/>
+    </property>
   </bean>
   <bean id="OrganizationOptions-organizationCode" parent="OrganizationOptions-organizationCode-parentBean"/>
 
   <bean id="OrganizationOptions-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   	<property name="label" value="Billing Organization Code"/>
+  	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
   
   <bean id="OrganizationOptions-organization.codeAndDescription" parent="OrganizationOptions-organization.codeAndDescription-parentBean"/>
@@ -109,6 +115,9 @@
   <bean id="OrganizationOptions-organization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="organization.codeAndDescription"/>
   	<property name="label" value="Billing Organization Code"/>
+  	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="47"/>
+    </property>
   </bean>
   
   <bean id="OrganizationOptions-processingChartOfAccountCode" parent="OrganizationOptions-processingChartOfAccountCode-parentBean"/>
@@ -123,6 +132,9 @@
     	</bean>
     </property>
 -->    
+	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="4"/>
+    </property>
   </bean>
   <bean id="OrganizationOptions-processingOrganizationCode" parent="OrganizationOptions-processingOrganizationCode-parentBean"/>
 
@@ -135,7 +147,10 @@
     		<property name="readOnly" value="true"/>
     	</bean>
     </property>
--->    
+-->
+	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
   
   <bean id="OrganizationOptions-processingOrganization.codeAndDescription" parent="OrganizationOptions-processingOrganization.codeAndDescription-parentBean"/>
@@ -143,6 +158,9 @@
   <bean id="OrganizationOptions-processingOrganization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription-parentBean">
   	<property name="name" value="processingOrganization.codeAndDescription"/>
   	<property name="label" value="Processing Organization Code"/>
+  	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="47"/>
+    </property>
   </bean>  
   
   <bean id="OrganizationOptions-organization800PhoneNumber" parent="OrganizationOptions-organization800PhoneNumber-parentBean"/>
@@ -315,6 +333,9 @@
   <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="organizationRemitToZipCode"/>
     <property name="required" value="true"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="22"/>
+    </property>
   </bean>
   <bean id="OrganizationOptions-printInvoiceIndicator" parent="OrganizationOptions-printInvoiceIndicator-parentBean"/>
 
@@ -369,6 +390,9 @@
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Org Postal Cd" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="22"/>
+    	</property>
 	</bean>
 
 <bean id="OrganizationOptions-organizationPostalCountryCode"
@@ -380,6 +404,9 @@
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
   
 <!-- Business Object Inquiry Definition -->

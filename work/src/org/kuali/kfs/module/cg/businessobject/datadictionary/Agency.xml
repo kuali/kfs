@@ -112,7 +112,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	<bean id="Agency-reportingName" parent="Agency-reportingName-parentBean" />
@@ -128,7 +128,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="32" />
 		</property>
 	</bean>
 	<bean id="Agency-fullName" parent="Agency-fullName-parentBean" />
@@ -144,7 +144,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextControlDefinition" p:size="52" />
 		</property>
 	</bean>
 	<bean id="Agency-agencyType.name" parent="Agency-agencyType.name-parentBean" />
@@ -213,7 +213,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 		<property name="summary" value="CAGE Number" />
 		<property name="description" value="CAGE Number" />
@@ -231,7 +231,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 		<property name="summary" value="DODAC Number" />
 		<property name="description" value="DODAC Number" />
@@ -249,7 +249,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 		<property name="summary" value="DUN And Bradstreet Number" />
 		<property name="description" value="DUN And Bradstreet Number" />
@@ -267,7 +267,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 		<property name="summary" value="DUNS Plus Four Number" />
 		<property name="description" value="DUNS Plus Four Number" />

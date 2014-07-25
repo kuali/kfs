@@ -122,7 +122,11 @@
 
 	<bean id="ContractsGrantsAgingOpenInvoicesReport-accountNumber" parent="ContractsGrantsAgingOpenInvoicesReport-accountNumber-parentBean" />
 	<bean id="ContractsGrantsAgingOpenInvoicesReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 		
 		
 	<bean id="ContractsGrantsAgingOpenInvoicesReport-agencyNumber" parent="ContractsGrantsAgingOpenInvoicesReport-agencyNumber-parentBean" />
@@ -140,7 +144,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	
@@ -152,7 +156,7 @@
     	<property name="shortLabel" value="Final Invoice"/>
     	<property name="maxLength" value="10"/>
     	<property name="control">
-      		<ref bean="StandardShortNameTextControl" />
+      		<bean parent="TextControlDefinition" p:size="12"/>
     	</property>
 	</bean>
 

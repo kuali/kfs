@@ -195,11 +195,18 @@
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="accountChartOfAccountsCode" />
 		<property name="label" value="Account Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsAndGrantsAgingReport-accountNumber" parent="ContractsAndGrantsAgingReport-accountNumber-parentBean" />
 	<bean id="ContractsAndGrantsAgingReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="ContractsAndGrantsAgingReport-proposalNumber" parent="ContractsAndGrantsAgingReport-proposalNumber-parentBean">
 		<property name="forceUppercase" value="true" />
@@ -372,7 +379,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="32" />
 		</property>
 	</bean>
 	
@@ -411,6 +418,9 @@
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="processingOrBillingChartCode" />
 		<property name="label" value="Processing/Billing Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsAndGrantsAgingReport-organizationCode"
@@ -418,6 +428,9 @@
 	<bean id="ContractsAndGrantsAgingReport-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Processing/Billing Organization Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 

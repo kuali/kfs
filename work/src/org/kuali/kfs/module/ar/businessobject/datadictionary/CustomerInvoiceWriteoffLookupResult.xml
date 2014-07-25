@@ -90,7 +90,7 @@
     <property name="shortLabel" value="Collection Status"/>
     <property name="maxLength" value="25"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="25"/>
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>    
   </bean>    
   
@@ -105,8 +105,8 @@
       <ref bean="NumericValidation" />
     </property>
     <property name="control">
-      <ref bean="StandardShortNameTextControl" />
-    </property>  
+      	<bean parent="TextControlDefinition" p:size="5"/>
+    </property>
   </bean>   
 
 <!-- Business Object Lookup Definition -->

@@ -104,7 +104,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="25" />
+			<bean parent="TextControlDefinition" p:size="27" />
 		</property>
 	</bean>
 	<bean id="SubContractor-subcontractorAddressLine2" parent="SubContractor-subcontractorAddressLine2-parentBean" />
@@ -119,7 +119,7 @@
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 	</bean>
 	<bean id="SubContractor-subcontractorCity" parent="SubContractor-subcontractorCity-parentBean" />
@@ -135,7 +135,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+			<bean parent="TextControlDefinition" p:size="22" />
 		</property>
 	</bean>
 	<bean id="SubContractor-subcontractorStateCode" parent="SubContractor-subcontractorStateCode-parentBean" />
@@ -146,6 +146,9 @@
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State" />
 	    <property name="required" value="true"/>
+	    <property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean id="SubContractor-subcontractorZipCode" parent="SubContractor-subcontractorZipCode-parentBean" />
 
@@ -153,6 +156,9 @@
 		parent="PostalCode-code">
 		<property name="name" value="subcontractorZipCode" />
 		<property name="required" value="true" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="22"/>
+    	</property>
 	</bean>
 	<bean id="SubContractor-subcontractorCountryCode" parent="SubContractor-subcontractorCountryCode-parentBean" />
 
@@ -161,6 +167,9 @@
 		<property name="name" value="subcontractorCountryCode" />
 		<property name="shortLabel" value="Country" />
 	    <property name="required" value="false"/>
+	    <property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 	<bean id="SubContractor-active" parent="SubContractor-active-parentBean" />
 

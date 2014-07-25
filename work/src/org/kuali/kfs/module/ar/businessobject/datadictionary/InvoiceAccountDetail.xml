@@ -67,7 +67,11 @@
 	</bean>
 	<bean id="InvoiceAccountDetail-accountNumber" parent="InvoiceAccountDetail-accountNumber-parentBean" />
 
-	<bean id="InvoiceAccountDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="InvoiceAccountDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="InvoiceAccountDetail-budgetAmount" parent="InvoiceAccountDetail-budgetAmount-parentBean" />
 

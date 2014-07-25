@@ -80,15 +80,20 @@
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode" parent="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode-parentBean" />
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" />
-
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
 		<property name="name" value="accountNumber" />
 		<property name="label" value="Account Number" />
 		<property name="shortLabel" value="CntrctAcct" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate" parent="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate-parentBean" />
 
@@ -106,13 +111,16 @@
 		<property name="maxLength" value="45" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="45" />
+			<bean parent="TextControlDefinition" p:size="47" />
 		</property>
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" />
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-customerNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-customerNumber-parentBean" />

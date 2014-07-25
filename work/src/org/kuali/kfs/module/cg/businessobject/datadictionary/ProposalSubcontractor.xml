@@ -99,7 +99,7 @@
 				p:maxLength="30" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="32" />
 		</property>
 	</bean>
 	<bean id="ProposalSubcontractor-subcontractor.subcontractorName"

@@ -118,7 +118,7 @@
 				p:maxLength="30" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="32" />
 		</property>
 	</bean>
 	<bean id="AwardSubcontractor-subcontractorAmount" parent="AwardSubcontractor-subcontractorAmount-parentBean" />
@@ -157,7 +157,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="17" />
+			<bean parent="TextControlDefinition" p:size="42" />
 		</property>
 	</bean>
 	<bean id="AwardSubcontractor-subcontractorContactLastName"

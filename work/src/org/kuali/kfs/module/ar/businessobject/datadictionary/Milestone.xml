@@ -74,7 +74,7 @@
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
+			<bean parent="TextControlDefinition" p:size="14" />
 		</property>
 	</bean>
 

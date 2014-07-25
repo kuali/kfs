@@ -174,16 +174,24 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	 <bean id="ReferralToCollectionsReport-chartOfAccountsCode" parent="ReferralToCollectionsReport-chartOfAccountsCode-parentBean" />
   <bean id="ReferralToCollectionsReport-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode" />
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+  </bean>
 	
   <bean id="ReferralToCollectionsReport-accountNumber" parent="ReferralToCollectionsReport-accountNumber-parentBean" />
   <bean id="ReferralToCollectionsReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+  </bean>
  
   <bean id="ReferralToCollectionsReport-invoiceNumber" parent="ReferralToCollectionsReport-invoiceNumber-parentBean"/>
 
@@ -205,7 +213,7 @@
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextControlDefinition" p:size="52" />
 		</property>
 	</bean>
 

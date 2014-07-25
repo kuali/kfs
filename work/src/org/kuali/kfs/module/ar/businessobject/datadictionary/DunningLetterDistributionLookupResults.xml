@@ -103,12 +103,18 @@
 	<bean id="DunningLetterDistributionLookupResult-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="chartOfAccountsCode" />
 		<property name="label" value="Processing/Billing Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="DunningLetterDistributionLookupResult-organizationCode" parent="DunningLetterDistributionLookupResult-organizationCode-parentBean" />
 	<bean id="DunningLetterDistributionLookupResult-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Processing/Billing Organization Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
   	<bean id="DunningLetterDistributionLookupResult-collector.principalName" parent="DunningLetterDistributionLookupResult-collector.principalName-parentBean"/>
@@ -117,7 +123,9 @@
 	    <property name="name" value="collector.principalName"/>
 	    <property name="label" value="Collector"/>
 	    <property name="required" value="false"/>
-	    <property name="maxLength" value="40"/>
+	    <property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
   	<bean id="DunningLetterDistributionLookupResult-principalId" parent="DunningLetterDistributionLookupResult-principalId-parentBean"/>
@@ -142,13 +150,20 @@
 	
 	<bean id="DunningLetterDistributionLookupResult-accountNumber" parent="DunningLetterDistributionLookupResult-accountNumber-parentBean" />
 
-	<bean id="DunningLetterDistributionLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="DunningLetterDistributionLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="DunningLetterDistributionLookupResult-agencyNumber" parent="DunningLetterDistributionLookupResult-agencyNumber-parentBean" />
 	<bean id="DunningLetterDistributionLookupResult-agencyNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
 		<property name="name" value="agencyNumber" />
 		<property name="label" value="Agency Number" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 	
 	<bean id="DunningLetterDistributionLookupResult-invoiceDocumentNumber" parent="DunningLetterDistributionLookupResult-invoiceDocumentNumber-parentBean" />

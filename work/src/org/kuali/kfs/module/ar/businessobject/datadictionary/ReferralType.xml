@@ -52,7 +52,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <ref bean="FourCharacterTextControl" />
+      	<bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
 
@@ -69,7 +69,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="32"/>
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   

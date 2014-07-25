@@ -88,6 +88,9 @@
     <property name="name" value="collector.principalName"/>
     <property name="label" value="Collector"/>
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="42"/>
+    </property>
   </bean>
 
   <bean id="TicklersReport-principalId" parent="TicklersReport-principalId-parentBean"/>
@@ -156,7 +159,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	
@@ -199,12 +202,16 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="32"/>
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
 
 	<bean id="TicklersReport-accountNumber" parent="TicklersReport-accountNumber-parentBean" />
-	<bean id="TicklersReport-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="TicklersReport-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="TicklersReport-agencyName" parent="TicklersReport-agencyName-parentBean" />
 
@@ -218,7 +225,7 @@
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextControlDefinition" p:size="52" />
 		</property>
 	</bean>
 
@@ -266,7 +273,7 @@
     </property>
     <property name="required" value="false"/>
     <property name="control">
-		<bean parent="TextControlDefinition" p:size="32"/>
+		<bean parent="TextControlDefinition" p:size="52"/>
 	</property>
   </bean>
   

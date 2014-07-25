@@ -75,7 +75,7 @@
 						</c:if></td>
 				</c:forEach>
 			</tr>
-			<ar:awardResults subResultRows="${row.subResultRows}" />
+			<ar:simpleReportResults subResultRows="${row.subResultRows}" resultLabel="Award"/>
 		</c:forEach>
 	</table>
 

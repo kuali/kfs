@@ -75,7 +75,7 @@
 						</c:if></td>
 				</c:forEach>
 			</tr>
-			<ar:dunningLetterDistributionResults subResultRows="${row.subResultRows}" />
+			<ar:simpleReportResults subResultRows="${row.subResultRows}" resultLabel="Send Dunning Letter"/>
 		</c:forEach>
 	</table>
 

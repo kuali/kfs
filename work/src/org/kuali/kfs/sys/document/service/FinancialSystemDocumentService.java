@@ -75,8 +75,9 @@ public interface FinancialSystemDocumentService {
     public FinancialSystemDocumentHeader findByDocumentNumber(String documentNumber);
 
     /**
-     * Convenience method which turns the DocumentStatusCategory.PENDING document statuses into a Set which can be used by a BusinessObjectService
-     * @return a Set of Statuses an "in progress" contracts & grants invoice might have
+     * Convenience method which turns the DocumentStatusCategory.PENDING document statuses into a Set of the status codes as Strings
+     * As of the time of this commenting, the pending statuses are Initiated (I), Saved (S), Enroute (R), and Exception (E)
+     * @return a Set of Statuses "in progress"/"pending" documents might have
      */
     public Set<String> getPendingDocumentStatuses();
 

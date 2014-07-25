@@ -75,7 +75,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -841,18 +840,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public boolean isContractsGrantsBillingEnhancementActive() {
         return configurationService.getPropertyValueAsBoolean(KFSConstants.CONTRACTS_GRANTS_BILLING_ENABLED);
-    }
-
-    /**
-     * Uses ContractsGrantsDocumentInvoiceService to check the template
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isTemplateValidForUser(org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate, org.kuali.rice.kim.api.identity.Person)
-     */
-    @Override
-    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user) {
-        if (!(invoiceTemplate instanceof InvoiceTemplate)) {
-            return false;
-        }
-        return getContractsGrantsInvoiceDocumentService().isTemplateValidForUser((InvoiceTemplate)invoiceTemplate, user);
     }
 
     @Override

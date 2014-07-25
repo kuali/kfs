@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -454,15 +453,6 @@ public interface AccountsReceivableModuleService {
      * @return true if Contracts and Grants Billing enhancement is enabled
      */
     public boolean isContractsGrantsBillingEnhancementActive();
-
-    /**
-     * Determines if the given AR invoice template can be utilized by the given user
-     *
-     * @param invoiceTemplate an invoice template to check for utilizability of
-     * @param user the user to check utilizability for
-     * @return true if the template is utilizable, false otherwise
-     */
-    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user);
 
     /**
      * Obtain list Kuali Coeus Award Status Codes that indicate the award should not be invoiced

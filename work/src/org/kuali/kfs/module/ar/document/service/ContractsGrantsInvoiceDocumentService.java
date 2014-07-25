@@ -627,4 +627,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      */
     public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user);
 
+    /**
+     * Determines if the given invoice template can be utilized by the given CGB Invoice Document based on
+     * a comparison of the billing chart/org of the invoiceTemplate to the billing chart/org of the invoice doc.
+     *
+     * @param invoiceTemplate the invoice template to check
+     * @param contractsGrantsInvoiceDocument the invoice document to check against
+     * @return true if the document can utilize the template, false otherwise
+     */
+    public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
+
 }

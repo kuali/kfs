@@ -391,12 +391,6 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return false;
-    }
-
-    @Override
     public Collection<String> getDoNotInvoiceStatuses() {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;

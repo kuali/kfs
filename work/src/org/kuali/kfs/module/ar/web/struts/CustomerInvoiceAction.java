@@ -135,58 +135,53 @@ public class CustomerInvoiceAction extends KualiAction {
         }
         if (reports.size()>0) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-                int pageOffset = 0;
-                ArrayList master = new ArrayList();
-                int f = 0;
-                Document document = null;
-                PdfCopy  writer = null;
-                for (Iterator<File> itr = reports.iterator(); itr.hasNext();) {
-                    // we create a reader for a certain document
-                    String reportName = itr.next().getAbsolutePath();
-                    PdfReader reader = new PdfReader(reportName);
-                    reader.consolidateNamedDestinations();
-                    // we retrieve the total number of pages
-                    int n = reader.getNumberOfPages();
-                    List bookmarks = SimpleBookmark.getBookmark(reader);
-                    if (bookmarks != null) {
-                        if (pageOffset != 0) {
-                            SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
-                        }
-                        master.addAll(bookmarks);
+            int pageOffset = 0;
+            ArrayList master = new ArrayList();
+            int f = 0;
+            Document document = null;
+            PdfCopy  writer = null;
+            for (Iterator<File> itr = reports.iterator(); itr.hasNext();) {
+                // we create a reader for a certain document
+                String reportName = itr.next().getAbsolutePath();
+                PdfReader reader = new PdfReader(reportName);
+                reader.consolidateNamedDestinations();
+                // we retrieve the total number of pages
+                int n = reader.getNumberOfPages();
+                List bookmarks = SimpleBookmark.getBookmark(reader);
+                if (bookmarks != null) {
+                    if (pageOffset != 0) {
+                        SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
                     }
-                    pageOffset += n;
-
-                    if (f == 0) {
-                        // step 1: creation of a document-object
-                        document = new Document(reader.getPageSizeWithRotation(1));
-                        // step 2: we create a writer that listens to the document
-                        writer = new PdfCopy(document, baos);
-                        // step 3: we open the document
-                        document.open();
-                    }
-                    // step 4: we add content
-                    PdfImportedPage page;
-                    for (int i = 0; i < n; ) {
-                        ++i;
-                        page = writer.getImportedPage(reader, i);
-                        writer.addPage(page);
-                    }
-                    writer.freeReader(reader);
-                    f++;
+                    master.addAll(bookmarks);
                 }
-                if (!master.isEmpty())
-                 {
-                    writer.setOutlines(master);
-                // step 5: we close the document
-                }
+                pageOffset += n;
 
-                document.close();
-                // csForm.setReports(file);
+                if (f == 0) {
+                    // step 1: creation of a document-object
+                    document = new Document(reader.getPageSizeWithRotation(1));
+                    // step 2: we create a writer that listens to the document
+                    writer = new PdfCopy(document, baos);
+                    // step 3: we open the document
+                    document.open();
+                }
+                // step 4: we add content
+                PdfImportedPage page;
+                for (int i = 0; i < n; ) {
+                    ++i;
+                    page = writer.getImportedPage(reader, i);
+                    writer.addPage(page);
+                }
+                writer.freeReader(reader);
+                f++;
             }
-            catch(Exception e) {
-                LOG.error("problem during CustomerInvoiceAction.print()", e);
+            if (!master.isEmpty())
+             {
+                writer.setOutlines(master);
+            // step 5: we close the document
             }
+
+            document.close();
+
             fileName.append("-InvoiceBatchPDFs.pdf");
 
 

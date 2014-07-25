@@ -153,7 +153,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             File outputDirectory = null;
             String outputFileName;
             try {
-
                 // Step2. add parameters to the dunning letter
                 outputFileName = dunningLetterDistributionLookupResult.getProposalNumber() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                 Map<String, String> replacementList = getTemplateParameterList(selectedInvoices);
@@ -188,9 +187,8 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 finalReportStream = generateListOfInvoicesPdfToPrint(selectedInvoices, reportStream);
                 }
             }
-            catch (Exception ex) {
+            catch (DocumentException | IOException ex) {
                 // This means that the invoice pdfs were not generated properly. So get only the Dunning letters created.
-
                 LOG.error("An exception occurred while retrieving invoice pdfs." + ex.getMessage());
                 finalReportStream = reportStream;
             }

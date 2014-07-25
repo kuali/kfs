@@ -672,8 +672,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                             ArConstants.CREDIT_MEMO_DOC_TYPE,doc.getTotalDollarAmount());
                     returnList.add(detail);
                 }
-            } catch(Exception ex) {
-                LOG.error(ex);
+            } catch(WorkflowException we) {
+                LOG.error(we.getMessage());
+                throw new RuntimeException("Problem retrieving full credit memo document for document #"+doc.getDocumentNumber(), we);
             }
         }
         return returnList;
@@ -698,8 +699,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         returnList.add(detail);
                     }
                 }
-            } catch(Exception ex) {
-                LOG.error(ex);
+            } catch(WorkflowException we) {
+                LOG.error(we.getMessage());
+                throw new RuntimeException("Could not load full payment application document #"+doc.getDocumentNumber(), we);
             }
         }
         return returnList;
@@ -759,16 +761,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                           // add writeoff
                         Collection<CustomerInvoiceWriteoffDocument> writeoffs = invoiceWriteoffDocumentService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                         for (CustomerInvoiceWriteoffDocument doc : writeoffs) {
-                            try {
-                                WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-                                if (workflowDoc.isFinal() || workflowDoc.isProcessed()) {
-                                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
-                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                            ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());
-                                    statementDetailsByCustomer.add(detail);
-                                }
-                            } catch(Exception ex) {
-                                LOG.error(ex);
+                            WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                            if (workflowDoc.isFinal() || workflowDoc.isProcessed()) {
+                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
+                                        invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                        ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());
+                                statementDetailsByCustomer.add(detail);
                             }
                         }
                     }
@@ -903,7 +901,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             dueDate = dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
         }
         catch (ParseException e) {
-            // TODO: throw an error here, but don't die
+            // throw an error here, but don't die
+            LOG.error("Could not parse date for due date days",e);
         }
         return dateTimeService.toDateString(dueDate);
     }

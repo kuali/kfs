@@ -214,7 +214,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             }
             document.close();
         }
-        catch (Exception e) {
+        catch (DocumentException e) {
             LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateInvoiceInPdf()", e);
         }
     }
@@ -581,7 +581,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param returnStream The output stream the federal form will be written to.
      * @throws Exception
      */
-    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) {
         String reportTemplateName = FF_425_TEMPLATE_NM + ".pdf";
         try {
             String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -596,8 +596,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             }
             stamper.close();
         }
-        catch (Exception e) {
-            throw e;
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Troubles stamping the old 425!", ex);
         }
     }
 
@@ -610,7 +610,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param returnStream The output stream the federal form will be written to.
      * @throws Exception
      */
-    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) {
         String reportTemplateName = FF_425A_TEMPLATE_NM + ".pdf";
         String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
@@ -662,8 +662,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             // Close the PdfCopyFields object
             copy.close();
         }
-        catch (Exception e) {
-            throw e;
+        catch (DocumentException | IOException ex) {
+            throw new RuntimeException("Tried to stamp the 425A, but couldn't do it.  Just...just couldn't do it.", ex);
         }
     }
 
@@ -932,8 +932,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         }
         catch (IOException e) {
             LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", e);
+            throw new RuntimeException("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", e);
         }
-        return null;
     }
 
     public PersonService getPersonService() {

@@ -186,6 +186,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         }
                         catch (IOException ex) {
                             LOG.error("problem during AREmailServiceImpl.sendInvoicesViaEmail()", ex);
+                            throw new RuntimeException("problem during AREmailServiceImpl.sendInvoicesViaEmail()", ex);
                         }
 
                         // add the Multipart to the message
@@ -336,13 +337,9 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         try {
             mailService.sendMessage(message);
         }
-        catch (InvalidAddressException ex) {
-            // TODO Auto-generated catch block
-            LOG.error("InvalidAddressException ", ex);
-        }
-        catch (MessagingException ex) {
-            // TODO Auto-generated catch block
-            LOG.error("MessagingException ", ex);
+        catch (InvalidAddressException | MessagingException ex) {
+            LOG.error("Problems sending milestones e-mail", ex);
+            throw new RuntimeException("Problems sending milestones e-mail", ex);
         }
     }
 

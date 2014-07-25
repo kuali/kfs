@@ -629,9 +629,8 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         }
         catch (WorkflowException ex) {
             LOG.error("problem during AccountsReceivableModuleServiceImpl.createCustomerInvoiceDocument()", ex);
+            throw new RuntimeException("Could not create customer invoice document", ex);
         }
-
-        return new CustomerInvoiceDocument();
     }
 
     /**
@@ -645,6 +644,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         }
         catch (WorkflowException ex) {
             LOG.error("problem during AccountsReceivableModuleServiceImpl.createCustomerCreditMemoDocument()", ex);
+            throw new RuntimeException("Could not create new customer credit memo document", ex);
         }
         return crmDocument;
     }

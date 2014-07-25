@@ -43,8 +43,9 @@ public class CustomerInvoiceWriteoffLookupUtil {
     public static Collection<CustomerInvoiceWriteoffLookupResult> getPopulatedCustomerInvoiceWriteoffLookupResults(Collection<CustomerInvoiceDocument> customerInvoiceDocuments) {
         Collection<CustomerInvoiceWriteoffLookupResult> populatedCustomerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
 
-        if (customerInvoiceDocuments.size() == 0)
+        if (customerInvoiceDocuments.size() == 0) {
             return populatedCustomerInvoiceWriteoffLookupResults;
+        }
 
         Iterator iter = getCustomerInvoiceDocumentsByCustomerNumberMap(customerInvoiceDocuments).entrySet().iterator();
         CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = null;
@@ -92,7 +93,7 @@ public class CustomerInvoiceWriteoffLookupUtil {
         for (CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments) {
             String customerNumber = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber();
             if (customerInvoiceDocumentsByCustomerNumberMap.containsKey(customerNumber)) {
-                ((List<CustomerInvoiceDocument>)customerInvoiceDocumentsByCustomerNumberMap.get(customerNumber)).add(customerInvoiceDocument);
+                customerInvoiceDocumentsByCustomerNumberMap.get(customerNumber).add(customerInvoiceDocument);
             } else {
                 List<CustomerInvoiceDocument> customerInvoiceDocumentsForCustomerNumber = new ArrayList<CustomerInvoiceDocument>();
                 customerInvoiceDocumentsForCustomerNumber.add(customerInvoiceDocument);

@@ -153,22 +153,19 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             populateReportDetailsForInvoices(invoiceIds, results, details);
         }
 
-        // for payment applications
-        if (paymentApplicationIds.size() > 0) {
-            try {
+        try {
+            // for payment applications
+            if (paymentApplicationIds.size() > 0) {
                 populateReportDetailsForPaymentApplications(paymentApplicationIds, results, details);
-            } catch(WorkflowException w) {
-                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
-        }
 
-        // for unapplied payment applications
-        if (unappliedHoldingIds.size() > 0) {
-            try {
+            // for unapplied payment applications
+            if (unappliedHoldingIds.size() > 0) {
                 populateReportDetailsForUnappliedPaymentApplications(unappliedHoldingIds, results, details);
-            } catch(WorkflowException w) {
-                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
+        } catch (WorkflowException we) {
+            LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", we);
+            throw new RuntimeException("WorkflowException while populating report details for PaymentApplicationDocument",we);
         }
 
         // for all other documents
@@ -178,116 +175,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
         return results;
     }
-
-    /**
-     * This method populates CustomerOpenItemReportDetails (Customer History Report).
-     *
-     * @param customerNumber
-     */
- //   @Override
-//    public List getPopulatedReportDetails(String customerNumber) {
-//
-//        List results = new ArrayList();
-//
-//        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
-//        if (arDocumentHeaders.size() == 0) {
-//            return results;
-//        }
-//
-//        String userId = GlobalVariables.getUserSession().getPrincipalId();
-//        List finSysDocHeaderIds = new ArrayList();
-//        List invoiceIds = new ArrayList();
-//        List paymentApplicationIds = new ArrayList();
-//        List unappliedHoldingIds = new ArrayList();
-//        Hashtable details = new Hashtable();
-//        WorkflowDocument workflowDocument;
-//
-//        for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
-//            AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
-//            CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
-//
-//            // populate workflow document
-//            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
-//
-//            // do not display not approved documents
-//            if (ObjectUtils.isNull(workflowDocument.getDateApproved())) {
-//                continue;
-//            }
-//            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
-//
-//            // Document Type
-//            String documentType = workflowDocument.getDocumentTypeName();
-//            detail.setDocumentType(documentType);
-//
-//            // Document Number
-//            String documentNumber = documentHeader.getDocumentNumber();
-//            detail.setDocumentNumber(documentNumber);
-//
-//            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE)) {
-//                invoiceIds.add(documentNumber);
-//            }
-//            else {
-//                // Approved Date -> for invoices Due Date, for all other documents Approved Date
-//                detail.setDueApprovedDate(approvedDate);
-//
-//                if (documentType.equals(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE)) {
-//                    paymentApplicationIds.add(documentNumber);
-//                }
-//                else {
-//                    finSysDocHeaderIds.add(documentNumber);
-//                }
-//            }
-//            details.put(documentNumber, detail);
-//        }
-//
-//        // add Unapplied Payment Applications
-//        Collection<NonAppliedHolding> arNonAppliedHoldings = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
-//        for (NonAppliedHolding nonAppliedHolding : arNonAppliedHoldings) {
-//            // populate workflow document
-//            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, nonAppliedHolding.getReferenceFinancialDocumentNumber());
-//
-//            CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
-//            detail.setDocumentType(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
-//            detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
-//            if (ObjectUtils.isNull(workflowDocument.getDateApproved())) {
-//                continue;
-//            }
-//            Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
-//            detail.setDueApprovedDate(documentApprovedDate);
-//            details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
-//            unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
-//        }
-//
-//        // for invoices
-//        if (invoiceIds.size() > 0) {
-//            populateReportDetailsForInvoices(invoiceIds, results, details);
-//        }
-//
-//        // for payment applications
-//        if (paymentApplicationIds.size() > 0) {
-//            try {
-//                populateReportDetailsForPaymentApplications(paymentApplicationIds, results, details);
-//            } catch(WorkflowException w) {
-//                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
-//            }
-//        }
-//
-//        // for unapplied payment applications
-//        if (unappliedHoldingIds.size() > 0) {
-//            try {
-//                populateReportDetailsForUnappliedPaymentApplications(unappliedHoldingIds, results, details);
-//            } catch(WorkflowException w) {
-//                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
-//            }
-//        }
-//
-//        // for all other documents
-//        if (finSysDocHeaderIds.size() > 0) {
-//            populateReportDetails(finSysDocHeaderIds, results, details);
-//        }
-//
-//        return results;
-//    }
 
     /**
      * This method populates CustomerOpenItemReportDetails for CustomerInvoiceDocuments (Customer History Report).
@@ -475,7 +362,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             sqlDueDate = dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
         }
         catch (ParseException e) {
-            // TODO: throw an error here, but don't die
+            // throw an error here, but don't die
+            LOG.error("Error in converting given calendar to sql date");
         }
         return sqlDueDate;
     }
@@ -894,8 +782,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         if (paymentApplicationIds.size() > 0){
             try {
                 populateReportDetailsForUnpaidUnappliedPaymentApplications(paymentApplicationIds, results, details, refDocumentNumber);
-            } catch(WorkflowException w) {
-                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
+            } catch(WorkflowException we) {
+                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", we);
+                throw new RuntimeException("WorkflowException while populating report details for PaymentApplicationDocument",we);
             }
         }
 

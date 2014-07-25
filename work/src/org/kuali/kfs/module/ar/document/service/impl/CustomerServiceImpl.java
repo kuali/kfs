@@ -152,18 +152,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void createCustomerNote(String customerNumber, String customerNote) {
         Customer customer = getByPrimaryKey(customerNumber);
-         try {
-            if (StringUtils.isNotBlank(customerNote)) {
-                Note newBONote = new Note();
-                newBONote.setNoteText(customerNote);
-                newBONote.setNotePostedTimestampToCurrent();
-                newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                Note note = noteService.createNote(newBONote, customer, GlobalVariables.getUserSession().getPrincipalId());
-                noteService.save(note);
-              }
-        } catch (Exception e){
-            throw new RuntimeException("Problems creating note for Customer " + customerNumber);
-        }
+        if (StringUtils.isNotBlank(customerNote)) {
+            Note newBONote = new Note();
+            newBONote.setNoteText(customerNote);
+            newBONote.setNotePostedTimestampToCurrent();
+            newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            Note note = noteService.createNote(newBONote, customer, GlobalVariables.getUserSession().getPrincipalId());
+            noteService.save(note);
+          }
        }
 
     @Override

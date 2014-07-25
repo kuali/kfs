@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,10 +61,10 @@ import com.lowagie.text.pdf.SimpleBookmark;
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentAction.class);
-    
+
     /**
      * Overriding to make it easier to distinguish discount lines and lines that are associated to discounts
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -92,11 +92,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
     /**
      * Called when customer invoice document is initiated.
-     * 
+     *
      * Makes a call to parent's createDocument method, but also defaults values for customer invoice document. Line which inserts
      * Customer Invoice Detail (i.e. insertSourceLine) has its values defaulted by
      * CustomerInvoiceDocumentForm.createNewSourceAccountingLine()
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -111,7 +111,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
     /**
      * All document-load operations get routed through here
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -126,7 +126,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * Method that will take the current document, copy it, replace all references to doc header id with a new one, clear pending
      * entries, clear notes, and reset version numbers
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -134,11 +134,12 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
-        
+
         // perform discount check
         ActionForward forward = performInvoiceWithDiscountsCheck(mapping, form, request, response, customerInvoiceDocument);
         if (forward != null) {
@@ -156,8 +157,8 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
     /**
      * This method checks if the user wants to copy a document that contains a discount line.  If yes, this method returns null. If no,
-     * this method returns the "basic" forward. 
-     * 
+     * this method returns the "basic" forward.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -170,14 +171,14 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         ActionForward forward = null;
 
         if( customerInvoiceDocument.hasAtLeastOneDiscount() ){
-            
+
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question == null) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, ArConstants.COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION, 
+                return this.performQuestionWithoutInput(mapping, form, request, response, ArConstants.COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION,
                         "This document contains a discount line.  Are you sure you want to copy this document?", KFSConstants.CONFIRMATION_QUESTION,
                         KFSConstants.ROUTE_METHOD, "");
             }
-    
+
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (ArConstants.COPY_CUSTOMER_INVOICE_DOCUMENT_WITH_DISCOUNTS_QUESTION.equals(question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -190,7 +191,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * This method is the action for refreshing the added source line (or customer invoice detail) based off a provided invoice item
      * code.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -218,7 +219,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
     /**
      * This method is the action for recalculating the amount added line assuming that the unit price or quantity has changed
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -247,14 +248,14 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         // Update the doc total
         ((FinancialSystemDocumentHeader) customerInvoiceDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 
     /**
      * This method is used for inserting a discount line based on a selected source line.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -292,7 +293,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * Removed salesTax checking. Need to verify if this check has be moved out later of the KualiAccountingDocumentActionBase
      * class. If so just use the parent class' insertSourceLine method.
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -305,7 +306,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
         //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(customerInvoiceDetail);
-        
+
         // make sure amount is up to date before rules
         CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
         service.recalculateCustomerInvoiceDetail(customerInvoiceDocument, customerInvoiceDetail);
@@ -332,7 +333,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     /**
      * Overrides method to delete accounting line. If line to be deleted has a corresponding discount line, the corresponding
      * discount line is also deleted. If the line to be delete is a discount line, set the reference for the parent to null
-     * 
+     *
      * @param isSource
      * @param financialDocumentForm
      * @param deleteIndex
@@ -379,13 +380,13 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward refreshBillToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
-        
+
         CustomerAddress customerBillToAddress = null;
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier())) {
             int customerBillToAddressIdentifier = customerInvoiceDocument.getCustomerBillToAddressIdentifier();
-           
+
             customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerBillToAddressIdentifier);
             if (ObjectUtils.isNotNull(customerBillToAddress)) {
                 customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
@@ -404,7 +405,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
                     customerInvoiceDocument.setCustomerBillToAddressIdentifier(null);
                 }
             }
-            
+
         } else {
             customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
 
@@ -418,10 +419,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
                 customerInvoiceDocument.setCustomerBillToAddressIdentifier(null);
             }
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This method refresh the ShipToAddress CustomerAddress object
      * @param mapping
@@ -433,11 +434,11 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      */
     public ActionForward refreshShipToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
-        
+
         CustomerAddress customerShipToAddress = null;
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier())) {
             int customerShipToAddressIdentifier = customerInvoiceDocument.getCustomerShipToAddressIdentifier();
-            
+
             customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerShipToAddressIdentifier);
             if (ObjectUtils.isNotNull(customerShipToAddress)) {
                 customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
@@ -450,13 +451,13 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             customerInvoiceDocument.setCustomerShipToAddressOnInvoice(null);
             customerInvoiceDocument.setCustomerShipToAddressIdentifier(null);
         }
-        
+
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }    
+    }
 
     /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -472,18 +473,18 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         String methodToCallDocHandler = "docHandler";
         String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, methodToCallPrintInvoicePDF);
         String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, docId, methodToCallDocHandler);
-        
+
         request.setAttribute("printPDFUrl", printInvoicePDFUrl);
         request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
         request.setAttribute(KFSConstants.PARAMETER_DOC_ID, docId);
         String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE);
         request.setAttribute("printLabel", label);
         return mapping.findForward("arPrintPDF");
-        
+
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @param mapping
      * @param form
@@ -495,77 +496,71 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String invoiceDocId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
         CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
-        
+
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         File report = reportService.generateInvoice(customerInvoiceDocument);
-        
+
         StringBuilder fileName = new StringBuilder();
         fileName.append(customerInvoiceDocument.getOrganizationInvoiceNumber());
         fileName.append("-");
         fileName.append(customerInvoiceDocument.getDocumentNumber());
         fileName.append(".pdf");
-        
+
         if (report.length() == 0) {
             //csForm.setMessage("No Report Generated");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-            
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String contentDisposition = "";
-        try {
-            ArrayList master = new ArrayList();
-            PdfCopy writer = null;
+        ArrayList master = new ArrayList();
+        PdfCopy writer = null;
 
-            // create a reader for the document
-            String reportName = report.getAbsolutePath();
-            PdfReader reader = new PdfReader(reportName);
-            reader.consolidateNamedDestinations();
-            
-            // retrieve the total number of pages
-            int n = reader.getNumberOfPages();
-            List bookmarks = SimpleBookmark.getBookmark(reader);
-            if (bookmarks != null) {
-                master.addAll(bookmarks);
-            }
+        // create a reader for the document
+        String reportName = report.getAbsolutePath();
+        PdfReader reader = new PdfReader(reportName);
+        reader.consolidateNamedDestinations();
 
-            // step 1: create a document-object
-            Document document = new Document(reader.getPageSizeWithRotation(1));
-            // step 2: create a writer that listens to the document
-            writer = new PdfCopy(document, baos);
-            // step 3: open the document
-            document.open();
-            // step 4: add content
-            PdfImportedPage page;
-            for (int i = 0; i < n; ) {
-                ++i;
-                page = writer.getImportedPage(reader, i);
-                writer.addPage(page);
-            }
-            writer.freeReader(reader);
-            if (!master.isEmpty()) {
-                writer.setOutlines(master);
-            }
-            // step 5: we close the document
-            document.close();
-
-            StringBuffer sbContentDispValue = new StringBuffer();
-            String useJavascript = request.getParameter("useJavascript");
-            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                sbContentDispValue.append("attachment");
-            }
-            else {
-                sbContentDispValue.append("inline");
-            }
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(fileName);
-            
-            contentDisposition = sbContentDispValue.toString();
-            
+        // retrieve the total number of pages
+        int n = reader.getNumberOfPages();
+        List bookmarks = SimpleBookmark.getBookmark(reader);
+        if (bookmarks != null) {
+            master.addAll(bookmarks);
         }
-        catch(Exception e) {
-            LOG.error("problem during CustomerInvoiceDocumentAction.printInvoicePDF()", e);
-        } 
-        
+
+        // step 1: create a document-object
+        Document document = new Document(reader.getPageSizeWithRotation(1));
+        // step 2: create a writer that listens to the document
+        writer = new PdfCopy(document, baos);
+        // step 3: open the document
+        document.open();
+        // step 4: add content
+        PdfImportedPage page;
+        for (int i = 0; i < n; ) {
+            ++i;
+            page = writer.getImportedPage(reader, i);
+            writer.addPage(page);
+        }
+        writer.freeReader(reader);
+        if (!master.isEmpty()) {
+            writer.setOutlines(master);
+        }
+        // step 5: we close the document
+        document.close();
+
+        StringBuffer sbContentDispValue = new StringBuffer();
+        String useJavascript = request.getParameter("useJavascript");
+        if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+            sbContentDispValue.append("attachment");
+        }
+        else {
+            sbContentDispValue.append("inline");
+        }
+        sbContentDispValue.append("; filename=");
+        sbContentDispValue.append(fileName);
+
+        contentDisposition = sbContentDispValue.toString();
+
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", contentDisposition);
         response.setHeader("Expires", "0");
@@ -579,13 +574,13 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         baos.writeTo(sos);
         sos.flush();
         sos.close();
-        
+
         return null;
     }
-    
+
     /**
      * Creates a URL to be used in printing the customer invoice document.
-     * 
+     *
      * @param basePath String: The base path of the current URL
      * @param docId String: The document ID of the document to be printed
      * @param methodToCall String: The name of the method that will be invoked to do this particular print
@@ -602,6 +597,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         return result.toString();
     }
 
-    
-    
+
+
 }

@@ -131,8 +131,8 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
         }
         catch (ParseException ex) {
-            // TODO Auto-generated catch block
             LOG.error("problem during ContractsGrantsAgingOpenInvoicesReportServiceImpl.getPopulatedReportDetails",ex);
+            throw new RuntimeException("Couldn't parse a date", ex);
         }
 
         populateReportDetails(selectedInvoices, results);

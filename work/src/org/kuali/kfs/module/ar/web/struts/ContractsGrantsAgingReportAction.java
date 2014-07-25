@@ -105,9 +105,6 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         catch (NumberFormatException e) {
             LOG.error("Number format Exception", e);
         }
-        catch (Exception e) {
-            LOG.error("Application Errors", e);
-        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

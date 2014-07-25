@@ -746,20 +746,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 for (int i = 0; i < checkboxesToReset.length; i++) {
                     String propertyName = checkboxesToReset[i];
                     if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
-                        try {
-                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
-                        }
-                        catch (RuntimeException ex) {
-
-                        }
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
                     }
                     else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
-                        try {
-                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
-                        }
-                        catch (RuntimeException ex) {
-
-                        }
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
                     }
                 }
             }

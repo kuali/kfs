@@ -359,9 +359,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         try {
             disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
         }
-        catch (Exception e) {
-            LOG.error("Error creating new disbursement voucher document: " + e.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
+        catch (WorkflowException we) {
+            LOG.error("Error creating new disbursement voucher document: " + we.getMessage());
+            throw new RuntimeException("Error creating new disbursement voucher document: " + we.getMessage(), we);
         }
 
         populateDisbursementVoucherFields(disbursementVoucherDocument, paymentApplicationDocument);
@@ -415,7 +415,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
                 documentService.saveDocument(disbursementVoucherDocument);
             }
         }
-        catch (Exception ex) {
+        catch (WorkflowException ex) {
             LOG.error("cannot submit DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
             throw new RuntimeException("cannot submit DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
         }

@@ -109,8 +109,8 @@ public class FinalBilledIndicatorValidation {
         }
         catch (WorkflowException ex) {
             LOG.error("problem during FinalBilledIndicatorValidation.validContractsGrantsInvoiceValidation()", ex);
+            throw new RuntimeException("problem during FinalBilledIndicatorValidation.validContractsGrantsInvoiceValidation()", ex);
         }
-        return true;
     }
 
     /**

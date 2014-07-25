@@ -141,7 +141,7 @@ public class ContractsGrantsReportUtils {
             }
         }
         catch (ParseException ex) {
-            throw new RuntimeException();
+            throw new RuntimeException(ex);
         }
     }
 

@@ -319,12 +319,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
         Event selectedEvent = null;
         if (ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication()) && ObjectUtils.isNotNull(colActDocForm.getSelectedInvoiceApplication().getEvents()) && !colActDocForm.getSelectedInvoiceApplication().getEvents().isEmpty()) {
-            try {
-                selectedEvent = colActDocForm.getSelectedInvoiceApplication().getEvents().get(index);
-            }
-            catch (Exception e) {
-                LOG.error("problem during CollectionActivityDocumentAction.editEvent()", e);
-            }
+            selectedEvent = colActDocForm.getSelectedInvoiceApplication().getEvents().get(index);
         }
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
@@ -392,7 +387,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));
-        
+
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);

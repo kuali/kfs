@@ -32,7 +32,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
@@ -46,7 +45,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
-import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -61,7 +59,6 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -489,14 +486,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getPrimaryOrganization()
-     */
-    @Override
-    public ChartOrgHolder getPrimaryOrganization() {
-        return financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
-    }
-
-    /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getSystemInformationByProcessingChartOrgAndFiscalYear(java.lang.String, java.lang.String, java.lang.Integer)
      */
     @Override
@@ -666,32 +655,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         return parameterValue;
 
-    }
-
-
-
-    @Override
-    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
-        return customerAddressService.getPrimaryAddress(customerNumber);
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#ffindInvoiceTemplate(java.lang.String)
-     */
-    @Override
-    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
-        Map<String, Object> primaryKey = new HashMap<String, Object>();
-        primaryKey.put(KFSPropertyConstants.INVOICE_TEMPLATE_CODE, invoiceTemplateCode);
-        InvoiceTemplate invoiceTemplate = getKualiModuleService().getResponsibleModuleService(InvoiceTemplate.class).getExternalizableBusinessObject(InvoiceTemplate.class, primaryKey);
-        return invoiceTemplate;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
-     */
-    @Override
-    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
-        getBusinessObjectService().save((InvoiceTemplate) invoiceTemplate);
     }
 
     /**

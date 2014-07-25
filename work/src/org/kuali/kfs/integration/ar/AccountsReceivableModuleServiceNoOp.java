@@ -23,7 +23,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -191,12 +190,6 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public ChartOrgHolder getPrimaryOrganization() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
@@ -287,22 +280,5 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     public String retrieveGLPEReceivableParameterValue() {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
-    }
-
-    @Override
-    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-        return null;
-    }
-
-    @Override
-    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 }

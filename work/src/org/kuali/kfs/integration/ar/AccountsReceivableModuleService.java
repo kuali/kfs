@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -199,13 +198,6 @@ public interface AccountsReceivableModuleService {
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader();
 
     /**
-     * This method returns the Primary Organization for the User.
-     *
-     * @return ChartOrgHolder containing the chart/org for the Primary Organization for the User.
-     */
-    public ChartOrgHolder getPrimaryOrganization();
-
-    /**
      * This method returns the System Information corresponding to a given chart/org/fiscal year parameters.
      *
      * @param chartOfAccountsCode chart code used to find System Information
@@ -334,27 +326,4 @@ public interface AccountsReceivableModuleService {
      * @return
      */
     public String retrieveGLPEReceivableParameterValue();
-
-    /**
-     * This method returns the CustomerAddress specified as the primary address for a Customer.
-     *
-     * @param customerNumber
-     * @return
-     */
-    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber);
-
-    /**
-     * This method returns the InvoiceTemplate corresponding to a given invoice template code.
-     *
-     * @param invoiceTemplateCode
-     * @return
-     */
-    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode);
-
-    /**
-     * This method saves an InvoiceTemplate.
-     *
-     * @param invoiceTemplate
-     */
-    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate);
 }

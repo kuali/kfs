@@ -49,7 +49,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -1336,19 +1335,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Make sure the Primary Address is completed
-        if (!isAgencyPrimaryAddressComplete(award.getAgency())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE);
+        if (!isCustomerPrimaryAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
+            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
         }
         else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE);
+            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
         }
 
         // validation suspension code - Check to see if the Alternate address is completed if it was entered to begin with
-        if (!isAgencyAlternateAddressComplete(award.getAgency())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE);
+        if (!isCustomerAlternateAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
+            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
         }
         else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE);
+            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
         }
 
         // validation suspension code - Make sure invoice is final if the award is already expired
@@ -1518,15 +1517,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    protected boolean isAgencyPrimaryAddressComplete(ContractsAndGrantsBillingAgency agency) {
-
-        List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
-        for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
-                return isAgencyAddressComplete(agencyAddress);
+    protected boolean isCustomerPrimaryAddressComplete(List<InvoiceAddressDetail> addressDetails) {
+        for (InvoiceAddressDetail addressDetail : addressDetails) {
+            if (StringUtils.equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
+                if (ObjectUtils.isNull(addressDetail.getCustomerAddress())) {
+                    addressDetail.refreshReferenceObject(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS);
+                }
+                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
             }
         }
         return false;
@@ -1536,16 +1533,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    protected boolean isAgencyAlternateAddressComplete(ContractsAndGrantsBillingAgency agency) {
-
-        List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
-
-        for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
-                return isAgencyAddressComplete(agencyAddress);
+    protected boolean isCustomerAlternateAddressComplete(List<InvoiceAddressDetail> addressDetails) {
+        for (InvoiceAddressDetail addressDetail : addressDetails) {
+            if (StringUtils.equals(ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
+                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
             }
         }
         return true; // if no alternate address entered at all, then that is ok
@@ -1555,8 +1546,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agencyAddress
      * @return
      */
-    protected boolean isAgencyAddressComplete(ContractsAndGrantsAgencyAddress agencyAddress) {
-        if (!StringUtils.isEmpty(agencyAddress.getAgencyLine1StreetAddress()) && !StringUtils.isEmpty(agencyAddress.getAgencyCityName()) && !StringUtils.isEmpty(agencyAddress.getAgencyStateCode()) && !StringUtils.isEmpty(agencyAddress.getAgencyZipCode()) && !StringUtils.isEmpty(agencyAddress.getAgencyCountryCode())) {
+    protected boolean isCustomerAddressComplete(CustomerAddress customerAddress) {
+        if (!ObjectUtils.isNull(customerAddress) && !StringUtils.isBlank(customerAddress.getCustomerLine1StreetAddress()) && !StringUtils.isBlank(customerAddress.getCustomerCityName()) && !StringUtils.isBlank(customerAddress.getCustomerStateCode()) && !StringUtils.isBlank(customerAddress.getCustomerZipCode()) && !StringUtils.isBlank(customerAddress.getCustomerCountryCode())) {
             return true;
         }
         return false;
@@ -4314,7 +4305,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         directCostInvDetail.setBudget(totalDirectCostBudget);
         directCostInvDetail.setExpenditures(totalDirectCostExpenditures);
         directCostInvDetail.setCumulative(totalDirectCostCumulative);
-        directCostInvDetail.setBalance(totalDirectCostBalance);
         directCostInvDetail.setBilled(totalDirectCostBilled);
         document.getInvoiceDetails().add(directCostInvDetail);
 
@@ -4328,7 +4318,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         indInvDetail.setBudget(totalInDirectCostBudget);
         indInvDetail.setExpenditures(totalInDirectCostExpenditures);
         indInvDetail.setCumulative(totalInDirectCostCumulative);
-        indInvDetail.setBalance(totalInDirectCostBalance);
         indInvDetail.setBilled(totalInDirectCostBilled);
         document.getInvoiceDetails().add(indInvDetail);
 
@@ -4344,7 +4333,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalInvDetail.setBudget(totalDirectCostInvoiceDetail.getBudget().add(totalInDirectCostBudget));
             totalInvDetail.setExpenditures(totalDirectCostInvoiceDetail.getExpenditures().add(totalInDirectCostExpenditures));
             totalInvDetail.setCumulative(totalDirectCostInvoiceDetail.getCumulative().add(totalInDirectCostCumulative));
-            totalInvDetail.setBalance(totalDirectCostInvoiceDetail.getBalance().add(totalInDirectCostBalance));
             totalInvDetail.setBilled(totalDirectCostInvoiceDetail.getBilled().add(totalInDirectCostBilled));
         }
 
@@ -4732,11 +4720,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         invoiceBills = (List<InvoiceBill>) businessObjectService.findMatching(InvoiceBill.class, map);
 
-        if (CollectionUtils.isNotEmpty(invoiceBills)) {
-            return true;
-        } else {
-            return false;
-        }
+        return CollectionUtils.isNotEmpty(invoiceBills);
     }
 
     @Override
@@ -4750,7 +4734,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
 
-        return (CollectionUtils.isNotEmpty(invoiceMilestones));
+        return CollectionUtils.isNotEmpty(invoiceMilestones);
     }
 
     /**

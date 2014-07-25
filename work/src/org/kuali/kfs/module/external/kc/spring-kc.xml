@@ -233,5 +233,16 @@
     	<property name="awardService" ref="awardWebService"/>
     </bean>
     
+    <bean id="awardLookupable" parent="awardLookupable-parentBean"/>
+    <bean id="awardLookupable-parentBean" abstract="true" scope="prototype" parent="kualiLookupable">
+    	<property name="lookupableHelperService" ref="awardLookupableHelperService"/>
+    </bean>
+    
+    <bean id="awardLookupableHelperService" parent="awardLookupableHelperService-parentBean"/>
+    <bean id="awardLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService"
+    	class="org.kuali.kfs.module.external.kc.service.impl.AwardLookupableHelperServiceImpl">
+    	<property name="awardService" ref="awardWebService"/>
+    </bean>
+    
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

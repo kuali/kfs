@@ -99,7 +99,12 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     public Collection findMatching(Map fieldValues) {
         List<AwardDTO> result = null;
         AwardFieldValuesDto criteria = new AwardFieldValuesDto();
-        criteria.setAwardId((Long) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
+        Object awardId = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+        if (awardId instanceof String) {
+            criteria.setAwardId(Long.parseLong((String) awardId));
+        } else {
+            criteria.setAwardId((Long) awardId);
+        }
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
         criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
@@ -108,6 +113,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         try {
           result  = this.getWebService().getMatchingAwards(criteria);
         } catch (WebServiceException ex) {
+            LOG.error(KcConstants.WEBSERVICE_UNREACHABLE, ex);
             GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
         }
 

@@ -286,7 +286,7 @@
 	<bean id="Award-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Award Lookup" />
-		<property name="lookupableID" value="kualiLookupable" />
+		<property name="lookupableID" value="awardLookupable" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

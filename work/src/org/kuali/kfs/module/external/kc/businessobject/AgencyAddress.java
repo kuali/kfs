@@ -17,6 +17,7 @@ package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.external.kc.dto.RolodexDTO;
@@ -54,20 +55,25 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agency = agency;
         this.agencyNumber = agency.getAgencyNumber();
         this.agencyAddressIdentifier = kcAddress.getRolodexId().longValue();
-        this.agencyAddressName = kcAddress.getFullName();
+        this.agencyAddressName = kcAddress.getOrganizaitonName();
         this.agencyLine1StreetAddress = kcAddress.getAddressLine1();
         this.agencyLine2StreetAddress = kcAddress.getAddressLine2();
         this.agencyLine3StreetAddress = kcAddress.getAddressLine3();
         this.agencyCityName = kcAddress.getCity();
-        this.agencyZipCode = kcAddress.getPostalCode();
-        this.agencyAddressInternationalProvinceName = kcAddress.getState();
         Country country = LocationApiServiceLocator.getCountryService().getCountryByAlternateCode(kcAddress.getCountryCode());
+        Country defaultCountry = LocationApiServiceLocator.getCountryService().getDefaultCountry();
         if (country != null) {
             this.agencyCountryCode = country.getCode();
         } else {
             this.agencyCountryCode = kcAddress.getCountryCode();
         }
-        this.agencyInternationalMailCode = kcAddress.getPostalCode();
+        if (StringUtils.equals(getAgencyCountryCode(), defaultCountry.getCode())) {
+            this.agencyStateCode = kcAddress.getState();
+            this.agencyZipCode = kcAddress.getPostalCode();
+        } else {
+            this.agencyAddressInternationalProvinceName = kcAddress.getState();
+            this.agencyInternationalMailCode = kcAddress.getPostalCode();
+        }
         this.agencyContactEmailAddress = kcAddress.getEmailAddress();
         this.agencyContactName = kcAddress.getFullName();
         this.agencyPhoneNumber = kcAddress.getPhoneNumber();

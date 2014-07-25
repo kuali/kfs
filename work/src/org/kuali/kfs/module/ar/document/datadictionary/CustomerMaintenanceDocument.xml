@@ -47,7 +47,7 @@
     <property name="documentTypeName" value="CUS"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ar.document.validation.impl.CustomerPreRules"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CustomerAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="webScriptFiles">
       <list>
         <value>../scripts/module/ar/customerAddress.js</value>

@@ -28,7 +28,7 @@
 <!-- the following businessRuleClass should be used for granular validations, if implemented
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 -->
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController"/>
     <property name="allowsErrorCorrection" value="false"/>
     <property name="defaultExistenceChecks">

@@ -195,7 +195,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                                 if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
                                     // Saving the document
                                     try {
-                                        documentService.saveDocument(cgInvoiceDocument);
+                                        documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);
                                     }
                                     catch (WorkflowException ex) {
                                         LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);
@@ -255,7 +255,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
                                 // Saving the document
                                 try {
-                                    documentService.saveDocument(cgInvoiceDocument);
+                                    documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);
                                 }
                                 catch (WorkflowException ex) {
                                     LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);

@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,16 +33,14 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -64,6 +56,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     protected BusinessObjectService businessObjectService;
     protected PersonService personService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    protected DateTimeService dateTimeService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
 
     /**
@@ -152,7 +145,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
         Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
         fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
-//Now to involve reportOption and handle chart and org
+        //Now to involve reportOption and handle chart and org
         if(ObjectUtils.isNotNull(reportOption)){
         if (reportOption.equalsIgnoreCase(ArConstants.ReportOptionFieldValues.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
             fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.PROCESSING_ORGANIZATION_CODE, orgCode);
@@ -500,240 +493,46 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateCSVToExport(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
+     * Figures out the reportRunDate and then uses filterContractsGrantsAgingReport to look up the right documents
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#lookupContractsGrantsInvoiceDocumentsForAging(java.util.Map)
      */
     @Override
-    @NonTransactional
-    public byte[] generateCSVToExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
+    public Map<String, List<ContractsGrantsInvoiceDocument>> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues) {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(false);
+
         try {
-            final CSVMapAndTotalsHolder totalsHolder = calculateTotalsForCSVExport(cgInvoiceReportDataHolder, displayList, sortPropertyName);
-            final Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> detailsMap = totalsHolder.getMap();
-            final ContractsGrantsAgingReportDetailDataHolder totalDataHolder = totalsHolder.getReportDetail();
+            java.util.Date today = getDateTimeService().getCurrentDate();
+            String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamWriter writer = new OutputStreamWriter(baos);
-            writer.append("Agency Name,");
-            writer.append("Proposal Number,");
-            writer.append("Customer Number,");
-            writer.append("Award End Date,");
-            writer.append("Age In Days,");
-            writer.append("Invoice Number,");
-            writer.append("Invoice Date,");
-            writer.append("Last Event Date,");
-            writer.append("Collector,");
-            writer.append("Invoice Amount,");
-            writer.append("Payment Amount,");
-            writer.append("Balance");
-            writer.append('\n');
+            java.util.Date reportRunDate = (ObjectUtils.isNull(reportRunDateStr) || reportRunDateStr.isEmpty()) ?
+                                                today :
+                                                dateFormat.parse(reportRunDateStr);
 
-            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            dateFormat.setLenient(false);
+            // retrieve filtered data according to the lookup
+            Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
+            return cgMapByCustomer;
 
-            if (ObjectUtils.isNotNull(detailsMap) && !detailsMap.isEmpty()) {
-                for (String key : detailsMap.keySet()) {
-                    List<ContractsGrantsAgingReportDetailDataHolder> details = detailsMap.get(key);
-                    if (ObjectUtils.isNotNull(details) && !details.isEmpty()) {
-                        for (ContractsGrantsAgingReportDetailDataHolder detail : details) {
-                            if (!detail.isDisplaySubtotalInd()) {
-                                String proposalNumber = returnProperStringValue(detail.getProposalNumber());
-                                writer.append("\"" + detail.getAgencyName() + "\"");
-                                writer.append(',');
-                                writer.append("\"" + proposalNumber + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getCustomerNumber()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + (detail.getAwardEndDate() != null ? dateFormat.format(detail.getAwardEndDate()) : "") + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getAgeInDays()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getDocumentNumber()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + (detail.getInvoiceDate() != null ? dateFormat.format(detail.getInvoiceDate()) : "") + "\"");
-                                writer.append(',');
-                                writer.append("\"" + (detail.getLastEventDate() != null ? dateFormat.format(detail.getLastEventDate()) : "") + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getCollectorName()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getInvoiceAmount()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getPaymentAmount()) + "\"");
-                                writer.append(',');
-                                writer.append("\"" + returnProperStringValue(detail.getRemainingAmount()) + "\"");
-                                writer.append('\n');
-                            }
-                            else {
-
-                                for (int i = 0; i <= 7; i++) {
-                                    writer.append("\"" + "" + "\"");
-                                    writer.append(',');
-                                }
-
-                                writer.append("\"" + "Sub Total" + "\"");
-                                writer.append(',');
-
-                                writer.append("\"" + detail.getInvoiceSubTotal() + "\"");
-                                writer.append(',');
-                                writer.append("\"" + detail.getPaymentSubTotal() + "\"");
-                                writer.append(',');
-                                writer.append("\"" + detail.getRemainingSubTotal() + "\"");
-                                writer.append('\n');
-                                writer.append('\n');
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // Displaying total field
-            writer.append('\n');
-            for (int i = 0; i <= 7; i++) {
-                writer.append("\"" + "" + "\"");
-                writer.append(',');
-            }
-
-            writer.append("\"" + "Total" + "\"");
-            writer.append(',');
-
-            writer.append("\"" + totalDataHolder.getInvoiceTotal() + "\"");
-            writer.append(',');
-            writer.append("\"" + totalDataHolder.getPaymentTotal() + "\"");
-            writer.append(',');
-            writer.append("\"" + totalDataHolder.getRemainingTotal() + "\"");
-            writer.append('\n');
-
-            writer.flush();
-            writer.close();
-            return baos.toByteArray();
         }
-        catch (IOException e) {
-            LOG.error("problem during ContractsGrantsAgingReportServiceImpl.generateCSVToExport()", e);
+        catch (NumberFormatException | ParseException ex) {
+            throw new RuntimeException("Could not parse report run date for lookup",ex);
         }
-        return null;
-    }
-
-
-    /**
-     * This method returns a proper String value for any given object.
-     *
-     * @param string
-     * @return
-     */
-    protected String returnProperStringValue(Object string) {
-        if (ObjectUtils.isNotNull(string)) {
-            if (string instanceof KualiDecimal) {
-                String amount = (new CurrencyFormatter()).format(string).toString();
-                return "$" + (StringUtils.isEmpty(amount) ? "0.00" : amount);
-            }
-            return string.toString();
-        }
-        return "";
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#buildSubTotalMap(java.util.List, java.lang.String)
+     * Copies all of the given documents from the Map into a single List
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#flattenContrantsGrantsInvoiceDocumentMap(java.util.Map)
      */
     @Override
-    public Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
-        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
-        // get list of sort fields
-        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
-
-        // calculate sub_total and build subTotalMap
-        for (String value : valuesOfsortProperty) {
-            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
-            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
-            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
-
-            for (ContractsGrantsInvoiceDocument cgInvoiceReportEntry : displayList) {
-                // set fieldValue as "" when it is null
-                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
-                    KualiDecimal sourceTotal = cgInvoiceReportEntry.getSourceTotal();
-                    KualiDecimal paymentAmount = cgInvoiceReportEntry.getPaymentAmount();
-                    invoiceSubTotal = invoiceSubTotal.add(sourceTotal);
-                    paymentSubTotal = paymentSubTotal.add(paymentAmount);
-                    remainingSubTotal = remainingSubTotal.add(sourceTotal.subtract(paymentSubTotal));
-                }
-            }
-            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
-            allSubTotal.add(0, invoiceSubTotal);
-            allSubTotal.add(1, paymentSubTotal);
-            allSubTotal.add(2, remainingSubTotal);
-
-            returnSubTotalMap.put(value, allSubTotal);
-        }
-        return returnSubTotalMap;
-    }
-
-    /**
-     * Calculates the sub-totals and totals of the given data holder for the sake of the CSV export
-     * @param cgInvoiceReportDataHolder the report's data
-     * @return a simple class holding a Map of sub-totals and a report detail data holder of totals
-     */
-    protected CSVMapAndTotalsHolder calculateTotalsForCSVExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
-        BigDecimal invoiceTotal = BigDecimal.ZERO;
-        BigDecimal paymentTotal = BigDecimal.ZERO;
-        BigDecimal remainingTotal = BigDecimal.ZERO;
-        Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map = new LinkedHashMap<String, List<ContractsGrantsAgingReportDetailDataHolder>>();
-        for (ContractsGrantsAgingReportDetailDataHolder reportDetail : (List<ContractsGrantsAgingReportDetailDataHolder>)cgInvoiceReportDataHolder.getDetails()) {
-            invoiceTotal = invoiceTotal.add(reportDetail.getInvoiceAmount());
-            paymentTotal = paymentTotal.add(reportDetail.getPaymentAmount());
-            remainingTotal = remainingTotal.add(reportDetail.getRemainingAmount());
-
-            List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(reportDetail.getAgencyNumber());
-            if (ObjectUtils.isNull(list)) {
-                list = new LinkedList<ContractsGrantsAgingReportDetailDataHolder>();
-            }
-            list.add(reportDetail);
-            map.put(reportDetail.getAgencyNumber(), list);
-        }
-
-        Map<String, List<KualiDecimal>> subTotalMap = buildSubTotalMap(displayList, sortPropertyName);
-
-        if (ObjectUtils.isNotNull(map) && !map.isEmpty()) {
-            for (String key : map.keySet()) {
-                List<ContractsGrantsAgingReportDetailDataHolder> list = map.get(key);
-                if (ObjectUtils.isNotNull(list) && !list.isEmpty()) {
-                    ContractsGrantsAgingReportDetailDataHolder cGDetailHolderNew = new ContractsGrantsAgingReportDetailDataHolder();
-                    cGDetailHolderNew.setDisplaySubtotalInd(true);
-                    cGDetailHolderNew.setInvoiceSubTotal((subTotalMap.get(key)).get(0).bigDecimalValue());
-                    cGDetailHolderNew.setPaymentSubTotal((subTotalMap.get(key)).get(1).bigDecimalValue());
-                    cGDetailHolderNew.setRemainingSubTotal((subTotalMap.get(key)).get(2).bigDecimalValue());
-                    list.add(cGDetailHolderNew);
-                    map.put(key, list);
-                }
+    public List<ContractsGrantsInvoiceDocument> flattenContrantsGrantsInvoiceDocumentMap(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer) {
+        List<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        // prepare list for pdf
+        if (ObjectUtils.isNotNull(cgMapByCustomer) && !cgMapByCustomer.isEmpty()) {
+            for (String customer : cgMapByCustomer.keySet()) {
+                invoices.addAll(cgMapByCustomer.get(customer));
             }
         }
-
-        // set total field
-        ContractsGrantsAgingReportDetailDataHolder reportDetail = new ContractsGrantsAgingReportDetailDataHolder();
-        reportDetail.setDisplayTotalInd(true);
-        reportDetail.setInvoiceTotal(invoiceTotal);
-        reportDetail.setPaymentTotal(paymentTotal);
-        reportDetail.setRemainingTotal(remainingTotal);
-
-        return new CSVMapAndTotalsHolder(map, reportDetail);
-    }
-
-    /**
-     * Inner class to hold sub-totals map and totals data holder for CSV export
-     */
-    protected class CSVMapAndTotalsHolder {
-        protected Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map;
-        protected ContractsGrantsAgingReportDetailDataHolder reportDetail;
-
-        protected CSVMapAndTotalsHolder(Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> map, ContractsGrantsAgingReportDetailDataHolder reportDetail) {
-            this.map = map;
-            this.reportDetail = reportDetail;
-        }
-
-        public Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> getMap() {
-            return map;
-        }
-
-        public ContractsGrantsAgingReportDetailDataHolder getReportDetail() {
-            return reportDetail;
-        }
+        return invoices;
     }
 
     @NonTransactional
@@ -752,5 +551,13 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

@@ -818,6 +818,9 @@
 	
 	<bean id="contractsGrantsAgingReportService" parent="contractsGrantsAgingReportService-parentBean" />
 	<bean id="contractsGrantsAgingReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportServiceImpl" abstract="true">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>

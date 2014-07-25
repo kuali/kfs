@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
         Map<String, List<KualiDecimal>> subTotalMap = new HashMap<String, List<KualiDecimal>>();
 
         if (isFieldSubtotalRequired) {
-            subTotalMap = getContractsGrantsAgingReportService().buildSubTotalMap((List<ContractsGrantsInvoiceDocument>)displayList, sortPropertyName);
+            subTotalMap = buildSubTotalMap((List<ContractsGrantsInvoiceDocument>)displayList, sortPropertyName);
         }
 
         BigDecimal invoiceTotal = BigDecimal.ZERO;
@@ -125,7 +126,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
         Date sqlToday = new java.sql.Date(today.getTime());
         reportDetail.setAgencyNumber(cgInvoiceReportEntry.getAward().getAgency().getAgencyNumber());
         reportDetail.setAgencyName(cgInvoiceReportEntry.getAward().getAgency().getReportingName());
-        reportDetail.setCustomerNumber(cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        reportDetail.setCustomerNumber(cgInvoiceReportEntry.getCustomerNumber());
         reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber().toString());
         reportDetail.setAwardEndDate(cgInvoiceReportEntry.getAward().getAwardEndingDate());
         reportDetail.setDocumentNumber(cgInvoiceReportEntry.getDocumentNumber());
@@ -159,6 +160,40 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
 
         BigDecimal remainingAmount = invoiceAmount.subtract(paymentAmount);
         reportDetail.setRemainingAmount(remainingAmount);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#buildSubTotalMap(java.util.List, java.lang.String)
+     */
+    protected Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName) {
+        Map<String, List<KualiDecimal>> returnSubTotalMap = new HashMap<String, List<KualiDecimal>>();
+        // get list of sort fields
+        List<String> valuesOfsortProperty = getContractsGrantsReportHelperService().getListOfValuesSortedProperties(displayList, sortPropertyName);
+
+        // calculate sub_total and build subTotalMap
+        for (String value : valuesOfsortProperty) {
+            KualiDecimal invoiceSubTotal = KualiDecimal.ZERO;
+            KualiDecimal paymentSubTotal = KualiDecimal.ZERO;
+            KualiDecimal remainingSubTotal = KualiDecimal.ZERO;
+
+            for (ContractsGrantsInvoiceDocument cgInvoiceReportEntry : displayList) {
+                // set fieldValue as "" when it is null
+                if (value.equals(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceReportEntry, sortPropertyName))) {
+                    KualiDecimal sourceTotal = cgInvoiceReportEntry.getSourceTotal();
+                    KualiDecimal paymentAmount = cgInvoiceReportEntry.getPaymentAmount();
+                    invoiceSubTotal = invoiceSubTotal.add(sourceTotal);
+                    paymentSubTotal = paymentSubTotal.add(paymentAmount);
+                    remainingSubTotal = remainingSubTotal.add(sourceTotal.subtract(paymentSubTotal));
+                }
+            }
+            List<KualiDecimal> allSubTotal = new ArrayList<KualiDecimal>();
+            allSubTotal.add(0, invoiceSubTotal);
+            allSubTotal.add(1, paymentSubTotal);
+            allSubTotal.add(2, remainingSubTotal);
+
+            returnSubTotalMap.put(value, allSubTotal);
+        }
+        return returnSubTotalMap;
     }
 
     @Override

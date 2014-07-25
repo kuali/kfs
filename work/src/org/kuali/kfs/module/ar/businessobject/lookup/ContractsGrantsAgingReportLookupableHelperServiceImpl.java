@@ -39,7 +39,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
@@ -144,24 +143,23 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         totalWriteOffs = KualiDecimal.ZERO;
         totalCredits = KualiDecimal.ZERO;
 
-
-        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         Map<String, ContractsAndGrantsAgingReport> knownCustomers = new HashMap<String, ContractsAndGrantsAgingReport>();
         ContractsAndGrantsAgingReport custDetail;
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateFormat.setLenient(false);
 
-        Date today = getDateTimeService().getCurrentDate();
-        String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
         try {
+            java.util.Date today = getDateTimeService().getCurrentDate();
+            String reportRunDateStr = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE);
 
-            if (ObjectUtils.isNull(reportRunDateStr) || reportRunDateStr.isEmpty()) {
-                reportRunDate = today;
-            }
-            else {
-                reportRunDate = dateFormat.parse(reportRunDateStr);
-            }
+            reportRunDate = (ObjectUtils.isNull(reportRunDateStr) || reportRunDateStr.isEmpty()) ?
+                                                today :
+                                                dateFormat.parse(reportRunDateStr);
+
+            // retrieve filtered data according to the lookup
+            Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = getContractsGrantsAgingReportService().filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
+
             // set dates for buckets
             Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
             Date cutoffdate31 = DateUtils.addDays(reportRunDate, -31);
@@ -172,8 +170,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
             Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
 
-            // retrieve filtered data according to the lookup
-            Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer = contractsGrantsAgingReportService.filterContractsGrantsAgingReport(fieldValues, null, new java.sql.Date(reportRunDate.getTime()));
             if (ObjectUtils.isNotNull(cgMapByCustomer) && !cgMapByCustomer.isEmpty()) {
                 // 30 days
                 computeFor0To30DaysByBillingChartAndOrg(cgMapByCustomer, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
@@ -192,7 +188,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
             // prepare customer map.
             for (ContractsAndGrantsAgingReport detail : knownCustomers.values()) {
-
                 // get agency name for customer
                 ContractsAndGrantsBillingAgency agencyObj = getAgencyByCustomer(detail.getCustomerNumber());
                 if (ObjectUtils.isNotNull(agencyObj)) {
@@ -219,9 +214,10 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                 results.add(detail);
             }
         }
-        catch (ParseException ex) {
-            LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults()",ex);
+        catch (NumberFormatException | ParseException ex) {
+            throw new RuntimeException("Could not parse report run date for lookup",ex);
         }
+
         return new CollectionIncomplete<ContractsAndGrantsAgingReport>(results, (long) results.size());
     }
 

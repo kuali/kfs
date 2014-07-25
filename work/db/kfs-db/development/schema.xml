@@ -16804,7 +16804,7 @@
     <sequence name="AR_INV_DTL_ID_SEQ" nextval="1"/>
     <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
     <sequence name="AR_LTRCR_RVW_DTL_ID_SEQ" nextval="1"/>
-    <sequence name="AR_MLSTN_ID_SEQ" nextval="41"/>
+    <sequence name="AR_MLSTN_ID_SEQ" nextval="48"/>
     <sequence name="AR_RFRL_TO_CLCTNS_DTL_ID_SEQ" nextval="1"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
     <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
@@ -16812,8 +16812,8 @@
     <sequence name="CA_ICR_ACCT_SEQ" nextval="12280"/>
     <sequence name="CB_ACTN_ID_SEQ" nextval="2000"/>
     <sequence name="CB_GL_ACCT_ID_SEQ" nextval="2000"/>
-    <sequence name="CGPRPSL_NBR_SEQ" nextval="80085"/>
-    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55121"/>
+    <sequence name="CGPRPSL_NBR_SEQ" nextval="80088"/>
+    <sequence name="CG_AGENCY_NBR_SEQ" nextval="55124"/>
     <sequence name="CG_PRPSL_CLOSE_NBR_SEQ" nextval="2040"/>
     <sequence name="CG_SUBCNR_NBR_SEQ" nextval="2080"/>
     <sequence name="CM_AST_PMT_DOC_TYP_SEQ" nextval="20"/>

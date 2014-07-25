@@ -341,6 +341,7 @@
 			<column name="CUM_EXPND_AMT" type="DECIMAL(12,2)"  />
 			<column name="ERROR_DT" type="DATETIME" />
 			<column name="BATCH_IND" type="VARCHAR(1)" defaultValue="Y" />
+			<column name="PRM_FNDMGR_PRNCPL_NM" type="VARCHAR(100)" />
 		</createTable>
 		<createTable tableName="AR_INV_DOC_ERROR_CAT_T">
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >

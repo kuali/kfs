@@ -17,13 +17,10 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
@@ -31,12 +28,8 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -70,19 +63,10 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         // check for KFS-SYS User Role's membership
-        Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
-        if(userOrg == null) {
-            userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS);
-            if(userOrg == null) {
-                ChartOrgHolder chartOrg = getFinancialSystemUserService().getPrimaryOrganization(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
-                userOrg =new HashMap<String, String>();
-                userOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
-                userOrg.put(KfsKimAttributes.ORGANIZATION_CODE,chartOrg.getOrganizationCode());
-            }
-        }
+        final ChartOrgHolder chartOrg = getFinancialSystemUserService().getPrimaryOrganization(currentUser, ArConstants.AR_NAMESPACE_CODE);
 
         if (ObjectUtils.isNotNull(invoiceTemplate.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(invoiceTemplate.getBilledByOrganizationCode())) {
-            if (invoiceTemplate.getBillByChartOfAccountCode().equals(userOrg.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && invoiceTemplate.getBilledByOrganizationCode().equals(userOrg.get(KfsKimAttributes.ORGANIZATION_CODE))) {
+            if (StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), chartOrg.getChartOfAccountsCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(), chartOrg.getOrganizationCode())) {
                 isValid = true;
             }
         }
@@ -146,30 +130,6 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         }
         String href = UrlFactory.parameterizeUrl("../arAccountsReceivableInvoiceTemplateUpload.do", parameters);
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_DOWNLOAD);
-    }
-
-    protected Map<String, String> getOrgAndChartForUser(String principalId, String namespaceCode) {
-        Map<String, String> chartAndOrg = new HashMap<String, String>();
-        if (StringUtils.isBlank(principalId)) {
-            return null;
-        }
-        Map<String, String> qualification = new HashMap<String, String>(2);
-        qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
-        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
-        RoleService roleService = KimApiServiceLocator.getRoleService();
-        List<Map<String, String>> roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, qualification);
-        if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
-            int count = 0;
-            while (count < roleQualifiers.size()) {
-                if (!StringUtils.isBlank(roleQualifiers.get(count).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && !StringUtils.isBlank(roleQualifiers.get(count).get(KfsKimAttributes.ORGANIZATION_CODE))) {
-                    chartAndOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE,roleQualifiers.get(count).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-                    chartAndOrg.put(KfsKimAttributes.ORGANIZATION_CODE,roleQualifiers.get(count).get(KfsKimAttributes.ORGANIZATION_CODE));
-                    return chartAndOrg;
-                }
-                count += 1;
-            }
-        }
-        return null;
     }
 
     /**

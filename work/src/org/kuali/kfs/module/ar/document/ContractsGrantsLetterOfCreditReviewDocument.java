@@ -474,7 +474,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
         super.doRouteStatusChange(statusChangeEvent);
         // performed only when document is in final state
-        if (getDocumentHeader().getWorkflowDocument().isFinal()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
 
             // 1. compare the hiddenamountodraw and amount to draw field.
             for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {

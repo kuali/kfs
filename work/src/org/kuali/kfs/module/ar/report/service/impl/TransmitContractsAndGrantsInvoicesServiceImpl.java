@@ -288,8 +288,8 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
      * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#sendEmailForListofInvoicesToAgency(java.util.Collection)
      */
     @Override
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException {
-        arEmailService.sendInvoicesViaEmail(list);
+    public boolean sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException {
+        return arEmailService.sendInvoicesViaEmail(list);
     }
 
     /**

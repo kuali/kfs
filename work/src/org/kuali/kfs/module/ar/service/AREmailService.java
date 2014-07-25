@@ -34,10 +34,11 @@ public interface AREmailService {
      * This method is used to send emails to the agency
      *
      * @param invoices
-     * @throws AddressException
+     * @return true if all invoices were sent successfully, false otherwise
+     * @throws InvalidAddressException
      * @throws MessagingException
      */
-    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException;
+    public boolean sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException;
 
     /**
      * Send email for upcoming milestones for Award

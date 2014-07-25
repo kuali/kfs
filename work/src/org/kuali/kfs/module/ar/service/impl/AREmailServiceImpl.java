@@ -114,9 +114,10 @@ public class AREmailServiceImpl implements AREmailService {
      * @param invoices
      */
     @Override
-    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException  {
+    public boolean sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException  {
         LOG.debug("sendInvoicesViaEmail() starting.");
 
+        boolean success = true;
         Properties props = getConfigProperties();
 
         // Get session
@@ -169,12 +170,16 @@ public class AREmailServiceImpl implements AREmailService {
 
                         setupMailServiceForNonProductionInstance();
                         mailService.sendMessage(message);
+
+                        invoice.setDateEmailProcessed(new Date(new java.util.Date().getTime()));
+                        documentService.updateDocument(invoice);
+                    } else {
+                        success = false;
                     }
                 }
             }
-            invoice.setDateEmailProcessed(new Date(new java.util.Date().getTime()));
-            documentService.updateDocument(invoice);
         }
+        return success;
     }
 
     protected String getSubject(ContractsGrantsInvoiceDocument invoice) {

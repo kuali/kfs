@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
 /**
@@ -58,7 +59,7 @@ public abstract class ContractsGrantsSuspendedInvoiceReportLookupableHelperServi
         List<String> processingDocumentStatuses = new ArrayList<String>();
         processingDocumentStatuses.addAll(getFinancialSystemDocumentService().getPendingDocumentStatuses());
         processingDocumentStatuses.add(DocumentStatus.PROCESSED.getCode());
-        final String processingDocumentStatusesForLookup = StringUtils.join(processingDocumentStatuses, "|");
+        final String processingDocumentStatusesForLookup = StringUtils.join(processingDocumentStatuses, SearchOperator.OR.op());
         return processingDocumentStatusesForLookup;
     }
 

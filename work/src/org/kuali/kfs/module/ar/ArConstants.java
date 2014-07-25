@@ -427,12 +427,8 @@ public class ArConstants{
     public static final String OUTSTANDING_INVOICE_REPORT = "Outstanding Invoice Report";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
-    public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
-    public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
-    public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_PROPERTY = "letterOfCreditFundGroup";
     public static final String FUND_MANAGER = "fundManager";
-    public static final String FUNDS_NOT_DRAWN_PROPERTY = "fundsNotDrawn";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT = "ContractsGrantsSuspendedInvoiceSummaryReport";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL_REPORT = "ContractsGrantsSuspendedInvoiceDetailReport";
     public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY_REPORT = "ContractsGrantsPaymentHistoryReport";

@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -192,10 +193,10 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             fieldValues.put(ArConstants.PROPOSAL_NUMBER, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
-            fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
+            fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
-            fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
+            fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
         }
 
         CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocument(fieldValues);

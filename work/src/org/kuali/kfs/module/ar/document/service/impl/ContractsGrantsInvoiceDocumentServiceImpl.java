@@ -924,7 +924,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND + " of value " + locFund;
@@ -948,7 +948,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;
@@ -1934,20 +1934,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
-        Boolean isValid = false;
-        if (award.getPreferredBillingFrequency() != null) {
+        if (!StringUtils.isBlank(award.getPreferredBillingFrequency())) {
             Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(KFSPropertyConstants.FREQUENCY, award.getPreferredBillingFrequency());
             criteria.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsBillingFrequency> set = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
-            for (ContractsAndGrantsBillingFrequency billingFrequency : set) {
-                if (award.getPreferredBillingFrequency().equalsIgnoreCase(billingFrequency.getFrequency())) {
-                    isValid = true;
-                    break;
-                }
+            Collection<ContractsAndGrantsBillingFrequency> matchingBillingFrequencies = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
+
+            if (matchingBillingFrequencies != null && matchingBillingFrequencies.size() > 0) {
+                return true;
             }
         }
 
-        return isValid;
+        return false;
     }
 
 

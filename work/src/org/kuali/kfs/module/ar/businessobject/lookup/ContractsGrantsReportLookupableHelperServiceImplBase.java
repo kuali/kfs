@@ -28,6 +28,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -105,34 +106,13 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
     }
 
     /**
-     * A comparison operator which we can use against calculated fields we're doing reports on
-     */
-    protected enum Operator {
-        EQ("="), GT(">"), GTEQ(">="), LT("<"), LTEQ("<=");
-
-        protected String operatorCode;
-        Operator(String operatorCode) {
-            this.operatorCode = operatorCode;
-        }
-
-        protected static Operator getOperatorFromString(String operatorCode) {
-            for (Operator operator : Operator.values()) {
-                if (StringUtils.equals(operator.operatorCode, operatorCode)) {
-                    return operator;
-                }
-            }
-            throw new IllegalArgumentException("Value "+operatorCode+" is not a valid operator");
-        }
-    }
-
-    /**
      * Inner class to capture an operator
      */
     protected class OperatorAndValue {
-        protected Operator operator;
+        protected SearchOperator operator;
         protected Double value; //we should be able to safely coerce all values to double
 
-        private OperatorAndValue(Operator operator, String valueAsString) {
+        private OperatorAndValue(SearchOperator operator, String valueAsString) {
             this.operator = operator;
             this.value = new Double(valueAsString);
         }
@@ -147,11 +127,11 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
             final Double otherValueDouble = new Double(otherValue.doubleValue());
             final int compareResult = otherValueDouble.compareTo(value);
             switch (this.operator) {
-                case EQ: return compareResult == 0;
-                case LT: return compareResult < 0;
-                case GT: return compareResult > 0;
-                case LTEQ: return compareResult <= 0;
-                case GTEQ: return compareResult >= 0;
+                case EQUAL: return compareResult == 0;
+                case LESS_THAN: return compareResult < 0;
+                case GREATER_THAN: return compareResult > 0;
+                case LESS_THAN_EQUAL: return compareResult <= 0;
+                case GREATER_THAN_EQUAL: return compareResult >= 0;
             }
             throw new IllegalStateException("The operator did not catch ");
         }
@@ -207,18 +187,33 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
         }
         if (operatorAndValue.startsWith("<=")) {
             final String valueOnly = operatorAndValue.substring(2);
-            return new OperatorAndValue(Operator.LTEQ, valueOnly);
+            return new OperatorAndValue(SearchOperator.LESS_THAN_EQUAL, valueOnly);
         } else if (operatorAndValue.startsWith(">=")) {
             final String valueOnly = operatorAndValue.substring(2);
-            return new OperatorAndValue(Operator.GTEQ, valueOnly);
+            return new OperatorAndValue(SearchOperator.GREATER_THAN_EQUAL, valueOnly);
         } else if (operatorAndValue.startsWith("<")) {
             final String valueOnly = operatorAndValue.substring(1);
-            return new OperatorAndValue(Operator.LT, valueOnly);
+            return new OperatorAndValue(SearchOperator.LESS_THAN, valueOnly);
         } else if (operatorAndValue.startsWith(">")) {
             final String valueOnly = operatorAndValue.substring(1);
-            return new OperatorAndValue(Operator.GT, valueOnly);
+            return new OperatorAndValue(SearchOperator.GREATER_THAN, valueOnly);
         }
-        return new OperatorAndValue(Operator.EQ, operatorAndValue);
+        return new OperatorAndValue(SearchOperator.EQUAL, operatorAndValue);
+    }
+
+    /**
+     * Convenience method which removes a field value from the given lookup field map and turns it into an OperatorAndValue, or null if the field was not filled in
+     * @param lookupFields the fields from the lookup form
+     * @param propertyName the property name to lookup
+     * @return the OperatorAndValue representing that field, or null if no value was entered
+     */
+    protected OperatorAndValue buildOperatorAndValueFromField(Map lookupFields, String propertyName) {
+        OperatorAndValue operator = null;
+        final String fieldFromLookup = (String)lookupFields.remove(propertyName);
+        if (!StringUtils.isBlank(fieldFromLookup)) {
+            operator = parseOperatorAndValue(fieldFromLookup);
+        }
+        return operator;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

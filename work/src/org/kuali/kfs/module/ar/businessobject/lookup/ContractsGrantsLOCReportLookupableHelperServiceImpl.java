@@ -22,17 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -43,6 +43,15 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
     protected FinancialSystemDocumentService financialSystemDocumentService;
 
     @Override
+    public void validateSearchParameters(Map<String, String> fieldValues) {
+        super.validateSearchParameters(fieldValues);
+        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AMOUNT_AVAILABLE_TO_DRAW);
+        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.CLAIM_ON_CASH_BALANCE);
+        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AMOUNT_TO_DRAW);
+        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.FUNDS_NOT_DRAWN);
+    }
+
+    @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
@@ -51,8 +60,16 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
+        OperatorAndValue amountAvailableToDrawOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.AMOUNT_AVAILABLE_TO_DRAW);
+        OperatorAndValue claimOnCashBalanceOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.CLAIM_ON_CASH_BALANCE);
+        OperatorAndValue amountToDrawOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.AMOUNT_TO_DRAW);
+        OperatorAndValue fundsNotDrawnOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.FUNDS_NOT_DRAWN);
+
         Collection<ContractsGrantsLOCReport> displayList = new ArrayList<ContractsGrantsLOCReport>();
-        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
+
+        Map<String, String> locLookupFields = buildCriteriaForLetterOfCreditLookup(lookupFormFields);
+        locLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(),SearchOperator.OR.op()));
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = getLookupService().findCollectionBySearchHelper(ContractsGrantsLetterOfCreditReviewDocument.class, locLookupFields, true);
 
         for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
             List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
@@ -82,6 +99,20 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                     totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
                 }
 
+                // skip the calculated fields values if necessary
+                if (amountAvailableToDrawOperator != null && !amountAvailableToDrawOperator.applyComparison(totalAmountAvailableToDraw)) {
+                    continue;
+                }
+                if (claimOnCashBalanceOperator != null && !claimOnCashBalanceOperator.applyComparison(totalClaimOnCashBalance)) {
+                    continue;
+                }
+                if (amountToDrawOperator != null && !amountToDrawOperator.applyComparison(totalAmountToDraw)) {
+                    continue;
+                }
+                if (fundsNotDrawnOperator != null && !fundsNotDrawnOperator.applyComparison(totalFundsNotDrawn)) {
+                    continue;
+                }
+
                 cgLOCReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
                 cgLOCReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
                 cgLOCReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
@@ -95,11 +126,11 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                 cgLOCReport.setAmountToDraw(totalAmountToDraw);
                 cgLOCReport.setFundsNotDrawn(totalFundsNotDrawn);
 
-                if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN) && totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
-                    if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCReport, ArConstants.CONTRACTS_GRANTS_LOC_REPORT)) {
+                if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN)) {
+                    if (totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
                         displayList.add(cgLOCReport);
                     }
-                } else if(ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCReport, ArConstants.CONTRACTS_GRANTS_LOC_REPORT)) {
+                } else {
                     displayList.add(cgLOCReport);
                 }
 
@@ -111,14 +142,39 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
     }
 
     /**
-     * Lookup all final documents of the given document class
-     * @param documentClass the class of the document to look up
-     * @return a Collection of documents, without WorkflowDocument's embedded in the documentHeader
+     * Pulls criteria from lookup form criteria which can be directly applied to finding letter of credit documents
+     * @param lookupFormFields the lookup form's fields
+     * @return the smaller set of fields to perform the document lookup
      */
-    protected <D extends Document> Collection<D> findFinalDocuments(Class<D> documentClass) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode());
-        return getBusinessObjectService().findMatching(documentClass, fieldValues);
+    protected Map<String, String> buildCriteriaForLetterOfCreditLookup(Map lookupFormFields) {
+        Map<String, String> lookupFields = new HashMap<String, String>();
+
+        final String documentNumber = (String)lookupFormFields.get(KFSPropertyConstants.DOCUMENT_NUMBER);
+        if (!StringUtils.isBlank(documentNumber)) {
+            lookupFields.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        }
+
+        final String letterOfCreditFundCode = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE);
+        if (!StringUtils.isBlank(letterOfCreditFundCode)) {
+            lookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, letterOfCreditFundCode);
+        }
+
+        final String letterOfCreditFundGroupCode = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
+        if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
+            lookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
+        }
+
+        final String letterOfCreditReviewCreateDate = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
+        if (!StringUtils.isBlank(letterOfCreditReviewCreateDate)) {
+            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, letterOfCreditReviewCreateDate);
+        }
+
+        final String lowerBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
+        if (!StringUtils.isBlank(lowerBoundLetterOfCreditReviewCreateDate)) {
+            lookupFields.put(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, lowerBoundLetterOfCreditReviewCreateDate);
+        }
+
+        return lookupFields;
     }
 
     public FinancialSystemDocumentService getFinancialSystemDocumentService() {

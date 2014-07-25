@@ -83,19 +83,19 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         String principalId = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COLLECTOR);
         String collectorPrincName = (String) lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
 
-        String lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE);
-        if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            fieldValues.put(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, lookupFieldValue);
+        final String activityCode = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE);
+        if (!StringUtils.isBlank(activityCode)) {
+            fieldValues.put(ArPropertyConstants.TicklersReportFields.ACTIVITY_CODE, activityCode);
         }
 
-        lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER);
-        if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, lookupFieldValue);
+        final String proposalNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER);
+        if (!StringUtils.isBlank(proposalNumber)) {
+            fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_PROPOSAL_NUMBER, proposalNumber);
         }
 
-        lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COMPLETED);
-        if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-            fieldValues.put(ArPropertyConstants.EventFields.COMPLETED, lookupFieldValue);
+        final String completed = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.COMPLETED);
+        if (!StringUtils.isBlank(completed)) {
+            fieldValues.put(ArPropertyConstants.EventFields.COMPLETED, completed);
         }
 
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_DOCUMENT_OPEN_INV_IND, "true");
@@ -103,15 +103,15 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
         Collection<Event> events = getCollectionActivityDocumentService().retrieveEvents(fieldValues,false,null);
 
-        lookupFieldValue = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
+        final String agencyNumber = (String) lookupFormFields.get(ArPropertyConstants.TicklersReportFields.AGENCY_NUMBER);
 
         for (Event event : events) {
 
             // Check for followup date range
             boolean isValid = true;
 
-            if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
-                if (ObjectUtils.isNull(event.getInvoiceDocument().getAward()) || !lookupFieldValue.equals(event.getInvoiceDocument().getAward().getAgencyNumber())) {
+            if (!StringUtils.isBlank(agencyNumber)) {
+                if (ObjectUtils.isNull(event.getInvoiceDocument().getAward()) || !StringUtils.equals(agencyNumber, event.getInvoiceDocument().getAward().getAgencyNumber())) {
                     isValid = false;
                 }
             }

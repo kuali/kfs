@@ -35,7 +35,7 @@
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_TR7"
 			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_TR1"
+		<addForeignKeyConstraint constraintName="CG_AWD_TR9"
 			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
 			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />
 		<addForeignKeyConstraint constraintName="CG_LTRCR_FND_TR1"

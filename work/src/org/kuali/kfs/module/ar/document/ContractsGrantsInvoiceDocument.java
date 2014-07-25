@@ -233,7 +233,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
             // generate the invoices from templates
             contractsGrantsInvoiceDocumentService.generateInvoicesForInvoiceAddresses(this);
-        } else if ( !getDocumentHeader().getWorkflowDocument().isFinal() ) {
+        } else {
             // To set the status of the document to award account.
             setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         }

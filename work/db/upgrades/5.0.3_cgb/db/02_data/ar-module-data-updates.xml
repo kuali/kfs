@@ -10,10 +10,6 @@
 			<column name="CUST_PMT_MEDM_DESC" value="LOC Wire" />
 			<column name="ROW_ACTV_IND" value="Y" />
 		</insert>
-		<update tableName="AR_SYS_INFO_T">
-			<column name="REFND_PMT_REAS_CD" value="P" />
-			<where>PRCS_FIN_COA_CD='UA' AND PRCS_ORG_CD='VPIT' AND UNIV_FISCAL_YR='2012'</where>
-		</update>
 	</changeSet>
 
 </databaseChangeLog>

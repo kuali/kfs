@@ -69,63 +69,7 @@
 							<tr><td>Report Age:</td><td><c:out value="${param.columnTitle}" /></td>
 						</table> <br><br>
 					</c:if>
-				  
-	      			<display:table class="datatable-100"
-	      			               cellspacing="0"
-								   cellpadding="0"
-								   name="${reqSearchResults}"
-								   id="row"
-								   export="true"
-				                   pagesize="100"
-				                   defaultsort="4"
-				                   defaultorder="descending"
-				                   requestURI="arCustomerOpenItemReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
-
-					<c:forEach items="${row.columns}" var="column">
-						<c:choose>
-							<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter'}">
-								<display:column class="numbercell"
-												sortable="true"
-												decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
-												title="${column.columnTitle}"
-												comparator="${column.comparator}">
-									<c:choose>
-										<c:when test="${column.propertyURL != \"\"}">
-											<a href="<c:out value="${column.propertyURL}"/>"
-											   title="${column.propertyValue}"
-											   target="blank">
-											   <c:out value="${column.propertyValue}" />
-											</a>	
-										</c:when>
-										<c:otherwise>
-											<c:out value="${column.propertyValue}" />
-										</c:otherwise>
-									</c:choose>
-								</display:column>
-							</c:when>
-							<c:otherwise>
-								<display:column class="infocell"
-										        sortable="${column.sortable}"
-										        decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
-										        title="${column.columnTitle}"
-										        comparator="${column.comparator}">
-									<c:choose>
-										<c:when test="${column.propertyURL != \"\"}">
-											<a href="<c:out value="${column.propertyURL}"/>"
-										   	   title="${column.propertyValue}"
-										       target="blank">
-										       <c:out value="${column.propertyValue}" />
-										    </a>
-										</c:when>
-										<c:otherwise>
-											<c:out value="${column.propertyValue}" />
-										</c:otherwise>
-									</c:choose>
-								</display:column>
-							</c:otherwise>
-						</c:choose>	
-					</c:forEach>
-					</display:table>
+					<ar:openInvoiceReportResults reportLookupActionName="arCustomerOpenItemReportLookup.do"/>
 			    </c:if>
 			</td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" height="20" width="20">

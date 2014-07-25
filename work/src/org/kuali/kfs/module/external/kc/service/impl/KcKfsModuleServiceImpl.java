@@ -44,11 +44,6 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     }
 
     @Override
-    public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsListForLookup(Class<T> businessObjectClass, Map<String, Object> fieldValues, boolean unbounded) {
-        return getExternalizableBusinessObjectsList( businessObjectClass,fieldValues);
-    }
-
-    @Override
     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
         Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
         return (List<T>) getExternalizableBusinessObjectService(implementationClass).findMatching(fieldValues);

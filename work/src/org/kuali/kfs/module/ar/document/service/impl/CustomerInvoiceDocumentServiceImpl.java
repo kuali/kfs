@@ -63,14 +63,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
-
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
@@ -106,8 +102,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected UniversityDateService universityDateService;
     protected NoteService noteService;
     protected IdentityService identityService;
-    protected PersonService personService;
-    protected ConfigurationService configurationService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#convertDiscountsToPaidApplieds(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -896,14 +890,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @return Returns the personService.
-     */
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#checkIfInvoiceNumberIsFinal(java.lang.String)
      */
     @Override
@@ -1012,11 +998,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                     break;
                 }
             }
-        }       
-        
-        final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
-        Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() }; 
-        String noteText = MessageFormat.format(noteTextPattern, arguments); 
+        }
 
         final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT);
         Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() };
@@ -1027,11 +1009,11 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         note.setAuthorUniversalIdentifier(getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
         documentToClose.addNote(noteService.save(note));
     }
-    
+
     public void setPersonService(PersonService personService){
         this.personService = personService;
     }
-    
+
     public PersonService getPersonService(){
         return personService;
     }

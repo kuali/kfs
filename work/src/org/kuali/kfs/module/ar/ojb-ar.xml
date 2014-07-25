@@ -2065,10 +2065,6 @@
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" table="AR_MLSTN_SCHDL_T">
 		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_RMNG" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -2086,10 +2082,6 @@
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule" table="AR_PRDTRMND_BILL_SCHDL_T">
 		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_RMNG" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 

@@ -1193,7 +1193,7 @@
     		    <entry key="SubAccount" value-ref="RoutingType-PurchasingAccountsPayableDocument-SubAccount"/>
     			<entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy"/>
-                <entry key="notifyOnAutoApprovalResponsibility" value-ref="RoutingType-PurchasingAccountsPayableDocument-notifyOnAutoApprovalResponsibility"/>
+                <entry key="notifyOnAutoApprovalResponsibility" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
                 <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
     		</map>
     	</property>

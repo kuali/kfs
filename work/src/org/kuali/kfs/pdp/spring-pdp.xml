@@ -613,7 +613,7 @@
 	</bean>	
     <bean id="purchasingPaymentDetailLookupableHelperService" parent="purchasingPaymentDetailLookupableHelperService-parentBean" scope="prototype"/>
 	
-	<bean id="purchasingPaymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService" abstract="true" />
+	<bean id="purchasingPaymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService-parentBean" abstract="true" />
 	
 	<bean id="purchasingPaymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

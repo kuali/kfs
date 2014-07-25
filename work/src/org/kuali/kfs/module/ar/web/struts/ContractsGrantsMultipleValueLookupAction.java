@@ -69,7 +69,9 @@ public abstract class ContractsGrantsMultipleValueLookupAction extends KualiMult
         Map<String, String> selectedObjectIds = collectSelectedObjectIds(resultTable);
 
         multipleValueLookupForm.jumpToPage(multipleValueLookupForm.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
-        multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
+        if (!StringUtils.isBlank(multipleValueLookupForm.getPreviouslySortedColumnIndex())) {
+            multipleValueLookupForm.setColumnToSortIndex(Integer.parseInt(multipleValueLookupForm.getPreviouslySortedColumnIndex()));
+        }
         multipleValueLookupForm.setCompositeObjectIdMap(selectedObjectIds);
 
         return resultTable;

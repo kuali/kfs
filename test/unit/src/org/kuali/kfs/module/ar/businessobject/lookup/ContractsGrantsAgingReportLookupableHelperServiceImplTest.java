@@ -135,7 +135,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
         KualiDecimal test61to90total = new KualiDecimal("0.00");
         KualiDecimal test91toSYSPRtotal = new KualiDecimal("0.00");
         KualiDecimal testSYSPRplus1orMoretotal = new KualiDecimal("0.00");
-        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded(fieldValues));
+        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
 
 
         // add all 0to30 totals

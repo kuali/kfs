@@ -54,7 +54,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
      * <li>{@link KFSConstants.OVERRIDE_KEYS}</li>
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.Map, java.lang.String)
      */
@@ -77,21 +77,28 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
             }
         }
         // return URL
+        Properties parameters = generateUrlParameters(businessObject, lookupForm, returnKeys);
+        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
+
+    }
+
+    protected Properties generateUrlParameters(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
+        AssetAcquisitionType assetAcquisitionType = (AssetAcquisitionType) businessObject;
         Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE);
         parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE + "::" + assetAcquisitionType.getAcquisitionTypeCode());
         setBackLocation(KFSConstants.MAINTENANCE_ACTION);
-        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
 
+        return parameters;
     }
 
     /**
      * A couple of acquisition type code won't be listed in Asset Global and we need to apply this constraint from lookup. They are:
      * P-Pre-asset tagging - this acquisition type code is assigned in CAB to assets that are created with a pre-tagging record.
      * C-Fabrication - this acquisition type is assigned to assets created via the fabrication document.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
@@ -119,7 +126,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
 
     /**
      * Overrides base implementation to determine whether or not we are dealing with looking up the model or editing it
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
      */
     @Override
@@ -132,7 +139,7 @@ public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookup
 
     /**
      * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      List pkNames)
      */

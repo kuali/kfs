@@ -19,11 +19,11 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 
 /**
  * Defines methods for sending AR emails.
@@ -37,7 +37,7 @@ public interface AREmailService {
      * @throws AddressException
      * @throws MessagingException
      */
-    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException;
+    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException;
 
     /**
      * Send email for upcoming milestones for Award

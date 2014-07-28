@@ -19,17 +19,17 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import javax.mail.MessagingException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -41,21 +41,14 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService;
-import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.util.KfsDateUtils;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -69,61 +62,77 @@ import com.lowagie.text.DocumentException;
 public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitContractsAndGrantsInvoicesService {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService;
-    protected DateTimeService dateTimeService;
     protected DocumentService documentService;
-    protected AREmailService arEmailService;
+    protected PersonService personService;
 
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
 
     /**
+     * Creates a map, does a look up based on that, and then collects the documents found
      * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#getInvoicesByParametersFromRequest(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(Map fieldValues) throws WorkflowException, ParseException {
-        Date fromDate = null;
-        Date toDate = null;
-        String unformattedToDate = (String)fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO);
+    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(String userId, String documentNumber, String proposalNumber, String invoiceAmount, String chartOfAccountsCode, String organizationCode, String unformattedToDate, String unformattedFromDate, String invoiceTransmissionMethodCode) throws WorkflowException, ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+        SimpleDateFormat reqDateFormat = new SimpleDateFormat(ArConstants.YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT);
+        Timestamp fromDate = null;
+        Timestamp toDate = null;
         if (StringUtils.isNotEmpty(unformattedToDate)) {
-            toDate = dateTimeService.convertToDate(unformattedToDate);
+            toDate = Timestamp.valueOf(reqDateFormat.format(dateFormat.parse(unformattedToDate)));
         }
-        String unformattedFromDate = (String)fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM);
         if (StringUtils.isNotEmpty(unformattedFromDate)) {
-            fromDate = dateTimeService.convertToDate(unformattedFromDate);
+            fromDate = Timestamp.valueOf(reqDateFormat.format(dateFormat.parse(unformattedFromDate)));
         }
-        String invoiceInitiatorPrincipalName = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
-        if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(invoiceInitiatorPrincipalName);
-            if (ObjectUtils.isNotNull(principal)) {
-                fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.INITIATOR_PRINCIPAL_ID, principal.getPrincipalId());
-            } else {
-                throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + invoiceInitiatorPrincipalName + "] passed in does not map to a person.");
-            }
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(proposalNumber)) {
+            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
-
-        String invoiceAmount = (String) fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT);
-        if (StringUtils.isNotEmpty(invoiceAmount)) {
+        if (StringUtils.isNotEmpty(documentNumber)) {
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        }
+        if (ObjectUtils.isNotNull(invoiceAmount)) {
             fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, invoiceAmount);
         }
-
-        String invoiceTransmissionMethodCode = (String) fieldValues.get(ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE);
-        if (StringUtils.isNotBlank(invoiceTransmissionMethodCode)) {
-            fieldValues.put(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_TRANSMISSION_METHOD_CODE, invoiceTransmissionMethodCode);
+        if (StringUtils.isNotEmpty(chartOfAccountsCode)) {
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, chartOfAccountsCode);
         }
-
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode() + SearchOperator.OR.op() + DocumentStatus.PROCESSED.getCode());
-
+        if (StringUtils.isNotEmpty(organizationCode)) {
+            fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, organizationCode);
+        }
+        if (StringUtils.isNotBlank(invoiceTransmissionMethodCode) && !StringUtils.equalsIgnoreCase(invoiceTransmissionMethodCode, ArConstants.InvoiceTransmissionMethod.BOTH)) {
+            fieldValues.put(ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE, invoiceTransmissionMethodCode);
+        }
         Collection<ContractsGrantsInvoiceDocument> list = getContractsGrantsInvoiceDocumentService().retrieveAllCGInvoicesByCriteria(fieldValues);
         Collection<ContractsGrantsInvoiceDocument> finalList = new ArrayList<ContractsGrantsInvoiceDocument>();
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
         for (ContractsGrantsInvoiceDocument item : list) {
-            ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
+            if (ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
+                ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
 
-            if (isInvoiceBetween(invoice, fromDate, toDate)) {
-                if ((StringUtils.equals(ArConstants.InvoiceTransmissionMethod.EMAIL, invoiceTransmissionMethodCode) && isInvoiceValidToEmail(invoice)) ||
-                    (StringUtils.equals(ArConstants.InvoiceTransmissionMethod.MAIL, invoiceTransmissionMethodCode) && isInvoiceValidToMail(invoice))) {
-                    finalList.add(invoice);
+                boolean invoiceIsFinal = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.FINAL.getCode());
+                boolean invoiceIsProcessed = StringUtils.equals(item.getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode(), DocumentStatus.PROCESSED.getCode());
+
+                if ( invoiceIsFinal || invoiceIsProcessed ) {
+                    if (StringUtils.isNotEmpty(userId)) {
+                        Person person = getPersonService().getPersonByPrincipalName(userId);
+                        if (person == null) {
+                            throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + userId + "] passed in does not map to a person.");
+                        }
+                        if (StringUtils.equalsIgnoreCase(item.getFinancialSystemDocumentHeader().getInitiatorPrincipalId(), person.getPrincipalId())) {
+                            if (isInvoiceBetween(invoice, fromDate, toDate)) {
+                                if (isInvoiceValidToEmail(invoice) || isInvoiceValidToMail(invoice)) {
+                                    finalList.add(invoice);
+                                }
+                            }
+                        }
+                    }
+                    else if (isInvoiceBetween(invoice, fromDate, toDate)) {
+                        if (isInvoiceValidToEmail(invoice) || isInvoiceValidToMail(invoice)) {
+                            finalList.add(invoice);
+                        }
+                    }
                 }
             }
         }
@@ -137,25 +146,23 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
      * @param toDate
      * @return
      */
-    protected boolean isInvoiceBetween(ContractsGrantsInvoiceDocument invoice, Date fromDate, Date toDate) {
-        Date dateCreated = invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+    protected boolean isInvoiceBetween(ContractsGrantsInvoiceDocument invoice, Timestamp fromDate, Timestamp toDate) {
         if (ObjectUtils.isNotNull(fromDate)) {
-            if (fromDate.after(dateCreated)) {
+            if (fromDate.after(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))) {
                 return false;
             }
         }
         if (ObjectUtils.isNotNull(toDate)) {
-            if (toDate.before(dateCreated) && !KfsDateUtils.isSameDay(toDate, dateCreated)) {
+            if (toDate.before(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))) {
                 return false;
             }
         }
         return true;
-
     }
 
     @Override
     public boolean isInvoiceValidToEmail(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getDateEmailProcessed())) {
+        if (ObjectUtils.isNull(contractsGrantsInvoiceDocument.getMarkedForProcessing())) {
             for (InvoiceAddressDetail invoiceAddressDetail : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
                 if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
                     return true;
@@ -247,30 +254,34 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public void validateSearchParameters(Map<String,String> fieldValues) {
-        String invoiceInitiatorPrincipalName = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
-        String invoicePrintDateFromString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM);
-        String invoicePrintDateToString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO);
-        String invoiceAmount = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT);
+        String invoiceInitiatorPrincipalName = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
+        String invoicePrintDateFromString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_FROM);
+        String invoicePrintDateToString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_TO);
+        String invoiceAmount = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_AMOUNT);
 
         // To validate the input fields before fetching invoices.
         if (StringUtils.isNotBlank(invoicePrintDateFromString)) {
+            SimpleDateFormat sdf = new SimpleDateFormat(KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+            Date testDate = null;
             try {
-                dateTimeService.convertToDate(invoicePrintDateFromString);
+                testDate = sdf.parse(invoicePrintDateFromString);
             }
             catch (ParseException e) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_FROM_LABEL);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_FROM, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_FROM_LABEL);
             }
         }
         if (StringUtils.isNotBlank(invoicePrintDateToString)) {
+            SimpleDateFormat sdf = new SimpleDateFormat(KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+            Date testDate = null;
             try {
-                dateTimeService.convertToDate(invoicePrintDateToString);
+                testDate = sdf.parse(invoicePrintDateToString);
             }
             catch (ParseException e) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_TO_LABEL);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_TO_LABEL);
             }
         }
         if (!StringUtils.isNumeric(invoiceAmount)) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.INVOICE_AMOUNT_LABEL);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.INVOICE_AMOUNT_LABEL);
         }
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {
             Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(invoiceInitiatorPrincipalName);
@@ -288,8 +299,11 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
      * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#sendEmailForListofInvoicesToAgency(java.util.Collection)
      */
     @Override
-    public boolean sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException {
-        return arEmailService.sendInvoicesViaEmail(list);
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
+        for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
+            invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
+            documentService.updateDocument(invoiceDocument);
+        }
     }
 
     /**
@@ -317,14 +331,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         this.contractsGrantsInvoiceReportService = contractsGrantsInvoiceReportService;
     }
 
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -333,12 +339,12 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
         this.documentService = documentService;
     }
 
-    public AREmailService getArEmailService() {
-        return arEmailService;
+    public PersonService getPersonService() {
+        return personService;
     }
 
-    public void setArEmailService(AREmailService arEmailService) {
-        this.arEmailService = arEmailService;
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,11 +41,11 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep;
 import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -122,7 +123,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
      * @param invoices
      */
     @Override
-    public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
+    public void sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
         LOG.debug("sendInvoicesViaEmail() starting.");
 
         Properties props = getConfigProperties();
@@ -142,7 +143,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         MimeMessage message = new MimeMessage(session);
 
                         // From Address
-                        String sender = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+                        String sender = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
                         message.setFrom(new InternetAddress(sender));
                         // To Address
                         CustomerAddress customerAddress = invoiceAddressDetail.getCustomerAddress();
@@ -156,8 +157,8 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         }
 
                         // The Subject
-                        String subject = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
-                        String bodyText = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
+                        String subject = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
+                        String bodyText = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_EMAIL_BODY);
                         Map<String, String> map = new HashMap<String, String>();
                         getEmailParameterList(map, invoice, customerAddress);
                         subject = replaceValuesInString(subject, map);

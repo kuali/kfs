@@ -23,15 +23,15 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.exception.InvalidAddressException;
 
 import com.lowagie.text.DocumentException;
 
 /**
- * Service to help the TransmitContractsAndGrantsInvoicesLookupAction
+ * Service to help the TransmitContractsAndGrantsInvoicesAction
  */
 public interface TransmitContractsAndGrantsInvoicesService {
 
@@ -51,7 +51,7 @@ public interface TransmitContractsAndGrantsInvoicesService {
      * @throws WorkflowException thrown if document could not be retrieved
      * @throws ParseException thrown if dates could not be parsed
      */
-    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(Map fieldValues) throws WorkflowException, ParseException;
+    public Collection<ContractsGrantsInvoiceDocument> getInvoicesByParametersFromRequest(String userId, String documentNumber, String proposalNumber, String invoiceAmount, String chartOfAccountsCode, String organizationCode, String unformattedToDate, String unformattedFromDate, String invoiceTransmissionMethodCode) throws WorkflowException, ParseException;
 
     /**
      * Is the invoice valid to email (has Email transmission method and hasn't been marked for processing)?
@@ -95,13 +95,10 @@ public interface TransmitContractsAndGrantsInvoicesService {
     public void validateSearchParameters(Map<String,String> fieldValues);
 
     /**
-     * This method emails invoices and then sets the report delivery flag.
+     * This method marks invoices for the ArEmailService for Email reports delivery.
      *
      * @param list
-     * @return true if all emails were successfully sent, false otherwise
-     * @throws InvalidAddressException
-     * @throws MessagingException
      */
-    public boolean sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException;
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws AddressException, MessagingException;
 
 }

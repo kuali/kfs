@@ -22,7 +22,7 @@
   		<ul class="chan">	
 			<li><portal:portalLink displayTitle="true"
 				title="Transmit Contracts & Grants Invoices"
-				url="arTransmitContractsAndGrantsInvoices.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookupDataHolder&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+				url="arTransmitContractsAndGrantsInvoices.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   		</ul>
 	</c:if>
 	<c:if test="${ConfigProperties.module.capital.asset.enabled == 'true'}">

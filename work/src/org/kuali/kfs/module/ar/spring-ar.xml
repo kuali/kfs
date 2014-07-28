@@ -2132,6 +2132,24 @@
 			<ref bean="collectionActivityReportLookupableHelperService" />
 		</property>
 	</bean>
+
+	<bean id="transmitContractsAndGrantsInvoicesLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
+		<property name="personService">
+			<ref bean="personService"/>
+		</property>
+		<property name="transmitContractsAndGrantsInvoicesService">
+			<ref bean="transmitContractsAndGrantsInvoicesService"/>
+		</property>
+	</bean>
+
+	<bean id="transmitContractsAndGrantsInvoicesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="transmitContractsAndGrantsInvoicesLookupableHelperService" />
+		</property>
+	</bean>
 	
 	<bean id="contractsGrantsAgingOpenInvoicesReportService" parent="contractsGrantsAgingOpenInvoicesReportService-parentBean" />
 	<bean id="contractsGrantsAgingOpenInvoicesReportService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsAgingOpenInvoicesReportServiceImpl" abstract="true">
@@ -2215,8 +2233,8 @@
 		</property>
 	</bean>
 	
-	<bean id="invoiceReportDeliveryService" parent="invoiceReportDeliveryService-parentBean"/>
-	<bean id="invoiceReportDeliveryService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.InvoiceReportDeliveryServiceImpl">
+	<bean id="transmitContractsAndGrantsInvoicesService" parent="transmitContractsAndGrantsInvoicesService-parentBean"/>
+	<bean id="transmitContractsAndGrantsInvoicesService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.TransmitContractsAndGrantsInvoicesServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 		<property name="contractsGrantsInvoiceReportService" ref="contractsGrantsInvoiceReportService"/>
 		<property name="documentService" ref="documentService"/>

@@ -32,7 +32,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -400,7 +400,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             detail.setFundsNotDrawn(detail.getHiddenAmountToDraw().subtract(detail.getAmountToDraw()));
 
             if (detail.getFundsNotDrawn().isNegative()) {
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.FUNDS_NOT_DRAWN, ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
+                GlobalVariables.getMessageMap().putError("fundsNotDrawn", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
                 detail.setFundsNotDrawn(KualiDecimal.ZERO);
                 detail.setAmountToDraw(detail.getHiddenAmountToDraw().subtract(detail.getFundsNotDrawn()));
             }
@@ -417,8 +417,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
                     if (detail.getAccountNumber().equals(awardAccount.getAccountNumber())) {
-                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, detail.getAmountToDraw());
-                        SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, true);
+                        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAmountToDrawToAwardAccount(criteria, detail.getAmountToDraw());
+                        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCReviewIndicatorToAwardAccount(criteria, true);
                     }
                 }
             }
@@ -501,11 +501,11 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             for (ContractsAndGrantsBillingAward award : awards) {
                 if (ObjectUtils.isNotNull(this.getLetterOfCreditFundCode())) {
 
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
+                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
                 }
                 else {
 
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND_GRP);
+                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND_GRP);
                 }
 
             }
@@ -548,13 +548,13 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);// clear
+                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);// clear
                     // values
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);// clear
+                    SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);// clear
                     // values
 
                 }
-                SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
+                SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
 
             }
 

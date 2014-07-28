@@ -32,11 +32,11 @@ import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformatio
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -52,12 +52,12 @@ import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardInvoiceAccountFixture;
-import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceDetailAccountObjectCodeFixture;
+import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceSuspensionCategoryFixture;
@@ -73,7 +73,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -635,8 +634,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         organizationOptions.setProcessingOrganizationCode(orgCode);
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");

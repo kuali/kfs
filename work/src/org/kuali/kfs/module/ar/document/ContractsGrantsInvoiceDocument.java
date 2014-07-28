@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -64,7 +64,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private Long proposalNumber;
     private KualiDecimal paymentAmount = KualiDecimal.ZERO;
     private KualiDecimal balanceDue = KualiDecimal.ZERO;
-    private List<InvoiceDetail> invoiceDetails;
+    private List<ContractsGrantsInvoiceDetail> invoiceDetails;
     private List<Event> events;
     private List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes;
     private List<InvoiceAddressDetail> invoiceAddressDetails;
@@ -98,7 +98,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public ContractsGrantsInvoiceDocument() {
 
         invoiceAddressDetails = new ArrayList<InvoiceAddressDetail>();
-        invoiceDetails = new ArrayList<InvoiceDetail>();
+        invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         events = new ArrayList<Event>();
         accountDetails = new ArrayList<InvoiceAccountDetail>();
         invoiceMilestones = new ArrayList<InvoiceMilestone>();
@@ -278,9 +278,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the invoiceDetails.
      */
-    public List<InvoiceDetail> getInvoiceDetailsWithoutIndirectCosts() {
-        List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail invD : invoiceDetails) {
+    public List<ContractsGrantsInvoiceDetail> getInvoiceDetailsWithoutIndirectCosts() {
+        List<ContractsGrantsInvoiceDetail> invDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
+        for (ContractsGrantsInvoiceDetail invD : invoiceDetails) {
             if (!invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD) && !invD.isIndirectCostIndicator()) {
                 invDetails.add(invD);
             }
@@ -293,9 +293,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the invoiceDetails.
      */
-    public List<InvoiceDetail> getInvoiceDetailsWithIndirectCosts(){
-        List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail invD : invoiceDetails) {
+    public List<ContractsGrantsInvoiceDetail> getInvoiceDetailsWithIndirectCosts(){
+        List<ContractsGrantsInvoiceDetail> invDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
+        for (ContractsGrantsInvoiceDetail invD : invoiceDetails) {
             if (!invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
                 invDetails.add(invD);
             }
@@ -309,9 +309,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * These invoice details are not shown on the document and is different from the
      * other method getInDirectCostInvoiceDetails() because that method returns the total.
      */
-    public List<InvoiceDetail> getInvoiceDetailsIndirectCostOnly(){
-        List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail invD : invoiceDetails) {
+    public List<ContractsGrantsInvoiceDetail> getInvoiceDetailsIndirectCostOnly(){
+        List<ContractsGrantsInvoiceDetail> invDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
+        for (ContractsGrantsInvoiceDetail invD : invoiceDetails) {
             if (!invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD) && !invD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD) && invD.isIndirectCostIndicator()) {
                invDetails.add(invD);
             }
@@ -324,7 +324,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @param invoiceDetails The invoiceDetails to set.
      */
-    public List<InvoiceDetail> getInvoiceDetails() {
+    public List<ContractsGrantsInvoiceDetail> getInvoiceDetails() {
         return invoiceDetails;
     }
 
@@ -333,7 +333,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @param invoiceDetails The invoiceDetails to set.
      */
-    public void setInvoiceDetails(List<InvoiceDetail> invoiceDetails) {
+    public void setInvoiceDetails(List<ContractsGrantsInvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
     }
 
@@ -590,10 +590,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the total direct Cost InvoiceDetails.
      */
-    public InvoiceDetail getTotalDirectCostInvoiceDetail() {
-        InvoiceDetail totalDirectCostInvoiceDetail = null;
+    public ContractsGrantsInvoiceDetail getTotalDirectCostInvoiceDetail() {
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = null;
 
-        for (InvoiceDetail invoiceDetail: invoiceDetails) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail: invoiceDetails) {
             if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
                 totalDirectCostInvoiceDetail = invoiceDetail;
                 break;
@@ -626,10 +626,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the total indirect cost InvoiceDetail.
      */
-    public InvoiceDetail getTotalInDirectCostInvoiceDetail() {
-        InvoiceDetail totalInDirectCostInvoiceDetail = null;
+    public ContractsGrantsInvoiceDetail getTotalInDirectCostInvoiceDetail() {
+        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = null;
 
-        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail : invoiceDetails) {
             if (invoiceDetail.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
                 totalInDirectCostInvoiceDetail = invoiceDetail;
                 break;
@@ -644,10 +644,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the total cost InvoiceDetail.
      */
-    public InvoiceDetail getTotalCostInvoiceDetail() {
+    public ContractsGrantsInvoiceDetail getTotalCostInvoiceDetail() {
         // To get the invoice Detail for total cost
-        InvoiceDetail totalCostInvoiceDetail = null;
-        for (InvoiceDetail tInvD : invoiceDetails) {
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = null;
+        for (ContractsGrantsInvoiceDetail tInvD : invoiceDetails) {
             if (tInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_COST_CD)) {
                 totalCostInvoiceDetail = tInvD;
                 break;

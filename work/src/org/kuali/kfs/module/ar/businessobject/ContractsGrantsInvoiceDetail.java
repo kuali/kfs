@@ -35,7 +35,10 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     private KualiDecimal budget = KualiDecimal.ZERO;
     private KualiDecimal expenditures = KualiDecimal.ZERO;
     private KualiDecimal cumulative = KualiDecimal.ZERO;
+    private KualiDecimal balance = KualiDecimal.ZERO;
     private KualiDecimal billed = KualiDecimal.ZERO;
+    private KualiDecimal adjustedCumExpenditures = KualiDecimal.ZERO;
+    private KualiDecimal adjustedBalance = KualiDecimal.ZERO;
     private boolean indirectCostIndicator;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
@@ -175,6 +178,15 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     }
 
     /**
+     * Sets the balance attribute value.
+     *
+     * @param balance The balance to set.
+     */
+    public void setBalance(KualiDecimal balance) {
+        this.balance = balance;
+    }
+
+    /**
      * Gets the billed attribute.
      *
      * @return Returns the billed.
@@ -244,6 +256,16 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
     }
 
     /**
+     * Sets the adjustedCumExpenditures attribute value.
+     *
+     * @param adjustedCumExpenditures The adjustedCumExpenditures to set.
+     */
+    public void setAdjustedCumExpenditures(KualiDecimal adjustedCumExpenditures) {
+        this.adjustedCumExpenditures = adjustedCumExpenditures;
+    }
+
+
+    /**
      * Gets the adjustedBalance attribute.
      *
      * @return Returns the adjustedBalance.
@@ -253,6 +275,49 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         total = budget.subtract(this.getAdjustedCumExpenditures());
         return total;
     }
+
+    /**
+     * Sets the adjustedBalance attribute value.
+     *
+     * @param adjustedBalance The adjustedBalance to set.
+     */
+    public void setAdjustedBalance(KualiDecimal adjustedBalance) {
+        this.adjustedBalance = adjustedBalance;
+    }
+
+    /**
+     * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
+     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
+     *
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException Thrown by call to super.prePersist();
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
+     */
+
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        balance = getBalance();
+        adjustedCumExpenditures = this.getAdjustedCumExpenditures();
+        adjustedBalance = this.getAdjustedBalance();
+
+    }
+
+    /**
+     * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
+     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
+     *
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    protected void preUpdate() {
+        super.preUpdate();
+        balance = getBalance();
+
+    }
+
 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
@@ -274,13 +339,24 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         if (ObjectUtils.isNotNull(this.cumulative)) {
             m.put("cumulative", this.cumulative.toString());
         }
-        m.put("balance", getBalance().toString());
+        if (ObjectUtils.isNotNull(this.balance)) {
+            m.put("balance", this.balance.toString());
+        }
         if (ObjectUtils.isNotNull(this.billed)) {
             m.put("billed", this.billed.toString());
         }
-        m.put("adjustedCumExpenditures", getAdjustedCumExpenditures().toString());
-        m.put("adjustedBalance", getAdjustedBalance().toString());
+        if (ObjectUtils.isNotNull(this.adjustedCumExpenditures)) {
+            m.put("adjustedCumExpenditures", this.adjustedCumExpenditures.toString());
+        }
+        if (ObjectUtils.isNotNull(this.adjustedBalance)) {
+            m.put("adjustedBalance", this.adjustedBalance.toString());
+        }
         return m;
+    }
+
+    public void correctInvoiceDetailsCurrentExpenditure() {
+        this.setExpenditures(getExpenditures().negated());
+        this.setInvoiceDocument(null);
     }
 
 }

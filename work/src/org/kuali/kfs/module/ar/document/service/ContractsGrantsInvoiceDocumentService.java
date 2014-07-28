@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -110,6 +113,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
+     * Retrieves all open Contracts and Grants Invoice Document.
+     *
+     * @param includeWorkflowHeaders
+     * @return
+     */
+    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments(boolean includeWorkflowHeaders);
+
+    /**
      * This method removes the InvoiceDetailAccountObjectCodes where the current expenditure is zero.
      *
      * @param invoiceDetailAccountObjectCode
@@ -149,6 +160,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return
      */
     public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate);
+
+    /**
+     * Returns all Contracts and Grants Invoice Documents in the system.
+     *
+     * @param includeWorkflowHeaders
+     * @return
+     */
+    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments(boolean includeWorkflowHeaders);
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
@@ -296,7 +315,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
+    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
 
     /**
      * Check iF Award has no accounts assigned
@@ -592,6 +611,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean hasMilestoneBeenCopiedToInvoice(Long proposalNumber, String milestoneId);
 
     /**
+     * Sends out e-mails about all in process Contrancts & Grants Invoice documents
+     *
+     * @throws AddressException
+     * @throws MessagingException
+     */
+    public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException;
+
+    /**
      * Determines if the given invoice template can be utilized by the given current user
      *
      * @param invoiceTemplate the invoice template to check
@@ -600,13 +627,4 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      */
     public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user);
 
-    /**
-     * Determines if the given invoice template can be utilized by the given CGB Invoice Document based on
-     * a comparison of the billing chart/org of the invoiceTemplate to the billing chart/org of the invoice doc.
-     *
-     * @param invoiceTemplate the invoice template to check
-     * @param contractsGrantsInvoiceDocument the invoice document to check against
-     * @return true if the document can utilize the template, false otherwise
-     */
-    public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 }

@@ -65,6 +65,7 @@ public enum ContractsGrantsInvoiceDetailFixture {
         invoiceDetail.setBudget(this.budget);
         invoiceDetail.setExpenditures(this.expenditures);
         invoiceDetail.setCumulative(this.cumulative);
+        invoiceDetail.setBalance(this.balance);
         invoiceDetail.setBilled(this.billed);
         invoiceDetail.setIndirectCostIndicator(this.indirectCostIndicator);
 

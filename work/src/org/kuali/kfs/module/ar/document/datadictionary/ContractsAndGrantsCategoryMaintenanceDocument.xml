@@ -18,7 +18,7 @@
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory" />
 		<property name="maintainableClass"
-			value="org.kuali.kfs.module.ar.document.ContractsAndGrantsCategoryMaintainableImpl" />
+			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ContractsAndGrantsCategoryMaintenanceDocument-EditCategory" />
@@ -34,7 +34,7 @@
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase" />
+			value="org.kuali.kfs.module.ar.document.authorization.CategoryDocumentPresentationController" />
 		<property name="workflowAttributes">
 			<ref bean="ContractsAndGrantsCategoryMaintenanceDocument-workflowAttributes" />
 		</property>

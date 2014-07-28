@@ -108,7 +108,7 @@
 		parent="AttributeDefinition">
 		<property name="name" value="proposalNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Award ID" />
+		<property name="label" value="Award Number" />
 		<property name="shortLabel" value="Prop Num" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
@@ -123,8 +123,8 @@
 	<bean id="Award-awardNumber-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="awardNumber" />
-		<property name="label" value="Award Number" />
-		<property name="shortLabel" value="Award Num" />
+		<property name="label" value="Award ID" />
+		<property name="shortLabel" value="Award ID" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
@@ -303,12 +303,12 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="awardNumber" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="awardNumber" />
 			</list>
 		</property>
 	</bean>

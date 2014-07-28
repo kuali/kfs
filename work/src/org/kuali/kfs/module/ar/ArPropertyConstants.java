@@ -492,15 +492,19 @@ public class ArPropertyConstants{
     public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
+    public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
     public static final String INVOICE_TYPE = "invoiceType";
     public static final String AGE_IN_DAYS = "ageInDays";
+    public static final String AWARD = "award";
     public static final String REMAINING_AMOUNT = "remainingAmount";
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
+    public static final String BILLED_INDICATOR = "billedIndicator";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
+    public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
 }

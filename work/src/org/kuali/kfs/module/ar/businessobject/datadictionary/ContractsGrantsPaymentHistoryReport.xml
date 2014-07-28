@@ -131,10 +131,11 @@
 	</bean>
 
 	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber" parent="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" />
-	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
+		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="awardNumber" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Awd nbr" />
 		<property name="required" value="false" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />

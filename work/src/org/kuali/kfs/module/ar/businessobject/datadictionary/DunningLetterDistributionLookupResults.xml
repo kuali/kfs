@@ -145,7 +145,7 @@
 	<bean id="DunningLetterDistributionLookupResult-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
-		<property name="label" value="Proposal Number" />
+		
 	</bean>
 	
 	<bean id="DunningLetterDistributionLookupResult-accountNumber" parent="DunningLetterDistributionLookupResult-accountNumber-parentBean" />

@@ -163,10 +163,11 @@
 		parent="ContractsGrantsInvoiceDocument-proposalNumber-parentBean" />
 
 	<bean id="ContractsGrantsInvoiceDocument-proposalNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
+		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Proposal Number" />
 		<property name="maxLength" value="10" />
 		<property name="required" value="false" />
 		<property name="control">

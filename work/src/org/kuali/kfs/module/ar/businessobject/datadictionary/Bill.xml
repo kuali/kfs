@@ -61,8 +61,6 @@
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="PrpslNbr" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />

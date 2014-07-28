@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,8 +27,10 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -214,6 +217,49 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
             operator = parseOperatorAndValue(fieldFromLookup);
         }
         return operator;
+    }
+
+    /**
+     * Translates the date criteria to a form which the LookupService will comprehend
+     * @param dateLowerBound the lower bound of the date
+     * @param dateUpperBound the upper bound of the date
+     * @return the date criteria, or null if nothing could be constructed
+     */
+    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound) {
+        if (!StringUtils.isBlank(dateLowerBound)) {
+            if (!StringUtils.isBlank(dateUpperBound)) {
+                return dateLowerBound+".."+dateUpperBound;
+            } else {
+                return ">="+dateLowerBound;
+            }
+        } else {
+            if (!StringUtils.isBlank(dateUpperBound)) {
+                return "<="+dateUpperBound;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Convenience method to validate a date from the lookup criteria
+     * @param dateFieldValue the value of the field from the lookup criteria
+     * @param dateFieldClass the class being looked up
+     * @param dateFieldPropertyName the property name representing the date
+     * @param dateTimeService an implementation of DateTimeService
+     */
+    protected void validateDateField(String dateFieldValue, String dateFieldPropertyName, DateTimeService dateTimeService) {
+        if (!StringUtils.isBlank(dateFieldValue)) {
+            try {
+                dateTimeService.convertToDate(dateFieldValue);
+            }
+            catch (ParseException pe) {
+                final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
+                        dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
+                        dateFieldPropertyName;
+                final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
+                GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
+            }
+        }
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

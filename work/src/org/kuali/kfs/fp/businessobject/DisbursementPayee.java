@@ -470,6 +470,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
         payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, KFSConstants.PaymentPayeeTypes.VENDOR);
         payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR);
         payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REFUND_PAYMENT, KFSConstants.PaymentPayeeTypes.REFUND_VENDOR);
 
         return payeeVendorTypeCodeMapping;
     }

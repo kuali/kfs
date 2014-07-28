@@ -1327,6 +1327,18 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         if ((getChecks() == null || getChecks().isEmpty()) && getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
             setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_DETAIL);
         }
+
+        /* KFSMI-9914 (IU ref: FSKD-5275): Confirmed amounts were copied causing problems when copied doc was confirmed */
+                   setTotalConfirmedCashAmount(KualiDecimal.ZERO);
+                    setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
+                    setTotalConfirmedCoinAmount(KualiDecimal.ZERO);
+                    totalChangeAmount = KualiDecimal.ZERO;
+                   confirmedCurrencyDetail = new CurrencyDetail();
+                   confirmedCoinDetail = new CoinDetail();
+                    changeCurrencyDetail = new CurrencyDetail();
+                    changeCoinDetail = new CoinDetail();
+                    confirmedChecks = new ArrayList<Check>();
+
     }
 
     /**

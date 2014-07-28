@@ -1062,16 +1062,15 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      *
      * @return
      */
-    protected boolean requiresTravelerApprovalRouting() {
-        //If there's travel advances, route to traveler if necessary
-        return requiresTravelAdvanceReviewRouting() && !getTravelAdvance().getTravelAdvancePolicy();
+    public boolean requiresTravelerApprovalRouting() {
+        return getTravelDocumentService().requiresTravelerApproval(this);
     }
 
     /**
      *
      * @return
      */
-    protected boolean requiresTravelAdvanceReviewRouting() {
+    public boolean requiresTravelAdvanceReviewRouting() {
         return (shouldProcessAdvanceForDocument() && getTravelAdvance().getTravelAdvanceRequested().isPositive());
     }
 
@@ -1080,7 +1079,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      *
      * @return
      */
-    private boolean requiresRiskManagementReviewRouting() {
+    public boolean requiresRiskManagementReviewRouting() {
         // Right now this works just like International Travel Reviewer, but may change for next version
         if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(this.getTripTypeCode())) {
             return true;
@@ -1599,4 +1598,5 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         }
         return offsetDefinitionService;
     }
+
 }

@@ -86,6 +86,7 @@ import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
@@ -2694,6 +2695,46 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             prefixedUrl = "https://"+prefixedUrl;
         }
         return prefixedUrl;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#isInitiatorTraveler(TravelDocument)
+     */
+    @Override
+    public boolean isInitiatorTraveler(TravelDocument travelDoc) {
+        String initiatorId = travelDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        String travelerId = travelDoc.getTraveler().getPrincipalId();
+        boolean is = travelerId != null && initiatorId.equals(travelerId);
+        return is;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#requiresTravelerApproval(TravelAuthorizationDocument)
+     */
+    @Override
+    public boolean requiresTravelerApproval(TravelAuthorizationDocument taDoc) {
+        // If there's travel advances, route to traveler if necessary
+        boolean require = taDoc.requiresTravelAdvanceReviewRouting();
+        require &= !taDoc.getTravelAdvance().getTravelAdvancePolicy();
+
+        // no need to route back to traveler if s/he is the initiator
+        require &= !isInitiatorTraveler(taDoc);
+
+        return require;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#requiresTravelerApproval(TEMReimbursementDocument)
+     */
+    @Override
+    public boolean requiresTravelerApproval(TEMReimbursementDocument trDoc) {
+        String travelerTypeCode = trDoc.getTraveler().getTravelerTypeCode();
+        if (parameterService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
+            return false;
+        }
+
+        // no need to route back to traveler if s/he is the initiator
+        return !isInitiatorTraveler(trDoc);
     }
 
     /**

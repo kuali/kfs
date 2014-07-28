@@ -1186,7 +1186,7 @@
         <column name="EVENT_ROUTE_STATUS" size="1" type="VARCHAR"/>
         <column name="FDOC_NBR" size="14" type="VARCHAR"/>
         <column name="USR_PRNCPL_ID" size="40" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_EVENT_FK1">
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_EVENT_TR1">
             <reference foreign="FDOC_NBR" local="INVOICE_NBR"/>
         </foreign-key>
         <unique name="AR_EVENT_TC0">
@@ -1274,7 +1274,7 @@
         <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_R1">
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
         <unique name="AR_INV_BILL_TC0">
@@ -1564,7 +1564,7 @@
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_R1">
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
         <unique name="AR_INV_MLSTN_TC0">
@@ -1707,7 +1707,7 @@
         <column name="AWD_END_DT" type="TIMESTAMP"/>
         <column name="CG_AGENCY_NBR" size="6" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_LTRCR_RVW_DOC_T" name="AR_LTRCR_RVW_DTL_R1">
+        <foreign-key foreignTable="AR_LTRCR_RVW_DOC_T" name="AR_LTRCR_RVW_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
         <unique name="AR_LTRCR_RVW_DTL_TC0">
@@ -3994,10 +3994,10 @@
         <column name="PHN_NBR" size="40" type="VARCHAR"/>
         <column name="FAX_NBR" size="40" type="VARCHAR"/>
         <column name="AGENCY_CNTCT_EMAIL_ADDR" size="60" type="VARCHAR"/>
-        <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_R1">
+        <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_TR1">
             <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
         </foreign-key>
-        <foreign-key foreignTable="CG_AGENCY_ADDR_TYP_T" name="CG_AGENCY_ADDR_R2">
+        <foreign-key foreignTable="CG_AGENCY_ADDR_TYP_T" name="CG_AGENCY_ADDR_TR2">
             <reference foreign="CG_AGENCY_ADDR_TYPE_CD" local="CG_AGENCY_ADDR_TYPE_CD"/>
         </foreign-key>
         <unique name="CG_AGENCY_ADDR_TC0">
@@ -4123,35 +4123,35 @@
         <column name="PROJECT_CD" size="10" type="VARCHAR"/>
         <column name="ACCT_TYP" size="45" type="VARCHAR"/>
         <column name="ACTV_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="CA_CHART_T" name="CG_AWD_INV_ACCT_R2">
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_INV_ACCT_TR1">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_CHART_T" name="CG_AWD_INV_ACCT_TR2">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_INV_ACCT_R3">
+        <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_INV_ACCT_TR3">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_SUB_ACCT_T" name="CG_AWD_INV_ACCT_R4">
+        <foreign-key foreignTable="CA_SUB_ACCT_T" name="CG_AWD_INV_ACCT_TR4">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
             <reference foreign="SUB_ACCT_NBR" local="SUB_ACCT_NBR"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="CG_AWD_INV_ACCT_R5">
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="CG_AWD_INV_ACCT_TR5">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_SUB_OBJECT_CD_T" name="CG_AWD_INV_ACCT_R6">
+        <foreign-key foreignTable="CA_SUB_OBJECT_CD_T" name="CG_AWD_INV_ACCT_TR6">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
             <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
             <reference foreign="FIN_SUB_OBJ_CD" local="FIN_SUB_OBJ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_PROJECT_T" name="CG_AWD_INV_ACCT_R7">
+        <foreign-key foreignTable="CA_PROJECT_T" name="CG_AWD_INV_ACCT_TR7">
             <reference foreign="PROJECT_CD" local="PROJECT_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_INV_ACCT_TR1">
-            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
         </foreign-key>
         <unique name="CG_AWD_INV_ACCT_TC0">
             <unique-column name="OBJ_ID"/>
@@ -4291,9 +4291,6 @@
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STOP_WRK_IND" size="1" type="VARCHAR"/>
         <column name="STOP_WRK_REASON_TXT" size="120" type="VARCHAR"/>
-        <foreign-key foreignTable="CG_LTRCR_FND_T" name="CG_AWD_R1">
-            <reference foreign="CG_LTRCR_FND_CD" local="CG_LTRCR_FND_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="CG_PRPSL_T" name="CG_AWD_TR1">
             <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
         </foreign-key>
@@ -4317,6 +4314,9 @@
         </foreign-key>
         <foreign-key foreignTable="CG_PRPSL_PURPOSE_T" name="CG_AWD_TR8">
             <reference foreign="CGPRPSL_PURPOSE_CD" local="CGAWD_PURPOSE_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CG_LTRCR_FND_T" name="CG_AWD_TR9">
+            <reference foreign="CG_LTRCR_FND_CD" local="CG_LTRCR_FND_CD"/>
         </foreign-key>
         <unique name="CG_AWD_TC0">
             <unique-column name="OBJ_ID"/>
@@ -4405,7 +4405,7 @@
         <column name="CG_LTRCR_START_DT" type="TIMESTAMP"/>
         <column name="CG_LTRCR_EXPIRATION_DT" type="TIMESTAMP"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_LTRCR_FND_R1">
+        <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_LTRCR_FND_TR1">
             <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>
         </foreign-key>
         <unique name="CG_LTRCR_FND_TC0">

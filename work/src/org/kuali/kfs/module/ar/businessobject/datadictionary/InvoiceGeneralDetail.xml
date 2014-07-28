@@ -173,7 +173,6 @@
 		<property name="label" value="Cost Share Amount" />
 		<property name="shortLabel" value="Cost Share Amount" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
-		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 
 	<bean id="InvoiceGeneralDetail-lastBilledDate" parent="InvoiceGeneralDetail-lastBilledDate-parentBean" />

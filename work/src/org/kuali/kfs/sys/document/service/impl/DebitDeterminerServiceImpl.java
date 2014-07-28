@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -98,24 +100,6 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     public boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
-        boolean isDebit = isDebitConsideringNothingPositiveOrNegative(poster,postable);
-
-        // non error correction document with non positive amount
-        if (!isErrorCorrection(poster) && !isDebit) {
-            throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-        }
-
-        LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
-        return isDebit;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringNothingPositiveOrNegative(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
-     */
-    @Override
-    public boolean isDebitConsideringNothingPositiveOrNegative(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
-        LOG.debug("isDebitConsideringNothingPositiveOrNegative(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
-
         boolean isDebit = false;
         KualiDecimal amount = postable.getAmount();
         boolean isPositiveAmount = amount.isPositive();
@@ -124,7 +108,15 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
             isDebit = true;
         }
         else {
-          isDebit = false;
+            // non error correction or DV
+            if (!isErrorCorrection(poster) && !(poster instanceof DisbursementVoucherDocument) && !(poster instanceof NonCheckDisbursementDocument)) {
+                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
+
+            }
+            // error correction or DV
+            else {
+                isDebit = false;
+            }
         }
 
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");

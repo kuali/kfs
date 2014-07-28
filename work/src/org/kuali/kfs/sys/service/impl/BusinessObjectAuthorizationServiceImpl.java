@@ -57,7 +57,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
     protected void considerBusinessObjectFieldUnmaskAuthorization(Object dataObject, Person user, BusinessObjectRestrictions businessObjectRestrictions, String propertyPrefix, Document document) {
         final DataDictionaryEntryBase objectEntry = (dataObject instanceof org.kuali.rice.krad.document.Document) ?
                 getDataDictionaryService().getDataDictionary().getDocumentEntry(getDataDictionaryService().getDocumentTypeNameByClass(dataObject.getClass())) :
-                getDataDictionaryService().getDataDictionary().getDataObjectEntry(dataObject.getClass().getName());
+                getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(dataObject.getClass().getName());
 
         BusinessObject permissionTarget = (dataObject instanceof BusinessObject) ? (BusinessObject)dataObject : document;
 

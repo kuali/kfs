@@ -37,42 +37,45 @@ public class TrialBalanceDaoJdbc extends PlatformAwareDaoBaseJdbc implements Tri
 
 
 
-    /**
+    /*
      * Helper method used to build the YTD sum depending on the selected fiscal period
+     * If the the period code specified is either empty or invalid, return the current balance amount + begining balance
      * Actuals to be totaled by BB + period1 Total + period2 Total + etc...
+     *
      * @param periodCode
      * @return
      */
     private static String buildYTDQueryString( String periodCode ){
-        StringBuilder ytdQuery = new StringBuilder(" SUM(A0.FIN_BEG_BAL_LN_AMT + ");
 
-        if (StringUtils.isBlank(periodCode)) {
-            return ytdQuery.append("A0.ACLN_ANNL_BAL_AMT) YTD ").toString();
+        if ( StringUtils.isBlank(periodCode)) {
+            return " SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT)";
         }
 
+        int number = 0;
         try {
-            Integer number = Integer.parseInt( periodCode );
-             for ( int i = 1; i<=number; i++){
-                 ytdQuery.append("MO" + i);
-                 ytdQuery.append( i<number?"_ACCT_LN_AMT + ":"_ACCT_LN_AMT ");
-             }
-        }
-        catch (NumberFormatException e){
+            number = Integer.parseInt( periodCode );
+        } catch (NumberFormatException e){
             //if periodCode is not a number, then consider it blank
-            return ytdQuery.append("A0.ACLN_ANNL_BAL_AMT) YTD ").toString();
+            return " SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT)";
         }
 
-        return ytdQuery.append(") YTD ").toString();
+        StringBuilder ytdQuery = new StringBuilder(" SUM(A0.FIN_BEG_BAL_LN_AMT + ");
+        for ( int i = 1; i<=number; i++){
+            ytdQuery.append("MO" + i);
+            ytdQuery.append( i<number?"_ACCT_LN_AMT + ":"_ACCT_LN_AMT ");
+        }
+
+        return ytdQuery.append( ")" ).toString();
     }
 
 
     @Override
     public List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode, String periodCode) {
         final List<TrialBalanceReport> report = new ArrayList<TrialBalanceReport>();
-
+        String YTDQuery = buildYTDQueryString(periodCode);
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("SELECT A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD,");
-        queryBuilder.append( buildYTDQueryString(periodCode) );
+        queryBuilder.append( YTDQuery +" AS YTD ");
         queryBuilder.append("FROM GL_BALANCE_T A0 JOIN CA_OBJECT_CODE_T A1 on A1.FIN_COA_CD = A0.FIN_COA_CD AND A1.UNIV_FISCAL_YR = A0.UNIV_FISCAL_YR and A1.FIN_OBJECT_CD = A0.FIN_OBJECT_CD ");
         queryBuilder.append("JOIN CA_OBJ_TYPE_T A2 on A2.FIN_OBJ_TYP_CD = A1.FIN_OBJ_TYP_CD ");
         queryBuilder.append("JOIN CA_ACCTG_CTGRY_T A3 on A3.ACCTG_CTGRY_CD = A2.ACCTG_CTGRY_CD ");
@@ -82,7 +85,8 @@ public class TrialBalanceDaoJdbc extends PlatformAwareDaoBaseJdbc implements Tri
         if (StringUtils.isNotBlank(chartCode)) {
             queryBuilder.append("AND A0.FIN_COA_CD='" + chartCode + "' ");
         }
-        queryBuilder.append("GROUP BY A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD HAVING YTD <> 0 ");
+        queryBuilder.append("GROUP BY A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD, A3.FIN_REPORT_SORT_CD ");
+        queryBuilder.append("HAVING "+YTDQuery+" <> 0 ");
         queryBuilder.append("ORDER BY A0.FIN_COA_CD, A3.FIN_REPORT_SORT_CD, A0.FIN_OBJECT_CD");
 
         getJdbcTemplate().query(queryBuilder.toString(), new ResultSetExtractor() {

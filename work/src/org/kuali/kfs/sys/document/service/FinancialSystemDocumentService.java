@@ -55,9 +55,21 @@ public interface FinancialSystemDocumentService {
      * @throws WorkflowException if the workflow document cannot be accessed for any reason
      */
     public <T extends Document> Collection<T> findByApplicationDocumentStatus(Class<T> clazz, String applicationDocumentStatus) throws WorkflowException;
+    /**
+     * This method retrieves the financial system document headers of all the documents having application document status passed in.
+     *
+     * @param applicationDocumentStatus
+     * @return document headers list
+     */
     public Collection<FinancialSystemDocumentHeader> findByApplicationDocumentStatus(String applicationDocumentStatus);
     public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document);
     public Collection<FinancialSystemDocumentHeader> findByWorkflowStatusCode(DocumentStatus docStatus);
+    /**
+     * This method takes a document number in and returns the relevant document header
+     *
+     * @param documentNumber
+     * @return document header
+     */
     public FinancialSystemDocumentHeader findByDocumentNumber(String documentNumber);
     /**
      * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,

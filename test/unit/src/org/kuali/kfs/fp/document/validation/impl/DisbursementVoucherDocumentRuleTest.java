@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
 
     /**
      * test that an <code>IllegalStateException</code> gets thrown for an error correction document
-     * 
+     *
      * @throws Exception
      */
     public void testIsDebit_errorCorrection() throws Exception {
@@ -51,7 +51,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
 
     /**
      * tests true is returned for a positive income
-     * 
+     *
      * @throws Exception
      */
     public void testIsDebit_income_positveAmount() throws Exception {
@@ -62,32 +62,32 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateExcpetion</code> is thrown for a negative income
-     * 
+     * tests false is returned for a negative income
+     *
      * @throws Exception
      */
     public void testIsDebit_income_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero income
-     * 
+     * tests false is returned for a zero income
+     *
      * @throws Exception
      */
     public void testIsDebit_income_zeroAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
      * tests true is returned for a positive expense
-     * 
+     *
      * @throws Exception
      */
     public void testIsDebit_expense_positveAmount() throws Exception {
@@ -98,32 +98,32 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative expense
-     * 
+     * tests false is returned for a negative expense
+     *
      * @throws Exception
      */
     public void testIsDebit_expense_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
-     * 
+     * tests false is returned for a zero expense
+     *
      * @throws Exception
      */
     public void testIsDebit_expense_zeroAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
      * tests true is returned for a positive asset
-     * 
+     *
      * @throws Exception
      */
     public void testIsDebit_asset_positveAmount() throws Exception {
@@ -134,32 +134,32 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
-     * 
+     * tests false is returned for a negative asset
+     *
      * @throws Exception
      */
     public void testIsDebit_asset_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero asset
-     * 
+     * tests false is returned for a zero asset
+     *
      * @throws Exception
      */
     public void testIsDebit_asset_zeroAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
      * tests true is returned for a positive liability
-     * 
+     *
      * @throws Exception
      */
     public void testIsDebit_liability_positveAmount() throws Exception {
@@ -170,27 +170,27 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative liability
-     * 
+     * tests false is returned for a negative liability
+     *
      * @throws Exception
      */
     public void testIsDebit_liability_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero liability
-     * 
+     * tests false is returned for a zero liability
+     *
      * @throws Exception
      */
     public void testIsDebit_liability_zeroAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods End Here //

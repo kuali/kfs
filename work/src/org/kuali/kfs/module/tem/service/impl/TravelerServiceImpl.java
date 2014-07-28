@@ -560,7 +560,6 @@ public class TravelerServiceImpl implements TravelerService {
     @Override
     public void copyKimDataToTemProfile(TemProfile profile, Person principal, Entity kimEntity) {
         // copy principal data
-        LOG.info("Profile Id ::" + profile.getProfileId() );
         if (ObjectUtils.isNotNull(kimEntity)) {
             profile.setFirstName(principal.getFirstName().toUpperCase());
             profile.setMiddleName(principal.getMiddleName().toUpperCase());

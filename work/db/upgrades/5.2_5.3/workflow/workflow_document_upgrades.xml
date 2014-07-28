@@ -141,7 +141,7 @@
           <role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Approval"/>
           <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Chart Approval"/>
           <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
-          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="notifyOnAutoApproval">
+          <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="RequiresAutoApprovalNotification">
             <branch name="True">
               <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
             </branch>

@@ -1247,12 +1247,12 @@
 	<bean id="financialSystemDocumentHeaderPopulationDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FinancialSystemDocumentHeaderPopulationDaoOjb"/>
        
 	<bean id="attachmentMailer" parent="attachmentMailer-parentBean"/>
-	<bean id="attachmentMailer-parentBean" class="org.kuali.kfs.sys.mail.AttachmentMailerImpl">
+	<bean id="attachmentMailer-parentBean" abstract="true" class="org.kuali.kfs.sys.mail.AttachmentMailerImpl">
 	   <property name="mailSender" ref="mailSender" />
 	</bean>
 
 	<bean id="attachmentMailService" parent="attachmentMailService-parentBean"/>
-	<bean id="attachmentMailService-parentBean" class="org.kuali.kfs.sys.service.impl.AttachmentMailServiceImpl">
+	<bean id="attachmentMailService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.AttachmentMailServiceImpl">
 	   <property name="mailer" ref="attachmentMailer" />
 	</bean>
      

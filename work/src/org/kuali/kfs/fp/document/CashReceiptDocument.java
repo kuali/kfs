@@ -71,7 +71,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public static final String CHECK_ENTRY_TOTAL = "totals";
 
     public static final String DOCUMENT_TYPE = "CR";
-    public static final String REQUIRE_REVIEW_SPLIT = "RequireReview";
+    public static final String REQUIRE_REVIEW_SPLIT = "RequireChangeRequestReview";
 
     // child object containers - for all the different reconciliation detail sections
     protected String checkEntryMode = CHECK_ENTRY_DETAIL;
@@ -87,7 +87,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     // monetary attributes
 
-    // TODO KFSCNTRB-1793 fields not used or needed:
     // These total amount fields except the check ones aren't needed, since their values are computed by the getters;
     // the setters are never used and aren't needed; also these fields exist in DB, but the values are never set.
     protected KualiDecimal totalCurrencyAmount = KualiDecimal.ZERO;
@@ -638,10 +637,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code returns Money In total, which doesn't match the accounting line total when change request is not zero.
-         * This will cause inconsistency when accounting line is validate/modified. We should return the net deposit total instead.
-         */
+        // We should return the net deposit total, which doesn't match the accounting line total when change request is not zero.
         // if CR is preroute, use the original amount;
         if(isPreRoute()) {
             return getTotalNetAmount();        }
@@ -884,9 +880,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code has a bug: it only saves a detail when its total is not zero.
-         * This means that when the detail was non-zero and saved before, and now it is cleared to 0,
+        /*
+         * If we only saves a detail when its total is not zero, when the detail was non-zero and saved before, and now it is cleared to 0,
          * it won't be saved, leaving the previously saved non-zero detail still in DB.
          * Next time CR is loaded, the old value will show up again. Basically it won't allow clearing a detail to 0.
          */

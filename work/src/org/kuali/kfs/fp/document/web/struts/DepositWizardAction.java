@@ -211,9 +211,7 @@ public class DepositWizardAction extends KualiAction {
             }
             else if (docStatus.equalsIgnoreCase(CashReceipt.INTERIM)) { // for final deposit
                 // checks are already deposited but there are cash to be deposited
-            	/* FIXME FIXED by KFSCNTRB-1793
-                 * The original code checks only the currency total, which is not accurate.
-                 * We should check whether the net cash total, i.e. (currency + coin) - (change currency + change coin)
+            	/* We should check whether the net cash total, i.e. (currency + coin) - (change currency + change coin)
                  * is greater than 0; and if so, there's cash to deposit.
                  */
                 if (receipt.getTotalConfirmedNetCashAmount().isGreaterThan(KualiDecimal.ZERO)) {
@@ -547,9 +545,8 @@ public class DepositWizardAction extends KualiAction {
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
                         receipt.refreshCashDetails();
-                        /* FIXME FIXED by KFSCNTRB-1793
-                         * The previous code checks null on original details. It should check on confirmed details instead, which are the ones used here.
-                         * Further more, we don't really need to check null here, since these details won't be null after refreshCashDetails.
+                        /* We should check on confirmed details instead of original ones;
+                         * we don't really need to check null here, since these details won't be null after refreshCashDetails.
                          */
                         currencyTotal.add(receipt.getConfirmedCurrencyDetail());
                         currencyTotal.subtract(receipt.getConfirmedChangeCurrencyDetail());

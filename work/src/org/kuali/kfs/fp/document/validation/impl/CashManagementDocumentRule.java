@@ -450,10 +450,6 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     public boolean checkMoneyOutNoNegatives(CashieringTransaction trans) {
         boolean success = true;
 
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code on checking money out currency has a bug: there were some typos in several places where getMoneyInCurrency is used instead of getMoneyOutCurrency.
-         * Fixed this bug, also improved previous code: reduce redundant code by calling the shared method checkCurrencyNoNegatives on trans.getMoneyOutCurrency()
-         */
         // money out currency
         success &= checkCurrencyNoNegatives(trans.getMoneyOutCurrency(), "document.currentTransaction.moneyOutCurrency.");
 

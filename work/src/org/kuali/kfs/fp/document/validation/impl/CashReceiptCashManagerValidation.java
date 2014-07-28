@@ -44,10 +44,7 @@ public class CashReceiptCashManagerValidation extends RouteNodeValidation {
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code didn't include change request when comparing the original vs confirmed total.
-         * As explained above, we need to check the net total instead, with change out total taken off.
-         */
+        // As explained above, we need to check the net total instead, with change out total taken off.
         CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
         KualiDecimal originalTotal = crDoc.getTotalNetAmount();
 

@@ -273,8 +273,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      */
     @Override
     public boolean areCashAmountsInvalid(CashReceiptDocument cashReceiptDocument) {
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code didn't validate change amounts, and there was no validation on each currency/coin detail amount either.
+        /*
          * We need to make sure that amount of each denomination in any currency or coin detail is non-negative, not just the total.
          * The previous code didn't consider whether check/cash/change have been confirmed or not, when checking the amounts are checked.
          * We need to distinguish the confirmation status here, because when CR is routed, Cash Manger can adjust these amounts before

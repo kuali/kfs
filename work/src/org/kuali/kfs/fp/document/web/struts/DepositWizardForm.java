@@ -475,8 +475,7 @@ public class DepositWizardForm extends KualiForm {
         if (targetDepositAmount == null) {
             targetDepositAmount = KualiDecimal.ZERO;
         }
-        // TODO KFSCNTRB-1793 why is crDoc status checked here instead of deposit status?
-        // if doc status is used, why is VERIFIED considered final? and INTERIM not included in the total amount?
+
         String statusCode = crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         if (statusCode.equals(CashReceipt.VERIFIED) || statusCode.equals(DocumentStatusCodes.FINAL)) {
             targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedCheckAmount());

@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -1627,8 +1626,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public KualiDecimal retrieveAccurateBalanceAmount(java.sql.Date lastBilledDate, Balance glBalance) {
-
-
         // 1. calculate invoice period
         AccountingPeriod invoicePeriod = accountingPeriodService.getByDate(lastBilledDate);
         String invoicePeriodCode = invoicePeriod.getUniversityFiscalPeriodCode();
@@ -1639,37 +1636,34 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
         String currentPeriodCode = currPeriod.getUniversityFiscalPeriodCode();
 
-        // 3. Now to iterate over the period codes and find the amounts for the difference between invoice Period and current Period
-        // - Assuming its the same fiscal year
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currPeriod.getUniversityFiscalYear());
+        KualiDecimal currentBalanceAmount =
+                cleanAmount(glBalance.getMonth1Amount())
+                .add(cleanAmount(glBalance.getMonth2Amount()))
+                .add(cleanAmount(glBalance.getMonth3Amount()))
+                .add(cleanAmount(glBalance.getMonth4Amount()))
+                .add(cleanAmount(glBalance.getMonth5Amount()))
+                .add(cleanAmount(glBalance.getMonth6Amount()))
+                .add(cleanAmount(glBalance.getMonth7Amount()))
+                .add(cleanAmount(glBalance.getMonth8Amount()))
+                .add(cleanAmount(glBalance.getMonth9Amount()))
+                .add(cleanAmount(glBalance.getMonth10Amount()))
+                .add(cleanAmount(glBalance.getMonth11Amount()))
+                .add(cleanAmount(glBalance.getMonth12Amount()))
+                .add(cleanAmount(glBalance.getMonth13Amount()));
 
-        List<AccountingPeriod> acctPeriodList = new ArrayList<AccountingPeriod>();
-        acctPeriodList.addAll(businessObjectService.findMatching(AccountingPeriod.class, fieldValues));
-        KualiDecimal currentBalanceAmount = KualiDecimal.ZERO;
-        java.lang.reflect.Method method;
-
-        if (CollectionUtils.isNotEmpty(acctPeriodList)) {
-
-            for (AccountingPeriod accountingPeriod : acctPeriodList) {
-                // Now to get the month for the period.
-                String periodCode = accountingPeriod.getUniversityFiscalPeriodCode().replaceFirst("^0*", "");
-                String methodName = "getMonth" + periodCode + "Amount";
-                try {
-                    method = glBalance.getClass().getMethod(methodName);
-                    currentBalanceAmount = currentBalanceAmount.add((KualiDecimal) method.invoke(glBalance));
-
-                }
-                catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-            }
-        }
         KualiDecimal balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
         KualiDecimal accurateBalanceAmount = balAmt.subtract(currentBalanceAmount);
 
         return accurateBalanceAmount;
+    }
+
+    /**
+     * Null protects the addition in retrieveAccurateBalanceAmount
+     * @param amount the amount to return
+     * @return zero if the amount was null, the given amount otherwise
+     */
+    protected KualiDecimal cleanAmount(KualiDecimal amount) {
+        return amount == null ? KualiDecimal.ZERO : amount;
     }
 
     /**

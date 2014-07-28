@@ -23,10 +23,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 
 import com.lowagie.text.DocumentException;
 
@@ -95,10 +95,10 @@ public interface TransmitContractsAndGrantsInvoicesService {
     public void validateSearchParameters(Map<String,String> fieldValues);
 
     /**
-     * This method marks invoices for the ArEmailService for Email reports delivery.
+     * This method emails invoices and then sets the report delivery flag.
      *
      * @param list
      */
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws AddressException, MessagingException;
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException;
 
 }

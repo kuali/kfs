@@ -75,7 +75,6 @@
 				<value>customerInvoiceWriteoffBatchJob</value>
 				<value>customerAgingReportNotificationJob</value>
 				<value>letterOfCreditJob</value>
-				<value>invoiceReportEmailDeliveryJob</value>
 				<value>contractsGrantsInvoiceDocumentJob</value>
 				<value>upcomingMilestoneNotificationJob</value> 			
 			</list>
@@ -297,14 +296,6 @@
 		</property>
 	</bean>
 
-	<bean id="invoiceReportEmailDeliveryJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="invoiceReportsEmailBatchStep" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="upcomingMilestoneNotificationJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -495,12 +486,6 @@
 		<bean id="letterOfCreditRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditRouteDocumentsStep" parent="step">
 		<property name="letterOfCreditCreateService">
 			<ref bean="letterOfCreditCreateService" />
-		</property>
-	</bean>
-
-	<bean id="invoiceReportsEmailBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep" parent="step">
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 	</bean>
 
@@ -2238,6 +2223,7 @@
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 		<property name="contractsGrantsInvoiceReportService" ref="contractsGrantsInvoiceReportService"/>
 		<property name="documentService" ref="documentService"/>
+		<property name="arEmailService" ref="arEmailService"/>
 		<property name="personService" ref="personService"/>
 	</bean>
 	

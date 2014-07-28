@@ -31,6 +31,8 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -41,6 +43,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService;
+import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -49,6 +52,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -63,6 +67,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsInvoiceReportService contractsGrantsInvoiceReportService;
     protected DocumentService documentService;
+    protected AREmailService arEmailService;
     protected PersonService personService;
 
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
@@ -299,7 +304,8 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
      * @see org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService#sendEmailForListofInvoicesToAgency(java.util.Collection)
      */
     @Override
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException {
+        arEmailService.sendInvoicesViaEmail(list);
         for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
             invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
             documentService.updateDocument(invoiceDocument);
@@ -337,6 +343,14 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public AREmailService getArEmailService() {
+        return arEmailService;
+    }
+
+    public void setArEmailService(AREmailService arEmailService) {
+        this.arEmailService = arEmailService;
     }
 
     public PersonService getPersonService() {

@@ -24,13 +24,13 @@
 			<c:if test="${ConfigProperties.contracts.grants.billing.enabled == 'true'}">
 				<li><portal:portalLink displayTitle="true"
 						title="Collection Activity Report"
-						url="collectionActivityReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport" /></li>
+						url="collectionActivityReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts & Grants Aging Report"
-						url="contractsGrantsAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport" /></li>
+						url="contractsGrantsAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts & Grants Invoice Document Error Log Report"
-						url="contractsGrantsInvoiceDocumentErrorLogReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog" /></li>
+						url="contractsGrantsInvoiceDocumentErrorLogReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 			</c:if>
 	   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report" url="arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" /></li> 		
 	   		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoice.do?methodToCall=start" /></li>
@@ -55,7 +55,7 @@
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Referral To Collections Report"
-						url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
+						url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Suspended Invoice Detail Report"
 						url="contractsGrantsSuspendedInvoiceDetailReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

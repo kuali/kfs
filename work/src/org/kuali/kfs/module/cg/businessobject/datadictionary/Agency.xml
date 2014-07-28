@@ -165,30 +165,19 @@
 	<bean id="Agency-inStateIndicator" parent="Agency-inStateIndicator-parentBean" />
 
 	<bean id="Agency-inStateIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="GenericAttributes-genericBoolean">
 		<property name="name" value="inStateIndicator" />
 		<property name="label" value="In State Indicator" />
 		<property name="shortLabel" value="In State" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 	<bean id="Agency-indirectAmount" parent="Agency-indirectAmount-parentBean" />
 
 	<bean id="Agency-indirectAmount-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="GenericAttributes-genericAmount">
 		<property name="name" value="indirectAmount" />
 		<property name="label" value="Indirect Amount" />
 		<property name="shortLabel" value="IndAmt" />
 		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<ref bean="FloatingPointValidation" />
-		</property>
-		<property name="control">
-			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="12"
-				p:size="20" />
-		</property>
 		<property name="formatterClass"
 			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
@@ -436,14 +425,10 @@
   	<bean id="Agency-stateAgencyIndicator" parent="Agency-stateAgencyIndicator-parentBean" />
 
 	<bean id="Agency-stateAgencyIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="GenericAttributes-genericBoolean">
 		<property name="name" value="stateAgencyIndicator" />
 		<property name="label" value="State Agency" />
 		<property name="shortLabel" value="State Agency" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
  
 	<!-- Business Object Inquiry Definition -->

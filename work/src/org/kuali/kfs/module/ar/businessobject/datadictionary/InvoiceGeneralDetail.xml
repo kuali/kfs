@@ -94,16 +94,12 @@
 
 	<bean id="InvoiceGeneralDetail-finalBillIndicator" parent="InvoiceGeneralDetail-finalBillIndicator-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-finalBillIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="InvoiceGeneralDetail-finalBillIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="finalBillIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Bill" />
 		<property name="shortLabel" value="FinalBill" />
-		<property name="maxLength" value="1" />
 		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 
 

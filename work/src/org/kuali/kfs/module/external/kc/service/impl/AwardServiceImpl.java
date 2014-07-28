@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
@@ -62,7 +62,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     protected AccountDefaultsService accountDefaultsService;
-    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
     protected BillingFrequencyService billingFrequencyService;
     protected ParameterService parameterService;
     protected PersonService personService;
@@ -224,7 +224,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     }
 
     protected Collection<String> getDoNotInvoiceStatuses() {
-        return getAccountsReceivableModuleBillingService().getDoNotInvoiceStatuses();
+        return accountsReceivableModuleService.getDoNotInvoiceStatuses();
     }
 
     protected AccountDefaultsService getAccountDefaultsService() {
@@ -235,12 +235,12 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         this.accountDefaultsService = accountDefaultsService;
     }
 
-    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
-        return accountsReceivableModuleBillingService;
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
     }
 
-    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
-        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
 
     protected ParameterService getParameterService() {

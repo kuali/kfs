@@ -98,6 +98,24 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     public boolean isDebitConsideringNothingPositiveOnly(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
 
+        boolean isDebit = isDebitConsideringNothingPositiveOrNegative(poster,postable);
+
+        // non error correction document with non positive amount
+        if (!isErrorCorrection(poster) && !isDebit) {
+            throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
+        }
+
+        LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
+        return isDebit;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isDebitConsideringNothingPositiveOrNegative(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+     */
+    @Override
+    public boolean isDebitConsideringNothingPositiveOrNegative(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable) {
+        LOG.debug("isDebitConsideringNothingPositiveOrNegative(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
+
         boolean isDebit = false;
         KualiDecimal amount = postable.getAmount();
         boolean isPositiveAmount = amount.isPositive();
@@ -106,15 +124,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
             isDebit = true;
         }
         else {
-            // non error correction or DV
-            if (!isErrorCorrection(poster)) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-
-            }
-            // error correction or DV
-            else {
-                isDebit = false;
-            }
+          isDebit = false;
         }
 
         LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");

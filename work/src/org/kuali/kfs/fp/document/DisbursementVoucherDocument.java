@@ -1399,7 +1399,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return postable.getAmount().isPositive();
         }
         if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(DisbursementVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.NEGATIVE_ACCOUNTING_LINES_IND)) {
-            return isDebitUtils.isDebitConsideringType(this, postable);
+            return isDebitUtils.isDebitConsideringNothingPositiveOrNegative(this, postable);
 
         } else {
             return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);

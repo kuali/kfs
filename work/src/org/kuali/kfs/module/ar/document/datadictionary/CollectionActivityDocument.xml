@@ -31,7 +31,10 @@
 	<bean id="CollectionActivityDocument-proposalNumber" parent="CollectionActivityDocument-proposalNumber-parentBean" />
 
 	<bean id="CollectionActivityDocument-proposalNumber-parentBean"
-		abstract="true" parent="ArGenericAttributes-proposalNumber">
+		abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
+		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		
 	</bean>

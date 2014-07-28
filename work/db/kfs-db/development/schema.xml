@@ -843,7 +843,7 @@
         <column name="CTGRY_CD" size="4" type="VARCHAR"/>
         <column name="CTGRY_NM" size="255" type="VARCHAR"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
-        <column name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CGB_INV_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1337,10 +1337,10 @@
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
+        <column name="EMAIL_PROCESSED_DT" type="DATE"/>
         <column name="RPRT_PROCESSED_DT" type="DATE"/>
         <column name="RFRL_TYP_CD" size="6" type="VARCHAR"/>
         <column name="FINAL_DISPOS_CD" size="4" type="VARCHAR"/>
-        <column name="EMAIL_PROCESSED_DT" type="DATE"/>
         <foreign-key foreignTable="AR_CUST_PRCS_TYP_T" name="AR_INV_DOC_TR1">
             <reference foreign="CUST_SPCL_PRCS_CD" local="CUST_SPCL_PRCS_CD"/>
         </foreign-key>

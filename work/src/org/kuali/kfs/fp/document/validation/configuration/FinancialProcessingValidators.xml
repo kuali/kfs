@@ -379,7 +379,8 @@
 
 	<bean id="DisbursementVoucher-accountingLineCountValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineCountValidation" abstract="true" />
 
-		
+	<bean id="DisbursementVoucher-accountingLineAmountPositiveValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAmountPositiveValidation" abstract="true" />
+	
 	<bean id="DisbursementVoucher-accountingLineTotalsValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineTotalsValidation" abstract="true" />
 	
 	<bean id="DisbursementVoucher-accountingLineValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineValidation" abstract="true">

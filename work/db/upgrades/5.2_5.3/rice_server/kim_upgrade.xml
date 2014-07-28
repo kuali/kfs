@@ -267,8 +267,8 @@
         <comment> Adding the responsibility, role- responsibility mapping and action for KFSCNTRB-1795 </comment>
 
         <insert tableName="KRIM_RSP_T">
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
+            <column name="OBJ_ID" value="KFS-RSP-038" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="RSP_TMPL_ID" value="1" />
             <column name="NMSPC_CD" value="KFS-PURAP" />
@@ -278,63 +278,63 @@
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
-            <column name="ATTR_DATA_ID" value="KFSCNTRB1795-RSPATT1" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-RSPATT1" />
+            <column name="ATTR_DATA_ID" value="KFS10862" />
+            <column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-152" />
             <column name="VER_NBR" valueNumeric="1" />
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="13" />
             <column name="ATTR_VAL" value="PCDO" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
-            <column name="ATTR_DATA_ID" value="KFSCNTRB1795-RSPATT2" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-RSPATT2" />
+            <column name="ATTR_DATA_ID" value="KFS10863" />
+            <column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-153" />
             <column name="VER_NBR" valueNumeric="1" />
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="16" />
             <column name="ATTR_VAL" value="notifyOnAutoApprovalResponsibility" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
-            <column name="ATTR_DATA_ID" value="KFSCNTRB1795-RSPATT3" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-RSPATT3" />
+            <column name="ATTR_DATA_ID" value="KFS10864" />
+            <column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-154" />
             <column name="VER_NBR" valueNumeric="1" />
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="40" />
             <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
-            <column name="ATTR_DATA_ID" value="KFSCNTRB1795-RSPATT4" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-RSPATT4" />
+            <column name="ATTR_DATA_ID" value="KFS10865" />
+            <column name="OBJ_ID" value="KFS-RSP-ATTR-DATA-155" />
             <column name="VER_NBR" valueNumeric="1" />
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="41" />
             <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_ROLE_RSP_T">
-            <column name="ROLE_RSP_ID" value="KFSCNTRB1795-ROLERSP1" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-ROLERSP1" />
+            <column name="ROLE_RSP_ID" value="KFS10866" />
+            <column name="OBJ_ID" value="KFS-ROLE-RSP-038" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="ROLE_ID" value="41" /> 
-            <column name="RSP_ID" value="KFSCNTRB1795-RSP1" />
+            <column name="RSP_ID" value="KFS10861" />
             <column name="ACTV_IND" value="Y" />
         </insert>
 
         <insert tableName="KRIM_ROLE_RSP_ACTN_T">
-            <column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB1795-ROLERSPACTN1" />
-            <column name="OBJ_ID" value="KFSCNTRB1795-ROLERSPACTN1" />
+            <column name="ROLE_RSP_ACTN_ID" value="KFS10867" />
+            <column name="OBJ_ID" value="KFS-RSP-ACTN-038" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="ACTN_TYP_CD" value="F" /> 
             <column name="PRIORITY_NBR" valueNumeric="1"/>
             <column name="ACTN_PLCY_CD" value="A" />
             <column name="ROLE_MBR_ID" value="*" />
-            <column name="ROLE_RSP_ID" value="KFSCNTRB1795-ROLERSP1" />
+            <column name="ROLE_RSP_ID" value="KFS10866" />
             <column name="FRC_ACTN" value="N" />
         </insert>
 

@@ -311,5 +311,21 @@
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
     </changeSet>
+    
+    <changeSet author="KFSCNTRB-1681" id="KFSCNTRB-1681">
+		<comment>Adds parameter for KFSCNTRB-1681 allows Negative Accounting Lines on DV</comment>
+	    <insert tableName="KRCR_PARM_T">
+	      <column name="NMSPC_CD" value="KFS-FP"/>
+	      <column name="CMPNT_CD" value="DisbursementVoucher"/>
+	      <column name="PARM_NM" value="NEGATIVE_ACCOUNTING_LINES_IND"/>
+	      <column name="APPL_ID" value="KFS"/>
+	      <column name="OBJ_ID" value="KFSCNTRB-1681"/>
+	      <column name="VER_NBR" value="1"/>
+	      <column name="PARM_TYP_CD" value="CONFG"/>
+	      <column name="VAL" value="N"/>
+	      <column name="PARM_DESC_TXT" value="Flag to indicate whether or not negative accounting lines are allowed on the Disbursement Voucher (DV) document. A value of Y to will enable negative lines for DV, while a value of N will disable them."/>
+	      <column name="EVAL_OPRTR_CD" value="A"/>
+	    </insert>
+    </changeSet>
   
 </databaseChangeLog>

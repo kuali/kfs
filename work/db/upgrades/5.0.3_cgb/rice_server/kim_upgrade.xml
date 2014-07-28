@@ -255,8 +255,8 @@
 			<column name="PERM_ID" value="CGPERMIRD" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="NM" value="Use Screen CG Transmit Contracts and Grants Invoices Process" />
-			<column name="DESC_TXT" value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Transmit Contracts and Grants Invoices Process" />
+			<column name="NM" value="Use Screen CG Invoice Report Delivery Process" />
+			<column name="DESC_TXT" value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process" />
 			<column name="OBJ_ID" value="KFSCG04" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
@@ -272,7 +272,7 @@
 			<column name="KIM_TYP_ID" value="12" />
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
 			<column name="ATTR_VAL"
-				value="org.kuali.kfs.module.cg.web.struts.TransmitContractsAndGrantsInvoicesLookupAction" />
+				value="org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction" />
 			<column name="OBJ_ID" value="KFSCGPERMIRD02" />
 			<column name="VER_NBR" value="1" />
 		</insert>

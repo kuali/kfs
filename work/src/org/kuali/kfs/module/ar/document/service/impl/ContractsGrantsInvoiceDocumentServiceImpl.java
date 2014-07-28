@@ -4684,13 +4684,31 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected boolean isInvoiceDocumentEffective(String documentNumber) {
         final FinancialSystemDocumentHeader invoiceDocHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
         final String documentStatus = invoiceDocHeader.getWorkflowDocumentStatusCode();
-        if (!StringUtils.equals(documentStatus, DocumentStatus.CANCELED.getCode()) && !StringUtils.equals(documentStatus, DocumentStatus.DISAPPROVED.getCode())) {
+        if (StringUtils.isBlank(invoiceDocHeader.getFinancialDocumentInErrorNumber()) && !StringUtils.equals(documentStatus, DocumentStatus.CANCELED.getCode()) && !StringUtils.equals(documentStatus, DocumentStatus.DISAPPROVED.getCode())) { // skip error correcting CINVs, as they should be taken care of by the error correcting code
             final DocumentHeader correctingDocumentHeader = getFinancialSystemDocumentService().getCorrectingDocumentHeader(documentNumber);
-            if (ObjectUtils.isNull(correctingDocumentHeader)) {
+            if (ObjectUtils.isNull(correctingDocumentHeader) || isCorrectedInvoiceDocumentEffective(correctingDocumentHeader.getDocumentNumber())) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Determines if an error correction is "effective" - ie, currently locking resources like milestones and pre-determined billing from the original CINV
+     * @param errorCorrectionDocumentNumber the document number to check for the effectiveness of
+     * @return true if the document is effectively locking resources, false otherwise
+     */
+    protected boolean isCorrectedInvoiceDocumentEffective(String errorCorrectionDocumentNumber) {
+        final FinancialSystemDocumentHeader invoiceDocHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, errorCorrectionDocumentNumber);
+        final String documentStatus = invoiceDocHeader.getWorkflowDocumentStatusCode();
+        if (getFinancialSystemDocumentService().getPendingDocumentStatuses().contains(documentStatus)) {
+            return true; // the error correction document is currently pending, then it has not yet freed the milestones and pre-billings on the original CINV, so it's effective
+        }
+        final DocumentHeader correctingDocumentHeader = getFinancialSystemDocumentService().getCorrectingDocumentHeader(errorCorrectionDocumentNumber);
+        if (!ObjectUtils.isNull(correctingDocumentHeader) && isCorrectedInvoiceDocumentEffective(correctingDocumentHeader.getDocumentNumber())) {
+            return true; // is the error correction currently undergoing error correction itself?  Then recheck the rules on the newer error corrector to see if this document is effective or not
+        }
+        return false; // the error correction document is not effective and has freed resources
     }
 
     @Override

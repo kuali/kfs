@@ -154,8 +154,33 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
      */
     @Override
     public Set<String> getPendingDocumentStatuses() {
+        return getDocumentStatusesForCategory(DocumentStatusCategory.PENDING);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#getSuccessfulDocumentStatuses()
+     */
+    @Override
+    public Set<String> getSuccessfulDocumentStatuses() {
+        return getDocumentStatusesForCategory(DocumentStatusCategory.SUCCESSFUL);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#getUnsuccessfulDocumentStatuses()
+     */
+    @Override
+    public Set<String> getUnsuccessfulDocumentStatuses() {
+        return getDocumentStatusesForCategory(DocumentStatusCategory.UNSUCCESSFUL);
+    }
+
+    /**
+     * Turns all of the Rice KEW DocumentStatus codes for the given category into a Set of String codes
+     * @param documentStatusCategory the category to get DocumentStatuses for
+     * @return the Set of String DocumentStatus codes for the given category
+     */
+    protected Set<String> getDocumentStatusesForCategory(DocumentStatusCategory documentStatusCategory) {
         Set<String> statuses = new HashSet<String>();
-        for (DocumentStatus docStatus : DocumentStatus.getStatusesForCategory(DocumentStatusCategory.PENDING)) {
+        for (DocumentStatus docStatus : DocumentStatus.getStatusesForCategory(documentStatusCategory)) {
             statuses.add(docStatus.getCode());
         }
         return statuses;

@@ -24,11 +24,13 @@ import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * TEM Security Attribute restrict doc search results and view route log
  */
 public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TEMSecurityAttribute.class);
 
     private DocumentHelperService documentHelperService;
     private DocumentService documentService;
@@ -38,7 +40,13 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
      */
     @Override
     public boolean isAuthorizedForDocument(String principalId, org.kuali.rice.kew.api.document.Document document) {
-        boolean authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(GlobalVariables.getUserSession().getPerson(), document.getDocumentTypeName(), document.getDocumentId());
+        boolean authorized = false;
+
+        if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
+            LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
+        } else {
+            authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(GlobalVariables.getUserSession().getPerson(), document.getDocumentTypeName(), document.getDocumentId());
+        }
         return authorized;
 
     }

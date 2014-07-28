@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -454,4 +455,20 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public boolean isDocumentStatusValidForReconcilingCharges(TravelDocument travelDocument) {
         return realTravelDocumentService.isDocumentStatusValidForReconcilingCharges(travelDocument);
     }
+
+    @Override
+    public boolean isInitiatorTraveler(TravelDocument travelDoc) {
+        return realTravelDocumentService.isInitiatorTraveler(travelDoc);
+    }
+
+    @Override
+    public boolean requiresTravelerApproval(TravelAuthorizationDocument taDoc) {
+        return realTravelDocumentService.requiresTravelerApproval(taDoc);
+    }
+
+    @Override
+    public boolean requiresTravelerApproval(TEMReimbursementDocument trDoc) {
+        return realTravelDocumentService.requiresTravelerApproval(trDoc);
+    }
+
 }

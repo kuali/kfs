@@ -16,23 +16,30 @@
 
 package org.kuali.kfs.fp.document;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.FinancialProcessingWorkflowConstants;
+import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -53,6 +60,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     protected ProcurementCardTargetAccountingLine newTargetLine;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     protected boolean autoApprovedIndicator;
+    private static final String FINAL_ACCOUNTING_PERIOD = "13";
 
     /**
      * Default constructor.
@@ -296,5 +304,107 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     {
         return autoApprovedIndicator;
     }
+
+    /**
+     * @return the previous fiscal year used with all GLPE
+     */
+    public static final Integer getPreviousFiscalYear() {
+        int i = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1;
+        return new Integer(i);
+    }
+
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        Date temp = getProcurementCardTransactionPostingDetailDate();
+
+        if (temp != null && allowBackpost(temp)) {
+            Integer prevFiscYr = getPreviousFiscalYear();
+
+            explicitEntry.setUniversityFiscalPeriodCode(FINAL_ACCOUNTING_PERIOD);
+            explicitEntry.setUniversityFiscalYear(prevFiscYr);
+
+            List<SourceAccountingLine> srcLines = getSourceAccountingLines();
+
+            for (SourceAccountingLine src : srcLines) {
+                src.setPostingYear(prevFiscYr);
+            }
+
+            List<TargetAccountingLine> trgLines = getTargetAccountingLines();
+
+            for (TargetAccountingLine trg : trgLines) {
+                trg.setPostingYear(prevFiscYr);
+            }
+        }
+    }
+
+    /**
+     * Get Transaction Date - CSU assumes there will be only one
+     *
+     * @param docNum
+     *
+     * @return Date
+     */
+    private Date getProcurementCardTransactionPostingDetailDate() {
+        Date date = null;
+
+        for (Object temp : getTransactionEntries()) {
+            date = ((ProcurementCardTransactionDetail) temp).getTransactionPostingDate();
+        }
+
+        return date;
+    }
+
+    /**
+     * Allow Backpost
+     *
+     * @param tranDate
+     * @return
+     */
+    public boolean allowBackpost(Date tranDate) {
+        ParameterService      parameterService      = SpringContext.getBean(ParameterService.class);
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+
+        int allowBackpost = Integer.parseInt(parameterService.getParameterValueAsString(
+                ProcurementCardLoadStep.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS));
+
+        if (allowBackpost == 0){
+            LOG.debug("no backpost is allowed; posting entry to current FY");
+            return false;
+        }
+
+        Calendar today = Calendar.getInstance();
+        Integer currentFY = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
+        java.util.Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(currentFY - 1);
+
+        Calendar priorClosingDate = Calendar.getInstance();
+        priorClosingDate.setTime(priorClosingDateTemp);
+
+        // adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
+        Calendar allowBackpostDate = Calendar.getInstance();
+        allowBackpostDate.setTime(priorClosingDate.getTime());
+        allowBackpostDate.add(Calendar.DATE, allowBackpost + 1);
+
+        Calendar tranCal = Calendar.getInstance();
+        tranCal.setTime(tranDate);
+
+        // if today is after the closing date but before/equal to the allowed backpost date and the transaction date is for the
+        // prior year, set the year to prior year
+        if ((today.compareTo(priorClosingDate) > 0) && (today.compareTo(allowBackpostDate) <= 0) && (tranCal.compareTo(priorClosingDate) <= 0)) {
+            LOG.debug("allowBackpost() within range to allow backpost; posting entry to period 12 of previous FY");
+            return true;
+        }
+
+        LOG.debug("allowBackpost() not within range to allow backpost; posting entry to current FY");
+        return false;
+    }
+
+    public String getAccountNumberForSearching() {
+        ProcurementCardTransactionDetail transaction = (ProcurementCardTransactionDetail) transactionEntries.get(0);
+        TargetAccountingLine tal = (TargetAccountingLine) transaction.getTargetAccountingLines().get(0);
+        String acctNbr = tal.getAccountNumber();
+        return acctNbr;
+    }
+
+
 
 }

@@ -112,10 +112,9 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     /**
      * Retrieves all open Contracts and Grants Invoice Document.
      *
-     * @param includeWorkflowHeaders
      * @return
      */
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments(boolean includeWorkflowHeaders);
+    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments();
 
     /**
      * This method removes the InvoiceDetailAccountObjectCodes where the current expenditure is zero.
@@ -157,14 +156,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return
      */
     public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate);
-
-    /**
-     * Returns all Contracts and Grants Invoice Documents in the system.
-     *
-     * @param includeWorkflowHeaders
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments(boolean includeWorkflowHeaders);
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund

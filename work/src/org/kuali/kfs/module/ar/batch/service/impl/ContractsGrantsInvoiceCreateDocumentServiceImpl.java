@@ -382,7 +382,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
      *
-     * @param fileNaem Name of file to be uploaded and processed.
+     * @param fileName Name of file to be uploaded and processed.
      * @return True if the file load and store was successful, false otherwise.
      */
     protected Collection<ContractsAndGrantsBillingAward> retrieveAwards() {

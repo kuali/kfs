@@ -858,8 +858,10 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsMilestoneReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsMilestoneReportLookupableHelperServiceImpl"
-		scope="prototype" parent="contractsGrantsLookupableHelperService"/>
+	<bean id="contractsGrantsMilestoneReportLookupableHelperService" parent="contractsGrantsMilestoneReportLookupableHelperService-parentBean"/>
+	<bean id="contractsGrantsMilestoneReportLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsMilestoneReportLookupableHelperServiceImpl" scope="prototype" parent="contractsGrantsLookupableHelperService">
+		<property name="dateTimeService" ref="dateTimeService"/>
+	</bean>
 
 	<bean id="contractsGrantsMilestoneReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

@@ -74,7 +74,7 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
 
         BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
         reportDetail.setMilestoneAmount(milestoneAmount);
-        reportDetail.setIsItBilled(cgInvoiceReportEntry.getIsItBilled());
+        reportDetail.setIsItBilled(cgInvoiceReportEntry.getBilledIndicator());
         if (cgInvoiceReportEntry.isActive()) {
             reportDetail.setActive(KFSConstants.ParameterValues.YES);
         } else {

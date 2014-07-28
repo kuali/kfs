@@ -38,7 +38,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     private Long milestoneNumber;
     private KualiDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
-    private String isItBilled = KFSConstants.ParameterValues.STRING_NO;
+    private String billedIndicator = KFSConstants.ParameterValues.STRING_NO;
     private boolean active;
     private ContractsAndGrantsAward award;
     private Account account;
@@ -99,21 +99,21 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     }
 
     /**
-     * Gets the isItBilled attribute.
+     * Gets the billedIndicator attribute.
      *
-     * @return Returns the isItBilled.
+     * @return Returns the billedIndicator.
      */
-    public String getIsItBilled() {
-        return isItBilled;
+    public String getBilledIndicator() {
+        return billedIndicator;
     }
 
     /**
-     * Sets the isItBilled attribute value.
+     * Sets the billedIndicator attribute value.
      *
-     * @param isItBilled The isItBilled to set.
+     * @param billedIndicator The billedIndicator to set.
      */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
+    public void setBilledIndicator(String isItBilled) {
+        this.billedIndicator = isItBilled;
     }
 
     @Override
@@ -258,7 +258,7 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
             m.put("milestoneExpectedCompletionDate", this.milestoneExpectedCompletionDate.toString());
         }
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
-        m.put("isItBilled", this.isItBilled);
+        m.put("billedIndicator", this.billedIndicator);
         return m;
     }
 

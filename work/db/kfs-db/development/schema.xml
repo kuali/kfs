@@ -1296,7 +1296,7 @@
         <column name="CGAWD_END_DT" type="DATE"/>
         <column name="CGAWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CUM_EXPND_AMT" scale="2" size="12" type="DECIMAL"/>
-        <column name="ERROR_DT" type="DATE"/>
+        <column name="ERROR_DT" type="TIMESTAMP"/>
         <column name="PRM_FNDMGR_PRNCPL_NM" size="100" type="VARCHAR"/>
         <column default="Y" name="BATCH_IND" size="1" type="VARCHAR"/>
         <unique name="AR_INV_DOC_ERROR_LOG_TC0">

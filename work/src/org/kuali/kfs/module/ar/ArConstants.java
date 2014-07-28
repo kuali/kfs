@@ -515,4 +515,8 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
         public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
     }
+
+    public static class ContractsAndGrantsCategorySections {
+        public static final String EDIT_CATEGORY = "EditCategory";
+    }
 }

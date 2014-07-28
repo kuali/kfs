@@ -220,7 +220,7 @@
 		<property name="maxLength" value="5" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
 
@@ -237,7 +237,7 @@
 		<property name="maxLength" value="80" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="82" />
+			<bean parent="TextControlDefinition" p:size="80" />
 		</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-invoiceDueDate"
@@ -280,8 +280,8 @@
 		<property name="maxLength" value="40" />
 		<property name="required" value="false" />
 		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="42"/>
-    	</property>
+			<ref bean="StandardNameTextControl" />
+		</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-organizationInvoiceNumber"
 		parent="ContractsGrantsInvoiceDocument-organizationInvoiceNumber-parentBean" />
@@ -296,7 +296,7 @@
 		<property name="maxLength" value="9" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="11" />
+			<bean parent="TextControlDefinition" p:size="9" />
 		</property>
 	</bean>
 
@@ -309,7 +309,7 @@
 		<property name="label" value="Parent Invoice Number" />
 		<property name="shortLabel" value="Parent Invoice Number" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="16" />
+			<bean parent="TextControlDefinition" p:size="14" />
 		</property>
 	</bean>
 
@@ -326,7 +326,7 @@
 		<property name="maxLength" value="25" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="27" />
+			<bean parent="TextControlDefinition" p:size="25" />
 		</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-printInvoiceIndicator"
@@ -382,9 +382,6 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Billing Organization Code" />
 		<property name="shortLabel" value="Billing Org Code" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="6"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier"
 		parent="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier-parentBean" />
@@ -431,8 +428,8 @@
 		<property name="maxLength" value="2" />
 		<property name="required" value="false" />
 		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="4"/>
-    	</property>
+			<ref bean="TwoCharacterTextControl" />
+		</property>
 	</bean>
 	<bean
 		id="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator"
@@ -494,9 +491,6 @@
 		abstract="true" parent="ObjectCode-financialObjectCode">
 		<property name="name" value="paymentFinancialObjectCode" />
 		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="6"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-paymentAccountNumber"
 		parent="ContractsGrantsInvoiceDocument-paymentAccountNumber-parentBean" />
@@ -505,9 +499,6 @@
 		abstract="true" parent="Account-accountNumber">
 		<property name="name" value="paymentAccountNumber" />
 		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="9"/>
-    	</property>
 	</bean>
 	<bean
 		id="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier"
@@ -538,9 +529,6 @@
 		<property name="name" value="paymentSubAccountNumber" />
 		<property name="label" value="Sub-Account Code" />
 		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="7"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-paymentProjectCode"
 		parent="ContractsGrantsInvoiceDocument-paymentProjectCode-parentBean" />
@@ -549,9 +537,6 @@
 		abstract="true" parent="ProjectCode-code">
 		<property name="name" value="paymentProjectCode" />
 		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="12"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode"
 		parent="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode-parentBean" />
@@ -562,9 +547,6 @@
 		<property name="name" value="paymentFinancialSubObjectCode" />
 		<property name="label" value="Sub Object Code" />
 		<property name="required" value="false" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="5"/>
-    	</property>
 	</bean>
 	<bean id="ContractsGrantsInvoiceDocument-billingDateForDisplay"
 		parent="ContractsGrantsInvoiceDocument-billingDateForDisplay-parentBean" />
@@ -630,9 +612,6 @@
 	<bean id="ContractsGrantsInvoiceDocument-billingZipCode-parentBean"
 		abstract="true" parent="CustomerAddress-customerZipCode">
 		<property name="name" value="billingZipCode" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="22"/>
-    	</property>
 	</bean>
 
 
@@ -653,9 +632,6 @@
 		id="ContractsGrantsInvoiceDocument-billingAddressInternationalProvinceName-parentBean"
 		abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
 		<property name="name" value="billingAddressInternationalProvinceName" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="47"/>
-    	</property>
 	</bean>
 
 
@@ -721,9 +697,6 @@
 	<bean id="ContractsGrantsInvoiceDocument-shippingZipCode-parentBean"
 		abstract="true" parent="CustomerAddress-customerZipCode">
 		<property name="name" value="shippingZipCode" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="22"/>
-    	</property>
 	</bean>
 
 
@@ -744,9 +717,6 @@
 		id="ContractsGrantsInvoiceDocument-shippingAddressInternationalProvinceName-parentBean"
 		abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
 		<property name="name" value="shippingAddressInternationalProvinceName" />
-		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="47"/>
-    	</property>
 	</bean>
 
 

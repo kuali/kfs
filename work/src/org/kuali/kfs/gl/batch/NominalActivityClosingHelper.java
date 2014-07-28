@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,8 @@ public class NominalActivityClosingHelper {
     private FlexibleOffsetAccountService flexibleOffsetService;
     private Logger LOG = Logger.getLogger(NominalActivityClosingHelper.class);
     private int nonFatalErrorCount;
-    
+    private List<String> varCharts;
+
     /**
      * Constructs a NominalActivityClosingHelper
      * @param fiscalYear the fiscal year this job is being run for
@@ -65,11 +67,11 @@ public class NominalActivityClosingHelper {
         this.configurationService = configurationService;
         this.flexibleOffsetService = SpringContext.getBean(FlexibleOffsetAccountService.class);
         this.nonFatalErrorCount = 0;
-        
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+
+        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(fiscalYear);
         expenseObjectCodeTypes = objectTypes.toArray(new String[0]);
-        
+
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
         // 683 003700 ACCEPT VAR-NET-EXP-OBJECT-CD FROM ENVIRONMENT-VALUE.
 
@@ -78,8 +80,30 @@ public class NominalActivityClosingHelper {
         varFundBalanceObjectCode = parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE_PARM);
         varFundBalanceObjectTypeCode = parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE_PARM);
 
+        //Obtain list of charts to close from Parameter ANNUAL_CLOSING_CHARTS_PARAM.
+        //If no parameter value exists, act on all charts which is the default action in the delivered foundation code.
+        varCharts = new ArrayList<String>();
+        try {
+            String[] varChartsArray = parameterService.getParameterValuesAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_CHARTS_PARAM).toArray(new String[] {});
+
+            if ((varChartsArray != null) && (varChartsArray.length != 0)) {
+                //transfer charts from parameter to List for ojb dao query
+                for (String chartParam : varChartsArray) {
+                    varCharts.add(chartParam);
+                }
+                LOG.info("NominalActivityClosingJob ANNUAL_CLOSING_CHARTS parameter value = " + varCharts.toString());
+            }
+            else {
+                //Parameter existed but no values were listed.  Act on all charts which is the default action in the delivered foundation code.
+                LOG.info("ANNUAL_CLOSING_CHARTS parameter defined for KFS-GL Batch but no values were specified. All charts will be acted upon for NominalActivityClosingJob.");
+            }
+        }
+        catch (IllegalArgumentException e) {
+            //parameter is not defined, act on all charts per foundation delivered code
+            LOG.info("ANNUAL_CLOSING_CHARTS parameter was not defined for KFS-GL Batch. All charts will be acted upon for NominalActivityClosingJob.");
+        }
     }
-    
+
     /**
      * Generates an origin entry that will summarize close out of nominal items (income and expense)
      * @param balance the balance this activity closing entry needs to be created for
@@ -483,7 +507,7 @@ public class NominalActivityClosingHelper {
         return activityEntry;
 
     }
-    
+
     /**
      * Genereates an origin entry to update a fund balance as a result of closing income and expense
      * @param balance the balance this offset needs to be created for
@@ -493,9 +517,9 @@ public class NominalActivityClosingHelper {
      */
     public OriginEntryFull generateOffset(Balance balance, Integer sequenceNumber) throws FatalErrorException {
         String debitCreditCode = null;
-        
+
         // 969 006470 IF CAOTYP-FIN-OBJTYP-DBCR-CD = 'C' OR 'D'
-        
+
         if (null == balance.getObjectTypeCode()) {
             throw new FatalErrorException(" BALANCE SELECTED FOR PROCESSING IS MISSING ITS OBJECT TYPE CODE ");
 
@@ -520,7 +544,7 @@ public class NominalActivityClosingHelper {
             // 974 006520 END-IF
 
         }
-        
+
         // 1068 007430 4200-WRITE-OFFSET.
         // 1069 007440 MOVE SPACES TO GLEN-RECORD.
 
@@ -699,12 +723,12 @@ public class NominalActivityClosingHelper {
             offsetEntry.setTransactionLedgerEntryAmount(balance.getAccountLineAnnualBalanceAmount().negated());
 
         }
-        
+
         flexibleOffsetService.updateOffset(offsetEntry);
-        
+
         return offsetEntry;
     }
-    
+
     /**
      * Adds the job parameters used to generate the origin entries to the given map
      * @param nominalClosingJobParameters a map of batch job parameters to add nominal activity closing parameters to
@@ -715,11 +739,12 @@ public class NominalActivityClosingHelper {
         nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.NET_REV_OBJECT_CD, varNetRevenueObjectCode);
         nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.FUND_BAL_OBJECT_CD, varFundBalanceObjectCode);
         nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD, varFundBalanceObjectTypeCode);
+        nominalClosingJobParameters.put(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE, varCharts);
     }
-    
+
     /**
      * Generates the transaction ledger entry description for a given balance
-     * 
+     *
      * @param descriptorIntro the introduction to the description
      * @param balance the balance the transaction description will refer to
      * @return the generated transaction ledger entry description
@@ -732,7 +757,7 @@ public class NominalActivityClosingHelper {
 
     /**
      * Pads out a string so that it will be a certain length
-     * 
+     *
      * @param size the size to pad to
      * @param value the String being padded
      * @return the padded String
@@ -752,7 +777,7 @@ public class NominalActivityClosingHelper {
         }
         return fieldString;
     }
-    
+
     /**
      * Returns the count of non-fatal errors encountered during the process by this helper
      * @return the count of non-fatal errors
@@ -760,4 +785,13 @@ public class NominalActivityClosingHelper {
     public Integer getNonFatalErrorCount() {
         return new Integer(this.nonFatalErrorCount);
     }
+
+    /**
+     * Returns the boolean from the chart parameter list being empty
+     * @return isEmpty boolean value for chart List
+     */
+    public boolean isAnnualClosingChartParamterBlank(){
+        return varCharts.isEmpty();
+    }
+
 }

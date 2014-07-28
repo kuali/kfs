@@ -21,6 +21,7 @@ import java.io.PrintStream;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,8 +107,17 @@ public class YearEndServiceImpl implements YearEndService {
 
         Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
 
-        nominalActivityClosingCounts.put("globalReadCount", new Integer(balanceService.countBalancesForFiscalYear(varFiscalYear)));
-        Iterator<Balance> balanceIterator = balanceService.findNominalActivityBalancesForFiscalYear(varFiscalYear);
+        Iterator<Balance> balanceIterator = null;
+        if (closingHelper.isAnnualClosingChartParamterBlank()) {
+            //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+            nominalActivityClosingCounts.put("globalReadCount", new Integer(balanceService.countBalancesForFiscalYear(varFiscalYear)));
+            balanceIterator = balanceService.findNominalActivityBalancesForFiscalYear(varFiscalYear);
+        }
+        else {
+            //ANNUAL_CLOSING_CHARTS parameter was detected and contained values
+            nominalActivityClosingCounts.put("globalReadCount", new Integer(balanceService.countBalancesForFiscalYear(varFiscalYear, (List<String>) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE))));
+            balanceIterator = balanceService.findNominalActivityBalancesForFiscalYear(varFiscalYear, (List<String>) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        }
 
         String accountNumberHold = null;
 
@@ -235,7 +245,15 @@ public class YearEndServiceImpl implements YearEndService {
         balanceForwardRuleHelper.setPriorYearAccountService(priorYearAccountService);
         balanceForwardRuleHelper.setSubFundGroupService(subFundGroupService);
         balanceForwardRuleHelper.setOriginEntryService(originEntryService);
-        balanceForwardRuleHelper.getState().setGlobalReadCount(balanceService.countBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear()));
+
+        if (balanceForwardRuleHelper.isAnnualClosingChartParamterBlank()) {
+            //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+            balanceForwardRuleHelper.getState().setGlobalReadCount(balanceService.countBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear()));
+        }
+        else {
+            //ANNUAL_CLOSING_CHARTS parameter was detected and contained values
+            balanceForwardRuleHelper.getState().setGlobalReadCount(balanceService.countBalancesForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear(), balanceForwardRuleHelper.getAnnualClosingCharts()));
+        }
 
         Balance balance;
 
@@ -253,7 +271,18 @@ public class YearEndServiceImpl implements YearEndService {
         }
 
         // do the general forwards
-        Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+        Iterator<Balance> generalBalances;
+        if (balanceForwardRuleHelper.isAnnualClosingChartParamterBlank()) {
+            //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+            generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+            LOG.info("doing general forwards for fiscal year");
+        }
+        else {
+            //ANNUAL_CLOSING_CHARTS parameter was detected and contained values
+            generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear(), balanceForwardRuleHelper.getAnnualClosingCharts());
+            LOG.info("doing general forwards for fiscal year and charts");
+        }
+
         while (generalBalances.hasNext()) {
             balance = generalBalances.next();
             balanceForwardRuleHelper.processGeneralForwardBalance(balance, closedPs, unclosedPs);
@@ -263,7 +292,18 @@ public class YearEndServiceImpl implements YearEndService {
         }
 
         // do the cumulative forwards
-        Iterator<Balance> cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+        Iterator<Balance> cumulativeBalances;
+        if (balanceForwardRuleHelper.isAnnualClosingChartParamterBlank()) {
+            //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+            cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
+            LOG.info("doing cumulative forwards for fiscal year");
+        }
+        else {
+            //ANNUAL_CLOSING_CHARTS parameter was detected and contained values
+            cumulativeBalances = balanceService.findCumulativeBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear(), balanceForwardRuleHelper.getAnnualClosingCharts());
+            LOG.info("doing cumulative forwards for fiscal year and charts");
+        }
+
         while (cumulativeBalances.hasNext()) {
             balance = cumulativeBalances.next();
             balanceForwardRuleHelper.processCumulativeForwardBalance(balance, closedPs, unclosedPs);
@@ -275,6 +315,7 @@ public class YearEndServiceImpl implements YearEndService {
         // write parameters
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, balanceForwardRuleHelper.getTransactionDate().toString());
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, balanceForwardRuleHelper.getClosingFiscalYear().toString());
+        getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_CHARTS_PARAM, balanceForwardRuleHelper.getAnnualClosingCharts().toString());
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE, balanceForwardRuleHelper.getAnnualClosingDocType());
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE, balanceForwardRuleHelper.getGlOriginationCode());
 
@@ -319,11 +360,22 @@ public class YearEndServiceImpl implements YearEndService {
         try {
             encumbranceForwardPs = new PrintStream(encumbranceForwardFile);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("nominalClosingFile Files doesn't exist " + encumbranceForwardFileName);
+            throw new RuntimeException("forwardEncumbrances Files doesn't exist " + encumbranceForwardFileName);
         }
 
-        // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
-        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        //values from ANNUAL_CLOSING_CHARTS parameter, parameter may not be defined(execute foundation code) or may not have values specified(execute foundation code) or may be defined with values specified(execute Cornell mod)
+        List<String> charts = (List<String>) jobParameters.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE);
+        Iterator encumbranceIterator;
+        if (charts.isEmpty()) {
+            //execute delivered foundation code
+            // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
+            encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        }
+        else {
+            // encumbranceDao will return all encumbrances for the fiscal year and specified charts sorted properly by all of the appropriate keys.
+            encumbranceIterator = encumbranceDao.getEncumbrancesToClose((Integer) jobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR), (List<String>) jobParameters.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        }
+
         while (encumbranceIterator.hasNext()) {
 
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
@@ -420,6 +472,18 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public void logAllMissingPriorYearAccounts(Integer fiscalYear, List<String> charts) {
+        Set<Map<String, String>> missingPriorYearAccountKeys = yearEndDao.findKeysOfMissingPriorYearAccountsForBalances(fiscalYear, charts);
+        missingPriorYearAccountKeys.addAll(yearEndDao.findKeysOfMissingPriorYearAccountsForOpenEncumbrances(fiscalYear, charts));
+        for (Map<String, String> key : missingPriorYearAccountKeys) {
+            LOG.info("PRIOR YEAR ACCOUNT MISSING FOR " + key.get("chartOfAccountsCode") + "-" + key.get("accountNumber"));
+        }
+    }
+
+    /**
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
      */
@@ -427,6 +491,19 @@ public class YearEndServiceImpl implements YearEndService {
     public void logAllMissingSubFundGroups(Integer fiscalYear) {
         Set missingSubFundGroupKeys = yearEndDao.findKeysOfMissingSubFundGroupsForBalances(fiscalYear);
         missingSubFundGroupKeys.addAll(yearEndDao.findKeysOfMissingSubFundGroupsForOpenEncumbrances(fiscalYear));
+        for (Object key : missingSubFundGroupKeys) {
+            LOG.info("SUB FUND GROUP MISSING FOR " + (String) ((Map) key).get("subFundGroupCode"));
+        }
+
+    }
+
+    /**
+     * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public void logAllMissingSubFundGroups(Integer fiscalYear, List<String> charts) {
+        Set missingSubFundGroupKeys = yearEndDao.findKeysOfMissingSubFundGroupsForBalances(fiscalYear, charts);
+        missingSubFundGroupKeys.addAll(yearEndDao.findKeysOfMissingSubFundGroupsForOpenEncumbrances(fiscalYear, charts));
         for (Object key : missingSubFundGroupKeys) {
             LOG.info("SUB FUND GROUP MISSING FOR " + (String) ((Map) key).get("subFundGroupCode"));
         }

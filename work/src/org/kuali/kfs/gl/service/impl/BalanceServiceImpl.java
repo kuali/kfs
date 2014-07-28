@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,6 +78,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @return a list of summarized GL balances
      * @see org.kuali.kfs.gl.service.BalanceService#getGlSummary(int, java.util.List)
      */
+    @Override
     public List<GlSummary> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
         LOG.debug("getGlSummary() started");
 
@@ -93,22 +94,24 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Defers to the DAO to find all balances in the fiscal year.
-     * 
+     *
      * @param fiscalYear the fiscal year to find balances for
      * @return an Iterator full of balances from the given fiscal year
      * @see org.kuali.kfs.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
+    @Override
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
-        return (Iterator<Balance>) balanceDao.findBalancesForFiscalYear(fiscalYear);
+        return balanceDao.findBalancesForFiscalYear(fiscalYear);
     }
 
     /**
      * Checks the given account to see if there are any non zero asset fund liability fund balances for them
-     * 
+     *
      * @param account an account to find balances for
      * @return true if there are non zero asset liability fund balances, false if otherwise
      * @see org.kuali.kfs.gl.service.BalanceService#hasAssetLiabilityFundBalanceBalances(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
 
         /*
@@ -168,7 +171,7 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Given an iterator of balances, this returns the sum of each balance's beginning balance line amount + annual account linge
      * balance amount
-     * 
+     *
      * @param balances an Iterator of balances to sum
      * @return the sum of all of those balances
      */
@@ -193,7 +196,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Returns the sum of balances considered as income for the given account
-     * 
+     *
      * @param account the account to find income balances for
      * @return the sum of income balances
      */
@@ -219,7 +222,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Sums all the balances associated with a given account that would be considered "expense" balances
-     * 
+     *
      * @param account an account to find expense balances for
      * @return the sum of those balances
      */
@@ -240,11 +243,12 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Checks to see if the total income balances for the given account equal the total expense balances for the given account
-     * 
+     *
      * @param an account to find balances for
      * @return true if income balances equal expense balances, false otherwise
      * @see org.kuali.kfs.gl.service.BalanceService#fundBalanceWillNetToZero(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean fundBalanceWillNetToZero(Account account) {
         KualiDecimal income = incomeBalances(account);
         KualiDecimal expense = expenseBalances(account);
@@ -255,12 +259,13 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Finds all of the encumbrance balances for the given account, and figures out if those encumbrances will have a net impact on
      * the budget
-     * 
+     *
      * @param account an account to find balances for
      * @return true if summed encumbrances for the account are not zero (meaning encumbrances will have a net impact on the budget),
      *         false if otherwise
      * @see org.kuali.kfs.gl.service.BalanceService#hasEncumbrancesOrBaseBudgets(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
 
         /*
@@ -280,22 +285,24 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Returns whether or not the beginning budget is loaded for the given account. Of course, it doesn't really check the
      * account...just the options for the current year to see if all the beginning balances have been loaded
-     * 
+     *
      * @param an account to check whether the beginning balance is loaded for
      * @return true if the beginning balance is loaded, false otherwise
      * @see org.kuali.kfs.gl.service.BalanceService#beginningBalanceLoaded(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean beginningBalanceLoaded(Account account) {
         return optionsService.getCurrentYearOptions().isFinancialBeginBalanceLoadInd();
     }
 
     /**
      * Determines if the account has asset/liability balances associated with it that will have a net impact
-     * 
+     *
      * @param account an account to check balances for
      * @return true if the account has an asset liability balance, false otherwise
      * @see org.kuali.kfs.gl.service.BalanceService#hasAssetLiabilityOrFundBalance(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public boolean hasAssetLiabilityOrFundBalance(Account account) {
         return hasAssetLiabilityFundBalanceBalances(account) || !fundBalanceWillNetToZero(account) || hasEncumbrancesOrBaseBudgets(account);
     }
@@ -311,12 +318,13 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * This method finds the summary records of balance entries according to input fields an values, using the DAO. The results will
      * be limited to the system lookup results limit.
-     * 
+     *
      * @param fieldValues the input fields an values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
      * @see org.kuali.kfs.gl.service.BalanceService#lookupCashBalance(java.util.Map, boolean)
      */
+    @Override
     public Iterator lookupCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
 
@@ -325,12 +333,13 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * This method gets the size of cash balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the count of cash balance entries
      * @see org.kuali.kfs.gl.service.BalanceService#getCashBalanceRecordCount(java.util.Map, boolean)
      */
+    @Override
     public Integer getCashBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getCashBalanceRecordCount() started");
 
@@ -346,12 +355,13 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * This method gets the size of balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the size of balance entries
      * @see org.kuali.kfs.gl.service.BalanceService#findBalance(java.util.Map, boolean)
      */
+    @Override
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
         return balanceDao.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
@@ -359,12 +369,13 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * This method finds the summary records of balance entries according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
      * @see org.kuali.kfs.gl.service.BalanceService#getBalanceRecordCount(java.util.Map, boolean)
      */
+    @Override
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceRecordCount() started");
 
@@ -383,10 +394,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Purge the balance table by year/chart
-     * 
+     *
      * @param chart the chart of balances to purge
      * @param year the year of balances to purge
      */
+    @Override
     public void purgeYearByChart(String chart, int year) {
         LOG.debug("purgeYearByChart() started");
 
@@ -428,7 +440,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Use the options table to get a list of all the balance type codes associated with actual balances
-     * 
+     *
      * @return an array of balance type codes for actual balances
      */
     protected Collection<String> getActualBalanceCodes() {
@@ -440,7 +452,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Uses the options table to find all the balance type codes associated with income
-     * 
+     *
      * @return an array of income balance type codes
      */
     protected Collection<String> getIncomeObjectTypeCodes() {
@@ -452,7 +464,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Uses the options table to find all the balance type codes associated with expenses
-     * 
+     *
      * @return an array of expense option type codes
      */
     protected Collection<String> getExpenseObjectTypeCodes() {
@@ -464,7 +476,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Uses the options table to find all the balance type codes associated with asset/liability
-     * 
+     *
      * @return an array of asset/liability balance type codes
      */
     protected Collection<String> getAssetLiabilityFundBalanceBalanceTypeCodes() {
@@ -476,7 +488,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Uses the options table to create a list of all the balance type codes associated with encumbrances
-     * 
+     *
      * @return an array of encumbrance balance type codes
      */
     protected Collection<String> getEncumbranceBaseBudgetBalanceTypeCodes() {
@@ -488,22 +500,37 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Uses the DAO to count the number of balances associated with the given fiscal year
-     * 
+     *
      * @param fiscal year a fiscal year to count balances for
      * @return an integer with the number of balances
      * @see org.kuali.kfs.gl.service.BalanceService#countBalancesForFiscalYear(java.lang.Integer)
      */
+    @Override
     public int countBalancesForFiscalYear(Integer year) {
         return balanceDao.countBalancesForFiscalYear(year);
     }
 
     /**
+     * Uses the DAO to count the number of balances associated with the given fiscal year and all specified  charts
+     *
+     * @param fiscal year a fiscal year to count balances for
+     * @param list of specified charts
+     * @return an integer with the number of balances
+     * @see org.kuali.kfs.gl.service.BalanceService#countBalancesForFiscalYear(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public int countBalancesForFiscalYear(Integer year, List<String> charts) {
+        return balanceDao.countBalancesForFiscalYear(year, charts);
+    }
+
+    /**
      * This method returns all of the balances specifically for the nominal activity closing job
-     * 
+     *
      * @param year year to find balances for
      * @return an Iterator of nominal activity balances
      * @see org.kuali.kfs.gl.service.BalanceService#findNominalActivityBalancesForFiscalYear(java.lang.Integer)
      */
+    @Override
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
         // generate List of nominal activity object type codes
         List<String> nominalActivityObjectTypeCodes = objectTypeService.getNominalActivityClosingAllowedObjectTypes(year);
@@ -512,12 +539,29 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method returns all of the balances specifically for the nominal activity closing job when annual closing charts are specified
+     *
+     * @param year year to find balances for
+     * @param charts list of charts to find balances for
+     * @return an Iterator of nominal activity balances
+     * @see org.kuali.kfs.gl.service.BalanceService#findNominalActivityBalancesForFiscalYear(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> charts) {
+        // generate List of nominal activity object type codes
+        List<String> nominalActivityObjectTypeCodes = objectTypeService.getNominalActivityClosingAllowedObjectTypes(year);
+        SystemOptions currentYearOptions = optionsService.getCurrentYearOptions();
+        return balanceDao.findNominalActivityBalancesForFiscalYear(year, nominalActivityObjectTypeCodes, currentYearOptions, charts);
+    }
+
+    /**
      * Returns all the balances to be forwarded for the "cumulative" rule
-     * 
+     *
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the cumulative/active balance forward process
      * @see org.kuali.kfs.gl.service.BalanceService#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
      */
+    @Override
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
         List<String> cumulativeForwardBalanceObjectTypes = objectTypeService.getCumulativeForwardBalanceObjectTypes(year);
         Collection<String> contractsAndGrantsDenotingValues = subFundGroupService.getContractsAndGrantsDenotingValues();
@@ -533,12 +577,35 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns all the balances to be forwarded for the "cumulative" rule
+     * @param year the fiscal year to find balances for
+     * @param charts charts to find balances for
+     * @return an Iterator of balances to process for the cumulative/active balance forward process
+     * @see org.kuali.kfs.gl.service.BalanceService#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> charts) {
+        List<String> cumulativeForwardBalanceObjectTypes = objectTypeService.getCumulativeForwardBalanceObjectTypes(year);
+        Collection<String> contractsAndGrantsDenotingValues = subFundGroupService.getContractsAndGrantsDenotingValues();
+        Collection<String> subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING);
+        Collection<String> cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE);
+        boolean fundGroupDenotesCGInd = parameterService.getParameterValueAsBoolean(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+        Iterator<Balance> balances = balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd, charts);
+
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
+    }
+
+    /**
      * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
-     * 
+     *
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the general balance forward process
      * @see org.kuali.kfs.gl.service.BalanceService#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer)
      */
+    @Override
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
         Collection<String> generalBalanceForwardBalanceTypesArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
@@ -552,14 +619,35 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * @param year the fiscal year to find balances for
+     * @param charts charts to find balances for
+     * @return an Iterator of balances to process for the general balance forward process
+     * @see org.kuali.kfs.gl.service.BalanceService#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> charts) {
+        List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
+        Collection<String> generalBalanceForwardBalanceTypesArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
+        Iterator<Balance> balances = balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray, charts);
+
+        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
+        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
+    }
+
+    /**
      * Returns all of the balances to be forwarded for the organization reversion process
-     * 
+     *
      * @param year the year of balances to find
      * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or
      *        beginning of year (after the fiscal year change over)
      * @return an iterator of balances to put through the strenuous organization reversion process
      * @see org.kuali.kfs.gl.service.BalanceService#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
      */
+    @Override
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
         SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(year);
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
@@ -581,7 +669,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Gets the encumbrance balance types.
-     * 
+     *
      * @param fieldValues
      * @return a list with the encumbrance balance types
      */
@@ -599,7 +687,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Sets the objectTypeService.
-     * 
+     *
      * @param objectTypeService
      */
     public void setObjectTypeService(ObjectTypeService objectTypeService) {
@@ -608,7 +696,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Sets the subFundGroupService.
-     * 
+     *
      * @param subFundGroupService
      */
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
@@ -617,7 +705,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Sets the parameterService.
-     * 
+     *
      * @param parameterService
      */
     public void setParameterService(ParameterService parameterService) {
@@ -626,7 +714,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Sets the balanceTypService.
-     * 
+     *
      * @param balanceTypService
      */
     public void setBalanceTypService(BalanceTypeService balanceTypService) {

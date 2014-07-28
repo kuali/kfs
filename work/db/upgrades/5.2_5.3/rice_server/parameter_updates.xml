@@ -295,5 +295,21 @@
 	        <column name="EVAL_OPRTR_CD" value="A" />
 	        <column name="APPL_ID" value="KFS" />
 	    </insert>
-	</changeSet>    
+	</changeSet>  
+
+    <changeSet author="KFSCNTRB-1459" id="KFSCNTRB-1459">
+        <comment>Adds parameter for KFSCNTRB-1459</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL"/>
+			<column name="CMPNT_CD" value="Batch"/>
+			<column name="PARM_NM" value="ANNUAL_CLOSING_CHARTS"/>
+			<column name="OBJ_ID" value="KFSCNTRB-1459-PARM1"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value=""/>
+			<column name="PARM_DESC_TXT" value="Charts that will be processed when year-end batch jobs Nominal Activity Closing, Balance Forward, and Encumbrance Forward are run. If no charts are specified, all charts will be processed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+    </changeSet>
+  
 </databaseChangeLog>

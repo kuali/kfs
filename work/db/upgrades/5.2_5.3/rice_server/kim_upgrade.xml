@@ -271,7 +271,7 @@
             <column name="OBJ_ID" value="KFS-RSP-038" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="RSP_TMPL_ID" value="1" />
-            <column name="NMSPC_CD" value="KFS-PURAP" />
+            <column name="NMSPC_CD" value="KFS-FP" />
             <column name="NM" value="Review PCDO AutoApprove" />
             <column name="DESC_TXT" value="Generate a notification to users on primary approval routing who did not previously approve a PCDO in case it is auto approved" />
             <column name="ACTV_IND" value="Y" />

@@ -177,11 +177,4 @@ public class PaymentRequestView extends AbstractRelatedView {
         return KFSConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST;
     }
 
-    @Override
-    public String getApplicationDocumentStatus() {
-        return SpringContext.getBean(FinancialSystemWorkflowHelperService.class).getApplicationDocumentStatus(this.getDocumentNumber());
-    }
-
-
-
 }

@@ -166,6 +166,11 @@ public class ArConstants{
         public static final String BILLING_ORG = "Billing Organization";
     }
 
+    public static class LOCReportTypeFieldValues {
+        public static final String DRAW_DETAILS = "Details Report";
+        public static final String AMOUNTS_NOT_DRAWN = "Amounts Not Drawn Report";
+    }
+
     public static class CustomerAgingReportFields {
         public static final String ACCT = "Account";
 

@@ -110,7 +110,9 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
         }
         else {
             // non error correction or DV
-            if (!isErrorCorrection(poster) || !(poster instanceof DisbursementVoucherDocument) || !(poster instanceof NonCheckDisbursementDocument)) {
+            if (!isErrorCorrection(poster) &&
+                    !(poster instanceof DisbursementVoucherDocument) &&
+                    !(poster instanceof NonCheckDisbursementDocument)) {
                 throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
 
             }

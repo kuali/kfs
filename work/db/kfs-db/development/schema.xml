@@ -1292,13 +1292,13 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="ACCOUNTS" size="200" type="VARCHAR"/>
-        <column name="AWD_START_DT" type="DATE"/>
-        <column name="AWD_STOP_DT" type="DATE"/>
-        <column name="AWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="CGAWD_BEG_DT" type="DATE"/>
+        <column name="CGAWD_END_DT" type="DATE"/>
+        <column name="CGAWD_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CUM_EXPND_AMT" scale="2" size="12" type="DECIMAL"/>
         <column name="ERROR_DT" type="DATE"/>
-        <column default="Y" name="BATCH_IND" size="1" type="VARCHAR"/>
         <column name="PRM_FNDMGR_PRNCPL_NM" size="100" type="VARCHAR"/>
+        <column default="Y" name="BATCH_IND" size="1" type="VARCHAR"/>
         <unique name="AR_INV_DOC_ERROR_LOG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

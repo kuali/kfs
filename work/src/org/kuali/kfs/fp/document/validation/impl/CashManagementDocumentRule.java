@@ -340,8 +340,6 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         Integer coinCount;
         Integer rollCount;
 
-        // since we now introduced roll count for coins, neither coin or roll count shall be negative; since we compute coin/roll count from amount, if amount is negative,
-        // at least one of roll or coin count will be negative, while the other could be 0 or negative; we shall put error on whichever are negative.
         if (coinDetail.getFinancialDocumentHundredCentAmount() != null && coinDetail.getFinancialDocumentHundredCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getHundredCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "hundredCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "hundred cent count" });

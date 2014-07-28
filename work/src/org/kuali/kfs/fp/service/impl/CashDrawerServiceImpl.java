@@ -15,20 +15,14 @@
  */
 package org.kuali.kfs.fp.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
-import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants.FpParameterConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CashDrawerServiceImpl implements CashDrawerService {
     private BusinessObjectService businessObjectService;
     private static final String CAMPUS_CODE_PROPERTY = "campusCode";
-
-//    // list of coin counts per roll for all 6 denominations, defined by parameter COUNT_PER_ROLL_BY_DENOMINATION
-//    private List<Integer> countsPerRoll;
-
 
     /**
      * Retrieves the CashDrawer associated with the campus code provided and sets the state of the drawer to closed.
@@ -330,28 +320,6 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             }
         }
         return sum;
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.service.CashDrawerService#getCoinCountsPerRoll()
-     */
-    @Override
-    public List<Integer> getCoinCountsPerRoll() {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        ArrayList<Integer> counts = new ArrayList<Integer>();
-
-        // retrieves each value of counts per roll in the order as defined in COIN_DENOMINATIONS.
-        for (String denom : KFSConstants.COIN_DENOMINATIONS) {
-            String countstr = parameterService.getSubParameterValueAsString(CoinDetail.class, FpParameterConstants.COUNT_PER_ROLL_BY_DENOMINATION, denom);
-            Integer count = new Integer(countstr);
-            // all counts per roll must be defined as positive integer
-            if (count == null || count.intValue() < 0) {
-                throw new IllegalArgumentException("Invalid subparameter value for " + FpParameterConstants.COUNT_PER_ROLL_BY_DENOMINATION + " - " + denom + ": " + countstr);
-            }
-            counts.add(count);
-        }
-
-        return counts;
     }
 
     // Spring injection

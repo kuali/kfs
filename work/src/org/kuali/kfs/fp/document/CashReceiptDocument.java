@@ -1313,9 +1313,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
-        /* TODO Discovered by KFSCNTRB-1793
+        /*
          * Currently copying a CR always copies the pre-verified cash details, even after CR is already verified.
-         * We probably should copy the confirmed details after CR is verified.
+         * It's probably more desirable to copy the confirmed details from the source CR to the new CR doc as original details,
+         * after the source CR is verified.
          */
         initializeCampusLocationCode();
 

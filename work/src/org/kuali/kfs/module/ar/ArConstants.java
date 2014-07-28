@@ -135,8 +135,8 @@ public class ArConstants{
         public static final String INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT = "3";
         public static final String REPORTS_ARE_REQUIRED_TO_BE_ATTACHED = "4";
 
-        public static final String AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
-        public static final String AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
+        public static final String CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
+        public static final String CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
         public static final String INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED = "7";
         public static final String CGB_CATEGORY_CODE_SETUP_INCORRECTLY = "8";
         public static final String LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT = "9";

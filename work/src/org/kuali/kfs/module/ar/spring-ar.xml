@@ -1083,6 +1083,9 @@
 		<property name="financialSystemUserService">
 			<ref bean="financialSystemUserService" />
 		</property>
+		<property name="identityService">
+			<ref bean="identityService"/>
+		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>

@@ -304,7 +304,7 @@
             <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="40" />
-            <column name="ATTR_VAL" value="false" />
+            <column name="ATTR_VAL" value="FALSE" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -314,7 +314,7 @@
             <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="41" />
-            <column name="ATTR_VAL" value="false" />
+            <column name="ATTR_VAL" value="FALSE" />
         </insert>
 
         <insert tableName="KRIM_ROLE_RSP_T">

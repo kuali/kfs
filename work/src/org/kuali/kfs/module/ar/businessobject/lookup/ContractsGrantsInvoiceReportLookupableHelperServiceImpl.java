@@ -116,7 +116,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         // build search result fields
         for (CustomerInvoiceDocument openCGInvoiceDoc : openInvoiceDocs) {
-            if (invoiceReportOption.equals(ArConstants.PAST_DUE_INVOICES) && openCGInvoiceDoc.getInvoiceDueDate().before(today)) {
+            if (invoiceReportOption.equals(ArConstants.PAST_DUE_INVOICES) && !openCGInvoiceDoc.getInvoiceDueDate().before(today)) {  // for past due, we only want invoices with a due date of yesterday or previous
                 // check if due date is not passed then not add to result
                 continue;
             }

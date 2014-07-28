@@ -573,6 +573,9 @@
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsInvoiceReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -32,9 +32,11 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -43,6 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected DateTimeService dateTimeService;
 
     /**
      * Validate the pattern for the ageInDays and remainingValue
@@ -53,6 +56,15 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         super.validateSearchParameters(fieldValues);
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AGE_IN_DAYS);
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.REMAINING_AMOUNT);
+
+        final String upperBoundInvoiceDueDate = fieldValues.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
+        validateDateField(upperBoundInvoiceDueDate, ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, getDateTimeService());
+        final String lowerBoundInvoiceDueDate = fieldValues.remove(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
+        validateDateField(lowerBoundInvoiceDueDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, getDateTimeService());
+        final String lowerBoundInvoiceDate = fieldValues.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
+        validateDateField(lowerBoundInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM, getDateTimeService());
+        final String upperBoundInvoiceDate = fieldValues.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
+        validateDateField(upperBoundInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO, getDateTimeService());
     }
 
     /**
@@ -77,8 +89,22 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         invoiceLookupFields.put(ArPropertyConstants.OPEN_INVOICE_IND, KRADConstants.YES_INDICATOR_VALUE);
         invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), SearchOperator.OR.op()));
         List<CustomerInvoiceDocument> openInvoiceDocs = new ArrayList<CustomerInvoiceDocument>();
-        openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(CustomerInvoiceDocument.class, invoiceLookupFields, true));
-        openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, invoiceLookupFields, true));
+
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
+            final boolean docTypeCriteriaSpecified = invoiceLookupFields.containsKey(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME);
+            if (!docTypeCriteriaSpecified) {
+                invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.INV_DOCUMENT_TYPE);
+            }
+            if (StringUtils.equals(invoiceLookupFields.get(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME), ArConstants.INV_DOCUMENT_TYPE)) {
+                openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(CustomerInvoiceDocument.class, invoiceLookupFields, true));
+            }
+            if (!docTypeCriteriaSpecified) {
+                invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+            }
+            if (StringUtils.equals(invoiceLookupFields.get(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME), ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
+                openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, invoiceLookupFields, true));
+            }
+        }
 
         final String invoiceReportOption = lookupForm.getFields().remove(ArConstants.INVOICE_REPORT_OPTION);
 
@@ -157,14 +183,11 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
     protected Map<String, String> buildCriteriaForInvoiceLookup(Map lookupFormFields) {
         Map<String, String> lookupFields = new HashMap<String, String>();
 
-        final String invoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
-        if (!StringUtils.isBlank(invoiceDate)) {
-            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, invoiceDate);
-        }
-
         final String lowerBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
-        if (!StringUtils.isBlank(lowerBoundInvoiceDate)) {
-            lookupFields.put(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, lowerBoundInvoiceDate);
+        final String upperBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
+        final String invoiceDateCriteria = fixDateCriteria(lowerBoundInvoiceDate, upperBoundInvoiceDate);
+        if (!StringUtils.isBlank(invoiceDateCriteria)) {
+            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, invoiceDateCriteria);
         }
 
         final String invoiceAmount = (String)lookupFormFields.remove(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT);
@@ -182,14 +205,11 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
             lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, invoiceType);
         }
 
-        final String invoiceDueDate = (String)lookupFormFields.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
-        if (!StringUtils.isBlank(invoiceDueDate)) {
-            lookupFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDate);
-        }
-
+        final String upperBoundInvoiceDueDate = (String)lookupFormFields.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
         final String lowerBoundInvoiceDueDate = (String)lookupFormFields.remove(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
-        if (!StringUtils.isBlank(invoiceDueDate)) {
-            lookupFields.put(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, lowerBoundInvoiceDueDate);
+        final String invoiceDueDateCriteria = fixDateCriteria(lowerBoundInvoiceDueDate, upperBoundInvoiceDueDate);
+        if (!StringUtils.isBlank(invoiceDueDateCriteria)) {
+            lookupFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateCriteria);
         }
 
         final String proposalNumber = (String)lookupFormFields.remove(ArPropertyConstants.CollectionActivityDocumentFields.PROPOSAL_NUMBER);
@@ -211,5 +231,13 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

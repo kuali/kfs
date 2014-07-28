@@ -47,23 +47,19 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
     public boolean isAuthorizedForDocument(final String principalId, final org.kuali.rice.kew.api.document.Document document) {
         boolean authorized = false;
 
-        if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
-            LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
-        } else {
-            authorized = super.isAuthorizedForDocument(principalId, document);
-            if (authorized) {
-                try {
-                    final String principalName = getIdentityService().getPrincipal(principalId).getPrincipalName();
-                    Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalName), new Callable<Boolean>(){
-                        @Override
-                        public Boolean call() {
-                            return canOpen(GlobalVariables.getUserSession().getPerson() , document.getDocumentTypeName(), document.getDocumentId());
-                        }
-                    });
-                    return ObjectUtils.isNotNull(canOpen) && canOpen ;
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+        authorized = super.isAuthorizedForDocument(principalId, document);
+        if (authorized) {
+            try {
+                final String principalName = getIdentityService().getPrincipal(principalId).getPrincipalName();
+                Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalName), new Callable<Boolean>(){
+                    @Override
+                    public Boolean call() {
+                        return canOpen(GlobalVariables.getUserSession().getPerson() , document.getDocumentTypeName(), document.getDocumentId());
+                    }
+                });
+                return ObjectUtils.isNotNull(canOpen) && canOpen ;
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
         }
 
@@ -81,8 +77,9 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
     public Boolean canOpen(Person currentUser, String docTypeName, String documentId) {
         DocumentAuthorizer docAuthorizer = getDocumentHelperService().getDocumentAuthorizer(docTypeName);
         final TravelDocument doc = getDocument(documentId);
-        if (doc == null) {
-            return true; // we're probably mid-creation here (becuase we have a workflow doc but not a travel doc yet), so let's just open the thing
+        if (ObjectUtils.isNull(doc)) {
+            LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
+            return false;
         }
         return docAuthorizer.canOpen(doc, currentUser);
     }

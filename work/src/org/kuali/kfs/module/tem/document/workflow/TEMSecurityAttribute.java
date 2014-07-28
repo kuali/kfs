@@ -15,32 +15,55 @@
  */
 package org.kuali.kfs.module.tem.document.workflow;
 
+import java.util.concurrent.Callable;
+
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * TEM Security Attribute restrict doc search results and view route log
  */
 public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TEMSecurityAttribute.class);
 
     private DocumentHelperService documentHelperService;
     private DocumentService documentService;
+    protected IdentityService identityService;
 
     /**
      * @see org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute#isAuthorizedForDocument(java.lang.String, org.kuali.rice.kew.api.document.Document)
      */
     @Override
-    public boolean isAuthorizedForDocument(String principalId, org.kuali.rice.kew.api.document.Document document) {
-        boolean authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(GlobalVariables.getUserSession().getPerson(), document.getDocumentTypeName(), document.getDocumentId());
-        return authorized;
+    public boolean isAuthorizedForDocument(final String principalId, final org.kuali.rice.kew.api.document.Document document) {
+        boolean authorized = false;
 
+        authorized = super.isAuthorizedForDocument(principalId, document);
+        if (authorized) {
+            try {
+                final String principalName = getIdentityService().getPrincipal(principalId).getPrincipalName();
+                Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalName), new Callable<Boolean>(){
+                    @Override
+                    public Boolean call() {
+                        return canOpen(GlobalVariables.getUserSession().getPerson() , document.getDocumentTypeName(), document.getDocumentId());
+                    }
+                });
+                return ObjectUtils.isNotNull(canOpen) && canOpen ;
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return authorized;
     }
 
     /**
@@ -54,8 +77,9 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
     public Boolean canOpen(Person currentUser, String docTypeName, String documentId) {
         DocumentAuthorizer docAuthorizer = getDocumentHelperService().getDocumentAuthorizer(docTypeName);
         final TravelDocument doc = getDocument(documentId);
-        if (doc == null) {
-            return true; // we're probably mid-creation here (becuase we have a workflow doc but not a travel doc yet), so let's just open the thing
+        if (ObjectUtils.isNull(doc)) {
+            LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
+            return false;
         }
         return docAuthorizer.canOpen(doc, currentUser);
     }
@@ -82,6 +106,16 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
 
     public DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
+    }
+
+    /**
+     * @return the default implementation of IdentityService
+     */
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = SpringContext.getBean(IdentityService.class);
+        }
+        return identityService;
     }
 
 }

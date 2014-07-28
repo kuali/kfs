@@ -16137,7 +16137,7 @@
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2040"/>
     <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
-    <sequence name="KRNS_MAINT_LOCK_S" nextval="2000"/>
+    <sequence name="KRNS_MAINT_LOCK_S" nextval="2002"/>
     <sequence name="KRNS_NTE_S" nextval="2060"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="30000"/>
     <sequence name="KRSB_BAM_S" nextval="30000"/>

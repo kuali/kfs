@@ -54,7 +54,6 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -142,8 +141,8 @@ public class TicklersReportLookupableHelperServiceImplTest extends KualiTestBase
         organizationOptions.setProcessingOrganizationCode(ORGANIZATION_CODE);
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, CHART_OF_ACCOUNTS_CODE, ORGANIZATION_CODE, errorMessages);
+        List<String> errLines = new ArrayList<String>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, CHART_OF_ACCOUNTS_CODE, ORGANIZATION_CODE, errLines);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");

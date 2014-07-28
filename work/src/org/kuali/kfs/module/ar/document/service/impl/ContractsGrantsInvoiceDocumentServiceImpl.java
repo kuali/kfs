@@ -2071,10 +2071,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
+    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
 
-        if (!this.hasNoActiveAccountsAssigned(award)) {
-            Collection<Account> controlAccounts = new ArrayList<Account>();
+        if (!hasNoActiveAccountsAssigned(award)) {
+            List<Account> controlAccounts = new ArrayList<Account>();
             for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
                     controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
@@ -2339,7 +2339,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                    List<Account> controlAccounts = getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();
@@ -2351,7 +2351,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
-                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                    List<Account> controlAccounts = getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();

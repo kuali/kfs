@@ -45,7 +45,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * Test file for Collection Activity Document Service.
@@ -126,8 +125,8 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             organizationOptions.setProcessingOrganizationCode(orgCode);
             SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-            List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-            ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
+            List<String> errLines = new ArrayList<String>();
+            ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errLines);
             cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
             for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
                 invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");

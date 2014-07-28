@@ -108,7 +108,8 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         organizationOptions.setProcessingOrganizationCode(orgCode);
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
+        List<String> errLines = new ArrayList<String>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errLines);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
         // To create Dunning Campaign and Dunning LEtter Distribtuions and templates.

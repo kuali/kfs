@@ -38,7 +38,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * This class tests the CollectionActivityDocument class.
@@ -77,8 +76,8 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errorMessages);
+        List<String> errLines = new ArrayList<String>();
+        cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errLines);
 
         DocumentHeader documentHeader = cgInvoice.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();

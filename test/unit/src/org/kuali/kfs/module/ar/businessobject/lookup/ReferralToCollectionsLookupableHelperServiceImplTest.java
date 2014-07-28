@@ -117,7 +117,8 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         organizationOptions.setProcessingOrganizationCode(orgCode);
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
+        List<String> errLines = new ArrayList<String>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errLines);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
             invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");

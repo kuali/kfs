@@ -263,7 +263,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="configService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="contractsAndGrantsModuleBillingService">

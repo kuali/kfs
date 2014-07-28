@@ -636,8 +636,8 @@ public class KFSConstants {
             // when the deposit type is INTERIM;
             public static final String INTERIM = "I";
 
-            // or FINAL when the deposit type becomes FINAL. We can use DocumentStatusCodes.FINAL for this status,
-            // since it's not used for other purposes. Note: don't confuse this with workflow status FINAL.
+            // or FINAL when the deposit type becomes FINAL. Note: don't confuse this with workflow status FINAL.
+            public static final String FINAL = "F";
 
             // When the CMDoc is finalized, the CRs of its deposits change to status APPROVED. We can use
             // DocumentStatusCodes.APPROVED for this status, just like most other FinancialSystemTransactionalDocuments.

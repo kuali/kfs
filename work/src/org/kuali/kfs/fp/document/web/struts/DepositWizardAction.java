@@ -229,7 +229,7 @@ public class DepositWizardAction extends KualiAction {
     private void calculateTargetFinalDepositAmount(DepositWizardForm dwform) {
         final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
         final List<CashReceiptDocument> interestingReceipts =
-                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
+                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
         for (CashReceiptDocument crDoc : interestingReceipts) {
             crDoc.refreshCashDetails();
             dwform.addCashReceiptToTargetTotal(crDoc);
@@ -540,7 +540,7 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {

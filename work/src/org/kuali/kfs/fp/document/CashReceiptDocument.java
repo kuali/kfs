@@ -1552,7 +1552,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         // post CM approval status could be VERIFIED, INTERIM, FINAL, APPROVED
         String statusCode = getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         boolean isConfirmed = CashReceipt.VERIFIED.equals(statusCode) || CashReceipt.INTERIM.equals(statusCode) ||
-                DocumentStatusCodes.FINAL.equals(statusCode) || DocumentStatusCodes.APPROVED.equals(statusCode);
+                CashReceipt.FINAL.equals(statusCode) || DocumentStatusCodes.APPROVED.equals(statusCode);
         return isConfirmed;
     }
 

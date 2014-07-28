@@ -540,7 +540,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
 
-        protected static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL };
+        protected static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL };
 
         public void resummarize(CashManagementDocument cmDoc) {
             //
@@ -565,7 +565,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
                 else if (status.equals(CashReceipt.INTERIM)) {
                     interimReceiptStats.add(receipt);
                 }
-                else if (status.equals(DocumentStatusCodes.FINAL)) {
+                else if (status.equals(CashReceipt.FINAL)) {
                     finalReceiptStats.add(receipt);
                 }
                 else {

@@ -38,7 +38,6 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.CashManagingRule;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -191,7 +190,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
 
     private static final List INITIATED_STATES = Arrays.asList(new String[] { CashReceipt.VERIFIED });
-    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, DocumentStatusCodes.FINAL});
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, CashReceipt.FINAL});
 
     /**
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given

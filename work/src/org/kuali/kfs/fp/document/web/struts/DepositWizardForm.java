@@ -477,7 +477,7 @@ public class DepositWizardForm extends KualiForm {
         }
 
         String statusCode = crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
-        if (statusCode.equals(CashReceipt.VERIFIED) || statusCode.equals(DocumentStatusCodes.FINAL)) {
+        if (statusCode.equals(CashReceipt.VERIFIED) || statusCode.equals(CashReceipt.FINAL)) {
             targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedCheckAmount());
         }
         targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedNetCashAmount());

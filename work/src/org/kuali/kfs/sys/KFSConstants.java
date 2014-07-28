@@ -606,6 +606,13 @@ public class KFSConstants {
     public static final String NEWLINE = "\n";
 
     // Workflow constants
+    public class FinancialProcessingWorkflowConstants {
+
+        // Global
+        public static final String IS_DOCUMENT_AUTO_APPROVED = "RequiresAutoApprovalNotification";
+
+    }
+
     @Deprecated
     public static final String WORKFLOW_FYI_REQUEST = KewApiConstants.ACTION_REQUEST_FYI_REQ;
 

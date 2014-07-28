@@ -725,9 +725,9 @@
           <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
           <role name="SubFund" nextNode="notifyOnAutoApproval"/>
-          <split name="notifyOnAutoApproval">
+          <split name="RequiresAutoApprovalNotification">
             <branch name = "True">
-                <role name="notifyOnAutoApprovalResponsibility" nextNode="joinOnAutoApproval"/>
+                <role name="AutoApprove" nextNode="joinOnAutoApproval"/>
             </branch>
             <branch name="False">
                 <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval"/>
@@ -743,12 +743,12 @@
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
-        <split name="notifyOnAutoApproval">
+        <split name="RequiresAutoApprovalNotification">
           <type>
             org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
           </type>
         </split>
-        <role name="notifyOnAutoApprovalResponsibility">
+        <role name="AutoApprove">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>

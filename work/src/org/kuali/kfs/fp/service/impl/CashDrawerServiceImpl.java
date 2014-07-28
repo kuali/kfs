@@ -337,12 +337,6 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      */
     @Override
     public List<Integer> getCoinCountsPerRoll() {
-        //TODO KFSCNTRB-1793 should we always retrieve from DB, in case the parameter changes? in practice this param will seldom change
-//        // if countsPerRoll is previously retrieved, no need to retrieve again
-//        if (countsPerRoll != null) {
-//            return countsPerRoll;
-//        }
-
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ArrayList<Integer> counts = new ArrayList<Integer>();
 

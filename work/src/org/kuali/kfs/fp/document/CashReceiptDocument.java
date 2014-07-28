@@ -46,6 +46,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
@@ -883,7 +884,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
-        //TODO KFSCNTRB-1793 why do we need to save the details separately, instead of let OJB do it?
         /* FIXME FIXED by KFSCNTRB-1793
          * The previous code has a bug: it only saves a detail when its total is not zero.
          * This means that when the detail was non-zero and saved before, and now it is cleared to 0,
@@ -1525,9 +1525,12 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * should be pointing to the original one; otherwise, it should be pointing to the confirmed one.
      */
     public boolean isPreRoute() {
-        // pre-route status should be INITIATED or CANCELLED; during CM routing the status is "R".
-        String statusCode = getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
-        boolean isPreRoute = DocumentStatusCodes.INITIATED.equals(statusCode) || DocumentStatusCodes.CANCELLED.equals(statusCode);
+        // pre-route FinancialDocumentStatusCode should be INITIATED or CANCELLED; during CM routing the status is "R";
+        // pre-route WorkflowDocumentStatusCode should be INITIATED, SAVED, or CANCELLED;
+        // however, it's better to use Workflow status here, since if notes are added to the doc,
+        // using the FinancialDocumentStatusCode won't be right.
+        String statusCode = getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode();
+        boolean isPreRoute = DocumentStatus.INITIATED.equals(statusCode) || DocumentStatus.SAVED.equals(statusCode) || DocumentStatus.CANCELED.equals(statusCode);
         return isPreRoute;
     }
 

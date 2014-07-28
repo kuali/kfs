@@ -279,7 +279,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @param form
      * @param list
      * @return
-     * @throws Exception
      */
     @Override
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {

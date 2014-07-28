@@ -413,7 +413,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param totalAmount
      * @param seqNum
      * @return
-     * @throws Exception
      */
     protected CustomerInvoiceDetail createSourceAccountingLine(String docNum, String coaCode, String acctNum, String obCode, KualiDecimal totalAmount, Integer seqNum) {
         CustomerInvoiceDetail cid = new CustomerInvoiceDetail();

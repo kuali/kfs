@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyLookupableHelperServiceImpl.class);
 
-    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
 
     /***
      * This method was overridden to add custom action components in Agency lookup
@@ -117,18 +117,21 @@ public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServ
     protected List<String> getFieldsToIgnore() {
         List<String> fieldsToIgnore = new ArrayList<String>();
 
-        if (!getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
+        if (!accountsReceivableModuleService.isContractsGrantsBillingEnhancementActive()) {
             fieldsToIgnore.add(CGPropertyConstants.CUSTOMER_NUMBER);
         }
 
         return fieldsToIgnore;
     }
 
-    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
-        return accountsReceivableModuleBillingService;
+
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        return accountsReceivableModuleService;
     }
 
-    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
-        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
+
+    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
+        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
+
 }

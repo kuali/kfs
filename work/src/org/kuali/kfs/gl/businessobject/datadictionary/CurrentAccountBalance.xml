@@ -140,70 +140,70 @@
     <bean id="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="Balance-dummyBusinessObject.pendingEntryOption" />
 
     <bean id="CurrentAccountBalance-currentBudget" parent="CurrentAccountBalance-currentBudget-parentBean" />
-    <bean id="CurrentAccountBalance-currentBudget-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-currentBudget-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="currentBudget" />
         <property name="label" value="Current Budget" />
         <property name="shortLabel" value="Current Budget" />
     </bean>
 
     <bean id="CurrentAccountBalance-beginningFundBalance" parent="CurrentAccountBalance-beginningFundBalance-parentBean" />
-    <bean id="CurrentAccountBalance-beginningFundBalance-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-beginningFundBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="beginningFundBalance" />
         <property name="label" value="Beginning Fund Balance" />
         <property name="shortLabel" value="Fund Balance" />
     </bean>
 
     <bean id="CurrentAccountBalance-beginningCurrentAssets" parent="CurrentAccountBalance-beginningCurrentAssets-parentBean" />
-    <bean id="CurrentAccountBalance-beginningCurrentAssets-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-beginningCurrentAssets-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="beginningCurrentAssets" />
         <property name="label" value="Beginning Current Assets" />
         <property name="shortLabel" value="Current Assets" />
     </bean>
 
     <bean id="CurrentAccountBalance-beginningCurrentLiabilities" parent="CurrentAccountBalance-beginningCurrentLiabilities-parentBean" />
-    <bean id="CurrentAccountBalance-beginningCurrentLiabilities-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-beginningCurrentLiabilities-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="beginningCurrentLiabilities" />
         <property name="label" value="Beginning Current Liabilities" />
         <property name="shortLabel" value="Current Liabilities" />
     </bean>
 
     <bean id="CurrentAccountBalance-totalIncome" parent="CurrentAccountBalance-totalIncome-parentBean" />
-    <bean id="CurrentAccountBalance-totalIncome-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-totalIncome-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="totalIncome" />
         <property name="label" value="Total Income" />
         <property name="shortLabel" value="Total Income" />
     </bean>
 
     <bean id="CurrentAccountBalance-totalExpense" parent="CurrentAccountBalance-totalExpense-parentBean" />
-    <bean id="CurrentAccountBalance-totalExpense-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-totalExpense-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="totalExpense" />
         <property name="label" value="Total Expense" />
         <property name="shortLabel" value="Total Expense" />
     </bean>
 
     <bean id="CurrentAccountBalance-encumbrances" parent="CurrentAccountBalance-encumbrances-parentBean" />
-    <bean id="CurrentAccountBalance-encumbrances-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-encumbrances-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="encumbrances" />
         <property name="label" value="Encumbrances" />
         <property name="shortLabel" value="Encumbrances" />
     </bean>
 
     <bean id="CurrentAccountBalance-budgetBalanceAvailable" parent="CurrentAccountBalance-budgetBalanceAvailable-parentBean" />
-    <bean id="CurrentAccountBalance-budgetBalanceAvailable-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-budgetBalanceAvailable-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="budgetBalanceAvailable" />
         <property name="label" value="Budget Available Balance" />
         <property name="shortLabel" value="Budget Available Balance" />
     </bean>
 
     <bean id="CurrentAccountBalance-cashExpenditureAuthority" parent="CurrentAccountBalance-cashExpenditureAuthority-parentBean" />
-    <bean id="CurrentAccountBalance-cashExpenditureAuthority-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-cashExpenditureAuthority-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="cashExpenditureAuthority" />
         <property name="label" value="Cash Expenditure Authority" />
         <property name="shortLabel" value="Cash Expenditure Authority" />
     </bean>
 
     <bean id="CurrentAccountBalance-currentFundBalance" parent="CurrentAccountBalance-currentFundBalance-parentBean" />
-    <bean id="CurrentAccountBalance-currentFundBalance-parentBean" abstract="true" parent="Balance-dummyBusinessObject.genericAmount">
+    <bean id="CurrentAccountBalance-currentFundBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="currentFundBalance" />
         <property name="label" value="Current Fund Balance" />
         <property name="shortLabel" value="Fund Balance" />

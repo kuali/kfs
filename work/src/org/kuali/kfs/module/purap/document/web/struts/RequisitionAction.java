@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,12 +45,14 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -56,7 +60,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
-
+    private RequisitionService requisitionService;
+    
     /**
      * save the document without any validations.....
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -253,6 +258,45 @@ public class RequisitionAction extends PurchasingActionBase {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (shouldWarnIfNoAccountingLines(form)) {
+            String question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (StringUtils.equals(question, PurapConstants.REQUISITION_ACCOUNTING_LINES_QUESTION)) {
+                // We're getting an answer from our question
+                String answer = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                // if the answer is "yes"- continue routing, but if it isn't...
+                if (!StringUtils.equals(answer, ConfirmationQuestion.YES)) {
+                    // answer is "no, don't continue." so we'll just add a warning and refresh the page 
+                    LOG.info("add a warning and refresh the page ");
+                    GlobalVariables.getMessageMap().putWarning(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES);
+                    return refresh(mapping, form, request, response);
+                }
+            }
+            else {
+                /*We have an empty item and we have a content reviewer. We will now ask the user
+                 * if he wants to ignore the empty item (and let the content reviewer take care of it later).
+                 */
+                return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REQUISITION_ACCOUNTING_LINES_QUESTION, PurapConstants.QUESTION_REQUISITON_ROUTE_WITHOUT_ACCOUNTING_LINES, KRADConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "1");
+            }
+        }
+        return super.route(mapping, form, request, response);
+    }
+    
+    protected boolean shouldWarnIfNoAccountingLines(ActionForm form){
+        RequisitionDocument doc = (RequisitionDocument) ((PurchasingFormBase) form).getDocument();
+        RequisitionService reqs = getRequisitionService();
+        return (doc.isMissingAccountingLines() && reqs.hasContentReviewer(doc.getOrganizationCode(), doc.getChartOfAccountsCode()));
+    }
+
+
+    protected synchronized RequisitionService getRequisitionService(){
+        if (this.requisitionService == null){
+            this.requisitionService = SpringContext.getBean(RequisitionService.class);
+        }
+        return this.requisitionService;
     }
 
 }

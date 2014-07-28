@@ -72,24 +72,28 @@ public class TrialBalanceDaoJdbc extends PlatformAwareDaoBaseJdbc implements Tri
     @Override
     public List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode, String periodCode) {
         final List<TrialBalanceReport> report = new ArrayList<TrialBalanceReport>();
+        List<Object> queryArguments = new ArrayList<Object>(2);
+
         String YTDQuery = buildYTDQueryString(periodCode);
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("SELECT A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD,");
-        queryBuilder.append( YTDQuery +" AS YTD ");
+        queryBuilder.append(YTDQuery + " AS YTD ");
         queryBuilder.append("FROM GL_BALANCE_T A0 JOIN CA_OBJECT_CODE_T A1 on A1.FIN_COA_CD = A0.FIN_COA_CD AND A1.UNIV_FISCAL_YR = A0.UNIV_FISCAL_YR and A1.FIN_OBJECT_CD = A0.FIN_OBJECT_CD ");
         queryBuilder.append("JOIN CA_OBJ_TYPE_T A2 on A2.FIN_OBJ_TYP_CD = A1.FIN_OBJ_TYP_CD ");
         queryBuilder.append("JOIN CA_ACCTG_CTGRY_T A3 on A3.ACCTG_CTGRY_CD = A2.ACCTG_CTGRY_CD ");
         queryBuilder.append("WHERE A0.FIN_BALANCE_TYP_CD = 'AC' ");
-        queryBuilder.append("AND A0.UNIV_FISCAL_YR = '" + selectedFiscalYear + "' ");
+        queryBuilder.append("AND A0.UNIV_FISCAL_YR = ? ");
+        queryArguments.add(selectedFiscalYear);
 
         if (StringUtils.isNotBlank(chartCode)) {
-            queryBuilder.append("AND A0.FIN_COA_CD='" + chartCode + "' ");
+            queryBuilder.append("AND A0.FIN_COA_CD=? ");
+            queryArguments.add(chartCode);
         }
         queryBuilder.append("GROUP BY A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD, A3.FIN_REPORT_SORT_CD ");
         queryBuilder.append("HAVING "+YTDQuery+" <> 0 ");
         queryBuilder.append("ORDER BY A0.FIN_COA_CD, A3.FIN_REPORT_SORT_CD, A0.FIN_OBJECT_CD");
 
-        getJdbcTemplate().query(queryBuilder.toString(), new ResultSetExtractor() {
+        getJdbcTemplate().query(queryBuilder.toString(), queryArguments.toArray(), new ResultSetExtractor() {
             @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
 

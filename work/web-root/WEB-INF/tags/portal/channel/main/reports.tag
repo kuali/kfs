@@ -26,9 +26,6 @@
 						title="Collection Activity Report"
 						url="collectionActivityReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Collection Activity Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport" /></li>
-				<li><portal:portalLink displayTitle="true"
 						title="Contracts & Grants Aging Report"
 						url="contractsGrantsAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport" /></li>
 			</c:if>
@@ -42,10 +39,6 @@
 						title="Outstanding Invoice Report"
 						url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Outstanding Invoice Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
 						title="Invoice Report Delivery"
 						url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
 				<li><portal:portalLink displayTitle="true"
@@ -53,61 +46,31 @@
 						url="contractsGrantsLOCAmountsNotDrawnReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
-						title="LOC Amounts Not Drawn Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
 						title="LOC Draw Details Report"
 						url="contractsGrantsLOCDrawDetailsReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
-						title="LOC Draw Details Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Milestone Report"
 						url="contractsGrantsMilestoneReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
-						title="Milestone Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
 						title="Payment History Report"
 						url="contractsGrantsPaymentHistoryReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
-						title="Payment History Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Referral To Collections Report"
 						url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Referral To Collections Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
-				<li><portal:portalLink displayTitle="true"
 						title="Suspended Invoice Detail Report"
 						url="contractsGrantsSuspendedInvoiceDetailReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
-						title="Suspended Invoice Detail Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Suspended Invoice Summary Report"
 						url="contractsGrantsSuspendedInvoiceSummaryReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
-						title="Suspended Invoice Summary Report (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
 						title="Tickler"
 						url="arTicklersReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TicklersReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-				<li><portal:portalLink displayTitle="true"
-						title="Tickler (Simplified)"
-						url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TicklersReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 			</c:if>
 		</ul>
 	</c:if>

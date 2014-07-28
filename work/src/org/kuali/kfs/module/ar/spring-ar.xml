@@ -647,64 +647,31 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCDrawDetailsReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="contractsGrantsLOCReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="contractsGrantsLOCDrawDetailsReportLookupableHelperService" />
+			<ref bean="contractsGrantsLOCReportLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCDrawDetailsReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl"
+	<bean id="contractsGrantsLOCReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCReportLookupableHelperServiceImpl"
 		scope="prototype" parent="contractsGrantsLookupableHelperService">
 		<property name="workflowDocumentService">
 			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCDrawDetailsReportInfo" parent="contractsGrantsLOCDrawDetailsReportInfo-parentBean"/>
-	<bean id="contractsGrantsLOCDrawDetailsReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Grants LOC Draw Details Report" />
-		<property name="reportFileName" value="cg_loc_draw_details_report" />
+	<bean id="contractsGrantsLOCReportInfo" parent="contractsGrantsLOCReportInfo-parentBean"/>
+	<bean id="contractsGrantsLOCReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants LOC Report" />
+		<property name="reportFileName" value="cg_loc_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="reportTemplateName" value="ContractsGrantsLOCDrawDetailsReport" />
+		<property name="reportTemplateName" value="ContractsGrantsLOCReport" />
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="contractsGrantsLOCDrawDetailsDetails" value="ContractsGrantsLOCDrawDetails" />
-				<entry key="searchCriteria" value="SearchCriteria" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="contractsGrantsLOCAmountsNotDrawnReportLookupableHelperService" />
-		</property>
-	</bean>
-
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
-		<property name="contractsGrantsReportHelperService">
-			<ref bean="contractsGrantsReportHelperService" />
-		</property>
-		<property name="workflowDocumentService">
-			<ref bean="rice.kew.workflowDocumentService" />
-		</property>
-	</bean>
-
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo" parent="contractsGrantsLOCAmountsNotDrawnReportInfo-parentBean" />
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
-		<property name="reportTitle" value="Contracts Grants LOC Amounts Not Drawn Report" />
-		<property name="reportFileName" value="cg_loc_amounts_not_drawn_report" />
-		<property name="reportsDirectory" value="${reports.directory}/ar/" />
-		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
-		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="reportTemplateName" value="ContractsGrantsLOCAmountsNotDrawnReport" />
-		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
-		<property name="subReports">
-			<map>
-				<entry key="contractsGrantsLOCAmountsNotDrawnDetails" value="ContractsGrantsLOCAmountsNotDrawnDetails" />
+				<entry key="contractsGrantsLOC" value="ContractsGrantsLOC" />
 				<entry key="searchCriteria" value="SearchCriteria" />
 			</map>
 		</property>
@@ -2276,20 +2243,14 @@
 		<property name="reportInfo" ref="collActReportInfo"/>
 	</bean>
 	
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService" parent="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean"/>
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportBuilderServiceImpl">
-		<property name="reportInfo" ref="contractsGrantsLOCAmountsNotDrawnReportInfo"/>
-		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
-	</bean>
-	
 	<bean id="contractsGrantsMilestoneReportBuilderService" parent="contractsGrantsMilestoneReportBuilderService-parentBean"/>
 	<bean id="contractsGrantsMilestoneReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportBuilderServiceImpl">
 		<property name="reportInfo" ref="contractsGrantsMilestoneReportInfo"/>
 	</bean>
 	
-	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService" parent="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean"/>
-	<bean id="contractsGrantsLOCDrawDetailsReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportBuilderServiceImpl">
-		<property name="reportInfo" ref="contractsGrantsLOCDrawDetailsReportInfo"/>
+	<bean id="contractsGrantsLOCReportBuilderService" parent="contractsGrantsLOCReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsLOCReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsLOCReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
 	

@@ -122,8 +122,8 @@
 		<form-bean name="ContractsGrantsPaymentHistoryReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsPaymentHistoryReportLookupForm" />
 
-		<form-bean name="ContractsGrantsLOCDrawDetailsReportLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCDrawDetailsReportLookupForm" />
+		<form-bean name="ContractsGrantsLOCReportLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReportLookupForm" />
 
 		<form-bean name="ContractsGrantsLOCAmountsNotDrawnReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCAmountsNotDrawnReportLookupForm" />
@@ -972,9 +972,9 @@
 				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
-		<action path="/contractsGrantsLOCDrawDetailsReport" name="ContractsGrantsLOCDrawDetailsReportLookupForm"
+		<action path="/contractsGrantsLOCReport" name="ContractsGrantsLOCReportLookupForm"
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCDrawDetailsReportLookupAction"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReportLookupAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"

@@ -15,24 +15,23 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
+import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -40,36 +39,29 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for LOC Draw Details Report.
  */
 public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    protected FinancialSystemDocumentService financialSystemDocumentService;
-
-    @Override
-    public void validateSearchParameters(Map<String, String> fieldValues) {
-        super.validateSearchParameters(fieldValues);
-        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AMOUNT_AVAILABLE_TO_DRAW);
-        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.CLAIM_ON_CASH_BALANCE);
-        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AMOUNT_TO_DRAW);
-        validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.FUNDS_NOT_DRAWN);
-    }
+    protected WorkflowDocumentService workflowDocumentService;
 
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
-        final String reportType = (String)lookupFormFields.remove("reportType");
+        String reportType = (String) lookupFormFields.get("reportType");
+
+        if (reportType.equals("AmountsNotDrawn")) {
+            return performDrawDetailsReportLookup(lookupForm, resultTable, bounded);
+        } else {
+            return performAmountsNotDrawnReportLookup(lookupForm, resultTable, bounded);
+        }
+    }
+
+    private Collection performDrawDetailsReportLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        Map lookupFormFields = lookupForm.getFieldsForLookup();
 
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
-        OperatorAndValue amountAvailableToDrawOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.AMOUNT_AVAILABLE_TO_DRAW);
-        OperatorAndValue claimOnCashBalanceOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.CLAIM_ON_CASH_BALANCE);
-        OperatorAndValue amountToDrawOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.AMOUNT_TO_DRAW);
-        OperatorAndValue fundsNotDrawnOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.FUNDS_NOT_DRAWN);
-
         Collection<ContractsGrantsLOCReport> displayList = new ArrayList<ContractsGrantsLOCReport>();
-
-        Map<String, String> locLookupFields = buildCriteriaForLetterOfCreditLookup(lookupFormFields);
-        locLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(),SearchOperator.OR.op()));
-        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = getLookupService().findCollectionBySearchHelper(ContractsGrantsLetterOfCreditReviewDocument.class, locLookupFields, true);
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
 
         for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
             List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
@@ -81,7 +73,7 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                 KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
                 KualiDecimal totalFundsNotDrawn = KualiDecimal.ZERO;
 
-                ContractsGrantsLOCReport cgLOCReport = new ContractsGrantsLOCReport();
+                ContractsGrantsLOCReport cgLOCDrawDetailsReport = new ContractsGrantsLOCReport();
 
                 for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : accountReviewDetails) {
                     KualiDecimal claimOnCashBalance = ObjectUtils.isNull(accountReviewDetailEntry.getClaimOnCashBalance()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getClaimOnCashBalance();
@@ -99,41 +91,85 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                     totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
                 }
 
-                // skip the calculated fields values if necessary
-                if (amountAvailableToDrawOperator != null && !amountAvailableToDrawOperator.applyComparison(totalAmountAvailableToDraw)) {
-                    continue;
-                }
-                if (claimOnCashBalanceOperator != null && !claimOnCashBalanceOperator.applyComparison(totalClaimOnCashBalance)) {
-                    continue;
-                }
-                if (amountToDrawOperator != null && !amountToDrawOperator.applyComparison(totalAmountToDraw)) {
-                    continue;
-                }
-                if (fundsNotDrawnOperator != null && !fundsNotDrawnOperator.applyComparison(totalFundsNotDrawn)) {
-                    continue;
-                }
+                cgLOCDrawDetailsReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
+                cgLOCDrawDetailsReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
+                cgLOCDrawDetailsReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
-                cgLOCReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
-                cgLOCReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
-                cgLOCReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
-
-                final Timestamp dateCreated = cgLOCReviewDoc.getFinancialSystemDocumentHeader().getWorkflowCreateDate();
+                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
                 if (ObjectUtils.isNotNull(dateCreated)) {
-                    cgLOCReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getTime()));
+                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
                 }
-                cgLOCReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
-                cgLOCReport.setClaimOnCashBalance(totalClaimOnCashBalance);
-                cgLOCReport.setAmountToDraw(totalAmountToDraw);
-                cgLOCReport.setFundsNotDrawn(totalFundsNotDrawn);
+                cgLOCDrawDetailsReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
+                cgLOCDrawDetailsReport.setClaimOnCashBalance(totalClaimOnCashBalance);
+                cgLOCDrawDetailsReport.setAmountToDraw(totalAmountToDraw);
+                cgLOCDrawDetailsReport.setFundsNotDrawn(totalFundsNotDrawn);
 
-                if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN)) {
-                    if (totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
-                        displayList.add(cgLOCReport);
+                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCDrawDetailsReport, "ContractsGrantsLOCReport")) {
+                    displayList.add(cgLOCDrawDetailsReport);
+                }
+            }
+        }
+
+        buildResultTable(lookupForm, displayList, resultTable);
+        return displayList;
+    }
+
+    private Collection performAmountsNotDrawnReportLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        Map lookupFormFields = lookupForm.getFieldsForLookup();
+
+        setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
+        setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
+
+        Collection<ContractsGrantsLOCReport> displayList = new ArrayList<ContractsGrantsLOCReport>();
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = findFinalDocuments(ContractsGrantsLetterOfCreditReviewDocument.class);
+
+        for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
+            List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
+            List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
+            if (accountReviewDetails.size() > 0) {
+
+                KualiDecimal totalAmountAvailableToDraw = KualiDecimal.ZERO;
+                KualiDecimal totalClaimOnCashBalance = KualiDecimal.ZERO;
+                KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
+                KualiDecimal totalFundsNotDrawn = KualiDecimal.ZERO;
+
+                ContractsGrantsLOCReport cgLOCAmountNotDrawnReport = new ContractsGrantsLOCReport();
+
+                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : accountReviewDetails) {
+                    KualiDecimal claimOnCashBalance = ObjectUtils.isNull(accountReviewDetailEntry.getClaimOnCashBalance()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getClaimOnCashBalance();
+                    // PreviousDraw should be sum of amountToDraw?
+                    KualiDecimal previousDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountToDraw();
+                    KualiDecimal fundsNotDrawn = ObjectUtils.isNull(accountReviewDetailEntry.getFundsNotDrawn()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getFundsNotDrawn();
+
+                    totalClaimOnCashBalance = totalClaimOnCashBalance.add(claimOnCashBalance);
+                    totalAmountToDraw = totalAmountToDraw.add(previousDraw);
+                    totalFundsNotDrawn = totalFundsNotDrawn.add(fundsNotDrawn);
+                }
+
+                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : headerReviewDetails) {
+                    KualiDecimal amountAvailableToDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountAvailableToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountAvailableToDraw();
+                    totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
+                }
+
+                cgLOCAmountNotDrawnReport.setDocumentNumber(cgLOCReviewDoc.getDocumentNumber());
+                cgLOCAmountNotDrawnReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
+                cgLOCAmountNotDrawnReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
+
+                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
+                if (ObjectUtils.isNotNull(dateCreated)) {
+                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
+                }
+                cgLOCAmountNotDrawnReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
+                cgLOCAmountNotDrawnReport.setClaimOnCashBalance(totalClaimOnCashBalance);
+                cgLOCAmountNotDrawnReport.setAmountToDraw(totalAmountToDraw);
+                cgLOCAmountNotDrawnReport.setFundsNotDrawn(totalFundsNotDrawn);
+
+                // Only adding entries with funds not drawn amount greater than zero
+                if (totalFundsNotDrawn.isGreaterThan(KualiDecimal.ZERO)) {
+                    if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgLOCAmountNotDrawnReport, "ContractsGrantsLOCAmountsNotDrawnReport")) {
+                        displayList.add(cgLOCAmountNotDrawnReport);
                     }
-                } else {
-                    displayList.add(cgLOCReport);
                 }
-
             }
         }
 
@@ -142,46 +178,31 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
     }
 
     /**
-     * Pulls criteria from lookup form criteria which can be directly applied to finding letter of credit documents
-     * @param lookupFormFields the lookup form's fields
-     * @return the smaller set of fields to perform the document lookup
+     * Lookup all final documents of the given document class
+     * @param documentClass the class of the document to look up
+     * @return a Collection of documents, without WorkflowDocument's embedded in the documentHeader
      */
-    protected Map<String, String> buildCriteriaForLetterOfCreditLookup(Map lookupFormFields) {
-        Map<String, String> lookupFields = new HashMap<String, String>();
-
-        final String documentNumber = (String)lookupFormFields.get(KFSPropertyConstants.DOCUMENT_NUMBER);
-        if (!StringUtils.isBlank(documentNumber)) {
-            lookupFields.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        }
-
-        final String letterOfCreditFundCode = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE);
-        if (!StringUtils.isBlank(letterOfCreditFundCode)) {
-            lookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, letterOfCreditFundCode);
-        }
-
-        final String letterOfCreditFundGroupCode = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
-        if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
-            lookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
-        }
-
-        final String letterOfCreditReviewCreateDate = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        if (!StringUtils.isBlank(letterOfCreditReviewCreateDate)) {
-            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, letterOfCreditReviewCreateDate);
-        }
-
-        final String lowerBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        if (!StringUtils.isBlank(lowerBoundLetterOfCreditReviewCreateDate)) {
-            lookupFields.put(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, lowerBoundLetterOfCreditReviewCreateDate);
-        }
-
-        return lookupFields;
+    protected <D extends Document> Collection<D> findFinalDocuments(Class<D> documentClass) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, DocumentStatus.FINAL.getCode());
+        return getBusinessObjectService().findMatching(documentClass, fieldValues);
     }
 
-    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
-        return financialSystemDocumentService;
+    /**
+     * Returns the creation date of the given workflow document
+     * @param documentNumber the document number to look up the creation date for
+     * @return the creation date
+     */
+    protected DateTime getDocumentDateCreated(String documentNumber) {
+        final org.kuali.rice.kew.api.document.Document wd = getWorkflowDocumentService().getDocument(documentNumber);
+        return wd.getDateCreated();
     }
 
-    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
-        this.financialSystemDocumentService = financialSystemDocumentService;
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 }

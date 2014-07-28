@@ -794,7 +794,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Pulls all the unique accounts from the source accounting lines on the given ContractsGrantsInvoiceDocument
+     * Pulls all the unique accounts from the invoice accounting details on the given ContractsGrantsInvoiceDocument
      * @param contractsGrantsInvoices the invoices to pull unique accounts from
      * @return a Set of the unique accounts
      */

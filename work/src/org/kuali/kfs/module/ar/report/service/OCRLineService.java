@@ -17,9 +17,6 @@ package org.kuali.kfs.module.ar.report.service;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-/**
- * Contains method related to OCR Line generation used by Invoice/Statement reports.
- */
 public interface OCRLineService {
 
     /**

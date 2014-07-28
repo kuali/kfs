@@ -54,6 +54,13 @@ public interface ContractsGrantsInvoiceReportService {
     public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception;
 
     /**
+     * This method marks invoices for the ArEmailService for Email reports delivery.
+     *
+     * @param list
+     */
+    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list);
+
+    /**
      * This method generates a combined pdf files for all the invoices for Mailing invoice reports.
      *
      * @param list

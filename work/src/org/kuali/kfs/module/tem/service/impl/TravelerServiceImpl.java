@@ -560,9 +560,11 @@ public class TravelerServiceImpl implements TravelerService {
     @Override
     public void copyKimDataToTemProfile(TemProfile profile, Person principal, Entity kimEntity) {
         // copy principal data
-        profile.setFirstName(principal.getFirstName().toUpperCase());
-        profile.setMiddleName(principal.getMiddleName().toUpperCase());
-        profile.setLastName(principal.getLastName().toUpperCase());
+        if (ObjectUtils.isNotNull(kimEntity)) {
+            profile.setFirstName(principal.getFirstName().toUpperCase());
+            profile.setMiddleName(principal.getMiddleName().toUpperCase());
+            profile.setLastName(principal.getLastName().toUpperCase());
+        }
 
         TemProfileAddress profileAddress = new TemProfileAddress();
 
@@ -593,6 +595,7 @@ public class TravelerServiceImpl implements TravelerService {
         profile.setEmployeeId(principal.getEmployeeId());
 
         // Copy kim info to profile
+        if(ObjectUtils.isNotNull(kimEntity)) {
         if (ObjectUtils.isNotNull(kimEntity.getBioDemographics())) {
 
             String birthDate = kimEntity.getBioDemographics().getBirthDate();
@@ -605,11 +608,18 @@ public class TravelerServiceImpl implements TravelerService {
             Date dateOfBirth = new Date(parsedBirthDate.getTime());
             profile.setDateOfBirth(dateOfBirth);
             profile.setGender(kimEntity.getBioDemographics().getGenderCode());
+
+
         }
         List<EntityCitizenship> citizenships = kimEntity.getCitizenships();
         if (ObjectUtils.isNotNull(citizenships) && citizenships.size() > 0) {
             profile.setCitizenship(citizenships.get(0).getCountryCode());
         }
+        }
+
+
+
+
     }
 
 

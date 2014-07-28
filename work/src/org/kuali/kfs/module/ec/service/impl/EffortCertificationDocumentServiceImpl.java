@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -54,6 +55,7 @@ import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.responsibility.ResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
@@ -195,24 +197,38 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             if (!hasBeenChanged) {
                 continue;
             }
-            boolean isNewLine = detailLine.isNewLineIndicator();
             if ( LOG.isInfoEnabled() ) {
                 LOG.info( "EC Detail Line has been changed: " + detailLine );
             }
 
-            Account account = detailLine.getAccount();
-            Person fiscalOfficer = account.getAccountFiscalOfficerUser();
-            if ( fiscalOfficer != null && StringUtils.isNotBlank(fiscalOfficer.getPrincipalName())) {
-                // KULEFR-206
-                // String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
-                AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(fiscalOfficer.getPrincipalName(), ActionRequestType.APPROVE);
+            Map qualifications = new HashMap();
+            qualifications.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccountsCode());
+            qualifications.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccountNumber());
 
-                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson, isNewLine);
-            } else {
-                LOG.warn( "Unable to obtain a fiscal officer for the detail line's account: " + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() );
+            Map respDetails = new HashMap();
+            respDetails.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, "ECD");
+            respDetails.put(KfsKimAttributes.ROUTE_NODE_NAME, "Account");
+            List<ResponsibilityAction> respActions = KimApiServiceLocator.getResponsibilityService().getResponsibilityActionsByTemplate("KR-WKFLW", "Review", qualifications, respDetails);
+            String approver = null;
+            for (ResponsibilityAction action : respActions) {
+                if (action.getActionTypeCode().equals("A")) {
+                    approver = action.getPrincipalId();
+                    break;
+                }
             }
 
-            Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            if (approver != null && StringUtils.isNotBlank(approver)) {
+                // KULEFR-206
+                // String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
+                AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(KimApiServiceLocator.getPersonService().getPersonByEmployeeId(approver).getPrincipalName(), ActionRequestType.APPROVE);
+
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), adHocRoutePerson);
+            }
+            else {
+                LOG.warn("Unable to obtain a fiscal officer for the detail line's account: " + detailLine.getChartOfAccounts() + "-" + detailLine.getAccountNumber());
+            }
+
+            Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(detailLine.getAccount());
             if (projectDirector != null) {
                 String accountProjectDirectorPersonUserId = projectDirector.getPrincipalName();
                 // KULEFR-206
@@ -220,7 +236,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 // KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
                 AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, ActionRequestType.APPROVE);
 
-                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson, isNewLine);
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), adHocRoutePerson);
             }
         }
     }
@@ -232,41 +248,14 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param priorApprovers Set of prior approvers
      * @param adHocRoutePerson person to adhoc route to
      */
-    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
-        addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson, false);
-    }
+    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, AdHocRoutePerson adHocRoutePerson) {
+        boolean canBeAdded = true;
 
-    /**
-     * add the given ad hoc route person in the list if the person is one of prior approvers, or the change was a new line, and the person is not in the list
-     *
-     * @param adHocRoutePersonList Collection of adhoc route persons
-     * @param priorApprovers Set of prior approvers
-     * @param adHocRoutePerson person to adhoc route to
-     * @param isNewLine whether the change was a new line
-     */
-    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson, boolean isNewLine) {
-        boolean canBeAdded = false;
-
-        // if it's a new line, person can be added even if they weren't a prior approver
-        if (priorApprovers == null || isNewLine) {
-            canBeAdded = true;
-        } else {
-            // we only want to ad-hoc if the user previously approved this document
-            for (Person approver : priorApprovers) {
-                if (StringUtils.equals(approver.getPrincipalName(), adHocRoutePerson.getId())) {
-                    canBeAdded = true;
-                    break;
-                }
-            }
-        }
-
-        if (canBeAdded) {
-            // check that we have not already added them for the same action
-            for (AdHocRoutePerson person : adHocRoutePersonList) {
-                if (isSameAdHocRoutePerson(person, adHocRoutePerson)) {
-                    canBeAdded = false;
-                    break;
-                }
+        // check that we have not already added them for the same action
+        for (AdHocRoutePerson person : adHocRoutePersonList) {
+            if (isSameAdHocRoutePerson(person, adHocRoutePerson)) {
+                canBeAdded = false;
+                break;
             }
         }
 

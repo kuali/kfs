@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditRevie
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected DateTimeService dateTimeService;
 
     @Override
     public void validateSearchParameters(Map<String, String> fieldValues) {
@@ -49,6 +51,11 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.CLAIM_ON_CASH_BALANCE);
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AMOUNT_TO_DRAW);
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.FUNDS_NOT_DRAWN);
+
+        final String lowerBoundLetterOfCreditReviewCreateDate = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
+        validateDateField(lowerBoundLetterOfCreditReviewCreateDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
+        final String upperBoundLetterOfCreditReviewCreateDate = fieldValues.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
+        validateDateField(upperBoundLetterOfCreditReviewCreateDate, ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
     }
 
     @Override
@@ -164,14 +171,11 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
             lookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
         }
 
-        final String letterOfCreditReviewCreateDate = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        if (!StringUtils.isBlank(letterOfCreditReviewCreateDate)) {
-            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, letterOfCreditReviewCreateDate);
-        }
-
         final String lowerBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        if (!StringUtils.isBlank(lowerBoundLetterOfCreditReviewCreateDate)) {
-            lookupFields.put(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, lowerBoundLetterOfCreditReviewCreateDate);
+        final String upperBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
+        final String letterOfCreditReviewCreateDateCriteria = fixDateCriteria(lowerBoundLetterOfCreditReviewCreateDate, upperBoundLetterOfCreditReviewCreateDate);
+        if (!StringUtils.isBlank(letterOfCreditReviewCreateDateCriteria)) {
+            lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, letterOfCreditReviewCreateDateCriteria);
         }
 
         return lookupFields;
@@ -183,5 +187,13 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

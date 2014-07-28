@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,6 +42,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     protected String applicationDocumentStatus;
     protected String initiatorPrincipalId;
     protected String workflowDocumentTypeName;
+    protected Timestamp workflowCreateDate;
 
     /**
      * Constructor - creates empty instances of dependent objects
@@ -216,4 +218,11 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
        SpringContext.getBean(BusinessObjectService.class).save(this);
     }
 
+    public Timestamp getWorkflowCreateDate() {
+        return workflowCreateDate;
+    }
+
+    public void setWorkflowCreateDate(Timestamp workflowCreateDate) {
+        this.workflowCreateDate = workflowCreateDate;
+    }
 }

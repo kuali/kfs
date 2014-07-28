@@ -39,6 +39,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -53,6 +54,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -67,6 +69,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -81,6 +84,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -95,6 +99,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -109,6 +114,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -123,6 +129,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -137,6 +144,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -151,6 +159,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -165,6 +174,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -179,6 +189,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -193,6 +204,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -207,6 +219,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
             obj.setInitiatorPrincipalId(principalId("appleton"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -220,6 +233,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentTypeName("INV");
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     },
@@ -233,6 +247,7 @@ public enum FinancialSystemDocumentHeaderFixture {
             obj.setWorkflowDocumentTypeName("INV");
             obj.setWorkflowDocumentStatusCode(DocumentStatus.FINAL.getCode());
             obj.setInitiatorPrincipalId(principalId("khuntley"));
+            obj.setWorkflowCreateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
             return obj;
         }
     };

@@ -33,8 +33,7 @@
 	<bean id="CollectionActivityDocument-proposalNumber-parentBean"
 		abstract="true" parent="ArGenericAttributes-proposalNumber">
 		<property name="name" value="proposalNumber" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Proposal Number" />
+		
 	</bean>
 	
 	<bean id="CollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="CollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />

@@ -47,11 +47,10 @@
 	</bean>
 	<bean id="InvoiceAccountDetail-proposalNumber" parent="InvoiceAccountDetail-proposalNumber-parentBean" />
 
-	<bean id="InvoiceAccountDetail-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="InvoiceAccountDetail-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Prop Num" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />

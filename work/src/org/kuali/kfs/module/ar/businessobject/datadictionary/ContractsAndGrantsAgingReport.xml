@@ -218,8 +218,6 @@
 		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Proposal Number" />
-		<property name="shortLabel" value="Prop Num" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />

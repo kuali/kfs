@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -464,8 +465,8 @@ public class RequisitionServiceImpl implements RequisitionService {
     public boolean hasContentReviewer(String org, String chart) {
         String roleId = roleService.getRoleIdByNamespaceCodeAndName(PurapConstants.PURAP_NAMESPACE, "Content Reviewer");
         Map<String, String> qualification = new HashMap<String, String>(2);
-        qualification.put("organizationCode", org);
-        qualification.put("chartOfAccountsCode", chart);
+        qualification.put(PurapPropertyConstants.ORGANIZATION_CODE, org);
+        qualification.put(PurapPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
         List<RoleMembership> members = roleService.getRoleMembers(java.util.Arrays.asList(roleId), qualification);
         return members.size() > 0;
     }

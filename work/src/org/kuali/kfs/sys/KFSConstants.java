@@ -1314,6 +1314,10 @@ public class KFSConstants {
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
+        public final static String DEFAULT_CHART_METHOD = "1";
+        public final static String DEFAULT_PRIMARY_DEPT_METHOD = "2";
+        public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
+
     }
 
     public static class ReportConstants{

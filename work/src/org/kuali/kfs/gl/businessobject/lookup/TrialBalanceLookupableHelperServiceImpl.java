@@ -106,8 +106,8 @@ public class TrialBalanceLookupableHelperServiceImpl extends KualiLookupableHelp
             try {
                 int period = Integer.parseInt(selectedPeriodCode);
                 if (period <=0 || period > 13) {
-
-                    throw new NumberFormatException();
+                    GlobalVariables.getMessageMap().putError("universityFiscalPeriodCode", KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Period Code must be a number in the range of 01 to 13" });
+                    throw new ValidationException("errors in search criteria");
                 }
             }
             catch (NumberFormatException e) {

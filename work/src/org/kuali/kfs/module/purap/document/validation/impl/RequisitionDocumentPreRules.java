@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -72,7 +73,9 @@ public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase 
             String org = doc.getOrganizationCode();
             String chart = doc.getChartOfAccountsCode();
             if (SpringContext.getBean(RequisitionService.class).hasContentReviewer(org, chart)) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES);
+                for(RequisitionItem item : itemsMissingAccountingLines){
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES, item.getItemIdentifierString());
+                }
                 return false;
             }
             else {

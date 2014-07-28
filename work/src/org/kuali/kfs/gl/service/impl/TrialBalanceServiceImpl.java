@@ -52,12 +52,12 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
     @Override
     public List findTrialBalance(String selectedFiscalYear, String chartCode, String periodCode) {
 
-        if ( StringUtils.isEmpty(chartCode) || "*".equals(chartCode)) {
+        if ( StringUtils.isBlank(chartCode) || KFSConstants.WILDCARD_CHARACTER.equals(chartCode)) {
             chartCode = "";
         }
 
         //for invalid options of financialPeriodCode, it will be considered empty, which is equivalent to getting the current fp
-        if ( StringUtils.isEmpty(periodCode) || "*".equals(periodCode) ) {
+        if ( StringUtils.isBlank(periodCode) || KFSConstants.WILDCARD_CHARACTER.equals(periodCode) ) {
             periodCode = "";
         }
 
@@ -81,7 +81,7 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
     public String generateReportForExtractProcess(Collection dataSource, String fiscalYear, String periodCode) {
         String fiscalPeriod = "Current";
 
-        if ( !StringUtils.isEmpty(periodCode) && !"*".equals(periodCode) ) {
+        if ( !StringUtils.isBlank(periodCode) && !KFSConstants.WILDCARD_CHARACTER.equals(periodCode) ) {
             try {
                 Integer period = Integer.parseInt( periodCode );
                 if ( 0>= period || period > 13){

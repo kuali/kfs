@@ -21,6 +21,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
@@ -37,6 +38,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
 
     private DocumentHelperService documentHelperService;
     private DocumentService documentService;
+    protected IdentityService identityService;
 
     /**
      * @see org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute#isAuthorizedForDocument(java.lang.String, org.kuali.rice.kew.api.document.Document)
@@ -51,7 +53,8 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
             authorized = super.isAuthorizedForDocument(principalId, document);
             if (authorized) {
                 try {
-                    Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalId), new Callable<Boolean>(){
+                    final String principalName = getIdentityService().getPrincipal(principalId).getPrincipalName();
+                    Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalName), new Callable<Boolean>(){
                         @Override
                         public Boolean call() {
                             return canOpen(GlobalVariables.getUserSession().getPerson() , document.getDocumentTypeName(), document.getDocumentId());
@@ -106,6 +109,16 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
 
     public DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
+    }
+
+    /**
+     * @return the default implementation of IdentityService
+     */
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = SpringContext.getBean(IdentityService.class);
+        }
+        return identityService;
     }
 
 }

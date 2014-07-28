@@ -433,6 +433,7 @@ public class ArConstants{
     public static final String COLLECTION_ACTIVITY_REPORT_SORT_FIELD = "CollectionActivityReport";
     public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
+    public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";
@@ -499,5 +500,12 @@ public class ArConstants{
         public static final String TICKLERS = "ticklersReportBuilderService";
         public static final String REFERRAL_TO_COLLECTION = "referralToCollectionsReportBuilderService";
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
+    }
+
+    public static class MultipleValueReturnActions {
+        public static final String REFERRAL_TO_COLLECTIONS = "arReferralToCollectionsSummary.do";
+        public static final String COLLECTION_ACTIVITY_INVOICES = "arCollectionActivityDocument.do";
+        public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
+        public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
     }
 }

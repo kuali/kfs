@@ -268,20 +268,6 @@ public class ArKeyConstants {
         public static final String ERROR_TEMPLATE_REQUIRED = "error.document.contractsGrantsInvoice.template.code.required";
     }
 
-    // contracts and grants invoice create document constants
-    public static class ContractsGrantsInvoiceCreateDocumentConstants {
-        public static final String NO_ORGANIZATION_ON_AWARD = "error.invoice.create.document.no.organization.on.award";
-        public static final String NON_BILLABLE = "error.invoice.create.document.non.billable";
-        public static final String NO_CONTROL_ACCOUNT = "error.invoice.create.document.no.control.account";
-        public static final String CONTROL_ACCOUNT_NON_BILLABLE = "error.invoice.create.document.control.account.non.billable";
-        public static final String BILL_BY_CONTRACT_LACKS_CONTROL_ACCOUNT = "error.invoice.create.document.bill.by.contract.control.no.control.account";
-        public static final String BILL_BY_CONTRACT_VALID_ACCOUNTS = "error.invoice.create.document.bill.by.contract.control.no.accounts";
-        public static final String DIFFERING_CONTROL_ACCOUNTS = "error.invoice.create.document.different.control.accounts";
-        public static final String NOT_ALL_BILLABLE_ACCOUNTS = "error.invoice.create.document.not.all.billable.accounts";
-        public static final String NO_AWARD = "error.invoice.create.document.no.award";
-        public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
-    }
-
     // Final Billed Indicator Error
     public static final String FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY = "error.custom";
 
@@ -295,6 +281,8 @@ public class ArKeyConstants {
     // Collection Activity Type errors
     public static class CollectionActivityTypeConstants {
         public static final String ERROR_COLLECTION_ACTIVITY_TYPE_DUPLICATE_VALUE = "error.document.collectionActivityType.duplicateValue";
+
+
     }
 
     public static class DunningCampaignConstantsAndErrors {
@@ -360,20 +348,6 @@ public class ArKeyConstants {
      public static final String ERROR_DUPLICATE_BILL_NUMBER = "error.duplicate.bill.number";
      public static final String ERROR_DUPLICATE_MILESTONE_NUMBER = "error.duplicate.milestone.number";
 
-     public static final String ERROR_REPORT_INVALID_CALCULATED_PATTERN = "error.report.invalid.calculated.pattern";
-
-     // messages for Transmit Contracts & Grants Invoices
-     public static final String NO_DELIVERY_TYPE_SELECTED = "error.no.delivery.type.selected";
-     public static final String NO_PRINCIPAL_NAME_FOUND = "error.no.principal.name.found";
-     public static final String NO_MATCHING_INVOICE = "error.no.matching.invoice";
-     public static final String INVOICE_EMAILS_SENT = "message.invoice.emails.sent";
-     public static final String ERROR_SENDING_INVOICE_EMAILS = "error.sending.invoice.emails";
-     public static final String INVOICES_PRINT_SUCCESSFULL = "message.invoices.print.successfull";
-     public static final String INVOICES_PRINT_UNSUCCESSFULL = "error.invoices.print.unsuccessful";
-
      public static final String CONTRACTS_REPORTS_AGING_REPORT_TITLE = "contracts.grants.aging.report.title";
-
-     public static final String CGINVOICE_EMAIL_SUBJECT = "cginvoice.email.subject";
-     public static final String CGINVOICE_EMAIL_BODY = "cginvoice.email.body";
 
 }

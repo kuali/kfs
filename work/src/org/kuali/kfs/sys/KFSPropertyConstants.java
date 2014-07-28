@@ -702,6 +702,7 @@ public class KFSPropertyConstants {
     public static final String FORCE_REFRESH_OF_BO_SUB_LISTS_FOR_SAVE = "forceRefreshOfBOSubListsForSave";
     public static final String FOREIGN_CHARGE_AMT = "foreignChargeAmt";
     public static final String FOREIGN_SOURCE_INCOME_CODE = "foreignSourceIncomeCode";
+    public static final String FREQUENCY = "frequency";
     public static final String FRINGE_RATE = "fringeRate";
     public static final String FRINGE_RATE_AMOUNT = "fringeRateAmount";
     public static final String FRINGE_RATES = "fringeRates";

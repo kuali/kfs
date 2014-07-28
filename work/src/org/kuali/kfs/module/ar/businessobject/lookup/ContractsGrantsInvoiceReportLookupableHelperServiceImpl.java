@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -74,7 +75,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         Map<String, String> invoiceLookupFields = buildCriteriaForInvoiceLookup(lookupFormFields);
         invoiceLookupFields.put(ArPropertyConstants.OPEN_INVOICE_IND, KRADConstants.YES_INDICATOR_VALUE);
-        invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), "|"));
+        invoiceLookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), SearchOperator.OR.op()));
         List<CustomerInvoiceDocument> openInvoiceDocs = new ArrayList<CustomerInvoiceDocument>();
         openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(CustomerInvoiceDocument.class, invoiceLookupFields, true));
         openInvoiceDocs.addAll(getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, invoiceLookupFields, true));
@@ -84,16 +85,8 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         java.util.Date today = new java.util.Date();
         Date sqlToday = new java.sql.Date(today.getTime());
 
-        OperatorAndValue ageInDaysOperator = null;
-        final String ageInDaysFromLookup = (String)lookupFormFields.remove(ArPropertyConstants.AGE_IN_DAYS);
-        if (!StringUtils.isBlank(ageInDaysFromLookup)) {
-            ageInDaysOperator = parseOperatorAndValue(ageInDaysFromLookup);
-        }
-        OperatorAndValue remainingAmountOperator = null;
-        final String remainingAmountFromLookup = (String)lookupFormFields.remove(ArPropertyConstants.REMAINING_AMOUNT);
-        if (!StringUtils.isBlank(remainingAmountFromLookup)) {
-            remainingAmountOperator = parseOperatorAndValue(remainingAmountFromLookup);
-        }
+        OperatorAndValue ageInDaysOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.AGE_IN_DAYS);
+        OperatorAndValue remainingAmountOperator = buildOperatorAndValueFromField(lookupFormFields, ArPropertyConstants.REMAINING_AMOUNT);
 
         // build search result fields
         for (CustomerInvoiceDocument openCGInvoiceDoc : openInvoiceDocs) {

@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -143,9 +144,9 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
     protected List<? extends ContractsAndGrantsAward> lookupMatchingAwards(@SuppressWarnings("rawtypes") Map lookupFields) {
         Map<String, String> awardLookupFields = new HashMap<String, String>();
         // letterOfCreditFundGroupCode should be award.letterOfCreditFund.letterOfCreditFundGroupCode
-        final String letterOfCreditFundGroupCode = (String)lookupFields.remove(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
+        final String letterOfCreditFundGroupCode = (String)lookupFields.remove(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
         if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
-            awardLookupFields.put(ArConstants.LETTER_OF_CREDIT_FUND+"."+ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
+            awardLookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND+"."+ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
         }
 
         // awardTotal should be award.awardTotalAmount
@@ -158,7 +159,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         final String fundManagerPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
         final Set<String> fundManagerPrincipalIds = lookupPrincipalIds(fundManagerPrincipalName);
         if (!fundManagerPrincipalIds.isEmpty()) {
-            final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, "|");
+            final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
         }
 
@@ -166,7 +167,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         final String projectDirectorPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
         final Set<String> projectDirectorPrincipalIds = lookupPrincipalIds(projectDirectorPrincipalName);
         if (!projectDirectorPrincipalIds.isEmpty()) {
-            final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, "|");
+            final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
         }
 
@@ -217,7 +218,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         for (ContractsAndGrantsAward award : awards) {
             proposalIdsSet.add(award.getProposalNumber().toString());
         }
-        final String proposalIdsForLookup = StringUtils.join(proposalIdsSet, "|");
+        final String proposalIdsForLookup = StringUtils.join(proposalIdsSet, SearchOperator.OR.op());
         return proposalIdsForLookup;
     }
 

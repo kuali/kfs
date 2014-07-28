@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -214,7 +215,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             }
             document.close();
         }
-        catch (Exception e) {
+        catch (DocumentException e) {
             LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateInvoiceInPdf()", e);
         }
     }
@@ -276,23 +277,28 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      *      java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency)
      */
     @Override
-    public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception {
+    public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) {
         Date runDate = new Date(new java.util.Date().getTime());
         String reportFileName = getReportInfo().getReportFileName();
         String reportDirectory = getReportInfo().getReportsDirectory();
-        if (formType.equals(FEDERAL_FORM_425) && ObjectUtils.isNotNull(award)) {
-            String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425") + ".pdf";
-            File file = new File(fullReportFileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            stampPdfFormValues425(award, period, year, fos);
-            return file;
+        try {
+            if (formType.equals(FEDERAL_FORM_425) && ObjectUtils.isNotNull(award)) {
+                String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425") + ".pdf";
+                File file = new File(fullReportFileName);
+                FileOutputStream fos = new FileOutputStream(file);
+                stampPdfFormValues425(award, period, year, fos);
+                return file;
+            }
+            else if (formType.equals(FEDERAL_FORM_425A) && ObjectUtils.isNotNull(agency)) {
+                String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425A") + ".pdf";
+                File file = new File(fullReportFileName);
+                FileOutputStream fos = new FileOutputStream(file);
+                stampPdfFormValues425A(agency, period, year, fos);
+                return file;
+            }
         }
-        else if (formType.equals(FEDERAL_FORM_425A) && ObjectUtils.isNotNull(agency)) {
-            String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425A") + ".pdf";
-            File file = new File(fullReportFileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            stampPdfFormValues425A(agency, period, year, fos);
-            return file;
+        catch (FileNotFoundException ex) {
+            throw new RuntimeException("Cannot find pdf to stamp for federal financial form", ex);
         }
         return null;
     }
@@ -579,9 +585,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param reportingPeriod
      * @param year
      * @param returnStream The output stream the federal form will be written to.
-     * @throws Exception
      */
-    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) {
         String reportTemplateName = FF_425_TEMPLATE_NM + ".pdf";
         try {
             String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -596,8 +601,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             }
             stamper.close();
         }
-        catch (Exception e) {
-            throw e;
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Troubles stamping the old 425!", ex);
         }
     }
 
@@ -608,9 +613,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param reportingPeriod
      * @param year
      * @param returnStream The output stream the federal form will be written to.
-     * @throws Exception
      */
-    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) {
         String reportTemplateName = FF_425A_TEMPLATE_NM + ".pdf";
         String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
@@ -662,8 +666,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             // Close the PdfCopyFields object
             copy.close();
         }
-        catch (Exception e) {
-            throw e;
+        catch (DocumentException | IOException ex) {
+            throw new RuntimeException("Tried to stamp the 425A, but couldn't do it.  Just...just couldn't do it.", ex);
         }
     }
 
@@ -689,17 +693,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         // close the stamper
         stamper.close();
         return baos.toByteArray();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#sendEmailForListofInvoicesToAgency(java.util.Collection)
-     */
-    @Override
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
-        for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
-            invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
-            documentService.updateDocument(invoiceDocument);
-        }
     }
 
     /**
@@ -932,8 +925,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         }
         catch (IOException e) {
             LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", e);
+            throw new RuntimeException("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", e);
         }
-        return null;
     }
 
     public PersonService getPersonService() {

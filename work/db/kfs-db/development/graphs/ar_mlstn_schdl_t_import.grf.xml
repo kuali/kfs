@@ -21,8 +21,6 @@
         $0.prpsl_nbr := $prpsl_nbr;
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
-        $0.tot_amt_schdl := $tot_amt_schdl;
-        $0.tot_awd_rmng := $tot_awd_rmng;
    }
       ]]></attr>
     </Node>

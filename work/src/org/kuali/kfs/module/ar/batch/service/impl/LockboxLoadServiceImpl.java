@@ -303,18 +303,13 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
      * @return A Byte Array of the contents of the file.
      */
     protected byte[] safelyLoadFileBytes(String fileName) {
-
-        InputStream fileContents;
         byte[] fileByteContent;
-        try {
-            fileContents = new FileInputStream(fileName);
+        try (InputStream fileContents = new FileInputStream(fileName)){
+            fileByteContent = IOUtils.toByteArray(fileContents);
         }
         catch (FileNotFoundException e1) {
             LOG.error("Batch file not found [" + fileName + "]. " + e1.getMessage());
             throw new RuntimeException("Batch File not found [" + fileName + "]. " + e1.getMessage());
-        }
-        try {
-            fileByteContent = IOUtils.toByteArray(fileContents);
         }
         catch (IOException e1) {
             LOG.error("IO Exception loading: [" + fileName + "]. " + e1.getMessage());

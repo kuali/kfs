@@ -58,6 +58,9 @@
 	<bean id="AwardOrganization-organizationCode-parentBean" abstract="true"
 		parent="Organization-organizationCode">
 		<property name="forceUppercase" value="true" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="AwardOrganization-proposalNumber" parent="AwardOrganization-proposalNumber-parentBean" />
 
@@ -72,6 +75,9 @@
 		abstract="true" parent="Organization-organizationName">
 		<property name="name" value="organization.organizationName" />
 		<property name="label" value="Name" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
 

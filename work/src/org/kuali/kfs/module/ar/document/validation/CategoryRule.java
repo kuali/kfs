@@ -25,7 +25,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -46,8 +46,8 @@ public class CategoryRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CategoryRule.class);
 
-    protected ContractsAndGrantsCategories oldCategories;
-    protected ContractsAndGrantsCategories newCategories;
+    protected ContractsAndGrantsCategory oldCategories;
+    protected ContractsAndGrantsCategory newCategories;
 
 
     @Override
@@ -97,10 +97,10 @@ public class CategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldCategories = (ContractsAndGrantsCategories) super.getOldBo();
+        oldCategories = (ContractsAndGrantsCategory) super.getOldBo();
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newCategories = (ContractsAndGrantsCategories) super.getNewBo();
+        newCategories = (ContractsAndGrantsCategory) super.getNewBo();
     }
 
     protected boolean checkSimpleRules() {

@@ -1,6 +1,10 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -25,18 +29,18 @@ public class RequisitionAccountingLineExistsValidation extends GenericValidation
     public boolean validate(AttributedDocumentEvent event) {
         RequisitionDocument doc = (RequisitionDocument) event.getDocument();
 
-        if (doc.isMissingAccountingLines()) {
+        List<RequisitionItem> itemsMissingAccountingLines = doc.getListOfItemsMissingAccountingLines();
+        if (!itemsMissingAccountingLines.isEmpty()) {
             String org = doc.getOrganizationCode();
             String chart = doc.getChartOfAccountsCode();
             if (!requisitionService.hasContentReviewer(org, chart)) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES);
+                for(RequisitionItem item : itemsMissingAccountingLines){
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES, item.getItemIdentifierString());
+                }
                 return false;
             }
-            else {
-                /*GlobalVariables.getMessageMap().putWarning(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES);
-                 * This should be handled in the action because we need to confirm with the user.
-                 */
-            }
+            // No else clause is needed- this should be handled in the action because we need to confirm with the user. 
+            // PromptBeforeValidation didn't work well here for some reason, so we're relying on the action 
         }
         return true;
     }

@@ -41,17 +41,10 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     private Date billDate;
 
     private KualiDecimal estimatedAmount = KualiDecimal.ZERO;
-    private boolean billedIndicator;
+    private boolean billedIndicator = false;
     private boolean active;
 
     private ContractsAndGrantsBillingAward award;
-
-    /**
-     * Constructs a Bills.java.
-     */
-    public Bill() {
-        this.setBilledIndicator(false);
-    }
 
     /**
      * Gets the proposalNumber attribute.

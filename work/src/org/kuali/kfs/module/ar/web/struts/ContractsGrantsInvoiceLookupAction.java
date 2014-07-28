@@ -83,6 +83,6 @@ public class ContractsGrantsInvoiceLookupAction extends ContractsGrantsMultipleV
      */
     @Override
     protected String getActionUrl() {
-        return "arContractsGrantsInvoiceSummary.do";
+        return ArConstants.MultipleValueReturnActions.CONTRACTS_GRANTS_INVOICES;
     }
 }

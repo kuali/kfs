@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
@@ -156,7 +157,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
             // Now to set funds Not Drawn as a difference betwen amountToDraw and hiddenAmountToDraw.
             detail.setFundsNotDrawn(detail.getHiddenAmountToDraw().subtract(detail.getAmountToDraw()));
             if (detail.getFundsNotDrawn().isNegative()) {
-                GlobalVariables.getMessageMap().putError(ArConstants.FUNDS_NOT_DRAWN_PROPERTY, ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.FUNDS_NOT_DRAWN, ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID);
                 detail.setFundsNotDrawn(KualiDecimal.ZERO);
                 detail.setAmountToDraw(detail.getHiddenAmountToDraw().subtract(detail.getFundsNotDrawn()));
             }
@@ -277,58 +278,52 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             String contentDisposition = "";
-            try {
-                ArrayList master = new ArrayList();
-                PdfCopy writer = null;
+            ArrayList master = new ArrayList();
+            PdfCopy writer = null;
 
-                // create a reader for the document
-                PdfReader reader = new PdfReader(new ByteArrayInputStream(report));
-                reader.consolidateNamedDestinations();
+            // create a reader for the document
+            PdfReader reader = new PdfReader(new ByteArrayInputStream(report));
+            reader.consolidateNamedDestinations();
 
-                // retrieve the total number of pages
-                int n = reader.getNumberOfPages();
-                List bookmarks = SimpleBookmark.getBookmark(reader);
-                if (bookmarks != null) {
-                    master.addAll(bookmarks);
-                }
-
-                // step 1: create a document-object
-                Document document = new Document(reader.getPageSizeWithRotation(1));
-                // step 2: create a writer that listens to the document
-                writer = new PdfCopy(document, baos);
-                // step 3: open the document
-                document.open();
-                // step 4: add content
-                PdfImportedPage page;
-                for (int i = 0; i < n;) {
-                    ++i;
-                    page = writer.getImportedPage(reader, i);
-                    writer.addPage(page);
-                }
-                writer.freeReader(reader);
-                if (!master.isEmpty()) {
-                    writer.setOutlines(master);
-                }
-                // step 5: we close the document
-                document.close();
-
-                StringBuffer sbContentDispValue = new StringBuffer();
-                String useJavascript = request.getParameter("useJavascript");
-                if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                    sbContentDispValue.append("attachment");
-                }
-                else {
-                    sbContentDispValue.append("inline");
-                }
-                sbContentDispValue.append("; filename=");
-                sbContentDispValue.append(fileName);
-
-                contentDisposition = sbContentDispValue.toString();
-
+            // retrieve the total number of pages
+            int n = reader.getNumberOfPages();
+            List bookmarks = SimpleBookmark.getBookmark(reader);
+            if (bookmarks != null) {
+                master.addAll(bookmarks);
             }
-            catch (Exception e) {
-                LOG.error("problem during printInvoicePDF", e);
+
+            // step 1: create a document-object
+            Document document = new Document(reader.getPageSizeWithRotation(1));
+            // step 2: create a writer that listens to the document
+            writer = new PdfCopy(document, baos);
+            // step 3: open the document
+            document.open();
+            // step 4: add content
+            PdfImportedPage page;
+            for (int i = 0; i < n;) {
+                ++i;
+                page = writer.getImportedPage(reader, i);
+                writer.addPage(page);
             }
+            writer.freeReader(reader);
+            if (!master.isEmpty()) {
+                writer.setOutlines(master);
+            }
+            // step 5: we close the document
+            document.close();
+
+            StringBuffer sbContentDispValue = new StringBuffer();
+            String useJavascript = request.getParameter("useJavascript");
+            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+                sbContentDispValue.append("attachment");
+            }
+            else {
+                sbContentDispValue.append("inline");
+            }
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(fileName);
+
+            contentDisposition = sbContentDispValue.toString();
 
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", contentDisposition);

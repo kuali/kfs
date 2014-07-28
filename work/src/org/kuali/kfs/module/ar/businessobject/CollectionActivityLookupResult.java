@@ -33,10 +33,6 @@ public class CollectionActivityLookupResult extends TransientBusinessObjectBase 
     private KualiDecimal paymentAmount = KualiDecimal.ZERO;
     private KualiDecimal balanceDue = KualiDecimal.ZERO;
 
-    public CollectionActivityLookupResult() {
-
-    }
-
 
     /**
      * Gets the proposalNumber attribute.

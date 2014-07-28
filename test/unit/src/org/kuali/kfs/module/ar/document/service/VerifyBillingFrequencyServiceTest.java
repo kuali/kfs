@@ -22,7 +22,7 @@ import java.sql.Date;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -47,7 +47,7 @@ public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
      * various billing periods, this test method call the internal methods and tests it rather testing it as a whole.
      */
     public void testValidateBillingFrequency() {
-        ContractsAndGrantsModuleUpdateService moduleUpdateService = SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class);
+        ContractsAndGrantsModuleBillingService ModuleBillingService = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class);
 
 
         VerifyBillingFrequencyService verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);

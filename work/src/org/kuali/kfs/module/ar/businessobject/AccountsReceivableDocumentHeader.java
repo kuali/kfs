@@ -46,13 +46,6 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
     private DocumentHeader documentHeader;
 
 	/**
-	 * Default constructor.
-	 */
-	public AccountsReceivableDocumentHeader() {
-
-	}
-
-	/**
 	 * Gets the documentNumber attribute.
 	 *
 	 * @return Returns the documentNumber

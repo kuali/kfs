@@ -170,12 +170,13 @@
 									<td></td>
 								</tr>
 								<c:if test="${true}">
-									<ar:globalEventDetails propertyName="document.globalEvent"
+									<ar:eventDetails propertyName="document.globalEvent"
 										eventAttributes="${eventAttributes}" addLine="true"
 										readOnly="false" rowHeading="add" cssClass="infoline"
 										actionMethod="addGlobalEvent"
 										actionAlt="Add"
-										actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
+										actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+										includeMultipleInvoiceLookup="true" />
 								</c:if>
 							</table>
 						</td>

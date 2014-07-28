@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -97,8 +98,8 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
             newAward.getAwardAccounts().clear();
         }
 
-        getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
-        getAward().setPredeterminedBillingSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getPredeterminedBillingSchedule());
+        getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleBillingService.class).getMilestoneSchedule());
+        getAward().setPredeterminedBillingSchedule(SpringContext.getBean(AccountsReceivableModuleBillingService.class).getPredeterminedBillingSchedule());
     }
 
     /**
@@ -463,7 +464,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
         List<Section> sections = super.getSections(document, oldMaintainable);
 
         // If CGB is enabled, show/hide Invoice Account section based on parameter
-        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             if (sections != null) {
                 for (Section section : sections) {
                     String sectionId = section.getSectionId();
@@ -493,7 +494,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
      */
     @Override
     protected Collection<?> getSectionIdsToIgnore() {
-        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (!SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAwardContractsGrantsBillingSectionIds();
         } else {
             return CollectionUtils.EMPTY_COLLECTION;

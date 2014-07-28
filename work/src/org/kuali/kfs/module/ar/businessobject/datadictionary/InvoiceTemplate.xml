@@ -61,7 +61,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+			<bean parent="TextControlDefinition" p:size="12" />
 		</property>
 	</bean>
 
@@ -118,23 +118,16 @@
 		<property name="shortLabel" value="Template Upload Date" />
 		<property name="maxLength" value="25" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="25" />
+			<bean parent="TextControlDefinition" p:size="25" p:datePicker="true"/>
 		</property>
 	</bean>
 
 	<bean id="InvoiceTemplate-accessRestrictedIndicator" parent="InvoiceTemplate-accessRestrictedIndicator-parentBean" />
 
-	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
 		<property name="name" value="accessRestrictedIndicator" />
 		<property name="label" value="Restrict Use by Chart/Org" />
 		<property name="shortLabel" value="Restrict Use by Chart/Org" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<bean id="InvoiceTemplate-billByChartOfAccountCode" parent="InvoiceTemplate-billByChartOfAccountCode-parentBean" />
@@ -158,6 +151,9 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Billing Organization Code" />
 		<property name="shortLabel" value="Billing Org Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

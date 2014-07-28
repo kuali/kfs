@@ -38,19 +38,11 @@ public class ContractsGrantsMilestoneReport extends TransientBusinessObjectBase 
     private Long milestoneNumber;
     private KualiDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
-    private String isItBilled;
+    private String isItBilled = KFSConstants.ParameterValues.STRING_NO;
     private boolean active;
     private ContractsAndGrantsAward award;
     private Account account;
     private Chart chart;
-
-
-    /**
-     * Constructs a Milestones.java.
-     */
-    public ContractsGrantsMilestoneReport() {
-        this.setIsItBilled(KFSConstants.ParameterValues.STRING_NO);
-    }
 
     /**
      * Gets the proposalNumber attribute.

@@ -39,18 +39,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase {
     private boolean billedIndicator;
     private KualiDecimal estimatedAmount;
 
-
-
     private ContractsGrantsInvoiceDocument invoiceDocument;
-
-
-    /**
-     * Constructs a Bills.java.
-     */
-    public InvoiceBill() {
-
-    }
-
 
     public boolean isBilledIndicator() {
         return billedIndicator;

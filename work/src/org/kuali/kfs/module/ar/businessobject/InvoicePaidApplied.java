@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,15 +25,13 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
-import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -57,10 +55,8 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
     private Collection<NonAppliedDistribution> nonAppliedDistributions;
     private transient CustomerInvoiceDocument customerInvoiceDocument;
 
-    /**
-     * Default constructor.
-     */
     public InvoicePaidApplied() {
+        super();
     }
 
     public InvoicePaidApplied(String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, Integer paidAppliedItemNumber, Integer universityFiscalYear, String universityFiscalPeriodCode) {
@@ -75,7 +71,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Constructs a InvoicePaidApplied object, and assumes the current Fiscal Year and FiscalPeriodCode.
-     * 
+     *
      * @param documentNumber
      * @param refInvoiceDocNumber
      * @param invoiceSequenceNumber
@@ -159,7 +155,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -168,7 +164,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -178,7 +174,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the paidAppliedItemNumber attribute.
-     * 
+     *
      * @return Returns the paidAppliedItemNumber
      */
     public Integer getPaidAppliedItemNumber() {
@@ -187,7 +183,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the paidAppliedItemNumber attribute.
-     * 
+     *
      * @param paidAppliedItemNumber The paidAppliedItemNumber to set.
      */
     public void setPaidAppliedItemNumber(Integer paidAppliedItemNumber) {
@@ -197,7 +193,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentReferenceInvoiceNumber attribute.
-     * 
+     *
      * @return Returns the financialDocumentReferenceInvoiceNumber
      */
     public String getFinancialDocumentReferenceInvoiceNumber() {
@@ -206,7 +202,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentReferenceInvoiceNumber attribute.
-     * 
+     *
      * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
      */
     public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
@@ -215,7 +211,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceItemNumber attribute.
-     * 
+     *
      * @return Returns the invoiceItemNumber
      */
     public Integer getInvoiceItemNumber() {
@@ -224,7 +220,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceItemNumber attribute.
-     * 
+     *
      * @param invoiceItemNumber The invoiceItemNumber to set.
      */
     public void setInvoiceItemNumber(Integer invoiceItemNumber) {
@@ -233,7 +229,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -242,7 +238,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -251,7 +247,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriodCode
      */
     public String getUniversityFiscalPeriodCode() {
@@ -260,7 +256,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -277,7 +273,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceItemAppliedAmount attribute.
-     * 
+     *
      * @return Returns the invoiceItemAppliedAmount
      */
     public KualiDecimal getInvoiceItemAppliedAmount() {
@@ -286,7 +282,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceItemAppliedAmount attribute.
-     * 
+     *
      * @param invoiceItemAppliedAmount The invoiceItemAppliedAmount to set.
      */
     public void setInvoiceItemAppliedAmount(KualiDecimal invoiceItemAppliedAmount) {
@@ -295,7 +291,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceItem attribute.
-     * 
+     *
      * @return Returns the invoiceItem
      */
     public CustomerInvoiceDetail getInvoiceDetail() {
@@ -304,7 +300,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalPeriod attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriod
      */
     public AccountingPeriod getUniversityFiscalPeriod() {
@@ -313,10 +309,11 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalPeriod attribute.
-     * 
+     *
      * @param universityFiscalPeriod The universityFiscalPeriod to set.
      * @deprecated
      */
+    @Deprecated
     public void setUniversityFiscalPeriod(AccountingPeriod universityFiscalPeriod) {
         this.universityFiscalPeriod = universityFiscalPeriod;
     }
@@ -336,7 +333,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Get the paidAppiedDistributionAmount attribute.
-     * 
+     *
      * @return Returns the paidAppiedDistributionAmount
      */
     public KualiDecimal getPaidAppiedDistributionAmount() {
@@ -345,7 +342,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Set the paidAppiedDistributionAmount attribute.
-     * 
+     *
      * @param paidAppiedDistributionAmount The paidAppiedDistributionAmount to set.
      */
     public void setPaidAppiedDistributionAmount(KualiDecimal paidAppiedDistributionAmount) {
@@ -354,7 +351,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the nonInvoicedDistributions attribute.
-     * 
+     *
      * @return Returns the nonInvoicedDistributions.
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributions() {
@@ -363,7 +360,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nonInvoicedDistributions attribute value.
-     * 
+     *
      * @param nonInvoicedDistributions The nonInvoicedDistributions to set.
      */
     public void setNonInvoicedDistributions(Collection<NonInvoicedDistribution> nonInvoicedDistributions) {
@@ -372,7 +369,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Gets the nonAppliedDistributions attribute.
-     * 
+     *
      * @return Returns the nonAppliedDistributions.
      */
     public Collection<NonAppliedDistribution> getNonAppliedDistributions() {
@@ -381,7 +378,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nonAppliedDistributions attribute value.
-     * 
+     *
      * @param nonAppliedDistributions The nonAppliedDistributions to set.
      */
     public void setNonAppliedDistributions(List<NonAppliedDistribution> nonAppliedDistributions) {
@@ -390,7 +387,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 
     /**
      * Sets the customerInvoiceDocument attribute value.
-     * 
+     *
      * @param customerInvoiceDocument The customerInvoiceDocument to set.
      */
     public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {

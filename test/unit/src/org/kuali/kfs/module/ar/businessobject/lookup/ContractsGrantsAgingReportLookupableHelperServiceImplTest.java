@@ -45,6 +45,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * This class tests the ContractsGrantsAgingReport lookup
@@ -82,7 +83,8 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
         award.getActiveAwardAccounts().add(awardAccount_1);
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode);
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errorMessages);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         cgInvoice.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         cgInvoice.getAccountsReceivableDocumentHeader().setDocumentHeader(cgInvoice.getDocumentHeader());
@@ -135,7 +137,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
         KualiDecimal test61to90total = new KualiDecimal("0.00");
         KualiDecimal test91toSYSPRtotal = new KualiDecimal("0.00");
         KualiDecimal testSYSPRplus1orMoretotal = new KualiDecimal("0.00");
-        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded(fieldValues));
+        assertNotNull("search results not null", displayList = contractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
 
 
         // add all 0to30 totals

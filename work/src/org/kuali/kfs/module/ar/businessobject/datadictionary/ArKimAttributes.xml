@@ -63,6 +63,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:label="Billing Chart Code"
     p:shortLabel="Billing Chart Code">
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="4"/>
+    </property>
   </bean>
   
   <bean id="ArKimAttributes-billingOrganizationCode" parent="ArKimAttributes-billingOrganizationCode-parentBean" />
@@ -72,6 +75,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:label="Billing Organization"
     p:shortLabel="Billing Org">
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
 
   <bean id="ArKimAttributes-processingChartOfAccountsCode" parent="ArKimAttributes-processingChartOfAccountsCode-parentBean" />
@@ -81,6 +87,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:label="Processing Chart Code"
     p:shortLabel="Processing Chart Code">
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="4"/>
+    </property>
   </bean>
   
   <bean id="ArKimAttributes-processingOrganizationCode" parent="ArKimAttributes-processingOrganizationCode-parentBean" />
@@ -90,6 +99,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	p:label="Processing Organization"
     p:shortLabel="Processing Org">
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="6"/>
+    </property>
   </bean>
 
   <bean id="ArKimAttributes-customerNameStartingLetter" parent="ArKimAttributes-customerNameStartingLetter-parentBean" />

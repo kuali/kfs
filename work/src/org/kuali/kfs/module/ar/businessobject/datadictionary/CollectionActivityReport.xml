@@ -21,7 +21,7 @@
 		<property name="lookupDefinition">
 			<ref bean="CollectionActivityReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="CollectionActivityReport" />
+		<property name="objectLabel" value="Collection Activity Report" />
 		<property name="attributes">
 			<list>
 				<ref bean="CollectionActivityReport-principalId"/>
@@ -127,6 +127,7 @@
 		<property name="name" value="collector.name" />
 		<property name="label" value="Collector Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
   <bean id="CollectionActivityReport-principalId" parent="CollectionActivityReport-principalId-parentBean"/>
 
@@ -174,17 +175,25 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	
  <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />
   <bean id="CollectionActivityReport-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode" />
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+  </bean>
 		
   <bean id="CollectionActivityReport-accountNumber" parent="CollectionActivityReport-accountNumber-parentBean" />
   <bean id="CollectionActivityReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+  </bean>
  
   <bean id="CollectionActivityReport-invoiceNumber" parent="CollectionActivityReport-invoiceNumber-parentBean"/>
 
@@ -192,6 +201,9 @@
     <property name="name" value="invoiceNumber"/>
     <property name="label" value="Invoice Number"/>
     <property name="shortLabel" value="Invoice Number"/>
+    <property name="control">
+		<bean parent="TextControlDefinition" p:size="11" />
+	</property>
   </bean>
 
 	<bean id="CollectionActivityReport-agencyName" parent="CollectionActivityReport-agencyName-parentBean" />
@@ -217,7 +229,6 @@
 		<property name="name" value="collectionActivityInquiryTitle" />
 		<property name="label" value="Actions" />
 		<property name="shortLabel" value="Actions" />
-		<property name="maxLength" value="255" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
@@ -248,7 +259,6 @@
     <property name="name" value="activityComment"/>
     <property name="label" value="Collection Activity Comment"/>
     <property name="shortLabel" value="Collection Activity Comment"/>
-    <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
@@ -300,6 +310,7 @@
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User"/>
     <property name="description" value="A free-form text field for the full name of the user, expressed as &quot;Lastname, Firstname Initial&quot;"/>
+    <property name="maxLength"><null/></property>
   </bean>
 
 	<!-- Business Object Lookup Definition -->

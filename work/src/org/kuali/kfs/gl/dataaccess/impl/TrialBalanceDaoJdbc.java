@@ -35,22 +35,65 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 public class TrialBalanceDaoJdbc extends PlatformAwareDaoBaseJdbc implements TrialBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceDaoJdbc.class);
 
-    @Override
-    public List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode) {
-        final List<TrialBalanceReport> report = new ArrayList<TrialBalanceReport>();
 
+
+    /*
+     * Helper method used to build the YTD sum depending on the selected fiscal period
+     * If the the period code specified is either empty or invalid, return the current balance amount + begining balance
+     * Actuals to be totaled by BB + period1 Total + period2 Total + etc...
+     *
+     * @param periodCode
+     * @return
+     */
+    private static String buildYTDQueryString( String periodCode ){
+
+        if ( StringUtils.isBlank(periodCode)) {
+            return " SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT)";
+        }
+
+        int number = 0;
+        try {
+            number = Integer.parseInt( periodCode );
+        } catch (NumberFormatException e){
+            //if periodCode is not a number, then consider it blank
+            return " SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT)";
+        }
+
+        StringBuilder ytdQuery = new StringBuilder(" SUM(A0.FIN_BEG_BAL_LN_AMT + ");
+        for ( int i = 1; i<=number; i++){
+            ytdQuery.append("MO" + i);
+            ytdQuery.append( i<number?"_ACCT_LN_AMT + ":"_ACCT_LN_AMT ");
+        }
+
+        return ytdQuery.append( ")" ).toString();
+    }
+
+
+    @Override
+    public List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode, String periodCode) {
+        final List<TrialBalanceReport> report = new ArrayList<TrialBalanceReport>();
+        List<Object> queryArguments = new ArrayList<Object>(2);
+
+        String YTDQuery = buildYTDQueryString(periodCode);
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD, SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT) YTD ");
-        queryBuilder.append("FROM GL_BALANCE_T A0 JOIN CA_OBJECT_CODE_T A1 on A1.FIN_COA_CD = A0.FIN_COA_CD AND A1.UNIV_FISCAL_YR = A0.UNIV_FISCAL_YR and ");
-        queryBuilder.append("A1.FIN_OBJECT_CD = A0.FIN_OBJECT_CD JOIN CA_OBJ_TYPE_T A2 on A2.FIN_OBJ_TYP_CD = A1.FIN_OBJ_TYP_CD WHERE A0.FIN_BALANCE_TYP_CD = 'AC' ");
-        queryBuilder.append("AND A0.UNIV_FISCAL_YR = '" + selectedFiscalYear + "' ");
+        queryBuilder.append("SELECT A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD,");
+        queryBuilder.append(YTDQuery + " AS YTD ");
+        queryBuilder.append("FROM GL_BALANCE_T A0 JOIN CA_OBJECT_CODE_T A1 on A1.FIN_COA_CD = A0.FIN_COA_CD AND A1.UNIV_FISCAL_YR = A0.UNIV_FISCAL_YR and A1.FIN_OBJECT_CD = A0.FIN_OBJECT_CD ");
+        queryBuilder.append("JOIN CA_OBJ_TYPE_T A2 on A2.FIN_OBJ_TYP_CD = A1.FIN_OBJ_TYP_CD ");
+        queryBuilder.append("JOIN CA_ACCTG_CTGRY_T A3 on A3.ACCTG_CTGRY_CD = A2.ACCTG_CTGRY_CD ");
+        queryBuilder.append("WHERE A0.FIN_BALANCE_TYP_CD = 'AC' ");
+        queryBuilder.append("AND A0.UNIV_FISCAL_YR = ? ");
+        queryArguments.add(selectedFiscalYear);
 
         if (StringUtils.isNotBlank(chartCode)) {
-            queryBuilder.append("AND A0.FIN_COA_CD='" + chartCode + "' ");
+            queryBuilder.append("AND A0.FIN_COA_CD=? ");
+            queryArguments.add(chartCode);
         }
-        queryBuilder.append("GROUP BY A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD HAVING SUM(A0.FIN_BEG_BAL_LN_AMT + A0.ACLN_ANNL_BAL_AMT) <> 0 ORDER BY A0.FIN_COA_CD, A0.FIN_OBJECT_CD");
+        queryBuilder.append("GROUP BY A0.FIN_OBJECT_CD, A0.FIN_COA_CD, A1.FIN_OBJ_CD_NM, A2.FIN_OBJTYP_DBCR_CD, A3.FIN_REPORT_SORT_CD ");
+        queryBuilder.append("HAVING "+YTDQuery+" <> 0 ");
+        queryBuilder.append("ORDER BY A0.FIN_COA_CD, A3.FIN_REPORT_SORT_CD, A0.FIN_OBJECT_CD");
 
-        getJdbcTemplate().query(queryBuilder.toString(), new ResultSetExtractor() {
+        getJdbcTemplate().query(queryBuilder.toString(), queryArguments.toArray(), new ResultSetExtractor() {
             @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
 

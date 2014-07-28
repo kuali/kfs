@@ -68,13 +68,13 @@
 		parent="AttributeDefinition">
 		<property name="name" value="milestoneNumber" />
 		<property name="label" value="Milestone Number" />
-		<property name="shortLabel" value="MlStnNbr" />
+		<property name="shortLabel" value="MilestoneNbr" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
+			<bean parent="TextControlDefinition" p:size="14" />
 		</property>
 	</bean>
 

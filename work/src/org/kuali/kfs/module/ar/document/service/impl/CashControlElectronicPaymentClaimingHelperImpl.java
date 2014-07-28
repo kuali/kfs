@@ -105,13 +105,9 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     protected void addNotesToDocument(CashControlDocument claimingDoc, List<ElectronicPaymentClaim> claims, Person user) {
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
-            try {
-                Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
-                claimingDoc.addNote(note);
-                documentService.saveDocumentNotes(claimingDoc);
-            } catch (Exception e) {
-                LOG.error("Exception while attempting to create or add note: ", e);
-            }
+            Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
+            claimingDoc.addNote(note);
+            documentService.saveDocumentNotes(claimingDoc);
         }
     }
 

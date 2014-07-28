@@ -28,6 +28,9 @@
 				<li><portal:portalLink displayTitle="true"
 						title="Contracts & Grants Aging Report"
 						url="contractsGrantsAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport" /></li>
+				<li><portal:portalLink displayTitle="true"
+						title="Contracts & Grants Invoice Document Error Log Report"
+						url="contractsGrantsInvoiceDocumentErrorLogReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog" /></li>
 			</c:if>
 	   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report" url="arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" /></li> 		
 	   		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoice.do?methodToCall=start" /></li>
@@ -37,18 +40,10 @@
 						url="arFederalFinancialReport.do?methodToCall=start" /></li>
 				<li><portal:portalLink displayTitle="true"
 						title="Outstanding Invoice Report"
-						url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
+						url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 				<li><portal:portalLink displayTitle="true"
-						title="Invoice Report Delivery"
-						url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
-				<li><portal:portalLink displayTitle="true"
-						title="LOC Amounts Not Drawn Report"
-						url="contractsGrantsLOCAmountsNotDrawnReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-				</li>
-				<li><portal:portalLink displayTitle="true"
-						title="LOC Draw Details Report"
-						url="contractsGrantsLOCDrawDetailsReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+						title="LOC Report"
+						url="contractsGrantsLOCReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 				</li>
 				<li><portal:portalLink displayTitle="true"
 						title="Milestone Report"

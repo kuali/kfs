@@ -29,10 +29,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.document.Document;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -103,24 +102,13 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         // we only need the document number, no need to get the entire document object
         ReportQueryByCriteria query = new ReportQueryByCriteria(PurchaseOrderDocument.class, new String[]{PurapPropertyConstants.DOCUMENT_NUMBER}, criteria);
+        query.addOrderByAscending(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE);
         java.util.Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        while (iter.hasNext()) {
+        if (iter.hasNext()) {
             final Object[] res = iter.next();
-            relatedPurchaseOrderDocNumForPO.add((String)res[0]);
+            oldestDocumentNumber = (String)res[0];
         }
-        // We want the oldest purchase order because the notes remoteobjectid is set to the object id of the oldest purchase order document.
-        //KFSMI-8394
-        // later on changed for KFSCNTRB-1642
-        for(String docId : relatedPurchaseOrderDocNumForPO){
-            Document wd = KewApiServiceLocator.getWorkflowDocumentService().getDocument(docId);
-            if(wd != null){
-                DateTime createDate = wd.getDateCreated();
-                if(oldestDocumentsCreationDate.compareTo(createDate) >= 0){
-                    oldestDocumentsCreationDate = createDate;
-                    oldestDocumentNumber = docId;
-                }
-            }
-        }
+        TransactionalServiceUtils.exhaustIterator(iter);
 
         return oldestDocumentNumber;
     }

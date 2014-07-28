@@ -24,17 +24,16 @@ import org.kuali.kfs.module.ar.report.util.CustomerAgingReportDataHolder;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * This class...
+ * This interface contains methods related to the Customer Aging Report.
  */
 public interface CustomerAgingReportService {
 
     /**
-     *
-     * This method returns a collection map
+     * This method calculates aging report amounts for the given invoice details and report run date.
      *
      * @param invoiceDetails
      * @param reportRunDate
-     * @return
+     * @return CustomerAgingReportDataHolder containing aging report amounts and known customers
      */
     public CustomerAgingReportDataHolder calculateAgingReportAmounts(Collection<CustomerInvoiceDetail> invoiceDetails, Date reportRunDate);
 
@@ -50,24 +49,104 @@ public interface CustomerAgingReportService {
      */
     HashMap<String, KualiDecimal> findInvoiceAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the applied amount of all invoices for the
+     * given processing chart and org codes, which have billing dates within the given date range.
+     *
+     * @param chart Processing chart code for the invoices being retrieved.
+     * @param org Processing org code for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice applied amount.
+     * @param end Ending date of the date range used to find invoice applied amount.
+     * @return
+     */
     HashMap<String, KualiDecimal> findAppliedAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the discount amount of all invoices for the
+     * given processing chart and org codes, which have billing dates within the given date range.
+     *
+     * @param chart Processing chart code for the invoices being retrieved.
+     * @param org Processing org code for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice discount amount.
+     * @param end Ending date of the date range used to find invoice discount amount.
+     * @return
+     */
     HashMap<String, KualiDecimal> findDiscountAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
     // BILLING CHART AND ORG METHODS
 
+    /**
+     * This method generates a database query and retrieves the total of all invoices for the given billing chart and org codes,
+     * which have billing dates within the given date range, for which there is an outstanding balance due.
+     *
+     * @param chart Billing chart code for the invoices being retrieved.
+     * @param org Billing org code for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice balances due.
+     * @param end Ending date of the date range used to find invoice balances due.
+     * @return
+     */
     HashMap<String, KualiDecimal> findInvoiceAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the applied amount of all invoices for the
+     * given billing chart and org codes, which have billing dates within the given date range.
+     *
+     * @param chart Billing chart code for the invoices being retrieved.
+     * @param org Billing org code for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice applied amount.
+     * @param end Ending date of the date range used to find invoice applied amount.
+     * @return
+     */
     HashMap<String, KualiDecimal> findAppliedAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the discount amount of all invoices for the
+     * given billing chart and org codes, which have billing dates within the given date range.
+     *
+     * @param chart Billing chart code for the invoices being retrieved.
+     * @param org Billing org code for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice discount amount.
+     * @param end Ending date of the date range used to find invoice discount amount.
+     * @return
+     */
     HashMap<String, KualiDecimal> findDiscountAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end);
 
     // ACCOUNT METHODS
 
+    /**
+     * This method generates a database query and retrieves the total of all invoices for the given chart and account,
+     * which have billing dates within the given date range, for which there is an outstanding balance due.
+     *
+     * @param chart Chart code for the invoices being retrieved.
+     * @param org Account Number for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice balances due.
+     * @param end Ending date of the date range used to find invoice balances due.
+     * @return
+     */
     HashMap<String, KualiDecimal> findInvoiceAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the applied amount of all invoices for the
+     * given chart and account, which have billing dates within the given date range.
+     *
+     * @param chart Chart code for the invoices being retrieved.
+     * @param org Account Number for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice balances due.
+     * @param end Ending date of the date range used to find invoice balances due.
+     * @return
+     */
     HashMap<String, KualiDecimal> findAppliedAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end);
 
+    /**
+     * This method generates a database query and retrieves the discount amount of all invoices for the
+     * given chart and account, which have billing dates within the given date range.
+     *
+     * @param chart Chart code for the invoices being retrieved.
+     * @param org Account Number for the invoices being retrieved.
+     * @param begin Beginning date of the date range used to find invoice balances due.
+     * @param end Ending date of the date range used to find invoice balances due.
+     * @return
+     */
     HashMap<String, KualiDecimal> findDiscountAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end);
 
     /**

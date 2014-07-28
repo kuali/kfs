@@ -36,8 +36,10 @@
 				<ref bean="Award-awardSubcontractors.subcontractor.subcontractorNumber" />
 				<ref bean="Award-awardProjectDirectors.principalId" />
 				<ref bean="Award-awardPrimaryProjectDirector.projectDirector.name" />
+				<ref bean="Award-awardPrimaryProjectDirector.projectDirector.principalId" />
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
+				<ref bean="Award-awardPrimaryFundManager.fundManager.principalId"/>
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
 				<ref bean="Award-predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle" />
   				<ref bean="Award-lookupPersonUniversalIdentifier" />
@@ -80,8 +82,8 @@
 				<ref bean="Award-federalPassThroughFundedAmount" />
 				<ref bean="Award-federalPassThroughIndicator" />
 				<ref bean="Award-grantDescriptionCode" />
-				<ref
-					bean="Award-letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<ref bean="Award-letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<ref bean="Award-letterOfCreditFund.letterOfCreditFundGroupCode" />
 				<ref bean="Award-letterOfCreditFundCode" />
 				<ref bean="Award-oldProposalNumber" />
 				<ref bean="Award-proposalAwardTypeCode" />
@@ -240,6 +242,9 @@
 		<property name="name" value="primaryAwardOrganization.organizationCode" />
 		<property name="label" value="Primary Organization Code" />
 		<property name="shortLabel" value="Primary Org Cd" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean" />
@@ -273,6 +278,9 @@
 		<property name="name" value="awardAccounts.account.accountNumber" />
 		<property name="label" value="Award Account Number" />
 		<property name="shortLabel" value="Acct Num" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardInvoiceAccounts.account.accountNumber"
@@ -294,6 +302,9 @@
 		<property name="name"
 			value="awardOrganizations.organization.organizationCode" />
 		<property name="shortLabel" value="Org Cd" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean id="Award-awardSubcontractors.subcontractor.subcontractorNumber"
 		parent="Award-awardSubcontractors.subcontractor.subcontractorNumber-parentBean" />
@@ -313,6 +324,9 @@
 		<property name="name" value="awardProjectDirectors.principalId" />
 		<property name="label" value="Project Director ID" />
 		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardPrimaryProjectDirector.projectDirector.name"
@@ -326,6 +340,11 @@
 		<property name="label" value="Primary Project Director Name" />
 		<property name="shortLabel" value="Primary Proj Director Name" />
 	</bean>
+	
+	<bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId" parent="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean"/>
+	<bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean" abstract="true" parent="AwardProjectDirector-principalId">
+		<property name="name" value="awardPrimaryProjectDirector.projectDirector.principalId"/>
+	</bean>
 
 
 	<bean id="Award-awardFundManagers.principalId" parent="Award-awardFundManagers.principalId-parentBean" />
@@ -336,6 +355,9 @@
 		<property name="name" value="awardFundManagers.principalId" />
 		<property name="label" value="Fund Manager ID" />
 		<property name="shortLabel" value="Fund Mgr ID" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="Award-awardPrimaryFundManager.fundManager.name"
@@ -348,6 +370,11 @@
 		<property name="control">
 			<ref bean="StandardNameTextControl" />
 		</property>
+	</bean>
+	
+	<bean id="Award-awardPrimaryFundManager.fundManager.principalId" parent="Award-awardPrimaryFundManager.fundManager.principalId-parentBean"/>
+	<bean id="Award-awardPrimaryFundManager.fundManager.principalId-parentBean" abstract="true" parent="AwardFundManager-principalId">
+		<property name="name" value="awardPrimaryFundManager.fundManager.principalId"/>
 	</bean>
 
 	<bean id="Award-milestoneSchedule.milestoneScheduleInquiryTitle"
@@ -801,6 +828,11 @@
 			value="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 		<property name="label" value="Invoicing Letter Of Credit Fund Group" />
 	</bean>
+	
+	<bean id="Award-letterOfCreditFund.letterOfCreditFundGroupCode" parent="Award-letterOfCreditFund.letterOfCreditFundGroupCode-parentBean"/>
+	<bean id="Award-letterOfCreditFund.letterOfCreditFundGroupCode-parentBean" abstract="true" parent="LetterOfCreditFund-letterOfCreditFundGroupCode">
+		<property name="name" value="letterOfCreditFund.letterOfCreditFundGroupCode"/>
+	</bean>
 
 	<bean id="Award-letterOfCreditFundCode" parent="Award-letterOfCreditFundCode-parentBean" />
 
@@ -849,9 +881,6 @@
 		<property name="name" value="awardInquiryTitle" />
 		<property name="label" value="Title" />
 		<property name="shortLabel" value="Title" />
-		<property name="maxLength" value="255" />
-		<!--<property name="validationPattern" > <ref bean="AnyCharacterValidation" 
-			/> </property> -->
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
@@ -918,7 +947,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="32" />
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="40" />
 		</property>
 	</bean>
 
@@ -935,7 +964,7 @@
 			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="32" />
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="40" />
 		</property>
 	</bean>
 

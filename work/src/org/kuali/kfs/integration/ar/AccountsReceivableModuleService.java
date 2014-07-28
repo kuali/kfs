@@ -21,12 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -201,13 +198,6 @@ public interface AccountsReceivableModuleService {
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader();
 
     /**
-     * This method returns the Primary Organization for the User.
-     *
-     * @return ChartOrgHolder containing the chart/org for the Primary Organization for the User.
-     */
-    public ChartOrgHolder getPrimaryOrganization();
-
-    /**
      * This method returns the System Information corresponding to a given chart/org/fiscal year parameters.
      *
      * @param chartOfAccountsCode chart code used to find System Information
@@ -336,140 +326,4 @@ public interface AccountsReceivableModuleService {
      * @return
      */
     public String retrieveGLPEReceivableParameterValue();
-
-    /**
-     * This method gets the award billed to date amount using ContractsGrantsInvoiceDocumentService
-     *
-     * @param roposalNumber
-     * @return
-     */
-    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber);
-
-    /**
-     * This method calculates total payments to date by Award using ContractsGrantsInvoiceDocumentService
-     *
-     * @param proposalNumber
-     * @return
-     */
-    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber);
-
-    /**
-     * This method returns the CustomerAddress specified as the primary address for a Customer.
-     *
-     * @param customerNumber
-     * @return
-     */
-    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber);
-
-    /**
-     * This method returns the InvoiceTemplate corresponding to a given invoice template code.
-     *
-     * @param invoiceTemplateCode
-     * @return
-     */
-    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode);
-
-    /**
-     * This method saves an InvoiceTemplate.
-     *
-     * @param invoiceTemplate
-     */
-    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate);
-
-    /**
-     * This method returns a new instance of the MilestoneSchedule class.
-     *
-     * @return new MilestoneSchedule instance
-     */
-    public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
-
-    /**
-     * This method sets the proposalNumber on a given MilestoneSchedule. This is used to associate the
-     * MilestoneSchedule with an Award.
-     *
-     * @param milestoneSchedule
-     * @param proposalNumber
-     */
-    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
-
-    /**
-     * This method returns a new instance of the PredeterminedBillingSchedule class.
-     *
-     * @return new PredeterminedBillingSchedule instance
-     */
-    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule();
-
-    /**
-     * This method sets the proposalNumber on a given PredeterminedBillingSchedule. This is used to associate the
-     * PredeterminedBillingSchedule with an Award.
-     *
-     * @param predeterminedBillingSchedule
-     * @param proposalNumber
-     */
-    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber);
-
-    /**
-     * Checks to see if the award corresponding to the passed in proposalNumber has a
-     * MilestoneSchedule associated with it.
-     *
-     * @param proposalNumber proposalNumber for the Award use as key to look for MilestoneSchedule
-     * @return true if there is an active MilestoneSchedule for this proposalNumber, false otherwise
-     */
-    public boolean hasMilestoneSchedule(Long proposalNumber);
-
-    /**
-     * Checks to see if the award corresponding to the passed in proposalNumber has a
-     * PredeterminedBillingSchedule associated with it.
-     *
-     * @param proposalNumber proposalNumber for the Award use as key to look for PredeterminedBillingSchedule
-     * @return true if there is an active PredeterminedBillingSchedule for this proposalNumber, false otherwise
-     */
-    public boolean hasPredeterminedBillingSchedule(Long proposalNumber);
-
-    /**
-     * Calculate the lastBilledDate for the Award based on it's AwardAccounts
-     *
-     * @param award the Award used to calculate lastBilledDate
-     * @return the lastBilledDate
-     */
-    public Date getLastBilledDate(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks the Contract Control account set for Award Account based on award's invoicing option.
-     *
-     * @return errorString
-     */
-    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Gets the Contracts & Grants Invoice Document Type
-     *
-     * @return Contracts & Grants Invoice Document Type
-     */
-    public String getContractsGrantsInvoiceDocumentType();
-
-    /**
-     * Determines whether the CG and Billing Enhancements are on from the system parameters
-     *
-     * @return true if Contracts and Grants Billing enhancement is enabled
-     */
-    public boolean isContractsGrantsBillingEnhancementActive();
-
-    /**
-     * Determines if the given AR invoice template can be utilized by the given user
-     *
-     * @param invoiceTemplate an invoice template to check for utilizability of
-     * @param user the user to check utilizability for
-     * @return true if the template is utilizable, false otherwise
-     */
-    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user);
-
-    /**
-     * Obtain list Kuali Coeus Award Status Codes that indicate the award should not be invoiced
-     * from parameter. Used by Kuali Coeus module when Contracts and Grants Billing is enabled.
-     *
-     * @return list of award status codes
-     */
-    public Collection<String> getDoNotInvoiceStatuses();
-
 }

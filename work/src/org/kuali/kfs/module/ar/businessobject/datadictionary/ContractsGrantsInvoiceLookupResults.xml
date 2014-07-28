@@ -15,7 +15,7 @@
 
 	<bean id="ContractsGrantsInvoiceLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult" />
-		<property name="objectLabel" value="Contracts Grants Invoice Lookup Result" />
+		<property name="objectLabel" value="Contracts and Grants Invoice Lookup Result" />
 		<property name="lookupDefinition">
 			<ref bean="ContractsGrantsInvoiceLookupResult-lookupDefinition" />
 		</property>
@@ -44,7 +44,11 @@
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
 
 	<bean id="ContractsGrantsInvoiceLookupResult-accountNumber" parent="ContractsGrantsInvoiceLookupResult-accountNumber-parentBean" />
-	<bean id="ContractsGrantsInvoiceLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="ContractsGrantsInvoiceLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyFullName" parent="ContractsGrantsInvoiceLookupResult-agencyFullName-parentBean" />
 	<bean id="ContractsGrantsInvoiceLookupResult-agencyFullName-parentBean" abstract="true" parent="ArGenericAttributes-agencyFullName">
@@ -63,7 +67,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="32" />
 		</property>
 	</bean>
 

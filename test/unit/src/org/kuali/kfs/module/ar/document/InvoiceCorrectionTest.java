@@ -27,9 +27,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
@@ -64,12 +64,12 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        document.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
+        document.setDateEmailProcessed(new java.util.Date());
         document.setDateReportProcessed(new java.util.Date());
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
 
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        assertNull(document.getMarkedForProcessing());
+        assertNull(document.getDateEmailProcessed());
         assertNull(document.getDateReportProcessed());
 
         contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getProposalNumber());
@@ -167,14 +167,14 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedInvoiceDetails() throws WorkflowException {
-        List<InvoiceDetail> invoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
+        List<ContractsGrantsInvoiceDetail> invoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        List<InvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
+        List<ContractsGrantsInvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts();
         Iterator iterator = invoiceDetail.iterator();
         Iterator correctedIterator = correctedInvoiceDetail.iterator();
         while (iterator.hasNext() || correctedIterator.hasNext()) {
-            InvoiceDetail id = (InvoiceDetail) iterator.next();
-            InvoiceDetail cid = (InvoiceDetail) correctedIterator.next();
+            ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
+            ContractsGrantsInvoiceDetail cid = (ContractsGrantsInvoiceDetail) correctedIterator.next();
             assertTrue(id.getExpenditures().equals(cid.getExpenditures().negated()));
         }
     }

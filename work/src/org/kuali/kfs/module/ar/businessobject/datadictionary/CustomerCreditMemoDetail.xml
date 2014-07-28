@@ -35,8 +35,8 @@
   
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean">
       <property name="control">
-       <ref bean="TenCharacterTextControl" />
-      </property>
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
   </bean>
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceInvoiceItemNumber"/>
@@ -68,7 +68,7 @@
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
   
@@ -117,7 +117,7 @@
     <property name="maxLength" value="20"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
   

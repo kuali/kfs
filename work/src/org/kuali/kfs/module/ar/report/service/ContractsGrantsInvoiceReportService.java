@@ -31,6 +31,7 @@ import com.lowagie.text.DocumentException;
  * This interface defines the methods required for the report generation process for Contracts and Grants.
  */
 public interface ContractsGrantsInvoiceReportService {
+
     /**
      * This method is used to generate pdf reports for Contracts and Grants LOC review document.
      *
@@ -51,13 +52,6 @@ public interface ContractsGrantsInvoiceReportService {
      * @throws Exception
      */
     public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception;
-
-    /**
-     * This method marks invoices for the ArEmailService for Email reports delivery.
-     *
-     * @param list
-     */
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list);
 
     /**
      * This method generates a combined pdf files for all the invoices for Mailing invoice reports.

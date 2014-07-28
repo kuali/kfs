@@ -35,12 +35,6 @@ public class CFDA extends PersistableBusinessObjectBase implements ContractsAndG
     private boolean active;
 
     /**
-     * Default constructor.
-     */
-    public CFDA() {
-    }
-
-    /**
      * Gets the cfdaNumber attribute.
      *
      * @return Returns the cfdaNumber

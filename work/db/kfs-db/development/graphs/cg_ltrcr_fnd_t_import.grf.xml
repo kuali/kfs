@@ -19,14 +19,14 @@
 //#TL
     function transform() {
         $0.cg_ltrcr_fnd_cd := replace(nvl($cg_ltrcr_fnd_cd, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
         $0.cg_ltrcr_fnd_desc := replace(nvl($cg_ltrcr_fnd_desc, ""), "~!~", "|" );
         $0.cg_ltrcr_fndgrp_cd := replace(nvl($cg_ltrcr_fndgrp_cd, ""), "~!~", "|" );
         $0.cg_ltrcr_amt := $cg_ltrcr_amt;
         $0.cg_ltrcr_start_dt := $cg_ltrcr_start_dt;
         $0.cg_ltrcr_expiration_dt := $cg_ltrcr_expiration_dt;
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
-        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
-        $0.ver_nbr := $ver_nbr;
    }
       ]]></attr>
     </Node>

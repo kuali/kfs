@@ -170,7 +170,7 @@ public class CfdaServiceImpl implements CfdaService {
     }
 
     /**
-     * This method updates the KFS CFDA table from the US federal government record
+     * @see org.kuali.kfs.module.cg.service.CfdaService#update()
      */
     @Transactional
     @Override

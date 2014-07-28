@@ -19,11 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentForm;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -52,7 +56,12 @@ public class InvoiceTemplateValuesFinder extends KeyValuesBase {
                     keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                 }
                 else {
-                    if (contractsGrantsInvoiceDocumentService.isTemplateValidForUser(element, currentUser)) {
+                    ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = null;
+                    KualiForm kualiForm = KNSGlobalVariables.getKualiForm();
+                    if (kualiForm instanceof ContractsGrantsInvoiceDocumentForm) {
+                        contractsGrantsInvoiceDocument = ((ContractsGrantsInvoiceDocumentForm)kualiForm).getContractsGrantsInvoiceDocument();
+                    }
+                    if (contractsGrantsInvoiceDocumentService.isTemplateValidForContractsGrantsInvoiceDocument(element, contractsGrantsInvoiceDocument)) {
                         keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                     }
                 }

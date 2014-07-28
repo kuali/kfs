@@ -29,13 +29,14 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
  */
 public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SensitiveDataSecurityAttribute.class);
-    
+
 
     @Override
     public boolean isAuthorizedForDocument(String principalId, org.kuali.rice.kew.api.document.Document document) {
@@ -52,10 +53,17 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
 
                         DocumentAuthorizer docAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(docTypeName);
                         try {
-                            return docAuthorizer.canOpen(KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(document.getDocumentId()), KimApiServiceLocator.getPersonService().getPerson(principalId));
+                            org.kuali.rice.krad.document.Document kfsDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(document.getDocumentId());
+
+                            if (ObjectUtils.isNull(kfsDocument)) {
+                                LOG.error("KFS document is null but exists in rice, returning false from isAuthorizedForDocument. document.getDocumentId()=" + document.getDocumentId());
+                                return false;
+                            } else {
+                                return docAuthorizer.canOpen(kfsDocument, KimApiServiceLocator.getPersonService().getPerson(principalId));
+                            }
                         }
                         catch (WorkflowException ex) {
-                            LOG.error( "Exception while testing if user can open document: " + document, ex);
+                            LOG.error( "Exception while testing if user can open document: document.getDocumentId()=" + document.getDocumentId(), ex);
                             return false;
                         }
                     }

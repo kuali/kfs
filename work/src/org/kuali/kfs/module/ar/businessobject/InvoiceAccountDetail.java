@@ -40,7 +40,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     private KualiDecimal budgetAmount = KualiDecimal.ZERO;
     private KualiDecimal expenditureAmount = KualiDecimal.ZERO;
     private KualiDecimal cumulativeAmount = KualiDecimal.ZERO;
-    private KualiDecimal balanceAmount = KualiDecimal.ZERO;
     private KualiDecimal billedAmount = KualiDecimal.ZERO;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
@@ -236,17 +235,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the balanceAmount attribute value.
-     *
-     * @param balanceAmount The balanceAmount to set.
-     */
-    @Deprecated
-    public void setBalanceAmount(KualiDecimal balanceAmount) {
-        this.balanceAmount = balanceAmount;
-    }
-
-
-    /**
      * Gets the invoiceDocument attribute.
      *
      * @return Returns the invoiceDocument.
@@ -264,7 +252,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         this.invoiceDocument = invoiceDocument;
     }
 
-
     public KualiDecimal getBilledAmount() {
         return billedAmount;
     }
@@ -280,46 +267,5 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
-    }
-
-
-    /**
-     * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.prePersist();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    protected void prePersist() {
-        super.prePersist();
-
-        balanceAmount = getBalanceAmount();
-
-
-    }
-
-    /**
-     * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    protected void preUpdate() {
-        super.preUpdate();
-
-        balanceAmount = getBalanceAmount();
-    }
-
-    /**
-     * This method corrects the Current Expenditure field in case of correction process
-     */
-    public void correctInvoiceAccountDetailsCurrentExpenditureAmount() {
-        this.setExpenditureAmount(getExpenditureAmount().negated());
-        this.setInvoiceDocument(null);
     }
 }

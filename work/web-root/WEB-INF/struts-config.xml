@@ -113,6 +113,9 @@
 		<form-bean name="CustomerInvoiceForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />
 		<!-- AR and CG related -->
+		<form-bean name="ContractsGrantsInvoiceDocumentErrorLogReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentErrorLogReportForm" />
+			
 		<form-bean name="ContractsGrantsInvoiceDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentForm" />
 
@@ -122,8 +125,8 @@
 		<form-bean name="ContractsGrantsPaymentHistoryReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsPaymentHistoryReportLookupForm" />
 
-		<form-bean name="ContractsGrantsLOCDrawDetailsReportLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCDrawDetailsReportLookupForm" />
+		<form-bean name="ContractsGrantsLOCReportLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReportLookupForm" />
 
 		<form-bean name="ContractsGrantsLOCAmountsNotDrawnReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCAmountsNotDrawnReportLookupForm" />
@@ -172,8 +175,8 @@
 		<form-bean name="FederalFinancialReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportForm" />
 
-		<form-bean name="InvoiceReportDeliveryForm"
-			type="org.kuali.kfs.module.ar.web.struts.InvoiceReportDeliveryForm" />
+		<form-bean name="TransmitContractsAndGrantsInvoicesLookupForm"
+			type="org.kuali.kfs.module.ar.web.struts.TransmitContractsAndGrantsInvoicesLookupForm" />
 
 
 		<!-- Labor Distribution Bean Definitions -->
@@ -498,7 +501,7 @@
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityReportAction">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/ar/CollectionActivityReportLookup.jsp" />
+			<forward name="basic" path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
 		<action path="/referralToCollectionsReportLookup" name="ReferralToCollectionsReportForm"
@@ -575,11 +578,12 @@
 				redirect="false" />
 		</action>
 
-		<action path="/arInvoiceReportDelivery" name="InvoiceReportDeliveryForm"
+		<action path="/arTransmitContractsAndGrantsInvoices" name="TransmitContractsAndGrantsInvoicesLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.InvoiceReportDeliveryAction">
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.TransmitContractsAndGrantsInvoicesLookupAction">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/ar/InvoiceReportDelivery.jsp" />
+			<forward name="basic" path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
 		<action path="/arContractsGrantsInvoiceSummary" name="ContractsGrantsInvoiceSummaryForm"
@@ -954,6 +958,15 @@
 				path="/jsp/module/cg/ContractsGrantsReportLookup.jsp" />
 		</action>
 
+		<action path="/contractsGrantsInvoiceDocumentErrorLogReport" name="ContractsGrantsInvoiceDocumentErrorLogReportForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentErrorLogReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
 		<action path="/contractsGrantsInvoiceReport" name="ContractsGrantsInvoiceReportLookupForm"
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceReportLookupAction"
@@ -972,9 +985,9 @@
 				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 
-		<action path="/contractsGrantsLOCDrawDetailsReport" name="ContractsGrantsLOCDrawDetailsReportLookupForm"
+		<action path="/contractsGrantsLOCReport" name="ContractsGrantsLOCReportLookupForm"
 			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCDrawDetailsReportLookupAction"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReportLookupAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"

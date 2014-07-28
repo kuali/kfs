@@ -24,6 +24,7 @@ public class AwardDTO implements Serializable {
     private String awardStatusCode;
     private String sponsorCode;
     private String title;
+    private String awardCommentText;
     private SponsorDTO sponsor;
     private String principalInvestigatorId;
     private String unitNumber;
@@ -128,6 +129,12 @@ public class AwardDTO implements Serializable {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getAwardCommentText() {
+		return awardCommentText;
+	}
+	public void setAwardCommentText(String awardCommentText) {
+		this.awardCommentText = awardCommentText;
 	}
 	public SponsorDTO getSponsor() {
 		return sponsor;

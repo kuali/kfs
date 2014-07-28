@@ -52,30 +52,45 @@
 	<bean id="AwardInvoiceAccount-accountNumber-parentBean" abstract="true"
 		parent="AccountAttribute">
 		<property name="name" value="accountNumber" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="AwardInvoiceAccount-account.accountName" parent="AwardInvoiceAccount-account.accountName-parentBean" />
 	<bean id="AwardInvoiceAccount-account.accountName-parentBean"
 		abstract="true" parent="Account-accountName">
 		<property name="name" value="account.accountName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="AwardInvoiceAccount-objectCode" parent="AwardInvoiceAccount-objectCode-parentBean" />
 	<bean id="AwardInvoiceAccount-objectCode-parentBean" abstract="true"
 		parent="ObjectCodeAttribute">
 		<property name="name" value="objectCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="AwardInvoiceAccount-subObjectCode" parent="AwardInvoiceAccount-subObjectCode-parentBean" />
 	<bean id="AwardInvoiceAccount-subObjectCode-parentBean" abstract="true"
 		parent="SubObjectAttribute">
 		<property name="name" value="subObjectCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 
 	<bean id="AwardInvoiceAccount-subAccountNumber" parent="AwardInvoiceAccount-subAccountNumber-parentBean" />
 	<bean id="AwardInvoiceAccount-subAccountNumber-parentBean"
 		abstract="true" parent="SubAccountAttribute">
 		<property name="name" value="subAccountNumber" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 
 

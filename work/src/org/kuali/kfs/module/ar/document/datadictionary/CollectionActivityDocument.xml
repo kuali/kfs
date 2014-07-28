@@ -14,9 +14,9 @@
 		<property name="businessRulesClass"
 			value="org.kuali.kfs.module.ar.document.validation.impl.CollectionActivityDocumentRule" />
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.CollectionActivityDocumentAuthorizer" />
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
 		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.CollectionActivityDocumentPresentationController" />
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
 		<property name="attributes">
 			<list>
 				<ref bean="CollectionActivityDocument-proposalNumber" />

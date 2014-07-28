@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFSCGB" id="KFS_CGB_NEW_KC_TABLE">
+		<createTable tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" type="VARCHAR(10)">
+				<constraints primaryKey="true" primaryKeyName="KC_BILL_FREQ_MAP_TP1"/>
+			</column>
+			<column name="KC_FREQ_CD" type="VARCHAR(3)">
+				<constraints primaryKey="true" primaryKeyName="KC_BILL_FREQ_MAP_TP1"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="KC_CG_BILL_FREQ_MAP_TC0" />
+			</column>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="GRACE_PERIOD" type="VARCHAR(3)"/>			
+			<column name="ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
+		</createTable>
+	</changeSet>	
+
+</databaseChangeLog>

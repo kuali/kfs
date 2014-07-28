@@ -44,13 +44,6 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
     private KualiDecimal totalOpenInvoices = KualiDecimal.ZERO;
     private KualiDecimal totalWriteOff = KualiDecimal.ZERO;
 
-    /**
-     * Constructs a CustomerAgingReportDetail.java.
-     */
-    public CustomerAgingReportDetail() {
-        super();
-    }
-
 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();

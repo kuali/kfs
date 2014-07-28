@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.fixture.DunningCampaignFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterDistributionFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterTemplateFixture;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -55,6 +56,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -79,6 +81,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         super.setUp();
         dunningLetterDistributionLookupableHelperServiceImpl = new DunningLetterDistributionLookupableHelperServiceImpl();
         dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
+        dunningLetterDistributionLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
         dunningLetterDistributionLookupableHelperServiceImpl.setBusinessObjectClass(DunningLetterDistributionLookupResult.class);
         dunningLetterDistributionLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -106,7 +109,8 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         organizationOptions.setProcessingOrganizationCode(orgCode);
         SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
 
         // To create Dunning Campaign and Dunning LEtter Distribtuions and templates.

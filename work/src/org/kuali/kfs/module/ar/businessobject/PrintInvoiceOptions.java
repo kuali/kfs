@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,27 +31,20 @@ public class PrintInvoiceOptions extends PersistableBusinessObjectBase implement
 	private boolean active;
 
 	/**
-	 * Default constructor.
-	 */
-	public PrintInvoiceOptions() {
-
-	}
-
-	/**
 	 * Gets the printInvoiceIndicator attribute.
-	 * 
+	 *
 	 * @return Returns the printInvoiceIndicator
-	 * 
+	 *
 	 */
-	public String getPrintInvoiceIndicator() { 
+	public String getPrintInvoiceIndicator() {
 		return printInvoiceIndicator;
 	}
 
 	/**
 	 * Sets the printInvoiceIndicator attribute.
-	 * 
+	 *
 	 * @param printInvoiceIndicator The printInvoiceIndicator to set.
-	 * 
+	 *
 	 */
 	public void setPrintInvoiceIndicator(String printInvoiceIndicator) {
 		this.printInvoiceIndicator = printInvoiceIndicator;
@@ -60,19 +53,19 @@ public class PrintInvoiceOptions extends PersistableBusinessObjectBase implement
 
 	/**
 	 * Gets the printInvoiceDescription attribute.
-	 * 
+	 *
 	 * @return Returns the printInvoiceDescription
-	 * 
+	 *
 	 */
-	public String getPrintInvoiceDescription() { 
+	public String getPrintInvoiceDescription() {
 		return printInvoiceDescription;
 	}
 
 	/**
 	 * Sets the printInvoiceDescription attribute.
-	 * 
+	 *
 	 * @param printInvoiceDescription The printInvoiceDescription to set.
-	 * 
+	 *
 	 */
 	public void setPrintInvoiceDescription(String printInvoiceDescription) {
 		this.printInvoiceDescription = printInvoiceDescription;
@@ -81,21 +74,23 @@ public class PrintInvoiceOptions extends PersistableBusinessObjectBase implement
 
 	/**
 	 * Gets the active attribute.
-	 * 
+	 *
 	 * @return Returns the active
-	 * 
+	 *
 	 */
-	public boolean isActive() { 
+	@Override
+    public boolean isActive() {
 		return active;
 	}
 
 	/**
 	 * Sets the active attribute.
-	 * 
+	 *
 	 * @param active The active to set.
-	 * 
+	 *
 	 */
-	public void setActive(boolean active) {
+	@Override
+    public void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -104,7 +99,7 @@ public class PrintInvoiceOptions extends PersistableBusinessObjectBase implement
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         m.put("printInvoiceIndicator", this.printInvoiceIndicator);
 	    return m;
     }

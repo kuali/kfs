@@ -20,15 +20,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a custom lookup for the Suspense Activity Report.
  */
-public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl extends ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImplBase {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperServiceImpl.class);
     protected DocumentService documentService;
 
@@ -58,52 +58,35 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceSummaryReport>();
+        Map<String, List<String>> documentNumbersByCategory = new TreeMap<String, List<String>>();
+        Map<String, String> suspensionCategoryDescriptions = new HashMap<String, String>();
 
-        List<InvoiceSuspensionCategory> invoiceSuspensionCategories = (List<InvoiceSuspensionCategory>) getBusinessObjectService().findAll(InvoiceSuspensionCategory.class);
-        Map<String, String> suspensionCategoryMap = buildSuspensionCategoryMap();
+        final String suspensionCategoryCodeFromLookup = (String)lookupFormFields.remove(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
+        final Set<String> suspensionCategoryCodes = retrieveMatchingSuspensionCategories(suspensionCategoryCodeFromLookup);
 
-        TreeMap<String, List<String>> documentNumbersByCategory = new TreeMap<String, List<String>>();
+        final String processingDocumentStatuses = buildProcessingDocumentStatusesForLookup();
+        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFormFields, true);
 
-        for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
+        for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
+            if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated
+                for (InvoiceSuspensionCategory invoiceSuspensionCategory : cgInvoiceDoc.getInvoiceSuspensionCategories()) {
+                    if (suspensionCategoryCodes.isEmpty() || suspensionCategoryCodes.contains(invoiceSuspensionCategory.getSuspensionCategoryCode())) {
+                        if (!suspensionCategoryDescriptions.containsKey(invoiceSuspensionCategory.getSuspensionCategoryCode())) {
+                            suspensionCategoryDescriptions.put(invoiceSuspensionCategory.getSuspensionCategoryCode(), invoiceSuspensionCategory.getSuspensionCategory().getSuspensionCategoryDescription());
+                        }
 
-            ContractsGrantsInvoiceDocument cgInvoiceDocument;
-            try {
-                cgInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(invoiceSuspensionCategory.getDocumentNumber());
-            }
-            catch (WorkflowException e) {
-                LOG.debug("WorkflowException happened while retrives documentHeader");
-                continue;
-            }
+                        if (ObjectUtils.isNull(documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()))) {
+                            List<String> documentNumbers = new ArrayList<String>();
+                            documentNumbers.add(invoiceSuspensionCategory.getDocumentNumber());
+                            documentNumbersByCategory.put(invoiceSuspensionCategory.getSuspensionCategoryCode(), documentNumbers);
+                        }
+                        else {
 
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = cgInvoiceDocument.getDocumentHeader().getWorkflowDocument();
-            }
-            catch (RuntimeException e) {
-                LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                continue;
-            }
-
-            boolean isStatusFinalOrProcessed = false;
-            // check status of document
-            if (ObjectUtils.isNotNull(workflowDocument)) {
-                isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
-            }
-
-            // if status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
-            if (isStatusFinalOrProcessed) {
-                continue;
-            }
-
-
-            if (ObjectUtils.isNull(documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()))) {
-                List<String> documentNumbers = new ArrayList<String>();
-                documentNumbers.add(invoiceSuspensionCategory.getDocumentNumber());
-                documentNumbersByCategory.put(invoiceSuspensionCategory.getSuspensionCategoryCode(), documentNumbers);
-            }
-            else {
-
-                documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()).add(invoiceSuspensionCategory.getDocumentNumber());
+                            documentNumbersByCategory.get(invoiceSuspensionCategory.getSuspensionCategoryCode()).add(invoiceSuspensionCategory.getDocumentNumber());
+                        }
+                    }
+                }
             }
         }
 
@@ -112,12 +95,10 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
             ContractsGrantsSuspendedInvoiceSummaryReport cgSuspendedInvoiceSummaryReport = new ContractsGrantsSuspendedInvoiceSummaryReport();
             cgSuspendedInvoiceSummaryReport.setSuspensionCategoryCode(suspensionCategoryCode);
 
-            cgSuspendedInvoiceSummaryReport.setCategoryDescription(suspensionCategoryMap.get(suspensionCategoryCode));
+            cgSuspendedInvoiceSummaryReport.setCategoryDescription(suspensionCategoryDescriptions.get(suspensionCategoryCode));
             cgSuspendedInvoiceSummaryReport.setTotalInvoicesSuspended(new Long(documentNumbersByCategory.get(suspensionCategoryCode).size()));
 
-            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceSummaryReport, "ContractsGrantsSuspendedInvoiceSummaryReport")) {
-                displayList.add(cgSuspendedInvoiceSummaryReport);
-            }
+            displayList.add(cgSuspendedInvoiceSummaryReport);
 
         }
 

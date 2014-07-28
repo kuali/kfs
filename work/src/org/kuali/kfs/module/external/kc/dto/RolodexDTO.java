@@ -2,29 +2,6 @@ package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "rolodexDTO", propOrder = {
-	"rolodexId",
-    "addressLine1",
-    "addressLine2",
-    "addressLine3",
-    "city",
-    "countryCode",
-    "emailAddress",
-    "faxNumber",
-    "firstName",
-    "lastName",
-    "middleName",
-    "fullName",
-    "phoneNumber",
-    "postalCode",
-    "state",
-    "active"
-})
 public class RolodexDTO implements Serializable {
 
 	private static final long serialVersionUID = -4921689508088574674L;
@@ -44,6 +21,7 @@ public class RolodexDTO implements Serializable {
     private String phoneNumber;
     private String postalCode;
     private String state;
+    private String organizationName;
     private Boolean active;
 
 	public String getAddressLine1() {
@@ -172,5 +150,13 @@ public class RolodexDTO implements Serializable {
 
 	public void setRolodexId(Integer rolodexId) {
 		this.rolodexId = rolodexId;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 }

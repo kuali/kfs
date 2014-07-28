@@ -45,6 +45,9 @@ public class CloseServiceTest extends KualiTestBase {
 
     private static final String VALID_AWARD_STATUS_CODE = "R";
     private static final String INVALID_AWARD_STATUS_CODE = "U";
+    private static final Long thirteen = new Long(13);
+    private static final Long fourteen = new Long(14);
+    private static final Long fifteen = new Long(15);
 
     private DateFormat dateFormat;
     private Date today;
@@ -101,9 +104,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringContext.getBean(CloseService.class).close();
 
         // Verify.
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", nine, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", nine, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", fourteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fifteen, close.getProposalClosedCount());
     }
 
     public void testClose_awardEntryDateEqualToCloseOnOrBeforeDate() throws Exception {
@@ -144,9 +146,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringContext.getBean(CloseService.class).close();
 
         // Verify.
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", nine, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", nine, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", fourteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fifteen, close.getProposalClosedCount());
     }
 
     public void testClose_awardClosingDateNotNull() throws Exception {
@@ -186,10 +187,8 @@ public class CloseServiceTest extends KualiTestBase {
         // Run the close.
         SpringContext.getBean(CloseService.class).close();
 
-        Long eight = new Long(8);
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", eight, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", nine, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", thirteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fifteen, close.getProposalClosedCount());
     }
 
     public void testClose_awardStatusCodeInvalid() throws Exception {
@@ -229,10 +228,8 @@ public class CloseServiceTest extends KualiTestBase {
         // Run the close.
         SpringContext.getBean(CloseService.class).close();
 
-        Long eight = new Long(8);
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", eight, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", nine, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", thirteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fifteen, close.getProposalClosedCount());
     }
 
     public void testClose_awardEntryDateGreaterThanCloseOnOrBeforeDate() throws Exception {
@@ -272,10 +269,8 @@ public class CloseServiceTest extends KualiTestBase {
         // Run the close.
         SpringContext.getBean(CloseService.class).close();
 
-        Long eight = new Long(8);
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", eight, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", nine, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", thirteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fifteen, close.getProposalClosedCount());
     }
 
     public void testClose_proposalClosingDateNotNull() throws Exception {
@@ -315,10 +310,8 @@ public class CloseServiceTest extends KualiTestBase {
         // Run the close.
         SpringContext.getBean(CloseService.class).close();
 
-        Long eight = new Long(8);
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", nine, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", eight, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", fourteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fourteen, close.getProposalClosedCount());
     }
 
     public void testClose_proposalSubmissionDateGreaterThanCloseCloseOnOrBeforeDate() throws Exception {
@@ -357,10 +350,8 @@ public class CloseServiceTest extends KualiTestBase {
         // Run the close.
         SpringContext.getBean(CloseService.class).close();
 
-        Long eight = new Long(8);
-        Long nine = new Long(9);
-        assertEquals("Awards were not closed properly.", nine, close.getAwardClosedCount());
-        assertEquals("Proposals were not closed properly.", eight, close.getProposalClosedCount());
+        assertEquals("Awards were not closed properly.", fourteen, close.getAwardClosedCount());
+        assertEquals("Proposals were not closed properly.", fourteen, close.getProposalClosedCount());
     }
 
     private void verifyAwardWillBeIncludedInClose(Award award, ProposalAwardCloseDocument close) {

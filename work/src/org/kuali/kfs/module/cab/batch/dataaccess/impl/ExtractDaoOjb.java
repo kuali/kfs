@@ -30,11 +30,7 @@ import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
 
@@ -79,9 +75,51 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
     }
 
     /**
-     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPreTaggablePOAccounts(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPreTaggablePOAccounts(org.kuali.kfs.module.cab.businessobject.BatchParameters, java.util.List)
      */
     @Override
+    public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters, List<String> docNumbersAwaitingPurchaseOrderStatus) {
+        Criteria statusCodeCond1 = new Criteria();
+        statusCodeCond1.addEqualTo(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE, CabConstants.CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW);
+
+        Criteria statusCodeOrCond = new Criteria();
+        statusCodeOrCond.addIsNull(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE);
+        statusCodeOrCond.addOrCriteria(statusCodeCond1);
+
+        Criteria criteria = new Criteria();
+        Timestamp lastRunTimestamp = new Timestamp(((java.util.Date) batchParameters.getLastRunDate()).getTime());
+        criteria.addGreaterThan(CabPropertyConstants.PreTagExtract.PO_INITIAL_OPEN_TIMESTAMP, lastRunTimestamp);
+        criteria.addAndCriteria(statusCodeOrCond);
+        criteria.addGreaterOrEqualThan(CabPropertyConstants.PreTagExtract.PURAP_ITEM_UNIT_PRICE, batchParameters.getCapitalizationLimitAmount());
+
+        if (!batchParameters.getExcludedChartCodes().isEmpty()) {
+            criteria.addNotIn(CabPropertyConstants.PreTagExtract.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        }
+
+        if (!batchParameters.getExcludedSubFundCodes().isEmpty()) {
+            criteria.addNotIn(CabPropertyConstants.PreTagExtract.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        }
+
+        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty()) {
+            criteria.addIn(CabPropertyConstants.PreTagExtract.FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        }
+
+        QueryByCriteria query = new QueryByCriteria(PurchaseOrderAccount.class, criteria);
+        Collection<PurchaseOrderAccount> purchaseOrderAccounts = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        Collection<PurchaseOrderAccount> purchaseOrderAcctsAwaitingPOOpenStatus = new ArrayList<PurchaseOrderAccount>();
+        for (PurchaseOrderAccount purchaseOrderAccount : purchaseOrderAccounts) {
+            if (docNumbersAwaitingPurchaseOrderStatus.contains(purchaseOrderAccount.getDocumentNumber())) {
+                purchaseOrderAcctsAwaitingPOOpenStatus.add(purchaseOrderAccount);
+            }
+        }
+        return purchaseOrderAcctsAwaitingPOOpenStatus;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPreTaggablePOAccounts(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
+    @Override @Deprecated
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters) {
         Criteria statusCodeCond1 = new Criteria();
         statusCodeCond1.addEqualTo(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE, CabConstants.CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW);
@@ -111,7 +149,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         QueryByCriteria query = new QueryByCriteria(PurchaseOrderAccount.class, criteria);
         Collection<PurchaseOrderAccount> purchaseOrderAccounts = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        List<String> docNumbersAwaitingPurchaseOrderStatus = getDocumentsNumbersAwaitingPurchaseOrderOpenStatus();
+        List<String> docNumbersAwaitingPurchaseOrderStatus = new ArrayList<String>();
         Collection<PurchaseOrderAccount> purchaseOrderAcctsAwaitingPOOpenStatus = new ArrayList<PurchaseOrderAccount>();
         for (PurchaseOrderAccount purchaseOrderAccount : purchaseOrderAccounts) {
             if (docNumbersAwaitingPurchaseOrderStatus.contains(purchaseOrderAccount.getDocumentNumber())) {
@@ -119,26 +157,6 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
             }
         }
         return purchaseOrderAcctsAwaitingPOOpenStatus;
-    }
-
-
-    //needs refactoring to move to service layer.
-    @SuppressWarnings("restriction")
-    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
-        List<String> poDocumentNumbers = new ArrayList<String>();
-        List<PurchaseOrderDocument> poDocuments = new ArrayList<PurchaseOrderDocument>();
-        try {
-            // This should pick up all types of POs (Amendments, Voids, etc)
-            poDocuments = (List<PurchaseOrderDocument>) SpringContext.getBean(FinancialSystemDocumentService.class).findByApplicationDocumentStatus(
-                PurchaseOrderDocument.class, CabConstants.PO_STATUS_CODE_OPEN);
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException(we);
-        }
-        for (PurchaseOrderDocument poDocument : poDocuments) {
-            poDocumentNumbers.add(poDocument.getDocumentNumber());
-        }
-        return poDocumentNumbers;
     }
 
     /**

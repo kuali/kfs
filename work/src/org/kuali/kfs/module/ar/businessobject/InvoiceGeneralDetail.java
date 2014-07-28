@@ -50,12 +50,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private ContractsGrantsInvoiceDocument invoiceDocument;
 
     /**
-     * Default constructor.
-     */
-    public InvoiceGeneralDetail() {
-    }
-
-    /**
      * Gets the comment attribute.
      *
      * @return Returns the comment.

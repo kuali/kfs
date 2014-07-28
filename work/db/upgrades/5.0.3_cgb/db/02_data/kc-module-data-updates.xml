@@ -1,0 +1,64 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFSCGB" id="KFSMI11381_KC_BILL_FREQ_MAP_T_DEFAULT">
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="ANNU" />
+			<column name="KC_FREQ_CD" value="7" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-1" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="5"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="LOCB" />
+			<column name="KC_FREQ_CD" value="60" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-2" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="MILE" />
+			<column name="KC_FREQ_CD" value="14" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-3" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="5"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="MNTH" />
+			<column name="KC_FREQ_CD" value="2" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-4" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="6"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="PDBS" />
+			<column name="KC_FREQ_CD" value="4" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-5" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="6"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="QUAR" />
+			<column name="KC_FREQ_CD" value="3" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-6" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="5"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="SEMI" />
+			<column name="KC_FREQ_CD" value="6" />
+			<column name="OBJ_ID" value="KFS-CGB-KC-BILL-FREQ-7" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="5"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>														
+	</changeSet>
+	
+</databaseChangeLog>

@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
@@ -77,11 +78,11 @@ public class CollectionActivityInvoiceLookupAction extends ContractsGrantsMultip
     }
 
     /**
-     * Returns "arContractsGrantsInvoiceSummary.do"
+     * Returns "arCollectionActivityDocument.do"
      * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsMultipleValueLookupAction#getActionUrl()
      */
     @Override
     protected String getActionUrl() {
-        return "arContractsGrantsInvoiceSummary.do";
+        return ArConstants.MultipleValueReturnActions.COLLECTION_ACTIVITY_INVOICES;
     }
 }

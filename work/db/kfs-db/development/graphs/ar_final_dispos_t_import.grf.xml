@@ -19,9 +19,9 @@
 //#TL
     function transform() {
         $0.ar_final_dispos_cd := replace(nvl($ar_final_dispos_cd, ""), "~!~", "|" );
-        $0.dispos_desc := replace(nvl($dispos_desc, ""), "~!~", "|" );
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
+        $0.dispos_desc := replace(nvl($dispos_desc, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>

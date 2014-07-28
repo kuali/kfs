@@ -23,7 +23,7 @@
 		<property name="businessRulesClass"
 			value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLetterOfCreditReviewDocumentAuthorizer" />
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
 		<property name="documentPresentationControllerClass"
 			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLetterOfCreditReviewDocumentPresentationController" />
 

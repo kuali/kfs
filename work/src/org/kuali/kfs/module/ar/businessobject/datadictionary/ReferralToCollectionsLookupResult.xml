@@ -74,10 +74,18 @@
 	<bean id="ReferralToCollectionsLookupResult-proposalNumber-parentBean" abstract="true" parent="ArGenericAttributes-proposalNumber" />
 
 	<bean id="ReferralToCollectionsLookupResult-agencyNumber" parent="ReferralToCollectionsLookupResult-agencyNumber-parentBean" />
-	<bean id="ReferralToCollectionsLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber" />
+	<bean id="ReferralToCollectionsLookupResult-agencyNumber-parentBean" abstract="true" parent="ArGenericAttributes-agencyNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
+	</bean>
 
 	<bean id="ReferralToCollectionsLookupResult-accountNumber" parent="ReferralToCollectionsLookupResult-accountNumber-parentBean" />
-	<bean id="ReferralToCollectionsLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="ReferralToCollectionsLookupResult-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="ReferralToCollectionsLookupResult-awardDocumentNumber" parent="ReferralToCollectionsLookupResult-awardDocumentNumber-parentBean" />
 	<bean id="ReferralToCollectionsLookupResult-awardDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">

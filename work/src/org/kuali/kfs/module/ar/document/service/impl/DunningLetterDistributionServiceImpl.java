@@ -153,7 +153,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             File outputDirectory = null;
             String outputFileName;
             try {
-
                 // Step2. add parameters to the dunning letter
                 outputFileName = dunningLetterDistributionLookupResult.getProposalNumber() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                 Map<String, String> replacementList = getTemplateParameterList(selectedInvoices);
@@ -188,9 +187,8 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 finalReportStream = generateListOfInvoicesPdfToPrint(selectedInvoices, reportStream);
                 }
             }
-            catch (Exception ex) {
+            catch (DocumentException | IOException ex) {
                 // This means that the invoice pdfs were not generated properly. So get only the Dunning letters created.
-
                 LOG.error("An exception occurred while retrieving invoice pdfs." + ex.getMessage());
                 finalReportStream = reportStream;
             }
@@ -208,21 +206,31 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      */
     @Override
     public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException {
-        ByteArrayOutputStream zos = new ByteArrayOutputStream();
-        PdfCopyFields reportCopy = new PdfCopyFields(zos);
-        reportCopy.open();
-        List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
-        for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
-            for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
-                final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
-                if (ObjectUtils.isNotNull(report)) {
-                    reportCopy.addDocument(new PdfReader(report));
+        ByteArrayOutputStream zos = null;
+        PdfCopyFields reportCopy = null;
+        byte[] finalReport = null;
+        try {
+            zos = new ByteArrayOutputStream();
+            reportCopy = new PdfCopyFields(zos);
+            reportCopy.open();
+            List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
+            for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
+                for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
+                    final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
+                    if (ObjectUtils.isNotNull(report)) {
+                        reportCopy.addDocument(new PdfReader(report));
+                    }
                 }
             }
+            finalReport = zos.toByteArray();
+        } finally {
+            if (zos != null) {
+                zos.close();
+            }
+            if (reportCopy != null) {
+                reportCopy.close();
+            }
         }
-        reportCopy.close();
-
-        final byte[] finalReport = zos.toByteArray();
         return finalReport;
     }
 
@@ -281,7 +289,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @param form
      * @param list
      * @return
-     * @throws Exception
      */
     @Override
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {

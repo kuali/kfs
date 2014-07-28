@@ -81,14 +81,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
     protected static transient SystemInformationService systemInformationService;
     protected static transient UniversityDateService universityDateService;
 
-
-    /**
-	 * Default constructor.
-	 */
-	public OrganizationOptions() {
-
-	}
-
 	/**
 	 * Gets the cgBillerIndicator attribute.
 	 * @return Returns the cgBillerIndicator.

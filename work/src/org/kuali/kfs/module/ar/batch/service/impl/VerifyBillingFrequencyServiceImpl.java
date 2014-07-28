@@ -20,30 +20,37 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Implementation of the billing frequency validation.
  */
 public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequencyService {
+    protected BusinessObjectService businessObjectService;
+    protected AccountingPeriodService accountingPeriodService;
+    protected UniversityDateService universityDateService;
 
-    private AccountingPeriodService accountingPeriodService;
-    private UniversityDateService universityDateService;
-
-    protected static final Set<String> _invalidPeriodCodes = new TreeSet<String>();
+    protected static final Set<String> invalidPeriodCodes = new TreeSet<String>();
     static {
-        _invalidPeriodCodes.add("13");
-        _invalidPeriodCodes.add("AB");
-        _invalidPeriodCodes.add("BB");
-        _invalidPeriodCodes.add("CB");
+        invalidPeriodCodes.add("13");
+        invalidPeriodCodes.add("AB");
+        invalidPeriodCodes.add("BB");
+        invalidPeriodCodes.add("CB");
     }
 
 
@@ -130,8 +137,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         if (billingFrequency.equalsIgnoreCase(ArConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             // 2.1 find end date
             if (lastBilledDate != null) {
-                // if the current month is the first fiscal month of the current year, then get the last day of the previous fiscal
-                // year
+                // if the current month is the first fiscal month of the current year, then get the last day of the previous fiscal year
                 if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
                     previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime()); // assume the calendar date, discussion
                 }
@@ -148,8 +154,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                 }
             }
             else {
-                // if the current month is the first fiscal month of the current year, then get the last day of the previous fiscal
-                // year
+                // if the current month is the first fiscal month of the current year, then get the last day of the previous fiscal year
                 if (periodEndDateListOfCurrFiscalYearSize > 0 && currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(0))) {
                     previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
                 }
@@ -479,13 +484,15 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     @Override
     public ArrayList<Date> getSortedListOfPeriodEndDatesOfCurrentFiscalYear(AccountingPeriod currPeriod) {
         ArrayList<Date> acctPeriodEndDateList = new ArrayList<Date>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currPeriod.getUniversityFiscalYear());
 
-        Object[] acctPeriodList = accountingPeriodService.getAllAccountingPeriods().toArray();
+        Collection<AccountingPeriod> acctPeriodList = businessObjectService.findMatching(AccountingPeriod.class, fieldValues);
         if (acctPeriodList != null) {
             // get all the accounting period end dates of current fiscal year
-            for (int i = 0; i < acctPeriodList.length; i++) {
-                AccountingPeriod acctPeriod = (AccountingPeriod) acctPeriodList[i];
-                if (acctPeriod.getUniversityFiscalYear().equals(currPeriod.getUniversityFiscalYear()) && !isInvalidPeriodCode(acctPeriod) && acctPeriod.isActive()) {
+            for (AccountingPeriod acctPeriod : acctPeriodList) {
+                if (!isInvalidPeriodCode(acctPeriod)) {
                     acctPeriodEndDateList.add(acctPeriod.getUniversityFiscalPeriodEndDate());
                 }
 
@@ -540,10 +547,10 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
      */
     protected boolean isInvalidPeriodCode(AccountingPeriod period) {
         String periodCode = period.getUniversityFiscalPeriodCode();
-        if (periodCode == null) {
+        if (StringUtils.isBlank(periodCode)) {
             throw new IllegalArgumentException("invalid (null) universityFiscalPeriodCode (" + periodCode + ")for" + period);
         }
-        return _invalidPeriodCodes.contains(periodCode);
+        return invalidPeriodCodes.contains(periodCode);
     }
 
 
@@ -565,5 +572,11 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         this.universityDateService = universityDateService;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

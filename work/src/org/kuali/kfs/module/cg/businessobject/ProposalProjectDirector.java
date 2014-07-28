@@ -30,7 +30,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Represents a relationship between a {@link Proposal} and a {@link ProjectDirector}.
  */
 public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, MutableInactivatable {
-
     private String principalId;
     private Long proposalNumber;
     private boolean proposalPrimaryProjectDirectorIndicator;
@@ -39,19 +38,13 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     private Person projectDirector;
 
-
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
-     * Default constructor.
-     */
-    public ProposalProjectDirector() {
-    }
-
-    /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
@@ -59,6 +52,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPrincipalId(java.lang.String)
      */
+    @Override
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -66,6 +60,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -73,6 +68,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
+    @Override
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
@@ -90,6 +86,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see Primaryable#isPrimary()
      */
+    @Override
     public boolean isPrimary() {
         return isProposalPrimaryProjectDirectorIndicator();
     }
@@ -127,6 +124,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -136,6 +134,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -143,6 +142,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
+    @Override
     public Person getProjectDirector() {
         if (principalId != null) {
             projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
@@ -153,6 +153,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProjectDirector(org.kuali.kfs.module.cg.businessobject.ProjectDirector)
      */
+    @Override
     public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }

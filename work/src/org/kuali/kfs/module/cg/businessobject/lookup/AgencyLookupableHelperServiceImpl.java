@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyLookupableHelperServiceImpl.class);
 
-    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
 
     /***
      * This method was overridden to add custom action components in Agency lookup
@@ -99,9 +99,7 @@ public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServ
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(),
                     getBusinessObjectClass());
-        } catch (InstantiationException e) {
-            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
         }
 
@@ -119,21 +117,18 @@ public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServ
     protected List<String> getFieldsToIgnore() {
         List<String> fieldsToIgnore = new ArrayList<String>();
 
-        if (!accountsReceivableModuleService.isContractsGrantsBillingEnhancementActive()) {
+        if (!getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
             fieldsToIgnore.add(CGPropertyConstants.CUSTOMER_NUMBER);
         }
 
         return fieldsToIgnore;
     }
 
-
-    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
+    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        return accountsReceivableModuleBillingService;
     }
 
-
-    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
-        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
+        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
-
 }

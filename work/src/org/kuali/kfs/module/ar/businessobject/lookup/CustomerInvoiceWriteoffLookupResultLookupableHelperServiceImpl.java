@@ -201,14 +201,8 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         catch (InstantiationException ie) {
             throw new RuntimeException("Unable to get new instance of formatter class for property " + col.getPropertyName(), ie);
         }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
-        }
-        catch (InvocationTargetException ite) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ite);
-        }
-        catch (NoSuchMethodException nsme) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ex);
         }
         return col;
     }

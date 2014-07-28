@@ -27,6 +27,7 @@ import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.service.AREmailService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -39,8 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilestoneNotificationService {
-    public final static double MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-
     protected AREmailService arEmailService;
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
@@ -65,7 +64,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
             for (Milestone mil : milestones) {
                 if (mil.isActive() && ObjectUtils.isNotNull(mil.getMilestoneExpectedCompletionDate())) {
                     Date milestoneDate = mil.getMilestoneExpectedCompletionDate();
-                    double days = (today.getTime() - milestoneDate.getTime()) / MILLISECONDS_IN_DAY;
+                    double days = (today.getTime() - milestoneDate.getTime()) / (double)KFSConstants.MILLSECONDS_PER_DAY;
                     if (days <= limitDays && !mil.isBilledIndicator() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
                         milestonesToNotify.add(mil);
                     }

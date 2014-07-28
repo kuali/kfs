@@ -232,6 +232,9 @@
 		<property name="label" value="Bank Code" />
 		<property name="shortLabel" value="Bank Cd" />
 		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

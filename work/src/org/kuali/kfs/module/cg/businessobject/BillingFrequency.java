@@ -34,14 +34,6 @@ public class BillingFrequency extends PersistableBusinessObjectBase implements C
     private String gracePeriodDays;
     private boolean active;
 
-    /**
-     * Default constructor.
-     */
-    public BillingFrequency() {
-    }
-
-
-
     @Override
     public String getFrequency() {
         return frequency;

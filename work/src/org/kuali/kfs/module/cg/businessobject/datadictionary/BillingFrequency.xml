@@ -54,7 +54,7 @@
 		</property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+			<bean parent="TextControlDefinition" p:size="12" />
 		</property>
 	</bean>
 	<bean id="BillingFrequency-frequencyDescription" parent="BillingFrequency-frequencyDescription-parentBean" />
@@ -88,7 +88,7 @@
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="47" />
+			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
 

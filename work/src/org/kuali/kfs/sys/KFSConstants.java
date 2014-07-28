@@ -621,6 +621,13 @@ public class KFSConstants {
     public static final String NEWLINE = "\n";
 
     // Workflow constants
+    public class FinancialProcessingWorkflowConstants {
+
+        // Global
+        public static final String IS_DOCUMENT_AUTO_APPROVED = "RequiresAutoApprovalNotification";
+
+    }
+
     @Deprecated
     public static final String WORKFLOW_FYI_REQUEST = KewApiConstants.ACTION_REQUEST_FYI_REQ;
 
@@ -651,8 +658,8 @@ public class KFSConstants {
             // when the deposit type is INTERIM;
             public static final String INTERIM = "I";
 
-            // or FINAL when the deposit type becomes FINAL. We can use DocumentStatusCodes.FINAL for this status,
-            // since it's not used for other purposes. Note: don't confuse this with workflow status FINAL.
+            // or FINAL when the deposit type becomes FINAL. Note: don't confuse this with workflow status FINAL.
+            public static final String FINAL = "F";
 
             // When the CMDoc is finalized, the CRs of its deposits change to status APPROVED. We can use
             // DocumentStatusCodes.APPROVED for this status, just like most other FinancialSystemTransactionalDocuments.
@@ -1040,6 +1047,8 @@ public class KFSConstants {
         public final static String JASPER_REPORT_EXTENSION = ".jasper";
         public final static String PDF_FILE_EXTENSION = ".pdf";
         public final static String PDF_MIME_TYPE = "application/pdf";
+        public final static String ZIP_FILE_EXTENSION = ".zip";
+        public final static String ZIP_MIME_TYPE = "application/zip";
         public final static String TEXT_MIME_TYPE = "text/plain";
         public final static String ACCOUNT_EXPORT_FILE_NAME = "account_export.txt";
         public final static String MONTHLY_EXPORT_FILE_NAME = "monthly_export.txt";
@@ -1333,6 +1342,10 @@ public class KFSConstants {
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
+        public final static String DEFAULT_CHART_METHOD = "1";
+        public final static String DEFAULT_PRIMARY_DEPT_METHOD = "2";
+        public final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
+
     }
 
     public static class ReportConstants{
@@ -1424,6 +1437,8 @@ public class KFSConstants {
     static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
     static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
     static final public String TRIAL_BAL_REPORT_YEAR = "reportYear";
+    static final public String TRIAL_BAL_REPORT_PERIOD = "reportFiscalPeriod";
+
     // Pcard Email Notification
     public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
     public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";

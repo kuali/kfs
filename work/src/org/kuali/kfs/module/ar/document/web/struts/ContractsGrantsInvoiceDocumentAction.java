@@ -43,7 +43,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.web.struts.PositionSalarySettingForm;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,8 +27,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -54,15 +54,8 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
     private Account account;
 
     /**
-     * Default Constructor.
-     */
-    public ReferralToCollectionsLookupResult() {
-    }
-
-
-    /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -72,7 +65,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -81,7 +74,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -91,7 +84,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -100,7 +93,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the awardTotal attribute.
-     * 
+     *
      * @return Returns the awardTotal.
      */
     public KualiDecimal getAwardTotal() {
@@ -110,7 +103,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the awardTotal attribute value.
-     * 
+     *
      * @param awardTotal The awardTotal to set.
      */
     public void setAwardTotal(KualiDecimal awardTotal) {
@@ -119,7 +112,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber.
      */
     public String getAgencyNumber() {
@@ -129,7 +122,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the agencyNumber attribute value.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -139,7 +132,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -149,7 +142,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -158,7 +151,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName.
      */
     public String getCustomerName() {
@@ -167,7 +160,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the customerName attribute.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -176,7 +169,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the awardDocumentNumber attribute.
-     * 
+     *
      * @return Returns the awardDocumentNumber.
      */
     public String getAwardDocumentNumber() {
@@ -185,7 +178,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the awardDocumentNumber attribute.
-     * 
+     *
      * @param awardDocumentNumber The awardDocumentNumber to set.
      */
     public void setAwardDocumentNumber(String awardDocumentNumber) {
@@ -194,7 +187,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the invoiceDocumentNumber attribute.
-     * 
+     *
      * @return Returns the invoiceDocumentNumber.
      */
     public String getInvoiceDocumentNumber() {
@@ -203,7 +196,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the invoiceDocumentNumber attribute.
-     * 
+     *
      * @param invoiceDocumentNumber The invoiceDocumentNumber to set.
      */
     public void setInvoiceDocumentNumber(String invoiceDocumentNumber) {
@@ -212,7 +205,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the awardBeginningDate attribute.
-     * 
+     *
      * @return Returns the awardBeginningDate.
      */
     public Date getAwardBeginningDate() {
@@ -221,7 +214,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the awardBeginningDate attribute value.
-     * 
+     *
      * @param awardBeginningDate The awardBeginningDate to set.
      */
     public void setAwardBeginningDate(Date awardBeginningDate) {
@@ -230,7 +223,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the awardEndingDate attribute.
-     * 
+     *
      * @return Returns the awardEndingDate.
      */
     public Date getAwardEndingDate() {
@@ -239,7 +232,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the awardEndingDate attribute value.
-     * 
+     *
      * @param awardEndingDate The awardEndingDate to set.
      */
     public void setAwardEndingDate(Date awardEndingDate) {
@@ -248,7 +241,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the invoices attribute.
-     * 
+     *
      * @return Returns the invoices.
      */
     public Collection<ContractsGrantsInvoiceDocument> getInvoices() {
@@ -257,7 +250,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the invoices attribute.
-     * 
+     *
      * @param invoices The invoices to set.
      */
     public void setInvoices(Collection<ContractsGrantsInvoiceDocument> invoices) {
@@ -266,7 +259,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
@@ -275,7 +268,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the award attribute.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsBillingAward award) {
@@ -284,7 +277,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the agency attribute.
-     * 
+     *
      * @return Returns the agency.
      */
     public ContractsAndGrantsBillingAgency getAgency() {
@@ -293,7 +286,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the agency attribute.
-     * 
+     *
      * @param agency The agency to set.
      */
     public void setAgency(ContractsAndGrantsBillingAgency agency) {
@@ -302,7 +295,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public Customer getCustomer() {
@@ -311,7 +304,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the customer attribute.
-     * 
+     *
      * @param customer The customer to set.
      */
     public void setCustomer(Customer customer) {
@@ -320,7 +313,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account object.
      */
     public Account getAccount() {
@@ -329,7 +322,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account attribute to set.
      */
     public void setAccount(Account account) {
@@ -339,7 +332,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (ObjectUtils.isNotNull(this.proposalNumber)) {
@@ -364,7 +357,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
 
     /**
      * Gets the invoice attributes to display.
-     * 
+     *
      * @return The list of attributes.
      */
     public List<String> getInvoiceAttributesForDisplay() {

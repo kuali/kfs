@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -74,13 +74,13 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
             if (!inquiryRestrictions.isHiddenSectionId(sectionId) && !sectionIdsToIgnore.contains(sectionId)) {
                 if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_PREDETERMINED_BILLING_SCHEDULE_SECTION_ID)) {
                     if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) &&
-                        SpringContext.getBean(AccountsReceivableModuleService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
+                        SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasPredeterminedBillingSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);
                     }
                 } else if (StringUtils.equals(sectionId, CGConstants.SectionId.AWARD_MILESTONE_SCHEDULE_SECTION_ID)) {
                     if (StringUtils.equals(award.getPreferredBillingFrequency(), CGPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) &&
-                        SpringContext.getBean(AccountsReceivableModuleService.class).hasMilestoneSchedule(award.getProposalNumber())) {
+                        SpringContext.getBean(AccountsReceivableModuleBillingService.class).hasMilestoneSchedule(award.getProposalNumber())) {
                             Section section = SectionBridge.toSection(this, inquirySection, businessObject, inquiryRestrictions);
                             sections.add(section);
                     }
@@ -101,7 +101,7 @@ public class AwardInquirableImpl extends KfsInquirableImpl {
      * @return Collection of section ids to ignore
      */
     protected Collection<?> getSectionIdsToIgnore() {
-        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (!SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAwardContractsGrantsBillingSectionIds();
         } else {
             return CollectionUtils.EMPTY_COLLECTION;

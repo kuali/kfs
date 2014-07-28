@@ -120,6 +120,7 @@ public class ArPropertyConstants{
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_GENERAL_INFORMATION = "customerGeneralInformation";
         public static final String CUSTOMER_TAB_ADDRESSES = "customerAddresses";
+        public static final String CUSTOMER_ADDRESS = "customerAddress";
         public static final String CUSTOMER_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.customerAddresses";
         public static final String CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
@@ -314,8 +315,23 @@ public class ArPropertyConstants{
     public static final String COLLECTOR_HEAD = "principalId";
     public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
 
+    public static final String INVOICE_AMOUNT_LABEL = "Invoice Amount";
+    public static final String PRINT_INVOICES_FROM_LABEL = "Print Invoices From";
+    public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
+
     // CG Invoice Reports
     public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
+
+    public static class TransmitContractsAndGrantsInvoicesLookupFields {
+        public static final String INVOICE_INITIATOR_PRINCIPAL_NAME = "invoiceInitiatorPrincipalName";
+        public static final String INVOICE_AMOUNT = "invoiceAmount";
+        public static final String INVOICE_PRINT_DATE_TO = "invoicePrintDate";
+        public static final String INVOICE_PRINT_DATE_FROM = "rangeLowerBoundKeyPrefix_invoicePrintDate";
+        public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceAddressDetails." + ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE;
+    }
+
+    public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceTransmissionMethodCode";
+    public static final String LOOKUP_SECTION_ID = "lookup";
 
     // Collection Activity Type
     public static class CollectionActivityTypeFields {
@@ -474,4 +490,17 @@ public class ArPropertyConstants{
     public static final String  SEQUENCE_NUMBER= "sequenceNumber";
     public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
     public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+
+    public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
+    public static final String INVOICE_TYPE = "invoiceType";
+    public static final String AGE_IN_DAYS = "ageInDays";
+    public static final String REMAINING_AMOUNT = "remainingAmount";
+    public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
+    public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
+    public static final String AMOUNT_TO_DRAW = "amountToDraw";
+    public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
+    public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
+    public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
+    public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
+    public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
 }

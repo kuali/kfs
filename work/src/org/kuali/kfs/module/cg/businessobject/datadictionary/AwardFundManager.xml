@@ -81,6 +81,9 @@
 		<property name="name" value="fundManager.principalName" />
 		<property name="label" value="Fund Manager Principal Name" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="AwardFundManager-fundManager.name" parent="AwardFundManager-fundManager.name-parentBean" />
 
@@ -104,14 +107,10 @@
 		parent="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean" />
 
 	<bean id="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="awardPrimaryFundManagerIndicator" />
 		<property name="label" value="Primary" />
 		<property name="shortLabel" value="Primary" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 	<bean id="AwardFundManager-awardFundManagerProjectTitle"
 		parent="AwardFundManager-awardFundManagerProjectTitle-parentBean" />

@@ -38,27 +38,19 @@
 	<ar:cgCustomerInvoiceGeneral
 		documentAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}"
 		readOnly="${readOnly}" />
-	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
-
-		<ar:invoiceMilestones />
-	</c:if>
-
-	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
-
-		<ar:invoiceBills />
-	</c:if>
-
-	<c:if
-		test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
-		<c:if
-			test="${KualiForm.document.invoiceGeneralDetail.billingFrequency != ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
-
+		
+	<c:choose>
+		<c:when test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.MILESTONE_BILLING_SCHEDULE_CODE}">
+			<ar:invoiceMilestones />
+		</c:when>
+		<c:when	test="${KualiForm.document.invoiceGeneralDetail.billingFrequency == ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE}">
+			<ar:invoiceBills />
+		</c:when>
+		<c:otherwise>
 			<ar:invoiceDetails readOnly="${readOnly}"/>
 			<ar:invoiceAccountDetails />
-		</c:if>
-	</c:if>
+		</c:otherwise>
+	</c:choose>
 
 	<ar:invoiceSuspensionCategories />
 	

@@ -43,8 +43,6 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     private static final String MILESTONE_SCHEDULE_INQUIRY_TITLE_PROPERTY = "message.inquiry.milestone.schedule.title";
     private Long proposalNumber;
 
-    private KualiDecimal totalAmountScheduled;
-    private KualiDecimal totalAmountRemaining;
     private String milestoneScheduleInquiryTitle;
 
     private List<Milestone> milestones;
@@ -104,16 +102,6 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Sets the totalAmountScheduled attribute value.
-     *
-     * @param totalAmountScheduled The totalAmountScheduled to set.
-     */
-    @Deprecated
-    public void setTotalAmountScheduled(KualiDecimal totalAmountScheduled) {
-        this.totalAmountScheduled = totalAmountScheduled;
-    }
-
-    /**
      * Gets the totalAmountRemaining attribute.
      *
      * @return Returns the totalAmountRemaining.
@@ -128,46 +116,6 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Sets the totalAmountRemaining attribute value.
-     *
-     * @param totalAmountRemaining The totalAmountRemaining to set.
-     */
-    @Deprecated
-    public void setTotalAmountRemaining(KualiDecimal totalAmountRemaining) {
-        this.totalAmountRemaining = totalAmountRemaining;
-    }
-
-    /**
-     * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.prePersist();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-
-    @Override protected void prePersist() {
-        super.prePersist();
-        totalAmountScheduled = getTotalAmountScheduled();
-        totalAmountRemaining = getTotalAmountRemaining();
-    }
-
-    /**
-     * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
-     * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
-     * @param persistenceBroker from OJB
-     * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override protected void preUpdate() {
-        super.preUpdate();
-        totalAmountScheduled = getTotalAmountScheduled();
-        totalAmountRemaining = getTotalAmountRemaining();
-    }
-
-
-    /**
      * Gets the milestoneScheduleInquiryTitle attribute.
      *
      * @return Returns the milestoneScheduleInquiryTitle.
@@ -175,9 +123,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     @Override
     public String getMilestoneScheduleInquiryTitle() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(MILESTONE_SCHEDULE_INQUIRY_TITLE_PROPERTY);
-
     }
-
 
     /**
      * Sets the milestoneScheduleInquiryTitle attribute value.
@@ -243,8 +189,8 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
-        m.put("totalAmountScheduled", this.totalAmountScheduled.toString());
-        m.put("totalAmountRemaining", this.totalAmountRemaining.toString());
+        m.put("totalAmountScheduled", getTotalAmountScheduled().toString());
+        m.put("totalAmountRemaining", getTotalAmountRemaining().toString());
         return m;
     }
 

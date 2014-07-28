@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.module.ar.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 
 /**
  * Defines methods for sending AR emails.
@@ -33,13 +34,17 @@ public interface AREmailService {
      * This method is used to send emails to the agency
      *
      * @param invoices
-     * @throws AddressException
+     * @return true if all invoices were sent successfully, false otherwise
+     * @throws InvalidAddressException
      * @throws MessagingException
      */
-    public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException;
+    public boolean sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException;
 
     /**
      * Send email for upcoming milestones for Award
+     *
+     * @param milestones
+     * @param award
      */
     public void sendEmail(List<Milestone> milestones, ContractsAndGrantsBillingAward award);
 

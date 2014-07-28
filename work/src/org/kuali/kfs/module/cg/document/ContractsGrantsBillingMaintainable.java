@@ -93,11 +93,7 @@ public abstract class ContractsGrantsBillingMaintainable extends FinancialSystem
             }
 
         }
-        catch (InstantiationException e) {
-            LOG.error("Unable to create instance of object class" + e.getMessage());
-            throw new RuntimeException("Unable to create instance of object class" + e.getMessage());
-        }
-        catch (IllegalAccessException e) {
+        catch (InstantiationException | IllegalAccessException e) {
             LOG.error("Unable to create instance of object class" + e.getMessage());
             throw new RuntimeException("Unable to create instance of object class" + e.getMessage());
         }

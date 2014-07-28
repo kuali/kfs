@@ -86,6 +86,9 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         else if (KFSConstants.PaymentPayeeTypes.CUSTOMER.equals(payeeTypeCode)) {
             payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYEE_TYPE_NAME);
         }
+        else if (KFSConstants.PaymentPayeeTypes.REFUND_VENDOR.equals(payeeTypeCode)) {
+            payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.REFUND_PAYMENT);
+        }
 
         return payeeTypeDescription;
     }

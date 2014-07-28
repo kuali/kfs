@@ -18,23 +18,30 @@ package org.kuali.kfs.module.ar.businessobject.lookup;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceDetailReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -43,7 +50,6 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -51,9 +57,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a lookupable helper class for Suspended Invoice Detail Report.
  */
-public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl extends ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImplBase {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceImpl.class);
-    protected DocumentService documentService;
+    protected PersonService personService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -73,76 +80,55 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         List<ContractsGrantsSuspendedInvoiceDetailReport> displayList = new ArrayList<ContractsGrantsSuspendedInvoiceDetailReport>();
 
-        Collection<InvoiceSuspensionCategory> invoiceSuspensionCategories = getBusinessObjectService().findAll(InvoiceSuspensionCategory.class);
-        for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceSuspensionCategory.getDocumentNumber());
-            Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, criteria);
+        final String suspensionCategoryCode = (String)lookupFormFields.remove(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
+        final Set<String> suspensionCategoryCodes = retrieveMatchingSuspensionCategories(suspensionCategoryCode);
 
-            // Build search result fields
-            for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
+        final List<? extends ContractsAndGrantsAward> matchingAwards = lookupMatchingAwards(lookupFormFields);
 
-                ContractsGrantsInvoiceDocument cgInvoiceDocWithHeader;
-                // Documentss that have a problem to get documentHeader won't be on the report
-                try {
-                    cgInvoiceDocWithHeader = (ContractsGrantsInvoiceDocument) getDocumentService().getByDocumentHeaderId(cgInvoiceDoc.getDocumentNumber());
-                }
-                catch (WorkflowException e) {
-                    LOG.debug("WorkflowException happened while retrives documentHeader");
-                    continue;
-                }
+        if (matchingAwards != null) { // null means that no award-based criteria were used in the search and therefore, these values should not be used for document selection
+            if (matchingAwards.isEmpty()) { //we searched on awards, but didn't find any.  So we can't find any matching documents
+                return displayList;
+            }
 
-                WorkflowDocument workflowDocument = null;
-                try {
-                    workflowDocument = cgInvoiceDocWithHeader.getDocumentHeader().getWorkflowDocument();
-                }
-                catch (RuntimeException e) {
-                    LOG.debug(e + " happened" + " : transient workflowDocument is null");
-                    continue;
-                }
+            final String proposalNumbers = harvestIdsFromAwards(matchingAwards);
+            if (!StringUtils.isBlank(proposalNumbers)) {
+                lookupFormFields.put(ArConstants.PROPOSAL_NUMBER, proposalNumbers);
+            }
+        }
 
-                boolean isStatusFinalOrProcessed = false;
-                // Check status of document
-                if (ObjectUtils.isNotNull(workflowDocument)) {
-                    isStatusFinalOrProcessed = workflowDocument.isFinal() || workflowDocument.isCanceled() || workflowDocument.isDisapproved();
-                }
+        final String processingDocumentStatuses = buildProcessingDocumentStatusesForLookup();
+        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFormFields, true);
 
-                // If status of ContractsGrantsInvoiceDocument is final or processed, go to next doc
-                if (isStatusFinalOrProcessed) {
-                    continue;
-                }
+        for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
+            if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated
+                for (InvoiceSuspensionCategory invoiceSuspensionCategory : cgInvoiceDoc.getInvoiceSuspensionCategories()) {
+                    if (suspensionCategoryCodes.isEmpty() || suspensionCategoryCodes.contains(invoiceSuspensionCategory.getSuspensionCategoryCode())) {
+                        ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
+                        cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
+                        cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
+                        cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
+                        if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
+                            if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
+                                cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                            }
+                        }
+                        ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
+                        Person fundManager = award.getAwardPrimaryFundManager().getFundManager();
+                        String fundManagerPrincipalName = fundManager.getPrincipalName();
 
-                ContractsGrantsSuspendedInvoiceDetailReport cgSuspendedInvoiceDetailReport = new ContractsGrantsSuspendedInvoiceDetailReport();
-                cgSuspendedInvoiceDetailReport.setSuspensionCategoryCode(invoiceSuspensionCategory.getSuspensionCategoryCode());
-                cgSuspendedInvoiceDetailReport.setDocumentNumber(cgInvoiceDoc.getDocumentNumber());
-                cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(null);
-                if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward())) {
-                    if (ObjectUtils.isNotNull(cgInvoiceDoc.getAward().getLetterOfCreditFund())) {
-                        cgSuspendedInvoiceDetailReport.setLetterOfCreditFundGroupCode(cgInvoiceDoc.getAward().getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                        Person projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
+                        String projectDirectorPrincipalName = projectDirector.getPrincipalName();
+
+                        cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
+                        cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
+                        cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
+                        cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
+
+                        cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
+
+                        displayList.add(cgSuspendedInvoiceDetailReport);
                     }
-                }
-                Person fundManager;
-                Person projectDirector;
-
-                String fundManagerPrincipalName = "";
-                String projectDirectorPrincipalName = "";
-
-                ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
-                fundManager = award.getAwardPrimaryFundManager().getFundManager();
-                fundManagerPrincipalName = fundManager.getPrincipalName();
-
-                projectDirector = award.getAwardPrimaryProjectDirector().getProjectDirector();
-                projectDirectorPrincipalName = projectDirector.getPrincipalName();
-
-                cgSuspendedInvoiceDetailReport.setAwardFundManager(fundManager);
-                cgSuspendedInvoiceDetailReport.setAwardProjectDirector(projectDirector);
-                cgSuspendedInvoiceDetailReport.setFundManagerPrincipalName(fundManagerPrincipalName);
-                cgSuspendedInvoiceDetailReport.setProjectDirectorPrincipalName(projectDirectorPrincipalName);
-
-                cgSuspendedInvoiceDetailReport.setAwardTotal(award.getAwardTotalAmount());
-
-                if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceDetailReport, "ContractsGrantsSuspendedInvoiceDetailReport")) {
-                    displayList.add(cgSuspendedInvoiceDetailReport);
                 }
             }
         }
@@ -151,6 +137,116 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         return displayList;
     }
 
+    /**
+     * Substitutes the fields on the lookup to match what the ORM is actually expecting
+     * @param lookupFields the lookup fields to substitute column names for prior to the lookup
+     */
+    protected List<? extends ContractsAndGrantsAward> lookupMatchingAwards(@SuppressWarnings("rawtypes") Map lookupFields) {
+        Map<String, String> awardLookupFields = new HashMap<String, String>();
+        // letterOfCreditFundGroupCode should be award.letterOfCreditFund.letterOfCreditFundGroupCode
+        final String letterOfCreditFundGroupCode = (String)lookupFields.remove(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE);
+        if (!StringUtils.isBlank(letterOfCreditFundGroupCode)) {
+            awardLookupFields.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND+"."+ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, letterOfCreditFundGroupCode);
+        }
+
+        // awardTotal should be award.awardTotalAmount
+        final String awardTotal = (String)lookupFields.remove(ArConstants.AWARD_TOTAL);
+        if (!StringUtils.isBlank(awardTotal)) {
+            awardLookupFields.put(ArConstants.AWARD_TOTAL, awardTotal);
+        }
+
+        // awardFundManager.principalName should be award.awardPrimaryFundManager.fundManager.principalId
+        final String fundManagerPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
+        final Set<String> fundManagerPrincipalIds = lookupPrincipalIds(fundManagerPrincipalName);
+        if (!fundManagerPrincipalIds.isEmpty()) {
+            final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
+            awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
+        }
+
+        // awardProjectDirector.principalName should be award.awardPrimaryProjectDirector.projectDirector.principalId
+        final String projectDirectorPrincipalName = (String)lookupFields.remove(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
+        final Set<String> projectDirectorPrincipalIds = lookupPrincipalIds(projectDirectorPrincipalName);
+        if (!projectDirectorPrincipalIds.isEmpty()) {
+            final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
+            awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
+        }
+
+        if (awardLookupFields.isEmpty()) {
+            return null; // nothing to lookup, so send back null to signal that we shouldn't even filter based on awards
+        }
+
+        // add active check
+        awardLookupFields.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+
+        final List<? extends ContractsAndGrantsAward> awards = getContractsAndGrantsModuleBillingService().lookupAwards(awardLookupFields, true);
+
+        // filter awards - we can't get back only the primary project director or fund manager, but we can filter down in the query
+        // here, let's make sure the primary project director or fund manager for each award matches
+        List<ContractsAndGrantsAward> filteredAwards = new ArrayList<ContractsAndGrantsAward>();
+        if (fundManagerPrincipalIds.isEmpty() && projectDirectorPrincipalIds.isEmpty()) {
+            filteredAwards.addAll(awards); // nothing to filter out
+        }
+        else {
+            for (ContractsAndGrantsAward award : awards) {
+                if (award instanceof ContractsAndGrantsBillingAward) {
+                    final ContractsAndGrantsBillingAward billingAward = (ContractsAndGrantsBillingAward)award;
+                    if (!fundManagerPrincipalIds.isEmpty() && !ObjectUtils.isNull(billingAward.getAwardPrimaryFundManager()) && !fundManagerPrincipalIds.contains(billingAward.getAwardPrimaryFundManager().getPrincipalId())) {
+                        continue;
+                    }
+                    if (!projectDirectorPrincipalIds.isEmpty() && !ObjectUtils.isNull(billingAward.getAwardPrimaryProjectDirector()) && !projectDirectorPrincipalIds.contains(billingAward.getAwardPrimaryProjectDirector().getPrincipalId())) {
+                        continue;
+                    }
+                    filteredAwards.add(award);
+                }
+            }
+        }
+
+        return filteredAwards;
+    }
+
+    /**
+     * Harvests the proposal ids from the given awards and builds a lookup ready String of proposal id's
+     * @param awards the awards to harvest ids from
+     * @return a lookup ready String of proposal id's, or'd together
+     */
+    protected String harvestIdsFromAwards(List<? extends ContractsAndGrantsAward> awards) {
+        if (awards.isEmpty()) {
+            return KFSConstants.EMPTY_STRING;
+        }
+
+        Set<String> proposalIdsSet = new HashSet<String>();
+        for (ContractsAndGrantsAward award : awards) {
+            proposalIdsSet.add(award.getProposalNumber().toString());
+        }
+        final String proposalIdsForLookup = StringUtils.join(proposalIdsSet, SearchOperator.OR.op());
+        return proposalIdsForLookup;
+    }
+
+    /**
+     * Does a lookup on the given principal name and joins the principal ids of any matches together as an or'd String, ready for another lookup
+     * @param principalName principalName to find matches for
+     * @return a Set of matching principalIds
+     */
+    protected Set<String> lookupPrincipalIds(String principalName) {
+        if (StringUtils.isBlank(principalName)) {
+            return new HashSet<String>();
+        }
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, principalName);
+        final Collection<Person> peoples = getPersonService().findPeople(fieldValues);
+
+        if (peoples == null || peoples.isEmpty()) {
+            return new HashSet<String>();
+        }
+
+        Set<String> principalIdsSet = new HashSet<String>();
+        for (Person person : peoples) {
+            principalIdsSet.add(person.getPrincipalId());
+        }
+
+        return principalIdsSet;
+    }
 
     @Override
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {
@@ -202,24 +298,21 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
             resultTable.add(row);
         }
         lookupForm.setHasReturnableRow(hasReturnableRow);
-
     }
 
-    /**
-     * Gets the documentService attribute value.
-     *
-     * @return the documentService
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
+    public PersonService getPersonService() {
+        return personService;
     }
 
-    /**
-     * Sets the documentService attribute value.
-     *
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
+    }
+
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 }

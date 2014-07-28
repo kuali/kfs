@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Class representing a ResearchRiskType.
  */
 public class ResearchRiskType extends PersistableBusinessObjectBase implements MutableInactivatable {
-
     /**
      * Constant values for research risk type notification values
      */
@@ -40,14 +39,9 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
     private Integer researchRiskTypeSortNumber;
     private String researchRiskTypeNotificationValue;
 
-    
-    public ResearchRiskType() {
-
-    }
-
     /**
      * Gets the researchRiskTypeCode attribute.
-     * 
+     *
      * @return Returns the researchRiskTypeCode
      */
     public String getResearchRiskTypeCode() {
@@ -56,7 +50,7 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Sets the researchRiskTypeCode attribute.
-     * 
+     *
      * @param researchRiskTypeCode The researchRiskTypeCode to set.
      */
     public void setResearchRiskTypeCode(String researchRiskTypeCode) {
@@ -66,18 +60,20 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -85,7 +81,7 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Gets the researchRiskTypeDescription attribute.
-     * 
+     *
      * @return Returns the researchRiskTypeDescription
      */
     public String getResearchRiskTypeDescription() {
@@ -94,19 +90,19 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Sets the researchRiskTypeDescription attribute.
-     * 
+     *
      * @param researchRiskTypeDescription The researchRiskTypeDescription to set.
      */
     public void setResearchRiskTypeDescription(String researchRiskTypeDescription) {
         this.researchRiskTypeDescription = researchRiskTypeDescription;
     }
 
-    
 
-    
+
+
     /**
      * Gets the researchRiskTypeSortNumber attribute.
-     * 
+     *
      * @return Returns the researchRiskTypeSortNumber.
      */
     public Integer getResearchRiskTypeSortNumber() {
@@ -115,17 +111,17 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Sets the researchRiskTypeSortNumber attribute value.
-     * 
+     *
      * @param researchRiskTypeSortNumber The researchRiskTypeSortNumber to set.
      */
     public void setResearchRiskTypeSortNumber(Integer researchRiskTypeSortNumber) {
         this.researchRiskTypeSortNumber = researchRiskTypeSortNumber;
     }
 
-   
+
     /**
      * Gets the researchRiskTypeNotificationValue attribute.
-     * 
+     *
      * @return Returns the researchRiskTypeNotificationValue.
      */
     public String getResearchRiskTypeNotificationValue() {
@@ -134,15 +130,15 @@ public class ResearchRiskType extends PersistableBusinessObjectBase implements M
 
     /**
      * Sets the researchRiskTypeNotificationValue attribute value.
-     * 
+     *
      * @param researchRiskTypeNotificationValue The researchRiskTypeNotificationValue to set.
      */
     public void setResearchRiskTypeNotificationValue(String researchRiskTypeNotificationValue) {
         this.researchRiskTypeNotificationValue = researchRiskTypeNotificationValue;
     }
 
-    
-    
+
+
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */

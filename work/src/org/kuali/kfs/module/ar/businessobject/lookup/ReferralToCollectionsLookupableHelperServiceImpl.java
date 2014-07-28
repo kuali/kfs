@@ -28,7 +28,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -65,7 +65,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
-    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -238,14 +238,8 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         catch (InstantiationException ie) {
             throw new RuntimeException("Unable to get new instance of formatter class for property " + col.getPropertyName(), ie);
         }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
-        }
-        catch (InvocationTargetException ite) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ite);
-        }
-        catch (NoSuchMethodException nsme) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ex);
         }
         return col;
     }
@@ -281,7 +275,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return getContractsAndGrantsModuleRetrieveService().getSearchResultsHelper(fieldValues, unbounded);
+        return getContractsAndGrantsModuleBillingService().lookupAwards(fieldValues, unbounded);
     }
 
     /**
@@ -324,12 +318,12 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         this.accountService = accountService;
     }
 
-    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
-        return contractsAndGrantsModuleRetrieveService;
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
     }
 
-    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
-        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

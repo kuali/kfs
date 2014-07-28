@@ -418,4 +418,5 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFS10838","KFS-PERM-123","1","31","KFS-PURAP","Edit Capital Asset Info","Users who can edit capital asset information","Y"
 1110,KFSCG01,1,10,KFS-AR,Initiate Document of Type CINV,Initiate Document of Type CINV,Y
 CGPERMFFR,KFSCG03,1,29,KFS-AR,Use Screen CG Federal Form Generation Process,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process",Y
-CGPERMIRD,KFSCG04,1,29,KFS-AR,Use Screen CG Invoice Report Delivery Process,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process",Y
+CGPERMIRD,KFSCG04,1,29,KFS-AR,Use Screen CG Transmit Contracts and Grants Invoices Process,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Transmit Contracts and Grants Invoices Process",Y
+"KFS10839","KFS-CGB-PERM-4",1,"10","KFS-AR","Initiate Document ITM","Authorizes the initiation of the Invoice Template Document.","Y"

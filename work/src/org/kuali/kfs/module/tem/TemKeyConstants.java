@@ -83,7 +83,7 @@ public class TemKeyConstants {
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
                                                                 "document.stateCode,document.purposeCode,document.paymentMethod,document.hostName,document.zipCode,document.phoneNumber,tripOverview.*,document.traveler*";
     public static final String TRVL_AUTH_EMERGENCY_CONTACT_ERRORS = "newEmergencyContactLine.*,emergencyContact.*,document.regionFamiliarity,document.cellPhoneNumber,document.traveler.emergencyContacts*";
-    public static final String TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS = "document.expenseLimit,document.mealWithoutLodgingReason";
+    public static final String TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS = "document.expenseLimit,document.mealWithoutLodgingReason,document.specialCircumstances*";
     public static final String TRVL_EXPENSES = "newActualExpenseLine.*,newActualExpenseLine*,newImportedExpenseLines*," +
     		                                    "document.importedExpenses*,document.actualExpenses*";
     public static final String TRVL_PER_DIEM_EXPENSES = "document.perDiemExpenses*,perDiemExpenses*";

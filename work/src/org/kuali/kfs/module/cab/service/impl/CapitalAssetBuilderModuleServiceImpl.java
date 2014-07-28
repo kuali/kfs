@@ -2196,8 +2196,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 updateTransactionLedgerEntryAmount(generalLedgerEntry);
 
                 // release asset lock
-                if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
+                List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
+                String assetNumber;
+                for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
+                    assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
                 }
             }
         }
@@ -2267,7 +2270,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // release the asset lock no matter if it's Asset global or Asset Payment since the CAB user can create Asset global
                 // doc even if Purap Asset numbers existing.
                 if (isAccountsPayableItemLineFullyProcessed(purapDocument, lockingInformation)) {
-                    getCapitalAssetManagementModuleService().deleteAssetLocks(purapDocument.getDocumentNumber(), lockingInformation);
+                    getCapitalAssetManagementModuleService().deleteAssetLocks(purapDocument.getDocumentNumber(), null, lockingInformation);
                 }
 
             }

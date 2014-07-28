@@ -23,6 +23,8 @@ public class KFSParameterKeyConstants {
     public static final String ENABLE_BANK_SPECIFICATION_IND = "ENABLE_BANK_SPECIFICATION_IND";
     public static final String DEFAULT_BANK_BY_DOCUMENT_TYPE = "DEFAULT_BANK_BY_DOCUMENT_TYPE";
     public static final String BANK_CODE_DOCUMENT_TYPES = "BANK_CODE_DOCUMENT_TYPES";
+    public static final String DEFAULT_CHART_CODE_METHOD = "DEFAULT_CHART_CODE_METHOD";
+    public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";
 
     public static class YearEndAutoDisapprovalConstants {
         public static final String YEAR_END_AUTO_DISAPPROVE_ANNOTATION = "YEAR_END_AUTO_DISAPPROVE_ANNOTATION";
@@ -35,6 +37,7 @@ public class KFSParameterKeyConstants {
     public static class FpParameterConstants {
     	public static final String FP_BUDGET_BALANCE_TYPES = "BUDGET_BALANCE_TYPES";
     	public static final String COUNT_PER_ROLL_BY_DENOMINATION = "COUNT_PER_ROLL_BY_DENOMINATION";
+        public static final String NEGATIVE_ACCOUNTING_LINES_IND = "NEGATIVE_ACCOUNTING_LINES_IND";
     }
 
     public static class PopulateFinancialSystemDocumentHeaderParameterNames {
@@ -52,6 +55,13 @@ public class KFSParameterKeyConstants {
         public static final String PLANT_INDEBTEDNESS_OFFSET_CODE = "PLANT_INDEBTEDNESS_OFFSET_CODE";
         public static final String CAPITALIZATION_OFFSET_CODE = "CAPITALIZATION_OFFSET_CODE";
         public static final String LIABILITY_OFFSET_CODE = "LIABILITY_OFFSET_CODE";
+        public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+        public static final String INCOME_OBJECT_TYPE = "INCOME_OBJECT_TYPE";
+        public static final String CASH_BUDGET_RECORD_LEVEL = "CASH_BUDGET_RECORD_LEVEL";
+        public static final String FUND_BALANCE_OBJECT_CODE = "FUND_BALANCE_OBJECT_CODE";
+        public static final String CURRENT_ASSET_OBJECT_CODE = "CURRENT_ASSET_OBJECT_CODE";
+        public static final String CURRENT_LIABILITY_OBJECT_CODE = "CURRENT_LIABILITY_OBJECT_CODE";
+        public static final String ENCUMBRANCE_BALANCE_TYPE = "ENCUMBRANCE_BALANCE_TYPE";
     }
 
     public static class LdParameterConstants {

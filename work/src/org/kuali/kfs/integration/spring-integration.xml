@@ -19,11 +19,8 @@
 	<bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
 	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleServiceNoOp"  abstract="true"/>
 		
-	<bean id="contractsAndGrantsModuleUpdateService" parent="contractsAndGrantsModuleUpdateService-parentBean"/>
-	<bean id="contractsAndGrantsModuleUpdateService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateServiceNoOp" abstract="true"/>
-
-	<bean id="contractsAndGrantsModuleRetrieveService" parent="contractsAndGrantsModuleRetrieveService-parentBean"/>
-	<bean id="contractsAndGrantsModuleRetrieveService-parentBean"	class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveServiceNoOp" abstract="true"/>
+	<bean id="contractsAndGrantsModuleBillingService" parent="contractsAndGrantsModuleBillingService-parentBean"/>
+	<bean id="contractsAndGrantsModuleBillingService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingServiceNoOp" abstract="true"/>
 				
 	<bean id="ldModuleConfiguration"  parent="ldModuleConfiguration-parentBean"/>
 	<bean id="ldModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
@@ -56,6 +53,9 @@
 	
 	<bean id="accountsReceivableModuleService"  parent="accountsReceivableModuleService-parentBean"/>
 	<bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.integration.ar.AccountsReceivableModuleServiceNoOp"  abstract="true"/>
+	
+	<bean id="accountsReceivableModuleBillingService"  parent="accountsReceivableModuleBillingService-parentBean"/>
+	<bean id="accountsReceivableModuleBillingService-parentBean" class="org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingServiceNoOp"  abstract="true"/>
 	
 	<bean id="effortCertificationModuleService"  parent="effortCertificationModuleService-parentBean"/>
 	<bean id="effortCertificationModuleService-parentBean" class="org.kuali.kfs.integration.ec.EffortCertificationModuleServiceNoOp"  abstract="true"/>

@@ -142,28 +142,22 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
             Person user = GlobalVariables.getUserSession().getPerson();
 
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                try {
-                    ContractsGrantsInvoiceDocument document = iter.next();
-                    String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                    if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
+                ContractsGrantsInvoiceDocument document = iter.next();
+                String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+                if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
+                    iter.remove();
+                    continue;
+                }
+
+                if (StringUtils.isNotEmpty(collectorPrincipalId)) {
+                    if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
                         iter.remove();
                         continue;
                     }
-
-                    if (StringUtils.isNotEmpty(collectorPrincipalId)) {
-                        if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
-                            iter.remove();
-                            continue;
-                        }
-                    }
-
-                    if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId())) {
-                        iter.remove();
-                    }
-
                 }
-                catch (Exception wfe) {
-                    LOG.error("problem during CollectionActivityReportServiceImpl.filterEventsForColletionActivity()", wfe);
+
+                if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId())) {
+                    iter.remove();
                 }
             }
         }

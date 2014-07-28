@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.cg.service.LetterOfCreditFundService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -40,7 +40,7 @@ public class LetterOfCreditFundServiceImpl implements LetterOfCreditFundService 
 
     protected Map<String, Object> mapPrimaryKeys(String letterOfCreditFundCode) {
         Map<String, Object> primaryKeys = new HashMap();
-        primaryKeys.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, letterOfCreditFundCode);
+        primaryKeys.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, letterOfCreditFundCode);
         return primaryKeys;
     }
 

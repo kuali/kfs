@@ -95,6 +95,9 @@
     <property name="name" value="collector.principalName"/>
     <property name="label" value="Collector"/>
     <property name="required" value="false"/>
+    <property name="control">
+      	<bean parent="TextControlDefinition" p:size="42"/>
+    </property>
   </bean>
   
   <bean id="CollectorInformation-collector.name" parent="CollectorInformation-collector.name-parentBean"/>
@@ -103,6 +106,7 @@
     <property name="name" value="collector.name"/>
     <property name="label" value="Name"/>
     <property name="required" value="false"/>
+    <property name="maxLength"><null/></property>
     <property name="control">
       <ref bean="StandardNameTextControl" />
     </property>

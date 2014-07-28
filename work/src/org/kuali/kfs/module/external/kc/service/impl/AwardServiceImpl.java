@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
@@ -62,7 +62,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     protected AccountDefaultsService accountDefaultsService;
-    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected BillingFrequencyService billingFrequencyService;
     protected ParameterService parameterService;
     protected PersonService personService;
@@ -99,7 +99,12 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     public Collection findMatching(Map fieldValues) {
         List<AwardDTO> result = null;
         AwardFieldValuesDto criteria = new AwardFieldValuesDto();
-        criteria.setAwardId((Long) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER));
+        Object awardId = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+        if (awardId instanceof String) {
+            criteria.setAwardId(Long.parseLong((String) awardId));
+        } else {
+            criteria.setAwardId((Long) awardId);
+        }
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
         criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
@@ -108,6 +113,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         try {
           result  = this.getWebService().getMatchingAwards(criteria);
         } catch (WebServiceException ex) {
+            LOG.error(KcConstants.WEBSERVICE_UNREACHABLE, ex);
             GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
         }
 
@@ -218,7 +224,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     }
 
     protected Collection<String> getDoNotInvoiceStatuses() {
-        return accountsReceivableModuleService.getDoNotInvoiceStatuses();
+        return getAccountsReceivableModuleBillingService().getDoNotInvoiceStatuses();
     }
 
     protected AccountDefaultsService getAccountDefaultsService() {
@@ -229,12 +235,12 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         this.accountDefaultsService = accountDefaultsService;
     }
 
-    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
+    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        return accountsReceivableModuleBillingService;
     }
 
-    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
-        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
+        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
     protected ParameterService getParameterService() {

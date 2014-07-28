@@ -27,7 +27,7 @@
 				<ref bean="InvoiceDetailAccountObjectCode-documentNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-proposalNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-chartOfAccountsCode" />
-				<ref bean="InvoiceDetailAccountObjectCode-accountNumber" /><!-- <ref bean="InvoiceDetailAccountObjectCode-financialObjectCode"/> -->
+				<ref bean="InvoiceDetailAccountObjectCode-accountNumber" />
 				<ref bean="InvoiceDetailAccountObjectCode-currentExpenditures" />
 				<ref bean="InvoiceDetailAccountObjectCode-cumulativeExpenditures" />
 				<ref bean="InvoiceDetailAccountObjectCode-totalBilled" />
@@ -64,7 +64,11 @@
 	</bean>
 
 	<bean id="InvoiceDetailAccountObjectCode-accountNumber" parent="InvoiceDetailAccountObjectCode-accountNumber-parentBean" />
-	<bean id="InvoiceDetailAccountObjectCode-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="InvoiceDetailAccountObjectCode-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="InvoiceDetailAccountObjectCode-totalBilled" parent="InvoiceDetailAccountObjectCode-totalBilled-parentBean" />
 	<bean id="InvoiceDetailAccountObjectCode-totalBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

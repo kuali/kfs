@@ -261,17 +261,4 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
     @Override
     public void refresh() {
     }
-
-
-
-    @Override
-    public String getInvoiceDocumentStatus() {
-        return invoiceDocumentStatus;
-    }
-
-
-    public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
-        this.invoiceDocumentStatus = invoiceDocumentStatus;
-    }
-
 }

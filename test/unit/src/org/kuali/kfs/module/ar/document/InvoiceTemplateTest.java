@@ -87,4 +87,19 @@ public class InvoiceTemplateTest extends KualiTestBase {
         assertTrue(contractsGrantsInvoiceDocumentService.isTemplateValidForUser(invoiceTemplate, currentUser));
     }
 
+    public void testIsTemplateValidForContractsGrantsInvoiceDocument() {
+        final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        String billByChartOfAccountCode = (new CurrentUserChartValueFinder()).getValue();
+        String billedByOrganizationCode = (new CurrentUserOrgValueFinder()).getValue();
+        ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = new ContractsGrantsInvoiceDocument();
+        contractsGrantsInvoiceDocument.setBillByChartOfAccountCode(billByChartOfAccountCode);
+        contractsGrantsInvoiceDocument.setBilledByOrganizationCode(billedByOrganizationCode);
+
+        assertFalse(contractsGrantsInvoiceDocumentService.isTemplateValidForContractsGrantsInvoiceDocument(invoiceTemplate, contractsGrantsInvoiceDocument));
+        invoiceTemplate.setBillByChartOfAccountCode(billByChartOfAccountCode);
+        invoiceTemplate.setBilledByOrganizationCode(billedByOrganizationCode);
+        assertTrue(contractsGrantsInvoiceDocumentService.isTemplateValidForContractsGrantsInvoiceDocument(invoiceTemplate, contractsGrantsInvoiceDocument));
+    }
+
 }

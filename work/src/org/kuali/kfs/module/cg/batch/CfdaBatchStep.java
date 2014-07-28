@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.mail.MessagingException;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
@@ -28,6 +30,7 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.MailService;
 
 /**
@@ -112,10 +115,9 @@ public class CfdaBatchStep extends AbstractStep {
             LOG.warn("Exception while updating CFDA codes.", ioe);
             return false;
         }
-        catch (Exception iae) {
-
-           LOG.warn("The email address for "+CfdaBatchStep.class+":"+KFSConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES+" is invalid.", iae);
-            return true;
+        catch (MessagingException | InvalidAddressException ex) {
+           LOG.warn("The email address for "+CfdaBatchStep.class+":"+KFSConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES+" is invalid.", ex);
+           return true;
         }
         return true;
     }

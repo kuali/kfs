@@ -25,6 +25,7 @@
 <%@ attribute name="actionImage" required="true" description="path to image to be displayed in Action column"%>
 <%@ attribute name="actionAlt" required="true" description="alt value for actionImage"%>
 <%@ attribute name="cssClass" required="true"%>
+<%@ attribute name="includeMultipleInvoiceLookup" description="Determines if the invoices selected multi-value lookup should be present"%>
 
 <c:set var="dateFormatPattern" value="MM/dd/yyyy"/>
 
@@ -46,7 +47,7 @@
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
-			property="${propertyName}.activityText" readOnly="${readOnly}" /></td>
+			property="${propertyName}.activityText" readOnly="${readOnly}" expandedTextArea="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
 			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
@@ -59,6 +60,13 @@
 			property="${propertyName}.postedDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.userPrincipalId}"
 			property="${propertyName}.user.name" readOnly="true" /></td>
+		<c:if test="${includeMultipleInvoiceLookup}">
+			<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${DataDictionary.CollectionActivityDocument.attributes.selectedInvoiceDocumentNumberList}"
+				property="document.selectedInvoiceDocumentNumberList" readOnly="true" />
+				<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"
+					lookupParameters="document.proposalNumber:proposalNumber,document.agencyNumber:agencyNumber,document.agencyName:agencyName,document.customerNumber:customerNumber,document.customerName:customerName"/>
+			</td>
+		</c:if>
 		<td class="${cssClass}">
 		<c:if test="${not readOnly}">
 			<div align="center">

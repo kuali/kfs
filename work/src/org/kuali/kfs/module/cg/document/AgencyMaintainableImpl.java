@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -54,6 +55,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyMaintainableImpl.class);
 
     private static final String CREATED_BY_AGENCY_DOC = "message.ar.createdByAgencyDocument";
+    private static volatile ParameterService parameterService;
 
     /**
      * Gets the underlying Agency.
@@ -74,7 +76,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
 
-        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             WorkflowDocument workflowDoc = header.getWorkflowDocument();
             Agency agency = getAgency();
             String description = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
@@ -202,7 +204,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
      */
     @Override
     protected Collection<?> getSectionIdsToIgnore() {
-        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (!SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAgencyContractsGrantsBillingSectionIds();
         } else {
             return CollectionUtils.EMPTY_COLLECTION;
@@ -242,13 +244,20 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
         Agency agency = getAgency();
         String parameterDunningCampaignCode = "";
         // Default Billing Frequency
-        try {
-            // Retrieve default value from the corresponding default value parameter
-            parameterDunningCampaignCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-            agency.setDunningCampaign(parameterDunningCampaignCode);
-        }
-        catch (Exception e) {
-            LOG.debug("Exception : " + e.getMessage() + " happened when getting default values from parameter");
+        // Retrieve default value from the corresponding default value parameter
+        if (getParameterService().parameterExists(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER)) {
+            parameterDunningCampaignCode = getParameterService().getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
+            if (!StringUtils.isBlank(parameterDunningCampaignCode)) {
+                agency.setDunningCampaign(parameterDunningCampaignCode);
+            }
         }
     }
+
+    public static ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
+
 }

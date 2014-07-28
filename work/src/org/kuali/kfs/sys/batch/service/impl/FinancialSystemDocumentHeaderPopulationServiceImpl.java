@@ -179,6 +179,7 @@ public class FinancialSystemDocumentHeaderPopulationServiceImpl implements Finan
         financialSystemDocumentHeader.setWorkflowDocumentTypeName(kewDocumentHeader.getDocumentTypeName());
         financialSystemDocumentHeader.setWorkflowDocumentStatusCode(kewDocumentHeader.getStatus().getCode());
         financialSystemDocumentHeader.setApplicationDocumentStatus(kewDocumentHeader.getApplicationDocumentStatus());
+        financialSystemDocumentHeader.setWorkflowCreateDate(new java.sql.Timestamp(kewDocumentHeader.getDateCreated().getMillis()));
     }
 
     /**

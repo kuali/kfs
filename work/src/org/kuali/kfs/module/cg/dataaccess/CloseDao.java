@@ -35,6 +35,12 @@ public interface CloseDao {
      */
     public String getMaxApprovedClose(Date currentSqlMidnight);
 
+    /**
+     * Gets the document number of the approved instance with the latest close date.
+     *
+     * @param currentSqlMidnight
+     * @return the document number of the approved instance with the latest close date.
+     */
     public String getMostRecentClose(Date currentSqlMidnight);
 
     /**

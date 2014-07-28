@@ -32,6 +32,7 @@
 	<!-- CoreServices -->
  	<bean id="dateTimeService" p:serviceName="dateTimeService" parent="grlBeanImporter" />
  	<bean id="mailService" p:serviceName="mailService" parent="grlBeanImporter" />
+ 	<bean id="mailSender" p:serviceName="mailSender" parent="grlBeanImporter" />
  	<bean id="kualiModuleService" p:serviceName="kualiModuleService" parent="grlBeanImporter" />
  	<bean id="parameterService" p:serviceName="parameterService" parent="grlBeanImporter" />
  	<bean id="parameterRepositoryService" p:serviceName="parameterRepositoryService" parent="grlBeanImporter" />

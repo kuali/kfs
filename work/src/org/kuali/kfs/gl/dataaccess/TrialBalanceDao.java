@@ -30,5 +30,5 @@ public interface TrialBalanceDao {
      * @param fieldValues
      * @return
      */
-    List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode);
+    List<TrialBalanceReport> findBalanceByFields(String selectedFiscalYear, String chartCode, String periodCode);
 }

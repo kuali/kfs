@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is used to get the services for PDF generation and other services for Contracts And Grants Aging Report
  */
 public interface ContractsGrantsAgingReportService {
+
     /**
      * This method is used to filter the contracts and grants invoice docs according to criteria
      *
@@ -42,21 +41,17 @@ public interface ContractsGrantsAgingReportService {
      */
     public Map<String, List<ContractsGrantsInvoiceDocument>> filterContractsGrantsAgingReport(Map fieldValues, java.sql.Date startDate, java.sql.Date endDate) throws ParseException;
 
+    /**
+     * Looks up ContractsGrantsInvoiceDocuments matching the criteria in the given fieldValues
+     * @param fieldValues the criteria to find matching ContractsGrantsInvoiceDocument's
+     * @return a Map of ContractsGrantsInvoiceDocument which match the given Criteria, keyed by customer number
+     */
+    public Map<String, List<ContractsGrantsInvoiceDocument>> lookupContractsGrantsInvoiceDocumentsForAging(Map<String, Object> fieldValues);
 
     /**
-     * This method is used to generate xls reports for the Contracts Grants Aging report.
-     *
-     * @param details
-     * @param totalDataHolder
-     * @return Returns the generated file in byte array.
+     * Given a Map of CustomerGrantsInvoiceDocuments keyed by customer number, comes up with a flat List of just the ContractsGrantsInvoiceDocuments
+     * @param cgMapByCustomer the Map to flatten
+     * @return the List, severely flatten'd
      */
-    public byte[] generateCSVToExport(ContractsGrantsReportDataHolder cgInvoiceReportDataHolder, List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName);
-
-    /**
-     * Generates the Map of sub totals from the C&G Invoice documents
-     * @param displayList
-     * @param sortPropertyName
-     * @return
-     */
-    public Map<String, List<KualiDecimal>> buildSubTotalMap(List<ContractsGrantsInvoiceDocument> displayList, String sortPropertyName);
+    public List<ContractsGrantsInvoiceDocument> flattenContrantsGrantsInvoiceDocumentMap(Map<String, List<ContractsGrantsInvoiceDocument>> cgMapByCustomer);
 }

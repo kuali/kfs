@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -39,27 +40,35 @@ public class ContractsGrantsInvoiceDocumentValidation extends GenericValidation 
 
         boolean isValid = true;
 
-        if (!hasEmailAddress()) {
+        if (!hasEmailAddress(event) ) {
             isValid = false;
         }
-        if (!hasTrasmissionCode()) {
+        if (!hasTrasmissionCode(event) ) {
             isValid = false;
         }
-        if (!hasTemplate()) {
+        if (!hasTemplate(event) ) {
             isValid = false;
         }
 
         return isValid;
     }
 
-    private boolean hasEmailAddress() {
+    private boolean hasEmailAddress(AttributedDocumentEvent event) {
         boolean isValid = true;
 
         int i = 0;
         for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
             if (StringUtils.isNotBlank(address.getInvoiceTransmissionMethodCode()) && address.getInvoiceTransmissionMethodCode().equals(ArConstants.InvoiceTransmissionMethod.EMAIL) && StringUtils.isBlank(address.getCustomerEmailAddress()) ) {
-                GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerEmailAddress", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE);
-                isValid = false;
+                if (event instanceof AttributedSaveDocumentEvent) {
+                    GlobalVariables.getMessageMap().putWarning("document.invoiceAddressDetails[" + i + "].customerEmailAddress", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE);
+                }
+                else {
+                    GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerEmailAddress", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_EMAIL_ADDRESS_REQUIRED_FOR_TRANSMISSION_CODE);
+                    GlobalVariables.getMessageMap().getWarningMessages().remove("document.invoiceAddressDetails[" + i + "].customerEmailAddress");
+
+                    isValid = false;
+                }
+
             }
             i++;
         }
@@ -67,15 +76,22 @@ public class ContractsGrantsInvoiceDocumentValidation extends GenericValidation 
         return isValid;
     }
 
-    private boolean hasTrasmissionCode() {
+    private boolean hasTrasmissionCode(AttributedDocumentEvent event) {
 
         boolean isValid = true;
 
         int i = 0;
         for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
             if ( address.getCustomerAddressTypeCode().equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE) && StringUtils.isBlank(address.getInvoiceTransmissionMethodCode()) ) {
-                GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].invoiceTransmissionMethodCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TRANSMISSION_CODE_REQUIRED);
-                isValid = false;
+                if (event instanceof AttributedSaveDocumentEvent) {
+                    GlobalVariables.getMessageMap().putWarning("document.invoiceAddressDetails[" + i + "].invoiceTransmissionMethodCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TRANSMISSION_CODE_REQUIRED);
+                }
+                else {
+                    GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].invoiceTransmissionMethodCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TRANSMISSION_CODE_REQUIRED);
+                    GlobalVariables.getMessageMap().getWarningMessages().remove("document.invoiceAddressDetails[" + i + "].invoiceTransmissionMethodCode");
+
+                    isValid = false;
+                }
             }
             i++;
         }
@@ -83,15 +99,22 @@ public class ContractsGrantsInvoiceDocumentValidation extends GenericValidation 
         return isValid;
     }
 
-    private boolean hasTemplate() {
+    private boolean hasTemplate(AttributedDocumentEvent event) {
 
         boolean isValid = true;
-
         int i = 0;
+
         for (InvoiceAddressDetail address : contractsGrantsInvoiceDocument.getInvoiceAddressDetails()) {
             if ( address.getCustomerAddressTypeCode().equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE) && StringUtils.isBlank(address.getCustomerInvoiceTemplateCode()) ) {
-                GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TEMPLATE_REQUIRED);
-                isValid = false;
+                if (event instanceof AttributedSaveDocumentEvent) {
+                    GlobalVariables.getMessageMap().putWarning("document.invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TEMPLATE_REQUIRED);
+                }
+                else {
+                    GlobalVariables.getMessageMap().putError("document.invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_TEMPLATE_REQUIRED);
+                    GlobalVariables.getMessageMap().getWarningMessages().remove("document.invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode");
+
+                    isValid = false;
+                }
             }
             i++;
         }

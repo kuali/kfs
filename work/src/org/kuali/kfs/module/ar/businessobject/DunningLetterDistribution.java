@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,16 +34,8 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
 
     /**
-     * Default constructor
-     */
-    public DunningLetterDistribution() {
-        super();
-    }
-
-
-    /**
      * Gets the campaignID attribute.
-     * 
+     *
      * @return Returns the campaignID.
      */
     public String getCampaignID() {
@@ -53,7 +45,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campaignID attribute value.
-     * 
+     *
      * @param campaignID The campaignID to set.
      */
     public void setCampaignID(String campaignID) {
@@ -63,7 +55,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dunningLetterDistributionID attribute.
-     * 
+     *
      * @return Returns the dunningLetterDistributionID.
      */
     public Long getDunningLetterDistributionID() {
@@ -73,7 +65,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dunningLetterDistributionID attribute value.
-     * 
+     *
      * @param dunningLetterDistributionID The dunningLetterDistributionID to set.
      */
     public void setDunningLetterDistributionID(Long dunningLetterDistributionID) {
@@ -83,7 +75,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the daysPastDue attribute.
-     * 
+     *
      * @return Returns the daysPastDue.
      */
     public String getDaysPastDue() {
@@ -93,7 +85,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the daysPastDue attribute value.
-     * 
+     *
      * @param daysPastDue The daysPastDue to set.
      */
     public void setDaysPastDue(String daysPastDue) {
@@ -103,7 +95,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the sendDunningLetterIndicator attribute.
-     * 
+     *
      * @return Returns the sendDunningLetterIndicator.
      */
     public boolean isSendDunningLetterIndicator() {
@@ -113,7 +105,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the sendDunningLetterIndicator attribute value.
-     * 
+     *
      * @param sendDunningLetterIndicator The sendDunningLetterIndicator to set.
      */
     public void setSendDunningLetterIndicator(boolean sendDunningLetterIndicator) {
@@ -123,7 +115,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dunningLetterTemplate attribute.
-     * 
+     *
      * @return Returns the dunningLetterTemplate.
      */
     public String getDunningLetterTemplate() {
@@ -133,7 +125,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dunningLetterTemplate attribute value.
-     * 
+     *
      * @param dunningLetterTemplate The dunningLetterTemplate to set.
      */
     public void setDunningLetterTemplate(String dunningLetterTemplate) {
@@ -143,7 +135,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dunningCampaign attribute.
-     * 
+     *
      * @return Returns the dunningCampaign.
      */
     public DunningCampaign getDunningCampaign() {
@@ -153,7 +145,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dunningCampaign attribute value.
-     * 
+     *
      * @param dunningCampaign The dunningCampaign to set.
      */
     public void setDunningCampaign(DunningCampaign dunningCampaign) {
@@ -162,7 +154,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activeIndicator attribute.
-     * 
+     *
      * @return Returns the activeIndicator.
      */
     public boolean isActiveIndicator() {
@@ -172,7 +164,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activeIndicator attribute value.
-     * 
+     *
      * @param activeIndicator The activeIndicator to set.
      */
     public void setActiveIndicator(boolean activeIndicator) {
@@ -180,7 +172,7 @@ public class DunningLetterDistribution extends PersistableBusinessObjectBase {
     }
 
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap toStringMap = new LinkedHashMap();
         toStringMap.put("dunningLetterDistributionID", this.dunningLetterDistributionID);

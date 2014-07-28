@@ -20,7 +20,7 @@
 			<ref bean="ContractsGrantsSuspendedInvoiceDetailReport-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="ContractsGrantsSuspendedInvoiceDetailReportInquiryTitle" />
-		<property name="objectLabel" value="ContractsGrantsSuspendedInvoiceDetailReport" />
+		<property name="objectLabel" value="Suspended Invoice Detail Report" />
 
 		<property name="attributes">
 			<list>
@@ -121,6 +121,9 @@
 		<property name="label" value="Fund Manager ID" />
 		<property name="shortLabel" value="Fund Manager ID" />
 		<property name="displayLabelAttribute" value="awardFundManager.principalName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.name" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.name-parentBean" />
@@ -128,6 +131,7 @@
 		<property name="name" value="awardFundManager.name" />
 		<property name="label" value="Fund Manager Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.principalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.principalName-parentBean" />
@@ -142,16 +146,11 @@
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-fundManagerPrincipalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-fundManagerPrincipalName-parentBean" />
-	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-fundManagerPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-fundManagerPrincipalName-parentBean" abstract="true" parent="PersonImpl-principalName">
 		<property name="name" value="fundManagerPrincipalName" />
-		<property name="label" value="Fund Manager Name" />
-		<property name="shortLabel" value="FundManager Name" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
+		<property name="label" value="Fund Manager Principal Name" />
+		<property name="shortLabel" value="Fund Mgr Prncpl Nm" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalId" parent="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalId-parentBean" />
@@ -171,6 +170,9 @@
 		<property name="label" value="Project Director ID" />
 		<property name="shortLabel" value="Proj Dir ID" />
 		<property name="displayLabelAttribute" value="awardProjectDirector.principalName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.name" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.name-parentBean" />
@@ -178,6 +180,7 @@
 		<property name="name" value="awardProjectDirector.name" />
 		<property name="label" value="Project Director Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.principalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.principalName-parentBean" />
@@ -193,16 +196,11 @@
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalName" parent="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalName-parentBean" />
-	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-projectDirectorPrincipalName-parentBean" abstract="true" parent="PersonImpl-principalName">
 		<property name="name" value="projectDirectorPrincipalName" />
 		<property name="label" value="Project Director Name" />
 		<property name="shortLabel" value="ProjectDirector Name Name" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
+		<property name="maxLength"><null/></property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardTotal" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardTotal-parentBean" />

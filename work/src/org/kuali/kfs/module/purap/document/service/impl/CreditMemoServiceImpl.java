@@ -203,18 +203,37 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
+     *  Query appDocStatus using financialSystemDocumentService and filter against the provided status list
+     *
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return
+     */
+    @Deprecated
+    protected List<String> filterCreditMemoByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+        List<String> creditMemoDocNumbers = new ArrayList<String>();
+        List<String> appDocStatusList = Arrays.asList(appDocStatus);
+        for (String docNumber : lookupDocNumbers) {
+            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(docNumber).getApplicationDocumentStatus())) {
+                creditMemoDocNumbers.add(docNumber);
+            }
+        }
+        return creditMemoDocNumbers;
+    }
+
+    /**
      * This method queries financialSystemDocumentHeader and filter credit memos against the provided status.
      *
      * @param creditMemoDocuments
      * @param appDocStatus
      * @return
      */
-    private Collection<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Collection<VendorCreditMemoDocument> creditMemoDocuments, String... appDocStatus) {
+    protected Collection<VendorCreditMemoDocument> filterCreditMemoByAppDocStatus(Collection<VendorCreditMemoDocument> creditMemoDocuments, String... appDocStatus) {
         List<String> appDocStatusList = Arrays.asList(appDocStatus);
         Collection<VendorCreditMemoDocument> filteredCreditMemoDocuments = new ArrayList<VendorCreditMemoDocument>();
         //add to filtered collection if the app doc list contains credit memo's app doc status
         for (VendorCreditMemoDocument creditMemo : creditMemoDocuments){
-            if(appDocStatusList.contains(financialSystemDocumentService.findByDocumentNumber(creditMemo.getDocumentNumber()).getApplicationDocumentStatus())) {
+            if(appDocStatusList.contains(creditMemo.getApplicationDocumentStatus())) {
                 filteredCreditMemoDocuments.add(creditMemo);
             }
         }

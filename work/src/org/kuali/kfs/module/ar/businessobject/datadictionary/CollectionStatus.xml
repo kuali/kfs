@@ -51,7 +51,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <ref bean="FourCharacterTextControl" />
+      	<bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
 

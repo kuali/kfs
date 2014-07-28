@@ -34,7 +34,7 @@
 			<ref bean="CustomerBillingStatement-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="customerNumber" />
-		<property name="objectLabel" value="Customer Number" />
+		<property name="objectLabel" value="Customer Billing Statement" />
 		<property name="attributes">
 			<list>
 				<ref bean="CustomerBillingStatement-customerNumber" />
@@ -58,19 +58,9 @@
 
 	<bean id="CustomerBillingStatement-customerNumber" parent="CustomerBillingStatement-customerNumber-parentBean" />
 
-	<bean id="CustomerBillingStatement-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="customerNumber" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Customer Number" />
+	<bean id="CustomerBillingStatement-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
 		<property name="shortLabel" value="Customer Number" />
-		<property name="maxLength" value="100" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
 		<property name="required" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
 	</bean>
 
 	<bean id="CustomerBillingStatement-previouslyBilledAmount" parent="CustomerBillingStatement-previouslyBilledAmount-parentBean" />
@@ -153,7 +143,7 @@
 
 	<bean id="CustomerBillingStatement-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Customer Billing Statement" />
+		<property name="title" value="Customer Billing Statement Lookup" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 				<property name="attributeNames">

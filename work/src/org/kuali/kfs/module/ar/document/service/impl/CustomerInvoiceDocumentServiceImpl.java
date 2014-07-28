@@ -60,11 +60,13 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
@@ -99,6 +101,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected ReceivableAccountingLineService receivableAccountingLineService;
     protected UniversityDateService universityDateService;
     protected NoteService noteService;
+    protected IdentityService identityService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#convertDiscountsToPaidApplieds(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
@@ -467,7 +470,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         //
         // attempt to retrieve the initiator person specified, and puke if not found
-        Principal initiator = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(initiatorPrincipalName);
+        Principal initiator = getIdentityService().getPrincipalByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
         }
@@ -887,14 +890,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     }
 
     /**
-     * @return Returns the personService.
-     */
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#checkIfInvoiceNumberIsFinal(java.lang.String)
      */
     @Override
@@ -986,52 +981,48 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#addCloseNote
      */
     @Override
-    public void addCloseNote(CustomerInvoiceDocument documentToClose, String closingDocumentTypeCode, String closingDocumentNumber) {
+    public void addCloseNote(CustomerInvoiceDocument documentToClose, WorkflowDocument closingDocument) {
         if (!documentToClose.isOpenInvoiceIndicator()) {
             // If it already is closed, no need to add a note
             return;
         }
 
         String principalName = "Unknown";
-        List<ActionTaken> actionsTaken = documentToClose.getDocumentHeader().getWorkflowDocument().getActionsTaken();
+        List<ActionTaken> actionsTaken = closingDocument.getActionsTaken();
         if(ObjectUtils.isNotNull(actionsTaken)){
-            ActionTaken lastAction = actionsTaken.get(0);
             for(ActionTaken action : actionsTaken){
-                if(action.getActionDate().isAfter(lastAction.getActionDate())){
-                    lastAction = action;
+                // we're looking for the person who completed the closing document, so we want the COMPLETE action
+                if(isActionClose(action.getActionTaken())){
+                    principalName = getPersonService().getPerson(action.getPrincipalId()).getName();
+                    break;
                 }
             }
-            String principalId = lastAction.getPrincipalId();
-            principalName = getPersonService().getPerson(principalId).getName();
         }
 
-
         final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT);
-        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber };
+        Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() };
         String noteText = MessageFormat.format(noteTextPattern, arguments);
 
 
         Note note = getDocumentService().createNoteFromDocument(documentToClose, noteText);
-        note.setAuthorUniversalIdentifier(KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
+        note.setAuthorUniversalIdentifier(getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
         documentToClose.addNote(noteService.save(note));
     }
 
-
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService personService){
         this.personService = personService;
     }
 
-    public FinancialSystemUserService getFinancialSystemUserService() {
-        return financialSystemUserService;
+    public PersonService getPersonService(){
+        return personService;
     }
 
-    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 
     public ConfigurationService getConfigurationService() {
@@ -1041,4 +1032,25 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+    
+    private boolean isActionClose(ActionType actionTypeToCheck){
+        return ( (actionTypeToCheck.compareTo(ActionType.COMPLETE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.SU_BLANKET_APPROVE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.BLANKET_APPROVE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.SU_COMPLETE) == 0) );              
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+
+    public FinancialSystemUserService getFinancialSystemUserService() {
+        return financialSystemUserService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
+    }
+
 }

@@ -181,6 +181,9 @@
 		<property name="name"
 			value="proposalOrganizations.organization.organizationCode" />
 		<property name="shortLabel" value="Org Cd" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 	<bean
 		id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber"
@@ -201,6 +204,9 @@
 		<property name="name" value="proposalProjectDirectors.principalId" />
 		<property name="label" value="Project Director ID" />
 		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="Proposal-lookupPersonUniversalIdentifier" parent="Proposal-lookupPersonUniversalIdentifier-parentBean" />
 

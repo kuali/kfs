@@ -28,7 +28,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
@@ -62,7 +62,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionLookupableHelperServiceImpl.class);
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
-    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -167,7 +167,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return getContractsAndGrantsModuleRetrieveService().getSearchResultsHelper(fieldValues, unbounded);
+        return getContractsAndGrantsModuleBillingService().lookupAwards(fieldValues, unbounded);
     }
 
     /**
@@ -225,14 +225,8 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
         catch (InstantiationException ie) {
             throw new RuntimeException("Unable to get new instance of formatter class for property " + col.getPropertyName(), ie);
         }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", iae);
-        }
-        catch (InvocationTargetException ite) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ite);
-        }
-        catch (NoSuchMethodException nsme) {
-            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", nsme);
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", ex);
         }
         return col;
     }
@@ -290,12 +284,12 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
         this.accountService = accountService;
     }
 
-    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
-        return contractsAndGrantsModuleRetrieveService;
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
     }
 
-    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
-        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

@@ -49,7 +49,6 @@ import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -211,9 +210,7 @@ public class DepositWizardAction extends KualiAction {
             }
             else if (docStatus.equalsIgnoreCase(CashReceipt.INTERIM)) { // for final deposit
                 // checks are already deposited but there are cash to be deposited
-            	/* FIXME FIXED by KFSCNTRB-1793
-                 * The original code checks only the currency total, which is not accurate.
-                 * We should check whether the net cash total, i.e. (currency + coin) - (change currency + change coin)
+            	/* We should check whether the net cash total, i.e. (currency + coin) - (change currency + change coin)
                  * is greater than 0; and if so, there's cash to deposit.
                  */
                 if (receipt.getTotalConfirmedNetCashAmount().isGreaterThan(KualiDecimal.ZERO)) {
@@ -231,7 +228,7 @@ public class DepositWizardAction extends KualiAction {
     private void calculateTargetFinalDepositAmount(DepositWizardForm dwform) {
         final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
         final List<CashReceiptDocument> interestingReceipts =
-                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
+                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
         for (CashReceiptDocument crDoc : interestingReceipts) {
             crDoc.refreshCashDetails();
             dwform.addCashReceiptToTargetTotal(crDoc);
@@ -542,14 +539,13 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, DocumentStatusCodes.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
                         receipt.refreshCashDetails();
-                        /* FIXME FIXED by KFSCNTRB-1793
-                         * The previous code checks null on original details. It should check on confirmed details instead, which are the ones used here.
-                         * Further more, we don't really need to check null here, since these details won't be null after refreshCashDetails.
+                        /* We should check on confirmed details instead of original ones;
+                         * we don't really need to check null here, since these details won't be null after refreshCashDetails.
                          */
                         currencyTotal.add(receipt.getConfirmedCurrencyDetail());
                         currencyTotal.subtract(receipt.getConfirmedChangeCurrencyDetail());

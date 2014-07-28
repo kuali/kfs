@@ -76,6 +76,9 @@
 	<bean id="CustomerInvoiceItemCode-chartOfAccountsCode-parentBean"
 		abstract="true" parent="ChartAttribute-TextControl">
 		<property name="label" value="Billing Chart" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber"
@@ -83,6 +86,9 @@
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceAccountNumber-parentBean"
 		abstract="true" parent="AccountAttribute">
 		<property name="name" value="defaultInvoiceAccountNumber" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode"
@@ -91,6 +97,9 @@
 		id="CustomerInvoiceItemCode-defaultInvoiceChartOfAccountsCode-parentBean"
 		abstract="true" parent="ChartAttribute-TextControl">
 		<property name="name" value="defaultInvoiceChartOfAccountsCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode"
@@ -99,6 +108,9 @@
 		id="CustomerInvoiceItemCode-defaultInvoiceFinancialObjectCode-parentBean"
 		abstract="true" parent="ObjectCodeAttribute">
 		<property name="name" value="defaultInvoiceFinancialObjectCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode"
@@ -107,6 +119,9 @@
 		id="CustomerInvoiceItemCode-defaultInvoiceFinancialSubObjectCode-parentBean"
 		abstract="true" parent="SubObjectAttribute">
 		<property name="name" value="defaultInvoiceFinancialSubObjectCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 
 	<bean
@@ -132,6 +147,9 @@
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceProjectCode-parentBean"
 		abstract="true" parent="ProjectCode-code">
 		<property name="name" value="defaultInvoiceProjectCode" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultInvoiceSubAccountNumber"
@@ -141,6 +159,9 @@
 		abstract="true" parent="SubAccount-subAccountNumber">
 		<property name="name" value="defaultInvoiceSubAccountNumber" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-defaultUnitOfMeasureCode"
@@ -225,6 +246,9 @@
 	<bean id="CustomerInvoiceItemCode-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Billing Organization" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerInvoiceItemCode-relatedStockNumber" parent="CustomerInvoiceItemCode-relatedStockNumber-parentBean" />

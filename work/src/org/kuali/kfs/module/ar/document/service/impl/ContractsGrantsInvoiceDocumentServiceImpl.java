@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -36,9 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -52,12 +48,11 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -65,7 +60,8 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -76,7 +72,6 @@ import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
@@ -108,17 +103,20 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Attachment;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
@@ -131,6 +129,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.lowagie.text.DocumentException;
 
 /**
  * This class implements the services required for Contracts and Grants Invoice Document.
@@ -146,9 +146,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
-    protected ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ConfigurationService configurationService;
     protected CustomerService customerService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
     protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected BillDao billDao;
@@ -212,6 +213,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return noteService;
     }
 
+    @Override
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
@@ -347,14 +349,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
                     if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2) {
-                        try {
-                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
-                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-                        }
-                        catch (Exception e) {
-                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                            throw new RuntimeException(e);
-                        }
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                 }
                 else {
@@ -373,53 +369,32 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
                         String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-                        try {
-                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
-                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-                        }
-                        catch (Exception e) {
-                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                            throw new RuntimeException(e);
-                        }
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                     else {
                         for (InvoiceAccountDetail invAcctD : contractsGrantsInvoiceDocument.getAccountDetails()) {
                             String accountNumber = invAcctD.getAccountNumber();
                             String coaCode = invAcctD.getChartOfAccountsCode();
                             String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
-                            Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To
-                                                                                                                              // set
-                                                                                                                              // a
-                                                                                                                              // sequence
-                                                                                                                              // number
-                                                                                                                              // for
-                                                                                                                              // the
-                                                                                                                              // Accounting
-                                                                                                                              // Lines
-                            try {
-                                // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
-                                // account if its Milestone/Predetermined Schedule.
-                                KualiDecimal totalAmount = KualiDecimal.ZERO;
-                                if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
-                                    totalAmount = totalMilestoneAmount;
-                                }
-                                else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
-                                    totalAmount = totalBillAmount;
-                                }
-                                else {
-                                    totalAmount = invAcctD.getExpenditureAmount();
-                                }
-
-
-                                CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
-
-                                contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-
+                            Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To set a sequence number for the Accounting Lines
+                            // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
+                            // account if its Milestone/Predetermined Schedule.
+                            KualiDecimal totalAmount = KualiDecimal.ZERO;
+                            if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
+                                totalAmount = totalMilestoneAmount;
                             }
-                            catch (Exception e) {
-                                LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                                throw new RuntimeException(e);
+                            else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
+                                totalAmount = totalBillAmount;
                             }
+                            else {
+                                totalAmount = invAcctD.getExpenditureAmount();
+                            }
+
+
+                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
+
+                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
 
                         }
                     }
@@ -437,9 +412,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param totalAmount
      * @param seqNum
      * @return
-     * @throws Exception
      */
-    protected CustomerInvoiceDetail createSourceAccountingLine(String docNum, String coaCode, String acctNum, String obCode, KualiDecimal totalAmount, Integer seqNum) throws Exception {
+    protected CustomerInvoiceDetail createSourceAccountingLine(String docNum, String coaCode, String acctNum, String obCode, KualiDecimal totalAmount, Integer seqNum) {
         CustomerInvoiceDetail cid = new CustomerInvoiceDetail();
         cid.setDocumentNumber(docNum);
 
@@ -469,7 +443,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void recalculateNewTotalBilled(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
 
-        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
 
         // To verify the expenditure amounts have been changed and
         // update the invoiceDetailObjectCode
@@ -480,7 +454,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             KualiDecimal totalDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts());
 
             // Set expenditures to Direct Cost invoice Details
-            InvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
+            ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)){
                 totalDirectCostInvoiceDetail.setExpenditures(totalDirectCostExpenditures);
             }
@@ -489,7 +463,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             KualiDecimal totalInDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly());
 
             // Set expenditures to Indirect Cost invoice Details
-            InvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
+            ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
             if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)){
                 totalInDirectCostInvoiceDetail.setExpenditures(totalInDirectCostExpenditures);
             }
@@ -514,9 +488,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoiceDetails
      * @return
      */
-    public KualiDecimal getInvoiceDetailExpenditureSum(List<InvoiceDetail> invoiceDetails) {
+    public KualiDecimal getInvoiceDetailExpenditureSum(List<ContractsGrantsInvoiceDetail> invoiceDetails) {
         KualiDecimal totalExpenditures = KualiDecimal.ZERO;
-        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail : invoiceDetails) {
             totalExpenditures = totalExpenditures.add(invoiceDetail.getExpenditures());
         }
         return totalExpenditures;
@@ -570,7 +544,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         KualiDecimal totalCost = new KualiDecimal(0); // Amount to be billed on this invoice
         // must iterate through the invoice details because the user might have manually changed the value
-        for (InvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+        for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             totalCost = totalCost.add(invD.getExpenditures());
         }
         KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed
@@ -586,7 +560,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 BigDecimal percentage = amountEligibleForBilling.bigDecimalValue().divide(totalCost.bigDecimalValue(), 10, BigDecimal.ROUND_HALF_DOWN);
                 KualiDecimal amountToBill = new KualiDecimal(0); // use to check if rounding has left a few cents off
 
-                for (InvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+                for (ContractsGrantsInvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
                     BigDecimal newValue = invD.getExpenditures().bigDecimalValue().multiply(percentage);
                     KualiDecimal newKualiDecimalValue = new KualiDecimal(newValue.setScale(2, BigDecimal.ROUND_DOWN));
                     invD.setExpenditures(newKualiDecimalValue);
@@ -676,7 +650,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // figure out if any of the current expenditures for the category has been changed. If yes, then update the
         // invoiceDetailObjectCode
         // and update account details
-        for (InvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
+        for (ContractsGrantsInvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             KualiDecimal total = getSumOfExpendituresOfCategory(invoiceDetailAccountObjectCodeMap.get(invoiceDetail.getCategoryCode()));
             // To set expenditures to zero if its blank - to avoid exceptions.
             if (ObjectUtils.isNull(invoiceDetail.getExpenditures())) {
@@ -715,7 +689,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param total is the sum of the current expenditures from all the object codes in that category
      * @param invoiceDetailAccountObjectCodes
      */
-    protected void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+    protected void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
         KualiDecimal currentExpenditure = invoiceDetail.getExpenditures();
         KualiDecimal newTotalAmount = KualiDecimal.ZERO;
 
@@ -770,15 +744,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      */
-    protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail) {
+    protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail) {
         String categoryCode = invoiceDetail.getCategoryCode();
         if (categoryCode == null) {
             LOG.error("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
         // get the category that matches this category code.
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findAll(ContractsAndGrantsCategories.class);
-        Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
-        ContractsAndGrantsCategories category = null;
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findAll(ContractsAndGrantsCategory.class);
+        Iterator<ContractsAndGrantsCategory> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
+        ContractsAndGrantsCategory category = null;
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
             category = contractsAndGrantsCategoriesIterator.next();
             if (category.getCategoryCode().equals(categoryCode)) {
@@ -874,88 +848,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllOpenContractsGrantsInvoiceDocuments(boolean)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments(boolean includeWorkflowHeaders) {
-        Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // retrieve the set of documents without workflow headers
-        invoices = getAllOpenContractsGrantsInvoiceDocuments();
-
-        // if we dont need workflow headers, then we're done
-        if (!includeWorkflowHeaders || invoices.isEmpty()) {
-            return invoices;
-        }
-        else {
-            return populateWorkflowHeaders(invoices);
-        }
-    }
-
-    /**
-     * @return all open, approved ContractsGrantsInvoiceDocuments
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getAllOpenContractsGrantsInvoiceDocuments() {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, Boolean.TRUE);
-        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAllCGInvoiceDocuments(boolean)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments(boolean includeWorkflowHeaders) {
-        Collection<ContractsGrantsInvoiceDocument> invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // retrieve the set of documents without workflow headers
-        invoices = getAllCGInvoiceDocuments();
-
-        // if we dont need workflow headers, then we're done
-        if (!includeWorkflowHeaders || invoices.isEmpty()) {
-            return invoices;
-        }
-        else {
-            return populateWorkflowHeaders(invoices);
-        }
-    }
-
-    /**
-     * @return all approved ContractsGrantsInvoiceDocuments
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> getAllCGInvoiceDocuments() {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-        return getBusinessObjectService().findMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-    }
-
-    /**
-     * @param invoices
-     * @return
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> populateWorkflowHeaders(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        // make a list of necessary workflow docs to retrieve
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            documentHeaderIds.add(invoice.getDocumentNumber());
-        }
-        // get all of our docs with full workflow headers
-        Collection<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
-        try {
-            for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)) {
-                docs.add((ContractsGrantsInvoiceDocument) doc);
-            }
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
-        }
-        return docs;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long)
      */
     @Override
@@ -1031,7 +923,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFund(String locFund, String errorFileName) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND + " of value " + locFund;
@@ -1055,7 +947,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND_GRP);
-        fieldValues.put(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
+        fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;
@@ -1101,98 +993,46 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         boolean isInvalid = false;
         String line = null;
         List<String> invalidGroup = new ArrayList<String>();
-        if (CollectionUtils.isEmpty(cgInvoices)) {
-            line = "There were no invoices retrieved to process for " + detail;
-            invalidGroup.add(line);
-            try {
-                File errOutPutFile = new File(errorFileName);
-                PrintStream outputFileStream = null;
-
-                try {
-                    outputFileStream = new PrintStream(errOutPutFile);
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                writeErrorEntry(line, outputFileStream);
-            }
-            catch (IOException ioe) {
-                LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
-                throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
-            }
-            return invalidGroup;
-        }
-        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-            isInvalid = false;
-            // if the invoices are not final yet - then the LOC cannot be created
-            if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+        try {
+            if (CollectionUtils.isEmpty(cgInvoices)) {
+                line = "There were no invoices retrieved to process for " + detail;
                 invalidGroup.add(line);
-                isInvalid = true;
-            }
 
-            // if invalid is true, the award is unqualified.
-            // records the unqualified award with failed reasons.
-            if (isInvalid) {
                 File errOutPutFile = new File(errorFileName);
                 PrintStream outputFileStream = null;
 
-                try {
-                    outputFileStream = new PrintStream(errOutPutFile);
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    writeErrorEntry(line, outputFileStream);
-                }
-                catch (IOException ioe) {
-                    LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
-                    throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
+                outputFileStream = new PrintStream(errOutPutFile);
+                outputFileStream.println(line);
+
+                return invalidGroup;
+            }
+            for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                isInvalid = false;
+                // if the invoices are not final yet - then the LOC cannot be created
+                if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                    invalidGroup.add(line);
+                    isInvalid = true;
                 }
 
-                try {
-                    writeNewLines("", outputFileStream);
-                }
-                catch (IOException ex) {
-                    LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ex.getMessage());
+                // if invalid is true, the award is unqualified.
+                // records the unqualified award with failed reasons.
+                if (isInvalid) {
+                    File errOutPutFile = new File(errorFileName);
+                    PrintStream outputFileStream = null;
+
+                    outputFileStream = new PrintStream(errOutPutFile);
+                    outputFileStream.println(line);
+                    outputFileStream.println();
                 }
             }
+        }
+        catch (IOException ioe) {
+            LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
+            throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
         }
 
         return invalidGroup;
-    }
-
-    /**
-     * This method would write errors to the error file
-     *
-     * @param line
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeErrorEntry(String line, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\n", line);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-
-    /**
-     * This method would write new line argument to the error file.
-     *
-     * @param newline
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeNewLines(String newline, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\n", newline);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
     }
 
     /**
@@ -1223,8 +1063,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-                    balanceKeys.put("balanceTypeCode", balanceTypeCode);
-                    balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                    balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
+                    balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
                     glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
                 }
                 for (Balance bal : glBalances) {
@@ -1274,7 +1114,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            contractsAndGrantsModuleUpdateService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
+            contractsAndGrantsModuleBillingService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
         }
 
     }
@@ -1313,7 +1153,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
             balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
@@ -1415,19 +1255,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Make sure the Primary Address is completed
-        if (!isAgencyPrimaryAddressComplete(award.getAgency())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE);
+        if (!isCustomerPrimaryAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
+            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
         }
         else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE);
+            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE);
         }
 
         // validation suspension code - Check to see if the Alternate address is completed if it was entered to begin with
-        if (!isAgencyAlternateAddressComplete(award.getAgency())) {
-            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE);
+        if (!isCustomerAlternateAddressComplete(contractsGrantsInvoiceDocument.getInvoiceAddressDetails())) {
+            addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
         }
         else {
-            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE);
+            removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE);
         }
 
         // validation suspension code - Make sure invoice is final if the award is already expired
@@ -1597,15 +1437,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    protected boolean isAgencyPrimaryAddressComplete(ContractsAndGrantsBillingAgency agency) {
-
-        List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
-        for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
-                return isAgencyAddressComplete(agencyAddress);
+    protected boolean isCustomerPrimaryAddressComplete(List<InvoiceAddressDetail> addressDetails) {
+        for (InvoiceAddressDetail addressDetail : addressDetails) {
+            if (StringUtils.equals(ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
+                if (ObjectUtils.isNull(addressDetail.getCustomerAddress())) {
+                    addressDetail.refreshReferenceObject(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS);
+                }
+                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
             }
         }
         return false;
@@ -1615,16 +1453,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    protected boolean isAgencyAlternateAddressComplete(ContractsAndGrantsBillingAgency agency) {
-
-        List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
-
-        for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
-                return isAgencyAddressComplete(agencyAddress);
+    protected boolean isCustomerAlternateAddressComplete(List<InvoiceAddressDetail> addressDetails) {
+        for (InvoiceAddressDetail addressDetail : addressDetails) {
+            if (StringUtils.equals(ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE, addressDetail.getCustomerAddressTypeCode())) {
+                return isCustomerAddressComplete(addressDetail.getCustomerAddress());
             }
         }
         return true; // if no alternate address entered at all, then that is ok
@@ -1634,8 +1466,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agencyAddress
      * @return
      */
-    protected boolean isAgencyAddressComplete(ContractsAndGrantsAgencyAddress agencyAddress) {
-        if (!StringUtils.isEmpty(agencyAddress.getAgencyLine1StreetAddress()) && !StringUtils.isEmpty(agencyAddress.getAgencyCityName()) && !StringUtils.isEmpty(agencyAddress.getAgencyStateCode()) && !StringUtils.isEmpty(agencyAddress.getAgencyZipCode()) && !StringUtils.isEmpty(agencyAddress.getAgencyCountryCode())) {
+    protected boolean isCustomerAddressComplete(CustomerAddress customerAddress) {
+        if (!ObjectUtils.isNull(customerAddress) && !StringUtils.isBlank(customerAddress.getCustomerLine1StreetAddress()) && !StringUtils.isBlank(customerAddress.getCustomerCityName()) && !StringUtils.isBlank(customerAddress.getCustomerStateCode()) && !StringUtils.isBlank(customerAddress.getCustomerZipCode()) && !StringUtils.isBlank(customerAddress.getCustomerCountryCode())) {
             return true;
         }
         return false;
@@ -1654,7 +1486,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     protected boolean isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             KualiDecimal categoryCumulativeExpenditure = totalCostInvoiceDetail.getCumulative();
             KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
@@ -1794,8 +1626,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public KualiDecimal retrieveAccurateBalanceAmount(java.sql.Date lastBilledDate, Balance glBalance) {
-
-
         // 1. calculate invoice period
         AccountingPeriod invoicePeriod = accountingPeriodService.getByDate(lastBilledDate);
         String invoicePeriodCode = invoicePeriod.getUniversityFiscalPeriodCode();
@@ -1806,45 +1636,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
         String currentPeriodCode = currPeriod.getUniversityFiscalPeriodCode();
 
-        // 3. Now to iterate over the period codes and find the amounts for the differnce between invoice Period and current Period
-        // - Assuming its the same fiscal year
-        List<AccountingPeriod> acctPeriodList = new ArrayList<AccountingPeriod>();
+        KualiDecimal currentBalanceAmount =
+                cleanAmount(glBalance.getMonth1Amount())
+                .add(cleanAmount(glBalance.getMonth2Amount()))
+                .add(cleanAmount(glBalance.getMonth3Amount()))
+                .add(cleanAmount(glBalance.getMonth4Amount()))
+                .add(cleanAmount(glBalance.getMonth5Amount()))
+                .add(cleanAmount(glBalance.getMonth6Amount()))
+                .add(cleanAmount(glBalance.getMonth7Amount()))
+                .add(cleanAmount(glBalance.getMonth8Amount()))
+                .add(cleanAmount(glBalance.getMonth9Amount()))
+                .add(cleanAmount(glBalance.getMonth10Amount()))
+                .add(cleanAmount(glBalance.getMonth11Amount()))
+                .add(cleanAmount(glBalance.getMonth12Amount()))
+                .add(cleanAmount(glBalance.getMonth13Amount()));
 
-        acctPeriodList = (List<AccountingPeriod>) accountingPeriodService.getAllAccountingPeriods();
-        KualiDecimal currentBalanceAmount = KualiDecimal.ZERO;
-        java.lang.reflect.Method method;
-
-        if (CollectionUtils.isNotEmpty(acctPeriodList)) {
-
-            for (int i = acctPeriodList.indexOf(invoicePeriod) + 1; i <= acctPeriodList.indexOf(currPeriod); i++) {
-                if (acctPeriodList.get(i).getUniversityFiscalYear().equals(currPeriod.getUniversityFiscalYear()) && acctPeriodList.get(i).isActive()) {
-                    // Now to get the month for the period.
-                    String periodCode = acctPeriodList.get(i).getUniversityFiscalPeriodCode().replaceFirst("^0*", "");
-                    String methodName = "getMonth" + periodCode + "Amount";
-                    try {
-                        method = glBalance.getClass().getMethod(methodName);
-                        currentBalanceAmount = currentBalanceAmount.add((KualiDecimal) method.invoke(glBalance));
-
-                    }
-                    catch (SecurityException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (NoSuchMethodException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (IllegalArgumentException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (IllegalAccessException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (InvocationTargetException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-
-                }
-            }
-        }
         KualiDecimal balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
         KualiDecimal accurateBalanceAmount = balAmt.subtract(currentBalanceAmount);
 
@@ -1852,12 +1658,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
+     * Null protects the addition in retrieveAccurateBalanceAmount
+     * @param amount the amount to return
+     * @return zero if the amount was null, the given amount otherwise
+     */
+    protected KualiDecimal cleanAmount(KualiDecimal amount) {
+        return amount == null ? KualiDecimal.ZERO : amount;
+    }
+
+    /**
      * This method get the milestones with the criteria defined and set value to isItBilled.
      */
     @Override
-    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) throws Exception {
+    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) {
         if (invoiceMilestones == null) {
-            throw new Exception("(List<InvoiceMilestone> invoiceMilestones cannot be null");
+            throw new IllegalArgumentException("(List<InvoiceMilestone> invoiceMilestones cannot be null");
         }
         List<Long> milestoneIds = new ArrayList<Long>();
         for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
@@ -1866,7 +1681,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
         if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+            setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
         }
     }
 
@@ -1877,13 +1692,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     protected void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
         Collection<Milestone> milestones = null;
-        try {
-            milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
-        }
-        catch (Exception ex) {
-            LOG.error("problem during lgetMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId()", ex);
-        }
-        if (milestones != null) {
+        milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
+
+        if (!ObjectUtils.isNull(milestones)) {
             for (Milestone milestone : milestones) {
                 if (value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)) {
                     milestone.setBilledIndicator(Boolean.TRUE);
@@ -1915,9 +1726,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method get the bills with the criteria defined and set value to isItBilled.
      */
     @Override
-    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) throws Exception {
+    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) {
         if (invoiceBills == null) {
-            throw new Exception("(List<InvoiceBill> invoiceBills cannot be null");
+            throw new IllegalArgumentException("(List<InvoiceBill> invoiceBills cannot be null");
         }
 
         List<Map<String, String>> fieldValuesList = new ArrayList<Map<String, String>>();
@@ -2016,8 +1827,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
@@ -2118,20 +1929,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
-        Boolean isValid = false;
-        if (award.getPreferredBillingFrequency() != null) {
+        if (!StringUtils.isBlank(award.getPreferredBillingFrequency())) {
             Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(KFSPropertyConstants.FREQUENCY, award.getPreferredBillingFrequency());
             criteria.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsBillingFrequency> set = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
-            for (ContractsAndGrantsBillingFrequency billingFrequency : set) {
-                if (award.getPreferredBillingFrequency().equalsIgnoreCase(billingFrequency.getFrequency())) {
-                    isValid = true;
-                    break;
-                }
+            Collection<ContractsAndGrantsBillingFrequency> matchingBillingFrequencies = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
+
+            if (matchingBillingFrequencies != null && matchingBillingFrequencies.size() > 0) {
+                return true;
             }
         }
 
-        return isValid;
+        return false;
     }
 
 
@@ -2173,10 +1982,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
+    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
 
-        if (!this.hasNoActiveAccountsAssigned(award)) {
-            Collection<Account> controlAccounts = new ArrayList<Account>();
+        if (!hasNoActiveAccountsAssigned(award)) {
+            List<Account> controlAccounts = new ArrayList<Account>();
             for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
                     controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
@@ -2222,21 +2031,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, getFinancialSystemDocumentService().getPendingDocumentStatuses());
 
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        ContractsAndGrantsBillingAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
-        while (iterator.hasNext()) {
-            awardAccount = iterator.next();
-            if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL)) {
-                awardAccounts.add(awardAccount);
-            }
-            if (CollectionUtils.isEmpty(awardAccounts)) {
-                return true;
-            }
-        }
-
-        return false;
+        final int inProgressCount = getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
+        return inProgressCount > 0;
     }
 
     /**
@@ -2450,7 +2250,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                    List<Account> controlAccounts = getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();
@@ -2462,7 +2262,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
-                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                    List<Account> controlAccounts = getContractControlAccounts(award);
 
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();
@@ -3013,6 +2813,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             catch (WorkflowException ex) {
                 LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
+                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
             }
         }
         return paymentDate;
@@ -3126,20 +2927,22 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     Map<String, String> replacementList = getTemplateParameterList(document);
                     CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
                     String fullAddress = "";
-                    if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
-                        fullAddress += returnProperStringValue(address.getCustomerCityName());
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
-                        fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
-                    }
-                    if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
-                        fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
+                    if (ObjectUtils.isNotNull(address)) {
+                        if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
+                            fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
+                            fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                            fullAddress += returnProperStringValue(address.getCustomerCityName());
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                            fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                            fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
+                        }
                     }
                     replacementList.put("customer.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
@@ -3181,11 +2984,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // saving the note to the document header
                     documentService.updateDocument(document);
                 }
-                catch (IOException ex) {
+                catch (IOException | DocumentException ex) {
                     addNoteForInvoiceReportFail(document);
-                }
-                catch (Exception ex) {
-                    LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForInvoiceAddresses", ex);
                 }
             }
             else {
@@ -3228,7 +3028,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
             parameterMap.put("date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())));
         }
-        if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
+        if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateFinalized())) {
             parameterMap.put("finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
         }
         parameterMap.put("proposalNumber", returnProperStringValue(document.getProposalNumber()));
@@ -3251,12 +3051,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceDetailsWithoutIndirectCosts())) {
-            InvoiceDetail firstInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts().get(0);
+            ContractsGrantsInvoiceDetail firstInvoiceDetail = document.getInvoiceDetailsWithoutIndirectCosts().get(0);
 
             for (int i = 0; i < document.getInvoiceDetailsWithoutIndirectCosts().size(); i++) {
                 parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getInvoiceDetailIdentifier()));
                 parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getDocumentNumber()));
-                parameterMap.put("invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCategory()));
+                parameterMap.put("invoiceDetail[" + i + "].category", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCategoryName()));
                 parameterMap.put("invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getBudget()));
                 parameterMap.put("invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getExpenditures()));
                 parameterMap.put("invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetailsWithoutIndirectCosts().get(i).getCumulative()));
@@ -3266,11 +3066,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(firstInvoiceDetail.getAdjustedBalance()));
             }
         }
-        InvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
             parameterMap.put("directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("directCostInvoiceDetail.documentNumber", returnProperStringValue(totalDirectCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("directCostInvoiceDetail.categories", returnProperStringValue(totalDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("directCostInvoiceDetail.category", returnProperStringValue(totalDirectCostInvoiceDetail.getCategoryName()));
             parameterMap.put("directCostInvoiceDetail.budget", returnProperStringValue(totalDirectCostInvoiceDetail.getBudget()));
             parameterMap.put("directCostInvoiceDetail.expenditure", returnProperStringValue(totalDirectCostInvoiceDetail.getExpenditures()));
             parameterMap.put("directCostInvoiceDetail.cumulative", returnProperStringValue(totalDirectCostInvoiceDetail.getCumulative()));
@@ -3279,11 +3079,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(totalDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
             parameterMap.put("directCostInvoiceDetail.adjustedBalance", returnProperStringValue(totalDirectCostInvoiceDetail.getAdjustedBalance()));
         }
-        InvoiceDetail totalInDirectCostInvoiceDetail = document.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = document.getTotalInDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalInDirectCostInvoiceDetail)) {
             parameterMap.put("inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalInDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(totalInDirectCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(totalInDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(totalInDirectCostInvoiceDetail.getCategoryName()));
             parameterMap.put("inDirectCostInvoiceDetail.budget", returnProperStringValue(totalInDirectCostInvoiceDetail.getBudget()));
             parameterMap.put("inDirectCostInvoiceDetail.expenditure", returnProperStringValue(totalInDirectCostInvoiceDetail.getExpenditures()));
             parameterMap.put("inDirectCostInvoiceDetail.cumulative", returnProperStringValue(totalInDirectCostInvoiceDetail.getCumulative()));
@@ -3292,11 +3092,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(totalInDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
             parameterMap.put("inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(totalInDirectCostInvoiceDetail.getAdjustedBalance()));
         }
-        InvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
             parameterMap.put("totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(totalCostInvoiceDetail.getInvoiceDetailIdentifier()));
             parameterMap.put("totalInvoiceDetail.documentNumber", returnProperStringValue(totalCostInvoiceDetail.getDocumentNumber()));
-            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(totalCostInvoiceDetail.getCategory()));
+            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(totalCostInvoiceDetail.getCategoryName()));
             parameterMap.put("totalInvoiceDetail.budget", returnProperStringValue(totalCostInvoiceDetail.getBudget()));
             parameterMap.put("totalInvoiceDetail.expenditure", returnProperStringValue(totalCostInvoiceDetail.getExpenditures()));
             parameterMap.put("totalInvoiceDetail.cumulative", returnProperStringValue(totalCostInvoiceDetail.getCumulative()));
@@ -3460,7 +3260,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
             parameterMap.put("award.stopWorkIndicator", returnProperStringValue(award.isStopWorkIndicator()));
             parameterMap.put("award.stopWorkReason", returnProperStringValue(award.getStopWorkReason()));
-            parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            if (ObjectUtils.isNotNull(award.getAwardPrimaryProjectDirector())) {
+                parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            }
             parameterMap.put("award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
             if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
                 parameterMap.put("award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));
@@ -3550,7 +3352,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
             // To set last billed Date to award.
-            contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(proposalNumber, getLastBilledDate(award));
+            contractsAndGrantsModuleBillingService.setLastBilledDateToAward(proposalNumber, getLastBilledDate(award));
         }
 
     }
@@ -3605,7 +3407,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         // To set previous and current last Billed Date for award account .
-        contractsAndGrantsModuleUpdateService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
+        contractsAndGrantsModuleBillingService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
 
     }
 
@@ -3637,13 +3439,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 milestoneIds.add(invoiceMilestone.getMilestoneIdentifier());
             }
 
-            try {
-                retrieveAndUpdateMilestones(invoiceMilestones, string);
 
-            }
-            catch (Exception ex) {
-                LOG.error("An error occurred while updating Milestones as billed: " + ex.toString());
-            }
+            retrieveAndUpdateMilestones(invoiceMilestones, string);
         }
     }
 
@@ -3654,16 +3451,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     protected void updateBillsIsItBilled(String string, List<InvoiceBill> invoiceBills) {
         /* update Bill */
-
         if (invoiceBills != null && !invoiceBills.isEmpty()) {
-
-            try {
-                retrieveAndUpdateBills(invoiceBills, string);
-
-            }
-            catch (Exception ex) {
-                LOG.error("An error occurred while updating Bills as billed: " + ex.toString());
-            }
+            retrieveAndUpdateBills(invoiceBills, string);
         }
     }
 
@@ -3681,7 +3470,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         // To set final Billed to award Account
-        contractsAndGrantsModuleUpdateService.setFinalBilledToAwardAccount(mapKey, value);
+        contractsAndGrantsModuleBillingService.setFinalBilledToAwardAccount(mapKey, value);
     }
 
     /**
@@ -3702,7 +3491,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         // To set previous and current last Billed Date for award account .
-        contractsAndGrantsModuleUpdateService.setFinalBilledAndLastBilledDateToAwardAccount(mapKey, finalBilled, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
+        contractsAndGrantsModuleBillingService.setFinalBilledAndLastBilledDateToAwardAccount(mapKey, finalBilled, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
     }
 
     /**
@@ -3724,18 +3513,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException {
+        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
         Iterator iterator = document.getInvoiceDetailsWithoutIndirectCosts().iterator();
         // correct Invoice Details.
         while (iterator.hasNext()) {
-            InvoiceDetail id = (InvoiceDetail) iterator.next();
-            id.correctInvoiceDetailsCurrentExpenditure();
+            ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
+            correctInvoiceDetail(id);
+            directCostTotal.sumInvoiceDetail(id);
         }
+        correctInvoiceDetailTotals(document, directCostTotal);
 
         // update correction to the InvoiceAccountDetail objects
         iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
-            id.correctInvoiceAccountDetailsCurrentExpenditureAmount();
+            correctInvoiceAccountDetail(id);
         }
 
         // correct invoiceDetailAccountObjectCode.
@@ -3764,39 +3556,76 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // set the billed to Date Field
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {// To
-            // check
-            // if
-            // award
-            // has
-            // milestones
+        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
+            // check if award has milestones
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
-        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {// To
-            // check
-            // if
-            // award
-            // has
-            // bills
+        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
+            // check if award has bills
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
         else {
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
-            // update the new total billed for the invoice.
-            InvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
-            if (ObjectUtils.isNotNull(totalCostInvoiceDetail)){
-                document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalCostInvoiceDetail.getExpenditures()));
-            }
+            document.getInvoiceGeneralDetail().setNewTotalBilled(KualiDecimal.ZERO);
         }
 
-        // to set Marked for processing and Date report processed to null.
-        document.setMarkedForProcessing(null);
+        // to set Date email processed and Date report processed to null.
+        document.setDateEmailProcessed(null);
         document.setDateReportProcessed(null);
+    }
 
+    /**
+     * Error corrects an invoice detail
+     * @param invoiceDetail the invoice detail to error correct
+     */
+    protected void correctInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail) {
+        invoiceDetail.setBilled(invoiceDetail.getExpenditures());
+        invoiceDetail.setExpenditures(invoiceDetail.getExpenditures().negated());
+        invoiceDetail.setCumulative(KualiDecimal.ZERO);
+        invoiceDetail.setInvoiceDocument(null);
+    }
+
+    /**
+     * Corrects the sums on the direct cost sub-total invoice detail and the total invoice detail on the given contracts and grants invoice document
+     * @param document contracts and grants invoice performing error correction
+     * @param directCostTotal the category totals from the corrected direct cost invoice details
+     */
+    protected void correctInvoiceDetailTotals(ContractsGrantsInvoiceDocument document, InvoiceDetailTotal directCostTotal) {
+        ContractsGrantsInvoiceDetail directCostSubTotal = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail indirectCostSubTotal = document.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail costTotal = document.getTotalCostInvoiceDetail();
+
+        if (directCostSubTotal != null && indirectCostSubTotal != null && costTotal != null) {
+            directCostSubTotal.setBudget(directCostTotal.getBudget());
+            directCostSubTotal.setBilled(directCostTotal.getBilled());
+            directCostSubTotal.setCumulative(directCostTotal.getCumulative());
+            directCostSubTotal.setExpenditures(directCostTotal.getExpenditures());
+
+            // now let's fix the total
+            final KualiDecimal indirectBudget = (null != indirectCostSubTotal.getBudget()) ? indirectCostSubTotal.getBudget() : KualiDecimal.ZERO;
+            costTotal.setBudget(directCostTotal.getBudget().add(indirectBudget));
+            final KualiDecimal indirectBilled = (null != indirectCostSubTotal.getBilled()) ? indirectCostSubTotal.getBilled() : KualiDecimal.ZERO;
+            costTotal.setBilled(directCostTotal.getBilled().add(indirectBilled));
+            final KualiDecimal indirectCumulative = (null != indirectCostSubTotal.getCumulative()) ? indirectCostSubTotal.getCumulative() : KualiDecimal.ZERO;
+            costTotal.setCumulative(directCostTotal.getCumulative().add(indirectCumulative));
+            final KualiDecimal indirectExpenditures = (null != indirectCostSubTotal.getExpenditures()) ? indirectCostSubTotal.getExpenditures() : KualiDecimal.ZERO;
+            costTotal.setExpenditures(directCostTotal.getExpenditures().add(indirectExpenditures));
+        }
+    }
+
+    /**
+     * Error corrects an invoice account detail
+     * @param invoiceAccountDetail the invoice account detail to error correct
+     */
+    protected void correctInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
+        invoiceAccountDetail.setBilledAmount(invoiceAccountDetail.getExpenditureAmount());
+        invoiceAccountDetail.setExpenditureAmount(invoiceAccountDetail.getExpenditureAmount().negated());
+        invoiceAccountDetail.setCumulativeAmount(KualiDecimal.ZERO);
+        invoiceAccountDetail.setInvoiceDocument(null);
     }
 
     /**
@@ -4136,9 +3965,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
         // get the categories and create a new arraylist for each one
-        for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
+        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
             // populate the category object code maps
             objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category, document));
 
@@ -4170,7 +3999,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
 
-                for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
+                for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
                     Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
 
                     // if the object code from this balance is in the list of object code retrieved from the category, then include
@@ -4294,7 +4123,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, invoiceAccountDetail.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceAccountDetail.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
             balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
             glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
         }
@@ -4339,21 +4168,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // To get only the active categories.
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
-        Iterator<ContractsAndGrantsCategories> it = contractsAndGrantsCategories.iterator();
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        Iterator<ContractsAndGrantsCategory> it = contractsAndGrantsCategories.iterator();
 
         // query database for award account object code details. then divi them up into categories
         List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
         while (it.hasNext()) {
-            ContractsAndGrantsCategories category = it.next();
+            ContractsAndGrantsCategory category = it.next();
             // To add all the values from Category Array to Invoice Details category only if they are retrieved well.
 
-            InvoiceDetail invDetail = new InvoiceDetail();
+            ContractsGrantsInvoiceDetail invDetail = new ContractsGrantsInvoiceDetail();
             invDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-
-            invDetail.setCategory(category.getCategoryName());
             invDetail.setCategoryCode(category.getCategoryCode());
+            invDetail.setCategoryName(category.getCategoryName());
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first
             Set<String> completeObjectCodeArrayForSingleCategory = getObjectCodeArrayFromSingleCategory(category, document);
@@ -4367,106 +4195,103 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To calculate total values for Invoice Detail section.
+        InvoiceDetailTotal directCostTotal = new InvoiceDetailTotal();
+        InvoiceDetailTotal indirectCostTotal = new InvoiceDetailTotal();
 
-        KualiDecimal totalDirectCostBudget = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostCumulative = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostExpenditures = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostBalance = KualiDecimal.ZERO;
-        KualiDecimal totalDirectCostBilled = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBudget = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostCumulative = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostExpenditures = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBalance = KualiDecimal.ZERO;
-        KualiDecimal totalInDirectCostBilled = KualiDecimal.ZERO;
-        Iterator<InvoiceDetail> o = document.getInvoiceDetailsWithIndirectCosts().iterator();
-
-        while (o.hasNext()) {
-
-            InvoiceDetail invD = o.next();
+        for (ContractsGrantsInvoiceDetail invD : document.getInvoiceDetailsWithIndirectCosts()) {
             // To sum up values for indirect Cost Invoice Details
-
             if (invD.isIndirectCostIndicator()) {
-                if (null != invD.getBudget()) {
-                    totalInDirectCostBudget = totalInDirectCostBudget.add(invD.getBudget());
-                }
-                if (null != invD.getCumulative()) {
-                    totalInDirectCostCumulative = totalInDirectCostCumulative.add(invD.getCumulative());
-
-                }
-                if (null != invD.getBalance()) {
-                    totalInDirectCostBalance = totalInDirectCostBalance.add(invD.getBalance());
-                }
-                if (null != invD.getBilled()) {
-                    totalInDirectCostBilled = totalInDirectCostBilled.add(invD.getBilled());
-                }
-                if (null != invD.getExpenditures()) {
-                    totalInDirectCostExpenditures = totalInDirectCostExpenditures.add(invD.getExpenditures());
-                }
-
+                indirectCostTotal.sumInvoiceDetail(invD);
             }
             else {
-                if (null != invD.getBudget()) {
-                    totalDirectCostBudget = totalDirectCostBudget.add(invD.getBudget());
-                }
-                if (null != invD.getCumulative()) {
-                    totalDirectCostCumulative = totalDirectCostCumulative.add(invD.getCumulative());
-
-                }
-                if (null != invD.getBalance()) {
-                    totalDirectCostBalance = totalDirectCostBalance.add(invD.getBalance());
-                }
-                if (null != invD.getBilled()) {
-                    totalDirectCostBilled = totalDirectCostBilled.add(invD.getBilled());
-                }
-                if (null != invD.getExpenditures()) {
-                    totalDirectCostExpenditures = totalDirectCostExpenditures.add(invD.getExpenditures());
-                }
+                directCostTotal.sumInvoiceDetail(invD);
             }
         }
-        InvoiceDetail directCostInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail directCostInvDetail = new ContractsGrantsInvoiceDetail();
         directCostInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
 
-        directCostInvDetail.setCategory(ArConstants.TOTAL_DIRECT_COST);
         directCostInvDetail.setCategoryCode(ArConstants.TOTAL_DIRECT_COST_CD);
-        directCostInvDetail.setBudget(totalDirectCostBudget);
-        directCostInvDetail.setExpenditures(totalDirectCostExpenditures);
-        directCostInvDetail.setCumulative(totalDirectCostCumulative);
-        directCostInvDetail.setBalance(totalDirectCostBalance);
-        directCostInvDetail.setBilled(totalDirectCostBilled);
+        directCostInvDetail.setCategoryName(ArConstants.TOTAL_DIRECT_COST);
+        directCostInvDetail.setBudget(directCostTotal.getBudget());
+        directCostInvDetail.setExpenditures(directCostTotal.getExpenditures());
+        directCostInvDetail.setCumulative(directCostTotal.getCumulative());
+        directCostInvDetail.setBilled(directCostTotal.getBilled());
         document.getInvoiceDetails().add(directCostInvDetail);
 
         // To create a Total In Direct Cost invoice detail to add values for indirect cost invoice details.
 
-        InvoiceDetail indInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail indInvDetail = new ContractsGrantsInvoiceDetail();
         indInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
         indInvDetail.setIndirectCostIndicator(true);
-        indInvDetail.setCategory(ArConstants.TOTAL_IN_DIRECT_COST);
         indInvDetail.setCategoryCode(ArConstants.TOTAL_IN_DIRECT_COST_CD);
-        indInvDetail.setBudget(totalInDirectCostBudget);
-        indInvDetail.setExpenditures(totalInDirectCostExpenditures);
-        indInvDetail.setCumulative(totalInDirectCostCumulative);
-        indInvDetail.setBalance(totalInDirectCostBalance);
-        indInvDetail.setBilled(totalInDirectCostBilled);
+        indInvDetail.setCategoryName(ArConstants.TOTAL_IN_DIRECT_COST);
+        indInvDetail.setBudget(indirectCostTotal.getBudget());
+        indInvDetail.setExpenditures(indirectCostTotal.getExpenditures());
+        indInvDetail.setCumulative(indirectCostTotal.getCumulative());
+        indInvDetail.setBilled(indirectCostTotal.getBilled());
         document.getInvoiceDetails().add(indInvDetail);
 
         // Sum up the direct cost and indirect cost invoice details.
 
-        InvoiceDetail totalInvDetail = new InvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInvDetail = new ContractsGrantsInvoiceDetail();
         totalInvDetail.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-
-        totalInvDetail.setCategory(ArConstants.TOTAL_COST);
         totalInvDetail.setCategoryCode(ArConstants.TOTAL_COST_CD);
+        totalInvDetail.setCategoryName(ArConstants.TOTAL_COST);
 
-        InvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = document.getTotalDirectCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalDirectCostInvoiceDetail)) {
-            totalInvDetail.setBudget(totalDirectCostInvoiceDetail.getBudget().add(totalInDirectCostBudget));
-            totalInvDetail.setExpenditures(totalDirectCostInvoiceDetail.getExpenditures().add(totalInDirectCostExpenditures));
-            totalInvDetail.setCumulative(totalDirectCostInvoiceDetail.getCumulative().add(totalInDirectCostCumulative));
-            totalInvDetail.setBalance(totalDirectCostInvoiceDetail.getBalance().add(totalInDirectCostBalance));
-            totalInvDetail.setBilled(totalDirectCostInvoiceDetail.getBilled().add(totalInDirectCostBilled));
+            totalInvDetail.setBudget(directCostTotal.getBudget().add(indirectCostTotal.getBudget()));
+            totalInvDetail.setExpenditures(directCostTotal.getExpenditures().add(indirectCostTotal.getExpenditures()));
+            totalInvDetail.setCumulative(directCostTotal.getCumulative().add(indirectCostTotal.getCumulative()));
+            totalInvDetail.setBilled(directCostTotal.getBilled().add(indirectCostTotal.getBilled()));
         }
 
         document.getInvoiceDetails().add(totalInvDetail);
+    }
+
+    /**
+     * Convenience inner class to hold the totals in certain categories as they are created
+     */
+    protected class InvoiceDetailTotal {
+        protected KualiDecimal budget = KualiDecimal.ZERO;
+        protected KualiDecimal cumulative = KualiDecimal.ZERO;
+        protected KualiDecimal expenditures = KualiDecimal.ZERO;
+        protected KualiDecimal balance = KualiDecimal.ZERO;
+        protected KualiDecimal billed = KualiDecimal.ZERO;
+
+        public KualiDecimal getBudget() {
+            return budget;
+        }
+        public KualiDecimal getCumulative() {
+            return cumulative;
+        }
+        public KualiDecimal getExpenditures() {
+            return expenditures;
+        }
+        public KualiDecimal getBalance() {
+            return balance;
+        }
+        public KualiDecimal getBilled() {
+            return billed;
+        }
+
+        public void sumInvoiceDetail(ContractsGrantsInvoiceDetail contractsGrantsInvoiceDetail) {
+            if (null != contractsGrantsInvoiceDetail.getBudget()) {
+                budget = budget.add(contractsGrantsInvoiceDetail.getBudget());
+            }
+            if (null != contractsGrantsInvoiceDetail.getCumulative()) {
+                cumulative = cumulative.add(contractsGrantsInvoiceDetail.getCumulative());
+            }
+            if (null != contractsGrantsInvoiceDetail.getExpenditures()) {
+                expenditures = expenditures.add(contractsGrantsInvoiceDetail.getExpenditures());
+            }
+            if (null != contractsGrantsInvoiceDetail.getBalance()) {
+                balance = balance.add(contractsGrantsInvoiceDetail.getBalance());
+            }
+            if (null != contractsGrantsInvoiceDetail.getBilled()) {
+                billed = billed.add(contractsGrantsInvoiceDetail.getBilled());
+            }
+        }
     }
 
     /**
@@ -4477,7 +4302,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param objectCodes set of object codes pertaining to a single category
      * @param awardBeginningDate the beginning date for the award
      */
-    protected void performBudgetCalculationsOnInvoiceDetail(InvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
+    protected void performBudgetCalculationsOnInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
         KualiDecimal budAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
@@ -4500,8 +4325,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                 balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                 balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-                balanceKeys.put("balanceTypeCode", ArPropertyConstants.BUDGET_BALANCE_TYPE);
-                balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.BUDGET_BALANCE_TYPE);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
                 balanceKeys.put(KFSPropertyConstants.OBJECT_CODE, objectList);
                 glBalances.addAll(getBusinessObjectService().findMatching(Balance.class, balanceKeys));
             }
@@ -4525,7 +4350,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoiceDetailAccountObjectCodes the invoice detail account object codes
      * @param objectCodesForCategory the object codes for the given category
      */
-    protected void performBilledAndExpenditureCalculationForDetail(InvoiceDetail invoiceDetail, List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
+    protected void performBilledAndExpenditureCalculationForDetail(ContractsGrantsInvoiceDetail invoiceDetail, List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes, Set<String> objectCodesForCategory) {
         invoiceDetail.setCumulative(KualiDecimal.ZERO);
         invoiceDetail.setExpenditures(KualiDecimal.ZERO);
         invoiceDetail.setBilled(KualiDecimal.ZERO);
@@ -4550,7 +4375,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return Set<String> objectCodes
      */
     @Override
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
+    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategory category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
         Set<String> objectCodeArray = new HashSet<String>();
         Set<String> levels = new HashSet<String>();
         if (ObjectUtils.isNotNull(category.getCategoryObjectCodes()) && StringUtils.isNotEmpty(category.getCategoryObjectCodes())) {
@@ -4569,20 +4394,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // To validate if the object Code formed is in proper format of [0-9a-zA-Z]{4}
 
                     if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        try {
+                        List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                        // To Check for the first value as it is not being included in the array
+                        objectCodeArray.add(obCodeFirst);
 
-                            List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
-                            // To Check for the first value as it is not being included in the array
-                            objectCodeArray.add(obCodeFirst);
-
-                            for (int i = 0; i < objectCodeValues.size(); i++) {
-                                objectCodeArray.add(objectCodeValues.get(i));
-                            }
-                        }
-                        catch (Exception ex) {
-                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice", ex.getMessage());
-                            LOG.error(msg);
-                            throw new RuntimeException(msg, ex);
+                        for (int i = 0; i < objectCodeValues.size(); i++) {
+                            objectCodeArray.add(objectCodeValues.get(i));
                         }
                     }
                     else {
@@ -4604,19 +4421,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         obCodeLast = obCodeLast.concat("Z");
                     }
                     if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        try {
-                            List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                        List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
 
-                            // To Check for the first value as it is not being included in the array
-                            objectCodeArray.add(obCodeFirst);
-                            for (int i = 0; i < obCodeValues.size(); i++) {
-                                objectCodeArray.add(obCodeValues.get(i));
-                            }
-                        }
-                        catch (Exception ex) {
-                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice for the category:" + category.getCategoryName(), ex.getMessage());
-                            LOG.error(msg);
-                            throw new RuntimeException(msg, ex);
+                        // To Check for the first value as it is not being included in the array
+                        objectCodeArray.add(obCodeFirst);
+                        for (int i = 0; i < obCodeValues.size(); i++) {
+                            objectCodeArray.add(obCodeValues.get(i));
                         }
                     }
                     else {
@@ -4673,11 +4483,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Set<String> objectCodeArray = new HashSet<String>();
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
-        Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        Iterator<ContractsAndGrantsCategory> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
 
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
-            ContractsAndGrantsCategories category = contractsAndGrantsCategoriesIterator.next();
+            ContractsAndGrantsCategory category = contractsAndGrantsCategoriesIterator.next();
             objectCodeArray.addAll(getObjectCodeArrayFromSingleCategory(category, document));
         }
 
@@ -4727,12 +4537,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.customerService = customerService;
     }
 
-    public ContractsAndGrantsModuleUpdateService getContractsAndGrantsModuleUpdateService() {
-        return contractsAndGrantsModuleUpdateService;
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
     }
 
-    public void setContractsAndGrantsModuleUpdateService(ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService) {
-        this.contractsAndGrantsModuleUpdateService = contractsAndGrantsModuleUpdateService;
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
     }
 
     public KualiModuleService getKualiModuleService() {
@@ -4753,6 +4563,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return Returns the configurationService
      */
 
+    @Override
     public ConfigurationService getConfigurationService() {
         return configurationService;
     }
@@ -4762,6 +4573,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @param configurationService The configurationService to set.
      */
+    @Override
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
@@ -4861,13 +4673,54 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (StringUtils.isNotBlank(billId)) {
             map.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billId);
         }
-        invoiceBills = (List<InvoiceBill>) businessObjectService.findMatching(InvoiceBill.class, map);
-
-        if (CollectionUtils.isNotEmpty(invoiceBills)) {
-            return true;
-        } else {
-            return false;
+        invoiceBills.addAll(businessObjectService.findMatching(InvoiceBill.class, map));
+        // but skip documents which have been canceled, disapproved, or where the document was error corrected
+        Set<String> effectiveDocumentNumbers = new HashSet<String>();
+        List<InvoiceBill> effectiveInvoiceBills = new ArrayList<InvoiceBill>();
+        for (InvoiceBill invoiceBill : invoiceBills) {
+            if (effectiveDocumentNumbers.contains(invoiceBill.getDocumentNumber()) || isInvoiceDocumentEffective(invoiceBill.getDocumentNumber())) {
+                effectiveInvoiceBills.add(invoiceBill);
+                effectiveDocumentNumbers.add(invoiceBill.getDocumentNumber());
+            }
         }
+
+        return CollectionUtils.isNotEmpty(effectiveInvoiceBills);
+    }
+
+    /**
+     * Determines whether the given ContractsGrantsInvoiceDocument is "effective" or not: if it is disapproved, cancelled, or error corrected then it is NOT effective,
+     * and in all other cases, it is effective
+     * @param invoiceDocument the invoice document to check
+     * @return true if the document is "effective" given the rules above, false otherwise
+     */
+    protected boolean isInvoiceDocumentEffective(String documentNumber) {
+        final FinancialSystemDocumentHeader invoiceDocHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
+        final String documentStatus = invoiceDocHeader.getWorkflowDocumentStatusCode();
+        if (StringUtils.isBlank(invoiceDocHeader.getFinancialDocumentInErrorNumber()) && !StringUtils.equals(documentStatus, DocumentStatus.CANCELED.getCode()) && !StringUtils.equals(documentStatus, DocumentStatus.DISAPPROVED.getCode())) { // skip error correcting CINVs, as they should be taken care of by the error correcting code
+            final DocumentHeader correctingDocumentHeader = getFinancialSystemDocumentService().getCorrectingDocumentHeader(documentNumber);
+            if (ObjectUtils.isNull(correctingDocumentHeader) || isCorrectedInvoiceDocumentEffective(correctingDocumentHeader.getDocumentNumber())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if an error correction is "effective" - ie, currently locking resources like milestones and pre-determined billing from the original CINV
+     * @param errorCorrectionDocumentNumber the document number to check for the effectiveness of
+     * @return true if the document is effectively locking resources, false otherwise
+     */
+    protected boolean isCorrectedInvoiceDocumentEffective(String errorCorrectionDocumentNumber) {
+        final FinancialSystemDocumentHeader invoiceDocHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, errorCorrectionDocumentNumber);
+        final String documentStatus = invoiceDocHeader.getWorkflowDocumentStatusCode();
+        if (getFinancialSystemDocumentService().getPendingDocumentStatuses().contains(documentStatus)) {
+            return true; // the error correction document is currently pending, then it has not yet freed the milestones and pre-billings on the original CINV, so it's effective
+        }
+        final DocumentHeader correctingDocumentHeader = getFinancialSystemDocumentService().getCorrectingDocumentHeader(errorCorrectionDocumentNumber);
+        if (!ObjectUtils.isNull(correctingDocumentHeader) && isCorrectedInvoiceDocumentEffective(correctingDocumentHeader.getDocumentNumber())) {
+            return true; // is the error correction currently undergoing error correction itself?  Then recheck the rules on the newer error corrector to see if this document is effective or not
+        }
+        return false; // the error correction document is not effective and has freed resources
     }
 
     @Override
@@ -4879,29 +4732,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (StringUtils.isNotBlank(milestoneId)) {
             map.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneId);
         }
-        invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
-
-        return (CollectionUtils.isNotEmpty(invoiceMilestones));
-    }
-
-
-    /**
-     * Finds all in process contracts & grants invoice docs and then uses the AR e-mail service to send out e-mails about them
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#emailInProcessContractsGrantsInvoiceDocuments()
-     */
-    @Override
-    public void emailInProcessContractsGrantsInvoiceDocuments() throws AddressException, MessagingException {
-        List<ContractsGrantsInvoiceDocument> collection = new ArrayList<ContractsGrantsInvoiceDocument>();
-
-        // Get the list of CG Invoice Documents that have the marked for processing flag set
-        Collection<ContractsGrantsInvoiceDocument> invoices = getAllCGInvoiceDocuments(false);
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            // invoice has been marked for processing
-            if (ArConstants.INV_RPT_PRCS_IN_PROGRESS.equalsIgnoreCase(invoice.getMarkedForProcessing())) {
-                collection.add(invoice);
+        invoiceMilestones.addAll(businessObjectService.findMatching(InvoiceMilestone.class, map));
+        // skip ineffective milestones, based on invoice
+        Set<String> effectiveDocumentNumbers = new HashSet<String>();
+        List<InvoiceMilestone> effectiveInvoiceMilestones = new ArrayList<InvoiceMilestone>();
+        for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
+            if (effectiveDocumentNumbers.contains(invoiceMilestone.getDocumentNumber()) || isInvoiceDocumentEffective(invoiceMilestone.getDocumentNumber())) {
+                effectiveInvoiceMilestones.add(invoiceMilestone);
+                effectiveDocumentNumbers.add(invoiceMilestone.getDocumentNumber());
             }
         }
-        arEmailService.sendInvoicesViaEmail(collection);
+
+        return CollectionUtils.isNotEmpty(effectiveInvoiceMilestones);
     }
 
     /**
@@ -4916,6 +4758,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), userChartOrg.getChartOfAccountsCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),userChartOrg.getOrganizationCode());
         }
         return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isTemplateValidForContractsGrantsInvoiceDocument(org.kuali.kfs.module.ar.businessobject.InvoiceTemplate, org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     */
+    @Override
+    public boolean isTemplateValidForContractsGrantsInvoiceDocument(InvoiceTemplate invoiceTemplate, ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument)) {
+            return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), contractsGrantsInvoiceDocument.getBillByChartOfAccountCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
+        }
+        return true;
     }
 
     /**
@@ -4946,6 +4799,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.financialSystemUserService = financialSystemUserService;
     }
 
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
     }
@@ -4954,4 +4815,5 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+
 }

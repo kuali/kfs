@@ -228,7 +228,7 @@
 		<condition property="internal.contracts.and.grants.spring.files" value="${contracts.and.grants.spring.files}" else="">
 			<istrue value="${module.contracts.and.grants.enabled}"/>
 		</condition>
-		<condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}" else="">
+		<condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}${institution.coeus.spring.source.file}" else="">
 			<istrue value="${module.external.kuali.coeus.enabled}"/>
 		</condition>
 		<condition property="internal.accounts.receivable.spring.files" value="${accounts.receivable.spring.files}" else="">
@@ -782,7 +782,7 @@
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${classes.directory}" />
-		<javac destdir="${classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.7" target="1.7" failonerror="${fail.when.compile.fails}"
+		<javac destdir="${classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
 			<classpath refid="compile.source.classpath" />			
 			<compilerarg line="-Xmaxerrs 500"/>
@@ -795,7 +795,7 @@
 	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${institution.source.directory} into ${classes.directory}" />
         <javac destdir="${classes.directory}" srcdir="${institution.source.directory}"
-               debug="true" fork="true"  source="1.7" target="1.7" failonerror="${fail.when.compile.fails}"
+               debug="true" fork="true"  source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
@@ -840,7 +840,7 @@ Includes: ${tests.compile.includes}
 Excludes: ${tests.compile.excludes}
 *********************************************</echo>
 		<javac destdir="${test.classes.directory}" 
-	 	    source="1.7" target="1.7"
+	 	    source="1.6" target="1.6"
 			debug="true" nowarn="true" failonerror="${fail.when.compile.fails}" 
 			optimize="true" fork="true" 
 			memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
@@ -864,7 +864,7 @@ Excludes: ${tests.compile.excludes}
 	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
         <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
         <javac destdir="${test.classes.directory}" debug="true" nowarn="true" 
-		 	    source="1.7" target="1.7"
+		 	    source="1.6" target="1.6"
         	   optimize="true" fork="true" failonerror="${fail.when.compile.fails}" 
         	   memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			   includes="${tests.compile.includes}"
@@ -1154,6 +1154,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 							 	override="true" />
 				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="build/rice-lib/${file}.jar" sourcepath="build/rice-sources/${file}-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
+		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>

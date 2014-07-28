@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,9 +105,6 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     private List<BatchInputFileType> batchInputFileTypes;
     private CustomerDigesterAdapter adapter;
     private String reportsDirectory;
-
-    public CustomerLoadServiceImpl() {
-    }
 
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFiles()
@@ -341,17 +339,15 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         byte[] fileByteContent;
         try {
             fileContents = new FileInputStream(fileName);
-        }
-        catch (FileNotFoundException e1) {
-            LOG.error("Batch file not found [" + fileName + "]. " + e1.getMessage());
-            throw new RuntimeException("Batch File not found [" + fileName + "]. " + e1.getMessage());
-        }
-        try {
             fileByteContent = IOUtils.toByteArray(fileContents);
         }
-        catch (IOException e1) {
-            LOG.error("IO Exception loading: [" + fileName + "]. " + e1.getMessage());
-            throw new RuntimeException("IO Exception loading: [" + fileName + "]. " + e1.getMessage());
+        catch (FileNotFoundException fnfe) {
+            LOG.error("Batch file not found [" + fileName + "]. " + fnfe.getMessage());
+            throw new RuntimeException("Batch File not found [" + fileName + "]. " + fnfe.getMessage());
+        }
+        catch (IOException ioe) {
+            LOG.error("IO Exception loading: [" + fileName + "]. " + ioe.getMessage());
+            throw new RuntimeException("IO Exception loading: [" + fileName + "]. " + ioe.getMessage());
         }
         return fileByteContent;
     }
@@ -637,8 +633,9 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         try {
             clonedAddress = (CustomerAddress) BeanUtils.cloneBean(address);
         }
-        catch (Exception ex) {
+        catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException ex) {
             LOG.error("Unable to clone address [" + address + "]", ex);
+            throw new RuntimeException("Unable to clone address [" + address + "]", ex);
         }
         return clonedAddress;
     }
@@ -772,36 +769,26 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         //  try to retrieve the property type to see if it exists at all
         try {
             propertyClass = PropertyUtils.getPropertyType(batchCustomer, propertyName);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Could not access properties on the Customer object.", e);
-        }
 
-        //  if the property doesnt exist, then throw an exception
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("The propertyName specified [" + propertyName + "] doesnt exist on the Customer object.");
-        }
+            //  if the property doesnt exist, then throw an exception
+            if (propertyClass == null) {
+                throw new IllegalArgumentException("The propertyName specified [" + propertyName + "] doesnt exist on the Customer object.");
+            }
 
-        //  get the String values of both batch and existing, to compare
-        try {
+            //  get the String values of both batch and existing, to compare
             batchValue = BeanUtils.getSimpleProperty(batchCustomer, propertyName);
             existingValue = BeanUtils.getSimpleProperty(existingCustomer, propertyName);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Could not access properties on the Customer object.", e);
-        }
 
-        //  if the existing is non-blank, and the new is blank, then over-write the new with the existing value
-        if (StringUtils.isBlank(batchValue) && StringUtils.isNotBlank(existingValue)) {
+            //  if the existing is non-blank, and the new is blank, then over-write the new with the existing value
+            if (StringUtils.isBlank(batchValue) && StringUtils.isNotBlank(existingValue)) {
 
-            //  get the real typed value, and then try to set the property value
-            try {
+                //  get the real typed value, and then try to set the property value
                 Object typedValue = PropertyUtils.getProperty(existingCustomer, propertyName);
                 BeanUtils.setProperty(batchCustomer, propertyName, typedValue);
             }
-            catch (Exception e) {
-                throw new RuntimeException("Could not set properties on the Customer object.", e);
-            }
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Could not set properties on the Customer object", ex);
         }
     }
 
@@ -916,43 +903,52 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         //  setup the PDF business
         Document pdfDoc = new Document(PageSize.LETTER, 54, 54, 72, 72);
-        getPdfWriter(pdfDoc);
-        pdfDoc.open();
+        try {
+            getPdfWriter(pdfDoc);
+            try {
+                pdfDoc.open();
 
-        if (fileResults.isEmpty()) {
-            writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
-            return;
-        }
+                if (fileResults.isEmpty()) {
+                    writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
+                    return;
+                }
 
-        CustomerLoadResult result;
-        String customerResultLine;
-        for (CustomerLoadFileResult fileResult : fileResults) {
+                CustomerLoadResult result;
+                String customerResultLine;
+                for (CustomerLoadFileResult fileResult : fileResults) {
 
-            //  file name title
-            String fileNameOnly = fileResult.getFilename().toUpperCase();
-            fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
-            writeFileNameSectionTitle(pdfDoc, fileNameOnly);
+                    //  file name title
+                    String fileNameOnly = fileResult.getFilename().toUpperCase();
+                    fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
+                    writeFileNameSectionTitle(pdfDoc, fileNameOnly);
 
-            //  write any file-general messages
-            writeMessageEntryLines(pdfDoc, fileResult.getMessages());
+                    //  write any file-general messages
+                    writeMessageEntryLines(pdfDoc, fileResult.getMessages());
 
-            //  walk through each customer included in this file
-            for (String customerName : fileResult.getCustomerNames()) {
-                result = fileResult.getCustomer(customerName);
+                    //  walk through each customer included in this file
+                    for (String customerName : fileResult.getCustomerNames()) {
+                        result = fileResult.getCustomer(customerName);
 
-                //  write the customer title
-                writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
+                        //  write the customer title
+                        writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
 
-                //  write a success/failure results line for this customer
-                customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
-                writeCustomerSectionResult(pdfDoc, customerResultLine);
+                        //  write a success/failure results line for this customer
+                        customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
+                        writeCustomerSectionResult(pdfDoc, customerResultLine);
 
-                //  write any customer messages
-                writeMessageEntryLines(pdfDoc, result.getMessages());
+                        //  write any customer messages
+                        writeMessageEntryLines(pdfDoc, result.getMessages());
+                    }
+                }
+            } finally {
+                if (pdfDoc != null) {
+                    pdfDoc.close();
+                }
             }
         }
-
-        pdfDoc.close();
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Could not open file for results report",ex);
+        }
     }
 
     protected void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
@@ -1038,7 +1034,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
     }
 
-    protected void getPdfWriter(Document pdfDoc) {
+    protected void getPdfWriter(Document pdfDoc) throws IOException, DocumentException {
 
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +
@@ -1047,23 +1043,9 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         //  setup the writer
         File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
-        try {
-            fileOutStream = new FileOutputStream(reportFile);
-        }
-        catch (IOException e) {
-            LOG.error("IOException thrown when trying to open the FileOutputStream.", e);
-            throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
-        }
+        fileOutStream = new FileOutputStream(reportFile);
         BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
-
-        try {
-            PdfWriter.getInstance(pdfDoc, buffOutStream);
-        }
-        catch (DocumentException e) {
-            LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-            throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-        }
-
+        PdfWriter.getInstance(pdfDoc, buffOutStream);
     }
 
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {

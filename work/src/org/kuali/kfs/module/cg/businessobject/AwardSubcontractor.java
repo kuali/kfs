@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an association between an award and a subcontractor. It's like a reference to the subcontractor from the
@@ -43,14 +43,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     private SubContractor subcontractor;
 
     /**
-     * Default constructor.
-     */
-    public AwardSubcontractor() {
-    }
-
-    /**
      * Gets the awardSubcontractorAmendmentNumber attribute.
-     * 
+     *
      * @return Returns the awardSubcontractorAmendmentNumber
      */
     public String getAwardSubcontractorAmendmentNumber() {
@@ -59,7 +53,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the awardSubcontractorAmendmentNumber attribute.
-     * 
+     *
      * @param awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
      */
     public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
@@ -69,7 +63,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the awardSubcontractorNumber attribute.
-     * 
+     *
      * @return Returns the awardSubcontractorNumber
      */
     public String getAwardSubcontractorNumber() {
@@ -78,7 +72,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the awardSubcontractorNumber attribute.
-     * 
+     *
      * @param awardSubcontractorNumber The awardSubcontractorNumber to set.
      */
     public void setAwardSubcontractorNumber(String awardSubcontractorNumber) {
@@ -88,7 +82,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractorNumber attribute.
-     * 
+     *
      * @return Returns the subcontractorNumber
      */
     public String getSubcontractorNumber() {
@@ -97,7 +91,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractorNumber attribute.
-     * 
+     *
      * @param subcontractorNumber The subcontractorNumber to set.
      */
     public void setSubcontractorNumber(String subcontractorNumber) {
@@ -107,7 +101,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
     public Long getProposalNumber() {
@@ -116,7 +110,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -126,7 +120,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractorAmount attribute.
-     * 
+     *
      * @return Returns the subcontractorAmount
      */
     public KualiDecimal getSubcontractorAmount() {
@@ -135,7 +129,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractorAmount attribute.
-     * 
+     *
      * @param subcontractorAmount The subcontractorAmount to set.
      */
     public void setSubcontractorAmount(KualiDecimal subcontractorAmount) {
@@ -145,7 +139,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractorContactFirstName attribute.
-     * 
+     *
      * @return Returns the subcontractorContactFirstName
      */
     public String getSubcontractorContactFirstName() {
@@ -154,7 +148,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractorContactFirstName attribute.
-     * 
+     *
      * @param subcontractorContactFirstName The subcontractorContactFirstName to set.
      */
     public void setSubcontractorContactFirstName(String subcontractorContactFirstName) {
@@ -164,7 +158,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractorContactLastName attribute.
-     * 
+     *
      * @return Returns the subcontractorContactLastName
      */
     public String getSubcontractorContactLastName() {
@@ -173,7 +167,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractorContactLastName attribute.
-     * 
+     *
      * @param subcontractorContactLastName The subcontractorContactLastName to set.
      */
     public void setSubcontractorContactLastName(String subcontractorContactLastName) {
@@ -183,7 +177,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractorAuditHistoryText attribute.
-     * 
+     *
      * @return Returns the subcontractorAuditHistoryText
      */
     public String getSubcontractorAuditHistoryText() {
@@ -192,7 +186,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractorAuditHistoryText attribute.
-     * 
+     *
      * @param subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
      */
     public void setSubcontractorAuditHistoryText(String subcontractorAuditHistoryText) {
@@ -201,7 +195,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the awardSubcontractorDescription attribute.
-     * 
+     *
      * @return Returns the awardSubcontractorDescription.
      */
     public String getAwardSubcontractorDescription() {
@@ -210,7 +204,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the awardSubcontractorDescription attribute value.
-     * 
+     *
      * @param awardSubcontractorDescription The awardSubcontractorDescription to set.
      */
     public void setAwardSubcontractorDescription(String awardSubcontractorDescription) {
@@ -219,7 +213,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Gets the subcontractor attribute.
-     * 
+     *
      * @return Returns the subcontractor.
      */
     public SubContractor getSubcontractor() {
@@ -228,7 +222,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
 
     /**
      * Sets the subcontractor attribute.
-     * 
+     *
      * @param subcontractor The subcontractor to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -241,6 +235,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -248,6 +243,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -256,7 +252,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("awardSubcontractorAmendmentNumber", this.awardSubcontractorAmendmentNumber);

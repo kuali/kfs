@@ -40,7 +40,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
     private Long milestoneNumber;
     private Long milestoneIdentifier;
     private String milestoneDescription;
-    private boolean billedIndicator;
+    private boolean billedIndicator = false;
     private KualiDecimal milestoneAmount;
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
@@ -48,13 +48,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
 
     private ContractsAndGrantsBillingAward award;
     private ContractsGrantsInvoiceDocument invoiceDocument;
-
-    /**
-     * Constructs a Milestones.java.
-     */
-    public InvoiceMilestone() {
-        this.setBilledIndicator(false);
-    }
 
     /**
      * Gets the award attribute.

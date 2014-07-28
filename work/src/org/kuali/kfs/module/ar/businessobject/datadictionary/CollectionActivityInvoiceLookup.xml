@@ -15,7 +15,7 @@
 
 	<bean id="CollectionActivityInvoiceLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup" />
-		<property name="objectLabel" value="Contracts Grants Invoice Lookup Result" />
+		<property name="objectLabel" value="Collection Activity Invoice Lookup" />
 		<property name="lookupDefinition">
 			<ref bean="CollectionActivityInvoiceLookup-lookupDefinition" />
 		</property>
@@ -71,7 +71,11 @@
 	</bean>
 	
 	<bean id="CollectionActivityInvoiceLookup-accountNumber" parent="CollectionActivityInvoiceLookup-accountNumber-parentBean" />
-	<bean id="CollectionActivityInvoiceLookup-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+	<bean id="CollectionActivityInvoiceLookup-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 	
 	<bean id="CollectionActivityInvoiceLookup-invoiceDate" parent="CollectionActivityInvoiceLookup-invoiceDate-parentBean" />
 	<bean id="CollectionActivityInvoiceLookup-invoiceDate-parentBean"
@@ -91,7 +95,7 @@
 		<property name="maxLength" value="50" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextControlDefinition" p:size="52" />
 		</property>
 	</bean>
 	
@@ -149,7 +153,7 @@
 		<property name="maxLength" value="5" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	<!-- Business Object Lookup Definition -->

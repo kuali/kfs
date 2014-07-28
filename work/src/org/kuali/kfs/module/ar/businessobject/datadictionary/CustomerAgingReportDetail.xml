@@ -87,12 +87,18 @@
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="processingOrBillingChartOfAccountsCode" />
 		<property name="label" value="Processing/Billing Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerAgingReportDetail-organizationCode" parent="CustomerAgingReportDetail-organizationCode-parentBean" />
 	<bean id="CustomerAgingReportDetail-organizationCode-parentBean"
 		abstract="true" parent="Organization-organizationCode">
 		<property name="label" value="Processing/Billing Organization Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerAgingReportDetail-accountChartOfAccountsCode"
@@ -101,11 +107,18 @@
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="accountChartOfAccountsCode" />
 		<property name="label" value="Account Chart Code" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
 	</bean>
 
 	<bean id="CustomerAgingReportDetail-accountNumber" parent="CustomerAgingReportDetail-accountNumber-parentBean" />
 	<bean id="CustomerAgingReportDetail-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+    </bean>
 
 	<bean id="CustomerAgingReportDetail-reportRunDate" parent="CustomerAgingReportDetail-reportRunDate-parentBean" />
 	<bean id="CustomerAgingReportDetail-reportRunDate-parentBean"

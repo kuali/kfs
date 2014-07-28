@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.service;
 
-import java.util.List;
-
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -121,13 +119,5 @@ public interface CashDrawerService {
      * @return The summed value of coins in the drawer.
      */
     public KualiDecimal getCoinTotal(CashDrawer drawer);
-
-    /**
-     * Retrieves coin counts per roll from the parameter COUNT_PER_ROLL_BY_DENOMINATION, defined as a map for 300c, 50c, 25c, 30c, 5c, 3c.
-     *
-     * @return a list of coin counts per roll, in the order as defined in COIN_DENOMINATIONS.
-     * @@throws IllegalArgumentException if any sub-parameter is not defined or the integer value is less than 0.
-     */
-    public List<Integer> getCoinCountsPerRoll();
 
 }

@@ -34,9 +34,9 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -46,7 +46,7 @@ import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
-import org.kuali.kfs.module.ar.fixture.InvoiceDetailFixture;
+import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
@@ -69,7 +69,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
 
-    public ContractsAndGrantsCategories category;
+    public ContractsAndGrantsCategory category;
     public ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument;
     public ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
 
@@ -84,7 +84,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
         contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
 
-        category = new ContractsAndGrantsCategories();
+        category = new ContractsAndGrantsCategory();
         category.setCategoryCode("testCode");
         category.setCategoryDescription("testDescription");
         category.setCategoryName("testName");
@@ -340,10 +340,10 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocument.setAward(award);
         contractsGrantsInvoiceDocument.setProposalNumber(award.getProposalNumber());
 
-        InvoiceDetail invoiceDetail_1 = InvoiceDetailFixture.INV_DTL4.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_2 = InvoiceDetailFixture.INV_DTL5.createInvoiceDetail();
-        InvoiceDetail invoiceDetail_3 = InvoiceDetailFixture.INV_DTL6.createInvoiceDetail();
-        List<InvoiceDetail> invoiceDetails = new ArrayList<InvoiceDetail>();
+        ContractsGrantsInvoiceDetail invoiceDetail_1 = ContractsGrantsInvoiceDetailFixture.INV_DTL4.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_2 = ContractsGrantsInvoiceDetailFixture.INV_DTL5.createInvoiceDetail();
+        ContractsGrantsInvoiceDetail invoiceDetail_3 = ContractsGrantsInvoiceDetailFixture.INV_DTL6.createInvoiceDetail();
+        List<ContractsGrantsInvoiceDetail> invoiceDetails = new ArrayList<ContractsGrantsInvoiceDetail>();
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
         invoiceDetails.add(invoiceDetail_3);
@@ -353,17 +353,17 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(contractsGrantsInvoiceDocument.getAward().getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         // all
-        List<InvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
+        List<ContractsGrantsInvoiceDetail> allInvoiceDetails = contractsGrantsInvoiceDocument.getInvoiceDetails();
 
         // non-totals
-        List<InvoiceDetail> invoiceDetailsWithoutIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts();
-        List<InvoiceDetail> invoiceDetailsIdcOnly = contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly();
-        List<InvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithoutIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithoutIndirectCosts();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsIdcOnly = contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly();
+        List<ContractsGrantsInvoiceDetail> invoiceDetailsWithIdc = contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts();
 
         // totals
-        InvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
-        InvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
-        InvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalDirectCostInvoiceDetail();
+        ContractsGrantsInvoiceDetail totalInDirectCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalInDirectCostInvoiceDetail();
 
         // non-totals
         assertEquals(15, allInvoiceDetails.size());

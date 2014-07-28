@@ -34,6 +34,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -479,4 +480,26 @@ public interface TravelDocumentService {
      * @return the customized link text
      */
     public String customizeAgencyLink(TravelDocument travelDocument, String agencyName, String link);
+
+    /**
+     * Checks whether the TEMReimbursementDocument require traveler's approval routing based on its travel arranger's profile.
+     * @param trDoc the TEMReimbursementDocument to be checked
+     * @return true if the trDoc requires traveler's approval; false otherwise
+     */
+    public boolean requiresTravelerApproval(TEMReimbursementDocument trDoc);
+
+    /**
+     * Checks whether the TravelAuthorizationDocument require traveler's approval routing based on its travel arranger's profile.
+     * @param taDoc the TravelAuthorizationDocument to be checked
+     * @return true if the taDoc requires traveler's approval; false otherwise
+     */
+    public boolean requiresTravelerApproval(TravelAuthorizationDocument taDoc);
+
+    /**
+     * Checks whether the TravelDocument's initiator is the traveler him/herself (if not, then the initiator is one of the arranger).
+     * @param travelDoc the TravelDocument to be checked
+     * @return true if the TravelDocument's initiator is the traveler.
+     */
+    public boolean isInitiatorTraveler(TravelDocument travelDoc);
+
 }

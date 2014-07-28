@@ -30,13 +30,6 @@ public class SuspensionCategory extends PersistableBusinessObjectBase implements
     private String suspensionCategoryDescription;
     private boolean active;
 
-    /**
-     * Default constructor.
-     */
-    public SuspensionCategory() {
-    }
-
-
     public String getSuspensionCategoryCode() {
         return suspensionCategoryCode;
     }

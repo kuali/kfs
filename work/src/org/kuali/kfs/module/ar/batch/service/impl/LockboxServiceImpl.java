@@ -113,59 +113,57 @@ public class LockboxServiceImpl implements LockboxService {
         ctrlLockbox = new Lockbox();
         cashControlDocument = null;
         anyRecordsFoundInd = false;
-        //  create the pdf doc
-        com.lowagie.text.Document pdfdoc = getPdfDoc();
-
-        //  this giant try/catch is to make sure that something gets written to the
-        // report.  please dont use it for specific exception handling, rather nest
-        // new try/catch handlers inside this.
         try {
+            //  create the pdf doc
+            com.lowagie.text.Document pdfdoc = getPdfDoc();
 
-            Iterator<Lockbox> itr = getAllLockboxes().iterator();
+            //  this giant try/catch is to make sure that something gets written to the
+            // report.  please dont use it for specific exception handling, rather nest
+            // new try/catch handlers inside this.
+            try {
+                Iterator<Lockbox> itr = getAllLockboxes().iterator();
 
-            while (itr.hasNext()) {
-                processLockbox(itr.next(), pdfdoc);
-            }
-            //  if we have a cashControlDocument here, then it needs to be routed, its the last one
-            if (cashControlDocument != null) {
-                LOG.info("   routing cash control document.");
-                try {
+                while (itr.hasNext()) {
+                    processLockbox(itr.next(), pdfdoc);
+                }
+                //  if we have a cashControlDocument here, then it needs to be routed, its the last one
+                if (cashControlDocument != null) {
+                    LOG.info("   routing cash control document.");
 
                     //documentService.routeDocument(cashControlDocument, "Routed by Lockbox Batch process.", null);
                     cashControlDocument.getDocumentHeader().getWorkflowDocument().route("Routed by Lockbox Batch process.");
 
-                    //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
                     DocumentType documentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
                     DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
                     queue.indexDocument(cashControlDocument.getDocumentNumber());
-
                 }
-                catch (Exception e) {
-                    LOG.error("A Exception was thrown while trying to route the CashControl document.", e);
-                    throw new RuntimeException("A Exception was thrown while trying to route the CashControl document.", e);
+
+                //  if no records were found, write something useful to the report
+                if (!anyRecordsFoundInd) {
+                    writeDetailLine(pdfdoc, "NO LOCKBOX RECORDS WERE FOUND");
+                }
+
+                //  this annoying all-encompassing try/catch is here to make sure that the report gets
+                // written.  without it, if anything goes wrong, the report will end up a zero-byte document.
+            }
+            catch (Exception e) {
+                writeDetailLine(pdfdoc, "AN EXCEPTION OCCURRED:");
+                writeDetailLine(pdfdoc, "");
+                writeDetailLine(pdfdoc, e.getMessage());
+                writeDetailLine(pdfdoc, "");
+                writeExceptionStackTrace(pdfdoc, e);
+
+                throw new RuntimeException("An exception occured while processing Lockboxes.", e);
+            }
+            finally {
+                //  spool the report
+                if (pdfdoc != null) {
+                    pdfdoc.close();
                 }
             }
-
-            //  if no records were found, write something useful to the report
-            if (!anyRecordsFoundInd) {
-                writeDetailLine(pdfdoc, "NO LOCKBOX RECORDS WERE FOUND");
-            }
-
-            //  this annoying all-encompassing try/catch is here to make sure that the report gets
-            // written.  without it, if anything goes wrong, the report will end up a zero-byte document.
         }
-        catch (Exception e) {
-            writeDetailLine(pdfdoc, "AN EXCEPTION OCCURRED:");
-            writeDetailLine(pdfdoc, "");
-            writeDetailLine(pdfdoc, e.getMessage());
-            writeDetailLine(pdfdoc, "");
-            writeExceptionStackTrace(pdfdoc, e);
-
-            throw new RuntimeException("An exception occured while processing Lockboxes.", e);
-        } finally {
-
-        //  spool the report
-            pdfdoc.close();
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Could not open file for lockbox processing results report", ex);
         }
         return true;
 
@@ -308,10 +306,11 @@ public class LockboxServiceImpl implements LockboxService {
 
         //  add it to the document
         LOG.info("   creating detail for $" + lockbox.getInvoicePaidOrAppliedAmount() + " with invoiceDate: " + lockbox.getProcessedInvoiceDate());
+
         try {
             cashControlDocumentService.addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
         }
-        catch (Exception e) {
+        catch (WorkflowException e) {
             LOG.error("A Exception was thrown while trying to create a new CashControl detail.", e);
             throw new RuntimeException("A Exception was thrown while trying to create a new CashControl detail.", e);
         }
@@ -330,7 +329,7 @@ public class LockboxServiceImpl implements LockboxService {
             try {
                 documentService.saveDocument(cashControlDocument);
             }
-            catch (Exception e) {
+            catch (WorkflowException e) {
                 LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
                 throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
             }
@@ -354,7 +353,7 @@ public class LockboxServiceImpl implements LockboxService {
             try {
                 documentService.saveDocument(cashControlDocument);
             }
-            catch (Exception e) {
+            catch (WorkflowException e) {
                 LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
                 throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
             }
@@ -376,7 +375,7 @@ public class LockboxServiceImpl implements LockboxService {
         try {
             customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(invoiceNumber);
         }
-        catch (Exception e) {
+        catch (WorkflowException e) {
             LOG.error("A Exception was thrown while trying to load invoice #" + invoiceNumber + ".", e);
             throw new RuntimeException("A Exception was thrown while trying to load invoice #" + invoiceNumber + ".", e);
         }
@@ -390,7 +389,7 @@ public class LockboxServiceImpl implements LockboxService {
             try {
                 documentService.saveDocument(cashControlDocument);
             }
-            catch (Exception e) {
+            catch (WorkflowException e) {
                 LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
                 throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
             }
@@ -409,7 +408,7 @@ public class LockboxServiceImpl implements LockboxService {
         try {
             payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocNumber);
         }
-        catch (Exception e) {
+        catch (WorkflowException e) {
             LOG.error("A Exception was thrown while trying to load PayApp #" + payAppDocNumber + ".", e);
             throw new RuntimeException("A Exception was thrown while trying to load PayApp #" + payAppDocNumber + ".", e);
         }
@@ -438,7 +437,7 @@ public class LockboxServiceImpl implements LockboxService {
 
                 documentService.blanketApproveDocument(payAppDoc, "Automatically approved by Lockbox batch job.", null);
             }
-            catch (Exception e) {
+            catch (WorkflowException e) {
                 LOG.error("A Exception was thrown while trying to blanketApprove PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);
                 throw new RuntimeException("A Exception was thrown while trying to blanketApprove PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);
             }
@@ -471,7 +470,7 @@ public class LockboxServiceImpl implements LockboxService {
         try {
             documentService.saveDocument(cashControlDocument);
         }
-        catch (Exception e) {
+        catch (WorkflowException e) {
             LOG.error("A Exception was thrown while trying to save the CashControl document.", e);
             throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
         }
@@ -494,25 +493,18 @@ public class LockboxServiceImpl implements LockboxService {
         try {
             payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(payAppDocNumber);
         }
-        catch (Exception e) {
+        catch (WorkflowException e) {
             LOG.error("A Exception was thrown while trying to load PayApp #" + payAppDocNumber + ".", e);
             throw new RuntimeException("A Exception was thrown while trying to load PayApp #" + payAppDocNumber + ".", e);
         }
 
         //  route without business rules
         LOG.info("   attempting to route without business rules the PayApp Doc.");
-        try {
-            payAppDoc.getDocumentHeader().getWorkflowDocument().route(annotation);
+        payAppDoc.getDocumentHeader().getWorkflowDocument().route(annotation);
 
-            //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-            DocumentType documentType = documentTypeService.getDocumentTypeByName(payAppDoc.getFinancialDocumentTypeCode());
-            DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
-            queue.indexDocument(payAppDoc.getDocumentNumber());
-        }
-        catch (Exception e) {
-            LOG.error("A Exception was thrown while trying to route (without business rules) PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);
-            throw new RuntimeException("A Exception was thrown while trying to route (without business rules) PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);
-        }
+        DocumentType documentType = documentTypeService.getDocumentTypeByName(payAppDoc.getFinancialDocumentTypeCode());
+        DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
+        queue.indexDocument(payAppDoc.getDocumentNumber());
     }
 
     protected void deleteProcessedLockboxEntry(Lockbox lockboxEntry) {
@@ -521,7 +513,7 @@ public class LockboxServiceImpl implements LockboxService {
         boService.deleteMatching(Lockbox.class, pkMap);
     }
 
-    protected com.lowagie.text.Document getPdfDoc() {
+    protected com.lowagie.text.Document getPdfDoc() throws IOException, DocumentException {
 
         String reportDropFolder = reportsDirectory + "/" + ArConstants.Lockbox.LOCKBOX_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.Lockbox.BATCH_REPORT_BASENAME + "_" +
@@ -530,23 +522,11 @@ public class LockboxServiceImpl implements LockboxService {
         //  setup the writer
         File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
-        try {
-            fileOutStream = new FileOutputStream(reportFile);
-        }
-        catch (IOException e) {
-            LOG.error("IOException thrown when trying to open the FileOutputStream.", e);
-            throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
-        }
+        fileOutStream = new FileOutputStream(reportFile);
         BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
 
         com.lowagie.text.Document pdfdoc = new com.lowagie.text.Document(PageSize.LETTER, 54, 54, 72, 72);
-        try {
-            PdfWriter.getInstance(pdfdoc, buffOutStream);
-        }
-        catch (DocumentException e) {
-            LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-            throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-        }
+        PdfWriter.getInstance(pdfdoc, buffOutStream);
 
         pdfdoc.open();
 

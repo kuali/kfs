@@ -260,7 +260,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
      * @param destinationFile
      * @throws IOException
      */
-    private void writeInputStreamToFileStorage(InputStream fileContents, File destinationFile) throws IOException {
+    protected void writeInputStreamToFileStorage(InputStream fileContents, File destinationFile) throws IOException {
         FileOutputStream streamOut = null;
         BufferedOutputStream bufferedStreamOut = null;
         try {
@@ -272,8 +272,12 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
             }
         }
         finally {
-            bufferedStreamOut.close();
-            streamOut.close();
+            if (bufferedStreamOut != null) {
+                bufferedStreamOut.close();
+            }
+            if (streamOut != null) {
+                streamOut.close();
+            }
         }
     }
 }

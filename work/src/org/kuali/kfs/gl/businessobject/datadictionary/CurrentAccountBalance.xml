@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+    <!-- 
+    Copyright 2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+
+    <bean id="CurrentAccountBalance" parent="CurrentAccountBalance-parentBean" />
+
+    <bean id="CurrentAccountBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.CurrentAccountBalance" />
+        <property name="inquiryDefinition">
+            <ref bean="CurrentAccountBalance-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="CurrentAccountBalance-lookupDefinition" />
+        </property>
+        <property name="objectLabel" value="Current Account Balance" />
+        <property name="attributes">
+            <list>
+                <ref bean="CurrentAccountBalance-universityFiscalYear" />
+                <ref bean="CurrentAccountBalance-universityFiscalPeriodCode" />
+                <ref bean="CurrentAccountBalance-chartOfAccountsCode" />
+                <ref bean="CurrentAccountBalance-account.chartOfAccountsCode" />
+                <ref bean="CurrentAccountBalance-account.accountNumber" />
+                <ref bean="CurrentAccountBalance-account.organizationCode" />
+                <ref bean="CurrentAccountBalance-account.accountFiscalOfficerUser.principalName" />
+                <ref bean="CurrentAccountBalance-account.accountFiscalOfficerUser.name" />
+                <ref bean="CurrentAccountBalance-accountNumber" />
+                <ref bean="CurrentAccountBalance-subAccountNumber" />
+                <ref bean="CurrentAccountBalance-currentBudget" />
+                <ref bean="CurrentAccountBalance-beginningFundBalance" />
+                <ref bean="CurrentAccountBalance-beginningCurrentAssets" />
+                <ref bean="CurrentAccountBalance-beginningCurrentLiabilities" />
+                <ref bean="CurrentAccountBalance-totalIncome" />
+                <ref bean="CurrentAccountBalance-totalExpense" />
+                <ref bean="CurrentAccountBalance-encumbrances" />
+                <ref bean="CurrentAccountBalance-budgetBalanceAvailable" />
+                <ref bean="CurrentAccountBalance-cashExpenditureAuthority" />
+                <ref bean="CurrentAccountBalance-currentFundBalance" />
+                <ref bean="CurrentAccountBalance-dummyBusinessObject.consolidationOption" />
+                <ref bean="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption" />
+                <ref bean="CurrentAccountBalance-account.accountSupervisoryUser.principalName" />
+                <ref bean="CurrentAccountBalance-account.accountSupervisoryUser.name" />
+                <ref bean="CurrentAccountBalance-objectCode" />
+                <ref bean="CurrentAccountBalance-subObjectCode" />
+                <ref bean="CurrentAccountBalance-objectTypeCode" />
+                <ref bean="CurrentAccountBalance-balanceTypeCode" />
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <dd:relationship objectAttribute="account.accountFiscalOfficerUser">
+                    <dd:primitiveAttribute source="account.accountFiscalOfficerSystemIdentifier" target="principalId" />
+                    <dd:supportAttribute source="account.accountFiscalOfficerUser.principalName" target="principalName" identifier="true" />
+                    <dd:supportAttribute source="account.accountFiscalOfficerUser.name" target="name" />
+                </dd:relationship>
+                <dd:relationship objectAttribute="accountingPeriod">
+                    <dd:primitiveAttribute source="universityFiscalYear" target="universityFiscalYear" />
+                    <dd:primitiveAttribute source="universityFiscalPeriodCode" target="universityFiscalPeriodCode" />
+                </dd:relationship>
+            </list>
+        </property>
+    </bean>
+
+	<!-- Attribute Definitions -->
+    <bean id="CurrentAccountBalance-universityFiscalYear" parent="CurrentAccountBalance-universityFiscalYear-parentBean" />
+    <bean id="CurrentAccountBalance-universityFiscalYear-parentBean" abstract="true" parent="Balance-universityFiscalYear">
+        <property name="name" value="universityFiscalYear" />
+        <property name="label" value="Fiscal Year" />
+        <property name="shortLabel" value="Fiscal Year" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-universityFiscalPeriodCode" parent="CurrentAccountBalance-universityFiscalPeriodCode-parentBean" />
+    <bean id="CurrentAccountBalance-universityFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
+        <property name="name" value="universityFiscalPeriodCode" />
+        <property name="label" value="Fiscal Period" />
+        <property name="shortLabel" value="Fiscal Period" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-chartOfAccountsCode" parent="CurrentAccountBalance-chartOfAccountsCode-parentBean" />
+    <bean id="CurrentAccountBalance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.chartOfAccountsCode" parent="CurrentAccountBalance-account.chartOfAccountsCode-parentBean" />
+    <bean id="CurrentAccountBalance-account.chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+        <property name="name" value="account.chartOfAccountsCode" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountNumber" parent="CurrentAccountBalance-account.accountNumber-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+        <property name="name" value="account.accountNumber" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-accountNumber" parent="CurrentAccountBalance-accountNumber-parentBean" />
+    <bean id="CurrentAccountBalance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-subAccountNumber" parent="CurrentAccountBalance-subAccountNumber-parentBean" />
+    <bean id="CurrentAccountBalance-subAccountNumber-parentBean" abstract="true" parent="Balance-subAccountNumber">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.organizationCode" parent="CurrentAccountBalance-account.organizationCode-parentBean" />
+    <bean id="CurrentAccountBalance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+        <property name="name" value="account.organizationCode" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountFiscalOfficerUser.principalName" parent="CurrentAccountBalance-account.accountFiscalOfficerUser.principalName-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountFiscalOfficerUser.principalName-parentBean" abstract="true" parent="Account-accountFiscalOfficerUser.principalName">
+        <property name="name" value="account.accountFiscalOfficerUser.principalName" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountFiscalOfficerUser.name" parent="CurrentAccountBalance-account.accountFiscalOfficerUser.name-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountFiscalOfficerUser.name-parentBean" abstract="true" parent="Account-accountFiscalOfficerUser.name">
+        <property name="name" value="account.accountFiscalOfficerUser.name" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-dummyBusinessObject.consolidationOption" parent="CurrentAccountBalance-dummyBusinessObject.consolidationOption-parentBean" />
+    <bean id="CurrentAccountBalance-dummyBusinessObject.consolidationOption-parentBean" abstract="true" parent="Balance-dummyBusinessObject.consolidationOption" />
+
+    <bean id="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption" parent="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption-parentBean" />
+    <bean id="CurrentAccountBalance-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="Balance-dummyBusinessObject.pendingEntryOption" />
+
+    <bean id="CurrentAccountBalance-currentBudget" parent="CurrentAccountBalance-currentBudget-parentBean" />
+    <bean id="CurrentAccountBalance-currentBudget-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="currentBudget" />
+        <property name="label" value="Current Budget" />
+        <property name="shortLabel" value="Current Budget" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-beginningFundBalance" parent="CurrentAccountBalance-beginningFundBalance-parentBean" />
+    <bean id="CurrentAccountBalance-beginningFundBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="beginningFundBalance" />
+        <property name="label" value="Beginning Fund Balance" />
+        <property name="shortLabel" value="Fund Balance" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-beginningCurrentAssets" parent="CurrentAccountBalance-beginningCurrentAssets-parentBean" />
+    <bean id="CurrentAccountBalance-beginningCurrentAssets-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="beginningCurrentAssets" />
+        <property name="label" value="Beginning Current Assets" />
+        <property name="shortLabel" value="Current Assets" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-beginningCurrentLiabilities" parent="CurrentAccountBalance-beginningCurrentLiabilities-parentBean" />
+    <bean id="CurrentAccountBalance-beginningCurrentLiabilities-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="beginningCurrentLiabilities" />
+        <property name="label" value="Beginning Current Liabilities" />
+        <property name="shortLabel" value="Current Liabilities" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-totalIncome" parent="CurrentAccountBalance-totalIncome-parentBean" />
+    <bean id="CurrentAccountBalance-totalIncome-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="totalIncome" />
+        <property name="label" value="Total Income" />
+        <property name="shortLabel" value="Total Income" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-totalExpense" parent="CurrentAccountBalance-totalExpense-parentBean" />
+    <bean id="CurrentAccountBalance-totalExpense-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="totalExpense" />
+        <property name="label" value="Total Expense" />
+        <property name="shortLabel" value="Total Expense" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-encumbrances" parent="CurrentAccountBalance-encumbrances-parentBean" />
+    <bean id="CurrentAccountBalance-encumbrances-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="encumbrances" />
+        <property name="label" value="Encumbrances" />
+        <property name="shortLabel" value="Encumbrances" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-budgetBalanceAvailable" parent="CurrentAccountBalance-budgetBalanceAvailable-parentBean" />
+    <bean id="CurrentAccountBalance-budgetBalanceAvailable-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="budgetBalanceAvailable" />
+        <property name="label" value="Budget Available Balance" />
+        <property name="shortLabel" value="Budget Available Balance" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-cashExpenditureAuthority" parent="CurrentAccountBalance-cashExpenditureAuthority-parentBean" />
+    <bean id="CurrentAccountBalance-cashExpenditureAuthority-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="cashExpenditureAuthority" />
+        <property name="label" value="Cash Expenditure Authority" />
+        <property name="shortLabel" value="Cash Expenditure Authority" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-currentFundBalance" parent="CurrentAccountBalance-currentFundBalance-parentBean" />
+    <bean id="CurrentAccountBalance-currentFundBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="currentFundBalance" />
+        <property name="label" value="Current Fund Balance" />
+        <property name="shortLabel" value="Fund Balance" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountSupervisoryUser.principalName" parent="CurrentAccountBalance-account.accountSupervisoryUser.principalName-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountSupervisoryUser.principalName-parentBean" abstract="true" parent="Account-accountSupervisoryUser.principalName">
+        <property name="name" value="account.accountSupervisoryUser.principalName" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-account.accountSupervisoryUser.name" parent="CurrentAccountBalance-account.accountSupervisoryUser.name-parentBean" />
+    <bean id="CurrentAccountBalance-account.accountSupervisoryUser.name-parentBean" abstract="true" parent="Account-accountSupervisoryUser.name">
+        <property name="name" value="account.accountSupervisoryUser.name" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-objectCode" parent="CurrentAccountBalance-objectCode-parentBean" />
+    <bean id="CurrentAccountBalance-objectCode-parentBean" abstract="true" parent="Balance-objectCode">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-subObjectCode" parent="CurrentAccountBalance-subObjectCode-parentBean" />
+    <bean id="CurrentAccountBalance-subObjectCode-parentBean" abstract="true" parent="Balance-subObjectCode">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-objectTypeCode" parent="CurrentAccountBalance-objectTypeCode-parentBean" />
+    <bean id="CurrentAccountBalance-objectTypeCode-parentBean" abstract="true" parent="Balance-objectTypeCode">
+        <property name="forceUppercase" value="true" />
+    </bean>
+
+    <bean id="CurrentAccountBalance-balanceTypeCode" parent="CurrentAccountBalance-balanceTypeCode-parentBean" />
+    <bean id="CurrentAccountBalance-balanceTypeCode-parentBean" abstract="true" parent="Balance-balanceTypeCode">
+        <property name="forceUppercase" value="true" />
+    </bean>    
+
+	<!-- Business Object Inquiry Definition -->
+
+    <bean id="CurrentAccountBalance-inquiryDefinition" parent="CurrentAccountBalance-inquiryDefinition-parentBean" />
+    <bean id="CurrentAccountBalance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Simple Balance Inquiry Lookup" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+                            <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+                            <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+                            <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="account.organizationCode" />
+                            <bean parent="FieldDefinition" p:attributeName="account.accountFiscalOfficerUser.principalName" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+	<!-- Business Object Lookup Definition -->
+
+    <bean id="CurrentAccountBalance-lookupDefinition" parent="CurrentAccountBalance-lookupDefinition-parentBean" />
+    <bean id="CurrentAccountBalance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Current Account Balance" />
+        <property name="lookupableID" value="glCurrentAccountBalanceLookupable" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>accountNumber</value>
+                        <value>subAccountNumber</value>
+                        <value>account.organizationCode</value>
+                        <value>account.accountFiscalOfficerUser.principalName</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
+                <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalPeriodCode" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder" />
+                <bean parent="FieldDefinition" p:required="false" p:attributeName="account.chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+                <bean parent="FieldDefinition" p:attributeName="account.organizationCode" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountFiscalOfficerUser.principalName" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountSupervisoryUser.principalName" />
+                <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
+                <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+                <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+                <bean parent="FieldDefinition" p:attributeName="account.chartOfAccountsCode" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+                <bean parent="FieldDefinition" p:attributeName="account.organizationCode" />
+                <bean parent="FieldDefinition" p:attributeName="account.accountFiscalOfficerUser.principalName" />
+                <bean parent="FieldDefinition" p:attributeName="currentBudget" />
+                <bean parent="FieldDefinition" p:attributeName="beginningFundBalance" />
+                <bean parent="FieldDefinition" p:attributeName="beginningCurrentAssets" />
+                <bean parent="FieldDefinition" p:attributeName="beginningCurrentLiabilities" />
+                <bean parent="FieldDefinition" p:attributeName="totalIncome" />
+                <bean parent="FieldDefinition" p:attributeName="totalExpense" />
+                <bean parent="FieldDefinition" p:attributeName="encumbrances" />
+                <bean parent="FieldDefinition" p:attributeName="budgetBalanceAvailable" />
+                <bean parent="FieldDefinition" p:attributeName="cashExpenditureAuthority" />
+                <bean parent="FieldDefinition" p:attributeName="currentFundBalance" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

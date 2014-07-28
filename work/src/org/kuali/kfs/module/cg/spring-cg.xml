@@ -115,11 +115,6 @@
 			<ref bean="businessObjectService" />
 		</property>	
 	</bean>
-
-	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
-		<property name="awardService" ref="awardService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
 	
 	<bean id="CGConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.cg.CGConstants" />
@@ -132,16 +127,14 @@
 			</map>
 		</property>
 	</bean>
-
-	<bean id="contractsAndGrantsModuleRetrieveService" parent="contractsAndGrantsModuleRetrieveService-parentBean" scope="prototype"/>
-	<bean id="contractsAndGrantsModuleRetrieveService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl" abstract="true" >
+	
+	<bean id="contractsAndGrantsModuleBillingService" parent="contractsAndGrantsModuleBillingService-parentBean" scope="prototype"/>
+	<bean id="contractsAndGrantsModuleBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleBillingServiceImpl" abstract="true" >
 		<property name="awardService" ref="awardService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="agencyService" ref="agencyService" />
 		<property name="cfdaService" ref="cfdaService" />
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>	
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<!-- DAOs -->
@@ -181,8 +174,8 @@
 
 	<bean id="awardLookupableHelperService" scope="prototype" parent="awardLookupableHelperService-parentBean"/>
     <bean id="awardLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-        <property name="accountsReceivableModuleService">
-            <ref bean="accountsReceivableModuleService" />
+        <property name="accountsReceivableModuleBillingService">
+            <ref bean="accountsReceivableModuleBillingService" />
         </property>
         <property name="personService">
             <ref bean="personService" />
@@ -198,8 +191,8 @@
 
 	<bean id="agencyLookupHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AgencyLookupableHelperServiceImpl" scope="prototype"
 		parent="lookupableHelperService">
-        <property name="accountsReceivableModuleService">
-            <ref bean="accountsReceivableModuleService" />
+        <property name="accountsReceivableModuleBillingService">
+            <ref bean="accountsReceivableModuleBillingService" />
         </property>
 	</bean>
 
@@ -322,8 +315,8 @@
 
 	<bean id="contractsGrantsAwardBalancesReportLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
-		<property name="accountsReceivableModuleService">
-			<ref bean="accountsReceivableModuleService" />
+		<property name="accountsReceivableModuleBillingService">
+			<ref bean="accountsReceivableModuleBillingService" />
 		</property>
 	</bean>
 

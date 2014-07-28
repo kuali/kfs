@@ -72,6 +72,9 @@
 	<bean id="NonInvoiced-accountNumber" parent="NonInvoiced-accountNumber-parentBean" />
 
 	<bean id="NonInvoiced-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="NonInvoiced-chartOfAccountsCode" parent="NonInvoiced-chartOfAccountsCode-parentBean" />
@@ -132,7 +135,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
+			<bean parent="TextControlDefinition" p:size="102" />
 		</property>
 	</bean>
 	<bean id="NonInvoiced-financialDocumentPostingYear" parent="NonInvoiced-financialDocumentPostingYear-parentBean" />
@@ -154,12 +157,18 @@
 	<bean id="NonInvoiced-financialObjectCode" parent="NonInvoiced-financialObjectCode-parentBean" />
 
 	<bean id="NonInvoiced-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="6"/>
+    	</property>
 	</bean>
 
 	<bean id="NonInvoiced-financialSubObjectCode" parent="NonInvoiced-financialSubObjectCode-parentBean" />
 
 	<bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="5"/>
+    	</property>
 	</bean>
 
 	<bean id="NonInvoiced-projectCode" parent="NonInvoiced-projectCode-parentBean" />
@@ -167,12 +176,18 @@
 	<bean id="NonInvoiced-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
 		<property name="name" value="projectCode" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
 	</bean>
 
 	<bean id="NonInvoiced-subAccountNumber" parent="NonInvoiced-subAccountNumber-parentBean" />
 
 	<bean id="NonInvoiced-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="7"/>
+    	</property>
 	</bean>
 
 	<bean id="NonInvoiced-refundIndicator" parent="NonInvoiced-refundIndicator-parentBean" />

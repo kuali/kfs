@@ -88,6 +88,9 @@
 		<property name="name" value="projectDirector.principalName" />
 		<property name="label" value="Project Director Principal Name" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="AwardAccount-projectDirector.name" parent="AwardAccount-projectDirector.name-parentBean" />
 
@@ -115,13 +118,20 @@
 
 	<bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean" />
 	<bean id="AwardAccount-accountNumber-parentBean" abstract="true"
-		parent="AccountAttribute" />
+		parent="AccountAttribute">
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
+	</bean>
 
 	<bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean" />
 
 	<bean id="AwardAccount-account.accountName-parentBean" abstract="true"
 		parent="Account-accountName">
 		<property name="name" value="account.accountName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="AwardAccount-account.accountExpirationDate" parent="AwardAccount-account.accountExpirationDate-parentBean" />
@@ -143,16 +153,11 @@
 	<bean id="AwardAccount-finalBilledIndicator" parent="AwardAccount-finalBilledIndicator-parentBean" />
 
 	<bean id="AwardAccount-finalBilledIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="GenericAttributes-genericBoolean">
 		<property name="name" value="finalBilledIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Billed" />
 		<property name="shortLabel" value="FinalBilled" />
-		<property name="maxLength" value="1" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 
 	<bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber"

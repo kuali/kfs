@@ -30,8 +30,9 @@
 
 		<c:if test="${!KualiForm.awardInvoicedInd}">
 
-			<ar:referralToCollectionsSummaryResults
-				invoiceAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}" />
+			<ar:documentSummaryResults lookupResultsProperty="referralToCollectionsLookupResults" lookupResultTitleProperties="proposalNumber" tabTitleName="Award">
+				<ar:referralToCollectionsSummaryResultContent/>
+			</ar:documentSummaryResults>
 			<kul:panelFooter />
 			<html:image
 				src="${ConfigProperties.externalizable.images.url}buttonsmall_create.gif"

@@ -24,6 +24,7 @@ public class TrialBalanceReport extends Balance {
     private KualiDecimal creditAmount;
     private String finChartOfAccountDescription;
     private String financialObjectCodeName;
+    private String universityFiscalPeriodCode;
 
 
     /**
@@ -123,6 +124,26 @@ public class TrialBalanceReport extends Balance {
      */
     public void setFinancialObjectCodeName(String financialObjectCodeName) {
         this.financialObjectCodeName = financialObjectCodeName;
+    }
+    
+   
+    /**
+     * Gets the universityFiscalPeriodCode attribute.
+     * 
+     * @return Returns the universityFiscalPeriodCode
+     */
+    public String getUniversityFiscalPeriodCode() {
+        return universityFiscalPeriodCode;
+    }
+
+    
+    /**
+     * Sets the universityFiscalPeriodCode attribute.
+     * 
+     * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+     */
+    public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
+        this.universityFiscalPeriodCode = universityFiscalPeriodCode;
     }
 
 

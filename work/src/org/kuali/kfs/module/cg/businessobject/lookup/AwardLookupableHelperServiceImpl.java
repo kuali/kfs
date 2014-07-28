@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSConstants;
@@ -49,7 +49,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
     private static final String LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
 
-    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected PersonService personService;
 
     /**
@@ -100,7 +100,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
 
         // only display invoice lookup URL if CGB is enabled
-        if (accountsReceivableModuleService.isContractsGrantsBillingEnhancementActive()) {
+        if (getAccountsReceivableModuleBillingService().isContractsGrantsBillingEnhancementActive()) {
             AnchorHtmlData invoiceUrl = getInvoicesLookupUrl(businessObject);
             anchorHtmlDataList.add(invoiceUrl);
         }
@@ -120,7 +120,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "false");
-        params.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, accountsReceivableModuleService.getContractsGrantsInvoiceDocumentType());
+        params.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, getAccountsReceivableModuleBillingService().getContractsGrantsInvoiceDocumentType());
         params.put(CGPropertyConstants.AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
@@ -128,12 +128,12 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return new AnchorHtmlData(url, KFSConstants.SEARCH_METHOD, "View Invoices");
     }
 
-    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
+    public AccountsReceivableModuleBillingService getAccountsReceivableModuleBillingService() {
+        return accountsReceivableModuleBillingService;
     }
 
-    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
-        this.accountsReceivableModuleService = accountsReceivableModuleService;
+    public void setAccountsReceivableModuleBillingService(AccountsReceivableModuleBillingService accountsReceivableModuleBillingService) {
+        this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
     /**

@@ -26,16 +26,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 
 public class InstrumentType extends PersistableBusinessObjectBase implements ContractsAndGrantsInstrumentType, MutableInactivatable {
-
     private String instrumentTypeCode;
     private String instrumentTypeDescription;
     private boolean active;
-
-    /**
-     * Default constructor.
-     */
-    public InstrumentType() {
-    }
 
     @Override
     public String getInstrumentTypeCode() {

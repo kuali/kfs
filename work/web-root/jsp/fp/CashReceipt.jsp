@@ -23,11 +23,8 @@
 <c:set var="confirmed" value="${KualiForm.document.confirmed}" />
 <c:set var="cashReceiptAttributes" value="${DataDictionary['CashReceiptDocument'].attributes}" />
 
-<%-- FIXME FIXED by KFSCNTRB-1793 
-	The previous code would display only original currency/coin details after the CR is verified, while the confirmed details will never have
-	a chance to be shown again. This fails to achieve the functional need to view the confirmed details, which is what matters after that point. 
-	The correct solution is to show both the original and confirmed details after CashManagerment confirmation; 
-	only that neither column would be editable.
+<%-- 
+	We should show both the original and confirmed details after CashManagerment confirmation; only that neither column would be editable.
 --%>	
 <c:set var="showConfirm" value="${confirmMode || confirmed}" />
 

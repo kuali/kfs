@@ -86,7 +86,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
 
-        List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = lookupReportValues(lookupForm, request, true);
+        List<ContractsGrantsSuspendedInvoiceSummaryReport> displayList = lookupReportValues(lookupForm, request, validateLookupFields());
         final String sortPropertyName = sortReportValues(displayList);
 
         // build report
@@ -100,6 +100,14 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         String reportFileName = generateReportPdf(cgSuspendedInvoiceSummaryReportDataHolder, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, reportFileName + ReportGeneration.PDF_FILE_EXTENSION);
         return null;
+    }
+
+    /**
+     * Determines whether or not to validate the lookup fields before carrying out the looup
+     * @return true to validate the lookup fields, false otherwise
+     */
+    protected boolean validateLookupFields() {
+        return true;
     }
 
     /**

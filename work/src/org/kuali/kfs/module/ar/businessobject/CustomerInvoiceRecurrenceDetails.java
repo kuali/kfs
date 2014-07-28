@@ -47,14 +47,6 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     private Person documentInitiatorUser;
 
 
-    /**
-     * Default constructor.
-     */
-    public CustomerInvoiceRecurrenceDetails() {
-
-    }
-
-
 
 
     /**

@@ -43,6 +43,8 @@
                 <ref bean="Award-awardDocumentNumber" />
                 <ref bean="Award-awardTotalAmount"/>
                 <ref bean="Award-awardEndingDate" />
+                <ref bean="Award-awardPrimaryProjectDirector.projectDirector.principalId" />
+                <ref bean="Award-awardPrimaryFundManager.fundManager.principalId"/>
 			</list>
 		</property>
 		<property name="primaryKeys">
@@ -215,8 +217,15 @@
     <property name="shortLabel" value="Stop" />
   </bean>
   
+  <bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId" parent="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean"/>
+  <bean id="Award-awardPrimaryProjectDirector.projectDirector.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+	<property name="name" value="awardPrimaryProjectDirector.projectDirector.principalId"/>
+  </bean>
   
-
+  <bean id="Award-awardPrimaryFundManager.fundManager.principalId" parent="Award-awardPrimaryFundManager.fundManager.principalId-parentBean"/>
+  <bean id="Award-awardPrimaryFundManager.fundManager.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+	<property name="name" value="awardPrimaryFundManager.fundManager.principalId"/>
+  </bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -286,7 +295,7 @@
 	<bean id="Award-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Award Lookup" />
-		<property name="lookupableID" value="kualiLookupable" />
+		<property name="lookupableID" value="awardLookupable" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

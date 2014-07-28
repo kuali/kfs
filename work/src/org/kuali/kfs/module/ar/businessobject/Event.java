@@ -52,9 +52,6 @@ public class Event extends PersistableBusinessObjectBase {
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private CollectionActivityType collectionActivityType;
 
-    /**
-     * Default constructor for Event.
-     */
     public Event() {
         super();
     }

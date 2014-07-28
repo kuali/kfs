@@ -25,7 +25,7 @@
 			<ref bean="MilestoneSchedule-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="milestoneScheduleInquiryTitle" />
-		<property name="objectLabel" value="MilestoneSchedule" />
+		<property name="objectLabel" value="Milestone Schedule" />
 		<property name="attributes">
 			<list>
 				<ref bean="MilestoneSchedule-proposalNumber" />
@@ -109,15 +109,12 @@
 	<bean id="MilestoneSchedule-totalAmountScheduled" parent="MilestoneSchedule-totalAmountScheduled-parentBean" />
 
 	<bean id="MilestoneSchedule-totalAmountScheduled-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="totalAmountScheduled" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Total Amount Scheduled" />
 		<property name="shortLabel" value="Total" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="FloatingPointValidation" />
-		</property>
 		<property name="control">
 			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="8"
 				p:size="12" />

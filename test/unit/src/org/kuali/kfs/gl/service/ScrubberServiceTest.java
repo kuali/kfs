@@ -46,7 +46,6 @@ import org.kuali.rice.coreservice.api.parameter.EvaluationOperator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.Parameter.Builder;
 import org.kuali.rice.coreservice.api.parameter.ParameterType;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -64,7 +63,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     protected ScrubberService scrubberService = null;
     protected BusinessObjectService businessObjectService;
-    protected ParameterService parameterService;
 
     @Override
     protected void setUp() throws Exception {
@@ -74,7 +72,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         scrubberService = SpringContext.getBean(ScrubberService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        parameterService = SpringContext.getBean(ParameterService.class);
 
 
         // Get the test date time service so we can specify the date/time of the run
@@ -1576,20 +1573,20 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String retval = "";
 
         // create/set bypass origin parameter for testing
-        if (!parameterService.parameterExists(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS)) {
+        if (!TestUtils.getParameterService().parameterExists(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS)) {
             Parameter.Builder pbuilder = Builder.create("KFS", "KFS-GL", "ScrubberStep",
                 GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS,
                 ParameterType.Builder.create("CONFG"));
             pbuilder.setValue(origin);
-            pbuilder.setEvaluationOperator(EvaluationOperator.ALLOW);
+            pbuilder.setEvaluationOperator(EvaluationOperator.DISALLOW);
             pbuilder.setDescription("test");
-            parameterService.createParameter(pbuilder.build());
+            TestUtils.getParameterService().createParameter(pbuilder.build());
         } else {
-            Parameter param = parameterService.getParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS);
+            Parameter param =  TestUtils.getParameterService().getParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS);
             retval = param.getValue();
             Parameter.Builder pbuilder = Parameter.Builder.create(param);
             pbuilder.setValue(origin);
-            parameterService.updateParameter(pbuilder.build());
+            TestUtils.getParameterService().updateParameter(pbuilder.build());
         }
 
         return retval;
@@ -1602,10 +1599,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      */
     private void resetObjectTypeBypassOriginToOriginalValue(String originalValue) {
         // set parameter back to original value
-        Parameter param = parameterService.getParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS);
+        Parameter param = TestUtils.getParameterService().getParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OBJECT_TYPE_BYPASS_ORIGINATIONS);
         Parameter.Builder pbuilder = Parameter.Builder.create(param);
         pbuilder.setValue(originalValue);
-        parameterService.updateParameter(pbuilder.build());
+        TestUtils.getParameterService().updateParameter(pbuilder.build());
     }
 
     /**

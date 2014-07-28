@@ -84,6 +84,9 @@
 		<property name="name" value="projectDirector.principalName" />
 		<property name="label" value="Project Director Principal Name" />
 		<property name="required" value="false" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 	<bean id="ProposalProjectDirector-projectDirector.name" parent="ProposalProjectDirector-projectDirector.name-parentBean" />
 

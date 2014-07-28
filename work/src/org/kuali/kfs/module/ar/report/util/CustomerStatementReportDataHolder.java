@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,36 +24,35 @@ import java.util.Map;
  * To group and hold the data presented to working reports of extract process
  */
 public class CustomerStatementReportDataHolder {
-  //  private CustomerCreditMemoReportDefinition reportDefinition;
     private Map<String, String> invoice;
     private Map<String, String> customer;
     private Map<String, String> sysinfo;
     private List<CustomerStatementDetailReportDataHolder> details;
-    
+
     private Map<String, Object> reportData;
-    
+
     public final static String KEY_OF_INVOICE_ENTRY = "invoice";
     public final static String KEY_OF_CUSTOMER_ENTRY = "customer";
     public final static String KEY_OF_SYSINFO_ENTRY = "sysinfo";
     public final static String KEY_OF_DETAILS_ENTRY = "details";
-    
+
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
      */
     public CustomerStatementReportDataHolder() {
       //this(null);
-        
+
         this.invoice = new HashMap<String, String>();
         this.customer = new HashMap<String, String>();
         this.sysinfo = new HashMap<String, String>();
         this.details = new ArrayList<CustomerStatementDetailReportDataHolder>();
- 
+
         this.reportData = new HashMap<String, Object>();
     }
 
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
-     * 
+     *
      * @param reportDefinition
      */
 //    public CustomerCreditMemoReportDataHolder(CustomerCreditMemoReportDefinition reportDefinition) {
@@ -62,14 +61,14 @@ public class CustomerStatementReportDataHolder {
 //        this.creditmemo = new HashMap<String, String>();
 //        this.invoice = new HashMap<String, String>();
 //        this.customer = new HashMap<String, String>();
-//        this.sysinfo = new HashMap<String, String>();       
-// 
+//        this.sysinfo = new HashMap<String, String>();
+//
 //        this.reportData = new HashMap<String, Object>();
 //    }
-   
+
 
     /**
-     * Gets the invoice attribute. 
+     * Gets the invoice attribute.
      * @return Returns the invoice.
      */
     public Map<String, String> getInvoice() {
@@ -85,7 +84,7 @@ public class CustomerStatementReportDataHolder {
     }
 
     /**
-     * Gets the customer attribute. 
+     * Gets the customer attribute.
      * @return Returns the customer.
      */
     public Map<String, String> getCustomer() {
@@ -101,7 +100,7 @@ public class CustomerStatementReportDataHolder {
     }
 
     /**
-     * Gets the sysinfo attribute. 
+     * Gets the sysinfo attribute.
      * @return Returns the sysinfo.
      */
     public Map<String, String> getSysinfo() {
@@ -117,21 +116,21 @@ public class CustomerStatementReportDataHolder {
     }
 
     /**
-     * Gets the reportData attribute. 
+     * Gets the reportData attribute.
      * @return Returns the reportData.
      */
-    public Map<String, Object> getReportData() {        
-        
+    public Map<String, Object> getReportData() {
+
         reportData.put(KEY_OF_INVOICE_ENTRY, invoice);
         reportData.put(KEY_OF_CUSTOMER_ENTRY, customer);
         reportData.put(KEY_OF_SYSINFO_ENTRY, sysinfo);
         reportData.put(KEY_OF_DETAILS_ENTRY, details);
       //  reportData.put(arg0, arg1);
-        
+
         return reportData;
     }
-    
-   
+
+
     /**
      * Sets the reportData attribute value.
      * @param reportData The reportData to set.
@@ -149,7 +148,7 @@ public class CustomerStatementReportDataHolder {
     }
 
     /**
-     * Gets the details attribute. 
+     * Gets the details attribute.
      * @return Returns the details.
      */
     public List<CustomerStatementDetailReportDataHolder> getDetails() {
@@ -164,5 +163,5 @@ public class CustomerStatementReportDataHolder {
         this.details = details;
     }
 
-    
+
 }

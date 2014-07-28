@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -128,7 +129,8 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                         offset.setFinancialBalanceTypeCode("AC");
                         boService.save(offset);
                     }
-                    document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode);
+                    List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+                    document = cginService.createCGInvoiceDocumentByAwardInfo(award, list, coaCode, orgCode, errorMessages);
                     for (InvoiceAddressDetail invoiceAddressDetail : document.getInvoiceAddressDetails()) {
                         invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
                         invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");

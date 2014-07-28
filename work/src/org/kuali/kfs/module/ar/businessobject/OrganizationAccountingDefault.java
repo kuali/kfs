@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     protected String writeoffFinancialSubObjectCode;
     protected String writeoffProjectCode;
     protected String writeoffOrganizationReferenceIdentifier;
-   
+
     protected ObjectCode defaultInvoiceFinancialObject;
 	protected SubObjectCode defaultInvoiceFinancialSubObject;
 	protected ObjectCode organizationLateChargeObject;
@@ -81,50 +81,45 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     protected ObjectCode writeoffFinancialObject;
     protected SubObjectCode writeoffFinancialSubObject;
     protected ProjectCode writeoffProject;
-    
-	/**
-	 * Default constructor.
-	 */
-	public OrganizationAccountingDefault() {
-
-	}
 
 	/**
 	 * Gets the universityFiscalYear attribute.
-	 * 
+	 *
 	 * @return Returns the universityFiscalYear
-	 * 
+	 *
 	 */
-	public Integer getUniversityFiscalYear() { 
+	@Override
+    public Integer getUniversityFiscalYear() {
 		return universityFiscalYear;
 	}
 
 	/**
 	 * Sets the universityFiscalYear attribute.
-	 * 
+	 *
 	 * @param universityFiscalYear The universityFiscalYear to set.
-	 * 
+	 *
 	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
+	@Override
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
 		this.universityFiscalYear = universityFiscalYear;
 	}
 
 
 	/**
 	 * Gets the chartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @return Returns the chartOfAccountsCode
-	 * 
+	 *
 	 */
-	public String getChartOfAccountsCode() { 
+	public String getChartOfAccountsCode() {
 		return chartOfAccountsCode;
 	}
 
 	/**
 	 * Sets the chartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
+	 *
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
 		this.chartOfAccountsCode = chartOfAccountsCode;
@@ -133,19 +128,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the organizationCode attribute.
-	 * 
+	 *
 	 * @return Returns the organizationCode
-	 * 
+	 *
 	 */
-	public String getOrganizationCode() { 
+	public String getOrganizationCode() {
 		return organizationCode;
 	}
 
 	/**
 	 * Sets the organizationCode attribute.
-	 * 
+	 *
 	 * @param organizationCode The organizationCode to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationCode(String organizationCode) {
 		this.organizationCode = organizationCode;
@@ -154,19 +149,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the organizationLateChargeObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the organizationLateChargeObjectCode
-	 * 
+	 *
 	 */
-	public String getOrganizationLateChargeObjectCode() { 
+	public String getOrganizationLateChargeObjectCode() {
 		return organizationLateChargeObjectCode;
 	}
 
 	/**
 	 * Sets the organizationLateChargeObjectCode attribute.
-	 * 
+	 *
 	 * @param organizationLateChargeObjectCode The organizationLateChargeObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationLateChargeObjectCode(String organizationLateChargeObjectCode) {
 		this.organizationLateChargeObjectCode = organizationLateChargeObjectCode;
@@ -175,19 +170,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceChartOfAccountsCode
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceChartOfAccountsCode() { 
+	public String getDefaultInvoiceChartOfAccountsCode() {
 		return defaultInvoiceChartOfAccountsCode;
 	}
 
 	/**
 	 * Sets the defaultInvoiceChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceChartOfAccountsCode The defaultInvoiceChartOfAccountsCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceChartOfAccountsCode(String defaultInvoiceChartOfAccountsCode) {
 		this.defaultInvoiceChartOfAccountsCode = defaultInvoiceChartOfAccountsCode;
@@ -196,19 +191,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceAccountNumber
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceAccountNumber() { 
+	public String getDefaultInvoiceAccountNumber() {
 		return defaultInvoiceAccountNumber;
 	}
 
 	/**
 	 * Sets the defaultInvoiceAccountNumber attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceAccountNumber The defaultInvoiceAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceAccountNumber(String defaultInvoiceAccountNumber) {
 		this.defaultInvoiceAccountNumber = defaultInvoiceAccountNumber;
@@ -217,19 +212,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceSubAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceSubAccountNumber
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceSubAccountNumber() { 
+	public String getDefaultInvoiceSubAccountNumber() {
 		return defaultInvoiceSubAccountNumber;
 	}
 
 	/**
 	 * Sets the defaultInvoiceSubAccountNumber attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceSubAccountNumber The defaultInvoiceSubAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceSubAccountNumber(String defaultInvoiceSubAccountNumber) {
 		this.defaultInvoiceSubAccountNumber = defaultInvoiceSubAccountNumber;
@@ -238,19 +233,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceFinancialObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceFinancialObjectCode
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceFinancialObjectCode() { 
+	public String getDefaultInvoiceFinancialObjectCode() {
 		return defaultInvoiceFinancialObjectCode;
 	}
 
 	/**
 	 * Sets the defaultInvoiceFinancialObjectCode attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceFinancialObjectCode The defaultInvoiceFinancialObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceFinancialObjectCode(String defaultInvoiceFinancialObjectCode) {
 		this.defaultInvoiceFinancialObjectCode = defaultInvoiceFinancialObjectCode;
@@ -259,19 +254,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceFinancialSubObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceFinancialSubObjectCode
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceFinancialSubObjectCode() { 
+	public String getDefaultInvoiceFinancialSubObjectCode() {
 		return defaultInvoiceFinancialSubObjectCode;
 	}
 
 	/**
 	 * Sets the defaultInvoiceFinancialSubObjectCode attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceFinancialSubObjectCode The defaultInvoiceFinancialSubObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceFinancialSubObjectCode(String defaultInvoiceFinancialSubObjectCode) {
 		this.defaultInvoiceFinancialSubObjectCode = defaultInvoiceFinancialSubObjectCode;
@@ -280,19 +275,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceProjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceProjectCode
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceProjectCode() { 
+	public String getDefaultInvoiceProjectCode() {
 		return defaultInvoiceProjectCode;
 	}
 
 	/**
 	 * Sets the defaultInvoiceProjectCode attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceProjectCode The defaultInvoiceProjectCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceProjectCode(String defaultInvoiceProjectCode) {
 		this.defaultInvoiceProjectCode = defaultInvoiceProjectCode;
@@ -301,19 +296,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultInvoiceOrganizationReferenceIdentifier attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceOrganizationReferenceIdentifier
-	 * 
+	 *
 	 */
-	public String getDefaultInvoiceOrganizationReferenceIdentifier() { 
+	public String getDefaultInvoiceOrganizationReferenceIdentifier() {
 		return defaultInvoiceOrganizationReferenceIdentifier;
 	}
 
 	/**
 	 * Sets the defaultInvoiceOrganizationReferenceIdentifier attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceOrganizationReferenceIdentifier The defaultInvoiceOrganizationReferenceIdentifier to set.
-	 * 
+	 *
 	 */
 	public void setDefaultInvoiceOrganizationReferenceIdentifier(String defaultInvoiceOrganizationReferenceIdentifier) {
 		this.defaultInvoiceOrganizationReferenceIdentifier = defaultInvoiceOrganizationReferenceIdentifier;
@@ -322,19 +317,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultPaymentChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentChartOfAccountsCode
-	 * 
+	 *
 	 */
-	public String getDefaultPaymentChartOfAccountsCode() { 
+	public String getDefaultPaymentChartOfAccountsCode() {
 		return defaultPaymentChartOfAccountsCode;
 	}
 
 	/**
 	 * Sets the defaultPaymentChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @param defaultPaymentChartOfAccountsCode The defaultPaymentChartOfAccountsCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultPaymentChartOfAccountsCode(String defaultPaymentChartOfAccountsCode) {
 		this.defaultPaymentChartOfAccountsCode = defaultPaymentChartOfAccountsCode;
@@ -343,19 +338,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultPaymentAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentAccountNumber
-	 * 
+	 *
 	 */
-	public String getDefaultPaymentAccountNumber() { 
+	public String getDefaultPaymentAccountNumber() {
 		return defaultPaymentAccountNumber;
 	}
 
 	/**
 	 * Sets the defaultPaymentAccountNumber attribute.
-	 * 
+	 *
 	 * @param defaultPaymentAccountNumber The defaultPaymentAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setDefaultPaymentAccountNumber(String defaultPaymentAccountNumber) {
 		this.defaultPaymentAccountNumber = defaultPaymentAccountNumber;
@@ -364,26 +359,26 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultPaymentSubAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentSubAccountNumber
-	 * 
+	 *
 	 */
-	public String getDefaultPaymentSubAccountNumber() { 
+	public String getDefaultPaymentSubAccountNumber() {
 		return defaultPaymentSubAccountNumber;
 	}
 
 	/**
 	 * Sets the defaultPaymentSubAccountNumber attribute.
-	 * 
+	 *
 	 * @param defaultPaymentSubAccountNumber The defaultPaymentSubAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setDefaultPaymentSubAccountNumber(String defaultPaymentSubAccountNumber) {
 		this.defaultPaymentSubAccountNumber = defaultPaymentSubAccountNumber;
 	}
 
 	/**
-     * Gets the defaultPaymentFinancialObjectCode attribute. 
+     * Gets the defaultPaymentFinancialObjectCode attribute.
      * @return Returns the defaultPaymentFinancialObjectCode.
      */
     public String getDefaultPaymentFinancialObjectCode() {
@@ -399,7 +394,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the defaultPaymentFinancialSubObjectCode attribute. 
+     * Gets the defaultPaymentFinancialSubObjectCode attribute.
      * @return Returns the defaultPaymentFinancialSubObjectCode.
      */
     public String getDefaultPaymentFinancialSubObjectCode() {
@@ -416,19 +411,19 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
     /**
 	 * Gets the defaultPaymentProjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentProjectCode
-	 * 
+	 *
 	 */
-	public String getDefaultPaymentProjectCode() { 
+	public String getDefaultPaymentProjectCode() {
 		return defaultPaymentProjectCode;
 	}
 
 	/**
 	 * Sets the defaultPaymentProjectCode attribute.
-	 * 
+	 *
 	 * @param defaultPaymentProjectCode The defaultPaymentProjectCode to set.
-	 * 
+	 *
 	 */
 	public void setDefaultPaymentProjectCode(String defaultPaymentProjectCode) {
 		this.defaultPaymentProjectCode = defaultPaymentProjectCode;
@@ -437,26 +432,26 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
 	/**
 	 * Gets the defaultPaymentOrganizationReferenceIdentifier attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentOrganizationReferenceIdentifier
-	 * 
+	 *
 	 */
-	public String getDefaultPaymentOrganizationReferenceIdentifier() { 
+	public String getDefaultPaymentOrganizationReferenceIdentifier() {
 		return defaultPaymentOrganizationReferenceIdentifier;
 	}
 
 	/**
 	 * Sets the defaultPaymentOrganizationReferenceIdentifier attribute.
-	 * 
+	 *
 	 * @param defaultPaymentOrganizationReferenceIdentifier The defaultPaymentOrganizationReferenceIdentifier to set.
-	 * 
+	 *
 	 */
 	public void setDefaultPaymentOrganizationReferenceIdentifier(String defaultPaymentOrganizationReferenceIdentifier) {
 		this.defaultPaymentOrganizationReferenceIdentifier = defaultPaymentOrganizationReferenceIdentifier;
 	}
 
 	/**
-     * Gets the writeoffAccountNumber attribute. 
+     * Gets the writeoffAccountNumber attribute.
      * @return Returns the writeoffAccountNumber.
      */
     public String getWriteoffAccountNumber() {
@@ -472,7 +467,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffChartOfAccountsCode attribute. 
+     * Gets the writeoffChartOfAccountsCode attribute.
      * @return Returns the writeoffChartOfAccountsCode.
      */
     public String getWriteoffChartOfAccountsCode() {
@@ -488,7 +483,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffFinancialObjectCode attribute. 
+     * Gets the writeoffFinancialObjectCode attribute.
      * @return Returns the writeoffFinancialObjectCode.
      */
     public String getWriteoffFinancialObjectCode() {
@@ -504,7 +499,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffFinancialSubObjectCode attribute. 
+     * Gets the writeoffFinancialSubObjectCode attribute.
      * @return Returns the writeoffFinancialSubObjectCode.
      */
     public String getWriteoffFinancialSubObjectCode() {
@@ -520,7 +515,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffOrganizationReferenceIdentifier attribute. 
+     * Gets the writeoffOrganizationReferenceIdentifier attribute.
      * @return Returns the writeoffOrganizationReferenceIdentifier.
      */
     public String getWriteoffOrganizationReferenceIdentifier() {
@@ -536,7 +531,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffProjectCode attribute. 
+     * Gets the writeoffProjectCode attribute.
      * @return Returns the writeoffProjectCode.
      */
     public String getWriteoffProjectCode() {
@@ -552,7 +547,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the writeoffSubAccountNumber attribute. 
+     * Gets the writeoffSubAccountNumber attribute.
      * @return Returns the writeoffSubAccountNumber.
      */
     public String getWriteoffSubAccountNumber() {
@@ -569,266 +564,279 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
     /**
 	 * Gets the defaultInvoiceFinancialObject attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceFinancialObject
-	 * 
+	 *
 	 */
-	public ObjectCode getDefaultInvoiceFinancialObject() { 
+	public ObjectCode getDefaultInvoiceFinancialObject() {
 		return defaultInvoiceFinancialObject;
 	}
 
 	/**
 	 * Sets the defaultInvoiceFinancialObject attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceFinancialObject The defaultInvoiceFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceFinancialObject(ObjectCode defaultInvoiceFinancialObject) {
+	@Deprecated
+    public void setDefaultInvoiceFinancialObject(ObjectCode defaultInvoiceFinancialObject) {
 		this.defaultInvoiceFinancialObject = defaultInvoiceFinancialObject;
 	}
 
 	/**
 	 * Gets the defaultInvoiceFinancialSubObject attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceFinancialSubObject
-	 * 
+	 *
 	 */
-	public SubObjectCode getDefaultInvoiceFinancialSubObject() { 
+	public SubObjectCode getDefaultInvoiceFinancialSubObject() {
 		return defaultInvoiceFinancialSubObject;
 	}
 
 	/**
 	 * Sets the defaultInvoiceFinancialSubObject attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceFinancialSubObject The defaultInvoiceFinancialSubObject to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceFinancialSubObject(SubObjectCode defaultInvoiceFinancialSubObject) {
+	@Deprecated
+    public void setDefaultInvoiceFinancialSubObject(SubObjectCode defaultInvoiceFinancialSubObject) {
 		this.defaultInvoiceFinancialSubObject = defaultInvoiceFinancialSubObject;
 	}
 
 	/**
 	 * Gets the organizationLateChargeObject attribute.
-	 * 
+	 *
 	 * @return Returns the organizationLateChargeObject
-	 * 
+	 *
 	 */
-	public ObjectCode getOrganizationLateChargeObject() { 
+	public ObjectCode getOrganizationLateChargeObject() {
 		return organizationLateChargeObject;
 	}
 
 	/**
 	 * Sets the organizationLateChargeObject attribute.
-	 * 
+	 *
 	 * @param organizationLateChargeObject The organizationLateChargeObject to set.
 	 * @deprecated
 	 */
-	public void setOrganizationLateChargeObject(ObjectCode organizationLateChargeObject) {
+	@Deprecated
+    public void setOrganizationLateChargeObject(ObjectCode organizationLateChargeObject) {
 		this.organizationLateChargeObject = organizationLateChargeObject;
 	}
 
 	/**
 	 * Gets the chartOfAccounts attribute.
-	 * 
+	 *
 	 * @return Returns the chartOfAccounts
-	 * 
+	 *
 	 */
-	public Chart getChartOfAccounts() { 
+	public Chart getChartOfAccounts() {
 		return chartOfAccounts;
 	}
 
 	/**
 	 * Sets the chartOfAccounts attribute.
-	 * 
+	 *
 	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
+	@Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
 	/**
 	 * Gets the organization attribute.
-	 * 
+	 *
 	 * @return Returns the organization
-	 * 
+	 *
 	 */
-	public Organization getOrganization() { 
+	public Organization getOrganization() {
 		return organization;
 	}
 
 	/**
 	 * Sets the organization attribute.
-	 * 
+	 *
 	 * @param organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Organization organization) {
+	@Deprecated
+    public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 
 	/**
 	 * Gets the defaultInvoiceChartOfAccounts attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceChartOfAccounts
-	 * 
+	 *
 	 */
-	public Chart getDefaultInvoiceChartOfAccounts() { 
+	public Chart getDefaultInvoiceChartOfAccounts() {
 		return defaultInvoiceChartOfAccounts;
 	}
 
 	/**
 	 * Sets the defaultInvoiceChartOfAccounts attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceChartOfAccounts The defaultInvoiceChartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceChartOfAccounts(Chart defaultInvoiceChartOfAccounts) {
+	@Deprecated
+    public void setDefaultInvoiceChartOfAccounts(Chart defaultInvoiceChartOfAccounts) {
 		this.defaultInvoiceChartOfAccounts = defaultInvoiceChartOfAccounts;
 	}
 
 	/**
 	 * Gets the defaultInvoiceSubAccount attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceSubAccount
-	 * 
+	 *
 	 */
-	public SubAccount getDefaultInvoiceSubAccount() { 
+	public SubAccount getDefaultInvoiceSubAccount() {
 		return defaultInvoiceSubAccount;
 	}
 
 	/**
 	 * Sets the defaultInvoiceSubAccount attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceSubAccount The defaultInvoiceSubAccount to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceSubAccount(SubAccount defaultInvoiceSubAccount) {
+	@Deprecated
+    public void setDefaultInvoiceSubAccount(SubAccount defaultInvoiceSubAccount) {
 		this.defaultInvoiceSubAccount = defaultInvoiceSubAccount;
 	}
 
 	/**
 	 * Gets the defaultInvoiceAccount attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceAccount
-	 * 
+	 *
 	 */
-	public Account getDefaultInvoiceAccount() { 
+	public Account getDefaultInvoiceAccount() {
 		return defaultInvoiceAccount;
 	}
 
 	/**
 	 * Sets the defaultInvoiceAccount attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceAccount The defaultInvoiceAccount to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceAccount(Account defaultInvoiceAccount) {
+	@Deprecated
+    public void setDefaultInvoiceAccount(Account defaultInvoiceAccount) {
 		this.defaultInvoiceAccount = defaultInvoiceAccount;
 	}
 
 	/**
 	 * Gets the defaultInvoiceProject attribute.
-	 * 
+	 *
 	 * @return Returns the defaultInvoiceProject
-	 * 
+	 *
 	 */
-	public ProjectCode getDefaultInvoiceProject() { 
+	public ProjectCode getDefaultInvoiceProject() {
 		return defaultInvoiceProject;
 	}
 
 	/**
 	 * Sets the defaultInvoiceProject attribute.
-	 * 
+	 *
 	 * @param defaultInvoiceProject The defaultInvoiceProject to set.
 	 * @deprecated
 	 */
-	public void setDefaultInvoiceProject(ProjectCode defaultInvoiceProject) {
+	@Deprecated
+    public void setDefaultInvoiceProject(ProjectCode defaultInvoiceProject) {
 		this.defaultInvoiceProject = defaultInvoiceProject;
 	}
 
 	/**
 	 * Gets the defaultPaymentAccount attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentAccount
-	 * 
+	 *
 	 */
-	public Account getDefaultPaymentAccount() { 
+	public Account getDefaultPaymentAccount() {
 		return defaultPaymentAccount;
 	}
 
 	/**
 	 * Sets the defaultPaymentAccount attribute.
-	 * 
+	 *
 	 * @param defaultPaymentAccount The defaultPaymentAccount to set.
 	 * @deprecated
 	 */
-	public void setDefaultPaymentAccount(Account defaultPaymentAccount) {
+	@Deprecated
+    public void setDefaultPaymentAccount(Account defaultPaymentAccount) {
 		this.defaultPaymentAccount = defaultPaymentAccount;
 	}
 
 	/**
 	 * Gets the defaultPaymentChartOfAccounts attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentChartOfAccounts
-	 * 
+	 *
 	 */
-	public Chart getDefaultPaymentChartOfAccounts() { 
+	public Chart getDefaultPaymentChartOfAccounts() {
 		return defaultPaymentChartOfAccounts;
 	}
 
 	/**
 	 * Sets the defaultPaymentChartOfAccounts attribute.
-	 * 
+	 *
 	 * @param defaultPaymentChartOfAccounts The defaultPaymentChartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setDefaultPaymentChartOfAccounts(Chart defaultPaymentChartOfAccounts) {
+	@Deprecated
+    public void setDefaultPaymentChartOfAccounts(Chart defaultPaymentChartOfAccounts) {
 		this.defaultPaymentChartOfAccounts = defaultPaymentChartOfAccounts;
 	}
 
 	/**
 	 * Gets the defaultPaymentSubAccount attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentSubAccount
-	 * 
+	 *
 	 */
-	public SubAccount getDefaultPaymentSubAccount() { 
+	public SubAccount getDefaultPaymentSubAccount() {
 		return defaultPaymentSubAccount;
 	}
 
 	/**
 	 * Sets the defaultPaymentSubAccount attribute.
-	 * 
+	 *
 	 * @param defaultPaymentSubAccount The defaultPaymentSubAccount to set.
 	 * @deprecated
 	 */
-	public void setDefaultPaymentSubAccount(SubAccount defaultPaymentSubAccount) {
+	@Deprecated
+    public void setDefaultPaymentSubAccount(SubAccount defaultPaymentSubAccount) {
 		this.defaultPaymentSubAccount = defaultPaymentSubAccount;
 	}
 
 	/**
 	 * Gets the defaultPaymentProject attribute.
-	 * 
+	 *
 	 * @return Returns the defaultPaymentProject
-	 * 
+	 *
 	 */
-	public ProjectCode getDefaultPaymentProject() { 
+	public ProjectCode getDefaultPaymentProject() {
 		return defaultPaymentProject;
 	}
 
 	/**
 	 * Sets the defaultPaymentProject attribute.
-	 * 
+	 *
 	 * @param defaultPaymentProject The defaultPaymentProject to set.
 	 * @deprecated
 	 */
-	public void setDefaultPaymentProject(ProjectCode defaultPaymentProject) {
+	@Deprecated
+    public void setDefaultPaymentProject(ProjectCode defaultPaymentProject) {
 		this.defaultPaymentProject = defaultPaymentProject;
 	}
-	
+
 	/**
-     * Gets the defaultPaymentFinancialObject attribute. 
+     * Gets the defaultPaymentFinancialObject attribute.
      * @return Returns the defaultPaymentFinancialObject.
      */
     public ObjectCode getDefaultPaymentFinancialObject() {
@@ -840,12 +848,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param defaultPaymentFinancialObject The defaultPaymentFinancialObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setDefaultPaymentFinancialObject(ObjectCode defaultPaymentFinancialObject) {
         this.defaultPaymentFinancialObject = defaultPaymentFinancialObject;
     }
 
     /**
-     * Gets the defaultPaymentFinancialSubObject attribute. 
+     * Gets the defaultPaymentFinancialSubObject attribute.
      * @return Returns the defaultPaymentFinancialSubObject.
      */
     public SubObjectCode getDefaultPaymentFinancialSubObject() {
@@ -857,12 +866,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param defaultPaymentFinancialSubObject The defaultPaymentFinancialSubObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setDefaultPaymentFinancialSubObject(SubObjectCode defaultPaymentFinancialSubObject) {
         this.defaultPaymentFinancialSubObject = defaultPaymentFinancialSubObject;
     }
 
     /**
-     * Gets the writeoffAccount attribute. 
+     * Gets the writeoffAccount attribute.
      * @return Returns the writeoffAccount.
      */
     public Account getWriteoffAccount() {
@@ -874,12 +884,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffAccount The writeoffAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffAccount(Account writeoffAccount) {
         this.writeoffAccount = writeoffAccount;
     }
 
     /**
-     * Gets the writeoffChartOfAccounts attribute. 
+     * Gets the writeoffChartOfAccounts attribute.
      * @return Returns the writeoffChartOfAccounts.
      */
     public Chart getWriteoffChartOfAccounts() {
@@ -891,12 +902,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffChartOfAccounts The writeoffChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffChartOfAccounts(Chart writeoffChartOfAccounts) {
         this.writeoffChartOfAccounts = writeoffChartOfAccounts;
     }
 
     /**
-     * Gets the writeoffFinancialObject attribute. 
+     * Gets the writeoffFinancialObject attribute.
      * @return Returns the writeoffFinancialObject.
      */
     public ObjectCode getWriteoffFinancialObject() {
@@ -908,12 +920,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffFinancialObject The writeoffFinancialObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffFinancialObject(ObjectCode writeoffFinancialObject) {
         this.writeoffFinancialObject = writeoffFinancialObject;
     }
 
     /**
-     * Gets the writeoffFinancialSubObject attribute. 
+     * Gets the writeoffFinancialSubObject attribute.
      * @return Returns the writeoffFinancialSubObject.
      */
     public SubObjectCode getWriteoffFinancialSubObject() {
@@ -925,12 +938,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffFinancialSubObject The writeoffFinancialSubObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffFinancialSubObject(SubObjectCode writeoffFinancialSubObject) {
         this.writeoffFinancialSubObject = writeoffFinancialSubObject;
     }
 
     /**
-     * Gets the writeoffProject attribute. 
+     * Gets the writeoffProject attribute.
      * @return Returns the writeoffProject.
      */
     public ProjectCode getWriteoffProject() {
@@ -942,12 +956,13 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffProject The writeoffProject to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffProject(ProjectCode writeoffProject) {
         this.writeoffProject = writeoffProject;
     }
 
     /**
-     * Gets the writeoffSubAccount attribute. 
+     * Gets the writeoffSubAccount attribute.
      * @return Returns the writeoffSubAccount.
      */
     public SubAccount getWriteoffSubAccount() {
@@ -959,13 +974,14 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
      * @param writeoffSubAccount The writeoffSubAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setWriteoffSubAccount(SubAccount writeoffSubAccount) {
         this.writeoffSubAccount = writeoffSubAccount;
     }
 
     /**
      * Gets the universityFiscal attribute.
-     * 
+     *
      * @return Returns the universityFiscal.
      */
     public SystemOptions getUniversityFiscal() {
@@ -974,7 +990,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 
     /**
      * Sets the universityFiscal attribute value.
-     * 
+     *
      * @param universityFiscal The universityFiscal to set.
      */
     public void setUniversityFiscal(SystemOptions universityFiscal) {
@@ -985,7 +1001,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -993,11 +1009,11 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
         m.put("organizationCode", this.organizationCode);
 	    return m;
     }
-    
+
      /**
      * This method returns a string so that an organization accounting default can have a link to view its own
      * inquiry page after a look up
-     * 
+     *
      * @return the String "View Organization Accounting Default"
      */
     public String getOrganizationAccountingDefaultViewer() {

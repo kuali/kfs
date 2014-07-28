@@ -107,7 +107,7 @@
 		</sys-java:accountingLines>
 	</kul:tab>
 	
-	<ld:errorCertification documentAttributes="${DataDictionary.ErrorCertification.attributes}" />
+	<ld:errorCertification />
 	     
 	<ld:laborLedgerPendingEntries />
     <kul:notes />

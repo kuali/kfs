@@ -77,12 +77,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<property name="maxLength" value="4" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="4" />
+			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
 
 	<bean id="ContractsGrantsInvoiceDetail-categoryName" parent="ContractsGrantsInvoiceDetail-categoryName-parentBean" />
-
 	<bean id="ContractsGrantsInvoiceDetail-categoryName-parentBean" abstract="true" parent="ContractsAndGrantsCategory-categoryName">
 		<property name="label" value="Cost Category" />
 		<property name="shortLabel" value="Cost Category" />

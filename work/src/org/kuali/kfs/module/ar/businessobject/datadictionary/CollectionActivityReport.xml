@@ -174,17 +174,25 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
+			<bean parent="TextControlDefinition" p:size="7" />
 		</property>
 	</bean>
 	
  <bean id="CollectionActivityReport-chartOfAccountsCode" parent="CollectionActivityReport-chartOfAccountsCode-parentBean" />
   <bean id="CollectionActivityReport-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode" />
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+  </bean>
 		
   <bean id="CollectionActivityReport-accountNumber" parent="CollectionActivityReport-accountNumber-parentBean" />
   <bean id="CollectionActivityReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber" />
+		abstract="true" parent="Account-accountNumber">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+  </bean>
  
   <bean id="CollectionActivityReport-invoiceNumber" parent="CollectionActivityReport-invoiceNumber-parentBean"/>
 
@@ -192,6 +200,9 @@
     <property name="name" value="invoiceNumber"/>
     <property name="label" value="Invoice Number"/>
     <property name="shortLabel" value="Invoice Number"/>
+    <property name="control">
+		<bean parent="TextControlDefinition" p:size="11" />
+	</property>
   </bean>
 
 	<bean id="CollectionActivityReport-agencyName" parent="CollectionActivityReport-agencyName-parentBean" />

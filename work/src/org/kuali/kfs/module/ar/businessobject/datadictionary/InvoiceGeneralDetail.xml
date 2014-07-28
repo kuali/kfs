@@ -94,12 +94,16 @@
 
 	<bean id="InvoiceGeneralDetail-finalBillIndicator" parent="InvoiceGeneralDetail-finalBillIndicator-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-finalBillIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+	<bean id="InvoiceGeneralDetail-finalBillIndicator-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="finalBillIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Bill" />
 		<property name="shortLabel" value="FinalBill" />
+		<property name="maxLength" value="1" />
 		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
 	</bean>
 
 
@@ -173,6 +177,7 @@
 		<property name="label" value="Cost Share Amount" />
 		<property name="shortLabel" value="Cost Share Amount" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 
 	<bean id="InvoiceGeneralDetail-lastBilledDate" parent="InvoiceGeneralDetail-lastBilledDate-parentBean" />

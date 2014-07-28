@@ -121,6 +121,9 @@
 		<property name="label" value="Fund Manager ID" />
 		<property name="shortLabel" value="Fund Manager ID" />
 		<property name="displayLabelAttribute" value="awardFundManager.principalName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.name" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardFundManager.name-parentBean" />
@@ -171,6 +174,9 @@
 		<property name="label" value="Project Director ID" />
 		<property name="shortLabel" value="Proj Dir ID" />
 		<property name="displayLabelAttribute" value="awardProjectDirector.principalName" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="42"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.name" parent="ContractsGrantsSuspendedInvoiceDetailReport-awardProjectDirector.name-parentBean" />

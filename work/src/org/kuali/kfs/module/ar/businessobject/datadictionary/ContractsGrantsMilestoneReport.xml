@@ -85,7 +85,7 @@
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
+			<bean parent="TextControlDefinition" p:size="14" />
 		</property>
 	</bean>
 
@@ -101,15 +101,19 @@
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
+			<bean parent="TextControlDefinition" p:size="14" />
 		</property>
 	</bean>
- <bean id="ContractsGrantsMilestoneReport-chartOfAccountsCode" parent="ContractsGrantsMilestoneReport-chartOfAccountsCode-parentBean" />
-  <bean id="ContractsGrantsMilestoneReport-chartOfAccountsCode-parentBean"
+	
+ 	<bean id="ContractsGrantsMilestoneReport-chartOfAccountsCode" parent="ContractsGrantsMilestoneReport-chartOfAccountsCode-parentBean" />
+	<bean id="ContractsGrantsMilestoneReport-chartOfAccountsCode-parentBean"
 		abstract="true" parent="Chart-chartOfAccountsCode" >
 		<property name="label" value="Award Chart Code" />
-		<property name="shortLabel" value="Chart" />		
-		</bean>
+		<property name="shortLabel" value="Chart" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="4"/>
+    	</property>
+	</bean>
 
 	<bean id="ContractsGrantsMilestoneReport-accountNumber" parent="ContractsGrantsMilestoneReport-accountNumber-parentBean" />
 
@@ -117,6 +121,9 @@
 		<property name="name" value="accountNumber" />
 		<property name="label" value="Award Account Number" />
 		<property name="shortLabel" value="Acct Num" />
+		<property name="control">
+      		<bean parent="TextControlDefinition" p:size="9"/>
+    	</property>
 	</bean>
 
 	<bean id="ContractsGrantsMilestoneReport-milestoneAmount" parent="ContractsGrantsMilestoneReport-milestoneAmount-parentBean" />

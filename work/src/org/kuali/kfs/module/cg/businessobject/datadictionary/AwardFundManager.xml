@@ -107,10 +107,14 @@
 		parent="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean" />
 
 	<bean id="AwardFundManager-awardPrimaryFundManagerIndicator-parentBean"
-		abstract="true" parent="GenericAttributes-genericBoolean">
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="awardPrimaryFundManagerIndicator" />
 		<property name="label" value="Primary" />
 		<property name="shortLabel" value="Primary" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
 	</bean>
 	<bean id="AwardFundManager-awardFundManagerProjectTitle"
 		parent="AwardFundManager-awardFundManagerProjectTitle-parentBean" />

@@ -153,11 +153,16 @@
 	<bean id="AwardAccount-finalBilledIndicator" parent="AwardAccount-finalBilledIndicator-parentBean" />
 
 	<bean id="AwardAccount-finalBilledIndicator-parentBean" abstract="true"
-		parent="GenericAttributes-genericBoolean">
+		parent="AttributeDefinition">
 		<property name="name" value="finalBilledIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Billed" />
 		<property name="shortLabel" value="FinalBilled" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
 	</bean>
 
 	<bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber"

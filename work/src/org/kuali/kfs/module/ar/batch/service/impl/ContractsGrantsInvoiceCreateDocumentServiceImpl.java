@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -126,7 +127,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
                                 // Saving the document
                                 try {
-                                    documentService.saveDocument(cgInvoiceDocument);
+                                    documentService.saveDocument(cgInvoiceDocument, DocumentSystemSaveEvent.class);
                                 }
                                 catch (WorkflowException ex) {
                                     LOG.error("Error creating cgin documents: " + ex.getMessage(), ex);

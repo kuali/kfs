@@ -249,24 +249,6 @@
             <column name="ACTV_IND" value="Y" />
         </insert>
 
-        <insert tableName="KRIM_ROLE_RSP_T">
-            <column name="ROLE_RSP_ID" value="KFS10856" />
-            <column name="OBJ_ID" value="KFS-ROLE_RSP-038" />
-            <column name="VER_NBR" valueNumeric="1" />
-            <column name="ROLE_ID" value="68" /> 
-            <column name="RSP_ID" value="KFS10850" />
-            <column name="ACTV_IND" value="Y" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_RSP_T">
-            <column name="ROLE_RSP_ID" value="KFS10857" />
-            <column name="OBJ_ID" value="KFS-ROLE_RSP-039" />
-            <column name="VER_NBR" valueNumeric="1" />
-            <column name="ROLE_ID" value="28" /> 
-            <column name="RSP_ID" value="KFS10850" />
-            <column name="ACTV_IND" value="Y" />
-        </insert>
-
         <insert tableName="KRIM_ROLE_RSP_ACTN_T">
             <column name="ROLE_RSP_ACTN_ID" value="KFS10858" />
             <column name="OBJ_ID" value="KFS-RSP-ACTN-037" />
@@ -276,30 +258,6 @@
             <column name="ACTN_PLCY_CD" value="A" />
             <column name="ROLE_MBR_ID" value="*" />
             <column name="ROLE_RSP_ID" value="KFS10855" />
-            <column name="FRC_ACTN" value="N" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_RSP_ACTN_T">
-            <column name="ROLE_RSP_ACTN_ID" value="KFS10859" />
-            <column name="OBJ_ID" value="KFS-RSP-ACTN-038" />
-            <column name="VER_NBR" valueNumeric="1" />
-            <column name="ACTN_TYP_CD" value="F" /> 
-            <column name="PRIORITY_NBR" valueNumeric="1"/>
-            <column name="ACTN_PLCY_CD" value="A" />
-            <column name="ROLE_MBR_ID" value="*" />
-            <column name="ROLE_RSP_ID" value="KFS10856" />
-            <column name="FRC_ACTN" value="N" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_RSP_ACTN_T">
-            <column name="ROLE_RSP_ACTN_ID" value="KFS10860" />
-            <column name="OBJ_ID" value="KFS-RSP-ACTN-039" />
-            <column name="VER_NBR" valueNumeric="1" />
-            <column name="ACTN_TYP_CD" value="F" /> 
-            <column name="PRIORITY_NBR" valueNumeric="1"/>
-            <column name="ACTN_PLCY_CD" value="A" />
-            <column name="ROLE_MBR_ID" value="*" />
-            <column name="ROLE_RSP_ID" value="KFS10857" />
             <column name="FRC_ACTN" value="N" />
         </insert>
 

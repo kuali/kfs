@@ -97,7 +97,7 @@
 		</update>
 		<update tableName="krim_rsp_attr_data_t">
 			<column name="attr_val" value="KFS"/>
-			<where>attr_data_id = 'KFS158'</where>
+			<where>rsp_id = '49' and kim_attr_defn_id = '13'</where>
 		</update>
 		
 		<!-- add the KFS-SYS profilePrincipalId attribute -->

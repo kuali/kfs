@@ -47,7 +47,7 @@
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityDate}"
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
-			property="${propertyName}.activityText" readOnly="${readOnly}" expandedTextArea="true" /></td>
+			property="${propertyName}.activityText" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
 			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
@@ -60,7 +60,7 @@
 			property="${propertyName}.postedDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.userPrincipalId}"
 			property="${propertyName}.user.name" readOnly="true" /></td>
-		<c:if test="${includeMultipleInvoiceLookup}">
+		<c:if test="${!empty includeMultipleInvoiceLookup && includeMultipleInvoiceLookup}">
 			<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${DataDictionary.CollectionActivityDocument.attributes.selectedInvoiceDocumentNumberList}"
 				property="document.selectedInvoiceDocumentNumberList" readOnly="true" />
 				<kul:multipleValueLookup lookedUpCollectionName="selectedInvoiceDocumentNumberList" boClassName="org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup"

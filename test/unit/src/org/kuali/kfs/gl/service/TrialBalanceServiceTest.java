@@ -45,7 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TrialBalanceServiceTest extends KualiTestBase {
 
     /*
-     * Enum to loop over for testing each period/chart-of-accounts code combo
+     * Enum to loop over for testing each period and chart-of-account code combos.
      */
     private enum TrialBalanceInfo {
 
@@ -57,29 +57,30 @@ public class TrialBalanceServiceTest extends KualiTestBase {
         Period_06("06", "5718802.02"), Period_07("07", "6363696.74"), Period_08("08", "6899673.30"), Period_09("09", "7383177.34"), Period_10("10", "7788766.00"),
         Period_11("11", "8260399.64"), Period_12("12", "8908269.48"), Period_13("13", "8908269.48");
 
-        // Magic Strings, common across relevant records in TrialBalanceServiceTest.DATA_FILE_PATH
-        private static final String FISCAL_YEAR = "2014";
-        private static final String FISCAL_CHART_OF_ACCOUNTS_CODE = "BA";
 
-        // Instance Variables
+        private String fiscalYear;
         private String fiscalPeriodCode;
+        private String fiscalCoaCode; // Fiscal Chart-of-Accounts code
         private BigDecimal expectedBalance;
 
 
         /*
-         * Initialize the enum for period and balance specific values.
+         * Initial the enum for period and balance specific values. The fiscalYear
+         * and fiscalCoaCode are common across records being tested.
          */
-        private TrialBalanceInfo(final String code, final String expectedBalanceString){
+        private TrialBalanceInfo(String code, String expectedBalanceString){
+            this.fiscalYear = "2014"; // common for all records
+            this.fiscalCoaCode = "BA"; // common for majority of records
             this.fiscalPeriodCode = code;
             this.expectedBalance = new BigDecimal(expectedBalanceString).setScale(SCALE, BigDecimal.ROUND_HALF_UP);
         }
 
         public String getFiscalYear(){
-            return FISCAL_YEAR;
+            return this.fiscalYear;
         }
 
         public String getFiscalCoaCode(){
-            return FISCAL_CHART_OF_ACCOUNTS_CODE;
+            return this.fiscalCoaCode;
         }
 
         public String getFiscalPeriodCode(){
@@ -93,24 +94,16 @@ public class TrialBalanceServiceTest extends KualiTestBase {
     }//enum
 
 
-    /*
-     * Enum used for switching of adding up credit OR debit fields
-     * for a TrialBalanceReport; enables code re-use of getBalance(...)
-     */
-    private enum BalanceType{
-        CREDIT, DEBIT
-    }//enum
+    // Services
+    private TrialBalanceService trialBalanceService;
+    private UnitTestSqlDao unitTestSqlDao;
 
-
-    // Magic value variables
+    // DB modification variables
     private static final String DATA_FILE_PATH = "test/unit/src/org/kuali/kfs/gl/batch/fixture/gl_trllblnc.csv";
-    private static final String DATA_FILE_DELIM = ",";
     private static final int COLUMN_COUNT = 25;
     private static final String DELETE_ALL_ENTRIES_SQL = "DELETE FROM GL_BALANCE_T";
-    private static final String TIMESTAMP_FORMAT = "DD/MM/YYYY HH12:MI:SS PM"; // UnitTestSqlDao is hard coded to this value
-    private static final int SCALE = 2; // Scale for BigDecimal instances
 
-    // Note, the following is "newline'd" every five columns; also, be aware of the single quotes needed for varchar columns
+    // Note, the following is "newline'd" every five columns; also, beware of single quotes needed for varchar columns
     private static final String INSERT_SQL_FORMAT = "INSERT INTO GL_BALANCE_T ("
             + "UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, "
             + "FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, "
@@ -121,16 +114,15 @@ public class TrialBalanceServiceTest extends KualiTestBase {
             + "'%s', '%s', '%s', %s, %s, "
             + "%s, %s, %s, %s, %s, "
             + "%s, %s, %s, %s, %s, "
-            + "%s, %s, %s, %s, %s)";
+            + "%s, %s, %s, %s, '%s')";
 
-    // Services
-    private TrialBalanceService trialBalanceService;
-    private UnitTestSqlDao unitTestSqlDao;
+    // Scale for BigDecimal instances
+    private static final int SCALE = 2; // Changed easily if we need to do division/multiplication
+
 
 
     /**
-     * This method sets up several services and intializes
-     * the DB to only contain records from file.
+     * This method sets up several services used in testing.
      *
      * @see junit.framework.TestCase#setUp()
      */
@@ -139,73 +131,6 @@ public class TrialBalanceServiceTest extends KualiTestBase {
         super.setUp();
         trialBalanceService = SpringContext.getBean(TrialBalanceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        initDbFromFile();
-    }
-
-
-    /**
-     * This method tests the service's results for finding a trial balance
-     * based on search parameters encapsulated by the TrialBalanceInfo enum.
-     */
-    public void testFindTrialBalance(){
-        for(TrialBalanceInfo trialBalanceInfo : TrialBalanceInfo.values()){
-            // Perform query through the new code
-            List<TrialBalanceReport> trialBalanceReports = getTrialBalanceReports(trialBalanceInfo);
-
-            // Assert the credit balance is correct
-            BigDecimal expectedBalance = trialBalanceInfo.getExpectedBalance();
-            BigDecimal calculatedCreditBalance = getCreditBalance(trialBalanceReports);
-            String msg = String.format("Unexpected balance for period '%s'; expected balance of '%s', but found credit balance of '%s'.", trialBalanceInfo.getFiscalPeriodCode(), expectedBalance, calculatedCreditBalance);
-            assertTrue(msg, expectedBalance.compareTo(calculatedCreditBalance) == 0);
-
-            // Assert the debit balance is correct
-            BigDecimal calculatedDebitBalance = getDebitBalance(trialBalanceReports);
-            msg = String.format("Unexpected balance for period '%s'; expected balance of '%s', but found debit balance of '%s'.", trialBalanceInfo.getFiscalPeriodCode(), expectedBalance, calculatedDebitBalance);
-            assertTrue(msg, expectedBalance.compareTo(calculatedDebitBalance) == 0);
-        }
-    }
-
-
-    /**
-     * Test to ensure report pdf is generated on the file system
-     */
-    public void testGenerateReportForExtractProcess(){
-        File reportFile = null;
-        try{
-            Collection dataSource = getTrialBalanceReports(TrialBalanceInfo.Period_13);
-            String reportFilePath = trialBalanceService.generateReportForExtractProcess(dataSource, TrialBalanceInfo.Period_13.getFiscalYear(), TrialBalanceInfo.Period_13.getFiscalPeriodCode());
-            reportFile = new File(reportFilePath);
-
-            // Assert file exists
-            String msg = String.format("Expected report file does not exist, should be found at '%s'.",  reportFilePath);
-            assertTrue(msg, reportFile.exists());
-
-            // Assert file is non-zero
-            long fileSize = reportFile.length();
-            msg = String.format("Expected '%s' to be a non-zero size.", fileSize);
-            assertTrue(msg, fileSize > 0);
-
-        } finally {
-            // If anything goes wrong, we still need to clean up, not done in
-            // tearDown(), since this is the only test that creates a file
-            FileUtils.deleteQuietly(reportFile);
-        }
-    }
-
-
-    /*
-     * This method clears all records from the GL_BALANCE_T table,
-     * pulls records from disk, and inserts the records into DB.
-     *
-     * In such a way, we know for sure the state of the DB while
-     * testing.
-     */
-    private void initDbFromFile(){
-        unitTestSqlDao.sqlCommand(DELETE_ALL_ENTRIES_SQL);
-        List<String> insertStatements = getInsertStatements();
-        for(String insertStatement : insertStatements){
-            unitTestSqlDao.sqlCommand(insertStatement);
-        }
     }
 
 
@@ -226,18 +151,13 @@ public class TrialBalanceServiceTest extends KualiTestBase {
         List<String> insertStatements = new ArrayList<String>();
 
         for(String line : lines){
-            String[] tokens = line.split(DATA_FILE_DELIM, -1);
-
-            // Be DB agnostic with different timestamp functions
-            String timeStampString = tokens[24];
-            String timeStampSql = getTimestampSql(timeStampString);
-
+            String[] tokens = line.split(",", -1);
             String sqlInsert = String.format(INSERT_SQL_FORMAT,
                     tokens[0], tokens[1], tokens[2], tokens[3], tokens[4],
                     tokens[5], tokens[6], tokens[7], tokens[8], tokens[9],
                     tokens[10], tokens[11], tokens[12], tokens[13], tokens[14],
                     tokens[15], tokens[16], tokens[17], tokens[18], tokens[19],
-                    tokens[20], tokens[21], tokens[22], tokens[23], timeStampSql);
+                    tokens[20], tokens[21], tokens[22], tokens[23], tokens[24]);
             insertStatements.add(sqlInsert);
         }
 
@@ -246,26 +166,24 @@ public class TrialBalanceServiceTest extends KualiTestBase {
 
 
     /*
-     * Build DB platform-specific date function sql, e.g.:
-     *     MySql  -> STR_TO_DATE('07/05/2014 07:49:19 AM', '%d/%m/%Y %r')
-     *     Oracle -> TO_DATE('07/05/2014 07:49:19 AM', 'DD/MM/YYYY HH12:MI:SS PM')
+     * This method clears all records from the GL_BALANCE_T table,
+     * pulls records from disk, and inserts the records into DB.
+     *
+     * In such a way, we know for sure the state of the DB while
+     * testing.
      */
-    private String getTimestampSql(String timeStampString){
-        StringBuffer sb = new StringBuffer();
-        sb.append(unitTestSqlDao.getDbPlatform().getStrToDateFunction());
-        sb.append("('");
-        sb.append(timeStampString);
-        sb.append("', ");
-        sb.append(unitTestSqlDao.getDbPlatform().getDateFormatString(TIMESTAMP_FORMAT));
-        sb.append(")");
-
-        return sb.toString();
+    private void initDbFromFile(){
+        unitTestSqlDao.sqlCommand(DELETE_ALL_ENTRIES_SQL);
+        List<String> insertStatements = getInsertStatements();
+        for(String insertStatement : insertStatements){
+            unitTestSqlDao.sqlCommand(insertStatement);
+        }
     }
 
 
     /*
      * This call cascades down the related service, LookupableHelper, and DAO.
-     * The passed in TrialBalanceInfo determines which reports are returned.
+     * The passed in TrialBalanceInfo decides which reports are returned.
      */
     private List<TrialBalanceReport> getTrialBalanceReports(TrialBalanceInfo trialBalanceInfo){
         List objects = trialBalanceService.findTrialBalance(trialBalanceInfo.getFiscalYear(),
@@ -285,7 +203,14 @@ public class TrialBalanceServiceTest extends KualiTestBase {
      * and returns the total sum.
      */
     private BigDecimal getCreditBalance(List<TrialBalanceReport> trialBalanceReports){
-        return getBalance(trialBalanceReports, BalanceType.CREDIT);
+        BigDecimal creditBalance = BigDecimal.ZERO.setScale(SCALE, BigDecimal.ROUND_HALF_UP);
+        for(TrialBalanceReport trialBalanceReport : trialBalanceReports){
+            KualiDecimal credit = trialBalanceReport.getCreditAmount();
+            if(ObjectUtils.isNotNull(credit)){
+                creditBalance = creditBalance.add(credit.bigDecimalValue().setScale(SCALE, BigDecimal.ROUND_HALF_UP));
+            }
+        }
+        return creditBalance;
     }
 
 
@@ -294,31 +219,79 @@ public class TrialBalanceServiceTest extends KualiTestBase {
      * and returns the total sum.
      */
     private BigDecimal getDebitBalance(List<TrialBalanceReport> trialBalanceReports){
-        return getBalance(trialBalanceReports, BalanceType.DEBIT);
+        BigDecimal debitBalance = BigDecimal.ZERO.setScale(SCALE, BigDecimal.ROUND_HALF_UP);
+        for(TrialBalanceReport trialBalanceReport : trialBalanceReports){
+            KualiDecimal debit = trialBalanceReport.getDebitAmount();
+            if(ObjectUtils.isNotNull(debit)){
+                debitBalance = debitBalance.add(debit.bigDecimalValue().setScale(SCALE, BigDecimal.ROUND_HALF_UP));
+            }
+        }
+        return debitBalance;
+    }
+
+
+    /**
+     * This method tests the service's results for finding a trial balance
+     * based on search parameters encapsulated by the TrialBalanceInfo enum.
+     */
+    public void testFindTrialBalance(){
+
+        // Clear all records from DB, insert controlled ones from file.
+        // Doing this here so that each test method is free to mutate
+        // records as necessary
+        initDbFromFile();
+
+        for(TrialBalanceInfo trialBalanceInfo : TrialBalanceInfo.values()){
+            // Perform query through the new code
+            List<TrialBalanceReport> trialBalanceReports = getTrialBalanceReports(trialBalanceInfo);
+
+            // Assert the credit balance is correct
+            BigDecimal expectedBalance = trialBalanceInfo.getExpectedBalance();
+            BigDecimal calculatedCreditBalance = getCreditBalance(trialBalanceReports);
+            String msg = String.format("Unexpected balance for period '%s'; expected balance of '%s', but found credit balance of '%s'.", trialBalanceInfo.getFiscalPeriodCode(), expectedBalance, calculatedCreditBalance);
+            assertTrue(msg, expectedBalance.compareTo(calculatedCreditBalance) == 0);
+
+            // Assert the debit balance is correct
+            BigDecimal calculatedDebitBalance = getDebitBalance(trialBalanceReports);
+            msg = String.format("Unexpected balance for period '%s'; expected balance of '%s', but found debit balance of '%s'.", trialBalanceInfo.getFiscalPeriodCode(), expectedBalance, calculatedDebitBalance);
+            assertTrue(msg, expectedBalance.compareTo(calculatedDebitBalance) == 0);
+        }
+
     }
 
 
     /*
-     * Helper method that adds up debit/credit acroos collection of TrialBalanceReport
+     * Test to ensure report pdf is generated on the file system
      */
-    private BigDecimal getBalance(List<TrialBalanceReport> trialBalanceReports, BalanceType balanceType){
-        BigDecimal balance = BigDecimal.ZERO.setScale(SCALE, BigDecimal.ROUND_HALF_UP);
+    public void testGenerateReportForExtractProcess(){
 
-        for(TrialBalanceReport trialBalanceReport : trialBalanceReports){
-            KualiDecimal testBalance;
-            if (balanceType == BalanceType.CREDIT) {
-                testBalance = trialBalanceReport.getCreditAmount();
-            }else {
-                // balanceType == BalanceType.DEBIT
-                testBalance = trialBalanceReport.getDebitAmount();
-            }
+        // Clear all records from DB, insert controlled ones from file.
+        // Doing this here so that each test method is free to mutate
+        // records as necessary
+        initDbFromFile();
 
-            if(ObjectUtils.isNotNull(testBalance)){
-                balance = balance.add(testBalance.bigDecimalValue().setScale(SCALE, BigDecimal.ROUND_HALF_UP));
-            }
-        }//for
+        File reportFile = null;
+        try{
 
-        return balance;
+            Collection dataSource = getTrialBalanceReports(TrialBalanceInfo.Period_13);
+            String reportFilePath = trialBalanceService.generateReportForExtractProcess(dataSource, TrialBalanceInfo.Period_13.getFiscalYear(), TrialBalanceInfo.Period_13.getFiscalPeriodCode());
+            reportFile = new File(reportFilePath);
+
+            // Assert file exists
+            String msg = String.format("Expected report file does not exist, should be found at '%s'.",  reportFilePath);
+            assertTrue(msg, reportFile.exists());
+
+            // Assert file is non-zero
+            long fileSize = reportFile.length();
+            msg = String.format("Expected '%s' to a non-zero size.", fileSize);
+            assertTrue(msg, fileSize > 0);
+
+        } finally {
+            // If anything goes wrong, we still need to clean up,
+            // not done in tearDown(), since we'd potentially have to save
+            // state between tests
+            FileUtils.deleteQuietly(reportFile);
+        }
     }
 
 }

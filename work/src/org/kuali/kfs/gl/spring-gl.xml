@@ -1246,9 +1246,6 @@
 	<bean id="glIcrEncumbranceService-parentBean" abstract="true" class="org.kuali.kfs.gl.batch.service.impl.IcrEncumbranceServiceImpl">
 		<property name="icrEncumbranceDao">
 			<ref bean="glIcrEncumbranceDao" />
-		</property>
-		<property name="objectTypeService">
-			<ref bean="objectTypeService" />
 		</property>			
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -2991,9 +2988,7 @@
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
         <property name="postBalance" ref="glPostBalance" />
         <property name="accountingPeriodService" ref="accountingPeriodService"/>
-        <property name="lookupService" ref="lookupService" />
-        <property name="accountService" ref="accountService"/>
-        <property name="optionsService" ref="optionsService" />
+        <property name="lookupService" ref="lookupService" />               
     </bean>
     
     <bean id="glCurrentAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -38,8 +38,7 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -68,8 +67,6 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
     private BalanceService balanceService;
     private PersonService personService;
     private AccountingPeriodService accountingPeriodService;
-    private AccountService accountService;
-    private OptionsService optionsService;
 
     /**
      * This method determines how a column's value should appear on the Lookup
@@ -122,9 +119,7 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         Map<String, String> localFieldValues = this.getLocalFieldValues(fieldValues);
 
         Collection<CurrentAccountBalance> searchResultsCollection = this.buildCurrentBalanceCollection(localFieldValues, isConsolidated, pendingEntryOption);
-        if(LOG.isDebugEnabled()){
-            LOG.debug("searchResultsCollection.size(): " + searchResultsCollection.size());
-        }
+        LOG.info("searchResultsCollection.size(): " + searchResultsCollection.size());
 
         return this.buildSearchResultList(searchResultsCollection, Long.valueOf(searchResultsCollection.size()));
     }
@@ -153,15 +148,15 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
             }
 
         }
-        String supervisorPrincipalName = fieldValues.get(SUPERVISOR_PRINCIPAL_NAME_KEY);
-        if (StringUtils.isNotBlank(supervisorPrincipalName)) {
+        String supervisorPrncplName = fieldValues.get(SUPERVISOR_PRINCIPAL_NAME_KEY);
+        if (StringUtils.isNotBlank(supervisorPrncplName)) {
             localFieldValues.remove(SUPERVISOR_PRINCIPAL_NAME_KEY);
-            Person person = personService.getPersonByPrincipalName(supervisorPrincipalName);
+            Person person = personService.getPersonByPrincipalName(supervisorPrncplName);
             if (ObjectUtils.isNotNull(person)) {
                 localFieldValues.put(SUPERVISOR_PRINCIPAL_ID_KEY, person.getPrincipalId());
             }
             else {
-                localFieldValues.put(SUPERVISOR_PRINCIPAL_ID_KEY, supervisorPrincipalName);
+                localFieldValues.put(SUPERVISOR_PRINCIPAL_ID_KEY, supervisorPrncplName);
             }
         }
 
@@ -241,33 +236,28 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
      * @param fiscalPeriod The period that the balance will accumulate through, inclusive.
      */
     protected void updateCurrentBalance(CurrentAccountBalance currentBalance, Balance balance, String fiscalPeriod) {
-        Collection<String> cashBudgetRecordLevelCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CASH_BUDGET_RECORD_LEVEL);
-        Collection<String> expenseObjectTypeCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.EXPENSE_OBJECT_TYPE);
-        Collection<String> fundBalanceObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.FUND_BALANCE_OBJECT_CODE);
-        Collection<String> currentAssetObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CURRENT_ASSET_OBJECT_CODE);
-        Collection<String> currentLiabilityObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CURRENT_LIABILITY_OBJECT_CODE);
-        Collection<String> incomeObjTypeCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.INCOME_OBJECT_TYPE);
-        Collection<String> encumbranceBalTypes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.ENCUMBRANCE_BALANCE_TYPE);
+        Collection<String> cashBudgetRecordLevelCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CASH_BUDGET_RECORD_LEVEL_PARM);
+        Collection<String> expenseObjectTypeCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.EXPENSE_OBJECT_TYPE_PARAM);
+        Collection<String> fundBalanceObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.FUND_BALANCE_OBJECT_CODE_PARAM);
+        Collection<String> currentAssetObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CURRENT_ASSET_OBJECT_CODE_PARAM);
+        Collection<String> currentLiabilityObjCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.CURRENT_LIABILITY_OBJECT_CODE_PARAM);
+        Collection<String> incomeObjTypeCodes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.INCOME_OBJECT_TYPE_PARAM);
+        Collection<String> encumbranceBalTypes = this.getParameterService().getParameterValuesAsString(CurrentAccountBalance.class, KFSParameterKeyConstants.GlParameterConstants.ENCUMBRANCE_BALANCE_TYPE_PARAM);
+        Collection<String> aSlIfBObjectTypes = Arrays.asList(new String[] { "AS", "LI", "FB" });
+
         String balanceTypeCode = balance.getBalanceTypeCode();
         String objectTypeCode = balance.getObjectTypeCode();
         String objectCode = balance.getObjectCode();
-
-        SystemOptions options = optionsService.getCurrentYearOptions();
-        Collection<String> assetLiabilityFundBalanceTypeCodes = Arrays.asList(options.getFinancialObjectTypeAssetsCd(),  // AS
-                                                                              options.getFinObjectTypeLiabilitiesCode(), // LI
-                                                                              options.getFinObjectTypeFundBalanceCd());  // FB
-
         Account account = balance.getAccount();
         if (ObjectUtils.isNull(account)) {
-            account = getAccountService().getByPrimaryId(balance.getChartOfAccountsCode(), balance.getAccountNumber());
+            account = SpringContext.getBean(AccountService.class).getByPrimaryId(balance.getChartOfAccountsCode(), balance.getAccountNumber());
             balance.setAccount(account);
             currentBalance.setAccount(account);
         }
-
-        boolean isCashBudgetRecording = cashBudgetRecordLevelCodes.contains(account.getBudgetRecordingLevelCode());
+        boolean isCashBdgtRecording = cashBudgetRecordLevelCodes.contains(account.getBudgetRecordingLevelCode());
         currentBalance.setUniversityFiscalPeriodCode(fiscalPeriod);
         // Current Budget (A)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             currentBalance.setCurrentBudget(KualiDecimal.ZERO);
         }
         else {
@@ -276,7 +266,7 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
             }
         }
         // Beginning Fund Balance (B)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             if (fundBalanceObjCodes.contains(objectCode)) {
                 currentBalance.setBeginningFundBalance(add(currentBalance.getBeginningFundBalance(), accumulateMonthlyAmounts(balance, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE)));
             }
@@ -286,7 +276,7 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         }
 
         // Beginning Current Assets (C)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             if (currentAssetObjCodes.contains(objectCode)) {
                 currentBalance.setBeginningCurrentAssets(add(currentBalance.getBeginningCurrentAssets(), accumulateMonthlyAmounts(balance, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE)));
             }
@@ -296,7 +286,7 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         }
 
         // Beginning Current Liabilities (D)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             if (currentLiabilityObjCodes.contains(objectCode)) {
                 currentBalance.setBeginningCurrentLiabilities(add(currentBalance.getBeginningCurrentLiabilities(), accumulateMonthlyAmounts(balance, KFSConstants.PERIOD_CODE_BEGINNING_BALANCE)));
             }
@@ -306,7 +296,7 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         }
 
         // Total Income (E)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             if (incomeObjTypeCodes.contains(objectTypeCode) && KFSConstants.BALANCE_TYPE_ACTUAL.equals(balanceTypeCode)) {
                 currentBalance.setTotalIncome(add(currentBalance.getTotalIncome(), accumulateMonthlyAmounts(balance, fiscalPeriod)));
                 currentBalance.setTotalIncome(add(currentBalance.getTotalIncome(), accumulateMonthlyAmounts(balance, KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE)));
@@ -323,12 +313,12 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         }
 
         // Encumbrances (G)
-        if (encumbranceBalTypes.contains(balanceTypeCode) && (expenseObjectTypeCodes.contains(objectTypeCode) || incomeObjTypeCodes.contains(objectTypeCode)) && !assetLiabilityFundBalanceTypeCodes.contains(objectTypeCode)) {
+        if (encumbranceBalTypes.contains(balanceTypeCode) && (expenseObjectTypeCodes.contains(objectTypeCode) || incomeObjTypeCodes.contains(objectTypeCode)) && !aSlIfBObjectTypes.contains(objectTypeCode)) {
             currentBalance.setEncumbrances(add(currentBalance.getEncumbrances(), accumulateMonthlyAmounts(balance, fiscalPeriod)));
         }
 
         // Budget Balance Available (H)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             currentBalance.setBudgetBalanceAvailable(KualiDecimal.ZERO);
         }
         else {
@@ -336,14 +326,14 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
         }
 
         // Cash Expenditure Authority (I)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             currentBalance.setCashExpenditureAuthority(currentBalance.getBeginningCurrentAssets().subtract(currentBalance.getBeginningCurrentLiabilities()).add(currentBalance.getTotalIncome()).subtract(currentBalance.getTotalExpense()).subtract(currentBalance.getEncumbrances()));
         }
         else {
             currentBalance.setCashExpenditureAuthority(KualiDecimal.ZERO);
         }
         // Current Fund Balance (J)
-        if (isCashBudgetRecording) {
+        if (isCashBdgtRecording) {
             currentBalance.setCurrentFundBalance(currentBalance.getBeginningFundBalance().add(currentBalance.getTotalIncome()).subtract(currentBalance.getTotalExpense()));
         }
         else {
@@ -588,41 +578,4 @@ public class CurrentAccountBalanceLookupableHelperServiceImpl extends AbstractGe
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
         this.accountingPeriodService = accountingPeriodService;
     }
-
-    /**
-     * Gets the accountService attribute.
-     *
-     * @return Returns the accountService.
-     */
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
-    /**
-     * Sets the accountService attribute.
-     *
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    /**
-     * Gets the optionService attribute.
-     *
-     * @return Returns the optionsService.
-     */
-    public OptionsService getOptionsService() {
-        return optionsService;
-    }
-
-    /**
-     * Sets the optionService attribute.
-     *
-     * @param The optionsService to set.
-     */
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
-    }
-
 }

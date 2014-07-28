@@ -627,6 +627,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
+     * Returns the count of balances for a given fiscal year and specified charts; this method is used for year end job reporting
+     * @param year the university fiscal year to count balances for
+     * @param charts list of charts to count balances for
+     * @return an int with the count of balances for all charts specied in that fiscal year
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#countBalancesForFiscalYear(java.lang.Integer, java.util.List)
      */
     @Override
@@ -682,7 +686,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         c.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, currentYearOptions.getActualFinancialBalanceTypeCd());
         c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, nominalActivityObjectTypeCodes);
         c.addIn(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, charts);
-        c.addNotEqualTo(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, KualiDecimal.ZERO);
+        c.addNotEqualTo("accountLineAnnualBalanceAmount", KualiDecimal.ZERO);
 
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -745,7 +749,8 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
-        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_TOTAL_NOT_ZERO_ITERATOR);
+        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
+        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;
@@ -765,17 +770,17 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Criteria forCGCrit = new Criteria();
         if (fundGroupDenotesCGInd) {
             for (String value : contractsAndGrantsDenotingValues) {
-                forCGCrit.addEqualTo(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE, value);
+                forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", value);
             }
         }
         else {
             for (String value : contractsAndGrantsDenotingValues) {
-                forCGCrit.addEqualTo(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE, value);
+                forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", value);
             }
         }
 
         Criteria subFundGroupCrit = new Criteria();
-        subFundGroupCrit.addIn(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE, subFundGroupsForCumulativeBalanceForwarding);
+        subFundGroupCrit.addIn("priorYearAccount.subFundGroupCode", subFundGroupsForCumulativeBalanceForwarding);
         forCGCrit.addOrCriteria(subFundGroupCrit);
         c.addAndCriteria(forCGCrit);
 
@@ -808,16 +813,16 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Criteria forCGCrit = new Criteria();
         if (fundGroupDenotesCGInd) {
            for (String value : contractsAndGrantsDenotingValues) {
-               forCGCrit.addEqualTo(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE, value);
+               forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", value);
            }
         } else {
             for (String value : contractsAndGrantsDenotingValues) {
-                forCGCrit.addEqualTo(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE, value);
+                forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", value);
             }
         }
 
         Criteria subFundGroupCrit = new Criteria();
-        subFundGroupCrit.addIn(KFSPropertyConstants.PRIOR_YEAR_ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE, subFundGroupsForCumulativeBalanceForwarding);
+        subFundGroupCrit.addIn("priorYearAccount.subFundGroupCode", subFundGroupsForCumulativeBalanceForwarding);
         forCGCrit.addOrCriteria(subFundGroupCrit);
         c.addAndCriteria(forCGCrit);
 
@@ -832,7 +837,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
-        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_ANNUAL_AND_CG_TOTAL_NOT_ZERO_ITERATOR);
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class,"glBalanceAnnualAndCGTotalNotZeroIterator");
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;

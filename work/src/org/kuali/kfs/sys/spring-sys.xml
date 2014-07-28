@@ -558,6 +558,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+		<property name="accountingPeriodService">
+			<ref bean="accountingPeriodService" />
+		</property>
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
 		<property name="accountService" ref="accountService"/>
 		<property name="sufficientFundsService" ref="sufficientFundsService"/>
@@ -908,7 +911,6 @@
 		<property name="documentAdHocService" ref="documentAdHocService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
-		<property name="financialSystemDocumentHeaderDao" ref="financialSystemDocumentHeaderDao"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
@@ -1247,18 +1249,5 @@
     <bean id="financialSystemDocumentHeaderPopulationDao" parent="financialSystemDocumentHeaderPopulationDao-parentBean"/>
 	<bean id="financialSystemDocumentHeaderPopulationDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FinancialSystemDocumentHeaderPopulationDaoOjb"/>
        
-	<bean id="attachmentMailer" parent="attachmentMailer-parentBean"/>
-	<bean id="attachmentMailer-parentBean" abstract="true" class="org.kuali.kfs.sys.mail.AttachmentMailerImpl">
-	   <property name="mailSender" ref="mailSender" />
-	</bean>
-
-	<bean id="attachmentMailService" parent="attachmentMailService-parentBean"/>
-	<bean id="attachmentMailService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.AttachmentMailServiceImpl">
-	   	<property name="mailer" ref="attachmentMailer" />
-    	<property name="batchMailingList" value="${mailing.list.batch}"/>
-    	<property name="nonProductionNotificationMailingList" value="${nonproduction.notification.mailing.list}" />
-    	<property name="realNotificationsEnabled" value="${real.notifications.enabled}" />
-	</bean>
-     
     <import resource="spring-sys-bus-exports.xml"/>
 </beans>

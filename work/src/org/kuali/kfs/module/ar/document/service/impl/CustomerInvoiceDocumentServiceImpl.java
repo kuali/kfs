@@ -937,10 +937,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         String principalName = "Unknown";
         List<ActionTaken> actionsTaken = closingDocument.getActionsTaken();
         if(ObjectUtils.isNotNull(actionsTaken)){
-            ActionTaken completeAction = actionsTaken.get(0);
             for(ActionTaken action : actionsTaken){
                 // we're looking for the person who completed the closing document, so we want the COMPLETE action
-                if(action.getActionTaken().compareTo(ActionType.COMPLETE) == 0){
+                if(isActionClose(action.getActionTaken())){
                     principalName = getPersonService().getPerson(action.getPrincipalId()).getName();
                     break;
                 }
@@ -979,5 +978,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+    
+    private boolean isActionClose(ActionType actionTypeToCheck){
+        return ( (actionTypeToCheck.compareTo(ActionType.COMPLETE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.SU_BLANKET_APPROVE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.BLANKET_APPROVE) == 0) ||
+                (actionTypeToCheck.compareTo(ActionType.SU_COMPLETE) == 0) );              
     }
 }

@@ -59,8 +59,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
                 });
                 return ObjectUtils.isNotNull(canOpen) && canOpen ;
             } catch (Exception ex) {
-                LOG.error( "Exception while testing if user can open document: document.getDocumentId()=" + document.getDocumentId(), ex);
-                return false;
+                throw new RuntimeException(ex);
             }
         }
 
@@ -79,7 +78,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
         DocumentAuthorizer docAuthorizer = getDocumentHelperService().getDocumentAuthorizer(docTypeName);
         final TravelDocument doc = getDocument(documentId);
         if (ObjectUtils.isNull(doc)) {
-            LOG.error("KFS document is null but exists in rice, returning false from isAuthorizedForDocument. documentId=" + documentId);
+            LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
             return false;
         }
         return docAuthorizer.canOpen(doc, currentUser);

@@ -56,14 +56,14 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
                             org.kuali.rice.krad.document.Document kfsDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(document.getDocumentId());
 
                             if (ObjectUtils.isNull(kfsDocument)) {
-                                LOG.error("KFS document is null but exists in rice, returning false from isAuthorizedForDocument. document.getDocumentId()=" + document.getDocumentId());
+                                LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
                                 return false;
                             } else {
                                 return docAuthorizer.canOpen(kfsDocument, KimApiServiceLocator.getPersonService().getPerson(principalId));
                             }
                         }
                         catch (WorkflowException ex) {
-                            LOG.error( "Exception while testing if user can open document: document.getDocumentId()=" + document.getDocumentId(), ex);
+                            LOG.error( "Exception while testing if user can open document: " + document, ex);
                             return false;
                         }
                     }

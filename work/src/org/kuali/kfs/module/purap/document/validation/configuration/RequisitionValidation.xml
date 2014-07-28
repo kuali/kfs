@@ -84,11 +84,7 @@
 					<property name="quitOnFail" value="false" />
 				</bean>														
 
-                <bean parent="Requisition-accountingLineExistsValidation" scope="prototype">
-                    <property name="quitOnFail" value="false" />
-                </bean>
-        
-            </list>
+  			</list>
   		</property>
   	</bean>
   

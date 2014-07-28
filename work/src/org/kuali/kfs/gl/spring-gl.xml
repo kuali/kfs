@@ -2988,7 +2988,9 @@
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
         <property name="postBalance" ref="glPostBalance" />
         <property name="accountingPeriodService" ref="accountingPeriodService"/>
-        <property name="lookupService" ref="lookupService" />               
+        <property name="lookupService" ref="lookupService" />
+        <property name="accountService" ref="accountService"/>
+        <property name="optionsService" ref="optionsService" />
     </bean>
     
     <bean id="glCurrentAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

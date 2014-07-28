@@ -82,7 +82,6 @@
 			</column>
 			<column name="INV_EXPND_AMT" type="DECIMAL(19,2)" />
 			<column name="INV_CUM_AMT" type="DECIMAL(19,2)" />
-			<column name="INV_BAL_AMT" type="DECIMAL(19,2)" />
 			<column name="CTGRY_CD" type="VARCHAR(4)" />
 			<column name="CTGRY_NM" type="VARCHAR(255)" />
 			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
@@ -508,8 +507,6 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="TOT_AMT_SCHDL" type="DECIMAL(19,2)" />
-			<column name="TOT_AWD_RMNG" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_MLSTN_T">
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" >
@@ -544,8 +541,6 @@
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="TOT_AMT_SCHDL" type="DECIMAL(19,2)" />
-			<column name="TOT_AWD_RMNG" type="DECIMAL(19,2)" />
 		</createTable>
 		<createTable tableName="AR_RFRL_TO_CLCTNS_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)">

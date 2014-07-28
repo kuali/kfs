@@ -15,15 +15,18 @@
  */
 package org.kuali.kfs.module.tem.document.workflow;
 
+import java.util.concurrent.Callable;
+
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -39,16 +42,29 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
      * @see org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute#isAuthorizedForDocument(java.lang.String, org.kuali.rice.kew.api.document.Document)
      */
     @Override
-    public boolean isAuthorizedForDocument(String principalId, org.kuali.rice.kew.api.document.Document document) {
+    public boolean isAuthorizedForDocument(final String principalId, final org.kuali.rice.kew.api.document.Document document) {
         boolean authorized = false;
 
         if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
             LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
         } else {
-            authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(KimApiServiceLocator.getPersonService().getPerson(principalId), document.getDocumentTypeName(), document.getDocumentId());
+            authorized = super.isAuthorizedForDocument(principalId, document);
+            if (authorized) {
+                try {
+                    Boolean canOpen = GlobalVariables.doInNewGlobalVariables(new UserSession(principalId), new Callable<Boolean>(){
+                        @Override
+                        public Boolean call() {
+                            return canOpen(GlobalVariables.getUserSession().getPerson() , document.getDocumentTypeName(), document.getDocumentId());
+                        }
+                    });
+                    return ObjectUtils.isNotNull(canOpen) && canOpen ;
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
-        return authorized;
 
+        return authorized;
     }
 
     /**

@@ -45,6 +45,9 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
         if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
             LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
         } else {
+            if (ObjectUtils.isNull(GlobalVariables.getUserSession())) {
+                LOG.fatal("GlobalVariables.getUserSession() is null!");
+            }
             authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(GlobalVariables.getUserSession().getPerson(), document.getDocumentTypeName(), document.getDocumentId());
         }
         return authorized;

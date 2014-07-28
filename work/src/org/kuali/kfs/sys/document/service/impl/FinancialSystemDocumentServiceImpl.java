@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
+import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -37,6 +38,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentAdHocService;
@@ -50,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocumentService {
+    protected FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao;
     protected FinancialSystemDocumentDao financialSystemDocumentDao;
     protected DocumentService documentService;
     protected ParameterService parameterService;
@@ -159,6 +162,15 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
     }
 
     /**
+     * Defers to the DAO
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#getCorrectingDocumentHeader(java.lang.String)
+     */
+    @Override
+    public DocumentHeader getCorrectingDocumentHeader(String documentId) {
+        return getFinancialSystemDocumentHeaderDao().getCorrectingDocumentHeader(documentId);
+    }
+
+    /**
      * Returns the maximum number of results that should be returned from the document search.
      *
      * @param criteria the criteria in which to check for a max results value
@@ -263,5 +275,13 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public FinancialSystemDocumentHeaderDao getFinancialSystemDocumentHeaderDao() {
+        return financialSystemDocumentHeaderDao;
+    }
+
+    public void setFinancialSystemDocumentHeaderDao(FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao) {
+        this.financialSystemDocumentHeaderDao = financialSystemDocumentHeaderDao;
     }
 }

@@ -104,17 +104,20 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Attachment;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
@@ -3603,14 +3606,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // correct Invoice Details.
         while (iterator.hasNext()) {
             ContractsGrantsInvoiceDetail id = (ContractsGrantsInvoiceDetail) iterator.next();
-            id.correctInvoiceDetailsCurrentExpenditure();
+            correctInvoiceDetail(id);
         }
 
         // update correction to the InvoiceAccountDetail objects
         iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
-            id.correctInvoiceAccountDetailsCurrentExpenditureAmount();
+            correctInvoiceAccountDetail(id);
         }
 
         // correct invoiceDetailAccountObjectCode.
@@ -3639,39 +3642,48 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // set the billed to Date Field
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {// To
-            // check
-            // if
-            // award
-            // has
-            // milestones
+        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
+            // check if award has milestones
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getMilestonesBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
-        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {// To
-            // check
-            // if
-            // award
-            // has
-            // bills
+        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
+            // check if award has bills
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
         else {
             document.getInvoiceGeneralDetail().setBilledToDateAmount(getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
-            // update the new total billed for the invoice.
-            ContractsGrantsInvoiceDetail totalCostInvoiceDetail = document.getTotalCostInvoiceDetail();
-            if (ObjectUtils.isNotNull(totalCostInvoiceDetail)){
-                document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalCostInvoiceDetail.getExpenditures()));
-            }
+            document.getInvoiceGeneralDetail().setNewTotalBilled(KualiDecimal.ZERO);
         }
 
         // to set Date email processed and Date report processed to null.
         document.setDateEmailProcessed(null);
         document.setDateReportProcessed(null);
+    }
 
+    /**
+     * Error corrects an invoice detail
+     * @param invoiceDetail the invoice detail to error correct
+     */
+    protected void correctInvoiceDetail(ContractsGrantsInvoiceDetail invoiceDetail) {
+        invoiceDetail.setBilled(invoiceDetail.getExpenditures());
+        invoiceDetail.setExpenditures(invoiceDetail.getExpenditures().negated());
+        invoiceDetail.setCumulative(KualiDecimal.ZERO);
+        invoiceDetail.setInvoiceDocument(null);
+    }
+
+    /**
+     * Error corrects an invoice account detail
+     * @param invoiceAccountDetail the invoice account detail to error correct
+     */
+    protected void correctInvoiceAccountDetail(InvoiceAccountDetail invoiceAccountDetail) {
+        invoiceAccountDetail.setBilledAmount(invoiceAccountDetail.getExpenditureAmount());
+        invoiceAccountDetail.setExpenditureAmount(invoiceAccountDetail.getExpenditureAmount().negated());
+        invoiceAccountDetail.setCumulativeAmount(KualiDecimal.ZERO);
+        invoiceAccountDetail.setInvoiceDocument(null);
     }
 
     /**
@@ -4718,9 +4730,36 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (StringUtils.isNotBlank(billId)) {
             map.put(ArPropertyConstants.BillFields.BILL_IDENTIFIER, billId);
         }
-        invoiceBills = (List<InvoiceBill>) businessObjectService.findMatching(InvoiceBill.class, map);
+        invoiceBills.addAll(businessObjectService.findMatching(InvoiceBill.class, map));
+        // but skip documents which have been canceled, disapproved, or where the document was error corrected
+        Set<String> effectiveDocumentNumbers = new HashSet<String>();
+        List<InvoiceBill> effectiveInvoiceBills = new ArrayList<InvoiceBill>();
+        for (InvoiceBill invoiceBill : invoiceBills) {
+            if (effectiveDocumentNumbers.contains(invoiceBill.getDocumentNumber()) || isInvoiceDocumentEffective(invoiceBill.getDocumentNumber())) {
+                effectiveInvoiceBills.add(invoiceBill);
+                effectiveDocumentNumbers.add(invoiceBill.getDocumentNumber());
+            }
+        }
 
-        return CollectionUtils.isNotEmpty(invoiceBills);
+        return CollectionUtils.isNotEmpty(effectiveInvoiceBills);
+    }
+
+    /**
+     * Determines whether the given ContractsGrantsInvoiceDocument is "effective" or not: if it is disapproved, cancelled, or error corrected then it is NOT effective,
+     * and in all other cases, it is effective
+     * @param invoiceDocument the invoice document to check
+     * @return true if the document is "effective" given the rules above, false otherwise
+     */
+    protected boolean isInvoiceDocumentEffective(String documentNumber) {
+        final FinancialSystemDocumentHeader invoiceDocHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
+        final String documentStatus = invoiceDocHeader.getWorkflowDocumentStatusCode();
+        if (!StringUtils.equals(documentStatus, DocumentStatus.CANCELED.getCode()) && !StringUtils.equals(documentStatus, DocumentStatus.DISAPPROVED.getCode())) {
+            final DocumentHeader correctingDocumentHeader = getFinancialSystemDocumentService().getCorrectingDocumentHeader(documentNumber);
+            if (ObjectUtils.isNull(correctingDocumentHeader)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -4732,9 +4771,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (StringUtils.isNotBlank(milestoneId)) {
             map.put(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER, milestoneId);
         }
-        invoiceMilestones = (List<InvoiceMilestone>) businessObjectService.findMatching(InvoiceMilestone.class, map);
+        invoiceMilestones.addAll(businessObjectService.findMatching(InvoiceMilestone.class, map));
+        // skip ineffective milestones, based on invoice
+        Set<String> effectiveDocumentNumbers = new HashSet<String>();
+        List<InvoiceMilestone> effectiveInvoiceMilestones = new ArrayList<InvoiceMilestone>();
+        for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
+            if (effectiveDocumentNumbers.contains(invoiceMilestone.getDocumentNumber()) || isInvoiceDocumentEffective(invoiceMilestone.getDocumentNumber())) {
+                effectiveInvoiceMilestones.add(invoiceMilestone);
+                effectiveDocumentNumbers.add(invoiceMilestone.getDocumentNumber());
+            }
+        }
 
-        return CollectionUtils.isNotEmpty(invoiceMilestones);
+        return CollectionUtils.isNotEmpty(effectiveInvoiceMilestones);
     }
 
     /**

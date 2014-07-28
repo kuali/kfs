@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -78,6 +79,12 @@ public interface FinancialSystemDocumentService {
      * @return a Set of Statuses an "in progress" contracts & grants invoice might have
      */
     public Set<String> getPendingDocumentStatuses();
+
+    /**
+     * @param id
+     * @return documentHeader of the document which corrects the document with the given documentId
+     */
+    public DocumentHeader getCorrectingDocumentHeader(String documentId);
 
     /**
      * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,

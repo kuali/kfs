@@ -283,9 +283,4 @@ public class ContractsGrantsInvoiceDetail extends PersistableBusinessObjectBase 
         return m;
     }
 
-    public void correctInvoiceDetailsCurrentExpenditure() {
-        this.setExpenditures(getExpenditures().negated());
-        this.setInvoiceDocument(null);
-    }
-
 }

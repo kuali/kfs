@@ -59,6 +59,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
                 });
                 return ObjectUtils.isNotNull(canOpen) && canOpen ;
             } catch (Exception ex) {
+                LOG.error( "Exception while testing if user can open document: " + document.getDocumentId(), ex);
                 throw new RuntimeException(ex);
             }
         }

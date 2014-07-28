@@ -63,7 +63,7 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
                             }
                         }
                         catch (WorkflowException ex) {
-                            LOG.error( "Exception while testing if user can open document: " + document, ex);
+                            LOG.error( "Exception while testing if user can open document: " + document.getDocumentId(), ex);
                             return false;
                         }
                     }

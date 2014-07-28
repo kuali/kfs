@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.service;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
@@ -71,6 +72,13 @@ public interface FinancialSystemDocumentService {
      * @return document header
      */
     public FinancialSystemDocumentHeader findByDocumentNumber(String documentNumber);
+
+    /**
+     * Convenience method which turns the DocumentStatusCategory.PENDING document statuses into a Set which can be used by a BusinessObjectService
+     * @return a Set of Statuses an "in progress" contracts & grants invoice might have
+     */
+    public Set<String> getPendingDocumentStatuses();
+
     /**
      * @deprecated this method was created to support document searches for batch document processing.  Instead of using document searches,
      *             the FinancialSystemDocumentHeader should now have properties which allow the selection of documents without a document search.

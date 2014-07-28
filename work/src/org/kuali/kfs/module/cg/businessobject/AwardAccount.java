@@ -370,21 +370,4 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         }
         return null;
     }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount#getInvoiceDocumentStatus()
-     */
-
-    @Override
-    public String getInvoiceDocumentStatus() {
-        return invoiceDocumentStatus;
-    }
-
-    /**
-     * @param invoiceDocumentStatus
-     */
-    public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
-        this.invoiceDocumentStatus = invoiceDocumentStatus;
-    }
-
 }

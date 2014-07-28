@@ -251,6 +251,9 @@
 
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
 	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
@@ -375,6 +378,9 @@
 		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
+		</property>
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService"/>
 		</property>
 		<property name="financialSystemUserService">
 			<ref bean="financialSystemUserService"/>

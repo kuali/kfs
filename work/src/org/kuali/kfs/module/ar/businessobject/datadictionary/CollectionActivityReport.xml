@@ -127,6 +127,7 @@
 		<property name="name" value="collector.name" />
 		<property name="label" value="Collector Name" />
 		<property name="required" value="false" />
+		<property name="maxLength"><null/></property>
 	</bean>
   <bean id="CollectionActivityReport-principalId" parent="CollectionActivityReport-principalId-parentBean"/>
 
@@ -228,7 +229,6 @@
 		<property name="name" value="collectionActivityInquiryTitle" />
 		<property name="label" value="Actions" />
 		<property name="shortLabel" value="Actions" />
-		<property name="maxLength" value="255" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
@@ -259,7 +259,6 @@
     <property name="name" value="activityComment"/>
     <property name="label" value="Collection Activity Comment"/>
     <property name="shortLabel" value="Collection Activity Comment"/>
-    <property name="maxLength" value="120"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
@@ -311,6 +310,7 @@
     <property name="name" value="userPrincipalId"/>
     <property name="label" value="User"/>
     <property name="description" value="A free-form text field for the full name of the user, expressed as &quot;Lastname, Firstname Initial&quot;"/>
+    <property name="maxLength"><null/></property>
   </bean>
 
 	<!-- Business Object Lookup Definition -->

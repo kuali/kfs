@@ -93,7 +93,6 @@
 	<property name="name" value="collectionActivityInquiryTitle" />
 	<property name="label" value="Actions" />
 	<property name="shortLabel" value="Actions" />
-	<property name="maxLength" value="255" />
 	<property name="control">
 		<bean parent="TextControlDefinition" p:size="5" />
 	</property>

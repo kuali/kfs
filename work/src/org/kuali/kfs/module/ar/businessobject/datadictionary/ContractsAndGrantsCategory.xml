@@ -100,7 +100,7 @@
     	<property name="summary" value="Travel Account Number"/>
     	<property name="description" value="Travel Account Number"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="40" />
 		</property>
 	</bean>
 
@@ -114,7 +114,7 @@
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="40" />
 		</property>
 	</bean>
 
@@ -127,7 +127,7 @@
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="40" />
 		</property>
 	</bean>
 	

@@ -106,6 +106,7 @@
     <property name="name" value="collector.name"/>
     <property name="label" value="Name"/>
     <property name="required" value="false"/>
+    <property name="maxLength"><null/></property>
     <property name="control">
       <ref bean="StandardNameTextControl" />
     </property>

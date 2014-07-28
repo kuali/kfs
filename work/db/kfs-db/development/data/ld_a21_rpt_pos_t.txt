@@ -77,3 +77,16 @@ univ_fiscal_yr|a21_lbr_rpt_nbr|lbr_rpt_posobj_cd|obj_id|ver_nbr|row_actv_ind|
 2014.0|M01|PA|76a1d441-067a-40c5-9cdf-b83d7fa2e2c9|2.0|Y|
 2014.0|M02|AC|99c4d20a-3a6f-47dc-bceb-c0bfae5a1483|2.0|Y|
 2014.0|M02|PA|2450b2ad-3854-41ec-8777-8ce6777aea0a|2.0|Y|
+2015.0|A02|AC|fe8d09ff-c819-4b9a-afec-f6168dd6e9b9|2.0|Y|
+2015.0|B01|CL|52cc5da8-b86c-446e-8cf3-d9ef205ce89d|2.0|Y|
+2015.0|B01|HO|3cc15ecf-19da-495e-a4c9-34373aa47065|2.0|Y|
+2015.0|B02|CL|1f7fbbb7-94b6-4ea5-8c57-fa2debdf36f5|2.0|Y|
+2015.0|B02|HO|56ae99da-d497-451c-82a2-6d86cb6aaa4c|2.0|Y|
+2015.0|B03|CL|f426a5d7-4e07-45bf-8a65-d0333dba1a74|2.0|Y|
+2015.0|B03|HO|06851906-b9e1-4b8b-9078-64ff966ae905|2.0|Y|
+2015.0|B04|CL|c1d1fd6f-b69a-45a1-b4fd-c56b5bd14313|2.0|Y|
+2015.0|B04|HO|7b7dd5d7-d983-41cc-87dd-d4ed05eec6b3|2.0|Y|
+2015.0|M01|AC|cec14384-5f28-40e6-8972-a4b0ca78a53d|2.0|Y|
+2015.0|M01|PA|f5eb1677-2a23-4a12-838e-a24df07ceddb|2.0|Y|
+2015.0|M02|AC|05422016-2c79-4fc1-bcf7-f0326a63c254|2.0|Y|
+2015.0|M02|PA|bdfcdfea-914e-48b3-906d-d3f9a2a91dd8|2.0|Y|

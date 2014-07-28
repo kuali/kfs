@@ -28,7 +28,6 @@ import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
 import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;

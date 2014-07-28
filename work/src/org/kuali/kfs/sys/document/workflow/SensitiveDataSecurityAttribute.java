@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.document.workflow;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -54,11 +53,13 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
 
                         DocumentAuthorizer docAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(docTypeName);
                         try {
-                            if (ObjectUtils.isNull(document) || StringUtils.isBlank(document.getDocumentId())) {
+                            org.kuali.rice.krad.document.Document kfsDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(document.getDocumentId());
+
+                            if (ObjectUtils.isNull(kfsDocument)) {
                                 LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
                                 return false;
                             } else {
-                                return docAuthorizer.canOpen(KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(document.getDocumentId()), KimApiServiceLocator.getPersonService().getPerson(principalId));
+                                return docAuthorizer.canOpen(kfsDocument, KimApiServiceLocator.getPersonService().getPerson(principalId));
                             }
                         }
                         catch (WorkflowException ex) {

@@ -558,9 +558,6 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
-		<property name="accountingPeriodService">
-			<ref bean="accountingPeriodService" />
-		</property>
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
 		<property name="accountService" ref="accountService"/>
 		<property name="sufficientFundsService" ref="sufficientFundsService"/>

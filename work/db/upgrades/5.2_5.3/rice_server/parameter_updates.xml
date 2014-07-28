@@ -273,22 +273,6 @@
 		</insert>
     </changeSet>
 
-	<changeSet author="KFS53" id="KFSCNTRB-1368_PARM_FP_ALLOW_BACKPOST_DAYS">
-		<comment>Adds parameter for KKFSCNTRB-1368 for pcard FY end post back number of days</comment>
-	    <insert tableName="KRCR_PARM_T">
-	        <column name="NMSPC_CD" value="KFS-FP" />
-	        <column name="CMPNT_CD" value="ProcurementCardLoadStep" />
-	        <column name="PARM_NM" value="ALLOW_BACKPOST_DAYS" />
-	        <column name="VAL" value="0" />
-	        <column name="OBJ_ID" value="KFS-PARM-187" />
-	        <column name="VER_NBR" valueNumeric="1" />
-	        <column name="PARM_TYP_CD" value="CONFG" />
-	        <column name="PARM_DESC_TXT" value="The number of days after fiscal year-end during which Procurement Card files loaded will post to the previous fiscal year.  If the value set to zero no post back is allowed." />
-	        <column name="EVAL_OPRTR_CD" value="A" />
-	        <column name="APPL_ID" value="KFS" />
-	    </insert>
-	</changeSet>  
-
     <changeSet author="KFSCNTRB-1459" id="KFSCNTRB-1459">
         <comment>Adds parameter for KFSCNTRB-1459</comment>
 		<insert tableName="KRCR_PARM_T">

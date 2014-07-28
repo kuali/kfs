@@ -16,38 +16,28 @@
 
 package org.kuali.kfs.fp.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.FinancialProcessingWorkflowConstants;
-import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
-import org.kuali.kfs.fp.document.service.YearEndPendingEntryService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -63,7 +53,6 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     protected ProcurementCardTargetAccountingLine newTargetLine;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
     protected boolean autoApprovedIndicator;
-    private static final Integer NO_POST_BACK_IS_ALLOWED = new Integer(0);
 
     /**
      * Default constructor.
@@ -185,22 +174,6 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     }
 
     /**
-     * Get source accounting lines for specific transactions line
-     *
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLines()
-     */
-    public List getSourceAccountingLines(Integer docuemntLineNumber) {
-        List sourceAccountingLines = new ArrayList();
-
-        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(docuemntLineNumber);
-        for (Iterator iterator = transactionEntry.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-            SourceAccountingLine sourceLine = (SourceAccountingLine) iterator.next();
-            sourceAccountingLines.add(sourceLine);
-        }
-        return sourceAccountingLines;
-    }
-
-    /**
      * Override to get target accounting lines out of transactions
      *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
@@ -219,23 +192,6 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
 
         return targetAccountingLines;
     }
-
-    /**
-     * Get target accounting lines for specific transactions line
-     *
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLines()
-     */
-    public List getTargetAccountingLines(Integer docuemntLineNumber) {
-        List targetAccountingLines = new ArrayList();
-
-        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(docuemntLineNumber);
-        for (Iterator iterator = transactionEntry.getTargetAccountingLines().iterator(); iterator.hasNext();) {
-            TargetAccountingLine targetLine = (TargetAccountingLine) iterator.next();
-            targetAccountingLines.add(targetLine);
-        }
-        return targetAccountingLines;
-    }
-
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
@@ -339,126 +295,6 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     public boolean isAutoApprovedIndicator()
     {
         return autoApprovedIndicator;
-    }
-
-    /**
-     * @return the previous fiscal year used with all GLPE
-     */
-    public static final Integer getPreviousFiscalYear() {
-        YearEndPendingEntryService yearEndPendingEntryService = SpringContext.getBean(YearEndPendingEntryService.class);
-        Integer previousFiscalYear = yearEndPendingEntryService.getPreviousFiscalYear();
-        return previousFiscalYear;
-    }
-
-
-    /**
-     * @see   org.kuali.kfs.sys.document.AccountingDocumentBase#customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail, GeneralLedgerPendingEntry)
-     *
-     * If the transaction falls in allow posting back rules, then it will be posted to the previous Fiscal year
-     */
-    @Override
-    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-
-        int lineNumber = 0;
-        if(postable instanceof ProcurementCardSourceAccountingLine) {
-            ProcurementCardSourceAccountingLine cardDetail =  (ProcurementCardSourceAccountingLine) postable;
-            lineNumber = cardDetail.getFinancialDocumentTransactionLineNumber() - 1;
-        }
-        else if (postable instanceof ProcurementCardTargetAccountingLine) {
-            ProcurementCardTargetAccountingLine cardDetail =  (ProcurementCardTargetAccountingLine) postable;
-            lineNumber = cardDetail.getFinancialDocumentTransactionLineNumber() - 1;
-        }
-
-        Date postingDate = getProcurementCardTransactionPostingDetailDate(lineNumber);
-
-        if (ObjectUtils.isNotNull(postingDate) && allowBackpost(postingDate)) {
-            Integer prevFiscYr = getPreviousFiscalYear();
-
-            explicitEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
-            explicitEntry.setUniversityFiscalYear(prevFiscYr);
-
-            List<SourceAccountingLine> srcLines = getSourceAccountingLines(lineNumber);
-
-            for (SourceAccountingLine src : srcLines) {
-                src.setPostingYear(prevFiscYr);
-            }
-
-            List<TargetAccountingLine> trgLines = getTargetAccountingLines(lineNumber);
-
-            for (TargetAccountingLine trg : trgLines) {
-                trg.setPostingYear(prevFiscYr);
-            }
-        }
-    }
-
-    /**
-    * Get Transaction Date - should be only one value. If not, we'll take the first one.
-    *
-    * @return Date
-    */
-    private Date getProcurementCardTransactionPostingDetailDate(Integer lineNumber) {
-        Date date = null;
-
-        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(lineNumber);
-        date = transactionEntry.getTransactionPostingDate();
-
-        return date;
-     }
-
-
-    /**
-     * Allow Backpost
-     * This method returns true if ALLOW_BACKPOST_DAYS number of days greater than zero
-     * and transaction posting date is before the current FY start
-     * and today date falls in the period of ALLOW_BACKPOST_DAYS number of days.
-     * Otherwise it returns false.
-     *
-     * @param tranDate
-     * @return
-     */
-    public boolean allowBackpost(Date tranDate) {
-        ParameterService      parameterService      = SpringContext.getBean(ParameterService.class);
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-
-        int allowBackpostDays = Integer.parseInt(parameterService.getParameterValueAsString(
-                ProcurementCardLoadStep.class, KFSParameterKeyConstants.FpParameterConstants.ALLOW_BACKPOST_DAYS));
-
-        if (allowBackpostDays == NO_POST_BACK_IS_ALLOWED){
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("no backpost is allowed; posting entry to current FY");
-            }
-            return false;
-        }
-
-        Calendar today = Calendar.getInstance();
-        Integer prevFiscYr = getPreviousFiscalYear();
-        java.util.Date priorClosingDateTemp = universityDateService.getLastDateOfFiscalYear(prevFiscYr);
-
-
-        Calendar priorClosingDate = Calendar.getInstance();
-        priorClosingDate.setTime(priorClosingDateTemp);
-
-        // adding 1 to set the date to midnight the day after backpost is allowed so that preqs allow backpost on the last day
-        Calendar allowBackpostDate = Calendar.getInstance();
-        allowBackpostDate.setTime(priorClosingDate.getTime());
-        allowBackpostDate.add(Calendar.DATE, allowBackpostDays + 1);
-
-        Calendar tranCal = Calendar.getInstance();
-        tranCal.setTime(tranDate);
-
-        // if today is after the closing date but before/equal to the allowed backpost date and the transaction date is for the
-        // prior year, set the year to prior year
-        if ((today.compareTo(priorClosingDate) > 0) && (today.compareTo(allowBackpostDate) <= 0) && (tranCal.compareTo(priorClosingDate) <= 0)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("allowBackpost() within range to allow backpost; posting entry to period 13 of previous FY");
-            }
-            return true;
-        }
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("allowBackpost() not within range to allow backpost; posting entry to current FY");
-        }
-        return false;
     }
 
 }

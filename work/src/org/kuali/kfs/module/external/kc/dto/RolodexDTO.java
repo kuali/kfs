@@ -21,7 +21,7 @@ public class RolodexDTO implements Serializable {
     private String phoneNumber;
     private String postalCode;
     private String state;
-    private String organizationName;
+    private String organizaitonName;
     private Boolean active;
 
 	public String getAddressLine1() {
@@ -152,11 +152,11 @@ public class RolodexDTO implements Serializable {
 		this.rolodexId = rolodexId;
 	}
 
-	public String getOrganizationName() {
-		return organizationName;
+	public String getOrganizaitonName() {
+		return organizaitonName;
 	}
 
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
+	public void setOrganizaitonName(String organizaitonName) {
+		this.organizaitonName = organizaitonName;
 	}
 }

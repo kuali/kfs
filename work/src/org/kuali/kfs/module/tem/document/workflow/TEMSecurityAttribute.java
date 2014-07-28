@@ -20,10 +20,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -45,10 +45,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
         if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
             LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
         } else {
-            if (ObjectUtils.isNull(GlobalVariables.getUserSession())) {
-                LOG.fatal("GlobalVariables.getUserSession() is null!");
-            }
-            authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(GlobalVariables.getUserSession().getPerson(), document.getDocumentTypeName(), document.getDocumentId());
+            authorized = super.isAuthorizedForDocument(principalId, document) && canOpen(KimApiServiceLocator.getPersonService().getPerson(principalId), document.getDocumentTypeName(), document.getDocumentId());
         }
         return authorized;
 

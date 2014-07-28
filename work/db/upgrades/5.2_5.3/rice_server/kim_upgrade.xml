@@ -107,7 +107,7 @@
 	</changeSet>	
 	
 	<changeSet author="KFS53" id="KFSCNTRB-1793">
-		<comment>KFSCNTRB-1793 Add new responsibility Review CR ChangeRequest and assign it to CR initiator. </comment>
+		<comment>KFSCNTRB-1793 Add new responsibility AcknowledgeChangeRequest and assign it to CR initiator. </comment>
 	
 		<insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFS10843" />
@@ -195,8 +195,8 @@
             <column name="VER_NBR" valueNumeric="1" />
             <column name="RSP_TMPL_ID" value="1" />
             <column name="NMSPC_CD" value="KFS-PURAP" />
-            <column name="NM" value="Review PREQ AutoApprove" />
-            <column name="DESC_TXT" value="Generate a  notification to users on primary approval routing who did not previously approve a PREQ in case it is auto approved" />
+            <column name="NM" value="Review PREQ Auto Approved" />
+            <column name="DESC_TXT" value="Generate an FYI notification to users on primary approval routing who did not previously approve a PREQ in case it is auto approved" />
             <column name="ACTV_IND" value="Y" />
         </insert>
 
@@ -217,7 +217,7 @@
             <column name="RSP_ID" value="KFS10850" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="16" />
-            <column name="ATTR_VAL" value="AutoApprove" />
+            <column name="ATTR_VAL" value="notifyOnAutoApprovalResponsibility" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -227,7 +227,7 @@
             <column name="RSP_ID" value="KFS10850" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="40" />
-            <column name="ATTR_VAL" value="FALSE" />
+            <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -237,7 +237,7 @@
             <column name="RSP_ID" value="KFS10850" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="41" />
-            <column name="ATTR_VAL" value="FALSE" />
+            <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_ROLE_RSP_T">
@@ -271,9 +271,9 @@
             <column name="OBJ_ID" value="KFS-RSP-038" />
             <column name="VER_NBR" valueNumeric="1" />
             <column name="RSP_TMPL_ID" value="1" />
-            <column name="NMSPC_CD" value="KFS-FP" />
-            <column name="NM" value="Review PCDO AutoApprove" />
-            <column name="DESC_TXT" value="Generate a notification to users on primary approval routing who did not previously approve a PCDO in case it is auto approved" />
+            <column name="NMSPC_CD" value="KFS-PURAP" />
+            <column name="NM" value="Review PCDO Auto Approved" />
+            <column name="DESC_TXT" value="Generate an FYI notification to users on primary approval routing who did not previously approve a PCDO in case it is auto approved" />
             <column name="ACTV_IND" value="Y" />
         </insert>
 
@@ -294,7 +294,7 @@
             <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="16" />
-            <column name="ATTR_VAL" value="AutoApprove" />
+            <column name="ATTR_VAL" value="notifyOnAutoApprovalResponsibility" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -304,7 +304,7 @@
             <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="40" />
-            <column name="ATTR_VAL" value="FALSE" />
+            <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -314,7 +314,7 @@
             <column name="RSP_ID" value="KFS10861" />
             <column name="KIM_TYP_ID" value="7" />
             <column name="KIM_ATTR_DEFN_ID" value="41" />
-            <column name="ATTR_VAL" value="FALSE" />
+            <column name="ATTR_VAL" value="false" />
         </insert>
 
         <insert tableName="KRIM_ROLE_RSP_T">

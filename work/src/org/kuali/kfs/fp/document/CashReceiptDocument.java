@@ -1327,6 +1327,14 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         if ((getChecks() == null || getChecks().isEmpty()) && getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
             setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_DETAIL);
         }
+
+        /* KFSMI-9914 (IU ref: FSKD-5275): Confirmed amounts were copied causing problems when copied doc was confirmed */
+                    setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
+                    setTotalConfirmedCoinAmount(KualiDecimal.ZERO);
+                    totalChangeAmount = KualiDecimal.ZERO;
+                    confirmedChecks = new ArrayList<Check>();
+                    initializeCashChangeDetails();
+
     }
 
     /**
@@ -1529,8 +1537,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         // pre-route WorkflowDocumentStatusCode should be INITIATED, SAVED, or CANCELLED;
         // however, it's better to use Workflow status here, since if notes are added to the doc,
         // using the FinancialDocumentStatusCode won't be right.
-        String statusCode = getFinancialSystemDocumentHeader().getWorkflowDocumentStatusCode();
-        boolean isPreRoute = DocumentStatus.INITIATED.equals(statusCode) || DocumentStatus.SAVED.equals(statusCode) || DocumentStatus.CANCELED.equals(statusCode);
+        String statusCode = getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        boolean isPreRoute = DocumentStatus.INITIATED.getCode().equals(statusCode) ||
+                DocumentStatus.SAVED.getCode().equals(statusCode) ||
+                DocumentStatus.CANCELED.getCode().equals(statusCode);
         return isPreRoute;
     }
 

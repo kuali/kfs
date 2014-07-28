@@ -2215,7 +2215,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
        // TR with no TAs created from mainmenu
-       if(documents.isEmpty() && ObjectUtils.isNotNull(travelDocument.getTripBegin()) && ObjectUtils.isNotNull(travelDocument.getTripEnd())) {
+       if(documents.isEmpty()) {
            earliestTripBeginDate = getTripBeginDate(travelDocument.getTripBegin());
            greatestTripEndDate = getTripEndDate(travelDocument.getTripEnd());
        }

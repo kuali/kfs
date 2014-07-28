@@ -1158,6 +1158,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 							 	override="true" />
 				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="build/rice-lib/${file}.jar" sourcepath="build/rice-sources/${file}-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
+		<accessrule kind="accessible" pattern="**/rice/krad/**"/> <!-- krad class are ok to use even if in impl jars -->
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>

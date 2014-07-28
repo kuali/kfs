@@ -268,4 +268,12 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
+
+    /**
+     * This method corrects the Current Expenditure field in case of correction process
+     */
+    public void correctInvoiceAccountDetailsCurrentExpenditureAmount() {
+        this.setExpenditureAmount(getExpenditureAmount().negated());
+        this.setInvoiceDocument(null);
+    }
 }

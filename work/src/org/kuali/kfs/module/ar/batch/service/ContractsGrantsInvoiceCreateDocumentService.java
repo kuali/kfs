@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 
 
@@ -44,6 +45,14 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @return Collection of qualified Awards - awards that are qualified to be used to create Contracts Grants Invoice Documents
      */
     public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile);
+
+    /**
+     * This method validates awards and output an error file including unqualified awards with reason stated.
+     *
+     * @param contractsGrantsInvoiceDocumentErrorLogs Collection of Error Log records for unqualified awards with reason stated.
+     * @return Collection of qualified Awards - awards that are qualified to be used to create Contracts Grants Invoice Documents
+     */
+    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs);
 
     /**
      * The default implementation to create Contracts Grants Invoice Documents by Awards.

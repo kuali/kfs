@@ -76,7 +76,8 @@
 				<value>customerAgingReportNotificationJob</value>
 				<value>letterOfCreditJob</value>
 				<value>contractsGrantsInvoiceDocumentJob</value>
-				<value>upcomingMilestoneNotificationJob</value> 			
+				<value>upcomingMilestoneNotificationJob</value> 
+				<value>clearContractsGrantsInvoiceDocumentErrorLogJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -271,6 +272,9 @@
 		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
@@ -571,6 +575,38 @@
 	<bean id="contractsGrantsInvoiceReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="contractsGrantsInvoiceReportLookupableHelperService" />
+		</property>
+	</bean>
+
+    <bean id="clearContractsGrantsInvoiceDocumentErrorLogStep" class="org.kuali.kfs.module.ar.batch.ClearContractsGrantsInvoiceDocumentErrorLogStep" parent="step">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="clearContractsGrantsInvoiceDocumentErrorLogJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearContractsGrantsInvoiceDocumentErrorLogStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo" parent="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean"/>
+	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Invoice Document Error Log Report" />
+		<property name="reportFileName" value="cg_invoice_error_log_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsInvoiceDocumentErrorLogReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsInvoiceDetails" value="ContractsGrantsInvoiceDocumentErrorLogDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+				<entry key="validationCategories" value="ContractsGrantsInvoiceDocumentErrorLogCategories" />
+			</map>
 		</property>
 	</bean>
 
@@ -2262,6 +2298,11 @@
 		<property name="reportInfo" ref="cgAgingReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 		<property name="contractsGrantsAgingReportService" ref="contractsGrantsAgingReportService"/>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceDocumentErrorLogReportBuilderService" parent="contractsGrantsInvoiceDocumentErrorLogReportBuilderService-parentBean"/>
+	<bean id="contractsGrantsInvoiceDocumentErrorLogReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceDocumentErrorLogReportBuilderServiceImpl">
+		<property name="reportInfo" ref="contractsGrantsInvoiceDocumentErrorLogReportInfo"/>
 	</bean>
 	
 	<bean id="contractsGrantsInvoiceReportBuilderService" parent="contractsGrantsInvoiceReportBuilderService-parentBean"/>

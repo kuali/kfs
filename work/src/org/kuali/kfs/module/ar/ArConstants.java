@@ -424,6 +424,7 @@ public class ArConstants{
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
     public static final String AWARD_PROJECT_DIRECTOR = "awardProjectDirector";
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
+    public static final String CGINV_DOC_ERR_LOG_REPORT = "Contracts & Grants Invoice Document Error Log Report";
     public static final String OUTSTANDING_INVOICE_REPORT = "Outstanding Invoice Report";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
@@ -436,6 +437,7 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_MILESTONE_REPORT = "ContractsGrantsMilestoneReport";
     public static final String COLLECTION_ACTIVITY_REPORT_SORT_FIELD = "CollectionActivityReport";
     public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
+    public static final String CONTRACTS_GRANTS_INVOICE_ERROR_LOG_REPORT_SORT_FIELD = "ContractsGrantsInvoiceDocumentErrorLog";
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
     public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
     public static final String PROJECT_DIRECTOR = "projectDirector";
@@ -500,6 +502,7 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
         public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";
         public static final String CONTRACTS_GRANTS_INVOICE = "contractsGrantsInvoiceReportBuilderService";
+        public static final String CONTRACTS_GRANTS_INVOICE_ERROR_LOG = "contractsGrantsInvoiceDocumentErrorLogReportBuilderService";
         public static final String COLLECTION_ACTIVITY = "collectionActivityReportBuilderService";
         public static final String CONTRACTS_GRANTS_LOC = "contractsGrantsLOCReportBuilderService";
         public static final String CONTRACTS_GRANTS_MILESTONE = "contractsGrantsMilestoneReportBuilderService";

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,10 +49,8 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Contracts Grants Invoice Summary.
@@ -137,14 +136,16 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         int validAwards = 0;
 
         // Create Invoices from list of Awards.
-        List<ErrorMessage> errorMessages = null;
         for (ContractsGrantsInvoiceLookupResult contractsGrantsInvoiceLookupResult : lookupResults) {
+
+//            String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
+            String errOutputFile2 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.CGINVOICE_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             Collection<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceLookupResult.getAwards();
             Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
             awards = cgInvoiceDocumentCreateService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs);
             validationErrors += contractsGrantsInvoiceDocumentErrorLogs.size();
             validAwards += awards.size();
-            errorMessages = cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards);
+            cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, errOutputFile2);
         }
         if (validationErrors > 0) {
             // At a minimum, show users a message that errors occurred, check report for details.
@@ -152,10 +153,6 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         }
         if (validAwards > 0) {
             KNSGlobalVariables.getMessageList().add(ArKeyConstants.ContractsGrantsInvoiceConstants.MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT);
-        }
-
-        if (ObjectUtils.isNotNull(errorMessages)) {
-            KNSGlobalVariables.getMessageList().addAll(errorMessages);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

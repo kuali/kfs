@@ -30,7 +30,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -43,6 +42,8 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorCategory;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -53,6 +54,7 @@ import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -82,6 +84,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected ConfigurationService configurationService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected DateTimeService dateTimeService;
     protected DocumentService documentService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
     protected KualiModuleService kualiModuleService;
@@ -407,202 +410,167 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     @Override
     public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile) {
-        boolean invalid;
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
-        List<String> errorList = new ArrayList<String>();
         List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
-        List<ContractsAndGrantsBillingAward> tmpAwards = new ArrayList<ContractsAndGrantsBillingAward>();
+        Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
 
-        // validation for billing frequency for the collection of awards
-        Collection<AccountingPeriod> accPeriods = accountingPeriodService.getAllAccountingPeriods();
+        performAwardValidation(awards, invalidGroup, qualifiedAwards);
 
-        for (ContractsAndGrantsBillingAward award : awards) {
-            errorList = new ArrayList<String>();
-            if (award.getAwardBeginningDate() != null) {
-                if (award.getPreferredBillingFrequency() != null && contractsGrantsInvoiceDocumentService.isValueOfPreferredBillingFrequencyValid(award)) {
-                    tmpAwards.add(award);
-                }
-                else {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR));
-                    invalidGroup.put(award, errorList);
-                }
-            }
-            else {
-                // 1.Award start date is missing
-                errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR));
-                invalidGroup.put(award, errorList);
-            }
-        }
-
-        // To check for every award if its within the billing frequency.
-        Collection<ContractsAndGrantsBillingAward> awardsToBill = new ArrayList<ContractsAndGrantsBillingAward>();
-        boolean valid = true;
-        for (ContractsAndGrantsBillingAward awd : tmpAwards) {
-            errorList = new ArrayList<String>();
-            valid = verifyBillingFrequencyService.validatBillingFrequency(awd);
-            if (valid) {
-                awardsToBill.add(awd);
-            }
-            else {
-                errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD));
-                invalidGroup.put(awd, errorList);
-            }
-        }
-
-        // filter out invalid awards from the awards collection
-        if (!CollectionUtils.isEmpty(awardsToBill)) {
-            String proposalId;
-            for (ContractsAndGrantsBillingAward award : awardsToBill) {
-                invalid = false;
-                errorList = new ArrayList<String>();
-                // use business rules to validate awards
-
-
-                // 1. Award Invoicing suspended by user.
-                if (contractsGrantsInvoiceDocumentService.isAwardInvoicingSuspendedByUser(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 2. Award is Inactive
-                if (!award.isActive()) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 4. Award invoicing option is missing
-                if (StringUtils.isEmpty(award.getInvoicingOptions())) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 5. Award preferred billing frequency is not set correctly
-                if (!contractsGrantsInvoiceDocumentService.isPreferredBillingFrequencySetCorrectly(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 6. Award has no accounts assigned
-                if (contractsGrantsInvoiceDocumentService.hasNoActiveAccountsAssigned(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 7. Award contains expired account or accounts
-                Collection<Account> expAccounts = contractsGrantsInvoiceDocumentService.getExpiredAccountsOfAward(award);
-                if (ObjectUtils.isNotNull(expAccounts) && !expAccounts.isEmpty()) {
-
-                    StringBuilder line = new StringBuilder();
-                    line.append(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR));
-
-                    for (Account expAccount : expAccounts) {
-                        line.append(" (expired account: " + expAccount.getAccountNumber() + " expiration date " + expAccount.getAccountExpirationDate() + ") ");
-                    }
-                    errorList.add(line.toString());
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 8. Award has final invoice Billed already
-                if (contractsGrantsInvoiceDocumentService.isAwardFinalInvoiceAlreadyBuilt(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-
-                // 9. Award has no valid milestones to invoice
-                if (contractsGrantsInvoiceDocumentService.hasNoMilestonesToInvoice(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 10. All has no valid bills to invoice
-                if (contractsGrantsInvoiceDocumentService.hasNoBillsToInvoice(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 11. Agency has no matching Customer record
-                if (contractsGrantsInvoiceDocumentService.owningAgencyHasNoCustomerRecord(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 12. All accounts of an Award have zero$ to invoice
-                if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts()) && CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award))) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
-                List<String> errorString = contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
-                if (!CollectionUtils.isEmpty(errorString) && errorString.size() > 1) {
-                    errorList.add(configurationService.getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-                // 14. System Information and ORganization Accounting Default not setup.
-                if (contractsGrantsInvoiceDocumentService.isChartAndOrgNotSetupForInvoicing(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 15. if there is no AR Invoice Account present when the GLPE is 3.
-                if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 16. If all accounts of award has invoices in progress.
-                if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && contractsGrantsInvoiceDocumentService.isInvoiceInProgress(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-                // 17. Offset Definition is not available when the GLPE is 3.
-                if (contractsGrantsInvoiceDocumentService.isOffsetDefNotSetupForInvoicing(award)) {
-                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
-                    invalidGroup.put(award, errorList);
-
-                    invalid = true;
-                }
-
-
-                // if invalid is true, the award is unqualified.
-                // records the unqualified award with failed reasons.
-                if (!invalid) {
-                    qualifiedAwards.add(award);
-                }
-            }
-        }
-        // print out all failed reasons if they are present
         if (!CollectionUtils.isEmpty(invalidGroup)) {
             writeErrorToFile(invalidGroup, errOutputFile);
+            storeValidationErrors(invalidGroup, contractsGrantsInvoiceDocumentErrorLogs, true);
         }
+
         return qualifiedAwards;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#validateAwards(java.util.Collection, java.util.Collection)
+     */
+    @Override
+    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs) {
+        Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
+        List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
+
+        performAwardValidation(awards, invalidGroup, qualifiedAwards);
+
+        if (!CollectionUtils.isEmpty(invalidGroup)) {
+            storeValidationErrors(invalidGroup, contractsGrantsInvoiceDocumentErrorLogs, false);
+        }
+
+        return qualifiedAwards;
+    }
+
+    /**
+     * Perform all validation checks on the awards passed in to determine if CGB Invoice documents can be
+     * created for the given awards.
+     *
+     * @param awards to be validated
+     * @param invalidGroup Map of errors per award that failed validation
+     * @param qualifiedAwards List of awards that are valid to create CGB Invoice docs from
+     */
+    protected void performAwardValidation(Collection<ContractsAndGrantsBillingAward> awards, Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, List<ContractsAndGrantsBillingAward> qualifiedAwards) {
+
+        for (ContractsAndGrantsBillingAward award : awards) {
+            List<String> errorList = new ArrayList<String>();
+
+            if (award.getAwardBeginningDate() != null) {
+                if (award.getPreferredBillingFrequency() != null && contractsGrantsInvoiceDocumentService.isValueOfPreferredBillingFrequencyValid(award)) {
+                    if (verifyBillingFrequencyService.validatBillingFrequency(award)) {
+                        validateAward(errorList, award);
+                    } else {
+                        errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD));
+                    }
+                } else {
+                    errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR));
+                }
+            } else {
+                errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR));
+            }
+
+            if (errorList.size() > 0) {
+                invalidGroup.put(award, errorList);
+            } else {
+                qualifiedAwards.add(award);
+            }
+
+        }
+    }
+
+
+    /**
+     * Perform validation for an award to determine if a CGB Invoice document can be created for the award.
+     *
+     * @param errorList list of validation errors per award
+     * @param award to perform validation upon
+     */
+    protected void validateAward(List<String> errorList, ContractsAndGrantsBillingAward award) {
+        // 1. Award Invoicing suspended by user.
+        if (contractsGrantsInvoiceDocumentService.isAwardInvoicingSuspendedByUser(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
+        }
+
+        // 2. Award is Inactive
+        if (!award.isActive()) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR));
+        }
+
+        // 4. Award invoicing option is missing
+        if (StringUtils.isEmpty(award.getInvoicingOptions())) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
+        }
+
+        // 5. Award preferred billing frequency is not set correctly
+        if (!contractsGrantsInvoiceDocumentService.isPreferredBillingFrequencySetCorrectly(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
+        }
+
+        // 6. Award has no accounts assigned
+        if (contractsGrantsInvoiceDocumentService.hasNoActiveAccountsAssigned(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR));
+        }
+
+        // 7. Award contains expired account or accounts
+        Collection<Account> expAccounts = contractsGrantsInvoiceDocumentService.getExpiredAccountsOfAward(award);
+        if (ObjectUtils.isNotNull(expAccounts) && !expAccounts.isEmpty()) {
+            StringBuilder line = new StringBuilder();
+            line.append(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR));
+
+            for (Account expAccount : expAccounts) {
+                line.append(" (expired account: " + expAccount.getAccountNumber() + " expiration date " + expAccount.getAccountExpirationDate() + ") ");
+            }
+            errorList.add(line.toString());
+        }
+        // 8. Award has final invoice Billed already
+        if (contractsGrantsInvoiceDocumentService.isAwardFinalInvoiceAlreadyBuilt(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR));
+        }
+
+        // 9. Award has no valid milestones to invoice
+        if (contractsGrantsInvoiceDocumentService.hasNoMilestonesToInvoice(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
+        }
+
+        // 10. All has no valid bills to invoice
+        if (contractsGrantsInvoiceDocumentService.hasNoBillsToInvoice(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
+        }
+
+        // 11. Agency has no matching Customer record
+        if (contractsGrantsInvoiceDocumentService.owningAgencyHasNoCustomerRecord(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
+        }
+
+        // 12. All accounts of an Award have zero$ to invoice
+        if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts()) && CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award))) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
+        }
+
+        // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
+        List<String> errorString = contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
+        if (!CollectionUtils.isEmpty(errorString) && errorString.size() > 1) {
+            errorList.add(configurationService.getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
+        }
+
+        // 14. System Information and ORganization Accounting Default not setup.
+        if (contractsGrantsInvoiceDocumentService.isChartAndOrgNotSetupForInvoicing(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
+        }
+
+        // 15. if there is no AR Invoice Account present when the GLPE is 3.
+        if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
+        }
+
+        // 16. If all accounts of award has invoices in progress.
+        if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && contractsGrantsInvoiceDocumentService.isInvoiceInProgress(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
+        }
+
+        // 17. Offset Definition is not available when the GLPE is 3.
+        if (contractsGrantsInvoiceDocumentService.isOffsetDefNotSetupForInvoicing(award)) {
+            errorList.add(configurationService.getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
+        }
     }
 
     protected void writeErrorToFile(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, String errOutputFile) {
@@ -615,8 +583,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
                 writeErrorEntryByAward(award, invalidGroup.get(award), outputFileStream);
             }
-            // clean the error list for next iteration
-            invalidGroup.clear();
 
             outputFileStream.printf("\r\n");
         } catch (IOException ioe) {
@@ -626,6 +592,61 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             if (outputFileStream != null) {
                 outputFileStream.close();
             }
+        }
+    }
+
+    protected void storeValidationErrors(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, boolean batch) {
+        for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
+            boolean firstLineFlag = true;
+            String awardBeginningDate;
+            String awardEndingDate;
+            String awardTotalAmount;
+
+            String proposalNumber = award.getProposalNumber().toString();
+            Date beginningDate = award.getAwardBeginningDate();
+            Date endingDate = award.getAwardEndingDate();
+            KualiDecimal totalAmount = award.getAwardTotalAmount();
+
+            KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+            }
+            ContractsGrantsInvoiceDocumentErrorLog contractsGrantsInvoiceDocumentErrorLog = new ContractsGrantsInvoiceDocumentErrorLog();
+
+            if (ObjectUtils.isNotNull(award)){
+                boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
+
+                contractsGrantsInvoiceDocumentErrorLog.setProposalNumber(award.getProposalNumber());
+                contractsGrantsInvoiceDocumentErrorLog.setAwardBeginningDate(beginningDate);
+                contractsGrantsInvoiceDocumentErrorLog.setAwardEndingDate(endingDate);
+                contractsGrantsInvoiceDocumentErrorLog.setAwardTotalAmount(award.getAwardTotalAmount().bigDecimalValue());
+                contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
+                if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
+                    contractsGrantsInvoiceDocumentErrorLog.setPrimaryFundManagerPrincipalName(award.getAwardPrimaryFundManager().getFundManager().getPrincipalName());
+                }
+                if (!isActiveAwardAccountsEmpty) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        if (firstLineFlag) {
+                            firstLineFlag = false;
+                            contractsGrantsInvoiceDocumentErrorLog.setAccounts(awardAccount.getAccountNumber());
+                        }
+                        else {
+                            contractsGrantsInvoiceDocumentErrorLog.setAccounts(contractsGrantsInvoiceDocumentErrorLog.getAccounts() + ";" + awardAccount.getAccountNumber());
+                        }
+                    }
+                }
+            }
+
+            for (String vCat : invalidGroup.get(award)) {
+                ContractsGrantsInvoiceDocumentErrorCategory contractsGrantsInvoiceDocumentErrorCategory = new ContractsGrantsInvoiceDocumentErrorCategory();
+                contractsGrantsInvoiceDocumentErrorCategory.setValidationCategoryText(vCat);
+                contractsGrantsInvoiceDocumentErrorLog.getValidationCategories().add(contractsGrantsInvoiceDocumentErrorCategory);
+            }
+
+            contractsGrantsInvoiceDocumentErrorLog.setErrorDate(dateTimeService.getCurrentTimestamp());
+            contractsGrantsInvoiceDocumentErrorLog.setBatch(batch);
+            businessObjectService.save(contractsGrantsInvoiceDocumentErrorLog);
+            contractsGrantsInvoiceDocumentErrorLogs.add(contractsGrantsInvoiceDocumentErrorLog);
         }
     }
 
@@ -696,13 +717,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         KualiDecimal totalAmount = award.getAwardTotalAmount();
 
         if (ObjectUtils.isNotNull(beginningDate)) {
-            awardBeginningDate = award.getAwardBeginningDate().toString();
+            awardBeginningDate = beginningDate.toString();
         } else {
             awardBeginningDate = "null award beginning date";
         }
 
-        if (ObjectUtils.isNotNull(beginningDate)) {
-            awardEndingDate = award.getAwardEndingDate().toString();
+        if (ObjectUtils.isNotNull(endingDate)) {
+            awardEndingDate = endingDate.toString();
         } else {
             awardEndingDate = "null award ending date";
         }
@@ -794,7 +815,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Pulls all the unique accounts from the invoice accounting details on the given ContractsGrantsInvoiceDocument
+     * Pulls all the unique accounts from the source accounting lines on the given ContractsGrantsInvoiceDocument
      * @param contractsGrantsInvoices the invoices to pull unique accounts from
      * @return a Set of the unique accounts
      */
@@ -897,6 +918,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
 
     /**
      * Sets the kualiModuleService attribute value.

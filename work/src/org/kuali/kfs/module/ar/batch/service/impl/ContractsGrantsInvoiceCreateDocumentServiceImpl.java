@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -397,7 +398,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      */
     @Override
     public void processBatchInvoiceDocumentCreation(String validationErrorOutputFileName, String invoiceDocumentErrorOutputFileName) {
-        final Collection<ContractsAndGrantsBillingAward> awards = retrieveAwards();
+        final Collection<ContractsAndGrantsBillingAward> awards = retrieveNonLOCAwards();
         final Collection<ContractsAndGrantsBillingAward> validAwards = validateAwards(awards, validationErrorOutputFileName);
         createCGInvoiceDocumentsByAwards(validAwards, invoiceDocumentErrorOutputFileName);
     }
@@ -409,10 +410,20 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param fileName Name of file to be uploaded and processed.
      * @return True if the file load and store was successful, false otherwise.
      */
-    protected Collection<ContractsAndGrantsBillingAward> retrieveAwards() {
+    protected Collection<ContractsAndGrantsBillingAward> retrieveNonLOCAwards() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.ACTIVE, true);
-        return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, map);
+        // It would be nice not to have to manually remove LOC awards, maybe when we convert to KRAD
+        // we could leverage the KRAD-DATA Criteria framework to avoid this
+        Collection<ContractsAndGrantsBillingAward> awards = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, map);
+        Iterator<ContractsAndGrantsBillingAward> it = awards.iterator();
+        while (it.hasNext()) {
+            ContractsAndGrantsBillingAward award = it.next();
+            if (StringUtils.equalsIgnoreCase(award.getPreferredBillingFrequency(), ArConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                it.remove();
+            }
+        }
+        return awards;
     }
 
     /**

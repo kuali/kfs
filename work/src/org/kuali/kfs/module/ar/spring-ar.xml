@@ -336,6 +336,15 @@
         <property name="noteService">
             <ref bean="noteService" />
         </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="identityService">
+            <ref bean="identityService" />
+        </property>
 	</bean>	
 	
 	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean"/>

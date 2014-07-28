@@ -65,9 +65,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -100,7 +102,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     protected UniversityDateService universityDateService;
     protected NoteService noteService;
-
+    protected IdentityService identityService;
+    protected PersonService personService;
+    protected ConfigurationService configurationService;
 
     @Override
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice) {
@@ -430,7 +434,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         //
         // attempt to retrieve the initiator person specified, and puke if not found
-        Principal initiator = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(initiatorPrincipalName);
+        Principal initiator = getIdentityService().getPrincipalByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
         }
@@ -935,20 +939,45 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         if(ObjectUtils.isNotNull(actionsTaken)){
             ActionTaken completeAction = actionsTaken.get(0);
             for(ActionTaken action : actionsTaken){
-                // we're looking for the person who completed the closing document, aren't we?
-                if(new String("C").equals(action.getActionTaken().getCode())){
-                    principalName = SpringContext.getBean(PersonService.class).getPerson(action.getPrincipalId()).getName();
+                // we're looking for the person who completed the closing document, so we want the COMPLETE action
+                if(action.getActionTaken().compareTo(ActionType.COMPLETE) == 0){
+                    principalName = getPersonService().getPerson(action.getPrincipalId()).getName();
+                    break;
                 }
             }
         }       
         
-        final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
+        final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
         Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() }; 
         String noteText = MessageFormat.format(noteTextPattern, arguments); 
 
 
         Note note = getDocumentService().createNoteFromDocument(documentToClose, noteText);
-        note.setAuthorUniversalIdentifier(KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
+        note.setAuthorUniversalIdentifier(getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
         documentToClose.addNote(noteService.save(note));
+    }
+    
+    public void setPersonService(PersonService personService){
+        this.personService = personService;
+    }
+    
+    public PersonService getPersonService(){
+        return personService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

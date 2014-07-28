@@ -1329,12 +1329,14 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         }
 
         /* KFSMI-9914 (IU ref: FSKD-5275): Confirmed amounts were copied causing problems when copied doc was confirmed */
-                    setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
-                    setTotalConfirmedCoinAmount(KualiDecimal.ZERO);
-                    totalChangeAmount = KualiDecimal.ZERO;
-                    confirmedChecks = new ArrayList<Check>();
-                    initializeCashChangeDetails();
-
+        setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
+        setTotalConfirmedCoinAmount(KualiDecimal.ZERO);
+        totalChangeAmount = KualiDecimal.ZERO;
+        confirmedChecks = new ArrayList<Check>();
+        confirmedCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        confirmedCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        confirmedChangeCurrencyDetail = new CurrencyDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
+        confirmedChangeCoinDetail = new CoinDetail(getDocumentNumber(), CashReceiptDocument.DOCUMENT_TYPE, CurrencyCoinSources.CASH_CHANGE_GRANTED);
     }
 
     /**

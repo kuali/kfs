@@ -126,12 +126,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
-		<property name="configurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
 		</property>
@@ -173,6 +167,25 @@
 		</property>
 		<property name="systemInformationService">
 			<ref bean="systemInformationService" />
+		</property>
+    </bean>
+    
+    <bean id="accountsReceivableModuleBillingService" parent="accountsReceivableModuleBillingService-parentBean"/>
+    <bean id="accountsReceivableModuleBillingService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleBillingServiceImpl" abstract="true">
+    	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
     </bean>
 
@@ -251,8 +264,8 @@
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="contractsAndGrantsModuleRetrieveService">
-			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
@@ -363,8 +376,8 @@
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="contractsAndGrantsModuleUpdateService">
-			<ref bean="contractsAndGrantsModuleUpdateService" />
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService" />
 		</property>
 		<property name="contractsGrantsInvoiceDocumentDao">
 			<ref bean="contractsGrantsInvoiceDocumentDao" />
@@ -407,8 +420,8 @@
 
 	<bean id="contractsGrantsInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
-		<property name="contractsAndGrantsModuleRetrieveService">
-			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
@@ -429,8 +442,8 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
-		<property name="contractsAndGrantsModuleRetrieveService">
-			<ref bean="contractsAndGrantsModuleRetrieveService" />
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService" />
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
@@ -451,8 +464,8 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
-		<property name="contractsAndGrantsModuleRetrieveService">
-			<ref bean="contractsAndGrantsModuleRetrieveService" />
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService" />
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>

@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -75,7 +76,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
 
-        if (SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             WorkflowDocument workflowDoc = header.getWorkflowDocument();
             Agency agency = getAgency();
             String description = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CREATED_BY_AGENCY_DOC);
@@ -203,7 +204,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
      */
     @Override
     protected Collection<?> getSectionIdsToIgnore() {
-        if (!SpringContext.getBean(AccountsReceivableModuleService.class).isContractsGrantsBillingEnhancementActive()) {
+        if (!SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive()) {
             return SpringContext.getBean(ContractsAndGrantsBillingService.class).getAgencyContractsGrantsBillingSectionIds();
         } else {
             return CollectionUtils.EMPTY_COLLECTION;

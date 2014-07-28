@@ -32,6 +32,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This Class provides implementation to the services required for inter-module communication, allowing AR to utilize
@@ -115,6 +116,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
             awardAccount.setCurrentLastBilledDate(awardAccount.getPreviousLastBilledDate());
             awardAccount.setPreviousLastBilledDate(null);
         }
+        awardAccount.setInvoiceDocumentStatus(invoiceDocumentStatus);
 
         getBusinessObjectService().save(awardAccount);
 
@@ -205,8 +207,24 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
             awardAccount.setPreviousLastBilledDate(null);
         }
 
+        awardAccount.setInvoiceDocumentStatus(invoiceDocumentStatus);
         awardAccount.setFinalBilledIndicator(finalBilled);
         getBusinessObjectService().save(awardAccount);
+    }
+
+    /**
+     * This method sets invoice Document Status to award Account.
+     *
+     * @param criteria
+     * @param invoiceDocumentStatus
+     */
+    @Override
+    public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus) {
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        if (ObjectUtils.isNotNull(awardAccount) && !StringUtils.equals(awardAccount.getInvoiceDocumentStatus(), invoiceDocumentStatus)) {
+            awardAccount.setInvoiceDocumentStatus(invoiceDocumentStatus);
+            getBusinessObjectService().save(awardAccount);
+        }
     }
 
     /**

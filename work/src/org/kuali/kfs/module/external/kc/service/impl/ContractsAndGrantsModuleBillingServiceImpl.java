@@ -118,6 +118,15 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     }
 
     @Override
+    public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus) {
+        AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
+        updateDto.setDoInvoiceDocStatusUpdate(true);
+        updateDto.setInvoiceDocumentStatus(invoiceDocumentStatus);
+        handleBillingStatusResult(getAwardWebService().updateAwardBillingStatus(buildSearchDto(criteria), updateDto));
+
+    }
+
+    @Override
     public void setAmountToDrawToAwardAccount(Map<String, Object> criteria, KualiDecimal amountToDraw) {
         AwardBillingUpdateDto updateDto = new AwardBillingUpdateDto();
         updateDto.setDoAmountToDrawUpdate(true);

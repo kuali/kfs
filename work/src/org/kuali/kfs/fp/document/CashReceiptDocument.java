@@ -1332,11 +1332,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
                     setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
                     setTotalConfirmedCoinAmount(KualiDecimal.ZERO);
                     totalChangeAmount = KualiDecimal.ZERO;
-                   confirmedCurrencyDetail = new CurrencyDetail();
-                   confirmedCoinDetail = new CoinDetail();
-                    changeCurrencyDetail = new CurrencyDetail();
-                    changeCoinDetail = new CoinDetail();
                     confirmedChecks = new ArrayList<Check>();
+                    initializeCashChangeDetails();
 
     }
 

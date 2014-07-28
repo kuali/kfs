@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.workflow;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -53,7 +54,7 @@ public class SensitiveDataSecurityAttribute implements DocumentSecurityAttribute
 
                         DocumentAuthorizer docAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(docTypeName);
                         try {
-                            if (ObjectUtils.isNull(document) || ObjectUtils.isNull(document.getDocumentId())) {
+                            if (ObjectUtils.isNull(document) || StringUtils.isBlank(document.getDocumentId())) {
                                 LOG.warn("document or document.documentId is null, returning false from isAuthorizedForDocument");
                                 return false;
                             } else {

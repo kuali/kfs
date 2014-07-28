@@ -546,4 +546,7 @@ public class GeneralLedgerConstants {
         return SPACE_CHART_OF_ACCOUNTS_CODE;
     }
     public static final String INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE = "TRSF";
+
+    public static final String GL_BALANCE_TOTAL_NOT_ZERO_ITERATOR = "glBalanceTotalNotZeroIterator";
+    public static final String GL_BALANCE_ANNUAL_AND_CG_TOTAL_NOT_ZERO_ITERATOR  = "glBalanceAnnualAndCGTotalNotZeroIterator";
 }

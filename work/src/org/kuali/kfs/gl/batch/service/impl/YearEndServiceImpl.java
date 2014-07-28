@@ -101,7 +101,7 @@ public class YearEndServiceImpl implements YearEndService {
     public void closeNominalActivity(String nominalClosingFileName, Map nominalClosingJobParameters) {
 
         Integer varFiscalYear = (Integer) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
-        NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(varFiscalYear, (Date) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT), parameterService, configurationService);
+        NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(varFiscalYear, (Date) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT), parameterService, configurationService, objectTypeService);
 
         closingHelper.addNominalClosingJobParameters(nominalClosingJobParameters);
 
@@ -109,7 +109,7 @@ public class YearEndServiceImpl implements YearEndService {
 
         Iterator<Balance> balanceIterator = null;
         if (closingHelper.isAnnualClosingChartParamterBlank()) {
-            //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+            //process all charts, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
             nominalActivityClosingCounts.put("globalReadCount", new Integer(balanceService.countBalancesForFiscalYear(varFiscalYear)));
             balanceIterator = balanceService.findNominalActivityBalancesForFiscalYear(varFiscalYear);
         }

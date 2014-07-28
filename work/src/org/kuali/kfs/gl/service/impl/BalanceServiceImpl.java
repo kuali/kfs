@@ -570,7 +570,7 @@ public class BalanceServiceImpl implements BalanceService {
         boolean fundGroupDenotesCGInd = parameterService.getParameterValueAsBoolean(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
         Iterator<Balance> balances = balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd);
 
-        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_ANNUAL_AND_CG_TOTAL_NOT_ZERO_ITERATOR);
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;
@@ -592,7 +592,7 @@ public class BalanceServiceImpl implements BalanceService {
         boolean fundGroupDenotesCGInd = parameterService.getParameterValueAsBoolean(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
         Iterator<Balance> balances = balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd, charts);
 
-        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_ANNUAL_AND_CG_TOTAL_NOT_ZERO_ITERATOR);
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;
@@ -611,8 +611,7 @@ public class BalanceServiceImpl implements BalanceService {
         Collection<String> generalBalanceForwardBalanceTypesArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
         Iterator<Balance> balances = balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray);
 
-        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
-        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_TOTAL_NOT_ZERO_ITERATOR);
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;
@@ -631,8 +630,7 @@ public class BalanceServiceImpl implements BalanceService {
         Collection<String> generalBalanceForwardBalanceTypesArray = parameterService.getParameterValuesAsString(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET);
         Iterator<Balance> balances = balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray, charts);
 
-        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
-        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, GeneralLedgerConstants.GL_BALANCE_TOTAL_NOT_ZERO_ITERATOR);
         filteredBalances.setBalancesSource(balances);
 
         return filteredBalances;

@@ -228,7 +228,7 @@
     	<property name="awardService" ref="awardWebService"/>
     </bean>
     
-    <bean id="contractsAndGrantsModuleBillingService" parent="contractsAndGrantsModuleBillingervice-parentBean"/>
+    <bean id="contractsAndGrantsModuleBillingService" parent="contractsAndGrantsModuleBillingService-parentBean"/>
     <bean id="contractsAndGrantsModuleBillingService-parentBean" abstract="true" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleBillingServiceImpl">
     	<property name="awardService" ref="awardWebService"/>
     </bean>

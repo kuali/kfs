@@ -120,7 +120,7 @@ public class FinalBilledIndicatorValidation {
      * @return
      */
     public static boolean entryValidations(ContractsGrantsInvoiceDocument document) {
-        if (!DocumentStatus.FINAL.equals(document.getDocumentHeader().getWorkflowDocument().getStatus())) {
+        if (! ( DocumentStatus.FINAL.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()) || DocumentStatus.PROCESSED.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()) ) ) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_BILLED_INDICATOR_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY, INVOICE_NOT_FINALIZED_ERROR_MESSAGE);
             return false;
         }

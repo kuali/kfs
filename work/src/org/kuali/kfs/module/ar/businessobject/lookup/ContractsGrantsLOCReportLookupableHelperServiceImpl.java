@@ -15,22 +15,22 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -40,13 +40,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Defines a custom lookup for LOC Draw Details Report.
  */
 public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
-    protected WorkflowDocumentService workflowDocumentService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
 
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
-        String reportType = (String) lookupFormFields.get("reportType");
+        final String reportType = (String)lookupFormFields.remove("reportType");
 
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
@@ -86,9 +86,9 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
                 cgLOCReport.setLetterOfCreditFundCode(cgLOCReviewDoc.getLetterOfCreditFundCode());
                 cgLOCReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
-                final DateTime dateCreated = getDocumentDateCreated(cgLOCReviewDoc.getDocumentNumber());
+                final Timestamp dateCreated = cgLOCReviewDoc.getFinancialSystemDocumentHeader().getWorkflowCreateDate();
                 if (ObjectUtils.isNotNull(dateCreated)) {
-                    cgLOCReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getMillis()));
+                    cgLOCReport.setLetterOfCreditReviewCreateDate(new java.sql.Date(dateCreated.getTime()));
                 }
                 cgLOCReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
                 cgLOCReport.setClaimOnCashBalance(totalClaimOnCashBalance);
@@ -121,21 +121,11 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
         return getBusinessObjectService().findMatching(documentClass, fieldValues);
     }
 
-    /**
-     * Returns the creation date of the given workflow document
-     * @param documentNumber the document number to look up the creation date for
-     * @return the creation date
-     */
-    protected DateTime getDocumentDateCreated(String documentNumber) {
-        final org.kuali.rice.kew.api.document.Document wd = getWorkflowDocumentService().getDocument(documentNumber);
-        return wd.getDateCreated();
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
     }
 
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
     }
 }

@@ -490,4 +490,9 @@ public class ArPropertyConstants{
     public static final String  SEQUENCE_NUMBER= "sequenceNumber";
     public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
     public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+
+    public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
+    public static final String INVOICE_TYPE = "invoiceType";
+    public static final String AGE_IN_DAYS = "ageInDays";
+    public static final String REMAINING_AMOUNT = "remainingAmount";
 }

@@ -359,6 +359,8 @@ public class ArKeyConstants {
      public static final String ERROR_DUPLICATE_BILL_NUMBER = "error.duplicate.bill.number";
      public static final String ERROR_DUPLICATE_MILESTONE_NUMBER = "error.duplicate.milestone.number";
 
+     public static final String ERROR_REPORT_INVALID_CALCULATED_PATTERN = "error.report.invalid.calculated.pattern";
+
      // messages for Transmit Contracts & Grants Invoices
      public static final String NO_DELIVERY_TYPE_SELECTED = "error.no.delivery.type.selected";
      public static final String NO_PRINCIPAL_NAME_FOUND = "error.no.principal.name.found";

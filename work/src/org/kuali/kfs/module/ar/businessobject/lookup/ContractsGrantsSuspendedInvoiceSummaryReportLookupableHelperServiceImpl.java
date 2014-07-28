@@ -28,7 +28,6 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSum
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.SuspensionCategory;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.DocumentService;
@@ -99,9 +98,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
             cgSuspendedInvoiceSummaryReport.setCategoryDescription(suspensionCategoryDescriptions.get(suspensionCategoryCode));
             cgSuspendedInvoiceSummaryReport.setTotalInvoicesSuspended(new Long(documentNumbersByCategory.get(suspensionCategoryCode).size()));
 
-            if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), cgSuspendedInvoiceSummaryReport, "ContractsGrantsSuspendedInvoiceSummaryReport")) {
-                displayList.add(cgSuspendedInvoiceSummaryReport);
-            }
+            displayList.add(cgSuspendedInvoiceSummaryReport);
 
         }
 

@@ -19,7 +19,7 @@
     <c:set var="offset" value="0"/>
     <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${reqSearchResults}"
 		id="row" export="true" pagesize="100" offset="${offset}"
-		requestURI="collectionActivityReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
+		requestURI="collectionActivityReportLookup.do.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
        <c:forEach items="${row.columns}" var="column">
 		<c:choose>
 			<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter'}">

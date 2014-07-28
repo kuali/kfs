@@ -41,6 +41,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -1397,8 +1398,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (getDvNonResidentAlienTax() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(((AccountingLine) postable).getSequenceNumber().toString())) {
             return postable.getAmount().isPositive();
         }
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(DisbursementVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.NEGATIVE_ACCOUNTING_LINES_IND)) {
+            return isDebitUtils.isDebitConsideringType(this, postable);
 
-        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);
+        } else {
+            return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);
+        }
     }
 
     /**

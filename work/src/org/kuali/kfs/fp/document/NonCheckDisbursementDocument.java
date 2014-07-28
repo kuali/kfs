@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -70,7 +71,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
     /**
      * Gets the financialDocumentBankCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentBankCode.
      */
     public String getFinancialDocumentBankCode() {
@@ -79,7 +80,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
     /**
      * Sets the financialDocumentBankCode attribute value.
-     * 
+     *
      * @param financialDocumentBankCode The financialDocumentBankCode to set.
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
@@ -88,7 +89,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
     /**
      * Gets the bank attribute.
-     * 
+     *
      * @return Returns the bank.
      */
     public Bank getBank() {
@@ -97,7 +98,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
     /**
      * Sets the bank attribute value.
-     * 
+     *
      * @param bank The bank to set.
      */
     public void setBank(Bank bank) {
@@ -106,7 +107,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
     /**
      * Overrides the base implementation to return "From".
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
@@ -119,7 +120,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * IsDebitUtiles.isDebitConsideringNothingPositiveOnly(). An IllegalStateException will be thrown if the accounting line passed
      * in is not an expense, is an error correction with a positive dollar amount or is not an error correction and has a negative
      * amount.
-     * 
+     *
      * @param transactionalDocument The document the accounting line being checked is located in.
      * @param accountingLine The accounting line being analyzed.
      * @return True if the accounting line given is a debit accounting line, false otherwise.
@@ -128,9 +129,16 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
      *      org.kuali.rice.krad.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine) postable);
+
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(DisbursementVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.NEGATIVE_ACCOUNTING_LINES_IND)) {
+            return isDebitUtils.isDebitConsideringType(this, postable);
+        } else {
+            return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);
+        }
+
     }
 
     /**
@@ -139,7 +147,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * reference financial system origin code and the reference financial document type code. These values must be nullified because
      * they don't belong in general ledger pending entries and if they aren't null, the general error corrections won't post
      * properly.
-     * 
+     *
      * @param financialDocument The document which contains the general ledger pending entry being modified.
      * @param accountingLine The accounting line the explicit entry was generated from.
      * @param explicitEntry The explicit entry being updated.
@@ -168,23 +176,23 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
         if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             return success;
         }
-        
+
         this.refreshReferenceObject(KFSPropertyConstants.BANK);
-        
+
         if (!ObjectUtils.isNull(getBank())) {
 
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-    
+
             final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
-    
+
             if (success) {
                 AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
                 bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
                 getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
-    
+
                 GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
                 success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
                 getGeneralLedgerPendingEntries().add(offsetEntry);
@@ -198,7 +206,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
     /**
      * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
      * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
-     * 
+     *
      * @param financialDocument The document the description will be pulled from, if the accounting line description is blank.
      * @param line The accounting line that will be used for populating the transaction ledger entry description.
      * @return The description to be applied to the transaction ledger entry.

@@ -17,8 +17,6 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -109,7 +107,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
         }
         else {
             // non error correction or DV
-            if (!isErrorCorrection(poster) && !(poster instanceof DisbursementVoucherDocument) && !(poster instanceof NonCheckDisbursementDocument)) {
+            if (!isErrorCorrection(poster)) {
                 throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
 
             }

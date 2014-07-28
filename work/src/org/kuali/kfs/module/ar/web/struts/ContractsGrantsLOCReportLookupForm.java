@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import org.kuali.kfs.module.ar.ArConstants;
+
 /**
  * Form class for Contracts Grants LOC Draw Details Report Lookup.
  */
@@ -24,6 +26,6 @@ public class ContractsGrantsLOCReportLookupForm extends ContractsGrantsReportLoo
      * Constructor.
      */
     public ContractsGrantsLOCReportLookupForm() {
-        setHtmlFormAction("contractsGrantsLOCReport");
+        setHtmlFormAction(ArConstants.Actions.CONTRACTS_GRANTS_LOC_REPORT);
     }
 }

@@ -63,17 +63,10 @@
 	<bean id="ReferralToCollectionsDetail-chart-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
 		<property name="name" value="chart"/>
     	<property name="shortLabel" value="Chart"/>
-    	<property name="control">
-    		<bean parent="TextControlDefinition" p:size="4"/>
-    	</property>
 	</bean>
 
 	<bean id="ReferralToCollectionsDetail-accountNumber" parent="ReferralToCollectionsDetail-accountNumber-parentBean" />
-	<bean id="ReferralToCollectionsDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
-		<property name="control">
-    		<bean parent="TextControlDefinition" p:size="9"/>
-    	</property>
-	</bean>
+	<bean id="ReferralToCollectionsDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
 
 	<bean id="ReferralToCollectionsDetail-invoiceNumber" parent="ReferralToCollectionsDetail-invoiceNumber-parentBean" />
 	<bean id="ReferralToCollectionsDetail-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -122,7 +115,7 @@
 		<property name="maxLength" value="5" />
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
 

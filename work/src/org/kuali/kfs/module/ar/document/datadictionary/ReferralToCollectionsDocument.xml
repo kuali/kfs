@@ -56,7 +56,16 @@
 	<bean id="ReferralToCollectionsDocument-customerName-parentBean" abstract="true" parent="Customer-customerName" />
 
 	<bean id="ReferralToCollectionsDocument-customerTypeCode" parent="ReferralToCollectionsDocument-customerTypeCode-parentBean" />
-	<bean id="ReferralToCollectionsDocument-customerTypeCode-parentBean" abstract="true" parent="Customer-customerTypeCode"/>
+	<bean id="ReferralToCollectionsDocument-customerTypeCode-parentBean" abstract="true" parent="Customer-customerTypeCode">
+		<property name="name" value="customerTypeCode" />
+		<property name="label" value="Customer Type" />
+		 <property name="required" value="false"/>
+		    <property name="control">
+		<bean parent="SelectControlDefinition"
+			p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerTypeValuesFinder"
+			p:includeKeyInLabel="false" />
+	</property>
+	</bean>
 
   <bean id="ReferralToCollectionsDocument-collectionStatusCode" parent="ReferralToCollectionsDocument-collectionStatusCode-parentBean"/>
 

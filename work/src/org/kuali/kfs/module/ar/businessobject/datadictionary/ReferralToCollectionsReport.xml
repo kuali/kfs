@@ -127,7 +127,6 @@
 		<property name="name" value="collector.name" />
 		<property name="label" value="Collector Name" />
 		<property name="required" value="false" />
-		<property name="maxLength"><null/></property>
 	</bean>
   <bean id="ReferralToCollectionsReport-principalId" parent="ReferralToCollectionsReport-principalId-parentBean"/>
 
@@ -175,24 +174,16 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
 	 <bean id="ReferralToCollectionsReport-chartOfAccountsCode" parent="ReferralToCollectionsReport-chartOfAccountsCode-parentBean" />
   <bean id="ReferralToCollectionsReport-chartOfAccountsCode-parentBean"
-		abstract="true" parent="Chart-chartOfAccountsCode">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="4" />
-		</property>
-  </bean>
+		abstract="true" parent="Chart-chartOfAccountsCode" />
 	
   <bean id="ReferralToCollectionsReport-accountNumber" parent="ReferralToCollectionsReport-accountNumber-parentBean" />
   <bean id="ReferralToCollectionsReport-accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="9" />
-		</property>
-  </bean>
+		abstract="true" parent="Account-accountNumber" />
  
   <bean id="ReferralToCollectionsReport-invoiceNumber" parent="ReferralToCollectionsReport-invoiceNumber-parentBean"/>
 
@@ -214,7 +205,7 @@
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="52" />
+			<bean parent="TextControlDefinition" p:size="50" />
 		</property>
 	</bean>
 
@@ -249,7 +240,6 @@
     <property name="name" value="collectionStatus"/>
     <property name="label" value="Collection Status"/>
     <property name="shortLabel" value="Collection Status"/>
-    <property name="maxLength"><null/></property>
   </bean>
   
 	<bean id="ReferralToCollectionsReport-referralType" parent="ReferralToCollectionsReport-referralType-parentBean" />

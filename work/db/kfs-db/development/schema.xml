@@ -10924,6 +10924,18 @@
             <index-column name="UNIV_FISCAL_YR"/>
         </index>
     </table>
+    <table name="LD_ERROR_CERT_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="EXPND_DESC" size="400" type="VARCHAR"/>
+        <column name="EXPND_PROJ_BENEFIT_DESC" size="400" type="VARCHAR"/>
+        <column name="ERROR_DESC" size="400" type="VARCHAR"/>
+        <column name="ERROR_CORR_REASON_DESC" size="400" type="VARCHAR"/>
+        <unique name="LD_ERROR_CERT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="LD_EXP_TRNFR_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

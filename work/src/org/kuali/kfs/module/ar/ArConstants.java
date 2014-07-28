@@ -55,8 +55,6 @@ public class ArConstants{
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
 
-    public static final String EMAIL_BODY = "EMAIL_BODY";
-    public static final String EMAIL_SUBJECT = "EMAIL_SUBJECT";
     public static final String FROM_EMAIL_ADDRESS = "FROM_EMAIL_ADDRESS";
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";

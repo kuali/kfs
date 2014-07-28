@@ -142,17 +142,13 @@ public class AREmailServiceImpl implements AREmailService {
                             LOG.warn("No recipients indicated.");
                         }
 
-                        String subject = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.EMAIL_SUBJECT);
-                        Map<String, String> map = new HashMap<String, String>();
-                        getEmailParameterList(map, invoice, customerAddress);
-                        subject = replaceValuesInString(subject, map);
+                        String subject = getSubject(invoice);
                         message.setSubject(subject);
                         if (StringUtils.isEmpty(subject)) {
                             LOG.warn("Empty subject being sent.");
                         }
 
-                        String bodyText = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.EMAIL_BODY);
-                        bodyText = replaceValuesInString(bodyText, map);
+                        String bodyText = getMessageBody(invoice, customerAddress);
                         message.setMessage(bodyText);
                         if (StringUtils.isEmpty(bodyText)) {
                             LOG.warn("Empty bodyText being sent.");
@@ -181,24 +177,34 @@ public class AREmailServiceImpl implements AREmailService {
         }
     }
 
-    protected void getEmailParameterList(Map<String, String> primaryKeys, ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
+    protected String getSubject(ContractsGrantsInvoiceDocument invoice) {
+        String subject = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_SUBJECT);
+
+        return MessageFormat.format(subject, returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()),
+                returnProperStringValue(invoice.getProposalNumber()),
+                returnProperStringValue(invoice.getDocumentNumber()));
+    }
+
+    protected String getMessageBody(ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
+        String message = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_BODY);
+
+        String department = "";
         String[] orgCode = invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPrimaryDepartmentCode().split("-");
         Map<String, Object> key = new HashMap<String, Object>();
         key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[0].trim());
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[1].trim());
         Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
-        primaryKeys.put("#grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
-        primaryKeys.put("#proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
-        primaryKeys.put("#invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
-        primaryKeys.put("#customerName", returnProperStringValue(customerAddress.getCustomer().getCustomerName()));
-        primaryKeys.put("#addressName", returnProperStringValue(customerAddress.getCustomerAddressName()));
-        primaryKeys.put("#name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
-        primaryKeys.put("#title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
         if (ObjectUtils.isNotNull(org)) {
-            primaryKeys.put("#department", returnProperStringValue(org.getOrganizationName()));
+            department = returnProperStringValue(org.getOrganizationName());
         }
-        primaryKeys.put("#phone", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
-        primaryKeys.put("#email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+
+        return MessageFormat.format(message, returnProperStringValue(customerAddress.getCustomer().getCustomerName()),
+                returnProperStringValue(customerAddress.getCustomerAddressName()),
+                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()),
+                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()),
+                department,
+                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()),
+                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
 
     protected String returnProperStringValue(Object string) {
@@ -210,25 +216,6 @@ public class AREmailServiceImpl implements AREmailService {
             return string.toString();
         }
         return "";
-    }
-
-    protected static String replaceValuesInString(String template, Map<String, String> replacementList) {
-        StringBuilder buffOriginal = new StringBuilder();
-        StringBuilder buffNormalized = new StringBuilder();
-
-        String[] keys = template.split("[ \\t]+");
-
-        // Scan for each word
-        for (String key : keys) {
-            String value = replacementList.get(key);
-            if (ObjectUtils.isNotNull(value)) {
-                buffOriginal.append(value + " ");
-            }
-            else {
-                buffOriginal.append(key + " ");
-            }
-        }
-        return buffOriginal.toString();
     }
 
     /**

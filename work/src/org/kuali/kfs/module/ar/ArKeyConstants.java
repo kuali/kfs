@@ -372,4 +372,7 @@ public class ArKeyConstants {
 
      public static final String CONTRACTS_REPORTS_AGING_REPORT_TITLE = "contracts.grants.aging.report.title";
 
+     public static final String CGINVOICE_EMAIL_SUBJECT = "cginvoice.email.subject";
+     public static final String CGINVOICE_EMAIL_BODY = "cginvoice.email.body";
+
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +37,6 @@ import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
-import org.kuali.kfs.module.ar.businessobject.TransmitContractsAndGrantsInvoicesLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -129,7 +129,7 @@ public class AREmailServiceImpl implements AREmailService {
                     if (ObjectUtils.isNotNull(note)) {
                         AttachmentMailMessage message = new AttachmentMailMessage();
 
-                        String sender = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+                        String sender = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.FROM_EMAIL_ADDRESS);
                         message.setFromAddress(sender);
 
                         CustomerAddress customerAddress = invoiceAddressDetail.getCustomerAddress();
@@ -141,7 +141,7 @@ public class AREmailServiceImpl implements AREmailService {
                             LOG.warn("No recipients indicated.");
                         }
 
-                        String subject = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
+                        String subject = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.EMAIL_SUBJECT);
                         Map<String, String> map = new HashMap<String, String>();
                         getEmailParameterList(map, invoice, customerAddress);
                         subject = replaceValuesInString(subject, map);
@@ -150,7 +150,7 @@ public class AREmailServiceImpl implements AREmailService {
                             LOG.warn("Empty subject being sent.");
                         }
 
-                        String bodyText = parameterService.getParameterValueAsString(TransmitContractsAndGrantsInvoicesLookup.class, ArConstants.CG_INVOICE_EMAIL_BODY);
+                        String bodyText = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.EMAIL_BODY);
                         bodyText = replaceValuesInString(bodyText, map);
                         message.setMessage(bodyText);
                         if (StringUtils.isEmpty(bodyText)) {
@@ -174,7 +174,7 @@ public class AREmailServiceImpl implements AREmailService {
                     }
                 }
             }
-            invoice.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_SENT);
+            invoice.setDateEmailProcessed(new Date(new java.util.Date().getTime()));
             documentService.updateDocument(invoice);
         }
     }

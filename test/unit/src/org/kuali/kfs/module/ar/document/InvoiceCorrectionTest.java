@@ -27,9 +27,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
@@ -64,12 +64,12 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        document.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
+        document.setDateEmailProcessed(new java.util.Date());
         document.setDateReportProcessed(new java.util.Date());
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
 
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
-        assertNull(document.getMarkedForProcessing());
+        assertNull(document.getDateEmailProcessed());
         assertNull(document.getDateReportProcessed());
 
         contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(document.getAccountDetails(),document.getProposalNumber());

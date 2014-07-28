@@ -629,5 +629,5 @@ KFS10839,KFS-TEM-PERM-ATTR-DATA-220,1,KFS10838,14,13,REQS
 KFS10840,KFS-TEM-PERM-ATTR-DATA-221,1,KFS10838,14,10,allowCapitalAssetEdit
 KFSCG01,KFSCG01,1,1110,3,13,CINV
 CGPRMTRFFR,KFSCG03,1,CGPERMFFR,12,2,org.kuali.kfs.module.cg.web.struts.FederalFinancialReportAction
-CGPRMTRIRD,KFSCGPERMIRD02,1,CGPERMIRD,12,2,org.kuali.kfs.module.cg.web.struts.TransmitContractsAndGrantsInvoicesAction
+CGPRMTRIRD,KFSCGPERMIRD02,1,CGPERMIRD,12,2,org.kuali.kfs.module.cg.web.struts.TransmitContractsAndGrantsInvoicesLookupAction
 KFS10841,KFS-CGB-PERM-ATTR_DATA-4,1,KFS10839,3,13,ITM

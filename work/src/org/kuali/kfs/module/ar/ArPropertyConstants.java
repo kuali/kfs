@@ -322,11 +322,12 @@ public class ArPropertyConstants{
     // CG Invoice Reports
     public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
 
-    public static class TransmitContractsAndGrantsInvoicesFields {
+    public static class TransmitContractsAndGrantsInvoicesLookupFields {
         public static final String INVOICE_INITIATOR_PRINCIPAL_NAME = "invoiceInitiatorPrincipalName";
         public static final String INVOICE_AMOUNT = "invoiceAmount";
         public static final String INVOICE_PRINT_DATE_TO = "invoicePrintDate";
         public static final String INVOICE_PRINT_DATE_FROM = "rangeLowerBoundKeyPrefix_invoicePrintDate";
+        public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceAddressDetails." + ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE;
     }
 
     public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceTransmissionMethodCode";

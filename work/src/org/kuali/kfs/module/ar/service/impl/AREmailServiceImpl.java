@@ -58,6 +58,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.service.impl.MailServiceImpl;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -170,6 +171,7 @@ public class AREmailServiceImpl implements AREmailService {
                             message.setType(attachment.getAttachmentMimeTypeCode());
                         }
 
+                        setupMailServiceForNonProductionInstance();
                         mailService.sendMessage(message);
                     }
                 }
@@ -227,6 +229,19 @@ public class AREmailServiceImpl implements AREmailService {
             }
         }
         return buffOriginal.toString();
+    }
+
+    /**
+     * Setup properties to handle mail messages in a non-production environment as appropriate.
+     *
+     * NOTE: We should be setting up configuration properties for these values, and once that is done
+     * this method can be removed.
+     */
+    public void setupMailServiceForNonProductionInstance() {
+        if (!ConfigContext.getCurrentContextConfig().isProductionEnvironment()) {
+            ((MailServiceImpl)mailService).setRealNotificationsEnabled(false);
+            ((MailServiceImpl)mailService).setNonProductionNotificationMailingList(mailService.getBatchMailingList());
+        }
     }
 
     /**

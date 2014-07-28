@@ -283,7 +283,7 @@
           <role name="AccountFullEdit" nextNode="Account"/>
           <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
-          <role name="SubFund" nextNode="notifyOnAutoApproval"/>
+          <role name="SubFund" nextNode="RequiresAutoApprovalNotification"/>
           <split name="RequiresAutoApprovalNotification">
             <branch name = "True">
                 <role name="AutoApprove" nextNode="joinOnAutoApproval"/>

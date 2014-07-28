@@ -39,7 +39,7 @@ public class ContractsGrantsLOCReportValuesFinder extends KeyValuesBase implemen
     @Override
     public String getValue() {
 
-        return "Details";
+        return ArConstants.LOCReportTypeFieldValues.DRAW_DETAILS;
     }
 
 }

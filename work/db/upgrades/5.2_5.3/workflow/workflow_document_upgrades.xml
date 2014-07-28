@@ -29,15 +29,15 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="CashManagement"/>
-          <role name="CashManagement" nextNode="RequireReview"/>
-		  <split name="RequireReview">
+          <role name="CashManagement" nextNode="RequireChangeRequestReview"/>
+		  <split name="RequireChangeRequestReview">
   			<branch name="True">
-    			<role name="ChangeRequest" nextNode="JoinRequireReview"/>
+    			<role name="ChangeRequest" nextNode="JoinRequireChangeRequestReview"/>
   			</branch>
   			<branch name="False">
-    			<simple name="NoOp" nextNode="JoinRequireReview"/>
+    			<simple name="NoOp" nextNode="JoinRequireChangeRequestReview"/>
   			</branch>
-  			<join name="JoinRequireReview"/>
+  			<join name="JoinRequireChangeRequestReview"/>
 		  </split>	
         </routePath>
       </routePaths>
@@ -49,7 +49,7 @@
           </qualifierResolverClass>
           <!-- don't need mandatoryRoute -->
         </role>
-        <split name="RequireReview">
+        <split name="RequireChangeRequestReview">
           <type>
             org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
           </type>
@@ -67,7 +67,7 @@
             org.kuali.rice.kew.engine.node.NoOpNode
           </type>
         </simple>
-		<join name="JoinRequireReview"/>                           
+		<join name="JoinRequireChangeRequestReview"/>                           
       </routeNodes>
     </documentType>
     

@@ -702,7 +702,6 @@ public class KFSPropertyConstants {
     public static final String FORCE_REFRESH_OF_BO_SUB_LISTS_FOR_SAVE = "forceRefreshOfBOSubListsForSave";
     public static final String FOREIGN_CHARGE_AMT = "foreignChargeAmt";
     public static final String FOREIGN_SOURCE_INCOME_CODE = "foreignSourceIncomeCode";
-    public static final String FREQUENCY = "frequency";
     public static final String FRINGE_RATE = "fringeRate";
     public static final String FRINGE_RATE_AMOUNT = "fringeRateAmount";
     public static final String FRINGE_RATES = "fringeRates";
@@ -1243,7 +1242,6 @@ public class KFSPropertyConstants {
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ZIP_CODE = "vendorZipCode";
     public static final String VERSION_NUMBER = KRADPropertyConstants.VERSION_NUMBER;
-    public static final String WORKFLOW_CREATE_DATE = "workflowCreateDate";
     public static final String WORKFLOW_DOCUMENT = KRADPropertyConstants.WORKFLOW_DOCUMENT;
     public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
     public static final String WORKFLOW_DOCUMENT_STATUS_CODE = "workflowDocumentStatusCode";

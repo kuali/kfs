@@ -52,10 +52,6 @@ public class CashReceiptFamilyDocumentTotalValidation extends GenericValidation 
         // we don't need subtract change total here either.
         KualiDecimal totalAmount = cfd.getTotalDollarAmount();
 
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code didn't include change request total when checking the amount > 0.
-         * We need to make sure that the net total (with change total taken out) is greater than 0.
-         */
         // make sure that net reconciliation total is greater than zero
         if (!totalAmount.isPositive()) {
             isValid = false;

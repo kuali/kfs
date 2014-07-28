@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.batch;
 import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,25 +186,15 @@ public class BalanceForwardRuleHelper {
         //Obtain list of charts to for the balance forwarding from Parameter ANNUAL_CLOSING_CHARTS_PARAM.
         //If no parameter value exists, act on all charts which is the default action in the delivered foundation code.
         annualClosingCharts = new ArrayList<String>();
-        try {
-            String[] varChartsArray = parameterService.getParameterValuesAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_CHARTS_PARAM).toArray(new String[] {});
+        Collection<String> annualClosingChartaParamValues =  parameterService.getParameterValuesAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_CHARTS_PARAM);
 
-            if (ObjectUtils.isNotNull(varChartsArray)&& (varChartsArray.length != 0)) {
-                //transfer charts from parameter to List for database query
-                for (String chartParam : varChartsArray) {
-                    annualClosingCharts.add(chartParam);
-                }
-                LOG.info("BalanceForwardJob ANNUAL_CLOSING_CHARTS parameter value = " + annualClosingCharts.toString());
-            }
-            else {
-                //Parameter existed but no values were listed.  Act on all charts which is the default action in the delivered foundation code.
-                LOG.info("ANNUAL_CLOSING_CHARTS parameter defined for KFS-GL Batch but no values were specified. All charts will be acted upon for BalanceForwardJob.");
-            }
+        if (ObjectUtils.isNotNull(annualClosingChartaParamValues)&& (!annualClosingChartaParamValues.isEmpty())) {
+
+            annualClosingCharts.addAll(annualClosingChartaParamValues);
+
+            LOG.info("BalanceForwardJob ANNUAL_CLOSING_CHARTS parameter value = " + annualClosingCharts.toString());
         }
-        catch (IllegalArgumentException e) {
-            //parameter is not defined, act on all charts per foundation delivered code
-            LOG.info("ANNUAL_CLOSING_CHARTS parameter was not defined for KFS-GL Batch. All charts will be acted upon for BalanceForwardJob.");
-        }
+
 
     }
 

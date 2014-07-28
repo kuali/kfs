@@ -107,7 +107,7 @@
 	</changeSet>	
 	
 	<changeSet author="KFS53" id="KFSCNTRB-1793">
-		<comment>KFSCNTRB-1793 Add new responsibility AcknowledgeChangeRequest and assign it to CR initiator. </comment>
+		<comment>KFSCNTRB-1793 Add new responsibility Review CR ChangeRequest and assign it to CR initiator. </comment>
 	
 		<insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFS10843" />

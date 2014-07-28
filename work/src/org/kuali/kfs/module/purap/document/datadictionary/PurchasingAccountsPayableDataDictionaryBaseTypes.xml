@@ -155,43 +155,6 @@
 		</property>
 	</bean>
 
-	<bean id="RoutingType-PurchasingAccountsPayableDocument-notifyOnAutoApprovalResponsibility" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
-	    <property name="routingAttributes">
-	        <list>
-	            <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
-	            <ref bean="RoutingAttribute-chartOfAccountsCode" />
-	            <ref bean="RoutingAttribute-accountNumber" />
-	            <ref bean="RoutingAttribute-organizationCode" />
-	            <ref bean="RoutingAttribute-overrideCode" />
-	            <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-	                <property name="qualificationAttributeName" value="subAccountNumber" />
-	            </bean>
-	        </list>
-	    </property>
-	    <property name="documentValuePathGroups">
-	        <list>
-	            <ref bean="DocumentValuePathGroup-PurchasingAccountsPayableDocument-notifyOnAutoApprovalResponsibility-accountingLines" />
-	        </list>
-	    </property>
-	</bean>
-
-	<bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-notifyOnAutoApprovalResponsibility-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
-	    <property name="documentCollectionPath">
-	        <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
-	            <property name="collectionPath" value="accountsForRouting" />
-	            <property name="documentValues">
-	                <list>
-	                    <value>chartOfAccountsCode</value>
-	                    <value>accountNumber</value>
-	                    <value>account.organizationCode</value>
-	                    <value>overrideCode</value>
-	                    <value>subAccountNumber</value>
-	                </list>
-	            </property>
-	        </bean>
-	    </property>
-	</bean>
-    
     <bean id="RoutingType-PurchaseOrderDocument-ContractManagement" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

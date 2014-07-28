@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+    
+    <changeSet author="KFS53" id="KFSCNTRB-1702">
+        <insert tableName="PUR_VNDR_TYP_T">
+            <column name="VNDR_TYP_CD" value="RV"/>
+            <column name="OBJ_ID" value="KFSCNTRB-1702"/>
+            <column name="VER_NBR" valueNumeric="1"/>
+            <column name="VNDR_TYP_DESC" value="Refund Vendor"/>
+            <column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+            <column name="VNDR_TAX_NBR_REQ_IND" value="N"/>
+            <column name="VNDR_TYP_CHG_ALLW_IND" value="N"/>
+            <column name="VNDR_ADDR_TYP_REQ_CD" value="RM"/>
+            <column name="VNDR_CONTR_ALLW_IND" value="N"/>
+            <column name="VNDR_SHOW_RVW_IND" value="N"/>
+            <column name="PUR_COMM_REQ_IND" value="N"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

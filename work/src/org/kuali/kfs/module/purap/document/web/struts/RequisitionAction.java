@@ -60,9 +60,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
-
     private RequisitionService requisitionService;
-
+    
     /**
      * save the document without any validations.....
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -263,22 +262,17 @@ public class RequisitionAction extends PurchasingActionBase {
 
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RequisitionDocument doc = (RequisitionDocument) ((PurchasingFormBase) form).getDocument();
-        RequisitionService reqs = getRequisitionService();
-        if (doc.isMissingAccountingLines() && reqs.hasContentReviewer(doc.getOrganizationCode(), doc.getChartOfAccountsCode())) {
+        if (shouldWarnIfNoAccountingLines(form)) {
             String question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-
             if (StringUtils.equals(question, PurapConstants.REQUISITION_ACCOUNTING_LINES_QUESTION)) {
-                /* We're getting an answer from our question */
+                // We're getting an answer from our question
                 String answer = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                // if the answer is "yes"- continue routing, but if it isn't...
                 if (!StringUtils.equals(answer, ConfirmationQuestion.YES)) {
-                    /* answer is "no, don't continue." so we'll just add a warning and refresh the page */
+                    // answer is "no, don't continue." so we'll just add a warning and refresh the page 
                     LOG.info("add a warning and refresh the page ");
                     GlobalVariables.getMessageMap().putWarning(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapConstants.REQ_NO_ACCOUNTING_LINES);
                     return refresh(mapping, form, request, response);
-                }
-                else {
-                    /* continue with routing */
                 }
             }
             else {
@@ -291,6 +285,13 @@ public class RequisitionAction extends PurchasingActionBase {
         return super.route(mapping, form, request, response);
     }
     
+    protected boolean shouldWarnIfNoAccountingLines(ActionForm form){
+        RequisitionDocument doc = (RequisitionDocument) ((PurchasingFormBase) form).getDocument();
+        RequisitionService reqs = getRequisitionService();
+        return (doc.isMissingAccountingLines() && reqs.hasContentReviewer(doc.getOrganizationCode(), doc.getChartOfAccountsCode()));
+    }
+
+
     protected synchronized RequisitionService getRequisitionService(){
         if (this.requisitionService == null){
             this.requisitionService = SpringContext.getBean(RequisitionService.class);

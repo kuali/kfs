@@ -1546,6 +1546,16 @@
             <ref bean="kualiConfigurationService" />
         </property>
     </bean>
+    <bean id="salaryExpenseTransferTransactionAgeService" parent="salaryExpenseTransferTransactionAgeService-parentBean" />
+    
+    <bean id="salaryExpenseTransferTransactionAgeService-parentBean" class="org.kuali.kfs.module.ld.document.service.impl.SalaryExpenseTransferTransactionAgeServiceImpl" abstract="true">
+    	<property name="universityDateService">
+    		<ref bean="universityDateService" />
+    	</property>
+    	<property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+    </bean>
     <bean id="expenseTransferAccountingLineService" parent="expenseTransferAccountingLineService-parentBean" />
 
     <bean id="expenseTransferAccountingLineService-parentBean" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl" abstract="true">

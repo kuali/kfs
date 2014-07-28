@@ -35,7 +35,6 @@ import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -319,7 +318,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
             //CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR",CashReceipt.INTERIM, new KualiDecimal("75.00"));
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", DocumentStatusCodes.FINAL, new KualiDecimal("75.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", CashReceipt.FINAL, new KualiDecimal("75.00"));
             changeCurrentUser(twatson);
 
             List crList = new ArrayList();

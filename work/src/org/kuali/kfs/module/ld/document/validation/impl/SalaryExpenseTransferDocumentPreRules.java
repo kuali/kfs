@@ -20,6 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.service.SalaryExpenseTransferTransactionAgeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -27,12 +28,13 @@ import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business pre-rules applicable to Salary Expense Transfer documents
  */
 public class SalaryExpenseTransferDocumentPreRules extends PromptBeforeValidationBase {
-    private static SalaryExpenseTransferErrorCertificationValidation stErrorCertificationValidationService;
+    protected static SalaryExpenseTransferTransactionAgeService salaryTransferTransactionAgeService;
 
     /**
      * Will call methods to examine a ST Document. Includes Error Certification Statement for approval by a fiscal officer if
@@ -68,8 +70,8 @@ public class SalaryExpenseTransferDocumentPreRules extends PromptBeforeValidatio
     }
 
     /**
-     * This method checks the current route level. If it is at the "Account" route node, then the fiscal officer is looking at
-     * this document.
+     * This method checks the current route level. If it is at the "Account" route node, then the fiscal officer is looking at this
+     * document.
      *
      * @return true if it's at the "Account" route note; false otherwise
      */
@@ -77,18 +79,13 @@ public class SalaryExpenseTransferDocumentPreRules extends PromptBeforeValidatio
         final WorkflowDocument workflowDocument = stDocument.getDocumentHeader().getWorkflowDocument();
         Set<String> currentActiveNodes = workflowDocument.getCurrentNodeNames();
 
-        if (currentActiveNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return currentActiveNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT);
     }
 
     /**
-     * This method uses SalaryExpenseTransferErrorCertificationValidation as a service to determine whether or not there are any
-     * target lines with a sub fund that is in the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter and that are older by
-     * fiscal periods than the current date.
+     * This method uses SalaryExpenseTransferTransactionAgeService to determine whether or not there are any target lines with a sub
+     * fund that is in the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter and that are older by fiscal periods than the
+     * current date.
      *
      * @param stDocument
      * @return true if there is a transaction that contains the sub fund in the parameter and the original transaction is older than
@@ -97,7 +94,7 @@ public class SalaryExpenseTransferDocumentPreRules extends PromptBeforeValidatio
     protected boolean checkTargetLines(SalaryExpenseTransferDocument stDocument) {
         Integer initialPeriodsFromParameter = null;
 
-        return !(getStErrorCertificationValidationService().defaultNumberOfFiscalPeriodsCheck(stDocument.getTargetAccountingLines(), initialPeriodsFromParameter));
+        return !(getSalaryExpenseTransferTransactionAgeService().defaultNumberOfFiscalPeriodsCheck(stDocument.getTargetAccountingLines(), initialPeriodsFromParameter));
     }
 
     /**
@@ -116,24 +113,25 @@ public class SalaryExpenseTransferDocumentPreRules extends PromptBeforeValidatio
     }
 
     /**
-     * Gets the setErrorCertificationValidationService attribute.
+     * Gets the SalaryTransferTransactionAgeService. Gets service from Spring since it isn't injected.
      *
-     * @return Returns the setErrorCertificationValidationService.
+     * @return Returns the salaryTransferTransactionAgeService
      */
-    protected SalaryExpenseTransferErrorCertificationValidation getStErrorCertificationValidationService() {
-        if (stErrorCertificationValidationService == null) {
-            stErrorCertificationValidationService = SpringContext.getBean(SalaryExpenseTransferErrorCertificationValidation.class);
+    public SalaryExpenseTransferTransactionAgeService getSalaryExpenseTransferTransactionAgeService() {
+        if (ObjectUtils.isNull(salaryTransferTransactionAgeService)) {
+            salaryTransferTransactionAgeService = SpringContext.getBean(SalaryExpenseTransferTransactionAgeService.class);
         }
 
-        return stErrorCertificationValidationService;
+        return salaryTransferTransactionAgeService;
     }
 
     /**
-     * Sets the setErrorCertificationValidationService attribute value.
+     * Sets the salaryTransferTransactionAgeService.
      *
-     * @param setErrorCertificationValidationService The setErrorCertificationValidationService to set.
+     * @param salaryTransferTransactionAgeService
      */
-    protected void setStErrorCertificationValidationService(SalaryExpenseTransferErrorCertificationValidation setErrorCertificationValidationService) {
-        this.stErrorCertificationValidationService = setErrorCertificationValidationService;
+    public void setSalaryExpenseTransferTransactionAgeService(SalaryExpenseTransferTransactionAgeService salaryTransferTransactionAgeService) {
+        this.salaryTransferTransactionAgeService = salaryTransferTransactionAgeService;
     }
+
 }

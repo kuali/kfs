@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ld.businessobject.ErrorCertification;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.module.ld.document.service.impl.SalaryExpenseTransferTransactionAgeServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -31,59 +32,70 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * The unit tests for methods in SalaryExpenseTransferErrorCertificationValidation.
+ * The unit tests for methods in SalaryExpenseTransferErrorCertificationValidation. Note that this validation also
+ * depends on methods in SalaryExpenseTransferTransactionAgeService.
  *
  * @see org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferErrorCertificationValidation
  */
 
 @ConfigureContext
 public class SalaryExpenseTransferErrorCertificationValidationTest extends KualiTestBase {
+    private static final String DEFAULT_PARM_FISCAL_PERIODS="3";
+    private static final String DEFAULT_PARM_SUBFUND="FEDERA=2";
+    private static final String YOUNGER_FISCAL_PER="11";
+    private static final String OLDER_FISCAL_PER="7";
+    private static final String NON_PARM_SUBFUND="AG";
+    private static final String PARM_SUBFUND="FEDERA";
+
+    private SalaryExpenseTransferErrorCertificationValidation validation;
+    private SalaryExpenseTransferTransactionAgeServiceImpl salaryExpenseTransferTransactionAgeService;
+    private MyUniversityDateService universityDateService;
+    private UniversityDateService oldDateService;
     private SalaryExpenseTransferDocument stDoc;
     private MyAttributedDocumentEvent event;
-    private MyUniversityDateService universityDateService;
     private ErrorCertification errorCertification;
-    private SalaryExpenseTransferErrorCertificationValidation validation;
-    private UniversityDateService oldDateService;
-
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalaryExpenseTransferErrorCertificationValidationTest.class);
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.validation = SpringContext.getBean(SalaryExpenseTransferErrorCertificationValidation.class);
-        this.oldDateService = validation.getUniversityDateService();
-        this.stDoc = new SalaryExpenseTransferDocument();
-        this.event = new MyAttributedDocumentEvent(stDoc);
-        this.universityDateService = new MyUniversityDateService();
-        this.errorCertification = new ErrorCertification();
-        this.errorCertification.setDocumentNumber("1");
-        this.stDoc.setErrorCertification(errorCertification);
-        TestUtils.setSystemParameter(KfsParameterConstants.LABOR_DOCUMENT.class, SalaryExpenseTransferDocumentRuleConstants.DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED, "3");
-        TestUtils.setSystemParameter(KfsParameterConstants.LABOR_DOCUMENT.class, SalaryExpenseTransferDocumentRuleConstants.ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND, "FEDERA=2");
+        validation = new SalaryExpenseTransferErrorCertificationValidation();
+        salaryExpenseTransferTransactionAgeService = new SalaryExpenseTransferTransactionAgeServiceImpl();
+        universityDateService = new MyUniversityDateService();
+        oldDateService = salaryExpenseTransferTransactionAgeService.getUniversityDateService();
+
+        salaryExpenseTransferTransactionAgeService.setUniversityDateService(universityDateService);
+        validation.setParameterService(SpringContext.getBean(ParameterService.class));
+        validation.setSalaryExpenseTransferTransactionAgeService(salaryExpenseTransferTransactionAgeService);
+        stDoc = new SalaryExpenseTransferDocument();
+        event = new MyAttributedDocumentEvent(stDoc);
+        errorCertification = new ErrorCertification();
+        errorCertification.setDocumentNumber("1");
+        stDoc.setErrorCertification(errorCertification);
+        TestUtils.setSystemParameter(KfsParameterConstants.LABOR_DOCUMENT.class, SalaryExpenseTransferDocumentRuleConstants.DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED, DEFAULT_PARM_FISCAL_PERIODS);
+        TestUtils.setSystemParameter(KfsParameterConstants.LABOR_DOCUMENT.class, SalaryExpenseTransferDocumentRuleConstants.ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND, DEFAULT_PARM_SUBFUND);
     }
 
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
-        this.validation.setUniversityDateService(oldDateService);
+        this.salaryExpenseTransferTransactionAgeService.setUniversityDateService(oldDateService);
     }
 
     /**
      * Test the case where the source accounting line is "younger" and the error certification tab is complete.
      * This is based on fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the current year and will be set to period 11.
+     * The source accounting line will use the current year and will be set to YOUNGER_FISCAL_PER.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     public void testSourceAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         // create a source accounting line
         ExpenseTransferSourceAccountingLine sourceAccountingLine = new ExpenseTransferSourceAccountingLine();
-        sourceAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode("11");
+        sourceAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(YOUNGER_FISCAL_PER);
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
@@ -99,16 +111,14 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     /**
      * Test the case where the source accounting line is "older" and the error certification tab is incomplete.
      * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the current year, but will be set to period 7.
+     * The source accounting line will use the current year, but will be set to OLDER_FISCAL_PER.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     public void testOlderSourceAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         // create a source accounting line
         ExpenseTransferSourceAccountingLine sourceAccountingLine = new ExpenseTransferSourceAccountingLine();
-        sourceAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        sourceAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
@@ -124,16 +134,14 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     /**
      * Test the case where the source accounting line is in previous fiscal year and the error certification tab is incomplete.
      * This is based on the fiscal year and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the previous year and will be set to period 7.
+     * The source accounting line will use the previous year and will be set to OLDER_FISCAL_PER.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     public void testPriorYearSourceAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         // create a source accounting line
         ExpenseTransferSourceAccountingLine sourceAccountingLine = new ExpenseTransferSourceAccountingLine();
-        sourceAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        sourceAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
+        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
@@ -149,22 +157,20 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     /**
      * Test the case where the target accounting line is "younger" and the error certification tab is complete.
      * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the current year and will be set to period 11. It will also have a sub fund that is
+     * The target accounting line will use the current year and will be set to YOUNGER_FISCAL_PER. It will also have a sub fund that is
      * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     public void testTargetAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
-        subFundGroup.setSubFundGroupCode("AG");
+        subFundGroup.setSubFundGroupCode(NON_PARM_SUBFUND);
         account.setSubFundGroup(subFundGroup);
 
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
-        targetAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode("11");
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(YOUNGER_FISCAL_PER);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
@@ -181,22 +187,20 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     /**
      * Test the case where the target accounting line is "older" and the error certification tab is complete.
      * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the current year and will be set to period 7. It will also have a sub fund that is
+     * The target accounting line will use the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
      * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     public void testOlderTargetAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
-        subFundGroup.setSubFundGroupCode("AG");
+        subFundGroup.setSubFundGroupCode(NON_PARM_SUBFUND);
         account.setSubFundGroup(subFundGroup);
 
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
-        targetAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
@@ -213,23 +217,21 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     /**
      * Test the case where the target accounting line is in previous fiscal year and the error certification tab is complete.
      * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the previous year and will be set to period 7. It will also have a sub fund that is
+     * The target accounting line will use the previous year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
      * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     @SuppressWarnings("deprecation")
     public void testPriorYearTargetAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
-        subFundGroup.setSubFundGroupCode("AG");
+        subFundGroup.setSubFundGroupCode(NON_PARM_SUBFUND);
         account.setSubFundGroup(subFundGroup);
 
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
-        targetAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
@@ -247,23 +249,21 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
      * Test the case where the target accounting line is "older", has a subfund in the contribution approved
      * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is incomplete.
      * This is based on the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The target accounting line will use the current year and will be set to period 7. It will also have a sub fund that is in
+     * The target accounting line will use the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is in
      * the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     @SuppressWarnings("deprecation")
     public void testOlderSubFundTargetAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
-        subFundGroup.setSubFundGroupCode("FEDERA");
+        subFundGroup.setSubFundGroupCode(PARM_SUBFUND);
         account.setSubFundGroup(subFundGroup);
 
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
-        targetAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
@@ -281,23 +281,21 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
      * Test the case where the target accounting line is from the previous fiscal year, has a subfund in the contribution approved
      * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is incomplete.
      * This is based on the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The target accounting line will use the previous year and will be set to period 7. It will also have a sub fund that is
+     * The target accounting line will use the previous year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
      * in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
      * The validation will use the UniversityDateService that is defined in this test class.
      */
     @SuppressWarnings("deprecation")
     public void testPriorYearSubFundTargetAccountingLine() {
-        validation.setUniversityDateService(universityDateService);
-
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
-        subFundGroup.setSubFundGroupCode("FEDERA");
+        subFundGroup.setSubFundGroupCode(PARM_SUBFUND);
         account.setSubFundGroup(subFundGroup);
 
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
-        targetAccountingLine.setPayrollEndDateFiscalYear(validation.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode("7");
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);

@@ -22,7 +22,17 @@ import org.kuali.kfs.module.ld.businessobject.ErrorCertification;
  * certification object and the related validation.
  */
 public interface ErrorCertifiable {
+    /**
+     * Retrieves the ErrorCertification object in implementing class.
+     *
+     * @return ErrorCertification object
+     */
     ErrorCertification getErrorCertification();
 
+    /**
+     * Attaches an ErrorCertification object to implementing class.
+     *
+     * @param errorCertification
+     */
     void setErrorCertification(ErrorCertification errorCertification);
 }

@@ -32,7 +32,6 @@ import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -224,7 +223,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
             financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
-        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(DocumentStatusCodes.FINAL)) {
+        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL)) {
             CashManagementDocument cmd = SpringContext.getBean(CashManagementService.class).getCashManagementDocumentForCashReceiptId(crd.getDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getDocumentNumber();

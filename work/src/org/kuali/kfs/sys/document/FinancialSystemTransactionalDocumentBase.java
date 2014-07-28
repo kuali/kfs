@@ -38,6 +38,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is a KFS specific TransactionalDocumentBase class
@@ -99,6 +100,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         }
         if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
             getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        if (ObjectUtils.isNull(getFinancialSystemDocumentHeader().getWorkflowCreateDate())) {
+            getFinancialSystemDocumentHeader().setWorkflowCreateDate(new java.sql.Timestamp(getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()));
         }
         final String statusCode = getWorkflowDocumentStatusCode(getFinancialSystemDocumentHeader().getWorkflowDocument().getStatus());
         getFinancialSystemDocumentHeader().setWorkflowDocumentStatusCode(statusCode);
@@ -191,8 +195,10 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
             final KualiDecimal currentTotal = ((AmountTotaling)this).getTotalDollarAmount();
             if (!currentTotal.equals(getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount())) {
                 getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(currentTotal);
-                getBusinessObjectService().save(getFinancialSystemDocumentHeader());
             }
+        }
+        if (this instanceof AmountTotaling || !StringUtils.isBlank(getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            getBusinessObjectService().save(getFinancialSystemDocumentHeader());
         }
         super.doRouteLevelChange(levelChangeEvent);
     }

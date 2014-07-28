@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
@@ -177,6 +178,9 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         }
         if (StringUtils.isBlank(getFinancialSystemDocumentHeader().getWorkflowDocumentTypeName())) {
             getFinancialSystemDocumentHeader().setWorkflowDocumentTypeName(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        }
+        if (ObjectUtils.isNull(getFinancialSystemDocumentHeader().getWorkflowCreateDate())) {
+            getFinancialSystemDocumentHeader().setWorkflowCreateDate(new java.sql.Timestamp(getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()));
         }
         // we're preparing to save here.  If the save fails, the transaction should roll back - so the fact that the doc header is in saved mode shouldn't
         // cause problems.  And since org.kuali.rice.krad.service.impl.PostProcessorServiceImpl#doRouteStatusChange will NOT save the document when the

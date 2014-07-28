@@ -15,18 +15,16 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.krad.document.Document;
-
 /**
  * Business PreRules applicable to Purchasing documents
  */
 public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doPrompts(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {

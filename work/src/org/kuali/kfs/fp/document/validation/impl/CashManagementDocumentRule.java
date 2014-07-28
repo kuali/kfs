@@ -38,7 +38,6 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.document.validation.CashManagingRule;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -191,7 +190,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
 
     private static final List INITIATED_STATES = Arrays.asList(new String[] { CashReceipt.VERIFIED });
-    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, DocumentStatusCodes.FINAL});
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, CashReceipt.FINAL});
 
     /**
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given
@@ -341,14 +340,9 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         Integer coinCount;
         Integer rollCount;
 
-        // since we now introduced roll count for coins, neither coin or roll count shall be negative; since we compute coin/roll count from amount, if amount is negative,
-        // at least one of roll or coin count will be negative, while the other could be 0 or negative; we shall put error on whichever are negative.
         if (coinDetail.getFinancialDocumentHundredCentAmount() != null && coinDetail.getFinancialDocumentHundredCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getHundredCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "hundredCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "hundred cent count" });
-            }
-            if ((rollCount = coinDetail.getHundredCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "hundredCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "hundred cent roll count" });
             }
             success = false;
         }
@@ -356,17 +350,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             if ((coinCount = coinDetail.getFiftyCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "fiftyCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "fifty cent count" });
             }
-            if ((rollCount = coinDetail.getFiftyCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "fiftyCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "fifty cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentTwentyFiveCentAmount() != null && coinDetail.getFinancialDocumentTwentyFiveCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getTwentyFiveCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "twentyFiveCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "twentyFive cent count" });
-            }
-            if ((rollCount = coinDetail.getTwentyFiveCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "twentyFiveCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "twentyFive cent roll count" });
             }
             success = false;
         }
@@ -374,26 +362,17 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             if ((coinCount = coinDetail.getTenCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "tenCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "ten cent count" });
             }
-            if ((rollCount = coinDetail.getTenCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "tenCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "ten cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentFiveCentAmount() != null && coinDetail.getFinancialDocumentFiveCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getFiveCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "fiveCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "five cent count" });
             }
-            if ((rollCount = coinDetail.getFiveCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "fiveCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "five cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentOneCentAmount() != null && coinDetail.getFinancialDocumentOneCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getOneCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "oneCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "one cent count" });
-            }
-            if ((rollCount = coinDetail.getOneCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "oneCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "one cent roll count" });
             }
             success = false;
         }
@@ -450,10 +429,6 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     public boolean checkMoneyOutNoNegatives(CashieringTransaction trans) {
         boolean success = true;
 
-        /* FIXME FIXED by KFSCNTRB-1793
-         * The previous code on checking money out currency has a bug: there were some typos in several places where getMoneyInCurrency is used instead of getMoneyOutCurrency.
-         * Fixed this bug, also improved previous code: reduce redundant code by calling the shared method checkCurrencyNoNegatives on trans.getMoneyOutCurrency()
-         */
         // money out currency
         success &= checkCurrencyNoNegatives(trans.getMoneyOutCurrency(), "document.currentTransaction.moneyOutCurrency.");
 

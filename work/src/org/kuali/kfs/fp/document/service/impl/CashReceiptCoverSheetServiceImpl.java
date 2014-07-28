@@ -197,8 +197,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             populatedCoverSheet.setField(DESCRIPTION_FIELD, document.getDocumentHeader().getDocumentDescription());
             populatedCoverSheet.setField(EXPLANATION_FIELD, document.getDocumentHeader().getExplanation());
 
-            /* FIXME FIXED by KFSCNTRB-1793
-             * The previous code always prints original amounts.
+            /*
              * We should print original amounts before cash manager approves the CR; after that, we should print confirmed amounts.
              * Note that, in CashReceiptAction.printCoverSheet, it always retrieves the CR from DB, rather than from the current form.
              * Since during CashManagement route node, the CR can't be saved until CM approves/disapproves the document; this means

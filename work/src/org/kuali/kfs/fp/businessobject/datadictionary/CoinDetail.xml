@@ -96,7 +96,6 @@
     <property name="label" value="Hundred Cent Count"/>
     <property name="shortLabel" value="HunCntCnt"/>
     <property name="maxLength" value="6"/>
-    <!-- TODO KFSCNTRB-1793 IntegerPatternConstraint currently doesn't work ? -->
     <property name="validCharactersConstraint">
       <bean parent="IntegerPatternConstraint" p:allowNegative="false"/> <!-- count must be integer and cannot be negative -->
     </property>
@@ -248,7 +247,6 @@
     <property name="shortLabel" value="OthrCntAmt"/>
     <property name="maxLength" value="6"/>
     <property name="required" value="false"/>
-    <!-- FIXED by KFSCNTRB-1793: validation was missing; validation is needed here since this is an input field -->
     <property name="validationPattern" ref="GenericAmountValiationPattern" />
     <property name="control">
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="8" p:size="6"/>

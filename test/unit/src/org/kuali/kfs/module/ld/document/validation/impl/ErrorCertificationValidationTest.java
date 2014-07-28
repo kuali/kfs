@@ -21,7 +21,6 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -31,26 +30,20 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 @ConfigureContext
 public class ErrorCertificationValidationTest extends KualiTestBase {
-    protected SalaryExpenseTransferDocument stDocument;
-    protected ErrorCertificationValidation errorCertificationTabValidation;
-    protected BusinessObjectService boService;
-    protected MyAttributedDocumentEvent event;
-    protected ErrorCertification errorCertification;
+    private SalaryExpenseTransferDocument stDocument;
+    private ErrorCertificationValidation errorCertificationTabValidation;
+    private MyAttributedDocumentEvent event;
+    private ErrorCertification errorCertification;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.stDocument = new SalaryExpenseTransferDocument();
-        this.event = new MyAttributedDocumentEvent(stDocument);
-        this.errorCertificationTabValidation = new ErrorCertificationValidation();
-        this.errorCertification = new ErrorCertification();
-        this.errorCertification.setDocumentNumber("1");
-        this.stDocument.setErrorCertification(errorCertification);
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
+        stDocument = new SalaryExpenseTransferDocument();
+        event = new MyAttributedDocumentEvent(stDocument);
+        errorCertificationTabValidation = new ErrorCertificationValidation();
+        errorCertification = new ErrorCertification();
+        errorCertification.setDocumentNumber("1");
+        stDocument.setErrorCertification(errorCertification);
     }
 
     public void testPartiallyFullErrorCertification() {

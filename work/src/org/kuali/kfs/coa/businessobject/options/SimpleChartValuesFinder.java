@@ -37,11 +37,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class SimpleChartValuesFinder extends KeyValuesBase {
 
-    private final static String DEFAULT_CHART_METHOD = "1";
-    private final static String DEFAULT_PRIMARY_DEPT_METHOD = "2";
-    private final static String DEFAULT_PRIMARY_DEPT_CHART_METHOD = "3";
-
     protected ParameterService parameterService;
+    protected FinancialSystemUserService financialSystemUserService;
 
     /**
      * Creates a list of {@link Chart}s using their code as their key, and their code as the display value
@@ -66,13 +63,13 @@ public class SimpleChartValuesFinder extends KeyValuesBase {
         }
 
         //populate with the default chart
-        if (StringUtils.equals(defaultChartCodeMethod, DEFAULT_CHART_METHOD)) {
+        if (StringUtils.equals(defaultChartCodeMethod, KFSConstants.COAConstants.DEFAULT_CHART_METHOD)) {
             chartKeyLabels.add(new ConcreteKeyValue(defaultChartCode, defaultChartCode));
             fillChartKeyLabels (chartKeyLabels,  chartCodes, defaultChartCode);
         //populate with chart code of the user's primary department
-        } else if (StringUtils.equals(defaultChartCodeMethod, DEFAULT_PRIMARY_DEPT_METHOD) || StringUtils.equals(defaultChartCodeMethod, DEFAULT_PRIMARY_DEPT_CHART_METHOD)) {
+        } else if (StringUtils.equals(defaultChartCodeMethod, KFSConstants.COAConstants.DEFAULT_PRIMARY_DEPT_METHOD) || StringUtils.equals(defaultChartCodeMethod, KFSConstants.COAConstants.DEFAULT_PRIMARY_DEPT_CHART_METHOD)) {
             Person currentUser = GlobalVariables.getUserSession().getPerson();
-            String primaryDepartmentChartCode = SpringContext.getBean(FinancialSystemUserService.class)
+            String primaryDepartmentChartCode = getFinancialSystemUserService()
                     .getPrimaryOrganization(currentUser, KFSConstants.CoreModuleNamespaces.KFS).getChartOfAccountsCode();
             String chartUsed = "";
 
@@ -81,13 +78,14 @@ public class SimpleChartValuesFinder extends KeyValuesBase {
             } else {
                 //if DEFAULT_PRIMARY_DEPT_CHART_METHOD and no primary department use defaultChartCode, otherwise
                 //the default code will be blank
-                if (StringUtils.equals(defaultChartCodeMethod, DEFAULT_PRIMARY_DEPT_CHART_METHOD)) {
+                if (StringUtils.equals(defaultChartCodeMethod, KFSConstants.COAConstants.DEFAULT_PRIMARY_DEPT_CHART_METHOD)) {
                     chartUsed = defaultChartCode;
                 }
             }
 
             chartKeyLabels.add(new ConcreteKeyValue(chartUsed, chartUsed));
             fillChartKeyLabels (chartKeyLabels,  chartCodes, chartUsed);
+        // In the case where we didn't find a valid defaultChartCodeMethod set the default to blank
         }  else {
             chartKeyLabels.add(new ConcreteKeyValue("", ""));
             fillChartKeyLabels (chartKeyLabels,  chartCodes, "");
@@ -102,6 +100,14 @@ public class SimpleChartValuesFinder extends KeyValuesBase {
         }
 
         return parameterService;
+    }
+
+    protected FinancialSystemUserService getFinancialSystemUserService() {
+        if (financialSystemUserService == null) {
+            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        }
+
+        return financialSystemUserService;
     }
 
     protected void fillChartKeyLabels (List<KeyValue> chartKeyLabels, List<String> chartCodes, String defaultChartCode) {

@@ -142,7 +142,7 @@
     			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
     			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-targetOnly"/>
     			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-targetOnly"/>
-                <entry key="notifyOnAutoApprovalResponsibility" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
+                <entry key="AutoApprove" value-ref="RoutingType-AccountingDocument-Account-targetOnly"/>
     		</map>
     	</property>
   </bean>

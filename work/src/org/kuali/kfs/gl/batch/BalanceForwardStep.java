@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,6 +49,7 @@ public class BalanceForwardStep extends AbstractWrappedBatchStep {
              * @return that the job finished successfully
              * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
              */
+            @Override
             public boolean execute() {
                 StopWatch stopWatch = new StopWatch();
                 stopWatch.start("Balance Forward Step");
@@ -65,13 +66,22 @@ public class BalanceForwardStep extends AbstractWrappedBatchStep {
 
                 Integer varFiscalYear = new Integer(getParameterService().getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
 
-                yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
-                yearEndService.logAllMissingSubFundGroups(varFiscalYear);
-
-                String balanceForwardsUnclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+                String balanceForwardsUnclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
                 String balanceForwardsclosedFileName = GeneralLedgerConstants.BatchFileSystem.BALANCE_FORWARDS_CLOSED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-                
+
                 BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, balanceForwardsclosedFileName, balanceForwardsUnclosedFileName);
+
+                if (balanceForwardRuleHelper.isAnnualClosingChartParamterBlank()) {
+                    //execute delivered foundation code, either ANNUAL_CLOSING_CHARTS parameter did not exist or there were no values specified
+                    yearEndService.logAllMissingPriorYearAccounts(varFiscalYear);
+                    yearEndService.logAllMissingSubFundGroups(varFiscalYear);
+                }
+                else {
+                    //ANNUAL_CLOSING_CHARTS parameter was detected and contained values
+                    yearEndService.logAllMissingPriorYearAccounts(varFiscalYear, balanceForwardRuleHelper.getAnnualClosingCharts());
+                    yearEndService.logAllMissingSubFundGroups(varFiscalYear, balanceForwardRuleHelper.getAnnualClosingCharts());
+                }
+                //methods called internally deal with chart param being populated so was not moved inside if-then-else
 
                 yearEndService.forwardBalances(balanceForwardsUnclosedFileName, balanceForwardsclosedFileName, balanceForwardRuleHelper);
 
@@ -85,7 +95,7 @@ public class BalanceForwardStep extends AbstractWrappedBatchStep {
 
     /**
      * Sets the yearEndService attribute, allowing injection of an implementation of the service
-     * 
+     *
      * @param yearEndService an implementation of the yearEndService
      * @see org.kuali.module.gl.service.yearEndService
      */

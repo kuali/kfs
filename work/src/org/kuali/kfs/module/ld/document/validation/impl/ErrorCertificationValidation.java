@@ -45,7 +45,7 @@ public class ErrorCertificationValidation extends GenericValidation {
 
         // if Error Certification tab is partially filled out
         if ((numBlankFields > 0) && (numBlankFields < LaborConstants.ErrorCertification.NUM_ERROR_CERT_FIELDS)) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_KEY, LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_FIELDS_REQ, "error.errorCert.fieldsReq");
+            GlobalVariables.getMessageMap().putErrorForSectionId(LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_KEY, LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_FIELDS_REQ);
             return false;
         }
 

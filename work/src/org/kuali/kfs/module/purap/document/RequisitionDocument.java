@@ -133,14 +133,20 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public boolean isMissingAccountingLines() {
+        List<RequisitionItem> itemsWithMissingAccountingLines = getListOfItemsMissingAccountingLines(); 
+        return !(itemsWithMissingAccountingLines.isEmpty());
+    }
+    
+    public List<RequisitionItem> getListOfItemsMissingAccountingLines() {
+        List<RequisitionItem> itemsWithMissingAccountingLines = new ArrayList<RequisitionItem>();
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
             if (item.isConsideredEntered() && item.isAccountListEmpty()) {
-                return true;
+                itemsWithMissingAccountingLines.add(item);
             }
         }
 
-        return false;
+        return itemsWithMissingAccountingLines;
     }
 
     protected boolean isSeparationOfDutiesReviewRequired() {

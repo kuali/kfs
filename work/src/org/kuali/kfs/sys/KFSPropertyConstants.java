@@ -1006,6 +1006,7 @@ public class KFSPropertyConstants {
     public static final String POSTING_YEAR = "postingYear";
     public static final String PREPAID_EXPENSE = "prepaidExpense";
     public static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
+    public static final String PRIOR_YEAR_ACCOUNT = "priorYearAccount";
     public static final String PROCESS = "process";
     public static final String PROCESS_BATCH_SEQUENCE_NUMBER = "processBatchSequenceNumber";
     public static final String PROCESS_TOTAL_AMOUNT = "processTotalAmount";
@@ -1230,6 +1231,7 @@ public class KFSPropertyConstants {
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ZIP_CODE = "vendorZipCode";
     public static final String VERSION_NUMBER = KRADPropertyConstants.VERSION_NUMBER;
+    public static final String WORKFLOW_CREATE_DATE = "workflowCreateDate";
     public static final String WORKFLOW_DOCUMENT = KRADPropertyConstants.WORKFLOW_DOCUMENT;
     public static final String WORKFLOW_DOCUMENT_STATUS_CODE = "workflowDocumentStatusCode";
     public static final String WORKFLOW_DOCUMENT_TYPE_NAME = "workflowDocumentTypeName";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.A21SubAccountService;
+import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
@@ -65,7 +66,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 @ConfigureContext
 public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndFlexibleOffsetTest.class);
-    
+
     public static final String DEFAULT_FLEXIBLE_BALANCE_CHART = "BL";
     public static final String DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR = "1031400";
     public static final String DEFAULT_NO_FLEXIBLE_BALANCE_CHART = "BL";
@@ -91,12 +92,13 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     public static final String DEFAULT_OFFSET_CHART = "BL";
     public static final String DEFAULT_OFFSET_ACCOUNT_NBR = "0211201";
     public static final String ORG_REVERSION_CASH_OBJECT_CODE = "8000";
-    
+
     private BusinessObjectService boService;
     private ParameterService parameterService;
+    private ObjectTypeService objectTypeService;
     private Integer fiscalYear;
     private Date transactionDate;
-    
+
     enum NOMINAL_ACTIVITY_BALANCE_FIXTURE {
         FLEXIBLE_NOMINAL_ACTIVITY_BALANCE(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR),
         INFLEXIBLE_NOMINAL_ACTIVITY_BALANCE(DEFAULT_NO_FLEXIBLE_BALANCE_CHART, DEFAULT_NO_FLEXIBLE_BALANCE_ACCOUNT_NBR);
@@ -116,7 +118,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 
         /**
          * Converts the fixture into a balance to test
-         * 
+         *
          * @return a balance represented by this fixture
          */
         public Balance convertToBalance() {
@@ -157,23 +159,23 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             return balance;
         }
     };
-    
+
     enum ENCUMBRANCE_FORWARD_FIXTURE {
         FLEXIBLE_ENCUMBRANCE(DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, DEFAULT_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR),
         INFLEXIBLE_ENCUMBRANCE(DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR),
         FLEXIBLE_COST_SHARE_ENCUMBRANCE(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR),
         INFLEXIBLE_COST_SHARE_ENCUMBRANCE(CS_NO_FLEXIBLE_ENCUMBRANCE_CHART, CS_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
-        
+
         private ENCUMBRANCE_FORWARD_FIXTURE(String chart, String account, String subAccount) {
             this.chartOfAccountsCode = chart;
             this.accountNumber = account;
             this.subAccountNumber = subAccount;
         }
-        
+
         private String chartOfAccountsCode;
         private String accountNumber;
         private String subAccountNumber;
-        
+
         public Encumbrance convertToEncumbrance() {
             Encumbrance encumbrance = new Encumbrance();
             encumbrance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting().intValue() - 1);
@@ -194,7 +196,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             encumbrance.setTimestamp(new Timestamp(getEncumbranceDate().getTime()));
             return encumbrance;
         }
-        
+
         private Date getEncumbranceDate() {
             Calendar cal = new GregorianCalendar();
             cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -203,7 +205,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             return new Date(cal.getTimeInMillis());
         }
     }
-    
+
     enum ORG_REVERSION_BALANCE_FIXTURE {
         FLEXIBLE_ORG_REVERSION_BALANCE(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR),
         INFLEXIBLE_ORG_REVERSION_BALANCE(DEFAULT_NO_FLEXIBLE_BALANCE_CHART, DEFAULT_NO_FLEXIBLE_BALANCE_ACCOUNT_NBR);
@@ -223,7 +225,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 
         /**
          * Converts the fixture into a balance to test
-         * 
+         *
          * @return a balance represented by this fixture
          */
         public Balance convertToBalance() {
@@ -263,23 +265,23 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             return balance;
         }
     };
-    
+
     public enum FLEXIBLE_OFFSET_ACCOUNT_FIXTURE {
         FLEXIBLE_ACTIVITY_CLOSING_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR, DEFAULT_NOMINAL_ACTIVITY_OFFSET_OBJECT_CODE),
         FLEXIBLE_ENCUMBRANCE_FORWARD_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, DEFAULT_ENCUMBRANCE_OFFSET_OBJECT_CODE),
         FLEXIBLE_CS_ENCUMBRANCE_FORWARD_OFFSET_ACCOUNT(DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR, DEFAULT_COST_SHARE_ENCUMBRANCE_OFFSET_OBJECT_CODE),
         CASH_REVERSION_FORWARD_OFFSET_ACCOUNT(OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT, DEFAULT_NOMINAL_ACTIVITY_OFFSET_OBJECT_CODE);
-        
+
         private String chartCode;
         private String accountNumber;
         private String objectCode;
-        
+
         private FLEXIBLE_OFFSET_ACCOUNT_FIXTURE(String chartCode, String accountNumber, String objectCode) {
             this.chartCode = chartCode;
             this.accountNumber = accountNumber;
             this.objectCode = objectCode;
         }
-        
+
         public OffsetAccount convertToOffsetAccount() {
             OffsetAccount offset = new OffsetAccount();
             offset.setChartOfAccountsCode(this.chartCode);
@@ -290,25 +292,27 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             return offset;
         }
     }
-    
+
     /**
      * Initialize defaults for each test.
      * @see org.kuali.kfs.gl.businessobject.OriginEntryTestBase#setUp()
      */
+    @Override
     public void setUp() throws Exception {
         super.setUp();
-        
+
         this.boService = SpringContext.getBean(BusinessObjectService.class);
         this.fiscalYear = new Integer((SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear()).intValue() - 1);
         this.transactionDate = new java.sql.Date(new java.util.Date().getTime());
         this.parameterService = SpringContext.getBean(ParameterService.class);
-        
+        this.objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+
         DEFAULT_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR = KFSConstants.getDashSubAccountNumber();
         DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR = KFSConstants.getDashSubAccountNumber();
-        
+
         createFlexibleOffsetAccounts();
     }
-    
+
     /**
      * Test that:
      * <ol>
@@ -319,27 +323,27 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testNominalActivityFlexibleOffsetsWhenOffsetsOn() {
         try {
-            NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService);
+            NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService, objectTypeService);
             OriginEntryInformation entry;
-            
+
             // 1. flexible offsets on, flexible offset should be updated
             toggleFlexibleOffsets(true);
             entry = closingHelper.generateOffset(NOMINAL_ACTIVITY_BALANCE_FIXTURE.FLEXIBLE_NOMINAL_ACTIVITY_BALANCE.convertToBalance(), 1);
             assertChartAndAccount(entry, DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
-            
+
             // 2. flexible offsets on, but balances without matching offsets should not be updated
             entry = closingHelper.generateOffset(NOMINAL_ACTIVITY_BALANCE_FIXTURE.INFLEXIBLE_NOMINAL_ACTIVITY_BALANCE.convertToBalance(), 1);
             assertChartAndAccount(entry, DEFAULT_NO_FLEXIBLE_BALANCE_CHART, DEFAULT_NO_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-            
+
             // 3. flexible offsets on, but activity offsets stay the same!
             entry = closingHelper.generateActivityEntry(NOMINAL_ACTIVITY_BALANCE_FIXTURE.FLEXIBLE_NOMINAL_ACTIVITY_BALANCE.convertToBalance(), 1);
             assertChartAndAccount(entry, DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-                        
+
         } catch (FatalErrorException fee) {
             throw new RuntimeException(fee);
         }
     }
-    
+
     /**
      * Test that:
      * <ol>
@@ -348,19 +352,19 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testNominalActivityFlexibleOffsetsWhenOffsetsOff() {
         try {
-            NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService);
+            NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService, objectTypeService);
             OriginEntryInformation entry;
-                     
+
             // 1. flexible offsets off, flexible offset should not be updated
             toggleFlexibleOffsets(false);
             entry = closingHelper.generateOffset(NOMINAL_ACTIVITY_BALANCE_FIXTURE.FLEXIBLE_NOMINAL_ACTIVITY_BALANCE.convertToBalance(), 1);
             assertChartAndAccount(entry, DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR);
-            
+
         } catch (FatalErrorException fee) {
             throw new RuntimeException(fee);
         }
     }
-    
+
     /**
      * Test that:
      * <ol>
@@ -372,20 +376,20 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     public void testEncumbranceForwardFlexibleOffsetsWhenFlexibleOffsetsOn() {
         OriginEntryOffsetPair entryPair;
         toggleFlexibleOffsets(true);
-        
+
         final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
-        
+
         // 1. when flexible offsets are turned on, encumbrance forward offsets that should get flexible offsets get them
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         // 2. when flexible offsets are turned on, encumbrance forward entries do not get flexible offsets
         assertChartAndAccount(entryPair.getEntry(), DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
-        
+
         // 3. when flexible offsets are turned on, encumbrance forward offsets that should not get flexible offsets don't get them
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
     }
-    
+
     /**
      * Test that:
      * <ol>
@@ -395,14 +399,14 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     public void testEncumbranceForwardFlexibleOffsetsWhenFlexibleOffsetsOff() {
         OriginEntryOffsetPair entryPair;
         toggleFlexibleOffsets(false);
-        
+
         final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
-        
+
         // 1. when flexible offsets are turned off, encumbrance forward offsets that should get flexible offsets do not get them
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_ENCUMBRANCE.convertToEncumbrance(), fiscalYear, transactionDate);
         assertChartAndAccount(entryPair.getEntry(), DEFAULT_FLEXIBLE_ENCUMBRANCE_CHART, DEFAULT_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR);
     }
-    
+
     /**
      * Test that:
      * <ul>
@@ -415,22 +419,22 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         A21SubAccount a21SubAccount;
         toggleFlexibleOffsets(true);
-        
+
         final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
-                
+
         // 1. when flexible offsets are turned on, encumbrance forward cost share offsets that should get flexible offsets get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getOffset(), DEFAULT_OFFSET_CHART, DEFAULT_OFFSET_ACCOUNT_NBR);
         // 2. when flexible offsets are turned on, encumbrance forward cost share entries do not get flexible offsets
         assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
-        
+
         // 3. when flexible offsets are turned on, encumbrance forward cost share offsets that should not get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_NO_FLEXIBLE_ENCUMBRANCE_CHART, CS_NO_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_NO_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.INFLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getOffset(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
-    
+
     /**
      * Test that:
      * <ul>
@@ -441,15 +445,15 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryOffsetPair entryPair;
         A21SubAccount a21SubAccount;
         toggleFlexibleOffsets(false);
-        
+
         final EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationSerivce = SpringContext.getBean(EncumbranceClosingOriginEntryGenerationService.class);
-                
+
         // 1. when flexible offsets are turned off, encumbrance forward cost share offsets that should get flexible offsets don't get them
         a21SubAccount = SpringContext.getBean(A21SubAccountService.class).getByPrimaryKey(CS_FLEXIBLE_ENCUMBRANCE_CHART, CS_FLEXIBLE_ENCUMBRANCE_ACCOUNT_NBR, CS_FLEXIBLE_ENCUMBRANCE_SUB_ACCT_NBR);
         entryPair = encumbranceClosingOriginEntryGenerationSerivce.createCostShareBeginningBalanceEntryOffsetPair(ENCUMBRANCE_FORWARD_FIXTURE.FLEXIBLE_COST_SHARE_ENCUMBRANCE.convertToEncumbrance(), transactionDate);
         assertChartAndAccount(entryPair.getEntry(), a21SubAccount.getCostShareChartOfAccountCode(), a21SubAccount.getCostShareSourceAccountNumber());
     }
-    
+
     /**
      * Test that:
      * <ul>
@@ -463,7 +467,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 //        List<Balance> flexibleBalances = new ArrayList<Balance>();
 //        flexibleBalances.add(ORG_REVERSION_BALANCE_FIXTURE.FLEXIBLE_ORG_REVERSION_BALANCE.convertToBalance());
 //        flexibleBalances.add(ORG_REVERSION_BALANCE_FIXTURE.INFLEXIBLE_ORG_REVERSION_BALANCE.convertToBalance());
-//        
+//
 //        List<OriginEntryFull> resultingEntries = runOrganizationReversion(flexibleBalances);
 //        assertEquals("Number of generated OriginEntries ", new Integer(8), new Integer(resultingEntries.size()));
 //        // 1. when flexible offsets are turned on, cash reversion activity entries do not get flexible offsets
@@ -478,7 +482,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 //        // 3. when flexible offsets are turned on, cash reversion offsets that should not get flexible offsets don't get them
 //        assertChartAndAccount(resultingEntries.get(5), DEFAULT_NO_FLEXIBLE_BALANCE_CHART, DEFAULT_NO_FLEXIBLE_BALANCE_ACCOUNT_NBR);
     }
-    
+
     /**
      * Test that:
      * <ul>
@@ -489,13 +493,13 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 //        toggleFlexibleOffsets(false);
 //        List<Balance> flexibleBalances = new ArrayList<Balance>();
 //        flexibleBalances.add(ORG_REVERSION_BALANCE_FIXTURE.FLEXIBLE_ORG_REVERSION_BALANCE.convertToBalance());
-//        
+//
 //        List<OriginEntryFull> resultingEntries = runOrganizationReversion(flexibleBalances);
 //        assertEquals("Number of generated OriginEntries ", new Integer(4), new Integer(resultingEntries.size()));
 //        assertChartAndAccount(resultingEntries.get(1), DEFAULT_FLEXIBLE_BALANCE_CHART, DEFAULT_FLEXIBLE_BALANCE_ACCOUNT_NBR);
 //        assertChartAndAccount(resultingEntries.get(3), OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_CHART, OrganizationReversionMockServiceImpl.DEFAULT_CASH_REVERSION_ACCOUNT);
     }
-    
+
     /**
      * Runs the organization service against a given set of balances.
      * @param balancesToTest a List of balances to test the organization reversion process against
@@ -516,7 +520,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
         OrganizationReversionProcess orgRevProcess = SpringContext.getBean(OrganizationReversionProcess.class,"glOrganizationReversionTestProcess");
-        
+
         clearGlBalanceTable();
         clearBatchFiles();
         //we do not need to call clearCache() since no dao and jdbc calls mixted in this method.
@@ -528,8 +532,8 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         }
         //TODO:- commented out
         //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
-        
-        //TODO:- fix 
+
+        //TODO:- fix
         //orgRevProcess.setOutputGroup(outputGroup);
         orgRevProcess.setHoldGeneratedOriginEntries(true);
         orgRevProcess.organizationReversionProcess(jobParameters, organizationReversionCounts);
@@ -546,7 +550,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
 //        assertEquals("Origin Entry Group Source Code", OriginEntrySource.YEAR_END_ORG_REVERSION, group.getSourceCode());
         return orgRevProcess.getGeneratedOriginEntries();
     }
-    
+
     /**
      * Asserts that certain fields in the given origin entry equal given parameters
      * @param originEntry the actual origin entry
@@ -563,7 +567,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         assertEquals("Origin Entry " + originEntry.toString() + " Chart of Accounts", chart, originEntry.getChartOfAccountsCode());
         assertEquals("Origin Entry " + originEntry.toString() + " Account Number", account, originEntry.getAccountNumber());
     }
-    
+
     /**
      * Turns the flexible offset option on or off
      * @param flexibleOffsetsOn whether we should turn the flexible offsets on or off
@@ -576,7 +580,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             throw new RuntimeException(e);
         }
     }
-    
+
     private void createFlexibleOffsetAccounts() {
         // clear the flexible offsets table
         unitTestSqlDao.sqlCommand("delete from FP_OFST_ACCT_T");

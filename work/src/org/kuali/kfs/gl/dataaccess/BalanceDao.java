@@ -169,6 +169,15 @@ public interface BalanceDao {
     public int countBalancesForFiscalYear(Integer year);
 
     /**
+     * This method returns the total count of balances for specified fiscal year and charts
+     *
+     * @param year fiscal year to check
+     * @param charts list of specified charts
+     * @return the count of balances
+     */
+    public int countBalancesForFiscalYear(Integer year, List<String> charts);
+
+    /**
      * This method returns all of the balances specifically for the nominal activity closing job
      *
      * @param year year to find balances for
@@ -177,6 +186,18 @@ public interface BalanceDao {
      * @return an Iterator of nominal activity balances
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, Collection<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions);
+
+    /**
+     * This method returns all of the balances specifically for the nominal activity closing job when charts for the annual closing are specified
+     *
+     * @param year year to find balances for
+     * @param nominalActivityObjectTypeCodes a List of nominal activity object type codes
+     * @param currentYearOptions current year options
+     * @param charts list of charts to find balances for
+     *
+     * @return an Iterator of nominal activity balances
+     */
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, Collection<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions, List<String> charts);
 
     /**
      * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule
@@ -189,6 +210,17 @@ public interface BalanceDao {
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, Collection<String> generalForwardBalanceObjectTypes, Collection<String> generalBalanceForwardBalanceTypesArray);
 
     /**
+     * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule
+     *
+     * @param year the fiscal year to find balances for
+     * @param generalForwardBalanceObjectTypes a List of general Forward Balance Object Types
+     * @param generalBalanceForwardBalanceTypesArray an array of general Balance Forward Balance Types
+     * @param charts charts to find balances for
+     * @return an Iterator full of Balances
+     */
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, Collection<String> generalForwardBalanceObjectTypes, Collection<String> generalBalanceForwardBalanceTypesArray, List<String> charts);
+
+    /**
      * Returns the C&G balances specifically to be forwarded to the next fiscal year, based on the "cumulative" rule
      *
      * @param year the fiscal year to find balances for
@@ -199,6 +231,19 @@ public interface BalanceDao {
      * @return and Iterator chuck full of Balances
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, Collection<String> cumulativeForwardBalanceObjectTypes, Collection<String> contractsAndGrantsDenotingValues, Collection<String> subFundGroupsForCumulativeBalanceForwardingArray, Collection<String> cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd);
+
+    /**
+     * Returns the C&G balances specifically to be forwarded to the next fiscal year, based on the "cumulative" rule
+     *
+     * @param year the fiscal year to find balances for
+     * @param cumulativeForwardBalanceObjectTypes a List of cumulative Forward Balance Object Types
+     * @param contractsAndGrantsDenotingValues a List of contracts And Grants Denoting Values
+     * @param subFundGroupsForCumulativeBalanceForwardingArray an array of sub Fund Groups For Cumulative Balance Forwarding
+     * @param cumulativeBalanceForwardBalanceTypesArray an array of cumulative Balance Forward Balance Types
+     * @param charts charts to find balances for
+     * @return and Iterator chuck full of Balances
+     */
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, Collection<String> cumulativeForwardBalanceObjectTypes, Collection<String> contractsAndGrantsDenotingValues, Collection<String> subFundGroupsForCumulativeBalanceForwardingArray, Collection<String> cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd, List<String> charts);
 
     /**
      * Returns the balances that would specifically be picked up by the Organization Reversion year end process

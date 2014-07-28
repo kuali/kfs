@@ -111,7 +111,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         
        //   if its open, but now with a zero openamount, then close it
        if (invoice.isOpenInvoiceIndicator() && KualiDecimal.ZERO.equals(openAmount)) {
-           customerInvoiceDocumentService.addCloseNote(invoice, creditMemo.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), creditMemo.getDocumentNumber());
+           customerInvoiceDocumentService.addCloseNote(invoice, creditMemo.getDocumentHeader().getWorkflowDocument());
            invoice.setOpenInvoiceIndicator(false);
            invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
            documentService.updateDocument(invoice);

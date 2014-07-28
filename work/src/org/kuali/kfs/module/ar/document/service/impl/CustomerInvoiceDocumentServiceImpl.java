@@ -62,8 +62,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -1002,18 +1000,13 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             for(ActionTaken action : actionsTaken){
                 // we're looking for the person who completed the closing document, aren't we?
                 if(new String("C").equals(action.getActionTaken().getCode())){
-                    principalName = SpringContext.getBean(PersonService.class).getPerson(action.getPrincipalId()).getName();
+                    principalName = getPersonService().getPerson(action.getPrincipalId()).getName();
                 }
             }
-        }       
-        
-        final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
-        Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() }; 
-        String noteText = MessageFormat.format(noteTextPattern, arguments); 
-
+        }
 
         final String noteTextPattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT);
-        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber };
+        Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() };
         String noteText = MessageFormat.format(noteTextPattern, arguments);
 
 

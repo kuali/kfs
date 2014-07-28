@@ -275,7 +275,7 @@
 			<column name="OBJ_ID" value="KFS-PARM-186"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value=""/>
-			<column name="PARM_DESC_TXT" value="Leave blank if a default chart should not be set on transactional docs; 1: Use the chart code on transactional docs in parameter DEFAULT_CHART_CODE as the default; 2: Use the initiator’s primary department chart code as the default on transactional docs; 3: Use the initiator’s primary department code as the default on transactional docs, if there is none, use the chart code in DEFAULT_CHART_CODE. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>
+			<column name="PARM_DESC_TXT" value="Leave blank if a default chart should not be set on transactional docs; 1: Use the chart code on transactional docs in parameter DEFAULT_CHART_CODE as the default; 2: Use the initiator's primary department chart code as the default on transactional docs; 3: Use the initiator's primary department code as the default on transactional docs, if there is none, use the chart code in DEFAULT_CHART_CODE. If ACCOUNTS_CAN_CROSS_CHARTS_IND is set to N, then this parameter should be blank."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

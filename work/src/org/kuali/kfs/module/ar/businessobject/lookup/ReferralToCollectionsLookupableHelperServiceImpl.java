@@ -28,7 +28,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -65,7 +65,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected AccountService accountService;
-    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
+    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -275,7 +275,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return getContractsAndGrantsModuleBillingService().lookupAwards(fieldValues, unbounded);
+        return getContractsAndGrantsModuleRetrieveService().getSearchResultsHelper(fieldValues, unbounded);
     }
 
     /**
@@ -318,12 +318,12 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         this.accountService = accountService;
     }
 
-    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
-        return contractsAndGrantsModuleBillingService;
+    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
+        return contractsAndGrantsModuleRetrieveService;
     }
 
-    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
-        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
+    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
+        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

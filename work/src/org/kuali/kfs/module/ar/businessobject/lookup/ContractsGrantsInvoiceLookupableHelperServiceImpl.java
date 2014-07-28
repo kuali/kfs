@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
@@ -53,7 +53,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceLookupableHelperServiceImpl.class);
-    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
+    protected ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
     /**
@@ -150,7 +150,7 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
      */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return contractsAndGrantsModuleBillingService.lookupAwards(fieldValues, unbounded);
+        return contractsAndGrantsModuleRetrieveService.getSearchResultsHelper(fieldValues, unbounded);
     }
 
     /**
@@ -242,12 +242,12 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
         return (new ContractsGrantsInvoiceLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
-    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
-        return contractsAndGrantsModuleBillingService;
+    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
+        return contractsAndGrantsModuleRetrieveService;
     }
 
-    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
-        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
+    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
+        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

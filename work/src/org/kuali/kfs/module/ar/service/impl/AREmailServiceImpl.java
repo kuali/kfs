@@ -16,23 +16,31 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep;
 import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
@@ -41,41 +49,41 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.mail.AttachmentMailMessage;
-import org.kuali.kfs.sys.service.AttachmentMailService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.core.api.mail.Mailer;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.mail.MailerImpl;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.krad.service.impl.MailServiceImpl;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
  * Defines methods for sending AR emails.
  */
-public class AREmailServiceImpl implements AREmailService {
+public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AREmailServiceImpl.class);
 
-    protected AttachmentMailService mailService;
+    protected MailService mailService;
     protected ParameterService parameterService;
-    protected DataDictionaryService dataDictionaryService;
-    protected ConfigurationService kualiConfigurationService;
-    protected BusinessObjectService businessObjectService;
-    protected DocumentService documentService;
-    protected NoteService noteService;
-    protected KualiModuleService kualiModuleService;
+    private DataDictionaryService dataDictionaryService;
+    private Mailer mailer;
+    private ConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
+    private NoteService noteService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * Sets the kualiModuleService attribute value.
@@ -114,10 +122,9 @@ public class AREmailServiceImpl implements AREmailService {
      * @param invoices
      */
     @Override
-    public boolean sendInvoicesViaEmail(Collection<ContractsGrantsInvoiceDocument> invoices) throws InvalidAddressException, MessagingException  {
+    public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
         LOG.debug("sendInvoicesViaEmail() starting.");
 
-        boolean success = true;
         Properties props = getConfigProperties();
 
         // Get session
@@ -126,90 +133,93 @@ public class AREmailServiceImpl implements AREmailService {
             List<InvoiceAddressDetail> invoiceAddressDetails = invoice.getInvoiceAddressDetails();
             for (InvoiceAddressDetail invoiceAddressDetail : invoiceAddressDetails) {
                 if (ArConstants.InvoiceTransmissionMethod.EMAIL.equals(invoiceAddressDetail.getInvoiceTransmissionMethodCode())) {
+
+                    // KFSTI-48 Refactor to retrieve the note through noteService
                     Note note = noteService.getNoteByNoteId(invoiceAddressDetail.getNoteId());
 
                     if (ObjectUtils.isNotNull(note)) {
-                        AttachmentMailMessage message = new AttachmentMailMessage();
 
-                        String sender = parameterService.getParameterValueAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.FROM_EMAIL_ADDRESS);
-                        message.setFromAddress(sender);
+                        MimeMessage message = new MimeMessage(session);
 
+                        // From Address
+                        String sender = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+                        message.setFrom(new InternetAddress(sender));
+                        // To Address
                         CustomerAddress customerAddress = invoiceAddressDetail.getCustomerAddress();
                         String recipients = invoiceAddressDetail.getCustomerEmailAddress();
                         if (StringUtils.isNotEmpty(recipients)) {
-                            message.getToAddresses().add(recipients);
+                            InternetAddress[] recipientAddress = { new InternetAddress(recipients) };
+                            message.addRecipients(Message.RecipientType.TO, recipientAddress);
                         }
                         else {
                             LOG.warn("No recipients indicated.");
                         }
 
-                        String subject = getSubject(invoice);
+                        // The Subject
+                        String subject = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
+                        String bodyText = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
+                        Map<String, String> map = new HashMap<String, String>();
+                        getEmailParameterList(map, invoice, customerAddress);
+                        subject = replaceValuesInString(subject, map);
+                        bodyText = replaceValuesInString(bodyText, map);
                         message.setSubject(subject);
                         if (StringUtils.isEmpty(subject)) {
                             LOG.warn("Empty subject being sent.");
                         }
 
-                        String bodyText = getMessageBody(invoice, customerAddress);
-                        message.setMessage(bodyText);
-                        if (StringUtils.isEmpty(bodyText)) {
-                            LOG.warn("Empty bodyText being sent.");
+                        // Now the message body.
+                        // create and fill the first message part
+                        MimeBodyPart body = new MimeBodyPart();
+                        body.setText(bodyText);
+
+                        // create and fill the second message part
+                        MimeBodyPart attachment = new MimeBodyPart();
+                        // Use setText(text, charset), to show it off !
+                        // create the Multipart and its parts to it
+                        Multipart multipart = new MimeMultipart();
+                        multipart.addBodyPart(body);
+                        try {
+                            ByteArrayDataSource ds = new ByteArrayDataSource(note.getAttachment().getAttachmentContents(), "application/pdf");
+                            attachment.setDataHandler(new DataHandler(ds));
+                            attachment.setFileName(note.getAttachment().getAttachmentFileName());
+                            multipart.addBodyPart(attachment);
+                        }
+                        catch (IOException ex) {
+                            LOG.error("problem during AREmailServiceImpl.sendInvoicesViaEmail()", ex);
+                            throw new RuntimeException("problem during AREmailServiceImpl.sendInvoicesViaEmail()", ex);
                         }
 
-                        Attachment attachment = note.getAttachment();
-                        if (ObjectUtils.isNotNull(attachment)) {
-                            try {
-                                message.setContent(IOUtils.toByteArray(attachment.getAttachmentContents()));
-                            }
-                            catch (IOException ex) {
-                                LOG.error("Error setting attachment contents", ex);
-                                throw new RuntimeException(ex);
-                            }
-                            message.setFileName(attachment.getAttachmentFileName());
-                            message.setType(attachment.getAttachmentMimeTypeCode());
-                        }
+                        // add the Multipart to the message
+                        message.setContent(multipart);
 
-                        setupMailServiceForNonProductionInstance();
-                        mailService.sendMessage(message);
-
-                        invoice.setDateEmailProcessed(new Date(new java.util.Date().getTime()));
-                        documentService.updateDocument(invoice);
-                    } else {
-                        success = false;
+                        // Finally, send the message!
+                        Transport.send(message);
                     }
                 }
             }
+            invoice.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_SENT);
+            documentService.updateDocument(invoice);
         }
-        return success;
     }
 
-    protected String getSubject(ContractsGrantsInvoiceDocument invoice) {
-        String subject = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_SUBJECT);
-
-        return MessageFormat.format(subject, returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()),
-                returnProperStringValue(invoice.getProposalNumber()),
-                returnProperStringValue(invoice.getDocumentNumber()));
-    }
-
-    protected String getMessageBody(ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
-        String message = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_BODY);
-
-        String department = "";
+    protected void getEmailParameterList(Map<String, String> primaryKeys, ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
         String[] orgCode = invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPrimaryDepartmentCode().split("-");
         Map<String, Object> key = new HashMap<String, Object>();
-        key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[0].trim());
-        key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[1].trim());
+        key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[0].trim());
+        key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[1].trim());
         Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
+        primaryKeys.put("grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
+        primaryKeys.put("proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
+        primaryKeys.put("invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
+        primaryKeys.put("customerName", returnProperStringValue(customerAddress.getCustomer().getCustomerName()));
+        primaryKeys.put("addressName", returnProperStringValue(customerAddress.getCustomerAddressName()));
+        primaryKeys.put("name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
+        primaryKeys.put("title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
         if (ObjectUtils.isNotNull(org)) {
-            department = returnProperStringValue(org.getOrganizationName());
+            primaryKeys.put("department", returnProperStringValue(org.getOrganizationName()));
         }
-
-        return MessageFormat.format(message, returnProperStringValue(customerAddress.getCustomer().getCustomerName()),
-                returnProperStringValue(customerAddress.getCustomerAddressName()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()),
-                department,
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+        primaryKeys.put("phone", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
+        primaryKeys.put("email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
 
     protected String returnProperStringValue(Object string) {
@@ -223,17 +233,23 @@ public class AREmailServiceImpl implements AREmailService {
         return "";
     }
 
-    /**
-     * Setup properties to handle mail messages in a non-production environment as appropriate.
-     *
-     * NOTE: We should be setting up configuration properties for these values, and once that is done
-     * this method can be removed.
-     */
-    public void setupMailServiceForNonProductionInstance() {
-        if (!ConfigContext.getCurrentContextConfig().isProductionEnvironment()) {
-            ((MailServiceImpl)mailService).setRealNotificationsEnabled(false);
-            ((MailServiceImpl)mailService).setNonProductionNotificationMailingList(mailService.getBatchMailingList());
+    protected static String replaceValuesInString(String template, Map<String, String> replacementList) {
+        StringBuilder buffOriginal = new StringBuilder();
+        StringBuilder buffNormalized = new StringBuilder();
+
+        String[] keys = template.split("[ \\t]+");
+
+        // Scan for each word
+        for (String key : keys) {
+            String value = replacementList.get(key);
+            if (ObjectUtils.isNotNull(value)) {
+                buffOriginal.append(value + " ");
+            }
+            else {
+                buffOriginal.append(key + " ");
+            }
         }
+        return buffOriginal.toString();
     }
 
     /**
@@ -241,7 +257,7 @@ public class AREmailServiceImpl implements AREmailService {
      *
      * @param mailService The mailService to set.
      */
-    public void setMailService(AttachmentMailService mailService) {
+    public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
 

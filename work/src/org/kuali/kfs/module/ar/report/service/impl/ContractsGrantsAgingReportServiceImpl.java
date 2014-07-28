@@ -202,18 +202,13 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
             documents = new HashMap<String, ContractsGrantsInvoiceDocument>();
             for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                try {
-                    ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
-                    String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                    if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
-                        iter.remove();
-                    }
-                    else {
-                        documents.put(document.getDocumentNumber(), document);
-                    }
+                ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
+                String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+                if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
+                    iter.remove();
                 }
-                catch (Exception wfe) {
-                    LOG.error("problem during ContractsGrantsAgingReportServiceImpl.filterContractsGrantsAgingReport()", wfe);
+                else {
+                    documents.put(document.getDocumentNumber(), document);
                 }
             }
         }

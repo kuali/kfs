@@ -132,6 +132,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lowagie.text.DocumentException;
+
 /**
  * This class implements the services required for Contracts and Grants Invoice Document.
  */
@@ -348,14 +350,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
                     if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2) {
-                        try {
-                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
-                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-                        }
-                        catch (Exception e) {
-                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                            throw new RuntimeException(e);
-                        }
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                 }
                 else {
@@ -374,53 +370,32 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
                         String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-                        try {
-                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
-                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-                        }
-                        catch (Exception e) {
-                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                            throw new RuntimeException(e);
-                        }
+                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                        contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                     else {
                         for (InvoiceAccountDetail invAcctD : contractsGrantsInvoiceDocument.getAccountDetails()) {
                             String accountNumber = invAcctD.getAccountNumber();
                             String coaCode = invAcctD.getChartOfAccountsCode();
                             String objectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
-                            Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To
-                                                                                                                              // set
-                                                                                                                              // a
-                                                                                                                              // sequence
-                                                                                                                              // number
-                                                                                                                              // for
-                                                                                                                              // the
-                                                                                                                              // Accounting
-                                                                                                                              // Lines
-                            try {
-                                // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
-                                // account if its Milestone/Predetermined Schedule.
-                                KualiDecimal totalAmount = KualiDecimal.ZERO;
-                                if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
-                                    totalAmount = totalMilestoneAmount;
-                                }
-                                else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
-                                    totalAmount = totalBillAmount;
-                                }
-                                else {
-                                    totalAmount = invAcctD.getExpenditureAmount();
-                                }
-
-
-                                CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
-
-                                contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-
+                            Integer sequenceNumber = contractsGrantsInvoiceDocument.getAccountDetails().indexOf(invAcctD) + 1;// To set a sequence number for the Accounting Lines
+                            // To calculate totalAmount based on the billing Frequency. Assuming that there would be only one
+                            // account if its Milestone/Predetermined Schedule.
+                            KualiDecimal totalAmount = KualiDecimal.ZERO;
+                            if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && totalMilestoneAmount != KualiDecimal.ZERO) {
+                                totalAmount = totalMilestoneAmount;
                             }
-                            catch (Exception e) {
-                                LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                                throw new RuntimeException(e);
+                            else if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && totalBillAmount != KualiDecimal.ZERO) {
+                                totalAmount = totalBillAmount;
                             }
+                            else {
+                                totalAmount = invAcctD.getExpenditureAmount();
+                            }
+
+
+                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), coaCode, accountNumber, objectCode, totalAmount, sequenceNumber);
+
+                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
 
                         }
                     }
@@ -440,7 +415,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      * @throws Exception
      */
-    protected CustomerInvoiceDetail createSourceAccountingLine(String docNum, String coaCode, String acctNum, String obCode, KualiDecimal totalAmount, Integer seqNum) throws Exception {
+    protected CustomerInvoiceDetail createSourceAccountingLine(String docNum, String coaCode, String acctNum, String obCode, KualiDecimal totalAmount, Integer seqNum) {
         CustomerInvoiceDetail cid = new CustomerInvoiceDetail();
         cid.setDocumentNumber(docNum);
 
@@ -1102,98 +1077,46 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         boolean isInvalid = false;
         String line = null;
         List<String> invalidGroup = new ArrayList<String>();
-        if (CollectionUtils.isEmpty(cgInvoices)) {
-            line = "There were no invoices retrieved to process for " + detail;
-            invalidGroup.add(line);
-            try {
-                File errOutPutFile = new File(errorFileName);
-                PrintStream outputFileStream = null;
-
-                try {
-                    outputFileStream = new PrintStream(errOutPutFile);
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                writeErrorEntry(line, outputFileStream);
-            }
-            catch (IOException ioe) {
-                LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
-                throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
-            }
-            return invalidGroup;
-        }
-        for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-            isInvalid = false;
-            // if the invoices are not final yet - then the LOC cannot be created
-            if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+        try {
+            if (CollectionUtils.isEmpty(cgInvoices)) {
+                line = "There were no invoices retrieved to process for " + detail;
                 invalidGroup.add(line);
-                isInvalid = true;
-            }
 
-            // if invalid is true, the award is unqualified.
-            // records the unqualified award with failed reasons.
-            if (isInvalid) {
                 File errOutPutFile = new File(errorFileName);
                 PrintStream outputFileStream = null;
 
-                try {
-                    outputFileStream = new PrintStream(errOutPutFile);
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    writeErrorEntry(line, outputFileStream);
-                }
-                catch (IOException ioe) {
-                    LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
-                    throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
+                outputFileStream = new PrintStream(errOutPutFile);
+                outputFileStream.println(line);
+
+                return invalidGroup;
+            }
+            for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
+                isInvalid = false;
+                // if the invoices are not final yet - then the LOC cannot be created
+                if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                    invalidGroup.add(line);
+                    isInvalid = true;
                 }
 
-                try {
-                    writeNewLines("", outputFileStream);
-                }
-                catch (IOException ex) {
-                    LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ex.getMessage());
+                // if invalid is true, the award is unqualified.
+                // records the unqualified award with failed reasons.
+                if (isInvalid) {
+                    File errOutPutFile = new File(errorFileName);
+                    PrintStream outputFileStream = null;
+
+                    outputFileStream = new PrintStream(errOutPutFile);
+                    outputFileStream.println(line);
+                    outputFileStream.println();
                 }
             }
+        }
+        catch (IOException ioe) {
+            LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage());
+            throw new RuntimeException("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ioe.getMessage(), ioe);
         }
 
         return invalidGroup;
-    }
-
-    /**
-     * This method would write errors to the error file
-     *
-     * @param line
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeErrorEntry(String line, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\n", line);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-
-    /**
-     * This method would write new line argument to the error file.
-     *
-     * @param newline
-     * @param printStream
-     * @throws IOException
-     */
-    protected void writeNewLines(String newline, PrintStream printStream) throws IOException {
-        try {
-            printStream.printf("%s\n", newline);
-        }
-        catch (Exception e) {
-            throw new IOException(e.toString());
-        }
     }
 
     /**
@@ -1827,22 +1750,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         currentBalanceAmount = currentBalanceAmount.add((KualiDecimal) method.invoke(glBalance));
 
                     }
-                    catch (SecurityException e) {
+                    catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                         throw new RuntimeException(e.getMessage());
                     }
-                    catch (NoSuchMethodException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (IllegalArgumentException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (IllegalAccessException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-                    catch (InvocationTargetException e) {
-                        throw new RuntimeException(e.getMessage());
-                    }
-
                 }
             }
         }
@@ -1856,9 +1766,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method get the milestones with the criteria defined and set value to isItBilled.
      */
     @Override
-    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) throws Exception {
+    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) {
         if (invoiceMilestones == null) {
-            throw new Exception("(List<InvoiceMilestone> invoiceMilestones cannot be null");
+            throw new IllegalArgumentException("(List<InvoiceMilestone> invoiceMilestones cannot be null");
         }
         List<Long> milestoneIds = new ArrayList<Long>();
         for (InvoiceMilestone invoiceMilestone : invoiceMilestones) {
@@ -1867,7 +1777,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
         if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+            setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
         }
     }
 
@@ -1878,12 +1788,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     protected void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
         Collection<Milestone> milestones = null;
-        try {
-            milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
-        }
-        catch (Exception ex) {
-            LOG.error("problem during lgetMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId()", ex);
-        }
+        milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
+
         if (milestones != null) {
             for (Milestone milestone : milestones) {
                 if (value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)) {
@@ -1916,9 +1822,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method get the bills with the criteria defined and set value to isItBilled.
      */
     @Override
-    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) throws Exception {
+    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) {
         if (invoiceBills == null) {
-            throw new Exception("(List<InvoiceBill> invoiceBills cannot be null");
+            throw new IllegalArgumentException("(List<InvoiceBill> invoiceBills cannot be null");
         }
 
         List<Map<String, String>> fieldValuesList = new ArrayList<Map<String, String>>();
@@ -3014,6 +2920,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             catch (WorkflowException ex) {
                 LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
+                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
             }
         }
         return paymentDate;
@@ -3182,11 +3089,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // saving the note to the document header
                     documentService.updateDocument(document);
                 }
-                catch (IOException ex) {
+                catch (IOException | DocumentException ex) {
                     addNoteForInvoiceReportFail(document);
-                }
-                catch (Exception ex) {
-                    LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForInvoiceAddresses", ex);
                 }
             }
             else {
@@ -3638,13 +3542,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 milestoneIds.add(invoiceMilestone.getMilestoneIdentifier());
             }
 
-            try {
-                retrieveAndUpdateMilestones(invoiceMilestones, string);
 
-            }
-            catch (Exception ex) {
-                LOG.error("An error occurred while updating Milestones as billed: " + ex.toString());
-            }
+            retrieveAndUpdateMilestones(invoiceMilestones, string);
         }
     }
 
@@ -3655,16 +3554,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     protected void updateBillsIsItBilled(String string, List<InvoiceBill> invoiceBills) {
         /* update Bill */
-
         if (invoiceBills != null && !invoiceBills.isEmpty()) {
-
-            try {
-                retrieveAndUpdateBills(invoiceBills, string);
-
-            }
-            catch (Exception ex) {
-                LOG.error("An error occurred while updating Bills as billed: " + ex.toString());
-            }
+            retrieveAndUpdateBills(invoiceBills, string);
         }
     }
 
@@ -4570,20 +4461,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // To validate if the object Code formed is in proper format of [0-9a-zA-Z]{4}
 
                     if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        try {
+                        List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                        // To Check for the first value as it is not being included in the array
+                        objectCodeArray.add(obCodeFirst);
 
-                            List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
-                            // To Check for the first value as it is not being included in the array
-                            objectCodeArray.add(obCodeFirst);
-
-                            for (int i = 0; i < objectCodeValues.size(); i++) {
-                                objectCodeArray.add(objectCodeValues.get(i));
-                            }
-                        }
-                        catch (Exception ex) {
-                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice", ex.getMessage());
-                            LOG.error(msg);
-                            throw new RuntimeException(msg, ex);
+                        for (int i = 0; i < objectCodeValues.size(); i++) {
+                            objectCodeArray.add(objectCodeValues.get(i));
                         }
                     }
                     else {
@@ -4605,19 +4488,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         obCodeLast = obCodeLast.concat("Z");
                     }
                     if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                        try {
-                            List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                        List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
 
-                            // To Check for the first value as it is not being included in the array
-                            objectCodeArray.add(obCodeFirst);
-                            for (int i = 0; i < obCodeValues.size(); i++) {
-                                objectCodeArray.add(obCodeValues.get(i));
-                            }
-                        }
-                        catch (Exception ex) {
-                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice for the category:" + category.getCategoryName(), ex.getMessage());
-                            LOG.error(msg);
-                            throw new RuntimeException(msg, ex);
+                        // To Check for the first value as it is not being included in the array
+                        objectCodeArray.add(obCodeFirst);
+                        for (int i = 0; i < obCodeValues.size(); i++) {
+                            objectCodeArray.add(obCodeValues.get(i));
                         }
                     }
                     else {

@@ -32,10 +32,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
+import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
@@ -45,10 +49,14 @@ import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
@@ -59,12 +67,15 @@ import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -84,6 +95,8 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected BusinessObjectService businessObjectService;
+    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ConfigurationService configurationService;
     protected CustomerCreditMemoDetailService customerCreditMemoDetailService;
     protected CustomerDocumentService customerDocumentService;
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
@@ -212,6 +225,23 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         this.documentService = documentService;
     }
 
+    /**
+     * Gets the contractsGrantsInvoiceDocumentService attribute.
+     *
+     * @return Returns the contractsGrantsInvoiceDocumentService.
+     */
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    /**
+     * Sets the contractsGrantsInvoiceDocumentService attribute value.
+     *
+     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
+     */
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
     /**
      * @see org.kuali.kfs.integration.service.AccountsReceivableModuleService#getAccountsReceivablePaymentClaimingStrategy()
      */
@@ -486,6 +516,14 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getPrimaryOrganization()
+     */
+    @Override
+    public ChartOrgHolder getPrimaryOrganization() {
+        return financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+    }
+
+    /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getSystemInformationByProcessingChartOrgAndFiscalYear(java.lang.String, java.lang.String, java.lang.Integer)
      */
     @Override
@@ -658,6 +696,78 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long) This
+     *      method gets the award billed to date using ContractsGrantsInvoiceDocumentService
+     * @param roposalNumber
+     * @return
+     */
+    @Override
+    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber) {
+        return contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(proposalNumber);
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#calculateTotalPaymentsToDateByAward(java.lang.Long) This
+     *      method calculates total payments to date by Award using ContractsGrantsInvoiceDocumentService
+     * @param proposalNumber
+     * @return
+     */
+    @Override
+    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+
+        return contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
+
+    }
+
+    @Override
+    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
+        return customerAddressService.getPrimaryAddress(customerNumber);
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#ffindInvoiceTemplate(java.lang.String)
+     */
+    @Override
+    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
+        Map<String, Object> primaryKey = new HashMap<String, Object>();
+        primaryKey.put(KFSPropertyConstants.INVOICE_TEMPLATE_CODE, invoiceTemplateCode);
+        InvoiceTemplate invoiceTemplate = getKualiModuleService().getResponsibleModuleService(InvoiceTemplate.class).getExternalizableBusinessObject(InvoiceTemplate.class, primaryKey);
+        return invoiceTemplate;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     */
+    @Override
+    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
+        getBusinessObjectService().save((InvoiceTemplate) invoiceTemplate);
+    }
+
+    @Override
+    public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
+        return new MilestoneSchedule();
+    }
+
+    @Override
+    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
+        ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
+    }
+
+    @Override
+    public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
+        return new PredeterminedBillingSchedule();
+    }
+
+    @Override
+    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
+        ((PredeterminedBillingSchedule) predeterminedBillingSchedule).setProposalNumber(proposalNumber);
+    }
+
+    /**
      * Sets the kualiModuleService attribute value.
      *
      * @param kualiModuleService The kualiModuleService to set.
@@ -676,12 +786,86 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getLastBilledDate(java.lang.Long)
+     */
+    @Override
+    public Date getLastBilledDate(ContractsAndGrantsBillingAward award) {
+        return contractsGrantsInvoiceDocumentService.getLastBilledDate(award);
+    }
+
     public FinancialSystemUserService getFinancialSystemUserService() {
         return financialSystemUserService;
     }
 
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
+    }
+
+    @Override
+    public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
+        return contractsGrantsInvoiceDocumentService.checkAwardContractControlAccounts(award);
+    }
+
+    @Override
+    public boolean hasPredeterminedBillingSchedule(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        PredeterminedBillingSchedule schedule = getBusinessObjectService().findByPrimaryKey(PredeterminedBillingSchedule.class, map);
+        if (ObjectUtils.isNotNull(schedule)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean hasMilestoneSchedule(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        MilestoneSchedule schedule = getBusinessObjectService().findByPrimaryKey(MilestoneSchedule.class, map);
+        if (ObjectUtils.isNotNull(schedule)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String getContractsGrantsInvoiceDocumentType() {
+        return ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE;
+    }
+
+    @Override
+    public boolean isContractsGrantsBillingEnhancementActive() {
+        return configurationService.getPropertyValueAsBoolean(KFSConstants.CONTRACTS_GRANTS_BILLING_ENABLED);
+    }
+
+    /**
+     * Uses ContractsGrantsDocumentInvoiceService to check the template
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isTemplateValidForUser(org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public boolean isTemplateValidForUser(AccountsReceivableInvoiceTemplate invoiceTemplate, Person user) {
+        if (!(invoiceTemplate instanceof InvoiceTemplate)) {
+            return false;
+        }
+        return getContractsGrantsInvoiceDocumentService().isTemplateValidForUser((InvoiceTemplate)invoiceTemplate, user);
+    }
+
+    @Override
+    public Collection<String> getDoNotInvoiceStatuses() {
+        return parameterService.getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE, ArConstants.CONTRACTS_GRANTS_INVOICE_COMPONENT, ArConstants.AWARD_STATUS_CODES);
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
     public ElectronicPaymentClaimingDocumentGenerationStrategy getElectronicPaymentClaimingDocumentGenerationStrategy() {

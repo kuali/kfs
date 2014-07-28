@@ -222,6 +222,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 }
                 catch (WorkflowException ex) {
                     LOG.error("problem during ContractsGrantsInvoiceDocument.doRouteStatusChange()", ex);
+                    throw new RuntimeException("WorkflowException during ContractsGrantsInvoiceDocument.doRouteStatusChange()", ex);  // if KEW is down, how are we even here?  bad data that should no longer exist or something?
                 }
             }
             else {

@@ -206,31 +206,21 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      */
     @Override
     public byte[] createDunningLettersForAllResults(Collection<DunningLetterDistributionLookupResult> results) throws DocumentException, IOException {
-        ByteArrayOutputStream zos = null;
-        PdfCopyFields reportCopy = null;
-        byte[] finalReport = null;
-        try {
-            zos = new ByteArrayOutputStream();
-            reportCopy = new PdfCopyFields(zos);
-            reportCopy.open();
-            List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
-            for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
-                for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
-                    final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
-                    if (ObjectUtils.isNotNull(report)) {
-                        reportCopy.addDocument(new PdfReader(report));
-                    }
+        ByteArrayOutputStream zos = new ByteArrayOutputStream();
+        PdfCopyFields reportCopy = new PdfCopyFields(zos);
+        reportCopy.open();
+        List<DunningLetterTemplate> dunningLetterTemplates = (List<DunningLetterTemplate>) getBusinessObjectService().findAll(DunningLetterTemplate.class);
+        for (DunningLetterTemplate dunningLetterTemplate : dunningLetterTemplates) {
+            for (DunningLetterDistributionLookupResult dunningLetterDistributionLookupResult : results) {
+                final byte[] report = createDunningLetters(dunningLetterTemplate, dunningLetterDistributionLookupResult);
+                if (ObjectUtils.isNotNull(report)) {
+                    reportCopy.addDocument(new PdfReader(report));
                 }
             }
-            finalReport = zos.toByteArray();
-        } finally {
-            if (zos != null) {
-                zos.close();
-            }
-            if (reportCopy != null) {
-                reportCopy.close();
-            }
         }
+        reportCopy.close();
+
+        final byte[] finalReport = zos.toByteArray();
         return finalReport;
     }
 
@@ -289,6 +279,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
      * @param form
      * @param list
      * @return
+     * @throws Exception
      */
     @Override
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {

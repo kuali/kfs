@@ -6,13 +6,13 @@
 		<addForeignKeyConstraint constraintName="AR_BILL_TR1"
 			referencedTableName="AR_PRDTRMND_BILL_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_BILL_T" referencedColumnNames="PRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CGB_INV_DTL_TR1"
+		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
-			baseTableName="AR_CGB_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
+			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
 		<addForeignKeyConstraint constraintName="AR_DUN_LTR_DIST_DOC_TR1"
 			referencedTableName="AR_DUN_CMPGN_DOC_T" baseColumnNames="CMPGN_ID"
 			baseTableName="AR_DUN_LTR_DIST_T" referencedColumnNames="CMPGN_ID" />
-		<addForeignKeyConstraint constraintName="AR_EVENT_TR1"
+		<addForeignKeyConstraint constraintName="AR_EVENT_FK1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="INVOICE_NBR"
 			baseTableName="AR_EVENT_T" referencedColumnNames="FDOC_NBR" />
 		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
@@ -24,13 +24,13 @@
 		<addForeignKeyConstraint constraintName="AR_INV_ADDR_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_ADDR_DTL_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_INV_BILL_TR1"
+		<addForeignKeyConstraint constraintName="AR_INV_BILL_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_TR1"
+		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_MLSTN_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_TR1"
+		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_R1"
 			referencedTableName="AR_LTRCR_RVW_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_LTRCR_RVW_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>

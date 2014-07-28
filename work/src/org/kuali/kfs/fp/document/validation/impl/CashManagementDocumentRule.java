@@ -346,17 +346,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             if ((coinCount = coinDetail.getHundredCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "hundredCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "hundred cent count" });
             }
-            if ((rollCount = coinDetail.getHundredCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "hundredCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "hundred cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentFiftyCentAmount() != null && coinDetail.getFinancialDocumentFiftyCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getFiftyCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "fiftyCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "fifty cent count" });
-            }
-            if ((rollCount = coinDetail.getFiftyCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "fiftyCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "fifty cent roll count" });
             }
             success = false;
         }
@@ -364,17 +358,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             if ((coinCount = coinDetail.getTwentyFiveCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "twentyFiveCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "twentyFive cent count" });
             }
-            if ((rollCount = coinDetail.getTwentyFiveCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "twentyFiveCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "twentyFive cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentTenCentAmount() != null && coinDetail.getFinancialDocumentTenCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getTenCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "tenCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "ten cent count" });
-            }
-            if ((rollCount = coinDetail.getTenCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "tenCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "ten cent roll count" });
             }
             success = false;
         }
@@ -382,17 +370,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             if ((coinCount = coinDetail.getFiveCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "fiveCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "five cent count" });
             }
-            if ((rollCount = coinDetail.getFiveCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "fiveCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "five cent roll count" });
-            }
             success = false;
         }
         if (coinDetail.getFinancialDocumentOneCentAmount() != null && coinDetail.getFinancialDocumentOneCentAmount().isNegative()) {
             if ((coinCount = coinDetail.getOneCentCount()) < 0) {
                 GlobalVariables.getMessageMap().putError(propertyPrefix + "oneCentCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { coinCount.toString(), "one cent count" });
-            }
-            if ((rollCount = coinDetail.getOneCentRollCount()) < 0) {
-                GlobalVariables.getMessageMap().putError(propertyPrefix + "oneCentRollCount", KFSKeyConstants.CashManagement.ERROR_DOCUMENT_CASHIERING_TRANSACTION_CASH_NOT_NEGATIVE, new String[] { rollCount.toString(), "one cent roll count" });
             }
             success = false;
         }

@@ -98,7 +98,10 @@ public interface TransmitContractsAndGrantsInvoicesService {
      * This method emails invoices and then sets the report delivery flag.
      *
      * @param list
+     * @return true if all emails were successfully sent, false otherwise
+     * @throws InvalidAddressException
+     * @throws MessagingException
      */
-    public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException;
+    public boolean sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) throws InvalidAddressException, MessagingException;
 
 }

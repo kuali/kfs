@@ -89,7 +89,7 @@ public class TransmitContractsAndGrantsInvoicesLookupAction extends ContractsGra
                 }
                 if (CollectionUtils.isNotEmpty(emailSet)) {
                     getTransmitContractsAndGrantsInvoicesService().sendEmailForListofInvoicesToAgency(emailSet);
-                    GlobalVariables.getMessageMap().putInfoForSectionId(ArPropertyConstants.LOOKUP_SECTION_ID, ArKeyConstants.MARKED_FOR_PROCESSING_BY_BATCH_JOB);
+                    GlobalVariables.getMessageMap().putInfoForSectionId(ArPropertyConstants.LOOKUP_SECTION_ID, ArKeyConstants.INVOICE_EMAILS_SENT);
                 }
                 else {
                     // this is so the message about no search results shows up in the same place as when doing a search

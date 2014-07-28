@@ -54,6 +54,7 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyMaintainableImpl.class);
 
     private static final String CREATED_BY_AGENCY_DOC = "message.ar.createdByAgencyDocument";
+    private static volatile ParameterService parameterService;
 
     /**
      * Gets the underlying Agency.
@@ -243,7 +244,19 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
         String parameterDunningCampaignCode = "";
         // Default Billing Frequency
         // Retrieve default value from the corresponding default value parameter
-        parameterDunningCampaignCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
-        agency.setDunningCampaign(parameterDunningCampaignCode);
+        if (getParameterService().parameterExists(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER)) {
+            parameterDunningCampaignCode = getParameterService().getParameterValueAsString(Agency.class, CGConstants.DEFAULT_DUNNING_CAMPAIGN_PARAMETER);
+            if (!StringUtils.isBlank(parameterDunningCampaignCode)) {
+                agency.setDunningCampaign(parameterDunningCampaignCode);
+            }
+        }
     }
+
+    public static ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
+
 }

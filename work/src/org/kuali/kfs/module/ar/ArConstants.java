@@ -55,10 +55,12 @@ public class ArConstants{
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
 
-    public static final String FROM_EMAIL_ADDRESS = "FROM_EMAIL_ADDRESS";
+    public static final String CG_INVOICE_FROM_EMAIL_ADDRESS = "CG_INVOICE_FROM_EMAIL_ADDRESS";
+    public static final String CG_INVOICE_EMAIL_SUBJECT = "CG_INVOICE_EMAIL_SUBJECT";
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";
     public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
+    public static final String CG_INVOICE_EMAIL_BODY = "CG_INVOICE_EMAIL_BODY";
     public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
 
     public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
@@ -133,8 +135,8 @@ public class ArConstants{
         public static final String INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT = "3";
         public static final String REPORTS_ARE_REQUIRED_TO_BE_ATTACHED = "4";
 
-        public static final String CUSTOMER_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
-        public static final String CUSTOMER_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
+        public static final String AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
+        public static final String AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
         public static final String INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED = "7";
         public static final String CGB_CATEGORY_CODE_SETUP_INCORRECTLY = "8";
         public static final String LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT = "9";
@@ -162,11 +164,6 @@ public class ArConstants{
     public static class ReportOptionFieldValues {
         public static final String PROCESSING_ORG = "Processing Organization";
         public static final String BILLING_ORG = "Billing Organization";
-    }
-
-    public static class LOCReportTypeFieldValues {
-        public static final String DRAW_DETAILS = "Details Report";
-        public static final String AMOUNTS_NOT_DRAWN = "Amounts Not Drawn Report";
     }
 
     public static class CustomerAgingReportFields {
@@ -364,7 +361,9 @@ public class ArConstants{
             cgPaymentHistoryReportSubtotalFieldsList.add("paymentDate");
         }
 
-        public static final List<String> cgLOCReportSubtotalFieldsList = new ArrayList<String>();
+        public static final List<String> cgLOCDrawDetailsReportSubtotalFieldsList = new ArrayList<String>();
+
+        public static final List<String> cgLOCAmountsNotDrawnReportSubtotalFieldsList = new ArrayList<String>();
 
         public static final List<String> cgSuspendedInvoiceDetailReportSubtotalFieldsList = new ArrayList<String>();
 
@@ -376,6 +375,7 @@ public class ArConstants{
     public static class InvoiceTransmissionMethod {
         static final public String MAIL = "MAIL";
         static final public String EMAIL = "EMAIL";
+        static final public String BOTH = "BOTH";
     }
 
     public static class DunningLetters {
@@ -416,29 +416,23 @@ public class ArConstants{
 
     public static final String PRORATE_WARNING = "document.prorateWarning";
 
-    public static final String AWARD_TOTAL = "awardTotal";
-    public static final String AWARD_FUND_MANAGER = "awardFundManager";
-    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
-    public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
-    public static final String AWARD_PROJECT_DIRECTOR = "awardProjectDirector";
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
-    public static final String CGINV_DOC_ERR_LOG_REPORT = "Contracts & Grants Invoice Document Error Log Report";
     public static final String OUTSTANDING_INVOICE_REPORT = "Outstanding Invoice Report";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
+    public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
+    public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_PROPERTY = "letterOfCreditFundGroup";
-    public static final String FUND_MANAGER = "fundManager";
+    public static final String FUNDS_NOT_DRAWN_PROPERTY = "fundsNotDrawn";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY_REPORT = "ContractsGrantsSuspendedInvoiceSummaryReport";
     public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL_REPORT = "ContractsGrantsSuspendedInvoiceDetailReport";
     public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY_REPORT = "ContractsGrantsPaymentHistoryReport";
-    public static final String CONTRACTS_GRANTS_LOC_REPORT = "ContractsGrantsLOCReport";
+    public static final String CONTRACTS_GRANTS_LOC_NOT_DRAWN_REPORT = "ContractsGrantsLOCAmountsNotDrawnReport";
+    public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS_REPORT = "ContractsGrantsLOCDrawDetailsReport";
     public static final String CONTRACTS_GRANTS_MILESTONE_REPORT = "ContractsGrantsMilestoneReport";
     public static final String COLLECTION_ACTIVITY_REPORT_SORT_FIELD = "CollectionActivityReport";
     public static final String CONTRACTS_GRANTS_INVOICE_REPORT_SORT_FIELD = "ContractsGrantsInvoiceReport";
-    public static final String CONTRACTS_GRANTS_INVOICE_ERROR_LOG_REPORT_SORT_FIELD = "ContractsGrantsInvoiceDocumentErrorLog";
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
-    public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
-    public static final String PROJECT_DIRECTOR = "projectDirector";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";
@@ -457,6 +451,8 @@ public class ArConstants{
     public static final String CONTRACTS_GRANTS_INVOICE_DOCUMENT_DESCRIPTION = "Contracts and Grants Invoice";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
+    public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
+    public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
 
     public static final String LETTER_OF_CREDIT_FUND_GROUP = "Letter of Credit Fund Group";
     public static final String LETTER_OF_CREDIT_REVIEW_DOCUMENT = "Letter Of Credit Review Document.";
@@ -491,37 +487,17 @@ public class ArConstants{
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
 
-    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
-    public static final String INVOICES_FILE_PREFIX = "Invoices-";
-    public static final String INVOICE_ENVELOPES_FILE_PREFIX = "InvoiceEnvelopes-";
-    public static final String INVOICE_ZIP_FILE_PREFIX = "Invoice-report";
-
     public static class ReportBuilderDataServiceBeanNames {
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
         public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";
         public static final String CONTRACTS_GRANTS_INVOICE = "contractsGrantsInvoiceReportBuilderService";
-        public static final String CONTRACTS_GRANTS_INVOICE_ERROR_LOG = "contractsGrantsInvoiceDocumentErrorLogReportBuilderService";
         public static final String COLLECTION_ACTIVITY = "collectionActivityReportBuilderService";
-        public static final String CONTRACTS_GRANTS_LOC = "contractsGrantsLOCReportBuilderService";
+        public static final String CONTRACTS_GRANTS_LOC_AMOUNTS_NOT_DRAWN = "contractsGrantsLOCAmountsNotDrawnReportBuilderService";
+        public static final String CONTRACTS_GRANTS_LOC_DRAW_DETAILS = "contractsGrantsLOCDrawDetailsReportBuilderService";
         public static final String CONTRACTS_GRANTS_MILESTONE = "contractsGrantsMilestoneReportBuilderService";
         public static final String CONTRACTS_GRANTS_PAYMENT_HISTORY = "contractsGrantsPaymentHistoryReportBuilderService";
         public static final String TICKLERS = "ticklersReportBuilderService";
         public static final String REFERRAL_TO_COLLECTION = "referralToCollectionsReportBuilderService";
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
-    }
-    public static class Actions {
-        public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
-        public static final String CONTRACTS_GRANTS_LOC_REPORT = "contractsGrantsLOCReport";
-    }
-
-    public static class MultipleValueReturnActions {
-        public static final String REFERRAL_TO_COLLECTIONS = "arReferralToCollectionsSummary.do";
-        public static final String COLLECTION_ACTIVITY_INVOICES = "arCollectionActivityDocument.do";
-        public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
-        public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
-    }
-
-    public static class ContractsAndGrantsCategorySections {
-        public static final String EDIT_CATEGORY = "EditCategory";
     }
 }

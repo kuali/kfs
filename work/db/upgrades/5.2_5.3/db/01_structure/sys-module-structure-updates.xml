@@ -17,6 +17,10 @@
 			<column name="FDOC_CRTE_DT" type="DATETIME"/>
 		</addColumn>
 		
+		<createIndex tableName="FS_DOC_HEADER_T" indexName="FS_DOC_HEADER_TI2">
+			<column name="FDOC_CRTE_DT" type="DATETIME"/>
+		</createIndex>
+		
 		<createTable tableName="FS_DOC_HDRS_MSNG_IN_KEW_T">
 			<column name="FDOC_NBR" type="VARCHAR(14)"/>
 		</createTable>

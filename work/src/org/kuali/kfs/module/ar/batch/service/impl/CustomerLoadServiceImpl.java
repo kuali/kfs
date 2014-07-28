@@ -903,43 +903,52 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         //  setup the PDF business
         Document pdfDoc = new Document(PageSize.LETTER, 54, 54, 72, 72);
-        getPdfWriter(pdfDoc);
-        pdfDoc.open();
+        try {
+            getPdfWriter(pdfDoc);
+            try {
+                pdfDoc.open();
 
-        if (fileResults.isEmpty()) {
-            writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
-            return;
-        }
+                if (fileResults.isEmpty()) {
+                    writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
+                    return;
+                }
 
-        CustomerLoadResult result;
-        String customerResultLine;
-        for (CustomerLoadFileResult fileResult : fileResults) {
+                CustomerLoadResult result;
+                String customerResultLine;
+                for (CustomerLoadFileResult fileResult : fileResults) {
 
-            //  file name title
-            String fileNameOnly = fileResult.getFilename().toUpperCase();
-            fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
-            writeFileNameSectionTitle(pdfDoc, fileNameOnly);
+                    //  file name title
+                    String fileNameOnly = fileResult.getFilename().toUpperCase();
+                    fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
+                    writeFileNameSectionTitle(pdfDoc, fileNameOnly);
 
-            //  write any file-general messages
-            writeMessageEntryLines(pdfDoc, fileResult.getMessages());
+                    //  write any file-general messages
+                    writeMessageEntryLines(pdfDoc, fileResult.getMessages());
 
-            //  walk through each customer included in this file
-            for (String customerName : fileResult.getCustomerNames()) {
-                result = fileResult.getCustomer(customerName);
+                    //  walk through each customer included in this file
+                    for (String customerName : fileResult.getCustomerNames()) {
+                        result = fileResult.getCustomer(customerName);
 
-                //  write the customer title
-                writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
+                        //  write the customer title
+                        writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
 
-                //  write a success/failure results line for this customer
-                customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
-                writeCustomerSectionResult(pdfDoc, customerResultLine);
+                        //  write a success/failure results line for this customer
+                        customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
+                        writeCustomerSectionResult(pdfDoc, customerResultLine);
 
-                //  write any customer messages
-                writeMessageEntryLines(pdfDoc, result.getMessages());
+                        //  write any customer messages
+                        writeMessageEntryLines(pdfDoc, result.getMessages());
+                    }
+                }
+            } finally {
+                if (pdfDoc != null) {
+                    pdfDoc.close();
+                }
             }
         }
-
-        pdfDoc.close();
+        catch (IOException | DocumentException ex) {
+            throw new RuntimeException("Could not open file for results report",ex);
+        }
     }
 
     protected void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
@@ -1025,7 +1034,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
     }
 
-    protected void getPdfWriter(Document pdfDoc) {
+    protected void getPdfWriter(Document pdfDoc) throws IOException, DocumentException {
 
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +
@@ -1034,23 +1043,9 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         //  setup the writer
         File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
-        try {
-            fileOutStream = new FileOutputStream(reportFile);
-        }
-        catch (IOException e) {
-            LOG.error("IOException thrown when trying to open the FileOutputStream.", e);
-            throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
-        }
+        fileOutStream = new FileOutputStream(reportFile);
         BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
-
-        try {
-            PdfWriter.getInstance(pdfDoc, buffOutStream);
-        }
-        catch (DocumentException e) {
-            LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-            throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
-        }
-
+        PdfWriter.getInstance(pdfDoc, buffOutStream);
     }
 
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {

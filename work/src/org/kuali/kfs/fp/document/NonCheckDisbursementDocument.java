@@ -20,7 +20,6 @@ import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -36,7 +35,6 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -132,13 +130,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) throws IllegalStateException {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-
-        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(DisbursementVoucherDocument.class, KFSParameterKeyConstants.FpParameterConstants.NEGATIVE_ACCOUNTING_LINES_IND)) {
-            return isDebitUtils.isDebitConsideringType(this, postable);
-        } else {
-            return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);
-        }
-
+        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, postable);
     }
 
     /**

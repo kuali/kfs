@@ -22,6 +22,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 
 /**
@@ -55,13 +56,20 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
     public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs);
 
     /**
-     * The default implementation to create Contracts Grants Invoice Documents by Awards.
+     * This method is called by the batch CINV creation process create Contracts Grants Invoice Documents by Awards.
      *
      * @param awards Collection of Awards used to create Contracts Grants Invoice Documents
      * @param errOutputFile The name of the file recording unqualified awards with reason stated.
      */
     public void createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile);
 
+    /**
+     * This method is called by the manual CINV creation process create Contracts Grants Invoice Documents by Awards.
+     *
+     * @param awards Collection of Awards used to create Contracts Grants Invoice Documents
+     * @return List<ErrorMessage> of error messages that can be displayed to the user (empty if successful)
+     */
+    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards);
 
     /**
      * Looks for Contracts Grants Invoice Document with a status of Saved, meaning they have been created and saved to "inbox", but
@@ -76,8 +84,8 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @param list of award accounts used to create CG Invoice Document
      * @param coaCode chart code used to create CG Invoice Document
      * @param orgCode org code used to create CG Invoice Document
-     * @param errLines a List of error messages the process can append to
+     * @param errorMessages a List of error messages the process can append to
      * @return ContractsGrantsInvoiceDocument
      */
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode, List<String> errLines);
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode, List<ErrorMessage> errorMessages);
 }

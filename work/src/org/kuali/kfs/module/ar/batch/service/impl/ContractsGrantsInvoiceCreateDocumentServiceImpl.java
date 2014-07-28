@@ -61,6 +61,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -94,52 +95,21 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
     /**
-     * The default implementation of this service retrieves a collection of qualified Awards and create Contracts Grants Invoice
-     * Documents by Awards.
-     *
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#createCGInvoiceDocumentsByAwards(java.lang.String)
      */
     @Override
     public void createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFileName) {
-        ContractsGrantsInvoiceDocument cgInvoiceDocument;
-
-        List<String> errLines = new ArrayList<String>();
-
-        if (ObjectUtils.isNotNull(awards)) {
-            // iterate through awards and create cgInvoice documents
-            for (ContractsAndGrantsBillingAward awd : awards) {
-                String invOpt = awd.getInvoicingOptions();
-                final ContractsAndGrantsOrganization awardOrganization = awd.getPrimaryAwardOrganization();
-                if (ObjectUtils.isNull(awardOrganization)) {
-                    final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD);
-                    errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
-                } else {
-                    if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) { // case 1: create Contracts Grants Invoice by accounts
-                        createInvoicesByAccounts(awd, errLines);
-                    }
-                    else if (invOpt.equals(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts Grants Invoices by contractControlAccounts
-                        createInvoicesByContractControlAccounts(awd, errLines);
-                    }
-                    // case 3: create Contracts Grants Invoice by award
-                    else if (invOpt.equals(ArPropertyConstants.INV_AWARD)) {
-                        createInvoicesByAward(awd, errLines);
-                    }
-                }
-            }
-        }  else {
-            final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_AWARD);
-            errLines.add(errorMessage);
-        }
+        List<ErrorMessage> errorMessages = createInvoices(awards);
 
         // print out the invalid awards which has not been used to create CINV edoc
-        if (!CollectionUtils.isEmpty(errLines)) {
+        if (!CollectionUtils.isEmpty(errorMessages)) {
             File errOutPutfile = new File(errOutputFileName);
             PrintStream outputFileStream = null;
 
             try {
                 outputFileStream = new PrintStream(errOutPutfile);
-                for (String line : errLines) {
-                    outputFileStream.printf("%s\n", line);
+                for (ErrorMessage errorMessage : errorMessages) {
+                    outputFileStream.printf("%s\n", MessageFormat.format(configurationService.getPropertyValueAsString(errorMessage.getErrorKey()), (Object[])errorMessage.getMessageParameters()));
                 }
             } catch (IOException ex) {
                 throw new RuntimeException("Could not write error entries for batch Contracts and Grants Invoice document creation", ex);
@@ -151,19 +121,58 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
     }
 
+    @Override
+    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards) {
+        return createInvoices(awards);
+    }
+
+    /**
+     * This method iterates through awards and create cgInvoice documents
+     * @param awards used to create cgInvoice documents
+     * @return List of error messages (if any)
+     */
+    protected List<ErrorMessage> createInvoices(Collection<ContractsAndGrantsBillingAward> awards) {
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        if (ObjectUtils.isNotNull(awards) && awards.size() > 0) {
+            for (ContractsAndGrantsBillingAward awd : awards) {
+                String invOpt = awd.getInvoicingOptions();
+                final ContractsAndGrantsOrganization awardOrganization = awd.getPrimaryAwardOrganization();
+                if (ObjectUtils.isNull(awardOrganization)) {
+                    final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD, awd.getProposalNumber().toString());
+                    errorMessages.add(errorMessage);
+                } else {
+                    if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) { // case 1: create Contracts Grants Invoice by accounts
+                        createInvoicesByAccounts(awd, errorMessages);
+                    }
+                    else if (invOpt.equals(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) { // case 2: create Contracts Grants Invoices by contractControlAccounts
+                        createInvoicesByContractControlAccounts(awd, errorMessages);
+                    }
+                    // case 3: create Contracts Grants Invoice by award
+                    else if (invOpt.equals(ArPropertyConstants.INV_AWARD)) {
+                        createInvoicesByAward(awd, errorMessages);
+                    }
+                }
+            }
+        }  else {
+            final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_AWARD);
+            errorMessages.add(errorMessage);
+        }
+        return errorMessages;
+    }
 
     /**
      * Generates and saves a single contracts and grants invoice document based on the given award
      * @param awd the award to generate a contracts and grants invoice document for
      * @param errLines a holder for error messages
      */
-    protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<String> errLines) {
+    protected void createInvoicesByAward(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
         // Check if awardaccounts has the same control account
         int accountNum = awd.getActiveAwardAccounts().size();
         Collection<Account> controlAccounts = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
         if (controlAccounts == null || controlAccounts.size() < accountNum) {
-            final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.BILL_BY_CONTRACT_VALID_ACCOUNTS);
-            errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
+            final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.BILL_BY_CONTRACT_VALID_ACCOUNTS, awd.getProposalNumber().toString());
+            errorMessages.add(errorMessage);
         }
         else {
             // check if control accounts of awardaccounts are the same
@@ -177,8 +186,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     tmpAcct2 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
 
                     if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !tmpAcct1.equals(tmpAcct2)) {
-                        final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.DIFFERING_CONTROL_ACCOUNTS);
-                        errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
+                        final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.DIFFERING_CONTROL_ACCOUNTS, awd.getProposalNumber().toString());
+                        errorMessages.add(errorMessage);
                         isValid = false;
                         break;
                     }
@@ -196,10 +205,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
                 if (!getValidAwardAccounts(awd.getActiveAwardAccounts(), awd).containsAll(awd.getActiveAwardAccounts())) {
-                    final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NOT_ALL_BILLABLE_ACCOUNTS);
-                    errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
+                    final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NOT_ALL_BILLABLE_ACCOUNTS, awd.getProposalNumber().toString());
+                    errorMessages.add(errorMessage);
                 }
-                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(awd.getActiveAwardAccounts(), awd), coaCode, orgCode, errLines);
+                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(awd.getActiveAwardAccounts(), awd), coaCode, orgCode, errorMessages);
             }
         }
     }
@@ -210,14 +219,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param awd the award with contract control accounts to build contracts and grants invoice documents from
      * @param errLines a holder for error messages
      */
-    protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<String> errLines) {
+    protected void createInvoicesByContractControlAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
         List<ContractsAndGrantsBillingAwardAccount> tmpAcctList = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         List<Account> controlAccounts = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
         List<Account> controlAccountsTemp = contractsGrantsInvoiceDocumentService.getContractControlAccounts(awd);
 
         if (controlAccounts == null || (controlAccounts.size() != awd.getActiveAwardAccounts().size())) {// to check if the number of contract control accounts is same as the number of accounts
-            final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_CONTROL_ACCOUNT);
-            errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
+            final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_CONTROL_ACCOUNT, awd.getProposalNumber().toString());
+            errorMessages.add(errorMessage);
         }
         else {
             Set<Account> controlAccountSet = new HashSet<Account>();
@@ -256,15 +265,15 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
                     if (!getValidAwardAccounts(tmpAcctList, awd).containsAll(tmpAcctList)) {
-                        final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.CONTROL_ACCOUNT_NON_BILLABLE);
-                        errLines.add(MessageFormat.format(errorMessage, controlAccount.getAccountNumber(), awd.getProposalNumber().toString()));
+                        final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.CONTROL_ACCOUNT_NON_BILLABLE, controlAccount.getAccountNumber(), awd.getProposalNumber().toString());
+                        errorMessages.add(errorMessage);
                     }
-                    generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errLines);
+                    generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages);
                 }
             }
             else {
-                final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.BILL_BY_CONTRACT_LACKS_CONTROL_ACCOUNT);
-                errLines.add(MessageFormat.format(errorMessage, awd.getProposalNumber().toString()));
+                final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.BILL_BY_CONTRACT_LACKS_CONTROL_ACCOUNT, awd.getProposalNumber().toString());
+                errorMessages.add(errorMessage);
             }
         }
     }
@@ -274,7 +283,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param awd the award to build contracts and grants invoice documents from the award accounts on
      * @param errLines a holder for error messages
      */
-    protected void createInvoicesByAccounts(ContractsAndGrantsBillingAward awd, List<String> errLines) {
+    protected void createInvoicesByAccounts(ContractsAndGrantsBillingAward awd, List<ErrorMessage> errorMessages) {
         List<ContractsAndGrantsBillingAwardAccount> tmpAcctList = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
 
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
@@ -284,11 +293,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
                 if (!getValidAwardAccounts(tmpAcctList, awd).containsAll(tmpAcctList)) {
-                    final String errorMessage = getConfigurationService().getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
-                    errLines.add(MessageFormat.format(errorMessage, awardAccount.getAccountNumber(), awd.getProposalNumber().toString()));
+                    final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE, awardAccount.getAccountNumber(), awd.getProposalNumber().toString());
+                    errorMessages.add(errorMessage);
                 }
 
-                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errLines);
+                generateAndSaveContractsAndGrantsInvoiceDocument(awd, getValidAwardAccounts(tmpAcctList, awd), awd.getPrimaryAwardOrganization().getChartOfAccountsCode(), awd.getPrimaryAwardOrganization().getOrganizationCode(), errorMessages);
             }
         }
     }
@@ -301,8 +310,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param orgCode the organization code for the document
      * @param errLines a List of error messages, to be appended to if there are errors in document generation
      */
-    protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<String> errLines) {
-        ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errLines);
+    protected void generateAndSaveContractsAndGrantsInvoiceDocument(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts, final String coaCode, final String orgCode, List<ErrorMessage> errorMessages) {
+        ContractsGrantsInvoiceDocument cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, validAwardAccounts, coaCode, orgCode, errorMessages);
         if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
             // Saving the document
             try {
@@ -321,7 +330,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return ContractsGrantsInvoiceDocument
      */
     @Override
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> accounts, String chartOfAccountsCode, String organizationCode, List<String> errLines) {
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> accounts, String chartOfAccountsCode, String organizationCode, List<ErrorMessage> errorMessages) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument = null;
         if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty()) {
             if (chartOfAccountsCode != null && organizationCode != null) {
@@ -374,7 +383,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
             else {
                 // if chart of account code or organization code is not available, output the error
-                errLines.add("Award/Proposal# " + awd.getProposalNumber().toString() + " has not set correctly organizaion code or chart of account code ");
+                final ErrorMessage errorMessage = new ErrorMessage(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_CHART_OR_ORG, awd.getProposalNumber().toString());
+                errorMessages.add(errorMessage);
             }
         }
 

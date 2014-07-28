@@ -48,6 +48,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -85,8 +86,8 @@ public class ContractsGrantsAgingReportServiceTest extends KualiTestBase {
         award.getActiveAwardAccounts().add(awardAccount_1);
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
-        List<String> errLines = new ArrayList<String>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errLines);
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errorMessages);
 
         DocumentHeader documentHeader = cgInvoice.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();

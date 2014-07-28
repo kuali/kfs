@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
  * This class tests the ContractsGrantsAgingOpenInvoicesReport lookup.
@@ -85,8 +86,8 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImplTe
         award.getActiveAwardAccounts().add(awardAccount_1);
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
 
-        List<String> errLines = new ArrayList<String>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errLines);
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, chartCode, orgCode, errorMessages);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         cgInvoice.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
 

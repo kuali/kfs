@@ -95,7 +95,7 @@
 			<column name="OBJ_ID" value="KFS-PARM-173"/>
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="VALID"/>
-			<column name="VAL" value="3"/>
+			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Defines the default number of fiscal periods that will require that the Error Certification tab be completed. If the fiscal period of the transaction exceeds the current fiscal period by more than the default, the Error Certification tab is required."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -107,7 +107,7 @@
 			<column name="OBJ_ID" value="KFS-PARM-174"/>
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="VALID"/>
-			<column name="VAL" value="FEDERA=2"/>
+			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Specific sub-fund groups that are excepted from the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. If the account used on the TO side includes sub-funds specified in this parameter, the number of fiscal periods associated with the sub fund should be used instead of the default to determine whether or not the Error Certification tab is required. Format of list is sub fund 1=number of fiscal periods; sub fund 2=number of fiscal periods."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -122,7 +122,7 @@
 			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_ORIGINATION"/>
 			<column name="OBJ_ID" value="KFS-PARM-175"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="IR"/>
+			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Identifies Origination Code to be used when creating ICR Transactions and transactions that should be excluded when calculating ICR encumbrances."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -133,7 +133,7 @@
 			<column name="PARM_NM" value="INDIRECT_COST_RECOVERY_ENCUMBRANCE_BALANCE_TYPES"/>
 			<column name="OBJ_ID" value="KFS-PARM-176"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="IE;EX;PE"/>
+			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>

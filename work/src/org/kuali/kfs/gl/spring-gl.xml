@@ -1246,6 +1246,9 @@
 	<bean id="glIcrEncumbranceService-parentBean" abstract="true" class="org.kuali.kfs.gl.batch.service.impl.IcrEncumbranceServiceImpl">
 		<property name="icrEncumbranceDao">
 			<ref bean="glIcrEncumbranceDao" />
+		</property>
+		<property name="objectTypeService">
+			<ref bean="objectTypeService" />
 		</property>			
 		<property name="parameterService">
 			<ref bean="parameterService" />

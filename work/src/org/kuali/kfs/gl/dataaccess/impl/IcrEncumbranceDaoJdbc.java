@@ -20,8 +20,10 @@ import java.io.Writer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.dataaccess.IcrEncumbranceDao;
@@ -37,16 +39,24 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
      */
     @Override
     public void buildIcrEncumbranceFeed(Integer fiscalYear, final String fiscalPeriod, final String icrEncumbOriginCode, final Collection<String> icrEncumbBalanceTypes, final String[] expenseObjectTypes, final String costShareSubAccountType, final Writer fw) throws IOException {
-    final String rateSql = "select distinct t1.univ_fiscal_yr, t1.fin_coa_cd, t1.account_nbr, t1.sub_acct_nbr, "
+        final String rateSql = "select distinct t1.univ_fiscal_yr, t1.fin_coa_cd, t1.account_nbr, t1.sub_acct_nbr, "
         +   getDbPlatform().getIsNullFunction("t3.fin_series_id", "t2.fin_series_id") + " fin_series_id, " + getDbPlatform().getIsNullFunction("t3.icr_typ_cd", "t2.acct_icr_typ_cd") + " acct_icr_typ_cd "
         +  "from gl_encumbrance_t t1 join ca_account_t t2 on (t1.fin_coa_cd = t2.fin_coa_cd and t1.account_nbr = t2.account_nbr) "
         +  "left join ca_a21_sub_acct_t t3 on (t1.fin_coa_cd = t3.fin_coa_cd and t1.account_nbr = t3.account_nbr and t1.sub_acct_nbr = t3.sub_acct_nbr) "
-        +  "where t1.fin_balance_typ_cd in " + inString(icrEncumbBalanceTypes.toArray()) + " and t1.fs_origin_cd <> '" + icrEncumbOriginCode + "' "
-        +  "and t1.univ_fiscal_yr >= " + fiscalYear + " "
-        +  "and (t3.sub_acct_typ_cd is null or t3.sub_acct_typ_cd <> '" + costShareSubAccountType + "') ";
+        +  "where t1.fin_balance_typ_cd in ("+ inString(icrEncumbBalanceTypes.size()) +") and t1.fs_origin_cd <> ? "
+        +  "and t1.univ_fiscal_yr >= ? "
+        +  "and (t3.sub_acct_typ_cd is null or t3.sub_acct_typ_cd <> ?) ";
+
+        List<Object> queryArguments = new ArrayList<Object>();
+        for (String balanceType : icrEncumbBalanceTypes) {
+                        queryArguments.add(balanceType);
+        }
+        queryArguments.add(icrEncumbOriginCode);
+        queryArguments.add(fiscalYear);
+        queryArguments.add(costShareSubAccountType);
 
 
-        getJdbcTemplate().query(rateSql, new ResultSetExtractor() {
+        getJdbcTemplate().query(rateSql, queryArguments.toArray(), new ResultSetExtractor() {
             @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 try {
@@ -59,19 +69,29 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
                         String accountNbr = rs.getString("account_nbr");
                         String subAccountNbr = rs.getString("sub_acct_nbr");
 
-                        Object[] encArgs = new String[6];
-                        encArgs[0] = fin_series_id;
-                        encArgs[1] = acct_icr_typ_cd;
-                        encArgs[2] = fiscalYear;
-                        encArgs[3] = chartCode;
-                        encArgs[4] = accountNbr;
-                        encArgs[5] = subAccountNbr;
+                        List<Object> encArgs = new ArrayList<Object>();
+                        encArgs.add(fin_series_id);
+                        encArgs.add(acct_icr_typ_cd);
+                        encArgs.add(fiscalYear);
+                        encArgs.add(chartCode);
+                        encArgs.add(accountNbr);
+                        encArgs.add(subAccountNbr);
+                        for (String balanceType : icrEncumbBalanceTypes) {
+                            encArgs.add(balanceType);
+                        }
+                        encArgs.add(icrEncumbOriginCode);
+                        for (String expenseObjectType : expenseObjectTypes) {
+                            encArgs.add(expenseObjectType);
+                        }
 
-                        executeEncumbranceSql(fiscalPeriod, icrEncumbOriginCode, icrEncumbBalanceTypes, expenseObjectTypes, encArgs, fw);
+                        executeEncumbranceSql(fiscalPeriod, icrEncumbOriginCode, icrEncumbBalanceTypes, expenseObjectTypes, encArgs.toArray(), fw);
                     }
                 }
-                catch (Exception e) {
+                catch (SQLException e) {
                     throw new RuntimeException(e);
+                }
+                catch (DataAccessException ed) {
+                    throw new RuntimeException(ed);
                 }
 
                 return null;
@@ -99,9 +119,9 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
                 + "where not exists (select 1 from ca_icr_excl_type_t where acct_icr_typ_cd = ? "
                 + "and acct_icr_excl_typ_actv_ind = 'Y' and fin_object_cd = t1.fin_object_cd) "
                 + "and t1.univ_fiscal_yr = ? and t1.fin_coa_cd = ? and t1.account_nbr = ? and t1.sub_acct_nbr = ? "
-                + "and t1.fin_balance_typ_cd in " + inString(icrEncumbBalanceTypes.toArray()) + " and t1.fs_origin_cd <> '" + icrEncumbOriginCode + "' "
-                + "and t4.fin_obj_typ_cd IN " + inString(expenseObjectTypes)
-                + " group by t1.univ_fiscal_yr, t1.fin_coa_cd, t1.account_nbr, t1.sub_acct_nbr, t5.fin_object_cd, t1.fin_balance_typ_cd, "
+                + "and t1.fin_balance_typ_cd in ("+ inString(icrEncumbBalanceTypes.size()) +") and t1.fs_origin_cd <> ? "
+                + "and t4.fin_obj_typ_cd in (" + inString(expenseObjectTypes.length)
+                + ") group by t1.univ_fiscal_yr, t1.fin_coa_cd, t1.account_nbr, t1.sub_acct_nbr, t5.fin_object_cd, t1.fin_balance_typ_cd, "
                 + "t1.fdoc_typ_cd, t1.fdoc_nbr";
 
         getJdbcTemplate().query(encumbSql, encArgs, new ResultSetExtractor() {
@@ -122,7 +142,7 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
                         KualiDecimal encumb_amt = new KualiDecimal(rs.getDouble("encumb_amt"));
                         KualiDecimal current_amt = KualiDecimal.ZERO;
 
-                        Object[] icrArgs = new String[8];
+                        Object[] icrArgs = new String[9];
                         icrArgs[0] = fiscalYear;
                         icrArgs[1] = chartCode;
                         icrArgs[2] = accountNbr;
@@ -131,8 +151,9 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
                         icrArgs[5] = balanceType;
                         icrArgs[6] = docType;
                         icrArgs[7] = docNbr;
+                        icrArgs[8] = icrEncumbOriginCode;
 
-                        Double icrAmount = getCurrentEncumbranceAmount(icrEncumbOriginCode, icrArgs);
+                        Double icrAmount = getCurrentEncumbranceAmount(icrArgs);
 
                         if (icrAmount != null) {
                             current_amt = new KualiDecimal(icrAmount);
@@ -188,8 +209,14 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
                         fw.flush();
                     }
                 }
-                catch (Exception e) {
+                catch (SQLException e) {
                     throw new RuntimeException(e);
+                }
+                catch (DataAccessException ed) {
+                    throw new RuntimeException(ed);
+                }
+                catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
 
                 return null;
@@ -204,10 +231,10 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
      * @param icrArgs a list of query arguments
      * @return the current encumbrance amount if found, null otherwise
      */
-    protected Double getCurrentEncumbranceAmount(final String icrEncumbOriginCode, Object[] icrArgs) {
+    protected Double getCurrentEncumbranceAmount(Object[] icrArgs) {
         final String icrSql = "select sum(" + getDbPlatform().getIsNullFunction("acln_encum_amt - acln_encum_cls_amt", "0") + ") current_amt "
                 + "from gl_encumbrance_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? "
-                + "and fin_balance_typ_cd = ? and fdoc_typ_cd = ? and fdoc_nbr = ? and fs_origin_cd = '" + icrEncumbOriginCode + "' ";
+                + "and fin_balance_typ_cd = ? and fdoc_typ_cd = ? and fdoc_nbr = ? and fs_origin_cd = ?";
 
         Double icrAmount = (Double) getJdbcTemplate().query(icrSql, icrArgs, new ResultSetExtractor() {
             @Override
@@ -219,8 +246,11 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
 
                     return null;
                 }
-                catch (Exception e) {
+                catch (SQLException e) {
                     throw new RuntimeException(e);
+                }
+                catch (DataAccessException ed) {
+                    throw new RuntimeException(ed);
                 }
             }
         });
@@ -248,8 +278,11 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
 
                     return null;
                 }
-                catch (Exception e) {
+                catch (SQLException e) {
                     throw new RuntimeException(e);
+                }
+                catch (DataAccessException ed) {
+                    throw new RuntimeException(ed);
                 }
             }
         });
@@ -258,22 +291,13 @@ public class IcrEncumbranceDaoJdbc extends PlatformAwareDaoBaseJdbc implements I
     }
 
     /**
-     * Creates a String bounded with parantheses for creating SQL queries
+     * Creates a String of SQL parameters markers specified by the size of an array or collection
      *
-     * @param cobj the array to include in an SQL query
+     * @param int the number of parameter markers to include in an SQL in clause
      * @return the resulting String
      */
-    protected String inString(Object[] cobj) {
-        StringBuffer sb = new StringBuffer("(");
-        for (int i = 0; i < cobj.length; i++) {
-            sb.append("'");
-            sb.append(cobj[i].toString());
-            sb.append("'");
-            if (i < cobj.length - 1) {
-                sb.append(',');
-            }
-        }
-        sb.append(')');
-        return sb.toString();
+    protected String inString(int arraySize) {
+        final String inClause = StringUtils.repeat("?",",",arraySize);
+        return inClause;
     }
 }

@@ -7,8 +7,8 @@ susp_ctgry_cd|obj_id|ver_nbr|susp_ctgry_desc|actv_ind|
 2|CGB-SC2|1.0|New Total Billed amount exceeds award total|Y|
 3|CGB-SC3|1.0|Invoice amount is less than invoice minimum requirement|Y|
 4|CGB-SC4|1.0|Reports are required to be attached|Y|
-5|CGB-SC5|1.0|Customer Primary address is missing or incomplete.|Y|
-6|CGB-SC6|1.0|Customer Alternate address is incomplete.|Y|
+5|CGB-SC5|1.0|Agency Primary address not complete|Y|
+6|CGB-SC6|1.0|Agency Alternate address not complete|Y|
 7|CGB-SC7|1.0|Final Invoice Expiration Date Reached|Y|
 8|CGB-SC8|1.0|CGB Cost Category codes are setup incorrectly. An object code might not be assigned or could be assigned to more than one Cost Category.|Y|
 9|CGB-SC9|1.0|LOC remaining amount is not sufficient|Y|

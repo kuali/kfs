@@ -63,7 +63,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -922,28 +924,26 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#addCloseNote
      */
     @Override
-    public void addCloseNote(CustomerInvoiceDocument documentToClose, String closingDocumentTypeCode, String closingDocumentNumber) {
+    public void addCloseNote(CustomerInvoiceDocument documentToClose, WorkflowDocument closingDocument) {
         if (!documentToClose.isOpenInvoiceIndicator()) {
             // If it already is closed, no need to add a note
             return;
         }
 
         String principalName = "Unknown";
-        List<ActionTaken> actionsTaken = documentToClose.getDocumentHeader().getWorkflowDocument().getActionsTaken();
+        List<ActionTaken> actionsTaken = closingDocument.getActionsTaken();
         if(ObjectUtils.isNotNull(actionsTaken)){
-            ActionTaken lastAction = actionsTaken.get(0);
+            ActionTaken completeAction = actionsTaken.get(0);
             for(ActionTaken action : actionsTaken){
-                if(action.getActionDate().isAfter(lastAction.getActionDate())){
-                    lastAction = action;
+                // we're looking for the person who completed the closing document, aren't we?
+                if(new String("C").equals(action.getActionTaken().getCode())){
+                    principalName = SpringContext.getBean(PersonService.class).getPerson(action.getPrincipalId()).getName();
                 }
             }
-            String principalId = lastAction.getPrincipalId();
-            principalName = SpringContext.getBean(PersonService.class).getPerson(principalId).getName();
-        }
-        
+        }       
         
         final String noteTextPattern = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.INVOICE_CLOSE_NOTE_TEXT); 
-        Object[] arguments = { principalName, closingDocumentTypeCode, closingDocumentNumber }; 
+        Object[] arguments = { principalName, closingDocument.getDocumentTypeName(), closingDocument.getDocumentId() }; 
         String noteText = MessageFormat.format(noteTextPattern, arguments); 
 
 

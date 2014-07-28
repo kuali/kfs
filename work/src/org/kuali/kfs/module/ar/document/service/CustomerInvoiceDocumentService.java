@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public interface CustomerInvoiceDocumentService {
 
@@ -312,8 +313,7 @@ public interface CustomerInvoiceDocumentService {
      * openInvoiceIndicator=true at the time of calling this method.
      *
      * @param documentToClose- the document about to be closed which we want to add the note too
-     * @param closingDocumentTypeCode- the type code of the closing document
-     * @param closingDocumentNumber- the doc numbner of the closing document
+     * @param closingDocument- the closing document
      */
-    public void addCloseNote(CustomerInvoiceDocument documentToClose, String closingDocumentTypeCode, String closingDocumentNumber);
+    public void addCloseNote(CustomerInvoiceDocument documentToClose, WorkflowDocument closingDocument);
 }

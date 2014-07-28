@@ -150,9 +150,9 @@
             </branch>
             <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
           </split>
-          <split name="notifyOnAutoApproval">
+          <split name="RequiresAutoApprovalNotification">
             <branch name = "True">
-              <role name="notifyOnAutoApprovalResponsibility" nextNode="joinOnAutoApproval"/>
+              <role name="AutoApprove" nextNode="joinOnAutoApproval"/>
             </branch>
             <branch name="False">
               <simple name="NoOpAutoApproval" nextNode="joinOnAutoApproval"/>
@@ -197,12 +197,12 @@
             org.kuali.rice.kew.engine.node.NoOpNode
           </type>
         </simple>
-        <split name="notifyOnAutoApproval">
+        <split name="RequiresAutoApprovalNotification">
           <type>
             org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
           </type>
         </split>
-        <role name="notifyOnAutoApprovalResponsibility">
+        <role name="AutoApprove">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>

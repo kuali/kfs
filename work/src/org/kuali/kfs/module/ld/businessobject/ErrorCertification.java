@@ -28,13 +28,6 @@ public class ErrorCertification extends PersistableBusinessObjectBase {
     private String errorCorrectionReason;
 
     /**
-     * Default constructor.
-     */
-    public ErrorCertification() {
-        super();
-    }
-
-    /**
      * Gets the document number of the document this error certification is associated with.
      *
      * @return Returns the documentNumber.

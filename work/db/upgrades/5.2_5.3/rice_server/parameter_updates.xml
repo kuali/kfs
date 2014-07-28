@@ -138,7 +138,7 @@
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert> 
-  </changeSet>
+  	</changeSet>
 
 	<changeSet author="KFS53" id="KFSCNTRB-784">
 		<comment>
@@ -253,7 +253,7 @@
             <column name="EVAL_OPRTR_CD" value="A"/>
             <column name="APPL_ID" value="KFS"/>
         </insert>
-  </changeSet>
+  	</changeSet>
 	
 	<changeSet author="KFS53" id="KKFSCNTRB-594">
         <comment>Adds parameter for KKFSCNTRB-594 for Default chart code</comment>
@@ -288,7 +288,7 @@
 	        <column name="CMPNT_CD" value="ProcurementCardLoadStep" />
 	        <column name="PARM_NM" value="ALLOW_BACKPOST_DAYS" />
 	        <column name="VAL" value="0" />
-	        <column name="OBJ_ID" value="KFSCNTRB1368-1" />
+	        <column name="OBJ_ID" value="KFS-PARM-187" />
 	        <column name="VER_NBR" valueNumeric="1" />
 	        <column name="PARM_TYP_CD" value="CONFG" />
 	        <column name="PARM_DESC_TXT" value="The number of days after fiscal year-end during which Procurement Card files loaded will post to the previous fiscal year.  If the value set to zero no post back is allowed." />
@@ -303,7 +303,7 @@
 			<column name="NMSPC_CD" value="KFS-GL"/>
 			<column name="CMPNT_CD" value="Batch"/>
 			<column name="PARM_NM" value="ANNUAL_CLOSING_CHARTS"/>
-			<column name="OBJ_ID" value="KFSCNTRB-1459-PARM1"/>
+			<column name="OBJ_ID" value="KFS-PARM-188"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value=""/>
 			<column name="PARM_DESC_TXT" value="Charts that will be processed when year-end batch jobs Nominal Activity Closing, Balance Forward, and Encumbrance Forward are run. If no charts are specified, all charts will be processed."/>
@@ -319,7 +319,7 @@
 	      <column name="CMPNT_CD" value="DisbursementVoucher"/>
 	      <column name="PARM_NM" value="NEGATIVE_ACCOUNTING_LINES_IND"/>
 	      <column name="APPL_ID" value="KFS"/>
-	      <column name="OBJ_ID" value="KFSCNTRB-1681"/>
+	      <column name="OBJ_ID" value="KFS-PARM-189"/>
 	      <column name="VER_NBR" value="1"/>
 	      <column name="PARM_TYP_CD" value="CONFG"/>
 	      <column name="VAL" value="N"/>

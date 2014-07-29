@@ -67,7 +67,6 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentati
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -612,7 +611,7 @@ public class DepositWizardAction extends KualiAction {
                 }
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve cashReceipts by documentId", e);
+                throw new RuntimeException("unable to retrieve cashReceipts by documentId", e);
             }
         }
 

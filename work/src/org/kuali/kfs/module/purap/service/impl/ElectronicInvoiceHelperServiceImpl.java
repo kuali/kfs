@@ -113,7 +113,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.AutoPopulatingList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -1314,7 +1313,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             if (LOG.isInfoEnabled()){
                 LOG.info("***************Error in rules processing - " + GlobalVariables.getMessageMap());
             }
-            Map<String, AutoPopulatingList<ErrorMessage>> errorMessages = GlobalVariables.getMessageMap().getErrorMessages();
+            Map<String, List<ErrorMessage>> errorMessages = GlobalVariables.getMessageMap().getErrorMessages();
 
             String errors = errorMessages.toString();
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, errors, orderHolder.getFileName());

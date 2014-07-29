@@ -308,7 +308,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     @Override
-    protected void refreshReferences(String referencesToRefresh) {
+    public void refreshReferences(String referencesToRefresh) {
         //make call to super
         super.refreshReferences( removeReferenceFromString(referencesToRefresh, "temProfileAddress") );
     }

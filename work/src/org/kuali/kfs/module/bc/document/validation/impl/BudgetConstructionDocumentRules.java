@@ -36,10 +36,10 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -66,7 +66,6 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -716,14 +715,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             PropertyDescriptor attributeDescriptor = PropertyUtils.getPropertyDescriptor(object, attributeName);
             validatePrimitiveFromDescriptor(object.getClass().getName(), object, attributeDescriptor, "", true);
         }
-        catch (NoSuchMethodException e) {
-            throw new InfrastructureException("unable to find propertyDescriptor for property '" + attributeName + "'", e);
-        }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("unable to access propertyDescriptor for property '" + attributeName + "'", e);
-        }
-        catch (InvocationTargetException e) {
-            throw new InfrastructureException("unable to invoke methods for property '" + attributeName + "'", e);
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("unable to find propertyDescriptor for property '" + attributeName + "'", e);
         }
     }
 

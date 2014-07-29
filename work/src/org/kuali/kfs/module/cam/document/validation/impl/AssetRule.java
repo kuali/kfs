@@ -67,7 +67,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.AutoPopulatingList;
 
 /**
  * AssetRule for Asset edit.
@@ -599,7 +598,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     /**
      * Convenience method to append the path prefix
      */
-    public AutoPopulatingList<ErrorMessage> putError(String propertyName, String errorKey, String... errorParameters) {
+    public List<ErrorMessage> putError(String propertyName, String errorKey, String... errorParameters) {
         return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 

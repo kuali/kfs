@@ -1,6 +1,4 @@
 /*
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
  * Copyright 2007 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");

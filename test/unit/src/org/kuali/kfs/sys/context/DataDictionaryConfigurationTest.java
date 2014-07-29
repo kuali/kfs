@@ -43,11 +43,11 @@ import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DefaultListableBeanFactory;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.KualiDefaultListableBeanFactory;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -175,9 +175,15 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             }
         }
         String errorString = "";
-        if (noActiveFieldClassList.size()!=0) errorString=errorString+"Missing Active Field: "+formatErrorStringGroupByModule(noActiveFieldClassList);
-        if (notImplementInactivatableList.size()!=0) errorString=errorString+"Inactivatable not implemented: "+formatErrorStringGroupByModule(notImplementInactivatableList);
-        if (defaultValueWrongList.size()!=0) errorString=errorString+"Wrong default value: "+formatErrorStringGroupByModule(defaultValueWrongList);
+        if (noActiveFieldClassList.size()!=0) {
+            errorString=errorString+"Missing Active Field: "+formatErrorStringGroupByModule(noActiveFieldClassList);
+        }
+        if (notImplementInactivatableList.size()!=0) {
+            errorString=errorString+"Inactivatable not implemented: "+formatErrorStringGroupByModule(notImplementInactivatableList);
+        }
+        if (defaultValueWrongList.size()!=0) {
+            errorString=errorString+"Wrong default value: "+formatErrorStringGroupByModule(defaultValueWrongList);
+        }
         assertEquals(errorString, 0, noActiveFieldClassList.size()+notImplementInactivatableList.size()+defaultValueWrongList.size());
     }
     private String formatErrorStringGroupByModule(List<Class<?>> failedList){
@@ -195,7 +201,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         String tempString="";
         for (String moduleName : listMap.keySet()){
             tempString = tempString+"Module :"+moduleName+"\n";
-            for (String errorClass : (Set<String>)listMap.get(moduleName)){
+            for (String errorClass : listMap.get(moduleName)){
                 tempString = tempString + "     "+errorClass+"\n";
             }
         }
@@ -216,7 +222,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public void testAllParentBeansAreAbstract() throws Exception {
         Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
         f.setAccessible(true);
-        KualiDefaultListableBeanFactory ddBeans = (KualiDefaultListableBeanFactory)f.get(dataDictionary);
+        DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
         List<String> failingBeanNames = new ArrayList<String>();
         for ( String beanName : ddBeans.getBeanDefinitionNames() ) {
             BeanDefinition beanDef = ddBeans.getMergedBeanDefinition(beanName);
@@ -295,7 +301,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     protected void somethingShouldHaveParentBeans( Class<?> baseClass, List<String> exclusions ) throws Exception {
         Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
         f.setAccessible(true);
-        KualiDefaultListableBeanFactory ddBeans = (KualiDefaultListableBeanFactory)f.get(dataDictionary);
+        DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
         List<String> failingBeanNames = new ArrayList<String>();
 
         for ( String beanName : ddBeans.getBeanDefinitionNames() ) {

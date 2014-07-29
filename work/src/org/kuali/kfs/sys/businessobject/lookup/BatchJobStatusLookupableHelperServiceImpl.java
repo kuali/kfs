@@ -36,7 +36,6 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -48,13 +47,12 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     private SchedulerService schedulerService;
     private ConfigurationService configurationService;
     private ParameterService parameterService;
-    private KualiModuleService kualiModuleService;
     private IdentityManagementService identityManagementService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        super.setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BatchJobStatus> allJobs = schedulerService.getJobs();
         List<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
 
@@ -88,13 +86,13 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
 
     public boolean doesModuleServiceHaveJobStatus(BatchJobStatus job){
         if(job!=null) {
-            KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)getKualiModuleService().getResponsibleModuleServiceForJob(job.getName());
+            KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)schedulerService.getResponsibleModuleServiceForJob(job.getName());
             //This means this job is externalized and we do not want to show any action urls for it.
             return (moduleService!=null && moduleService.isExternalJob(job.getName()));
         }
         return false;
     }
-    
+
     /***
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
@@ -108,11 +106,11 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             String linkText = "Modify";
             Map<String,String> permissionDetails = new HashMap<String,String>(1);
             permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, job.getNamespaceCode() );
-            
+
             if ( !SpringContext.getBean(IdentityManagementService.class).hasPermissionByTemplateName(
-                    GlobalVariables.getUserSession().getPerson().getPrincipalId(), 
-                    KRADConstants.KNS_NAMESPACE, 
-                    KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, 
+                    GlobalVariables.getUserSession().getPerson().getPrincipalId(),
+                    KRADConstants.KNS_NAMESPACE,
+                    KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name,
                     permissionDetails ) ) {
                 linkText = "View";
             }
@@ -138,24 +136,18 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         titleText += "Name="+job.getName()+" Group="+job.getGroup();
         return titleText;
     }
-    
+
     public void setSchedulerService(SchedulerService schedulerService) {
         this.schedulerService = schedulerService;
     }
 
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
-    }
-
-    public KualiModuleService getKualiModuleService() {
-        if ( kualiModuleService == null ) {
-            kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        }
-        return kualiModuleService;
     }
 
     public IdentityManagementService getIdentityManagementService() {

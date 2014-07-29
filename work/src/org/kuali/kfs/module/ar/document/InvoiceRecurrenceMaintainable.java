@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,14 +28,14 @@ import org.kuali.rice.krad.service.DocumentService;
 
 public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceMaintainable.class);
-    
+
     private static final String INACTIVATING_NODE_NAME = "InvoiceRecurrenceIsInactivating";
     private static final String INITIATED_BY_SYSTEM_USER = "InitiatedBySystemUser";
-    
+
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         //  return true if the doc is flipping form Active to Inactive, false otherwise
-        if ( StringUtils.equalsIgnoreCase( INACTIVATING_NODE_NAME, nodeName) ) { 
+        if ( StringUtils.equalsIgnoreCase( INACTIVATING_NODE_NAME, nodeName) ) {
             //  go through some contortions to get the oldMaintainable to compare against
             FinancialSystemMaintenanceDocument maintDoc = getParentMaintDoc();
             // make sure all the needed objects are there
@@ -46,7 +46,7 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
             }
             boolean oldIsActive = ((InvoiceRecurrence)maintDoc.getOldMaintainableObject().getBusinessObject()).isActive();
             boolean newIsActive = ((InvoiceRecurrence)getBusinessObject()).isActive();
-            
+
             //  return true if the invoicerecurrence is being deactivated, otherwise return false
             return oldIsActive && !newIsActive;
         }
@@ -55,20 +55,20 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
         if ( StringUtils.equalsIgnoreCase( INITIATED_BY_SYSTEM_USER, nodeName) ) {
             FinancialSystemMaintenanceDocument maintDoc = getParentMaintDoc();
             if ( maintDoc == null
-                    || maintDoc.getDocumentHeader() == null 
+                    || maintDoc.getDocumentHeader() == null
                     || maintDoc.getDocumentHeader().getWorkflowDocument() == null
                     || StringUtils.isBlank( maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId() ) ) {
                 return false;
             }
-            
+
             String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipal(initiatorPrincipalId);
-            
+
             return principal != null && StringUtils.equalsIgnoreCase(principal.getPrincipalName(), KFSConstants.SYSTEM_USER);
         }
 
         throw new UnsupportedOperationException("InvoiceRecurrenceMaintainable does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName);
-        
+
     }
 
     protected FinancialSystemMaintenanceDocument getParentMaintDoc() {
@@ -81,13 +81,13 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
         }
         return null;
     }
-    
+
     @SuppressWarnings("deprecation")
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         // Need to make sure that the customer invoice object has been loaded on the new object
-        ((InvoiceRecurrence)getBusinessObject()).setCustomerInvoiceDocument( getBusinessObjectService().findBySinglePrimaryKey(CustomerInvoiceDocument.class, ((InvoiceRecurrence)getBusinessObject()).getInvoiceNumber() ));
+        ((InvoiceRecurrence)getBusinessObject()).setCustomerInvoiceDocument( getDataObjectService().find(CustomerInvoiceDocument.class, ((InvoiceRecurrence)getBusinessObject()).getInvoiceNumber() ));
     }
-    
+
 }

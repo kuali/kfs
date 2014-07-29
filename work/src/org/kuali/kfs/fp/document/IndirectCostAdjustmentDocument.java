@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Copyable;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -90,8 +89,8 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
                     try {
                         targetAccountingLine = (TargetAccountingLine) getTargetAccountingLineClass().newInstance();
                     }
-                    catch (Exception e) {
-                        throw new InfrastructureException("unable to create a target accounting line", e);
+                    catch (InstantiationException | IllegalAccessException e) {
+                        throw new RuntimeException("unable to create a target accounting line", e);
                     }
                     // get apc object code value
                     String objectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);

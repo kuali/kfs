@@ -34,7 +34,7 @@
 
     <style type="text/css">
         div.body {
-            background-image: url("${ConfigProperties.application.url}/rice-portal/images/os-guy.gif");
+            background-image: url("${ConfigProperties.application.url}/rice-portal/images/os-guy.gif"${ConfigProperties.application.url}/rice-portal/images/os-guy.gif");
             background-repeat: no-repeat;
             padding-top: 5em;
         }

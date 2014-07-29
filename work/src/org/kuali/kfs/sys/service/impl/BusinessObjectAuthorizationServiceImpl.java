@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -35,7 +36,6 @@ import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -250,7 +250,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
      */
     protected ConfigurationService getKualiConfigurationServiceForUs() {
         if (kualiConfigurationServiceForUs == null) {
-            kualiConfigurationServiceForUs = KRADServiceLocator.getKualiConfigurationService();
+            kualiConfigurationServiceForUs = CoreApiServiceLocator.getKualiConfigurationService();
         }
         return kualiConfigurationServiceForUs;
     }

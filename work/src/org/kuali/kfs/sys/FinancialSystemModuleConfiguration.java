@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,10 +31,12 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     protected List<FiscalYearMaker> fiscalYearMakers;
     protected List<String> batchFileDirectories;
     protected Map<String, String> templateFileDirectories;
+    protected List<String> jobNames;
+    protected List<String> triggerNames;
 
     /**
      * Gets the templateFileDirectories attribute.
-     * 
+     *
      * @return Returns the templateFileDirectories.
      */
     public Map<String, String> getTemplateFileDirectories() {
@@ -43,7 +45,7 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
 
     /**
      * Sets the templateFileDirectories attribute value.
-     * 
+     *
      * @param templateFileDirectories The templateFileDirectories to set.
      */
     public void setTemplateFileDirectories(Map<String, String> templateFileDirectories) {
@@ -81,7 +83,7 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
 
     /**
      * Gets the fiscalYearMakers attribute.
-     * 
+     *
      * @return Returns the fiscalYearMakers.
      */
     public List<FiscalYearMaker> getFiscalYearMakers() {
@@ -90,7 +92,7 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
 
     /**
      * Sets the fiscalYearMakers attribute value.
-     * 
+     *
      * @param fiscalYearMakers The fiscalYearMakers to set.
      */
     public void setFiscalYearMakers(List<FiscalYearMaker> fiscalYearMakers) {
@@ -124,5 +126,34 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
                 }
             }
         }
+    }
+
+    /**
+     * @return the jobNames
+     */
+    public List<String> getJobNames() {
+        return this.jobNames;
+    }
+
+    /**
+     * @param jobNames the jobNames to set
+     */
+    public void setJobNames(List<String> jobNames) {
+        this.jobNames = jobNames;
+    }
+
+
+    /**
+     * @return the triggerNames
+     */
+    public List<String> getTriggerNames() {
+        return this.triggerNames;
+    }
+
+    /**
+     * @param triggerNames the triggerNames to set
+     */
+    public void setTriggerNames(List<String> triggerNames) {
+        this.triggerNames = triggerNames;
     }
 }

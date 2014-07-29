@@ -34,9 +34,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -93,7 +93,7 @@ public class TempListLookupAction extends KualiLookupAction {
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#supressActionsIfNeeded(org.apache.struts.action.ActionForm)
      */
     @Override
-    protected void supressActionsIfNeeded(ActionForm form) throws ClassNotFoundException {
+    protected void suppressActionsIfNeeded(ActionForm form) throws ClassNotFoundException {
 
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
         if ((tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP) || (tempListLookupForm.getTempListLookupMode() == BCConstants.TempListLookupMode.INTENDED_INCUMBENT)) {
@@ -114,7 +114,7 @@ public class TempListLookupAction extends KualiLookupAction {
             tempListLookupForm.setSupplementalActionsEnabled(canUnlock);
         }
         else {
-            super.supressActionsIfNeeded(form);
+            super.suppressActionsIfNeeded(form);
         }
     }
 

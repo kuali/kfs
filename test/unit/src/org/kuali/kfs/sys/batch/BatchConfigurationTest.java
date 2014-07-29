@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
@@ -56,7 +57,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         List<String> nonExistentJobNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following registered job names do not correspond to JobDescriptor beans:");
         for (ModuleService module : moduleServices) {
-            for (String jobName : module.getModuleConfiguration().getJobNames()) {
+            for (String jobName : ((FinancialSystemModuleConfiguration)module.getModuleConfiguration()).getJobNames()) {
                 try {
                     BatchSpringContext.getJobDescriptor(jobName);
                 }
@@ -76,7 +77,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         List<String> nonExistentTriggerNames = new ArrayList();
         StringBuffer errorMessage = new StringBuffer("The following registered trigger names do not correspond to TriggerDescriptor beans:");
         for (ModuleService module : moduleServices) {
-            for (String triggerName : module.getModuleConfiguration().getTriggerNames()) {
+            for (String triggerName : ((FinancialSystemModuleConfiguration)module.getModuleConfiguration()).getTriggerNames()) {
                 try {
                     BatchSpringContext.getTriggerDescriptor(triggerName);
                 }
@@ -98,7 +99,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (JobDescriptor jobDescriptor : SpringContext.getBeansOfType(JobDescriptor.class).values()) {
             boolean isRegistered = false;
             for (ModuleService module : moduleServices) {
-                if (module.getModuleConfiguration().getJobNames().contains(jobDescriptor.getJobDetail().getName())) {
+                if (((FinancialSystemModuleConfiguration)module.getModuleConfiguration()).getJobNames().contains(jobDescriptor.getJobDetail().getName())) {
                     isRegistered = true;
                     break;
                 }
@@ -120,7 +121,7 @@ public class BatchConfigurationTest extends KualiTestBase {
         for (TriggerDescriptor triggerDescriptor : SpringContext.getBeansOfType(TriggerDescriptor.class).values()) {
             boolean isRegistered = false;
             for (ModuleService module : moduleServices) {
-                if (module.getModuleConfiguration().getTriggerNames().contains(triggerDescriptor.getTrigger().getName())) {
+                if (((FinancialSystemModuleConfiguration)module.getModuleConfiguration()).getTriggerNames().contains(triggerDescriptor.getTrigger().getName())) {
                     isRegistered = true;
                     break;
                 }

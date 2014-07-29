@@ -30,6 +30,21 @@
     
 	${authentication.filter.definition}
 	${authentication.filter.mappings}
+	
+  <context-param>
+    <param-name>defaultHtmlEscape</param-name>
+    <param-value>true</param-value>
+  </context-param>
+ 
+   <filter>
+    <filter-name>HttpRequestLogger</filter-name>
+    <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
+  </filter>
+
+  <filter>
+  	<filter-name>AjaxSessionTimeoutFilter</filter-name>
+  	<filter-class>org.kuali.rice.krad.web.filter.UifSessionTimeoutFilter</filter-class>
+  </filter>
 
   <filter>
     <filter-name>HideWebInfFilter</filter-name>
@@ -52,12 +67,12 @@
   
   <filter>
     <filter-name>BootstrapFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+    <filter-class>org.kuali.rice.krad.web.filter.BootstrapFilter</filter-class>
   </filter>
 
   <filter>
     <filter-name>UserLoginFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+    <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
   </filter>
 
   <filter>
@@ -69,10 +84,24 @@
   	<filter-name>SessionExpirationFilter</filter-name>
   	<filter-class>org.kuali.kfs.sys.web.filter.SessionExpirationFilter</filter-class>
   </filter>
+  
+  <filter>
+    <filter-name>Log4JContextClearingFilter</filter-name>
+    <filter-class>org.kuali.rice.core.web.Log4JContextClearingFilter</filter-class>
+  </filter>
+  
+  <filter>
+      <filter-name>EncodingFilter</filter-name>
+      <filter-class>org.kuali.rice.krad.web.filter.CharsetFilter</filter-class>
+  </filter>
 
   
     <!--  FILTER MAPPINGS  -->
   
+  <filter-mapping>
+    <filter-name>HttpRequestLogger</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <filter-mapping>
     <filter-name>HideWebInfFilter</filter-name>
@@ -105,6 +134,11 @@
   </filter-mapping>
   
   <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <servlet-name>action</servlet-name>
+  </filter-mapping>
+  
+  <filter-mapping>
   	<filter-name>SessionExpirationFilter</filter-name>
   	<servlet-name>action</servlet-name>
   </filter-mapping>
@@ -123,11 +157,46 @@
     <filter-name>UserPreferencesFilter</filter-name>
     <servlet-name>notification</servlet-name>
   </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AjaxSessionTimeoutFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>BootstrapFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
 
   <filter-mapping>
     <filter-name>UserLoginFilter</filter-name>
     <servlet-name>krad</servlet-name>
   </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <servlet-name>krad</servlet-name>
+  </filter-mapping>
+ 
+  <!-- filter-mapping>
+    <filter-name>AjaxSessionTimeoutFilter</filter-name>
+    <servlet-name>kradguest</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>BootstrapFilter</filter-name>
+    <servlet-name>kradguest</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserLoginFilter</filter-name>
+    <servlet-name>kradguest</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <servlet-name>kradguest</servlet-name>
+  </filter-mapping -->
 
   <!-- for KCB Spring Web MVC pages -->
   <filter-mapping>
@@ -159,9 +228,16 @@
     <filter-name>UserPreferencesFilter</filter-name>
     <servlet-name>edoclite</servlet-name>
   </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>Log4JContextClearingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+ 
+  <!-- LISTENERS -->
 
   <listener>
-    <listener-class>org.kuali.rice.krad.web.session.NonSerializableSessionListener</listener-class>
+    <listener-class>org.kuali.rice.krad.web.listener.NonSerializableSessionListener</listener-class>
   </listener>
 
   <listener>
@@ -181,12 +257,8 @@
   </listener>
 
   <listener>
-    <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
+    <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
   </listener>
-
-	<listener>
-		<listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
-	</listener>
 	
 	<listener>
     	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
@@ -361,11 +433,31 @@
     <url-pattern>/kr-krad/*</url-pattern>
   </servlet-mapping>
 
+  <!-- servlet>
+    <servlet-name>kradguest</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+  </servlet>
+ 
+  <servlet>
+    <servlet-name>login</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>5</load-on-startup>
+  </servlet-->
 
 	<servlet>
 		<servlet-name>heartbeat</servlet-name>
 		<servlet-class>org.kuali.kfs.sys.web.servlet.KualiHeartbeatServlet</servlet-class>
 	</servlet>
+	<!-- servlet-mapping>
+	  <servlet-name>kradguest</servlet-name>
+	  <url-pattern>/kr-kradguest/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	  <servlet-name>login</servlet-name>
+	  <url-pattern>/kr-login/*</url-pattern>
+	</servlet-mapping-->
 	<servlet>
 		<servlet-name>batchFileUpload</servlet-name>
 		<servlet-class>org.kuali.kfs.sys.web.servlet.BatchFileUploadServlet</servlet-class>

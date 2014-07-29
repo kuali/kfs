@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDocumentType;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
@@ -35,7 +35,7 @@ public class NextDocumentTypeIdFinder implements ValueFinder {
      * @return
      */
     public static Long getLongValue() {
-        SequenceAccessorService sas = KRADServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
         return sas.getNextAvailableSequenceNumber("CM_AST_PMT_DOC_TYP_SEQ", AssetPaymentDocumentType.class);
     }
 

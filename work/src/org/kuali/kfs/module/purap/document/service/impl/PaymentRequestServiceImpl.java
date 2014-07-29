@@ -93,7 +93,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -1006,11 +1005,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             taxItem = (PurApItem) preq.getItemClass().newInstance();
         }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("Unable to access itemClass", e);
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("Unable to instantiate itemClass", e);
+        catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException("Unable to access itemClass", e);
         }
 
         // add item to preq before adding the accounting line
@@ -1048,11 +1044,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             taxLine = (PurApAccountingLine) taxItem.getAccountingLineClass().newInstance();
         }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("Unable to access sourceAccountingLineClass", e);
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("Unable to instantiate sourceAccountingLineClass", e);
+        catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException("Unable to access sourceAccountingLineClass", e);
         }
 
         // tax item type indicators

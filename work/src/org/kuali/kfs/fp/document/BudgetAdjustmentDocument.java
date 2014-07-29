@@ -58,7 +58,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Copyable;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -740,11 +739,8 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
                     try {
                         accountingLine = (SourceAccountingLine) getSourceAccountingLineClass().newInstance();
                     }
-                    catch (IllegalAccessException e) {
-                        throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
-                    }
-                    catch (InstantiationException e) {
-                        throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
+                    catch (IllegalAccessException | InstantiationException e) {
+                        throw new RuntimeException("unable to access sourceAccountingLineClass", e);
                     }
 
                     // set income chart and account in line

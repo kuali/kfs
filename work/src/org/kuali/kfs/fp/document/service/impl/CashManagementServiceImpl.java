@@ -58,7 +58,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -201,7 +200,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                 cmDoc.getCurrentTransaction().setOpenItemsInProcess(getOpenItemsInProcess(cmDoc));
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("unable to create CashManagementDocument", e);
+                throw new RuntimeException("unable to create CashManagementDocument", e);
             }
         }
         else {

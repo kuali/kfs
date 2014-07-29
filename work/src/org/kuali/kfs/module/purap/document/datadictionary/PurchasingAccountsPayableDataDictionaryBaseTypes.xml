@@ -289,15 +289,6 @@
         	</list>
         </property>
     </bean>
-    
-	<bean id="SearchingType-PurchasingAccountsPayableDocument-financialDocumentTotalAmount" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-        <property name="searchingAttribute" ref="SearchingAttribute-financialDocumentTotalAmount" />
-        <property name="documentValues">
-        	<list>
-        		<value>documentHeader.financialDocumentTotalAmount</value>
-        	</list>
-        </property>
-    </bean>
   
   	<!-- single reference for PO search attributes -->
   	<bean id="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" parent="SearchingTypeDefinitions-PurchaseOrderDocumentFamily-parentBean" />

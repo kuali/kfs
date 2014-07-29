@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,9 +50,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.rice.core.web.format.FormatException;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -66,6 +65,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#getSourceEndowmentAccountingLineFormat()
      */
+    @Override
     public String[] getSourceEndowmentAccountingLineFormat() {
         return DEFAULT_FORMAT;
     }
@@ -73,6 +73,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#getTargetEndowmentAccountingLineFormat()
      */
+    @Override
     public String[] getTargetEndowmentAccountingLineFormat() {
         return DEFAULT_FORMAT;
     }
@@ -80,6 +81,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#getExpectedEndowmentAccountingLineFormatAsString(java.lang.Class)
      */
+    @Override
     public String getExpectedEndowmentAccountingLineFormatAsString(Class<? extends EndowmentAccountingLine> accountingLineClass) {
         StringBuffer sb = new StringBuffer();
         boolean first = true;
@@ -99,6 +101,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#parseSourceEndowmentAccountingLine(org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument,
      *      java.lang.String)
      */
+    @Override
     public SourceEndowmentAccountingLine parseSourceEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String sourceAccountingLineString) {
         Class sourceAccountingLineClass = getSourceEndowmentAccountingLineClass(transactionalDocument);
         SourceEndowmentAccountingLine sourceAccountingLine = (SourceEndowmentAccountingLine) populateAccountingLine(transactionalDocument, sourceAccountingLineClass, sourceAccountingLineString, parseAccountingLine(sourceAccountingLineClass, sourceAccountingLineString), transactionalDocument.getNextSourceLineNumber());
@@ -107,7 +110,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Given a document, determines what class the source lines of that document uses
-     * 
+     *
      * @param accountingDocument the document to find the class of the source lines for
      * @return the class of the source lines
      */
@@ -119,6 +122,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#parseTargetEndowmentAccountingLine(org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument,
      *      java.lang.String)
      */
+    @Override
     public TargetEndowmentAccountingLine parseTargetEndowmentAccountingLine(EndowmentAccountingLinesDocument transactionalDocument, String targetAccountingLineString) {
         Class targetAccountingLineClass = getTargetEndowmentAccountingLineClass(transactionalDocument);
         TargetEndowmentAccountingLine targetAccountingLine = (TargetEndowmentAccountingLine) populateAccountingLine(transactionalDocument, targetAccountingLineClass, targetAccountingLineString, parseAccountingLine(targetAccountingLineClass, targetAccountingLineString), transactionalDocument.getNextTargetLineNumber());
@@ -127,7 +131,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Given a document, determines what class that document uses for target accounting lines
-     * 
+     *
      * @param accountingDocument the document to determine the target accounting line class for
      * @return the class of the target lines for the given document
      */
@@ -137,7 +141,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Populates a source/target line with values
-     * 
+     *
      * @param transactionalDocument
      * @param accountingLineClass
      * @param accountingLineAsString
@@ -153,7 +157,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
         EndowmentAccountingLine accountingLine;
 
         try {
-            accountingLine = (EndowmentAccountingLine) accountingLineClass.newInstance();
+            accountingLine = accountingLineClass.newInstance();
 
             // perform custom line population
             if (SourceEndowmentAccountingLine.class.isAssignableFrom(accountingLineClass)) {
@@ -176,7 +180,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
                         ObjectUtils.setObjectProperty(accountingLine, entry.getKey(), entryType, entry.getValue());
                     }
                     catch (IllegalArgumentException e) {
-                        throw new InfrastructureException("unable to complete endowment accounting line population.", e);
+                        throw new RuntimeException("unable to complete endowment accounting line population.", e);
                     }
                 }
                 catch (FormatException e) {
@@ -190,20 +194,8 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
             // TODO: check if this is needed
             // SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(accountingLine);
         }
-        catch (SecurityException e) {
-            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
-        }
-        catch (NoSuchMethodException e) {
-            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
-        }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
-        }
-        catch (InvocationTargetException e) {
-            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("unable to complete endowment accounting line population.", e);
+        catch (SecurityException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new RuntimeException("unable to complete endowment accounting line population.", e);
         }
 
         // force input to uppercase
@@ -215,7 +207,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Places fields common to both source/target endowment accounting lines in the attribute map
-     * 
+     *
      * @param attributeValueMap
      * @param document
      * @param sequenceNumber
@@ -227,7 +219,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Parses the csv line
-     * 
+     *
      * @param accountingLineClass
      * @param lineToParse
      * @return Map containing accounting line attribute,value pairs
@@ -250,7 +242,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Should be overriden by documents to perform any additional <code>SourceAccountingLine</code> population
-     * 
+     *
      * @param attributeValueMap
      * @param sourceAccountingLine
      * @param accountingLineAsString
@@ -260,7 +252,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Should be overridden by documents to perform any additional <code>TargetAccountingLine</code> attribute population
-     * 
+     *
      * @param attributeValueMap
      * @param targetAccountingLine
      * @param accountingLineAsString
@@ -270,7 +262,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Calls the appropriate parseAccountingLine method
-     * 
+     *
      * @param stream
      * @param transactionalDocument
      * @param isSource
@@ -304,14 +296,14 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
             }
         }
         catch (IOException e) {
-            throw new InfrastructureException("unable to readLine from bufferReader in endowmentAccountingLineParserBase", e);
+            throw new RuntimeException("unable to readLine from bufferReader in endowmentAccountingLineParserBase", e);
         }
         finally {
             try {
                 br.close();
             }
             catch (IOException e) {
-                throw new InfrastructureException("unable to close bufferReader in endowmentAccountingLineParserBase", e);
+                throw new RuntimeException("unable to close bufferReader in endowmentAccountingLineParserBase", e);
             }
         }
 
@@ -322,6 +314,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#importSourceEndowmentAccountingLines(java.lang.String,
      *      java.io.InputStream, org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument)
      */
+    @Override
     public final List importSourceEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document) {
         return importAccountingLines(fileName, stream, document, true);
     }
@@ -330,6 +323,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineParser#importTargetEndowmentAccountingLines(java.lang.String,
      *      java.io.InputStream, org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument)
      */
+    @Override
     public final List importTargetEndowmentAccountingLines(String fileName, InputStream stream, EndowmentAccountingLinesDocument document) {
         return importAccountingLines(fileName, stream, document, false);
     }
@@ -337,7 +331,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Retrieves label for given attribute.
-     * 
+     *
      * @param clazz
      * @param attributeName
      * @return
@@ -352,7 +346,7 @@ public class EndowmentAccountingLineParserBase implements EndowmentAccountingLin
 
     /**
      * Gets the accounting line format.
-     * 
+     *
      * @param accountingLineClass
      * @return
      */

@@ -288,22 +288,6 @@
       <ref bean="TenCharacterTextControl" />
     </property>    
   </bean>
-
-  <bean id="GenericAttributes-maxDollarAmount" parent="GenericAttributes-maxDollarAmount-parentBean"/>
-  <bean id="GenericAttributes-maxDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="maxDollarAmount"/>
-    <property name="label" value="Maximum Amount"/>
-    <property name="shortLabel" value="Max Amt"/>
-    <property name="control" ref="PositiveOnlyAmountValiationPattern" />
-  </bean>
-
-  <bean id="GenericAttributes-minDollarAmount" parent="GenericAttributes-minDollarAmount-parentBean"/>
-  <bean id="GenericAttributes-minDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="minDollarAmount"/>
-    <property name="label" value="Minimum Amount"/>
-    <property name="shortLabel" value="Min Amt"/>
-    <property name="control" ref="PositiveOnlyAmountValiationPattern" />
-  </bean>
   
   <bean id="GenericAttributes-newCollectionRecord" parent="GenericAttributes-newCollectionRecord-parentBean"/>
   <bean id="GenericAttributes-newCollectionRecord-parentBean" abstract="true" parent="AttributeDefinition">

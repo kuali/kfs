@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -39,7 +38,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -53,7 +51,6 @@ import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -72,7 +69,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private BankService bankService;
     private AccountingDocumentRuleHelperService accountingDocumentRuleHelperService;
     private DocumentTypeService documentTypeService;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
@@ -402,11 +399,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         try {
             accountingLine = SourceAccountingLine.class.newInstance();
         }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
+        catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException("unable to access sourceAccountingLineClass", e);
         }
 
         accountingLine.setAccountNumber(accountNumber);
@@ -612,12 +606,12 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
+
     @NonTransactional
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
     }
-    
+
     /**
      * @return the implementation of the AccountingDocumentRuleHelperService to use
      */
@@ -632,7 +626,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setAccountingDocumentRuleHelperService(AccountingDocumentRuleHelperService accountingDocumentRuleService) {
         this.accountingDocumentRuleHelperService = accountingDocumentRuleService;
     }
-    
+
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }

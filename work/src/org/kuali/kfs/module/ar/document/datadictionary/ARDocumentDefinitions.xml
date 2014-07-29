@@ -27,9 +27,9 @@
 			<list>
 				<bean parent="AccountingLineView-field"	
 					  p:name="invoiceItemCode"
-					  p:overrideLookupParameters="${accountingLineName}invoiceItemCode:invoiceItemCode" 
+					  p:overrideLookupParameters="$(accountingLineName)invoiceItemCode:invoiceItemCode" 
 					  p:overrideLookupClass="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode" 
-					  p:overrideFieldConversions="invoiceItemCode:${accountingLineName}invoiceItemCode,invoiceItemDescription:${accountingLineName}invoiceItemDescription,defaultInvoiceChartOfAccountsCode:${accountingLineName}chartOfAccountsCode,defaultInvoiceAccountNumber:${accountingLineName}accountNumber,defaultInvoiceSubAccountNumber:${accountingLineName}subAccountNumber,defaultInvoiceFinancialObjectCode:${accountingLineName}financialObjectCode,defaultInvoiceFinancialSubObjectCode:${accountingLineName}financialSubObjectCode,defaultInvoiceProjectCode:${accountingLineName}projectCode,defaultInvoiceOrganizationReferenceIdentifier:${accountingLineName}organizationReferenceId"                        
+					  p:overrideFieldConversions="invoiceItemCode:$(accountingLineName)invoiceItemCode,invoiceItemDescription:$(accountingLineName)invoiceItemDescription,defaultInvoiceChartOfAccountsCode:$(accountingLineName)chartOfAccountsCode,defaultInvoiceAccountNumber:$(accountingLineName)accountNumber,defaultInvoiceSubAccountNumber:$(accountingLineName)subAccountNumber,defaultInvoiceFinancialObjectCode:$(accountingLineName)financialObjectCode,defaultInvoiceFinancialSubObjectCode:$(accountingLineName)financialSubObjectCode,defaultInvoiceProjectCode:$(accountingLineName)projectCode,defaultInvoiceOrganizationReferenceIdentifier:$(accountingLineName)organizationReferenceId"                        
 					  p:required="false" />
 					  
 				<bean parent="AccountingLineView-field"	p:name="invoiceItemQuantity"                   p:required="true" />

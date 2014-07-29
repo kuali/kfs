@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentHeaderService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -128,7 +128,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getFinancialSystemDocumentHeader().getDocumentNumber());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderService.class).getCorrectingDocumentHeader(getFinancialSystemDocumentHeader().getDocumentNumber());
             if (correctingDocumentHeader != null) {
                 getFinancialSystemDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }

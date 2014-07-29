@@ -93,7 +93,6 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -224,7 +223,7 @@ public class PurapServiceImpl implements PurapService {
             }
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("unable to save routing data for related docs", e);
+            throw new RuntimeException("unable to save routing data for related docs", e);
         }
 
     }

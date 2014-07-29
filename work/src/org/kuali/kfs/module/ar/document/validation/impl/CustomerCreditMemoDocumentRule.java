@@ -35,7 +35,7 @@ import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemo
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentHeaderService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -327,7 +327,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
 
-        DocumentHeader documentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(invoiceDocumentNumber);
+        DocumentHeader documentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderService.class).getCorrectingDocumentHeader(invoiceDocumentNumber);
 
         // invoice has been corrected
         if (ObjectUtils.isNotNull(documentHeader)) {

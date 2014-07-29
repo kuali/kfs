@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,11 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.dataaccess.NonAppliedHoldingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 public class NonAppliedHoldingDaoOjb extends PlatformAwareDaoBaseOjb implements NonAppliedHoldingDao, OjbCollectionAware {
 
+    @Override
     public Collection<NonAppliedHolding> getNonAppliedHoldingsByListOfDocumentNumbers(List<String> docNumbers) {
         Criteria criteria = new Criteria();
         criteria.addIn("referenceFinancialDocumentNumber", docNumbers);
@@ -39,6 +40,7 @@ public class NonAppliedHoldingDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return new ArrayList<NonAppliedHolding>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
     }
 
+    @Override
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("customerNumber", customerNumber);

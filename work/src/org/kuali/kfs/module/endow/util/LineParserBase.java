@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -69,7 +68,7 @@ public class LineParserBase implements LineParser {
 
     /**
      * Retrieves the attribute label for the specified attribute.
-     * 
+     *
      * @param clazz the class in which the specified attribute is defined
      * @param attributeName the name of the specified attribute
      * @return the attribute label for the specified attribute
@@ -84,35 +83,39 @@ public class LineParserBase implements LineParser {
 
     /**
      * Checks whether the specified Line class is a subclass of EndowmentTransactionLine; throws exceptions if not.
-     * 
+     *
      * @param lineClass the specified line class
      */
     protected void checkLineClass(Class<? extends EndowmentTransactionLine> lineClass) {
-        if (!EndowmentTransactionLine.class.isAssignableFrom(lineClass))
+        if (!EndowmentTransactionLine.class.isAssignableFrom(lineClass)) {
             throw new IllegalArgumentException("Unknown Line class: " + lineClass);
+        }
     }
 
     /**
      * Checks whether the specified line import file is not null and of a valid format; throws exceptions if conditions not
      * satisfied.
-     * 
+     *
      * @param lineClass the specified line import file
      */
     protected void checkLineFile(FormFile lineFile) {
-        if (lineFile == null)
+        if (lineFile == null) {
             throw new LineParserException("Invalid (null) Line import file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
+        }
 
-        if (lineFile.getFileSize() == 0)
+        if (lineFile.getFileSize() == 0) {
             throw new LineParserException("Invalid (null) Line import file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
+        }
 
         String fileName = lineFile.getFileName();
-        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(".csv"))
+        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(".csv")) {
             throw new LineParserException("unsupported Line import file format: " + fileName, KFSKeyConstants.ERROR_LINEPARSER_INVALID_FILE_FORMAT, fileName);
+        }
     }
 
     /**
      * Parses a line of transactions data from a csv file and retrieves the attributes as key-value string pairs into a map.
-     * 
+     *
      * @param line a string read from a line in the line import file
      * @return a map containing line attribute name-value string pairs
      */
@@ -134,7 +137,7 @@ public class LineParserBase implements LineParser {
             if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(lineClass, attributeName)) {
                 attributeValue = attributeValue.toUpperCase();
             }
-            
+
             lineMap.put(attributeName, attributeValue);
         }
         return lineMap;
@@ -142,7 +145,7 @@ public class LineParserBase implements LineParser {
 
     /**
      * Generates an line instance and populates it with the specified attribute map.
-     * 
+     *
      * @param lineMap the specified attribute map from which attributes are populated
      * @param lineClass the class of which the new line instance shall be created
      * @return the populated line
@@ -152,11 +155,8 @@ public class LineParserBase implements LineParser {
         try {
             line = lineClass.newInstance();
         }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("Unable to complete line line population.", e);
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("Unable to complete line line population.", e);
+        catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException("Unable to complete line line population.", e);
         }
 
         boolean failed = false;
@@ -177,14 +177,8 @@ public class LineParserBase implements LineParser {
                 GlobalVariables.getMessageMap().putError(TRANSACTION_LINE_ERRORS, e.getErrorKey(), e.getErrorParameters());
                 failed = true;
             }
-            catch (IllegalAccessException e) {
-                throw new InfrastructureException("unable to complete line line population.", e);
-            }
-            catch (NoSuchMethodException e) {
-                throw new InfrastructureException("unable to complete line line population.", e);
-            }
-            catch (InvocationTargetException e) {
-                throw new InfrastructureException("unable to complete line line population.", e);
+            catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                throw new RuntimeException("unable to complete line line population.", e);
             }
         }
 
@@ -197,6 +191,7 @@ public class LineParserBase implements LineParser {
     /**
      * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(org.apache.struts.upload.FormFile,java.lang.Class,java.lang.String)
      */
+    @Override
     public List<EndowmentTransactionLine> importLines(FormFile lineFile, Class<? extends EndowmentTransactionLine> lineClass, String documentNumber) {
         InputStream is;
         BufferedReader br = null;
@@ -234,19 +229,20 @@ public class LineParserBase implements LineParser {
                 }
             }
             catch (IOException e) {
-                throw new InfrastructureException("Unable to read line from BufferReader in LineParserBase", e);
+                throw new RuntimeException("Unable to read line from BufferReader in LineParserBase", e);
             }
         }
         catch (IOException e) {
-            throw new InfrastructureException("Unable to read line from BufferReader in LineParserBase", e);
+            throw new RuntimeException("Unable to read line from BufferReader in LineParserBase", e);
         }
         finally {
             try {
-                if (null != br)
+                if (null != br) {
                     br.close();
+                }
             }
             catch (IOException e) {
-                throw new InfrastructureException("Unable to close BufferReader in LineParserBase", e);
+                throw new RuntimeException("Unable to close BufferReader in LineParserBase", e);
             }
         }
 

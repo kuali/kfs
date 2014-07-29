@@ -22,7 +22,7 @@
 
 
 	<!-- parent bean to make the definitions below easier to read -->
-	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
  	<bean id="dataSource" p:serviceName="kradApplicationDataSource" parent="grlBeanImporter" />
 	<!-- These are beans we need to export from Rice -->
@@ -77,6 +77,7 @@
  	<bean id="transactionalDocumentDictionaryService" p:serviceName="transactionalDocumentDictionaryService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentDao" p:serviceName="maintenanceDocumentDao" parent="grlBeanImporter" />
  	<bean id="documentDao" p:serviceName="documentDao" parent="grlBeanImporter" />
+ 	<bean id="dataObjectService" p:serviceName="dataObjectService" parent="grlBeanImporter"/>
  	<bean id="dataObjectMetaDataService" p:serviceName="dataObjectMetaDataService" parent="grlBeanImporter" />
  	<bean id="documentDictionaryService" p:serviceName="documentDictionaryService" parent="grlBeanImporter" />
  	<bean id="inquiryViewTypeService" p:serviceName="inquiryViewTypeService" parent="grlBeanImporter" />
@@ -84,6 +85,7 @@
  	<bean id="persistenceServiceOjb" p:serviceName="persistenceServiceOjb" parent="grlBeanImporter" />
  	<bean id="workflowDocumentService" p:serviceName="workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="businessObjectAuthorizationService" p:serviceName="businessObjectAuthorizationService" parent="grlBeanImporter" />
+ 	<bean id="legacyDataAdapter" p:serviceName="legacyDataAdapter" parent="grlBeanImporter"/>
 	<!-- KIM -->
  	<bean id="personService" p:serviceName="personService" parent="grlBeanImporter" />
  	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />

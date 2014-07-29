@@ -60,7 +60,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -308,7 +307,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                 return docs;
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve LineItemReceivingDocuments", e);
+                throw new RuntimeException("unable to retrieve LineItemReceivingDocuments", e);
             }
         }
         else {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import org.kuali.rice.krad.bo.AttributeReferenceDummy;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class GenericAttributes extends AttributeReferenceDummy {
+
+public class GenericAttributes extends PersistableBusinessObjectBase {
 
     private String namespaceCode;
     private String searchType;
@@ -31,8 +32,6 @@ public class GenericAttributes extends AttributeReferenceDummy {
     private Integer transactionLedgerEntrySequenceNumber;
     private String universityFiscalAccountingPeriod;
     private Integer genericFiscalYear;
-    private String maxDollarAmount;
-    private String minDollarAmount;
     private String totalDollarAmount;
     private String financialDocumentStatusName;
     private String financialSystemDocumentTypeCode;
@@ -109,19 +108,19 @@ public class GenericAttributes extends AttributeReferenceDummy {
     public Integer getItemSequenceId() {
         return itemSequenceId;
     }
-    
+
     public void setItemSequenceId(Integer itemSequenceId) {
         this.itemSequenceId = itemSequenceId;
     }
-    
+
     public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
     }
-    
+
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
         this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
-    
+
     public String getUniversityFiscalAccountingPeriod() {
         return universityFiscalAccountingPeriod;
     }
@@ -138,22 +137,6 @@ public class GenericAttributes extends AttributeReferenceDummy {
         this.genericFiscalYear = genericFiscalYear;
     }
 
-    public String getMaxDollarAmount() {
-        return maxDollarAmount;
-    }
-
-    public void setMaxDollarAmount(String maxDollarAmount) {
-        this.maxDollarAmount = maxDollarAmount;
-    }
-
-    public String getMinDollarAmount() {
-        return minDollarAmount;
-    }
-
-    public void setMinDollarAmount(String minDollarAmount) {
-        this.minDollarAmount = minDollarAmount;
-    }
-
     public String getTotalDollarAmount() {
         return totalDollarAmount;
     }
@@ -163,7 +146,7 @@ public class GenericAttributes extends AttributeReferenceDummy {
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public String getFinancialSystemDocumentTypeCode() {
@@ -179,7 +162,7 @@ public class GenericAttributes extends AttributeReferenceDummy {
     }
 
     /**
-     * Gets the referenceDocumentTypeCode attribute. 
+     * Gets the referenceDocumentTypeCode attribute.
      * @return Returns the referenceDocumentTypeCode.
      */
     public String getReferenceTypeCode() {

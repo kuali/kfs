@@ -58,7 +58,7 @@
 		</property>
 	</bean>
 
-	<bean id="kfs.import.globalCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+	<bean id="kfs.import.globalCacheManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="globalCacheManager" />
 	</bean>
 

@@ -52,7 +52,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -456,7 +455,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             docs = documentService.getDocumentsByListOfDocumentHeaderIds(classToSearchFrom, documentNumbers);
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve documents", e);
+            throw new RuntimeException("Unable to retrieve documents", e);
         }
         return docs;
     }

@@ -102,7 +102,6 @@
 	<bean id="AccountPersistenceStructureService" parent="AccountPersistenceStructureService-parentBean" />
 	
 	<bean id="AccountPersistenceStructureService-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl">
-		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
     	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     	<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
     	<property name="accountReferencePersistenceExemptions">
@@ -383,8 +382,8 @@
 		<property name="maintenanceDocumentDictionaryService">
 			<ref bean="maintenanceDocumentDictionaryService" />
 		</property>
-		<property name="maintenanceDocumentDao">
-			<ref bean="maintenanceDocumentDao" />
+		<property name="maintenanceDocumentService">
+			<ref bean="maintenanceDocumentService" />
 		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
@@ -406,8 +405,8 @@
     	<property name="maintenanceDocumentDictionaryService">
     		<ref bean="maintenanceDocumentDictionaryService"/>
     	</property>
-    	<property name="maintenanceDocumentDao">
-    		<ref bean="maintenanceDocumentDao"/>
+    	<property name="maintenanceDocumentService">
+    		<ref bean="maintenanceDocumentService"/>
     	</property>
     	<property name="noteService">
     		<ref bean="noteService"/>
@@ -444,11 +443,14 @@
 	<bean
 		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">
-        <property name="businessObjectService">
-    		<ref bean="businessObjectService"/>
+        <property name="dataObjectService">
+    		<ref bean="dataObjectService"/>
     	</property>
     	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="legacyDataAdapter">
+    		<ref bean="legacyDataAdapter"/>
     	</property>
     	<property name="persistenceService">
             <ref bean="persistenceService" />
@@ -458,11 +460,14 @@
     <bean name="objectCodeCurrentInactivationBlockingDetectionService" parent="objectCodeCurrentInactivationBlockingDetectionService-parentBean"/>
 	<bean name="objectCodeCurrentInactivationBlockingDetectionService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.ObjectCodeCurrentInactivationBlockingDetectionServiceImpl">
-        <property name="businessObjectService">
-    		<ref bean="businessObjectService"/>
+        <property name="dataObjectService">
+    		<ref bean="dataObjectService"/>
     	</property>
     	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="legacyDataAdapter">
+    		<ref bean="legacyDataAdapter"/>
     	</property>
     	<property name="universityDateService">
 			<ref bean="universityDateService" />
@@ -472,11 +477,14 @@
     <bean name="offsetDefinitionInactivationBlockingDetectionService" parent="offsetDefinitionInactivationBlockingDetectionService-parentBean"/>
     <bean name="offsetDefinitionInactivationBlockingDetectionService-parentBean" abstract="true" 
     	class="org.kuali.kfs.coa.service.impl.OffsetDefinitionInactivationBlockingDetectionServiceImpl">
-        <property name="businessObjectService">
-    		<ref bean="businessObjectService"/>
+        <property name="dataObjectService">
+    		<ref bean="dataObjectService"/>
     	</property>
     	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="legacyDataAdapter">
+    		<ref bean="legacyDataAdapter"/>
     	</property>
     </bean>
     

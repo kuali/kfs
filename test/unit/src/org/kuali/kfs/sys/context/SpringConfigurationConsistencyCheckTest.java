@@ -97,7 +97,7 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         Set<String> jobNamesInBeans = jobs.keySet();
         Set<String> jobNamesInModules = new HashSet<String>();
         for ( ModuleService m : moduleServices.values() ) {
-            jobNamesInModules.addAll( m.getModuleConfiguration().getJobNames() );
+            jobNamesInModules.addAll( ((FinancialSystemModuleConfiguration)m.getModuleConfiguration()).getJobNames() );
         }
 
         Set<String> beansNotReferencedInModules = new HashSet<String>( jobNamesInBeans );
@@ -120,7 +120,7 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         Set<String> triggerNamesInBeans = triggers.keySet();
         Set<String> triggerNamesInModules = new HashSet<String>();
         for ( ModuleService m : moduleServices.values() ) {
-            triggerNamesInModules.addAll( m.getModuleConfiguration().getTriggerNames() );
+            triggerNamesInModules.addAll( ((FinancialSystemModuleConfiguration)m.getModuleConfiguration()).getTriggerNames() );
         }
         Set<String> beansNotReferencedInModules = new HashSet<String>( triggerNamesInBeans );
         beansNotReferencedInModules.removeAll(triggerNamesInModules);

@@ -68,7 +68,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -543,7 +542,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 }
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;

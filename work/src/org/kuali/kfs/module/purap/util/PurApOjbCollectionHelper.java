@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.OjbCollectionAware;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 /**
@@ -34,7 +34,7 @@ public class PurApOjbCollectionHelper {
     /**
      * OJB RemovalAwareLists do not survive through the response/request lifecycle. This method is a work-around to forcibly remove
      * business objects that are found in Collections stored in the database but not in memory.
-     * 
+     *
      * @param orig
      * @param id
      * @param template
@@ -45,7 +45,7 @@ public class PurApOjbCollectionHelper {
 
     /**
      * This method processes collections recursively up to the depth level specified
-     * 
+     *
      * @param template
      * @param orig
      * @param copy
@@ -87,7 +87,7 @@ public class PurApOjbCollectionHelper {
     /**
      * OJB RemovalAwareLists do not survive through the response/request lifecycle. This method is a work-around to forcibly remove
      * business objects that are found in Collections stored in the database but not in memory.
-     * 
+     *
      * @param orig
      * @param id
      * @param template
@@ -129,7 +129,7 @@ public class PurApOjbCollectionHelper {
 
     /**
      * This method deletes unwanted objects from the database as well as from the given input List
-     * 
+     *
      * @param origSource - list containing unwanted business objects
      * @param unwantedItems - business objects to be permanently removed
      * @param template
@@ -147,7 +147,7 @@ public class PurApOjbCollectionHelper {
     /**
      * This method identifies items in the first List that are not contained in the second List. It is similar to the (optional)
      * java.util.List retainAll method.
-     * 
+     *
      * @param fromList list from the database
      * @param controlList list from the object
      * @return true iff one or more items were removed
@@ -158,7 +158,7 @@ public class PurApOjbCollectionHelper {
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
             PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
-            
+
             PersistableBusinessObject line = (PersistableBusinessObject) PurApObjectUtils.retrieveObjectWithIdentitcalKey(controlList, copyLine);
             if (ObjectUtils.isNull(line)) {
                 toRemove.add(copyLine);

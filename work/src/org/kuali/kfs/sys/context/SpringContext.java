@@ -41,12 +41,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.component.Component;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.quartz.Scheduler;
@@ -275,11 +275,11 @@ public class SpringContext {
     }
 
     static void initMemoryMonitor() {
-        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {
-            if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+        if ( NumberUtils.isNumber(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {
+            if (Double.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
                 LOG.info( "Starting up MemoryMonitor thread" );
-                MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
-                memoryMonitor = new MemoryMonitor("KFS Memory Monitor: Over " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) + "% Memory Used");
+                MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
+                memoryMonitor = new MemoryMonitor("KFS Memory Monitor: Over " + CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) + "% Memory Used");
                 memoryMonitor.addListener(new MemoryMonitor.Listener() {
                     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 
@@ -302,14 +302,14 @@ public class SpringContext {
                 });
             }
         } else {
-            LOG.warn( MEMORY_MONITOR_THRESHOLD_KEY + " is not a number: " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) );
+            LOG.warn( MEMORY_MONITOR_THRESHOLD_KEY + " is not a number: " + CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) );
         }
     }
 
     static void initMonitoringThread() {
-        if ( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
-            final long sleepPeriod = Long.parseLong( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
-            final File logDir = new File( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString( "logs.directory" ) );
+        if ( CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
+            final long sleepPeriod = Long.parseLong( CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
+            final File logDir = new File( CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString( "logs.directory" ) );
             final File monitoringLogDir = new File( logDir, "monitoring" );
             if ( !monitoringLogDir.exists() ) {
                 monitoringLogDir.mkdir();
@@ -373,7 +373,7 @@ public class SpringContext {
     }
 
     static void initScheduler() {
-        if (KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+        if (CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
             try {
                 LOG.info("Attempting to initialize the SchedulerService");
                 getBean(SchedulerService.class).initialize();
@@ -404,7 +404,7 @@ public class SpringContext {
         }
 
         // KFS addition - republish all components now - until this point, the KFS DD has not been loaded
-        KRADServiceLocatorInternal.getDataDictionaryComponentPublisherService().publishAllComponents();
+        KRADServiceLocatorWeb.getDataDictionaryComponentPublisherService().publishAllComponents();
 
         // KFS addition - we also publish all our Step classes as components - and these are not in the
         // DD so are not published by the command above

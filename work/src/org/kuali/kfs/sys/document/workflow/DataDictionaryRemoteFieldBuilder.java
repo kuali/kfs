@@ -21,9 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.uif.DataType;
 import org.kuali.rice.core.api.uif.RemotableAbstractControl;
 import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
@@ -41,6 +42,8 @@ import org.kuali.rice.kns.datadictionary.control.RadioControlDefinition;
 import org.kuali.rice.kns.datadictionary.control.SelectControlDefinition;
 import org.kuali.rice.kns.datadictionary.control.TextControlDefinition;
 import org.kuali.rice.kns.datadictionary.control.TextareaControlDefinition;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.WorkflowAttributePropertyResolutionService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
@@ -48,11 +51,8 @@ import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DataObjectMetaDataService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.workflow.service.WorkflowAttributePropertyResolutionService;
 
 //RICE20 This class is a temporary fix to support KNS attribute definitions. Should be deleted when rice2.0 adds support.
 public class DataDictionaryRemoteFieldBuilder {
@@ -67,7 +67,7 @@ public class DataDictionaryRemoteFieldBuilder {
         Class<?> componentClass;
         // try to resolve the component name - if not possible - try to pull the definition from the app mediation service
         try {
-            componentClass = (Class<? extends BusinessObject>) Class.forName(componentClassName);
+            componentClass = Class.forName(componentClassName);
             baseDefinition = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(componentClassName).getAttributeDefinition(attributeName);
         }
         catch (ClassNotFoundException ex) {
@@ -82,7 +82,7 @@ public class DataDictionaryRemoteFieldBuilder {
         definition.setRequired(baseDefinition.isRequired());
         definition.setForceUpperCase(baseDefinition.getForceUppercase());
         // set the datatype - needed for successful custom doc searches
-        WorkflowAttributePropertyResolutionService propertyResolutionService = KRADServiceLocatorInternal.getWorkflowAttributePropertyResolutionService();
+        WorkflowAttributePropertyResolutionService propertyResolutionService = KNSServiceLocator.getWorkflowAttributePropertyResolutionService();
         String dataType = propertyResolutionService.determineFieldDataType((Class<? extends BusinessObject>) componentClass, attributeName);
         definition.setDataType(DataType.valueOf(dataType.toUpperCase()));
         RemotableAbstractControl.Builder control = createControl(baseDefinition);
@@ -235,7 +235,7 @@ public class DataDictionaryRemoteFieldBuilder {
             }
         }
         else {
-            Map foreignKeysForReference = KRADServiceLocator.getPersistenceStructureService().getForeignKeysForReference(componentClass, attributeName);
+            Map foreignKeysForReference = KNSServiceLocator.getPersistenceStructureService().getForeignKeysForReference(componentClass, attributeName);
             // check for title attribute and if match build lookup to component class using pk fields
             String titleAttribute = getDataObjectMetaDataService().getTitleAttribute(componentClass);
             if (StringUtils.equals(titleAttribute, attributeName)) {
@@ -268,11 +268,11 @@ public class DataDictionaryRemoteFieldBuilder {
     }
 
     protected DataObjectMetaDataService getDataObjectMetaDataService() {
-        return KRADServiceLocatorWeb.getDataObjectMetaDataService();
+        return KNSServiceLocator.getDataObjectMetaDataService();
     }
 
     protected ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
 
 

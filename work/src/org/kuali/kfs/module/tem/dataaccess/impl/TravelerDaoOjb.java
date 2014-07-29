@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 /**
  * This is the data access interface for Travelers.

@@ -25,10 +25,10 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum DocumentRouteHeaderValueFixture {
 
@@ -460,13 +460,15 @@ public enum DocumentRouteHeaderValueFixture {
     }
 
     public static void setUpData() {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(getAll());
+        final RouteHeaderService routeHeaderService = KEWServiceLocator.getRouteHeaderService();
+        for (DocumentRouteHeaderValue docHeader : getAll()) {
+            routeHeaderService.saveRouteHeader(docHeader);
+        }
 
     }
 
-    private static List<PersistableBusinessObjectBase> getAll() {
-        List<PersistableBusinessObjectBase> recs = new ArrayList<PersistableBusinessObjectBase>();
+    private static List<DocumentRouteHeaderValue> getAll() {
+        List<DocumentRouteHeaderValue> recs = new ArrayList<DocumentRouteHeaderValue>();
         recs.add(REC1.newRecord());
         recs.add(REC2.newRecord());
         recs.add(REC3.newRecord());

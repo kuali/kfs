@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.Job;
+import org.kuali.rice.krad.service.ModuleService;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
@@ -193,4 +194,13 @@ public interface SchedulerService {
      * @return boolean true if next valid date for cron expression matches today, false otherwise
      */
     public boolean cronConditionMet(String cronExpressionString);
+
+    /**
+     * Given a job name, this method will return the module service which is responsible for handling it. It returns null if no
+     * module is found.
+     *
+     * @param jobName
+     * @return the ModuleService of the responsible module or null if the job was not claimed by any installed module
+     */
+    public ModuleService getResponsibleModuleServiceForJob(String jobName);
 }

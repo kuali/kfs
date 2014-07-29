@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.springframework.util.AutoPopulatingList;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);
@@ -55,6 +54,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getAuthorPrincipalName(java.io.File)
      */
+    @Override
     public String getAuthorPrincipalName(File file) {
         return org.apache.commons.lang.StringUtils.substringBetween(file.getName(), FILE_NAME_PREFIX, "_");
     }
@@ -63,15 +63,16 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
      * Builds the file name using the following construction: All collector files start with gl_collectorflatfile_ append the chartorg
      * from the batch header append the username of the user who is uploading the file then the user supplied indentifier finally
      * the timestamp
-     * 
+     *
      * @param user who uploaded the file
      * @param parsedFileContents represents collector batch object
      * @param userIdentifier user identifier for user who uploaded file
      * @return String returns file name using the convention mentioned in the description
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object,
      *      java.lang.String)
      */
+    @Override
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         String fileName = FILE_NAME_PREFIX;
         fileName += principalName;
@@ -89,6 +90,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileTypeIdentifer()
      */
+    @Override
     public String getFileTypeIdentifer() {
         return KFSConstants.COLLECTOR_FLAT_FILE_TYPE_INDENTIFIER;
     }
@@ -96,6 +98,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
+    @Override
     public String getTitleKey() {
         return KFSKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR_FLAT_FILE;
     }
@@ -103,6 +106,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#parse(byte[])
      */
+    @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         List<CollectorBatch> batchList = new ArrayList<CollectorBatch>();
         CollectorBatch currentBatch = null;
@@ -111,10 +115,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         Date curDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         UniversityDate universityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         int lineNumber = 0;
-        
+
         //temporary storage of the balance type map of each accounting record/origin entry
         Map<String, String> accountRecordBalanceTypeMap = new HashMap<String, String>();
-        
+
         try {
             while ((fileLine = bufferedFileReader.readLine()) != null) {
                 lineNumber++;
@@ -133,7 +137,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                             }
                             currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
                         }
-                        
+
                     }
                     else if ("DT".equals(recordType)) {  //ID billing detail
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
@@ -160,7 +164,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                         try {
                             OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
                             currentBatch.addOriginEntry(originEntry);
-                            
+
                             //use origin entry to derive a key to store the balance type to the map
                             String accountRecordKey = generateAccountRecordBalanceTypeKey(originEntry);
                             accountRecordBalanceTypeMap.put(accountRecordKey, originEntry.getFinancialBalanceTypeCode());
@@ -178,12 +182,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             throw new ParseException(e.getMessage() + " happend in CollectorFlatFileInputType.parse.", e);
         }
 
-        
+
         for (CollectorBatch batch : batchList) {
             OriginEntryTotals totals = new OriginEntryTotals();
             totals.addToTotals(batch.getOriginEntries().iterator());
             batch.setOriginEntryTotals(totals);
-            
+
             // now copy all the messages from the per-batch message map into the global map, so that we can display the messages on the upload screen
             copyAllMessages(batch.getMessageMap(), GlobalVariables.getMessageMap());
         }
@@ -191,12 +195,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Account record balance type key 
+     * Account record balance type key
      * Fiscal Year - Chart Code - Account Number - Sub-account Number - Object code - Sub-object Code
-     * 
+     *
      * For the two optional fields sub-account and sub-object code, create an additional filter to replace
      * the usual place holder - with spaces
-     * 
+     *
      * @param originEntry
      * @return
      */
@@ -216,10 +220,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         copyAllMessagesHelper(sourceMap.getWarningMessages(), "warning", destMap);
         copyAllMessagesHelper(sourceMap.getErrorMessages(), "error", destMap);
     }
-    
-    private void copyAllMessagesHelper(Map<String, AutoPopulatingList<ErrorMessage>> sourceMessages, String type, MessageMap destMap) {
+
+    private void copyAllMessagesHelper(Map<String, List<ErrorMessage>> sourceMessages, String type, MessageMap destMap) {
         for (String key : sourceMessages.keySet()) {
-            AutoPopulatingList<ErrorMessage> messages = sourceMessages.get(key);
+            List<ErrorMessage> messages = sourceMessages.get(key);
             if (messages != null) {
                 for (Object o : messages) {
                     ErrorMessage message = (ErrorMessage) o;
@@ -247,7 +251,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             currentBatch.setTotalRecords(0);
         }
     }
-    
+
     protected CollectorBatch createHeaderlessBatchIfNecessary(CollectorBatch currentBatch, List<CollectorBatch> batchList, int lineNumber) {
         if (currentBatch != null) {
             return currentBatch;
@@ -261,6 +265,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#process(java.lang.String, java.lang.Object)
      */
+    @Override
     public void process(String fileName, Object parsedFileContents) {
         // do not do anything
     }
@@ -272,54 +277,54 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         }
         return amount;
     }
-        
+
     protected CollectorBatch createCollectorBatch(String headerLine, List<CollectorBatch> batchList) {
         CollectorBatch newBatch = new CollectorBatch();
         newBatch.setFromTextFileForCollectorBatch(headerLine);
         batchList.add(newBatch);
-        
+
         return newBatch;
     }
-    
+
     protected CollectorDetail createCollectorDetail(String detailLine, Map<String, String>accountRecordBalanceTypeMap, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         CollectorDetail collectorDetail = new CollectorDetail();
         collectorDetail.setFromFileForCollectorDetail(detailLine, accountRecordBalanceTypeMap, curDate, universityDate, lineNumber, messageMap);
-        
+
         return collectorDetail;
     }
-    
+
     protected void updateCollectorDetailWithTrailerRecords(CollectorBatch currentBatch, String fileLine, int lineNumber) {
         currentBatch.setFromTextFileForCollectorBatchTrailerRecord(fileLine, lineNumber);
     }
-    
+
     protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         OriginEntryFull originEntry = new OriginEntryFull();
-        try{        
+        try{
             List<Message> originEntryErrorMessages = originEntry.setFromTextFileForBatch(fileLine, lineNumber);
 
             if (null == originEntry.getTransactionDate()) {
                 originEntry.setTransactionDate(curDate);
             }
-            
+
             if (StringUtils.isBlank(originEntry.getUniversityFiscalPeriodCode())) {
                 originEntry.setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
             }
-            
+
             if ( null == originEntry.getTransactionLedgerEntrySequenceNumber() ) {
                 originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
             }
-                
+
             if (StringUtils.isBlank(originEntry.getSubAccountNumber())) {
                 originEntry.setSubAccountNumber(" ");
             }
             if (StringUtils.isBlank(originEntry.getFinancialSubObjectCode())) {
                 originEntry.setFinancialSubObjectCode(" ");
             }
-            
+
             for (Message orginEntryError : originEntryErrorMessages) {
-               messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, orginEntryError.getMessage()); 
+               messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, orginEntryError.getMessage());
             }
-        
+
         } catch (Exception e){
             throw new RuntimeException(e + " occurred in CollectorFlatFileInputType.createOriginEntry()",e);
         }
@@ -329,6 +334,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return originEntry;
     }
 
+    @Override
     public boolean validate(Object parsedFileContents) {
         List<CollectorBatch> collectorBatches = (List<CollectorBatch>) parsedFileContents;
         for (CollectorBatch collectorBatch : collectorBatches) {
@@ -340,10 +346,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                 return false;
             }
         }
-    
+
         return true;
     }
-    
+
     /**
      * Sets the dateTimeService attribute value.
      * @param dateTimeService The dateTimeService to set.
@@ -359,12 +365,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
         this.collectorHelperService = collectorHelperService;
     }
-    
+
     protected String extractRecordType(String line) {
         if (line == null || line.length() < 27) {
             return null;
         }
-        
+
         String recordType = null;
         CollectorBatch collectorBatch = new CollectorBatch();
         final Map<String, Integer> pMap = CollectorBatch.getCollectorBatchHeaderFieldUtil().getFieldBeginningPositionMap();
@@ -372,7 +378,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
 
         return recordType;
     }
-    
+
     protected String preprocessLine(String line) {
         return line;
     }

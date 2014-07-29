@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

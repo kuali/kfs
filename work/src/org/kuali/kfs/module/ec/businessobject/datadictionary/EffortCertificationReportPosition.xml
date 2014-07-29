@@ -82,9 +82,6 @@
 
   <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-
-  <bean id="EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl" abstract="true" class="org.kuali.kfs.module.ld.service.impl.EffortCertificationReportPositionInactivationBlockingDetectionServiceImpl">
-  </bean>
   
 <!-- Business Object Inquiry Definition -->
 

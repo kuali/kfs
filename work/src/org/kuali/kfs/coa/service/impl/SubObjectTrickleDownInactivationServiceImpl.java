@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,10 +38,10 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.dao.MaintenanceDocumentDao;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentHeaderService;
+import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,21 +52,23 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     private static final int NO_OF_SUB_OBJECTS_PER_NOTE = 15;
 
     private static final Logger LOG = Logger.getLogger(SubObjectTrickleDownInactivationServiceImpl.class);
-    
+
     protected BusinessObjectService businessObjectService;
     protected MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
-    protected MaintenanceDocumentDao maintenanceDocumentDao;
+    protected MaintenanceDocumentService maintenanceDocumentService;
     protected NoteService noteService;
     protected ConfigurationService kualiConfigurationService;
     protected UniversityDateService universityDateService;
     protected DocumentHeaderService documentHeaderService;
-    
+
+    @Override
     public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(Account inactivatedAccount, String documentNumber) {
         Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedAccount);
         List<MaintenanceLock> maintenanceLocks = generateTrickleDownMaintenanceLocks(subObjects, documentNumber);
         return maintenanceLocks;
     }
 
+    @Override
     public List<MaintenanceLock> generateTrickleDownMaintenanceLocks(ObjectCode inactivatedObjectCode, String documentNumber) {
         Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedObjectCode);
         List<MaintenanceLock> maintenanceLocks = generateTrickleDownMaintenanceLocks(subObjects, documentNumber);
@@ -82,25 +84,27 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
         return maintenanceLocks;
     }
-    
+
     protected class TrickleDownInactivationStatus {
         public List<SubObjectCode> inactivatedSubObjCds;
         public Map<SubObjectCode, String> alreadyLockedSubObjCds;
         public List<SubObjectCode> errorPersistingSubObjCds;
-        
+
         public TrickleDownInactivationStatus() {
             inactivatedSubObjCds = new ArrayList<SubObjectCode>();
             alreadyLockedSubObjCds = new HashMap<SubObjectCode, String>();
             errorPersistingSubObjCds = new ArrayList<SubObjectCode>();
         }
     }
-    
+
+    @Override
     public void trickleDownInactivateSubObjects(Account inactivatedAccount, String documentNumber) {
         Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedAccount);
         TrickleDownInactivationStatus trickleDownInactivationStatus = trickleDownInactivate(subObjects, documentNumber);
         addNotesToDocument(trickleDownInactivationStatus, documentNumber);
     }
 
+    @Override
     public void trickleDownInactivateSubObjects(ObjectCode inactivatedObject, String documentNumber) {
         Collection<SubObjectCode> subObjects = getAssociatedSubObjects(inactivatedObject);
         TrickleDownInactivationStatus trickleDownInactivationStatus = trickleDownInactivate(subObjects, documentNumber);
@@ -109,24 +113,23 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
 
     protected TrickleDownInactivationStatus trickleDownInactivate(Collection<SubObjectCode> subObjects, String documentNumber) {
         TrickleDownInactivationStatus trickleDownInactivationStatus = new TrickleDownInactivationStatus();
-        
+
         if (subObjects != null && !subObjects.isEmpty()) {
             Maintainable subObjectMaintainable = getSubObjectMaintainable(documentNumber);
             for (Iterator<SubObjectCode> i = subObjects.iterator(); i.hasNext(); ) {
                 SubObjectCode subObjCd = i.next();
                 if (subObjCd.isActive()) {
                     subObjectMaintainable.setBusinessObject(subObjCd);
-                    List<MaintenanceLock> subAccountLocks = subObjectMaintainable.generateMaintenanceLocks();
-                    
-                    MaintenanceLock failedLock = verifyAllLocksFromThisDocument(subAccountLocks, documentNumber);
-                    if (failedLock != null) {
+                    final String failedLockDocumentId = maintenanceDocumentService.getLockingDocumentId(subObjectMaintainable, documentNumber);
+
+                    if (StringUtils.isBlank(failedLockDocumentId)) {
                         // another document has locked this sub account, so we don't try to inactivate the account
-                        trickleDownInactivationStatus.alreadyLockedSubObjCds.put(subObjCd, failedLock.getDocumentNumber());
+                        trickleDownInactivationStatus.alreadyLockedSubObjCds.put(subObjCd, failedLockDocumentId);
                     }
                     else {
                         // no locks other than our own (but there may have been no locks at all), just go ahead and try to update
                         subObjCd.setActive(false);
-                        
+
                         try {
                             subObjectMaintainable.saveBusinessObject();
                             trickleDownInactivationStatus.inactivatedSubObjCds.add(subObjCd);
@@ -139,10 +142,10 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                 }
             }
         }
-        
+
         return trickleDownInactivationStatus;
     }
-    
+
     protected void addNotesToDocument(TrickleDownInactivationStatus trickleDownInactivationStatus, String documentNumber) {
         if (trickleDownInactivationStatus.inactivatedSubObjCds.isEmpty() && trickleDownInactivationStatus.alreadyLockedSubObjCds.isEmpty() && trickleDownInactivationStatus.errorPersistingSubObjCds.isEmpty()) {
             // if we didn't try to inactivate any sub-objects, then don't bother
@@ -150,22 +153,12 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
         DocumentHeader noteParent = documentHeaderService.getDocumentHeaderById(documentNumber);
         Note newNote = new Note();
-        
+
         addNotes(documentNumber, trickleDownInactivationStatus.inactivatedSubObjCds, KFSKeyConstants.SUB_OBJECT_TRICKLE_DOWN_INACTIVATION, noteParent, newNote);
         addNotes(documentNumber, trickleDownInactivationStatus.errorPersistingSubObjCds, KFSKeyConstants.SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_ERROR_DURING_PERSISTENCE, noteParent, newNote);
         addMaintenanceLockedNotes(documentNumber, trickleDownInactivationStatus.alreadyLockedSubObjCds, KFSKeyConstants.SUB_OBJECT_TRICKLE_DOWN_INACTIVATION_RECORD_ALREADY_MAINTENANCE_LOCKED, noteParent, newNote);
     }
 
-    protected MaintenanceLock verifyAllLocksFromThisDocument(List<MaintenanceLock> maintenanceLocks, String documentNumber) {
-        for (MaintenanceLock maintenanceLock : maintenanceLocks) {
-            String lockingDocNumber = maintenanceDocumentDao.getLockingDocumentNumber(maintenanceLock.getLockingRepresentation(), documentNumber);
-            if (StringUtils.isNotBlank(lockingDocNumber)) {
-                return maintenanceLock;
-            }
-        }
-        return null;
-    }
-    
     protected Maintainable getSubObjectMaintainable(String documentNumber) {
         Maintainable subObjectMaintainable;
         try {
@@ -179,7 +172,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
         return subObjectMaintainable;
     }
-    
+
     protected Collection<SubObjectCode> getAssociatedSubObjects(Account account) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
@@ -187,7 +180,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
         return businessObjectService.findMatching(SubObjectCode.class, fieldValues);
     }
-    
+
     protected Collection<SubObjectCode> getAssociatedSubObjects(ObjectCode objectCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, objectCode.getUniversityFiscalYear());
@@ -215,7 +208,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
             }
         }
     }
-    
+
     protected void addMaintenanceLockedNotes(String documentNumber, Map<SubObjectCode, String> lockedSubObjects, String messageKey, PersistableBusinessObject noteParent, Note noteTemplate) {
         for (Map.Entry<SubObjectCode, String> entry : lockedSubObjects.entrySet()) {
             try {
@@ -236,9 +229,9 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
             }
         }
     }
-    
+
     protected String createSubObjectChunk(List<SubObjectCode> listOfSubObjects, int startIndex, int endIndex) {
-        StringBuilder buf = new StringBuilder(); 
+        StringBuilder buf = new StringBuilder();
         for (int i = startIndex; i < endIndex && i < listOfSubObjects.size(); i++) {
             SubObjectCode subObjCd = listOfSubObjects.get(i);
             buf.append(subObjCd.getUniversityFiscalYear()).append(" - ").append(subObjCd.getChartOfAccountsCode()).append(" - ")
@@ -250,13 +243,13 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         }
         return buf.toString();
     }
-    
+
     protected int getNumSubObjectsPerNote() {
-        //Account Document in Exception reduced the no of sub objects 
-        //per note from 20 to 15 to reduce the note text length 
+        //Account Document in Exception reduced the no of sub objects
+        //per note from 20 to 15 to reduce the note text length
         return NO_OF_SUB_OBJECTS_PER_NOTE;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -265,8 +258,8 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
         this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
 
-    public void setMaintenanceDocumentDao(MaintenanceDocumentDao maintenanceDocumentDao) {
-        this.maintenanceDocumentDao = maintenanceDocumentDao;
+    public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
+        this.maintenanceDocumentService = maintenanceDocumentService;
     }
 
     public void setNoteService(NoteService noteService) {

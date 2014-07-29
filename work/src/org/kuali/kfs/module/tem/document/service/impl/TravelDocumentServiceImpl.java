@@ -137,7 +137,6 @@ import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -1400,8 +1399,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         try {
             object = c.newInstance();
         }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to complete line population.", e);
+        catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("unable to complete line population.", e);
         }
 
         boolean failed = false;
@@ -2651,9 +2650,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     String url = customizeAgencyLink(travelDocument, siteInfo[0], siteInfo[1]);
                     final String prefixedUrl = prefixUrl(url);
                     LinkField link = new LinkField();
-                    link.setHrefText(prefixedUrl);
+                    link.setHref(prefixedUrl);
                     link.setTarget(target);
-                    link.setLinkLabel(siteInfo[0]);
+                    link.setLinkText(siteInfo[0]);
                     agencyLinks.add(link);
                 }
             }

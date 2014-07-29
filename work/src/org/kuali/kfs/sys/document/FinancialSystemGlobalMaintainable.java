@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,22 +37,22 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
     private static final Logger LOG = Logger.getLogger(FinancialSystemGlobalMaintainable.class);
 
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("FinancialSystemGlobalMaintainable does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName); 
+        throw new UnsupportedOperationException("FinancialSystemGlobalMaintainable does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName);
     }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refreshReferences(String)
      */
     @Override
-    protected void refreshReferences(String referencesToRefresh) {
+    public void refreshReferences(String referencesToRefresh) {
         // if accounts can't cross charts, populate chart code fields according to corresponding account number fields
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
-            populateChartOfAccountsCodeFields();            
+            populateChartOfAccountsCodeFields();
         }
-        
+
         super.refreshReferences(referencesToRefresh);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterAddLine(String)
      */
@@ -62,7 +62,7 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
 
         // if accounts can't cross charts, populate chart code fields according to corresponding account number fields
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
-            populateChartOfAccountsCodeFields();            
+            populateChartOfAccountsCodeFields();
         }
     }
 
@@ -75,55 +75,55 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
 
         // if accounts can't cross charts, populate chart code fields according to corresponding account number fields
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
-            populateChartOfAccountsCodeFields();            
+            populateChartOfAccountsCodeFields();
         }
     }
-    
+
     /**
-     * Populates all chartOfAccountsCode fields according to corresponding accountNumber fields in this BO.  
-     * The chartOfAccountsCode-accountNumber pairs are (part of) the FKs for the reference accounts in this BO.    
+     * Populates all chartOfAccountsCode fields according to corresponding accountNumber fields in this BO.
+     * The chartOfAccountsCode-accountNumber pairs are (part of) the FKs for the reference accounts in this BO.
      */
     protected void populateChartOfAccountsCodeFields() {
         AccountService acctService = SpringContext.getBean(AccountService.class);
         AccountPersistenceStructureService apsService = SpringContext.getBean(AccountPersistenceStructureService.class);
- 
-        // non-collection reference accounts 
-        PersistableBusinessObject bo = getBusinessObject();        
-        Iterator<Map.Entry<String, String>> chartAccountPairs = apsService.listChartCodeAccountNumberPairs(bo).entrySet().iterator();        
+
+        // non-collection reference accounts
+        PersistableBusinessObject bo = getBusinessObject();
+        Iterator<Map.Entry<String, String>> chartAccountPairs = apsService.listChartCodeAccountNumberPairs(bo).entrySet().iterator();
         while (chartAccountPairs.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>)chartAccountPairs.next();
-            String coaCodeName = entry.getKey();            
-            String acctNumName = entry.getValue(); 
+            Map.Entry<String, String> entry = chartAccountPairs.next();
+            String coaCodeName = entry.getKey();
+            String acctNumName = entry.getValue();
             String accountNumber = (String)ObjectUtils.getPropertyValue(bo, acctNumName);
             String coaCode = null;
-            Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+            Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);
             if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
             }
             try {
-                ObjectUtils.setObjectProperty(bo, coaCodeName, coaCode); 
+                ObjectUtils.setObjectProperty(bo, coaCodeName, coaCode);
             }
             catch (Exception e) {
                 LOG.error("Error in setting property value for " + coaCodeName, e);
             }
         }
-        
-        // collection reference accounts         
-        Iterator<Map.Entry<String, Class>> accountColls = apsService.listCollectionAccountFields(bo).entrySet().iterator();        
+
+        // collection reference accounts
+        Iterator<Map.Entry<String, Class>> accountColls = apsService.listCollectionAccountFields(bo).entrySet().iterator();
         while (accountColls.hasNext()) {
-            Map.Entry<String, Class> entry = (Map.Entry<String, Class>)accountColls.next();
+            Map.Entry<String, Class> entry = accountColls.next();
             String accountCollName = entry.getKey();
             PersistableBusinessObject newAccount = getNewCollectionLine(accountCollName);
-            
-            // here we can use hard-coded chartOfAccountsCode and accountNumber field name 
-            // since all reference account types do follow the standard naming pattern        
-            String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);            
+
+            // here we can use hard-coded chartOfAccountsCode and accountNumber field name
+            // since all reference account types do follow the standard naming pattern
+            String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);
             String coaCode = null;
-            Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+            Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);
             if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
                 try {
-                    ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 
+                    ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                 }
                 catch (Exception e) {
                     LOG.error("Error in setting chartOfAccountsCode property value in account collection " + accountCollName, e);
@@ -131,5 +131,5 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
             }
         }
     }
-    
+
 }

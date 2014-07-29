@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,12 +30,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.lookup.LookupResults;
 import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.SelectedObjectIds;
 import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.bo.LookupResults;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.bo.SelectedObjectIds;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,18 +52,20 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
 
     /**
      * Retrieve the Date Time Service
-     * 
+     *
      * @return Date Time Service
      */
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
     /**
      * Assign the Date Time Service
-     * 
+     *
      * @param dateTimeService
      */
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -71,6 +73,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#persistResultsTable(java.lang.String, java.util.List, java.lang.String)
      */
+    @Override
     public void persistResultsTable(String lookupResultsSequenceNumber, List<ResultRow> resultTable, String personId) throws Exception {
         String resultTableString = new String(Base64.encodeBase64(ObjectUtils.toByteArray(resultTable)));
 
@@ -94,6 +97,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#persistSelectedObjectIds(java.lang.String, java.util.Set, java.lang.String)
      */
+    @Override
     public void persistSelectedObjectIds(String lookupResultsSequenceNumber, Set<String> selectedObjectIds, String personId) throws Exception {
         SelectedObjectIds selectedObjectIdsBO = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
         if (selectedObjectIdsBO == null) {
@@ -110,6 +114,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveResultsTable(java.lang.String, java.lang.String)
      */
+    @Override
     public List<ResultRow> retrieveResultsTable(String lookupResultsSequenceNumber, String personId) throws Exception {
         LookupResults lookupResults = retrieveLookupResults(lookupResultsSequenceNumber);
         if (!isAuthorizedToAccessLookupResults(lookupResults, personId)) {
@@ -123,10 +128,11 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * Returns a list of BOs that were selected. This implementation makes an attempt to retrieve all BOs with the given object IDs,
      * unless they have been deleted or the object ID changed. Since data may have changed since the search, the returned BOs may
      * not match the criteria used to search.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class,
      *      java.lang.String)
      */
+    @Override
     public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Class boClass, String personId) throws Exception {
         Set<String> setOfSelectedObjIds = retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, personId);
         return retrieveSelectedResultBOs(lookupResultsSequenceNumber, setOfSelectedObjIds, boClass, personId);
@@ -137,6 +143,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * @param personId
      * @return Set<String>
      */
+    @Override
     public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String personId) throws Exception {
         SelectedObjectIds selectedObjectIds = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
         if (!isAuthorizedToAccessSelectedObjectIds(selectedObjectIds, personId)) {
@@ -153,6 +160,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * @param personId
      * @return Collection<PersistableBusinessObject>
      */
+    @Override
     public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String personId) throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Retrieving results for class " + boClass + " with objectIds " + setOfSelectedObjIds);

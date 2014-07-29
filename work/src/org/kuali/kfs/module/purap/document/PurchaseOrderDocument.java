@@ -109,7 +109,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.NoteType;
@@ -1768,7 +1767,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     @Override
     public PersistableBusinessObject getNoteTarget() {
         PurchaseOrderDao purchaseOrderDao = SpringContext.getBean(PurchaseOrderDao.class);
-        DocumentDao docDao = KRADServiceLocatorInternal.getDocumentDao();
+        DocumentDao docDao = SpringContext.getBean(DocumentDao.class);
 
         PurchaseOrderDocument oldest = docDao.findByDocumentHeaderId(PurchaseOrderDocument.class, purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(this.getPurapDocumentIdentifier()));
 

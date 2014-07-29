@@ -42,7 +42,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
@@ -96,7 +95,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             return SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetailFromOrganizationAccountingDefaultForCurrentYear();
         }
         catch (Exception e) {
-            throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);
+            throw new RuntimeException("Unable to create a new customer invoice document accounting line", e);
         }
     }
 

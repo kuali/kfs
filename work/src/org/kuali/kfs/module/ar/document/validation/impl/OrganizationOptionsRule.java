@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +38,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.AutoPopulatingList;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
@@ -70,7 +70,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 
     // TODO method is gone - fix for kim / session work
 //    /**
-//     * 
+//     *
 //     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#checkAuthorizationRestrictions(org.kuali.rice.kns.document.MaintenanceDocument)
 //     */
 //    @Override
@@ -78,7 +78,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 //        boolean success = super.checkAuthorizationRestrictions(document);
 //
 //        MessageMap map = GlobalVariables.getMessageMap();
-//        
+//
 //        if(map.containsMessageKey(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
@@ -89,7 +89,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
 //        }
-//        
+//
 //        return success;
 //    }
 
@@ -98,10 +98,10 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
      * @param map
      */
     protected void removeRestrictedFieldChangedErrors(MessageMap map, String propertyKey) {
-        AutoPopulatingList<ErrorMessage> errorMessages = map.getErrorMessagesForProperty(propertyKey);
+        List<ErrorMessage> errorMessages = map.getErrorMessagesForProperty(propertyKey);
         if(errorMessages!=null) {
             for(int i=0; i<errorMessages.size(); i++) {
-                ErrorMessage eMessage = (ErrorMessage)errorMessages.get(i);
+                ErrorMessage eMessage = errorMessages.get(i);
                 String errorKey = eMessage.getErrorKey();
                 if(errorKey.equals(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
                     errorMessages.remove(i);
@@ -109,10 +109,10 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
             }
         }
     }
-        
+
     /**
      * This method this returns true if system information row exists for processing chart and org
-     * 
+     *
      * @param organizationOptions
      * @return
      */
@@ -127,7 +127,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
         criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
 
-        SystemInformation systemInformation = (SystemInformation) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         if (ObjectUtils.isNull(systemInformation)) {
             putFieldError(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[] { processingChartOfAccountCode, processingOrganizationCode });

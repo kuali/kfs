@@ -43,7 +43,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -375,8 +374,8 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         try {
             return (SourceAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
         }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to create a new source accounting line", e);
+        catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("unable to create a new source accounting line", e);
         }
     }
 
@@ -391,8 +390,8 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         try {
             return (TargetAccountingLine) financialDocument.getTargetAccountingLineClass().newInstance();
         }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to create a new target accounting line", e);
+        catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("unable to create a new target accounting line", e);
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
     <!ENTITY spring.version "3.1.0.RELEASE">
-    <!ENTITY rice.version "2.1.9">
+    <!ENTITY rice.version "2.4.2">
 ]>
 <ivy-module version="2.0">
 	<info organisation="org.kuali.kfs" module="kfs" />
@@ -159,6 +159,8 @@
 			transitive="false" conf="rice-lib->default" />
 		<dependency org="oro" name="oro" rev="2.0.8" transitive="false"
 			conf="rice-lib->default" />
+		<dependency org="org.eclipse.persistence" name="eclipselink" rev="2.5.1"
+			transitive="false" conf="rice-lib->default" />
 		<dependency org="org.quartz-scheduler" name="quartz" rev="1.8.4"
 			transitive="false" conf="rice-lib->default" />
 		<dependency org="org.kuali.rice" name="rice-core-api" rev="&rice.version;"
@@ -201,6 +203,8 @@
 			transitive="false" conf="rice-lib->default"/>
 		<dependency org="org.kuali.rice" name="rice-krad-app-framework" rev="&rice.version;"
 			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-data" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
 		<dependency org="org.kuali.rice" name="rice-krad-web-framework" rev="&rice.version;"
 			transitive="false" conf="rice-lib->default"/>
 		<dependency org="org.kuali.rice" name="rice-krms-api" rev="&rice.version;"
@@ -224,6 +228,8 @@
 		<dependency org="org.kuali.rice" name="rice-location-impl" rev="&rice.version;"
 			transitive="false" conf="rice-lib->default"/>
 		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
+			transitive="false" conf="rice-lib->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-service-impl" rev="&rice.version;"
 			transitive="false" conf="rice-lib->default"/>
 		<dependency org="xalan" name="serializer" rev="2.7.1"
 			transitive="false" conf="rice-lib->default" />
@@ -353,6 +359,8 @@
 			transitive="false" conf="rice-sources->default"/>
 		<dependency org="org.kuali.rice" name="rice-krad-app-framework" rev="&rice.version;"
 			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-data" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
 		<dependency org="org.kuali.rice" name="rice-krad-web-framework" rev="&rice.version;"
 			transitive="false" conf="rice-sources->default"/>
 		<dependency org="org.kuali.rice" name="rice-krms-api" rev="&rice.version;"
@@ -376,6 +384,8 @@
 		<dependency org="org.kuali.rice" name="rice-location-impl" rev="&rice.version;"
 			transitive="false" conf="rice-sources->default"/>
 		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
+			transitive="false" conf="rice-sources->default"/>
+		<dependency org="org.kuali.rice" name="rice-krad-service-impl" rev="&rice.version;"
 			transitive="false" conf="rice-sources->default"/>
 
 		<!--  Rice war; move this to external/appserver -->

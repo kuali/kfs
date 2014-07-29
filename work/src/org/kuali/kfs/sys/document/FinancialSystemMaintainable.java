@@ -68,7 +68,7 @@ public class FinancialSystemMaintainable extends KualiMaintainableImpl {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refreshReferences(String)
      */
     @Override
-    protected void refreshReferences(String referencesToRefresh) {
+    public void refreshReferences(String referencesToRefresh) {
         // if accounts can't cross charts, populate chart code fields according to corresponding account number fields
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
             populateChartOfAccountsCodeFields();

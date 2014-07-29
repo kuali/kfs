@@ -49,7 +49,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Represents a field (plus, optionally, a dynamic name field) to be rendered as part of an accounting line.
  */
 public class AccountingLineViewField extends FieldTableJoiningWithHeader implements HeaderLabelPopulating, ReadOnlyable {
-    public static final String ACCOUNTING_LINE_NAME_PREFIX_PLACE_HOLDER = "${accountingLineName}";
+    public static final String ACCOUNTING_LINE_NAME_PREFIX_PLACE_HOLDER = "$(accountingLineName)";
 
     private Field field;
     private AccountingLineViewFieldDefinition definition;

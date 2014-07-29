@@ -41,10 +41,11 @@
   	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
 		<property name="documentService" ref="documentService" />
 	</bean>
-
-    <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb">
-    	<property name="documentHeaderBaseClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
-    </bean>
+	
+	<bean id="documentHeaderService" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentHeaderServiceImpl">
+		<property name="documentHeaderClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"/>
+		<property name="dataObjectService" ref="dataObjectService"/>
+	</bean>
     
     <bean id="businessObjectAuthorizationService" class="org.kuali.kfs.sys.service.impl.BusinessObjectAuthorizationServiceImpl"/>
 

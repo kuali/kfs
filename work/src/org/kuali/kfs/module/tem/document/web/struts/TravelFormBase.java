@@ -61,7 +61,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.field.LinkField;
@@ -645,8 +644,8 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             newSource.setFinancialObjectCode("");
             return newSource;
         }
-        catch (Exception e) {
-            throw new InfrastructureException("Unable to create a new travel document accounting line", e);
+        catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException("Unable to create a new travel document accounting line", e);
         }
     }
 

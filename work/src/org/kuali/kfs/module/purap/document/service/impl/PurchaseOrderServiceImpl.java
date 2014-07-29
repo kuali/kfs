@@ -123,7 +123,6 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
@@ -159,6 +158,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected B2BPurchaseOrderService b2bPurchaseOrderService;
     protected DataDictionaryService dataDictionaryService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
+    protected ConfigurationService configurationService;
 
 
     @Override
@@ -1725,13 +1725,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected String getAdhocFyiAnnotation(PurchaseOrderDocument po) {
         String annotation = "";
         if (po.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            annotation = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(PurapConstants.PO_DISAPPROVAL_ANNOTATION_TEXT);
+            annotation = getConfigurationService().getPropertyValueAsString(PurapConstants.PO_DISAPPROVAL_ANNOTATION_TEXT);
         }
         if (po.getDocumentHeader().getWorkflowDocument().isFinal()) {
-            annotation = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(PurapConstants.PO_FINAL_ANNOTATION_TEXT);
+            annotation = getConfigurationService().getPropertyValueAsString(PurapConstants.PO_FINAL_ANNOTATION_TEXT);
         }
         if (po.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            annotation =KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(PurapConstants.PO_CANCEL_ANNOTATION_TEXT);
+            annotation = getConfigurationService().getPropertyValueAsString(PurapConstants.PO_CANCEL_ANNOTATION_TEXT);
         }
         return annotation;
     }
@@ -2413,5 +2413,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
     }
 }

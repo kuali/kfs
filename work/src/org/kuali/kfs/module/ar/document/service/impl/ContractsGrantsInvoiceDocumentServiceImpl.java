@@ -122,7 +122,6 @@ import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -950,7 +949,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
         }
         return docs;
     }
@@ -2956,7 +2955,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve ContractsGrants Invoice Documents", e);
+            throw new RuntimeException("Unable to retrieve ContractsGrants Invoice Documents", e);
         }
 
         return docs;

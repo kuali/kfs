@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
@@ -39,7 +40,6 @@ import org.kuali.kfs.sys.batch.ScheduleStep;
 import org.kuali.kfs.sys.batch.SimpleTriggerDescriptor;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BatchModuleService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -120,8 +120,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
         }
         JobDescriptor jobDescriptor;
-        if ( moduleService.getModuleConfiguration().getJobNames() != null ) {
-            for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
+        if ( ((FinancialSystemModuleConfiguration)moduleService.getModuleConfiguration()).getJobNames() != null ) {
+            for (String jobName : ((FinancialSystemModuleConfiguration)moduleService.getModuleConfiguration()).getJobNames()) {
                 try {
                     if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
                         jobDescriptor = new JobDescriptor();
@@ -149,8 +149,8 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @param moduleService the ModuleService instance to initialize triggers for
      */
     protected void initializeTriggersForModule(ModuleService moduleService) {
-        if ( moduleService.getModuleConfiguration().getTriggerNames() != null ) {
-            for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
+        if ( ((FinancialSystemModuleConfiguration)moduleService.getModuleConfiguration()).getTriggerNames() != null ) {
+            for (String triggerName : ((FinancialSystemModuleConfiguration)moduleService.getModuleConfiguration()).getTriggerNames()) {
                 try {
                     addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
                 } catch (NoSuchBeanDefinitionException ex) {
@@ -577,8 +577,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         if ( jobDetail == null ) {
             return FAILED_JOB_STATUS_CODE;
         }
-        KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)
-            SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(jobDetail.getName());
+        KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)getResponsibleModuleServiceForJob(jobDetail.getName());
         //If the module service has status information for a job, get the status from it
         //else get status from job detail data map
         return (moduleService!=null && moduleService.isExternalJob(jobDetail.getName()))
@@ -877,4 +876,24 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         return cronConditionMet;
     }
+
+    @Override
+    public ModuleService getResponsibleModuleServiceForJob(String jobName) {
+        for (ModuleService moduleService : kualiModuleService.getInstalledModuleServices()) {
+            if (moduleService.getModuleConfiguration() == null) {
+                throw new IllegalStateException("Module configuration has not been initialized for the module service.");
+            }
+
+            if (moduleService instanceof KfsModuleServiceImpl && moduleService.getModuleConfiguration() instanceof FinancialSystemModuleConfiguration) {
+                final FinancialSystemModuleConfiguration moduleConfiguration = (FinancialSystemModuleConfiguration)moduleService.getModuleConfiguration();
+                if (moduleConfiguration.getJobNames() != null && !moduleConfiguration.getJobNames().isEmpty()) {
+                    if (moduleConfiguration.getJobNames().contains(jobName)) {
+                        return moduleService;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 }

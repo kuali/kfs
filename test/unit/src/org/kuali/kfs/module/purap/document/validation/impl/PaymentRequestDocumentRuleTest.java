@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,7 +45,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.springframework.util.AutoPopulatingList;
 
 
 @ConfigureContext(session = appleton)
@@ -171,7 +171,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
         PaymentRequestPayDateNotPastValidation validation = (PaymentRequestPayDateNotPastValidation)validations.get("PaymentRequest-payDateNotPastValidation-test");
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", document1)) );
-        AutoPopulatingList<ErrorMessage> l = GlobalVariables.getMessageMap().getMessages("document.paymentRequestPayDate");
+        List<ErrorMessage> l = GlobalVariables.getMessageMap().getMessages("document.paymentRequestPayDate");
         boolean correctError = false;
         for ( ErrorMessage m : l ) {
             if (PurapKeyConstants.ERROR_INVALID_PAY_DATE.equals(m.getErrorKey())) {

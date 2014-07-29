@@ -2,8 +2,6 @@
 /build/drivers/*.jar
 /build/external/appserver/*.jar
 /build/external/appserver/*.war
-/build/external/appserver/carol.properties
-/build/external/appserver/context.xml
 /build/kfs-lib/*.jar
 /build/rice-lib/*.jar
 /test/classes

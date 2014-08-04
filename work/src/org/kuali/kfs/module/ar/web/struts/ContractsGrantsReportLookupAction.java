@@ -45,7 +45,6 @@ import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -125,7 +124,8 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
 
             if (StringUtils.isNotBlank(fieldString) && StringUtils.isNotBlank(valueString) &&
-                    !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
+                    !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString) &&
+                    !fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
                 ContractsGrantsReportSearchCriteriaDataHolder criteriaData = generateDataHolder(fieldString, valueString);
                 searchCriteria.add(criteriaData);
             }
@@ -141,19 +141,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
     protected ContractsGrantsReportSearchCriteriaDataHolder generateDataHolder(String fieldString, String valueString) {
         ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
 
-        final String attributeName = fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)
-                ? fieldString.replace(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX, "")
-                : fieldString;
-        String label = getDataDictionaryService().getAttributeLabel(getPrintSearchCriteriaClass(), attributeName);
-        if (fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
-            label = label + " From";
-        } else {
-            final ControlDefinition controlDefinition = getDataDictionaryService().getAttributeControlDefinition(getPrintSearchCriteriaClass(), attributeName);
-            if (controlDefinition.isDatePicker()) {
-                label = label + " To";
-            }
-        }
-
+        String label = getDataDictionaryService().getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
         criteriaData.setSearchFieldLabel(label);
         criteriaData.setSearchFieldValue(valueString);
         return criteriaData;

@@ -117,7 +117,7 @@
 	<bean id="ContractsGrantsLOCReport-lookupDefinition" parent="ContractsGrantsLOCReport-lookupDefinition-parentBean" />
 
 	<bean id="ContractsGrantsLOCReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Letter of Credit Draw Details Report" />
+		<property name="title" value="Letter of Credit Draw Lookup" />
 		<property name="lookupableID" value="contractsGrantsLOCReportLookupResultLookupable" />
 
 

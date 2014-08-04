@@ -93,6 +93,8 @@ public class ArConstants{
     // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
     public static int ITEM_QUANTITY_SCALE = 10;
 
+    public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL = "arCustomerOpenItemReportLookupable";
+
     public static class PermissionNames {
         public static final String REPORT = "Report";
     }

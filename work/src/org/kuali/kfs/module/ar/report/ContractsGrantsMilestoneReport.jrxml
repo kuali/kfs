@@ -43,7 +43,7 @@
 						width="574"
 						height="32"
 						key="textField-1"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="SansSerif" size="24" isBold="true"/>
 					</textElement>
@@ -69,7 +69,7 @@
 						width="63"
 						height="13"
 						key="textField"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
@@ -88,7 +88,7 @@
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-2"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
@@ -96,14 +96,14 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="200"
+						x="172"
 						y="15"
 						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-3"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
@@ -111,14 +111,14 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="135"
+						x="245"
 						y="15"
 						width="60"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-9"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
@@ -135,29 +135,29 @@
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="245"
+						x="220"
 						y="15"
 						width="20"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-19"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.isItBilled}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.billedIndicator}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="270"
+						x="313"
 						y="15"
 						width="20"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-22"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
@@ -165,14 +165,14 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="45"
+						x="78"
 						y="15"
 						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-20"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
@@ -180,18 +180,33 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="90"
+						x="123"
 						y="15"
 						width="40"
 						height="25"
 						forecolor="#000000"
 						backcolor="#CCCCCC"
 						key="textField-21"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="6" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.milestoneNumber}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="47"
+						y="15"
+						width="25"
+						height="25"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField-23"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="6" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{fieldName.chartOfAccountsCode}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>
@@ -230,7 +245,7 @@
 						width="50"
 						height="9"
 						key="textField"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font size="7"/>
 					</textElement>
@@ -244,7 +259,7 @@
 						width="50"
 						height="9"
 						key="textField"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>
@@ -262,7 +277,7 @@
 						width="50"
 						height="9"
 						key="textField-15"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font size="7"/>
 					</textElement>
@@ -276,7 +291,7 @@
 						width="50"
 						height="9"
 						key="textField-16"/>
-					<box></box>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font size="7"/>
 					</textElement>

@@ -212,7 +212,7 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
      */
     protected OperatorAndValue buildOperatorAndValueFromField(Map lookupFields, String propertyName) {
         OperatorAndValue operator = null;
-        final String fieldFromLookup = (String)lookupFields.remove(propertyName);
+        final String fieldFromLookup = (String)lookupFields.get(propertyName);
         if (!StringUtils.isBlank(fieldFromLookup)) {
             operator = parseOperatorAndValue(fieldFromLookup);
         }
@@ -253,13 +253,39 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
                 dateTimeService.convertToDate(dateFieldValue);
             }
             catch (ParseException pe) {
-                final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
-                        dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
-                        dateFieldPropertyName;
-                final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
-                GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
+                addDateTimeError(dateFieldPropertyName);
             }
         }
+    }
+
+    /**
+     * Convenience method to validate a timestamp from the lookup criteria
+     * @param dateFieldValue the value of the field from the lookup criteria
+     * @param dateFieldClass the class being looked up
+     * @param dateFieldPropertyName the property name representing the date
+     * @param dateTimeService an implementation of DateTimeService
+     */
+    protected void validateTimestampField(String dateFieldValue, String dateFieldPropertyName, DateTimeService dateTimeService) {
+        if (!StringUtils.isBlank(dateFieldValue)) {
+            try {
+                dateTimeService.convertToSqlTimestamp(dateFieldValue);
+            }
+            catch (ParseException pe) {
+                addDateTimeError(dateFieldPropertyName);
+            }
+        }
+    }
+
+    /**
+     * Adds an appropriate error about the date or date time field, with the property name given by dateFieldPropertyName, being unparsable
+     * @param dateFieldPropertyName the property name which has the error
+     */
+    protected void addDateTimeError(String dateFieldPropertyName) {
+        final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
+                dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
+                dateFieldPropertyName;
+        final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
+        GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

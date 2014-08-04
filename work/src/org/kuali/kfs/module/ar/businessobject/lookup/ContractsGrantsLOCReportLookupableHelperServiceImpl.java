@@ -53,16 +53,16 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.FUNDS_NOT_DRAWN);
 
         final String lowerBoundLetterOfCreditReviewCreateDate = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        validateDateField(lowerBoundLetterOfCreditReviewCreateDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
+        validateTimestampField(lowerBoundLetterOfCreditReviewCreateDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
         final String upperBoundLetterOfCreditReviewCreateDate = fieldValues.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        validateDateField(upperBoundLetterOfCreditReviewCreateDate, ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
+        validateTimestampField(upperBoundLetterOfCreditReviewCreateDate, ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE, getDateTimeService());
     }
 
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
-        final String reportType = (String)lookupFormFields.remove("reportType");
+        final String reportType = (String)lookupFormFields.get("reportType");
 
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));

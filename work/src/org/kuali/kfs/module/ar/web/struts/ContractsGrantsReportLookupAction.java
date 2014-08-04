@@ -45,6 +45,7 @@ import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -55,6 +56,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
     private static volatile ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    private static volatile DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping,
@@ -113,26 +115,48 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
     }
 
     /**
-     * @param searchCriteria
-     * @param fieldsForLookup
+     * When the report prints out, it lists the fields that were used for the search criteria query; this builds that
+     * @param searchCriteria the reporty versions of the fields
+     * @param fieldsForLookup the fields from the lookup itself
      */
     protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
-
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
 
             if (StringUtils.isNotBlank(fieldString) && StringUtils.isNotBlank(valueString) &&
-                    !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString) &&
-                    !fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
-                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
-                criteriaData.setSearchFieldLabel(label);
-                criteriaData.setSearchFieldValue(valueString);
+                    !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
+                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = generateDataHolder(fieldString, valueString);
                 searchCriteria.add(criteriaData);
             }
         }
+    }
+
+    /**
+     * Generates a single field for the buildReportForSearchCriteria
+     * @param fieldString the name of the field
+     * @param valueString the value from the lookup
+     * @return the generated ContractsGrantsReportSearchCriteriaDataHolder
+     */
+    protected ContractsGrantsReportSearchCriteriaDataHolder generateDataHolder(String fieldString, String valueString) {
+        ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
+
+        final String attributeName = fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)
+                ? fieldString.replace(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX, "")
+                : fieldString;
+        String label = getDataDictionaryService().getAttributeLabel(getPrintSearchCriteriaClass(), attributeName);
+        if (fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
+            label = label + " From";
+        } else {
+            final ControlDefinition controlDefinition = getDataDictionaryService().getAttributeControlDefinition(getPrintSearchCriteriaClass(), attributeName);
+            if (controlDefinition.isDatePicker()) {
+                label = label + " To";
+            }
+        }
+
+        criteriaData.setSearchFieldLabel(label);
+        criteriaData.setSearchFieldValue(valueString);
+        return criteriaData;
     }
 
     /**
@@ -253,5 +277,12 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      */
     public ContractsGrantsReportDataBuilderService getContractsGrantsReportDataBuilderService() {
         return SpringContext.getBean(ContractsGrantsReportDataBuilderService.class, getReportBuilderServiceBeanName());
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
     }
 }

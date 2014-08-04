@@ -118,32 +118,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber);
 
     /**
-     * This method retrieves the amount to draw for the award accounts
-     *
-     * @param awardAccounts
-     * @param award
-     */
-    public void setAwardAccountToDraw(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method retrieves the amount available to draw for the award accounts
-     *
-     * @param awardTotalAmount
-     * @param awardAccounts
-     * @return
-     */
-    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
-
-    /**
-     * This method calculates the claim on cash balance for every award account.
-     *
-     * @param awardAccount
-     * @param awardBeginningDate
-     * @return
-     */
-    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate);
-
-    /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
      *
      * @param locFund
@@ -314,14 +288,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if has valid milestones to invoice. false if not.
      */
     public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award);
-
-    /**
-     * To create a generic method to retrieve all active awards based on the criteria passed.
-     *
-     * @param criteria
-     * @return
-     */
-    public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria);
 
     /**
      * Check if agency owning award has no customer record

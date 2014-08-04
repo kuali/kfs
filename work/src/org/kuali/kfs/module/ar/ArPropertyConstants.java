@@ -98,7 +98,8 @@ public class ArPropertyConstants{
 
     // OrganizationAccountingDefaults
     public static class OrganizationAccountingDefaultFields {
-
+        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String LATE_CHARGE_OBJECT_CODE = "organizationLateChargeObjectCode";
         public static final String INVOICE_CHART_OF_ACCOUNTS_CODE = "defaultInvoiceChartOfAccountsCode";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "defaultPaymentChartOfAccountsCode";

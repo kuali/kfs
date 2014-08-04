@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsLetterOfCreditReviewDocumentService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -66,6 +67,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     private ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup;
     private List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails;
     private List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails;
+
+    private transient static volatile ContractsGrantsLetterOfCreditReviewDocumentService contractsGrantsLetterOfCreditReviewDocumentService;
 
     public ContractsGrantsLetterOfCreditReviewDocument() {
         headerReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
@@ -278,7 +281,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         // To exclude awards with milestones and predetermined schedule.
         criteria.put(ArPropertyConstants.PREFERRED_BILLING_FREQUENCY, ArConstants.LOC_BILLING_SCHEDULE_CODE);
 
-        List<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceDocumentService.getActiveAwardsByCriteria(criteria);
+        List<ContractsAndGrantsBillingAward> awards = getContractsGrantsLetterOfCreditReviewDocumentService().getActiveAwardsByCriteria(criteria);
 
         if (CollectionUtils.isEmpty(awards)) {
             GlobalVariables.getMessageMap().putErrorForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_NO_AWARDS_RETRIEVED);
@@ -308,7 +311,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 for (ContractsAndGrantsBillingAward award : validAwards) {
 
                     // To set the amount to draw for the award accounts as a whole.
-                    contractsGrantsInvoiceDocumentService.setAwardAccountToDraw(award.getActiveAwardAccounts(), award);
+                    getContractsGrantsLetterOfCreditReviewDocumentService().setAwardAccountToDraw(award.getActiveAwardAccounts(), award);
 
                     KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
                     KualiDecimal amountAvailableToDraw = KualiDecimal.ZERO;
@@ -323,7 +326,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     locReviewDtl.setCustomerNumber(award.getAgency().getCustomerNumber());
                     locReviewDtl.setAwardBeginningDate(award.getAwardBeginningDate());
                     locReviewDtl.setAwardEndingDate(award.getAwardEndingDate());
-                    amountAvailableToDraw = contractsGrantsInvoiceDocumentService.getAmountAvailableToDraw(award.getAwardTotalAmount(), award.getActiveAwardAccounts());
+                    amountAvailableToDraw = getContractsGrantsLetterOfCreditReviewDocumentService().getAmountAvailableToDraw(award.getAwardTotalAmount(), award.getActiveAwardAccounts());
                     locReviewDtl.setAmountAvailableToDraw(amountAvailableToDraw);
                     if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
                         locReviewDtl.setLetterOfCreditAmount(award.getLetterOfCreditFund().getLetterOfCreditFundAmount());
@@ -340,7 +343,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                         locReviewDtl.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
                         locReviewDtl.setAccountNumber(awardAccount.getAccountNumber());
                         locReviewDtl.setAccountExpirationDate(awardAccount.getAccount().getAccountExpirationDate());
-                        locReviewDtl.setClaimOnCashBalance(contractsGrantsInvoiceDocumentService.getClaimOnCashforAwardAccount(awardAccount, award.getAwardBeginningDate()));
+                        locReviewDtl.setClaimOnCashBalance(getContractsGrantsLetterOfCreditReviewDocumentService().getClaimOnCashforAwardAccount(awardAccount, award.getAwardBeginningDate()));
                         totalClaimOnCashBalance = totalClaimOnCashBalance.add(locReviewDtl.getClaimOnCashBalance());
                         locReviewDtl.setAwardBudgetAmount(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.BUDGET_BALANCE_TYPE, award.getAwardBeginningDate()));
                         totalAwardBudgetAmount = totalAwardBudgetAmount.add(locReviewDtl.getAwardBudgetAmount());
@@ -550,4 +553,10 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         }
     }
 
+    public static ContractsGrantsLetterOfCreditReviewDocumentService getContractsGrantsLetterOfCreditReviewDocumentService() {
+        if (contractsGrantsLetterOfCreditReviewDocumentService == null) {
+            contractsGrantsLetterOfCreditReviewDocumentService = SpringContext.getBean(ContractsGrantsLetterOfCreditReviewDocumentService.class);
+        }
+        return contractsGrantsLetterOfCreditReviewDocumentService;
+    }
 }

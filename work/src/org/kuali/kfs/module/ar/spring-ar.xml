@@ -2376,4 +2376,14 @@
 		<property name="reportInfo" ref="contractsGrantsSuspendedInvoiceDetailReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
 	</bean>
+	
+	<bean id="contractsGrantsLetterOfCreditReviewDocumentService" parent="contractsGrantsLetterOfCreditReviewDocumentService-parentBean"/>
+	<bean id="contractsGrantsLetterOfCreditReviewDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsLetterOfCreditReviewDocumentServiceImpl">
+		<property name="awardAccountObjectCodeTotalBilledDao" ref="awardAccountObjectCodeTotalBilledDao"/>
+	    <property name="businessObjectService" ref="businessObjectService"/>
+	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	    <property name="contractsAndGrantsModuleBillingService" ref="contractsAndGrantsModuleBillingService"/>
+	    <property name="kualiModuleService" ref="kualiModuleService"/>
+	    <property name="universityDateService" ref="universityDateService"/>
+	</bean>
 </beans>

@@ -106,7 +106,6 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -122,7 +121,6 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.AttachmentService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -144,7 +142,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected AccountService accountService;
     protected AttachmentService attachmentService;
     protected AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
-    protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ConfigurationService configurationService;
@@ -157,7 +154,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected ObjectCodeService objectCodeService;
     protected ObjectLevelService objectLevelService;
     protected VerifyBillingFrequencyService verifyBillingFrequencyService;
-    protected UniversityDateService universityDateService;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
@@ -1046,126 +1042,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method retrieves the amount to draw for the award account based on teh criteria passed
-     *
-     * @param awardaccounts
-     * @return
-     */
-    @Override
-    public void setAwardAccountToDraw(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
-
-        boolean isValid = true;
-        // 1. To get the billed to date amount for every award account based on the criteria passed.
-        List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
-
-
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-
-            // 2. Get the Cumulative amount from GL Balances.
-
-            KualiDecimal cumAmt = getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate());
-            KualiDecimal billedAmount = KualiDecimal.ZERO;
-            KualiDecimal amountToDraw = KualiDecimal.ZERO;
-
-
-            // 3. Amount to Draw = Cumulative amount - Billed to Date.(This would be ultimately the current expenditures in the
-            // invoice document.
-            for (AwardAccountObjectCodeTotalBilled awardAccountTotalBilledAmount : awardAccountTotalBilledAmounts) {
-                if (awardAccountTotalBilledAmount.getAccountNumber().equals(awardAccount.getAccountNumber()) && awardAccountTotalBilledAmount.getChartOfAccountsCode().equals(awardAccount.getChartOfAccountsCode()) && awardAccountTotalBilledAmount.getProposalNumber().equals(awardAccount.getProposalNumber())) {
-                    billedAmount = billedAmount.add(awardAccountTotalBilledAmount.getTotalBilled());
-                }
-            }
-            amountToDraw = cumAmt.subtract(billedAmount);
-            // set the amount to Draw in the award Account
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            contractsAndGrantsModuleBillingService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
-        }
-
-    }
-
-    /**
-     * This method calculates the claim on cash balance for every award account.
-     *
-     * @param awardaccount
-     * @return
-     */
-    @Override
-    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
-
-        // 2. Get the Cumulative amount from GL Balances.
-        KualiDecimal balAmt = KualiDecimal.ZERO;
-        KualiDecimal expAmt = KualiDecimal.ZERO;
-        KualiDecimal incAmt = KualiDecimal.ZERO;
-        KualiDecimal claimOnCash = KualiDecimal.ZERO;
-        List<Balance> glBalances = new ArrayList<Balance>();
-        Integer currentYear = universityDateService.getCurrentFiscalYear();
-        List<Integer> fiscalYears = new ArrayList<Integer>();
-        Calendar c = Calendar.getInstance();
-
-
-        Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
-
-        for (Integer i = fiscalYear; i <= currentYear; i++) {
-            fiscalYears.add(i);
-        }
-        List<String> objectTypeCodeList = new ArrayList<String>();
-        objectTypeCodeList.add(ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-        objectTypeCodeList.add(ArPropertyConstants.INCOME_OBJECT_TYPE);
-
-        for (Integer eachFiscalYr : fiscalYears) {
-            Map<String, Object> balanceKeys = new HashMap<String, Object>();
-            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeCodeList);
-            glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
-        }
-        for (Balance bal : glBalances) {
-            if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-
-                    expAmt = expAmt.add(balAmt);
-                }
-                else if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.INCOME_OBJECT_TYPE)) {
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-
-                    incAmt = incAmt.add(balAmt);
-                }
-            }
-        }
-
-        return claimOnCash = incAmt.subtract(expAmt);
-
-
-    }
-
-    /**
-     * This method retrieves the amount available to draw for the award accounts
-     *
-     * @param awardTotalAmount
-     * @param awardAccount
-     */
-    @Override
-    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
-
-        // 1. To get the billed to date amount for every award account based on the criteria passed.
-        List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
-        KualiDecimal billedAmount = KualiDecimal.ZERO;
-        KualiDecimal amountAvailableToDraw = KualiDecimal.ZERO;
-        for (AwardAccountObjectCodeTotalBilled awardAccountTotalBilledAmount : awardAccountTotalBilledAmounts) {
-            billedAmount = billedAmount.add(awardAccountTotalBilledAmount.getTotalBilled());
-        }
-        amountAvailableToDraw = awardTotalAmount.subtract(billedAmount);
-
-        return amountAvailableToDraw;
-    }
-
-    /**
      * This method serves as a create and update. When it is first called, the List<InvoiceSuspensionCategory> is empty. This list
      * then gets populated with invoiceSuspensionCategories where the test fails. Each time the document goes through validation,
      * and this method gets called, it will update the list by adding or remvoing the suspension categories
@@ -1966,15 +1842,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getActiveAwardsByCriteria(java.util.Map)
-     */
-    @Override
-    public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria) {
-
-        return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, criteria);
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoMilestonesToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
@@ -2087,8 +1954,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
         if (!CollectionUtils.isEmpty(procCodes) && procCodes.size() > 1) {
 
-            sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
-            sysCriteria.put("processingOrganizationCode", procCodes.get(1));
+            sysCriteria.put(ArPropertyConstants.OrganizationAccountingDefaultFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, procCodes.get(0));
+            sysCriteria.put(ArPropertyConstants.OrganizationAccountingDefaultFields.PROCESSING_ORGANIZATION_CODE, procCodes.get(1));
             OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
             SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
@@ -4017,7 +3884,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
-
         Integer awardBeginningFiscalYear = getUniversityDateService().getFiscalYear(awardBeginningDate);
 
         for (Integer i = awardBeginningFiscalYear; i <= currentYear; i++) {
@@ -4487,16 +4353,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    @Override
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
         List<String> errorString = new ArrayList<String>();
         boolean isValid = true;
@@ -4713,15 +4569,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
-    }
-
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    @Override
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
     }
 
 }

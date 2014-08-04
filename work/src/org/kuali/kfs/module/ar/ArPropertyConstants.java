@@ -377,6 +377,10 @@ public class ArPropertyConstants{
         public static final String LETTER_TEMPLATE_CODE = "letterTemplateCode";
     }
 
+    public static class InvoiceTemplateFields {
+        public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
+    }
+
     // Contracts And Grants Aging Report
     public static class ContractsGrantsAgingReportFields {
         public static final String PROCESSING_CHART_OF_ACCOUNT_CODE = "processingChartOfAccountCode";

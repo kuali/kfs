@@ -22,10 +22,12 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -95,7 +97,11 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      */
     protected AnchorHtmlData getInvoiceTemplateUploadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
-        String href = "../arAccountsReceivableInvoiceTemplateUpload.do" + "?&methodToCall=start&invoiceTemplateCode=" + invoiceTemplate.getInvoiceTemplateCode() + "&docFormKey=88888888";
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.put(ArPropertyConstants.InvoiceTemplateFields.INVOICE_TEMPLATE_CODE, invoiceTemplate.getInvoiceTemplateCode());
+        parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        String href = UrlFactory.parameterizeUrl(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/" + ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD, parameters);
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.UPLOAD_METHOD);
     }
 
@@ -124,10 +130,10 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         Properties parameters = new Properties();
         String fileName = invoiceTemplate.getFilename();
         if (ObjectUtils.isNotNull(fileName) && templateFileExists(fileName)) {
-            parameters.put("fileName", fileName);
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
+            parameters.put(KFSPropertyConstants.FILE_NAME, fileName);
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.DOWNLOAD_METHOD);
         }
-        String href = UrlFactory.parameterizeUrl("../arAccountsReceivableInvoiceTemplateUpload.do", parameters);
+        String href = UrlFactory.parameterizeUrl(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/" + ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD, parameters);
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.DOWNLOAD_METHOD);
     }
 

@@ -531,6 +531,7 @@ public class ArConstants{
 
     public static class UrlActions {
         public static final String ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableLetterTemplateUpload.do";
+        public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload.do";
     }
 
     public static class ContractsAndGrantsCategorySections {

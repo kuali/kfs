@@ -33,26 +33,31 @@
 				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-awardTotalAmount" />
 				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-cumulativeExpensesAmount" />
 				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-errorDate" />
-				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalName" />
-				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-batch" />
+				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalId" />
+				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-awardPrimaryFundManager.principalName" />
+				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeCode" />
+				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeName" />
+				<ref bean="ContractsGrantsInvoiceDocumentErrorLog-errorMessages.errorMessageText" />
 			</list>
 		</property>
 		<property name="collections">
 			<list>
-				<bean parent="CollectionDefinition" p:name="validationCategories"
-					p:label="Validation Categories" p:shortLabel="Validation Categories" p:elementLabel="Validation Categories" />
+				<bean parent="CollectionDefinition" p:name="errorMessages"
+					p:label="Error Messages" p:shortLabel="Error Messages" p:elementLabel="Error Messages" />
 			</list>
 		</property>
 		<property name="relationships">
 			<list>
-			   	<bean parent="RelationshipDefinition" p:objectAttributeName="award">
+				<bean parent="RelationshipDefinition" p:objectAttributeName="award"
+					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward">
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
+								p:targetName="proposalNumber" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="awardFundManager">
+				<bean parent="RelationshipDefinition" p:objectAttributeName="awardPrimaryFundManager">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryFundManagerPrincipalId" p:targetName="principalId" />
@@ -60,7 +65,7 @@
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="primaryFundManagerPrincipalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="awardPrimaryFundManager.principalName" p:targetName="principalName" />
 						</list>
 					</property>
 				</bean>
@@ -157,34 +162,68 @@
 
 	<bean id="ContractsGrantsInvoiceDocumentErrorLog-errorDate" parent="ContractsGrantsInvoiceDocumentErrorLog-errorDate-parentBean" />
 	<bean id="ContractsGrantsInvoiceDocumentErrorLog-errorDate-parentBean" abstract="true"
-		parent="GenericAttributes-genericDate">
+		parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="errorDate" />
 		<property name="label" value="Error Date" />
 		<property name="shortLabel" value="ErrDate" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
 	</bean>
 	
-	<bean id="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalName" parent="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalName-parentBean" />
-	<bean id="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-		<property name="name" value="primaryFundManagerPrincipalName" />
-		<property name="label" value="Primary Fund Manager Name" />
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalId" parent="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalId-parentBean"/>
+  	<bean id="ContractsGrantsInvoiceDocumentErrorLog-primaryFundManagerPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    	<property name="name" value="primaryFundManagerPrincipalId"/>
+    	<property name="label" value="Primary Fund Manger Principal Id"/>
+    	<property name="shortLabel" value="PrmryFndMgrId"/>
+    	<property name="required" value="false"/>
+  	</bean>
+	
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-awardPrimaryFundManager.principalName" parent="ContractsGrantsInvoiceDocumentErrorLog-awardPrimaryFundManager.principalName-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-awardPrimaryFundManager.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="awardPrimaryFundManager.principalName" />
+		<property name="label" value="Primary Fund Manager Principal Name" />
 		<property name="shortLabel" value="PrmryFndMgrNm" />
 		<property name="control">
 			<bean parent="KualiUserControlDefinition" p:personNameAttributeName="primaryFundManagerName" p:universalIdAttributeName="primaryFundManagerPrincipalId"
 				p:userIdAttributeName="primaryFundManagerPrincipalName" />
 		</property>
 	</bean>
+	
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeCode" parent="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeCode-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="creationProcessTypeCode" />
+		<property name="label" value="Process" />
+		<property name="shortLabel" value="Prcs" />
+	    <property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CreationProcessTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
 
-	<bean id="ContractsGrantsInvoiceDocumentErrorLog-batch" parent="ContractsGrantsInvoiceDocumentErrorLog-batch-parentBean" />
-	<bean id="ContractsGrantsInvoiceDocumentErrorLog-batch-parentBean" abstract="true"
-		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="batch" />
-		<property name="label" value="Batch?" />
-		<property name="shortLabel" value="Batch?" />
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeName" parent="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeName-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-creationProcessTypeName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="creationProcessTypeName" />
+		<property name="label" value="Process" />
+		<property name="shortLabel" value="Prcs" />
+		<property name="maxLength" value="6" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="8" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-errorMessages.errorMessageText" parent="ContractsGrantsInvoiceDocumentErrorLog-errorMessages.errorMessageText-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocumentErrorLog-errorMessages.errorMessageText-parentBean"
+		abstract="true" parent="ContractsGrantsInvoiceDocumentErrorMessage-errorMessageText">
+		<property name="name" value="errorMessages.errorMessageText" />
 	</bean>
 
   	<bean id="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition" parent="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition-parentBean"/>
   	<bean id="ContractsGrantsInvoiceDocumentErrorLog-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Contracts Grants Invoice Document Error Log Report"/>
+    	<property name="lookupableID" value="contractsGrantsInvoiceDocumentErrorLogLookupable" />
     
     	<property name="lookupFields">
       		<list>	
@@ -195,21 +234,22 @@
 				<bean parent="FieldDefinition" p:attributeName="awardTotalAmount" />
 				<bean parent="FieldDefinition" p:attributeName="cumulativeExpensesAmount" />
 				<bean parent="FieldDefinition" p:attributeName="errorDate" />
-				<bean parent="FieldDefinition" p:attributeName="primaryFundManagerPrincipalName" />
-				<bean parent="FieldDefinition" p:attributeName="batch" />
+				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManager.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="creationProcessTypeCode" />
 			</list>				
     	</property>
     	<property name="resultFields">
       		<list>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="errorMessages" />
 				<bean parent="FieldDefinition" p:attributeName="accounts" />
 				<bean parent="FieldDefinition" p:attributeName="awardBeginningDate" />
 				<bean parent="FieldDefinition" p:attributeName="awardEndingDate" />
 				<bean parent="FieldDefinition" p:attributeName="awardTotalAmount" />
 				<bean parent="FieldDefinition" p:attributeName="cumulativeExpensesAmount" />
 				<bean parent="FieldDefinition" p:attributeName="errorDate" />
-				<bean parent="FieldDefinition" p:attributeName="primaryFundManagerPrincipalName" />
-				<bean parent="FieldDefinition" p:attributeName="batch" />
+				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManager.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="creationProcessTypeName" />
 	      </list>
     	</property>
   	</bean>

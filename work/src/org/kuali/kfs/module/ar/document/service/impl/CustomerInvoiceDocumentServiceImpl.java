@@ -885,6 +885,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         this.universityDateService = universityDateService;
     }
 
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
@@ -1032,12 +1036,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
-    
+
     private boolean isActionClose(ActionType actionTypeToCheck){
         return ( (actionTypeToCheck.compareTo(ActionType.COMPLETE) == 0) ||
                 (actionTypeToCheck.compareTo(ActionType.SU_BLANKET_APPROVE) == 0) ||
                 (actionTypeToCheck.compareTo(ActionType.BLANKET_APPROVE) == 0) ||
-                (actionTypeToCheck.compareTo(ActionType.SU_COMPLETE) == 0) );              
+                (actionTypeToCheck.compareTo(ActionType.SU_COMPLETE) == 0) );
     }
 
     public void setParameterService(ParameterService parameterService) {
@@ -1052,5 +1056,4 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
     }
-
 }

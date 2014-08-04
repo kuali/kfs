@@ -29,10 +29,8 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -81,7 +79,7 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
 
                 // Add url when property is documentNumber and paymentNumber (paymentNumber is a document number.)
                 if (col.getPropertyName().equals("documentNumber") || col.getPropertyName().equals("paymentNumber")) {
-                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
+                    String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
@@ -188,16 +186,16 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
         if (StringUtils.isBlank(operatorAndValue)) {
             return null; // nothing to parse
         }
-        if (operatorAndValue.startsWith("<=")) {
+        if (operatorAndValue.startsWith(SearchOperator.LESS_THAN_EQUAL.op())) {
             final String valueOnly = operatorAndValue.substring(2);
             return new OperatorAndValue(SearchOperator.LESS_THAN_EQUAL, valueOnly);
-        } else if (operatorAndValue.startsWith(">=")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.GREATER_THAN_EQUAL.toString())) {
             final String valueOnly = operatorAndValue.substring(2);
             return new OperatorAndValue(SearchOperator.GREATER_THAN_EQUAL, valueOnly);
-        } else if (operatorAndValue.startsWith("<")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.LESS_THAN.op())) {
             final String valueOnly = operatorAndValue.substring(1);
             return new OperatorAndValue(SearchOperator.LESS_THAN, valueOnly);
-        } else if (operatorAndValue.startsWith(">")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.GREATER_THAN.op())) {
             final String valueOnly = operatorAndValue.substring(1);
             return new OperatorAndValue(SearchOperator.GREATER_THAN, valueOnly);
         }
@@ -212,7 +210,7 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
      */
     protected OperatorAndValue buildOperatorAndValueFromField(Map lookupFields, String propertyName) {
         OperatorAndValue operator = null;
-        final String fieldFromLookup = (String)lookupFields.remove(propertyName);
+        final String fieldFromLookup = (String)lookupFields.get(propertyName);
         if (!StringUtils.isBlank(fieldFromLookup)) {
             operator = parseOperatorAndValue(fieldFromLookup);
         }
@@ -223,18 +221,20 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
      * Translates the date criteria to a form which the LookupService will comprehend
      * @param dateLowerBound the lower bound of the date
      * @param dateUpperBound the upper bound of the date
+     * @param includeTime denotes whether time should be included on the upper bound
      * @return the date criteria, or null if nothing could be constructed
      */
-    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound) {
+    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
+        final String correctedUpperBound = includeTime && !StringUtils.isBlank(dateUpperBound) ? getContractsGrantsReportHelperService().appendEndTimeToDate(dateUpperBound) : dateUpperBound;
         if (!StringUtils.isBlank(dateLowerBound)) {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return dateLowerBound+".."+dateUpperBound;
+                return dateLowerBound+".."+correctedUpperBound;
             } else {
                 return ">="+dateLowerBound;
             }
         } else {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return "<="+dateUpperBound;
+                return "<="+correctedUpperBound;
             }
         }
         return null;
@@ -253,13 +253,39 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
                 dateTimeService.convertToDate(dateFieldValue);
             }
             catch (ParseException pe) {
-                final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
-                        dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
-                        dateFieldPropertyName;
-                final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
-                GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
+                addDateTimeError(dateFieldPropertyName);
             }
         }
+    }
+
+    /**
+     * Convenience method to validate a timestamp from the lookup criteria
+     * @param dateFieldValue the value of the field from the lookup criteria
+     * @param dateFieldClass the class being looked up
+     * @param dateFieldPropertyName the property name representing the date
+     * @param dateTimeService an implementation of DateTimeService
+     */
+    protected void validateTimestampField(String dateFieldValue, String dateFieldPropertyName, DateTimeService dateTimeService) {
+        if (!StringUtils.isBlank(dateFieldValue)) {
+            try {
+                dateTimeService.convertToSqlTimestamp(dateFieldValue);
+            }
+            catch (ParseException pe) {
+                addDateTimeError(dateFieldPropertyName);
+            }
+        }
+    }
+
+    /**
+     * Adds an appropriate error about the date or date time field, with the property name given by dateFieldPropertyName, being unparsable
+     * @param dateFieldPropertyName the property name which has the error
+     */
+    protected void addDateTimeError(String dateFieldPropertyName) {
+        final String attributeProperty = dateFieldPropertyName.startsWith(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX) ?
+                dateFieldPropertyName.substring(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX.length()) :
+                dateFieldPropertyName;
+        final String label = getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeProperty);
+        GlobalVariables.getMessageMap().putError(dateFieldPropertyName, KFSKeyConstants.ERROR_DATE_TIME, label);
     }
 
     public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {

@@ -27,12 +27,13 @@ import javax.xml.ws.WebServiceException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -42,7 +43,7 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
  *
  */
 
-public class UnitServiceImpl implements ExternalizableBusinessObjectService {
+public class UnitServiceImpl implements ExternalizableLookupableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);
 
     protected InstitutionalUnitService getWebService() {
@@ -100,6 +101,11 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
             lookupUnitsReturn = new ArrayList();
         }
         return lookupUnitsReturn;
+    }
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        return new ArrayList(findMatching(fieldValues));
     }
 
  }

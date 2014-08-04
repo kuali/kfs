@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -34,6 +37,7 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     /***
@@ -59,13 +63,19 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected AnchorHtmlData getCustomerOpenItemReportUrl(BusinessObject bo) {
         Customer customer = (Customer) bo;
-        String href="../arCustomerOpenItemReportLookup.do" +
-                "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +
-                "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
-                "&methodToCall=search&customerNumber="+customer.getCustomerNumber()+
-                "&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME +
-                "&customerName=" +customer.getCustomerName()+
-                "&reportName=Customer History Report&docFormKey=88888888";
+
+        Properties params = new Properties();
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CustomerOpenItemReportDetail.class.getName());
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, StringUtils.EMPTY);
+        params.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, ArConstants.CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL);
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customer.getCustomerNumber());
+        params.put(KFSConstants.CustomerOpenItemReport.REPORT_NAME, KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME);
+        params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NAME, customer.getCustomerName());
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+
+        String href = UrlFactory.parameterizeUrl(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/" + ArConstants.UrlActions.CUSTOMER_OPEN_ITEM_REPORT_LOOKUP, params);
+
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.CustomerConstants.ACTIONS_REPORT);
     }
 

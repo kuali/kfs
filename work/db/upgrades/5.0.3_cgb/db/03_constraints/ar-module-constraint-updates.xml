@@ -27,6 +27,9 @@
 		<addForeignKeyConstraint constraintName="AR_INV_BILL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="AR_INV_DOC_ERROR_MSG_TR1"
+			referencedTableName="AR_INV_DOC_ERROR_LOG_T" baseColumnNames="ERROR_LOG_ID"
+			baseTableName="AR_INV_DOC_ERROR_MSG_T" referencedColumnNames="ERROR_LOG_ID" />
 		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_MLSTN_T" referencedColumnNames="FDOC_NBR" />

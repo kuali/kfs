@@ -2146,35 +2146,33 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog" table="AR_INV_DOC_ERROR_LOG_T">
-		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
 		<field-descriptor name="errorLogIdentifier" column="ERROR_LOG_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
 			sequence-name="AR_ERROR_LOG_ID_SEQ" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" index="true" />
 		<field-descriptor name="accounts" column="ACCOUNTS" jdbc-type="VARCHAR" />
 		<field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="DATE" />
 		<field-descriptor name="awardEndingDate" column="CGAWD_END_DT" jdbc-type="DATE" />
 		<field-descriptor name="awardTotalAmount" column="CGAWD_TOT_AMT" jdbc-type="DECIMAL" />
 		<field-descriptor name="cumulativeExpensesAmount" column="CUM_EXPND_AMT" jdbc-type="DECIMAL"  />
 		<field-descriptor name="errorDate" column="ERROR_DT" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="primaryFundManagerPrincipalName" column="PRM_FNDMGR_PRNCPL_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="batch" column="BATCH_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<collection-descriptor name="validationCategories" element-class-ref="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorCategory"
+		<field-descriptor name="primaryFundManagerPrincipalId" column="PRM_FNDMGR_PRNCPL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="creationProcessTypeCode" column="CRTN_PRCS_TYP_CD" jdbc-type="VARCHAR" />
+		<collection-descriptor name="errorMessages" element-class-ref="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="validationCategoryIdentifier" sort="ASC" />
-			<inverse-foreignkey field-ref="proposalNumber" />
+			<orderby name="errorMessageIdentifier" sort="ASC" />
 			<inverse-foreignkey field-ref="errorLogIdentifier" />
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorCategory" table="AR_INV_DOC_ERROR_CAT_T">
-		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="errorLogIdentifier" column="ERROR_LOG_ID" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="validationCategoryIdentifier" column="VAL_CAT_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
-			sequence-name="AR_VAL_CAT_ID_ID_SEQ" />
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage" table="AR_INV_DOC_ERROR_MSG_T">
+		<field-descriptor name="errorMessageIdentifier" column="ERROR_MSG_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+			sequence-name="AR_ERROR_MSG_ID_SEQ" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="validationCategoryText" column="VAL_CAT_TXT" jdbc-type="VARCHAR"  />
+		<field-descriptor name="errorLogIdentifier" column="ERROR_LOG_ID" jdbc-type="BIGINT" index="true" />
+		<field-descriptor name="errorMessageText" column="ERROR_MSG_TXT" jdbc-type="VARCHAR"  />
 	</class-descriptor>
 	
 </descriptor-repository>

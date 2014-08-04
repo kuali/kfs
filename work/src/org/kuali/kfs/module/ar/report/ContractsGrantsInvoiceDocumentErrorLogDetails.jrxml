@@ -35,8 +35,8 @@
 	<field name="cumulativeExpensesAmount" class="java.math.BigDecimal"/>
 	<field name="errorDate" class="java.sql.Timestamp"/>
 	<field name="primaryFundManagerPrincipalName" class="java.lang.String"/>
-	<field name="validationCategories" class="java.util.List"/>
-	<field name="batchForReport" class="java.lang.String"/>
+	<field name="errorMessages" class="java.util.List"/>
+	<field name="creationProcessTypeName" class="java.lang.String"/>
 	
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -151,7 +151,7 @@
 					<reportElement
 						x="485"
 						y="0"
-						width="100"
+						width="40"
 						height="11"
 						key="textField-8"/>
 					<box></box>
@@ -162,16 +162,16 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="550"
+						x="530"
 						y="0"
-						width="20"
+						width="30"
 						height="11"
 						key="textField-9"/>
 					<box></box>
 					<textElement>
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{batchForReport}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{creationProcessTypeName}]]></textFieldExpression>
 				</textField>
 				<subreport  isUsingCache="false">
 					<reportElement
@@ -181,13 +181,13 @@
 						height="11"
 						key="subreport-1"
 						positionType="Float">
-							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{validationCategories} != null && !$F{validationCategories}.isEmpty())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{errorMessages} != null && !$F{errorMessages}.isEmpty())]]></printWhenExpression>
 					</reportElement>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
-					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{validationCategories})]]></dataSourceExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ContractsGrantsInvoiceDocumentErrorLogCategories.jasper"]]></subreportExpression>
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{errorMessages})]]></dataSourceExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ContractsGrantsInvoiceDocumentErrorLogMessages.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

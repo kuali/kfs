@@ -45,7 +45,6 @@ public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         List<DunningLetterTemplate> boList = (List<DunningLetterTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(DunningLetterTemplate.class);
-        keyValues.add(new ConcreteKeyValue("", ""));
         for (DunningLetterTemplate element : boList) {
             if (!element.isAccessRestrictedInd() && element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));

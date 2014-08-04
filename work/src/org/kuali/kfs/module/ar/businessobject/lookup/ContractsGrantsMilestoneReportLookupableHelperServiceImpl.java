@@ -120,7 +120,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
         final String lowerBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
         final String upperBoundMilestoneExpectedCompletionDate = (String)lookupFormFields.get(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE);
-        final String milestoneExpectedCompletionDate = fixDateCriteria(lowerBoundMilestoneExpectedCompletionDate, upperBoundMilestoneExpectedCompletionDate);
+        final String milestoneExpectedCompletionDate = fixDateCriteria(lowerBoundMilestoneExpectedCompletionDate, upperBoundMilestoneExpectedCompletionDate, false);
         if (!StringUtils.isBlank(milestoneExpectedCompletionDate)) {
             lookupCriteria.put(ArPropertyConstants.MILESTONE_EXPECTED_COMPLETION_DATE, milestoneExpectedCompletionDate);
         }

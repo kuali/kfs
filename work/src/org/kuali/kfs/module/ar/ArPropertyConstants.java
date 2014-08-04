@@ -98,7 +98,8 @@ public class ArPropertyConstants{
 
     // OrganizationAccountingDefaults
     public static class OrganizationAccountingDefaultFields {
-
+        public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
         public static final String LATE_CHARGE_OBJECT_CODE = "organizationLateChargeObjectCode";
         public static final String INVOICE_CHART_OF_ACCOUNTS_CODE = "defaultInvoiceChartOfAccountsCode";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "defaultPaymentChartOfAccountsCode";
@@ -320,7 +321,14 @@ public class ArPropertyConstants{
     public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
 
     // CG Invoice Reports
+    public static final String RANGE_LOWER_BOUND_KEY_PREFIX = "rangeLowerBoundKeyPrefix_";
+
     public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
+
+    public static class ContractsGrantsInvoiceDocumentErrorLogLookupFields {
+        public static final String ACCOUNTS = "accounts";
+        public static final String ERROR_DATE = "errorDate";
+    }
 
     public static class TransmitContractsAndGrantsInvoicesLookupFields {
         public static final String INVOICE_INITIATOR_PRINCIPAL_NAME = "invoiceInitiatorPrincipalName";
@@ -328,6 +336,7 @@ public class ArPropertyConstants{
         public static final String INVOICE_PRINT_DATE_TO = "invoicePrintDate";
         public static final String INVOICE_PRINT_DATE_FROM = "rangeLowerBoundKeyPrefix_invoicePrintDate";
         public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceAddressDetails." + ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE;
+        public static final String INVOICE_TRANSMISSION_METHOD_CODE_LABEL = "Method of Invoice Transmission";
     }
 
     public static final String INVOICE_TRANSMISSION_METHOD_CODE = "invoiceTransmissionMethodCode";
@@ -351,7 +360,6 @@ public class ArPropertyConstants{
 
     // Dunning Campaign & Templates
     public static class DunningCampaignFields {
-
         public static final String DUNNING_CAMPAIGN_ID = "campaignID";
         public static final String DUNNING_TEMPLATE = "dunningTemplate";
         public static final String DUNNING_LETTER_DISTRIBUTIONS = "dunningLetterDistributions";
@@ -364,6 +372,14 @@ public class ArPropertyConstants{
         public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
         public static final String PROCESSING_CHART_CODE = "processingChartCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+    }
+
+    public static class DunningLetterTemplateFields {
+        public static final String LETTER_TEMPLATE_CODE = "letterTemplateCode";
+    }
+
+    public static class InvoiceTemplateFields {
+        public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
     }
 
     // Contracts And Grants Aging Report

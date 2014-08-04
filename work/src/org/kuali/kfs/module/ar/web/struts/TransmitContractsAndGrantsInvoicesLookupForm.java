@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 
 /**
@@ -28,6 +33,22 @@ public class TransmitContractsAndGrantsInvoicesLookupForm extends ContractsGrant
      */
     public TransmitContractsAndGrantsInvoicesLookupForm() {
         setHtmlFormAction(ArConstants.Actions.TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.web.struts.ContractsGrantsReportLookupForm#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        List<ExtraButton> buttons = new ArrayList<ExtraButton>();
+
+        // Print button
+        ExtraButton printButton = new ExtraButton();
+        printButton.setExtraButtonProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + ArConstants.PRINT_METHOD);
+        printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}" + ArConstants.TRANSMIT_GENERATE_BUTTON_FILE_NAME);
+        printButton.setExtraButtonAltText(ArConstants.TRANSMIT_GENERATE_BUTTON_ALT_TEXT);
+        buttons.add(printButton);
+        return buttons;
     }
 
 }

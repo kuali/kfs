@@ -32,10 +32,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceLookupUtil;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -141,10 +141,10 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         for (ContractsGrantsInvoiceLookupResult contractsGrantsInvoiceLookupResult : lookupResults) {
             Collection<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceLookupResult.getAwards();
             Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
-            awards = cgInvoiceDocumentCreateService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs);
+            awards = cgInvoiceDocumentCreateService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL.getCode());
             validationErrors += contractsGrantsInvoiceDocumentErrorLogs.size();
             validAwards += awards.size();
-            errorMessages = cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards);
+            errorMessages = cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.MANUAL);
         }
         if (validationErrors > 0) {
             // At a minimum, show users a message that errors occurred, check report for details.

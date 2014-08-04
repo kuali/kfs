@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.businessobject.inquiry;
 import java.util.Properties;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
@@ -48,50 +49,41 @@ public class DunningLetterDistributionLookupResultInquirableImpl extends KfsInqu
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
         AnchorHtmlData inquiryHref = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
+        String baseUrl = KFSConstants.INQUIRY_ACTION;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+
         if (KFSPropertyConstants.PROPOSAL_NUMBER.equals(attributeName)) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            inquiryHref.setHref("kr/inquiry.do?businessObjectClassName=org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward&proposalNumber=" + ObjectUtils.getPropertyValue(businessObject, attributeName) + "&methodToCall=start");
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAward.class.getName());
+            parameters.put(KFSPropertyConstants.PROPOSAL_NUMBER, ObjectUtils.getPropertyValue(businessObject, attributeName).toString());
+
+            inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         }
         else if (ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
             parameters.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, ObjectUtils.getPropertyValue(businessObject, attributeName));
 
             inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         }
         else if (KFSPropertyConstants.AGENCY_NUMBER.equals(attributeName)) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
             parameters.put(KFSPropertyConstants.AGENCY_NUMBER, ObjectUtils.getPropertyValue(businessObject, attributeName));
 
             inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         }
         else if (ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID.equals(attributeName)) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DunningCampaign.class.getName());
-            parameters.put(ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID, ObjectUtils.getPropertyValue(businessObject, attributeName));
-
-            inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
-        }
-        else if (ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID.equals(attributeName)) {
-            String baseUrl = KFSConstants.INQUIRY_ACTION;
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DunningCampaign.class.getName());
             parameters.put(ArPropertyConstants.DunningCampaignFields.DUNNING_CAMPAIGN_ID, ObjectUtils.getPropertyValue(businessObject, attributeName));
 
             inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         }
         else if (ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(attributeName)) {
+            baseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KFSConstants.DOC_HANDLER_ACTION;
+            parameters.remove(KFSConstants.DISPATCH_REQUEST_PARAMETER);
+            parameters.put(KFSConstants.PARAMETER_DOC_ID, ObjectUtils.getPropertyValue(businessObject, attributeName).toString());
+            parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
 
-            String documentNumber = ObjectUtils.getPropertyValue(businessObject, attributeName).toString();
-            inquiryHref.setHref(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView");
+            inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
         }
         return inquiryHref;
     }

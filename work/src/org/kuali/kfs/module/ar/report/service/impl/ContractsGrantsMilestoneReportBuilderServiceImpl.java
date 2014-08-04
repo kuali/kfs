@@ -68,13 +68,14 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
      */
     protected void setReportDate(ContractsGrantsMilestoneReport cgInvoiceReportEntry, ContractsGrantsMilestoneReportDetailDataHolder reportDetail) {
         reportDetail.setProposalNumber(cgInvoiceReportEntry.getProposalNumber());
+        reportDetail.setChartOfAccountsCode(cgInvoiceReportEntry.getChartOfAccountsCode());
         reportDetail.setAccountNumber(cgInvoiceReportEntry.getAccountNumber());
         reportDetail.setMilestoneNumber(cgInvoiceReportEntry.getMilestoneNumber());
         reportDetail.setMilestoneExpectedCompletionDate(cgInvoiceReportEntry.getMilestoneExpectedCompletionDate());
 
         BigDecimal milestoneAmount = (ObjectUtils.isNull(cgInvoiceReportEntry.getMilestoneAmount())) ? BigDecimal.ZERO : cgInvoiceReportEntry.getMilestoneAmount().bigDecimalValue();
         reportDetail.setMilestoneAmount(milestoneAmount);
-        reportDetail.setIsItBilled(cgInvoiceReportEntry.getBilledIndicator());
+        reportDetail.setBilledIndicator(cgInvoiceReportEntry.getBilledIndicator());
         if (cgInvoiceReportEntry.isActive()) {
             reportDetail.setActive(KFSConstants.ParameterValues.YES);
         } else {

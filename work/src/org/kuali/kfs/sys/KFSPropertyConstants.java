@@ -553,6 +553,7 @@ public class KFSPropertyConstants {
     public static final String FEDERAL_PASS_THROUGH_FUNDED_AMOUNT = "federalPassThroughFundedAmount";
     public static final String FEDERAL_PASS_THROUGH_INDICATOR = "federalPassThroughIndicator";
     public static final String FIELD_NAME = "fieldName";
+    public static final String FILE_NAME = "fileName";
     public static final String FIN_ACCOUNTS_PAYABLE_OBJECT = "finAccountsPayableObject";
     public static final String FIN_ACCOUNTS_PAYABLE_OBJECT_CODE = "finAccountsPayableObjectCode";
     public static final String FIN_ACCOUNTS_RECEIVABLE_OBJ = "finAccountsReceivableObj";

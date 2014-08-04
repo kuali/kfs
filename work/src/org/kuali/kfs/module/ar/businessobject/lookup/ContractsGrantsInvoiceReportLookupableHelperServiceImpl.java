@@ -57,13 +57,13 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.AGE_IN_DAYS);
         validateSearchParametersForOperatorAndValue(fieldValues, ArPropertyConstants.REMAINING_AMOUNT);
 
-        final String upperBoundInvoiceDueDate = fieldValues.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
+        final String upperBoundInvoiceDueDate = fieldValues.get(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
         validateDateField(upperBoundInvoiceDueDate, ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, getDateTimeService());
-        final String lowerBoundInvoiceDueDate = fieldValues.remove(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
+        final String lowerBoundInvoiceDueDate = fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
         validateDateField(lowerBoundInvoiceDueDate, KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, getDateTimeService());
-        final String lowerBoundInvoiceDate = fieldValues.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
+        final String lowerBoundInvoiceDate = fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
         validateDateField(lowerBoundInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM, getDateTimeService());
-        final String upperBoundInvoiceDate = fieldValues.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
+        final String upperBoundInvoiceDate = fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
         validateDateField(upperBoundInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO, getDateTimeService());
     }
 
@@ -127,7 +127,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
             // get payment amount
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("financialDocumentReferenceInvoiceNumber", openCGInvoiceDoc.getDocumentNumber());
+            criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, openCGInvoiceDoc.getDocumentNumber());
             Collection<InvoicePaidApplied> paidAppliedInvoices = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
             KualiDecimal paymentAmount = KualiDecimal.ZERO;
             for (InvoicePaidApplied invoicePaidApplied : paidAppliedInvoices) {
@@ -185,7 +185,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         final String lowerBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
         final String upperBoundInvoiceDate = (String)lookupFormFields.remove(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
-        final String invoiceDateCriteria = fixDateCriteria(lowerBoundInvoiceDate, upperBoundInvoiceDate);
+        final String invoiceDateCriteria = fixDateCriteria(lowerBoundInvoiceDate, upperBoundInvoiceDate, true);
         if (!StringUtils.isBlank(invoiceDateCriteria)) {
             lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, invoiceDateCriteria);
         }
@@ -207,7 +207,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
         final String upperBoundInvoiceDueDate = (String)lookupFormFields.remove(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
         final String lowerBoundInvoiceDueDate = (String)lookupFormFields.remove(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE);
-        final String invoiceDueDateCriteria = fixDateCriteria(lowerBoundInvoiceDueDate, upperBoundInvoiceDueDate);
+        final String invoiceDueDateCriteria = fixDateCriteria(lowerBoundInvoiceDueDate, upperBoundInvoiceDueDate, false);
         if (!StringUtils.isBlank(invoiceDueDateCriteria)) {
             lookupFields.put(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateCriteria);
         }

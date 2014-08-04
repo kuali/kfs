@@ -23,10 +23,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceSummaryReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
@@ -53,6 +55,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class ContractsGrantsReportLookupAction extends KualiLookupAction {
 
     private static volatile ContractsGrantsReportHelperService contractsGrantsReportHelperService;
+    private static volatile DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#execute(org.apache.struts.action.ActionMapping,
@@ -111,24 +114,37 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
     }
 
     /**
-     * @param searchCriteria
-     * @param fieldsForLookup
+     * When the report prints out, it lists the fields that were used for the search criteria query; this builds that
+     * @param searchCriteria the reporty versions of the fields
+     * @param fieldsForLookup the fields from the lookup itself
      */
     protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
-
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
 
-            if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
-                criteriaData.setSearchFieldLabel(label);
-                criteriaData.setSearchFieldValue(valueString);
+            if (StringUtils.isNotBlank(fieldString) && StringUtils.isNotBlank(valueString) &&
+                    !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString) &&
+                    !fieldString.startsWith(ArPropertyConstants.RANGE_LOWER_BOUND_KEY_PREFIX)) {
+                ContractsGrantsReportSearchCriteriaDataHolder criteriaData = generateDataHolder(fieldString, valueString);
                 searchCriteria.add(criteriaData);
             }
         }
+    }
+
+    /**
+     * Generates a single field for the buildReportForSearchCriteria
+     * @param fieldString the name of the field
+     * @param valueString the value from the lookup
+     * @return the generated ContractsGrantsReportSearchCriteriaDataHolder
+     */
+    protected ContractsGrantsReportSearchCriteriaDataHolder generateDataHolder(String fieldString, String valueString) {
+        ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
+
+        String label = getDataDictionaryService().getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
+        criteriaData.setSearchFieldLabel(label);
+        criteriaData.setSearchFieldValue(valueString);
+        return criteriaData;
     }
 
     /**
@@ -249,5 +265,12 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      */
     public ContractsGrantsReportDataBuilderService getContractsGrantsReportDataBuilderService() {
         return SpringContext.getBean(ContractsGrantsReportDataBuilderService.class, getReportBuilderServiceBeanName());
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
     }
 }

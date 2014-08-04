@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -33,17 +34,22 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -113,15 +119,15 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
             ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(contractsGrantsLetterOfCreditReviewDocument.getDocumentNumber());
             if (ObjectUtils.isNull(document)) {
                 contractsGrantsLetterOfCreditReviewDocument.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
-                contractsGrantsLetterOfCreditReviewDocument.populateContractsGrantsLOCReviewDetails();
-                SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsLetterOfCreditReviewDocument);
+                Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
+                if (contractsGrantsLetterOfCreditReviewDocument.populateContractsGrantsLOCReviewDetails(contractsGrantsInvoiceDocumentErrorLogs)) {
+                    saveDocumentAndNote(contractsGrantsLetterOfCreditReviewDocument, contractsGrantsInvoiceDocumentErrorLogs);
+                }
             }
-            // To set the initial view to hide details.
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
 
     /**
      * To recalculate the amount to Draw for every contract control account
@@ -189,8 +195,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
             document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
-            document.populateContractsGrantsLOCReviewDetails();
-            SpringContext.getBean(DocumentService.class).saveDocument(document);
+            Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
+            if (document.populateContractsGrantsLOCReviewDetails(contractsGrantsInvoiceDocumentErrorLogs)) {
+                saveDocumentAndNote(document, contractsGrantsInvoiceDocumentErrorLogs);
+            } else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
 
         ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
@@ -234,8 +244,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
             document.getDocumentHeader().setDocumentDescription(ArConstants.LETTER_OF_CREDIT_REVIEW_DOCUMENT);
-            document.populateContractsGrantsLOCReviewDetails();
-            SpringContext.getBean(DocumentService.class).saveDocument(document);
+            Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
+            if (document.populateContractsGrantsLOCReviewDetails(contractsGrantsInvoiceDocumentErrorLogs)) {
+                saveDocumentAndNote(document, contractsGrantsInvoiceDocumentErrorLogs);
+            } else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
         String methodToCallPrintInvoicePDF = "printInvoicePDF";
         String methodToCallDocHandler = "docHandler";
@@ -340,6 +354,25 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
             sos.close();
         }
         return null;
+    }
+
+    /**
+     * Saves the ContractsGrantsLetterOfCreditReviewDocument and if necessary (i.e. there were validation errors for some
+     * of the awards) saves a note indicating some awards didn't pass validation and aren't included on the document.
+     *
+     * @param contractsGrantsLetterOfCreditReviewDocument document to save
+     * @param contractsGrantsInvoiceDocumentErrorLogs Collection of validation errors, if any
+     * @throws WorkflowException
+     */
+    protected void saveDocumentAndNote(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs) throws WorkflowException {
+        SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsLetterOfCreditReviewDocument);
+        if (contractsGrantsInvoiceDocumentErrorLogs.size() > 0) {
+            String noteText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_SOME_AWARDS_INVALID);
+            Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(contractsGrantsLetterOfCreditReviewDocument, noteText);
+            note.setAuthorUniversalIdentifier(SpringContext.getBean(IdentityService.class).getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER).getPrincipalId());
+            contractsGrantsLetterOfCreditReviewDocument.addNote(note);
+            SpringContext.getBean(NoteService.class).save(note);
+        }
     }
 
     /**

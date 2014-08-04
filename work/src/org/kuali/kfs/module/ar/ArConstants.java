@@ -24,6 +24,8 @@ public class ArConstants{
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
 
+    public static final String REPORT_TIME_FORMAT = "HH:mm:ss";
+
     public static final String CG_PRORATE_BILL_IND = "CG_PRORATE_BILL_IND";
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String INVOICE_DOC_TYPE = "Invoice";
@@ -91,6 +93,8 @@ public class ArConstants{
     // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
     public static int ITEM_QUANTITY_SCALE = 10;
 
+    public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL = "arCustomerOpenItemReportLookupable";
+
     public static class PermissionNames {
         public static final String REPORT = "Report";
     }
@@ -114,6 +118,12 @@ public class ArConstants{
     public static final String DOCUMENT_STATUS_FINAL = "F";
 
     public static final String CUSTOMER_COMPONENT = "Customer";
+
+    public static final String DOWNLOAD_METHOD = "download";
+    public static final String PRINT_METHOD = "print";
+    public static final String UPLOAD_METHOD = "upload";
+    public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
+    public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
 
     // Agency Address
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
@@ -521,7 +531,45 @@ public class ArConstants{
         public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
     }
 
+    public static class UrlActions {
+        public static final String ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableLetterTemplateUpload.do";
+        public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload.do";
+        public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUP = "arCustomerOpenItemReportLookup.do";
+        public static final String CASH_CONTROL_DOCUMENT = "arCashControlDocument.do";
+    }
+
     public static class ContractsAndGrantsCategorySections {
         public static final String EDIT_CATEGORY = "EditCategory";
     }
+
+    public static enum ContractsAndGrantsInvoiceDocumentCreationProcessType {
+        BATCH("B", "Batch"), LOC("L", "LOC"), MANUAL("M", "Manual");
+
+        private String code;
+        private String name;
+
+        ContractsAndGrantsInvoiceDocumentCreationProcessType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static String getName(String code) {
+            for(ContractsAndGrantsInvoiceDocumentCreationProcessType type : ContractsAndGrantsInvoiceDocumentCreationProcessType.values()) {
+                if(type.getCode().equals(code)){
+                    return type.getName();
+                }
+            }
+            return null;
+        }
+    }
+
+    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
 }

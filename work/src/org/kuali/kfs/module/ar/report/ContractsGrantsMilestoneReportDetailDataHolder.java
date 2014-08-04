@@ -22,11 +22,12 @@ import java.sql.Date;
 public class ContractsGrantsMilestoneReportDetailDataHolder {
 
     private Long proposalNumber;
+    private String chartOfAccountsCode;
     private String accountNumber;
     private Long milestoneNumber;
     private BigDecimal milestoneAmount;
     private Date milestoneExpectedCompletionDate;
-    private String isItBilled;
+    private String billedIndicator;
     private String active;
     private String sortedFieldValue;
     private BigDecimal subTotal;
@@ -48,6 +49,14 @@ public class ContractsGrantsMilestoneReportDetailDataHolder {
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
     /**
@@ -123,21 +132,21 @@ public class ContractsGrantsMilestoneReportDetailDataHolder {
     }
 
     /**
-     * Gets the isItBilled attribute.
+     * Gets the billedIndicator attribute.
      *
-     * @return Returns the isItBilled.
+     * @return Returns the billedIndicator.
      */
-    public String getIsItBilled() {
-        return isItBilled;
+    public String getBilledIndicator() {
+        return billedIndicator;
     }
 
     /**
-     * Sets the isItBilled attribute value.
+     * Sets the billedIndicator attribute value.
      *
-     * @param isItBilled The isItBilled to set.
+     * @param billedIndicator The billedIndicator to set.
      */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
+    public void setBilledIndicator(String isItBilled) {
+        this.billedIndicator = isItBilled;
     }
 
     public String getActive() {

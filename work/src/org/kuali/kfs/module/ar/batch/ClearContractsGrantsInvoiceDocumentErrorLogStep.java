@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.batch;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorCategory;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,7 +35,7 @@ public class ClearContractsGrantsInvoiceDocumentErrorLogStep extends AbstractSte
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        businessObjectService.deleteMatching(ContractsGrantsInvoiceDocumentErrorCategory.class, new HashMap<String, Object>());
+        businessObjectService.deleteMatching(ContractsGrantsInvoiceDocumentErrorMessage.class, new HashMap<String, Object>());
         businessObjectService.deleteMatching(ContractsGrantsInvoiceDocumentErrorLog.class, new HashMap<String, Object>());
 
         return true;

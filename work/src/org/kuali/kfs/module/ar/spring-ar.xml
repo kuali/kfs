@@ -251,7 +251,7 @@
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
-	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
+	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -292,6 +292,12 @@
 			<ref bean="workflowDocumentService" />
 		</property>
 	</bean>
+	
+	<bean id="contractsGrantsInvoiceBatchCreateDocumentService" parent="contractsGrantsInvoiceBatchCreateDocumentService-parentBean"/>
+	<bean id="contractsGrantsInvoiceBatchCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceBatchCreateDocumentServiceImpl" abstract="true">
+		<property name="contractsGrantsInvoiceCreateDocumentService" ref="contractsGrantsInvoiceCreateDocumentService"/>
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 
 	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -326,8 +332,8 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep" parent="step">
-		<property name="cgInvoiceDocumentCreateService">
-			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
+		<property name="cgInvoiceBatchDocumentCreateService">
+			<ref bean="contractsGrantsInvoiceBatchCreateDocumentService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -598,6 +604,15 @@
 		</property>
 	</bean>
 
+	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService"/>
+
+	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" />
+		</property>
+	</bean>
+
 	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo" parent="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean"/>
 	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts Grants Invoice Document Error Log Report" />
@@ -611,7 +626,7 @@
 			<map>
 				<entry key="contractsGrantsInvoiceDetails" value="ContractsGrantsInvoiceDocumentErrorLogDetails" />
 				<entry key="searchCriteria" value="SearchCriteria" />
-				<entry key="validationCategories" value="ContractsGrantsInvoiceDocumentErrorLogCategories" />
+				<entry key="errorMessages" value="ContractsGrantsInvoiceDocumentErrorLogMessages" />
 			</map>
 		</property>
 	</bean>
@@ -2297,6 +2312,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
 		<property name="reportGenerationService" ref="reportGenerationService"/>
 		<property name="configurationService" ref="configurationService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
 	
 	<bean id="contractsGrantsSuspendedInvoiceSummaryReportBuilderService" parent="contractsGrantsSuspendedInvoiceSummaryReportBuilderService-parentBean"/>
@@ -2359,5 +2375,15 @@
 	<bean id="contractsGrantsSuspendedInvoiceDetailReportBuilderService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceDetailReportBuilderServiceImpl">
 		<property name="reportInfo" ref="contractsGrantsSuspendedInvoiceDetailReportInfo"/>
 		<property name="contractsGrantsReportHelperService" ref="contractsGrantsReportHelperService"/>
+	</bean>
+	
+	<bean id="contractsGrantsLetterOfCreditReviewDocumentService" parent="contractsGrantsLetterOfCreditReviewDocumentService-parentBean"/>
+	<bean id="contractsGrantsLetterOfCreditReviewDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsLetterOfCreditReviewDocumentServiceImpl">
+		<property name="awardAccountObjectCodeTotalBilledDao" ref="awardAccountObjectCodeTotalBilledDao"/>
+	    <property name="businessObjectService" ref="businessObjectService"/>
+	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	    <property name="contractsAndGrantsModuleBillingService" ref="contractsAndGrantsModuleBillingService"/>
+	    <property name="kualiModuleService" ref="kualiModuleService"/>
+	    <property name="universityDateService" ref="universityDateService"/>
 	</bean>
 </beans>

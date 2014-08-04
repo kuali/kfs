@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.util.List;
-
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.module.ar.businessobject.options.AgencyLetterTemplateValuesFinder;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -30,9 +27,6 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
     private boolean accessRestrictedInd;
     private String letterTemplateCode;
     private String fileName;
-
-    private AgencyLetterTemplateValuesFinder valuesFinder = new AgencyLetterTemplateValuesFinder();
-    private List letterTemplateList = valuesFinder.getKeyValues();
 
     /**
      * Constructs a AccountsReceivableLetterTemplateUploadForm.java.
@@ -135,12 +129,4 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
         this.uploadedFile = uploadedFile;
     }
 
-    /**
-     * Gets the letterTemplateList attribute.
-     *
-     * @return Returns the letterTemplateList.
-     */
-    public List getLetterTemplateList() {
-        return letterTemplateList;
-    }
 }

@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -39,18 +41,17 @@ public class ContractsGrantsInvoiceDocumentErrorLog extends PersistableBusinessO
     private BigDecimal awardTotalAmount;
     private BigDecimal cumulativeExpensesAmount;
     private Timestamp errorDate;
-    private String primaryFundManagerPrincipalName;
-    private boolean batch;
+    private String creationProcessTypeCode;
     private String batchForReport;
     private String primaryFundManagerPrincipalId;
     private String primaryFundManagerName;
 
-    private List<ContractsGrantsInvoiceDocumentErrorCategory> validationCategories;
+    private List<ContractsGrantsInvoiceDocumentErrorMessage> errorMessages;
     private ContractsAndGrantsAward award;
-    private Person awardFundManager;
+    private Person awardPrimaryFundManager;
 
     public ContractsGrantsInvoiceDocumentErrorLog() {
-        validationCategories = new ArrayList<ContractsGrantsInvoiceDocumentErrorCategory>();
+        errorMessages = new ArrayList<ContractsGrantsInvoiceDocumentErrorMessage>();
     }
 
     public Long getProposalNumber() {
@@ -118,27 +119,7 @@ public class ContractsGrantsInvoiceDocumentErrorLog extends PersistableBusinessO
     }
 
     public String getPrimaryFundManagerPrincipalName() {
-        return primaryFundManagerPrincipalName;
-    }
-
-    public void setPrimaryFundManagerPrincipalName(String primaryFundManagerPrincipalName) {
-        this.primaryFundManagerPrincipalName = primaryFundManagerPrincipalName;
-    }
-
-    public boolean isBatch() {
-        return batch;
-    }
-
-    public void setBatch(boolean batch) {
-        this.batch = batch;
-    }
-
-    public String getBatchForReport() {
-        if (isBatch()) {
-            return KFSConstants.ParameterValues.YES;
-        } else {
-            return KFSConstants.ParameterValues.NO;
-        }
+        return getAwardPrimaryFundManager().getPrincipalName();
     }
 
     public String getPrimaryFundManagerPrincipalId() {
@@ -157,12 +138,24 @@ public class ContractsGrantsInvoiceDocumentErrorLog extends PersistableBusinessO
         this.primaryFundManagerName = primaryFundManagerName;
     }
 
-    public List<ContractsGrantsInvoiceDocumentErrorCategory> getValidationCategories() {
-        return validationCategories;
+    public String getCreationProcessTypeCode() {
+        return creationProcessTypeCode;
     }
 
-    public void setValidationCategories(List<ContractsGrantsInvoiceDocumentErrorCategory> validationCategories) {
-        this.validationCategories = validationCategories;
+    public void setCreationProcessTypeCode(String creationProcessTypeCode) {
+        this.creationProcessTypeCode = creationProcessTypeCode;
+    }
+
+    public String getCreationProcessTypeName() {
+        return ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.getName(creationProcessTypeCode);
+    }
+
+    public List<ContractsGrantsInvoiceDocumentErrorMessage> getErrorMessages() {
+        return errorMessages;
+    }
+
+    public void setErrorMessages(List<ContractsGrantsInvoiceDocumentErrorMessage> errorMesssages) {
+        this.errorMessages = errorMesssages;
     }
 
     public ContractsAndGrantsAward getAward() {
@@ -173,12 +166,13 @@ public class ContractsGrantsInvoiceDocumentErrorLog extends PersistableBusinessO
         this.award = award;
     }
 
-    public Person getAwardFundManager() {
-        return awardFundManager;
+    public Person getAwardPrimaryFundManager() {
+        awardPrimaryFundManager = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(primaryFundManagerPrincipalId, awardPrimaryFundManager);
+        return awardPrimaryFundManager;
     }
 
-    public void setAwardFundManager(Person awardFundManager) {
-        this.awardFundManager = awardFundManager;
+    public void setAwardPrimaryFundManager(Person awardPrimaryFundManager) {
+        this.awardPrimaryFundManager = awardPrimaryFundManager;
     }
 
 }

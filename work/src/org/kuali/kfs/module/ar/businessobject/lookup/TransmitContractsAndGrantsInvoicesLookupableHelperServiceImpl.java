@@ -29,9 +29,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService
 import org.kuali.kfs.module.ar.report.service.TransmitContractsAndGrantsInvoicesService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -165,7 +163,7 @@ public class TransmitContractsAndGrantsInvoicesLookupableHelperServiceImpl exten
 
                     // Add url when property is invoiceNumber
                     if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
-                        String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
+                        String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);

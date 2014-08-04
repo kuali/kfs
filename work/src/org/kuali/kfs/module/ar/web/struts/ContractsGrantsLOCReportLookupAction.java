@@ -15,8 +15,17 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReport;
+import org.kuali.kfs.sys.report.ReportInfoHolder;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -59,4 +68,27 @@ public class ContractsGrantsLOCReportLookupAction extends ContractsGrantsReportL
     public Class<? extends BusinessObject> getPrintSearchCriteriaClass() {
         return ContractsGrantsLOCReport.class;
     }
+
+    @Override
+    public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String reportTitle = "Letter of Credit Draw Report";
+        LookupForm lookupForm = (LookupForm)form;
+        Map lookupFormFields = lookupForm.getFieldsForLookup();
+
+        String reportType = (String)lookupFormFields.get("reportType");
+
+        if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN)) {
+            reportTitle = "Letter of Credit Amounts Not Drawn Report";
+        } else if (reportType.equals(ArConstants.LOCReportTypeFieldValues.DRAW_DETAILS) ) {
+            reportTitle = "Letter of Credit Detail Report";
+        }
+
+        ((ReportInfoHolder)getContractsGrantsReportDataBuilderService().getReportInfo()).setReportTitle(reportTitle);
+
+        return super.print(mapping, form, request, response);
+    }
+
+
+
 }

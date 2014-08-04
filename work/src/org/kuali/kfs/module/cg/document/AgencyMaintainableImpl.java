@@ -260,4 +260,15 @@ public class AgencyMaintainableImpl extends ContractsGrantsBillingMaintainable {
         return parameterService;
     }
 
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+
+        Agency agency = (Agency) getBusinessObject();
+        List<AgencyAddress> agencyAddresses = agency.getAgencyAddresses();
+        for (AgencyAddress agencyAddress : agencyAddresses) {
+            agencyAddress.setAgencyAddressIdentifier(null);
+        }
+    }
+
 }

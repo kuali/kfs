@@ -233,16 +233,39 @@
     	<property name="awardService" ref="awardWebService"/>
     </bean>
     
+    <bean id="externalLookupableHelperService" abstract="true" parent="externalLookupableHelperService-parentBean" />
+    <bean id="externalLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService"
+    	class="org.kuali.kfs.module.external.kc.service.impl.ExternalizableLookupableHelperServiceImpl"/>    
+    
     <bean id="awardLookupable" parent="awardLookupable-parentBean"/>
     <bean id="awardLookupable-parentBean" abstract="true" scope="prototype" parent="kualiLookupable">
     	<property name="lookupableHelperService" ref="awardLookupableHelperService"/>
     </bean>
     
     <bean id="awardLookupableHelperService" parent="awardLookupableHelperService-parentBean"/>
-    <bean id="awardLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService"
-    	class="org.kuali.kfs.module.external.kc.service.impl.AwardLookupableHelperServiceImpl">
-    	<property name="awardService" ref="awardWebService"/>
+    <bean id="awardLookupableHelperService-parentBean" abstract="true" parent="externalLookupableHelperService">
+    	<property name="eboLookupableService" ref="awardWebService"/>
     </bean>
+    
+    <bean id="unitLookupable" parent="unitLookupable-parentBean"/>
+    <bean id="unitLookupable-parentBean" abstract="true" scope="prototype" parent="kualiLookupable">
+    	<property name="lookupableHelperService" ref="unitLookupableHelperService"/>
+    </bean>
+    
+    <bean id="unitLookupableHelperService" parent="unitLookupableHelperService-parentBean"/>
+    <bean id="unitLookupableHelperService-parentBean" abstract="true" parent="externalLookupableHelperService">
+    	<property name="eboLookupableService" ref="institutionalUnitService"/>
+    </bean>
+    
+    <bean id="cfdaLookupable" parent="cfdaLookupable-parentBean"/>
+    <bean id="cfdaLookupable-parentBean" abstract="true" scope="prototype" parent="kualiLookupable">
+    	<property name="lookupableHelperService" ref="cfdaLookupableHelperService"/>
+    </bean>
+    
+    <bean id="cfdaLookupableHelperService" parent="cfdaLookupableHelperService-parentBean"/>
+    <bean id="cfdaLookupableHelperService-parentBean" abstract="true" parent="externalLookupableHelperService">
+    	<property name="eboLookupableService" ref="cfdaNumberService"/>
+    </bean>   
     
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

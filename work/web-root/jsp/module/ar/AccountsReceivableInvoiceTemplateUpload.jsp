@@ -46,21 +46,10 @@
 					</td>
 					<td class="infoline"><kul:htmlAttributeLabel
 							attributeEntry="${InvoiceTemplateAttributes.invoiceTemplateCode}"
-							useShortLabel="false" /> <html:select
-							property="invoiceTemplateCode">
-							<c:forEach var="invoiceTemplate"
-								items="${KualiForm.invoiceTemplateList}">
-								<c:choose>
-									<c:when
-										test="${param.invoiceTemplateCode == invoiceTemplate.key}">
-										<option value="${invoiceTemplate.key}" selected="selected">${invoiceTemplate.value}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${invoiceTemplate.key}">${invoiceTemplate.value}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</html:select>
+							useShortLabel="false" /> 
+						<html:select property="invoiceTemplateCode">
+                 				<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|InvoiceTemplateValuesFinder" label="value" value="key"/>
+               			</html:select>
 					</td>
 
 					<td class="infoline">

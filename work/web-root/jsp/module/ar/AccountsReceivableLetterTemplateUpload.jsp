@@ -46,21 +46,10 @@
 					</td>
 					<td class="infoline"><kul:htmlAttributeLabel
 							attributeEntry="${LetterTemplateAttributes.letterTemplateCode}"
-							useShortLabel="false" /> <html:select
-							property="letterTemplateCode">
-							<c:forEach var="letterTemplate"
-								items="${KualiForm.letterTemplateList}">
-								<c:choose>
-									<c:when
-										test="${param.letterTemplateCode == letterTemplate.key}">
-										<option value="${letterTemplate.key}" selected="selected">${letterTemplate.value}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${letterTemplate.key}">${letterTemplate.value}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</html:select>
+							useShortLabel="false" /> 
+						<html:select property="letterTemplateCode">
+                 				<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|AgencyLetterTemplateValuesFinder" label="value" value="key"/>
+               			</html:select>
 					</td>
 
 					<td class="infoline">

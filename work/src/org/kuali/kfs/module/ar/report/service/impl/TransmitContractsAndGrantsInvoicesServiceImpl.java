@@ -247,12 +247,17 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
     @Override
     public void validateSearchParameters(Map<String,String> fieldValues) {
+        String invoiceTransmissionMethodCode = fieldValues.get(ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE);
         String invoiceInitiatorPrincipalName = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_INITIATOR_PRINCIPAL_NAME);
         String invoicePrintDateFromString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_FROM);
         String invoicePrintDateToString = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO);
         String invoiceAmount = fieldValues.get(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT);
 
         // To validate the input fields before fetching invoices.
+        if (StringUtils.isBlank(invoiceTransmissionMethodCode)) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.INVOICE_TRANSMISSION_METHOD_CODE, KFSKeyConstants.ERROR_REQUIRED, ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_TRANSMISSION_METHOD_CODE_LABEL);
+        }
+
         if (StringUtils.isNotBlank(invoicePrintDateFromString)) {
             try {
                 dateTimeService.convertToDate(invoicePrintDateFromString);

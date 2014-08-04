@@ -75,4 +75,11 @@ public interface ContractsGrantsReportHelperService {
      * @return the formatted property
      */
     public String formatByType(Object prop, Formatter preferredFormatter);
+
+    /**
+     * Adds an end time (the last moment in the day) to a date string if it is not already there
+     * @param dateString the date string to append an end time to
+     * @return the String with the appended end time if it didn't have it already
+     */
+    public String appendEndTimeToDate(String dateString);
 }

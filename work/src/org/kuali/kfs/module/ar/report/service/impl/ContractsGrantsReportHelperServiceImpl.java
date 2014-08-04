@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,8 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,6 +38,7 @@ import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -52,6 +56,7 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
     protected DataDictionaryService dataDictionaryService;
     protected ReportGenerationService reportGenerationService;
     protected ConfigurationService configurationService;
+    protected DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder, org.kuali.kfs.sys.report.ReportInfo, java.io.ByteArrayOutputStream)
@@ -172,6 +177,23 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#appendEndTimeToDate(java.lang.String)
+     */
+    @Override
+    public String appendEndTimeToDate(String dateString) {
+        String resultString = dateString;
+        if (!org.apache.commons.lang.StringUtils.isBlank(dateString)) {
+            Date endOfDay = DateUtils.addMilliseconds(DateUtils.ceiling(getDateTimeService().getCurrentDate(), Calendar.DATE), -1);
+            String endOfDayTime = KFSConstants.BLANK_SPACE + getDateTimeService().toString(endOfDay, ArConstants.REPORT_TIME_FORMAT);
+            // only add time string if it hasn't already been added (for some reason this method gets called twice when generating the pdf report)
+            if (!org.apache.commons.lang.StringUtils.contains(dateString, endOfDayTime)) {
+                resultString += endOfDayTime;
+            }
+        }
+        return resultString;
+    }
+
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -201,5 +223,13 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

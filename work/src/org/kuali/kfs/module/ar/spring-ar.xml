@@ -2306,6 +2306,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
 		<property name="reportGenerationService" ref="reportGenerationService"/>
 		<property name="configurationService" ref="configurationService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
 	
 	<bean id="contractsGrantsSuspendedInvoiceSummaryReportBuilderService" parent="contractsGrantsSuspendedInvoiceSummaryReportBuilderService-parentBean"/>

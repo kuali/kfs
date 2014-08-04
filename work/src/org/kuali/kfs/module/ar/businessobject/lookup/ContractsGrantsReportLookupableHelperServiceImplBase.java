@@ -223,18 +223,20 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
      * Translates the date criteria to a form which the LookupService will comprehend
      * @param dateLowerBound the lower bound of the date
      * @param dateUpperBound the upper bound of the date
+     * @param includeTime denotes whether time should be included on the upper bound
      * @return the date criteria, or null if nothing could be constructed
      */
-    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound) {
+    protected String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
+        final String correctedUpperBound = includeTime && !StringUtils.isBlank(dateUpperBound) ? getContractsGrantsReportHelperService().appendEndTimeToDate(dateUpperBound) : dateUpperBound;
         if (!StringUtils.isBlank(dateLowerBound)) {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return dateLowerBound+".."+dateUpperBound;
+                return dateLowerBound+".."+correctedUpperBound;
             } else {
                 return ">="+dateLowerBound;
             }
         } else {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return "<="+dateUpperBound;
+                return "<="+correctedUpperBound;
             }
         }
         return null;

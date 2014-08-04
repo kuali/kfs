@@ -704,6 +704,9 @@
 			<column name="REFND_FIN_OBJECT_CD" type="VARCHAR(4)" />
 			<column name="REFND_DOC_LOC_CD" type="VARCHAR(2)" />
 		</addColumn>
+		<modifySql>
+		   	<replace replace="TIMESTAMP" with="DATE"/>
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_AR_SEQUENCES_oracle" dbms="oracle">

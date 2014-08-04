@@ -145,6 +145,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql>
+		   	<replace replace="TIMESTAMP" with="DATE"/>
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_MODIFIED_CG_TABLES">
@@ -194,6 +197,9 @@
     	<modifyDataType columnName="NEXT_CG_AGENCY_NBR" newDataType="VARCHAR(6)" tableName="FS_ORIGIN_CODE_T"/>
     	<!--  KFSTP1160 Removed unused (and unable to be maintained) comments field from Award -->
     	<dropColumn tableName="CG_AWD_T" columnName="CGAWD_COMMENT_TXT" />
+		<modifySql>
+		   	<replace replace="TIMESTAMP" with="DATE"/>
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="KFS_CGB_CG_SEQUENCES_oracle" dbms="oracle">

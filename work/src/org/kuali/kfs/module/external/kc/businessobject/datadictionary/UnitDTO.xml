@@ -147,7 +147,7 @@
 	<bean id="unitDTO-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="KC Unit Lookup" />
-		<property name="lookupableID" value="kualiLookupable" />
+		<property name="lookupableID" value="unitLookupable" />
 
 		<property name="lookupFields">
 			<list>

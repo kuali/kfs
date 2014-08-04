@@ -320,10 +320,7 @@ public class ArKeyConstants {
         public static final String ERROR_DUPLICATE_COLL_INFO = "error.document.collectorInformations.duplicate";
     }
 
-    public static final String ACTIONS_UPLOAD = "upload";
-    public static final String ACTIONS_DOWNLOAD = "download";
-
-     public static final class LockboxLoad {
+    public static final class LockboxLoad {
 
         public static final String ERROR_LOCKBOX_INVALID_FIRST_RECORD = "error.lockbox.invalid.first.record";
         public static final String ERROR_LOCKBOX_INVALID_HDR_TRANS_BATCH_TOT = "error.lockbox.invalid.hdr.trans.batch.tot";

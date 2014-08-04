@@ -21,11 +21,13 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -39,6 +41,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+
     protected KualiModuleService kualiModuleService;
     protected DunningLetterDistributionService dunningLetterDistributionService;
 
@@ -78,8 +81,12 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
      */
     protected AnchorHtmlData getDunningLetterTemplateUploadUrl(BusinessObject bo) {
         DunningLetterTemplate letterTemplate = (DunningLetterTemplate) bo;
-        String href = "../arAccountsReceivableLetterTemplateUpload.do" + "?&methodToCall=start&letterTemplateCode=" + letterTemplate.getLetterTemplateCode() + "&docFormKey=88888888";
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_UPLOAD);
+        Properties params = new Properties();
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        params.put(ArPropertyConstants.DunningLetterTemplateFields.LETTER_TEMPLATE_CODE, letterTemplate.getLetterTemplateCode());
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        String href = UrlFactory.parameterizeUrl(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/" + ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD, params);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.UPLOAD_METHOD);
     }
 
     /**
@@ -107,11 +114,11 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
         Properties parameters = new Properties();
         String fileName = letterTemplate.getFilename();
         if (ObjectUtils.isNotNull(fileName) && templateFileExists(fileName)) {
-            parameters.put("fileName", fileName);
-            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
+            parameters.put(KFSPropertyConstants.FILE_NAME, fileName);
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, ArConstants.DOWNLOAD_METHOD);
         }
-        String href = UrlFactory.parameterizeUrl("../arAccountsReceivableLetterTemplateUpload.do", parameters);
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_DOWNLOAD);
+        String href = UrlFactory.parameterizeUrl(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY)+ "/" + ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD, parameters);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.DOWNLOAD_METHOD);
     }
 
     /**

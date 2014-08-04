@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
@@ -97,7 +96,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
     protected AnchorHtmlData getInvoiceTemplateUploadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
         String href = "../arAccountsReceivableInvoiceTemplateUpload.do" + "?&methodToCall=start&invoiceTemplateCode=" + invoiceTemplate.getInvoiceTemplateCode() + "&docFormKey=88888888";
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_UPLOAD);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.UPLOAD_METHOD);
     }
 
     /**
@@ -129,7 +128,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
             parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
         }
         String href = UrlFactory.parameterizeUrl("../arAccountsReceivableInvoiceTemplateUpload.do", parameters);
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_DOWNLOAD);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.DOWNLOAD_METHOD);
     }
 
     /**

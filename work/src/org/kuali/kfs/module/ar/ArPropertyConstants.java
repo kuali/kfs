@@ -359,7 +359,6 @@ public class ArPropertyConstants{
 
     // Dunning Campaign & Templates
     public static class DunningCampaignFields {
-
         public static final String DUNNING_CAMPAIGN_ID = "campaignID";
         public static final String DUNNING_TEMPLATE = "dunningTemplate";
         public static final String DUNNING_LETTER_DISTRIBUTIONS = "dunningLetterDistributions";
@@ -372,6 +371,10 @@ public class ArPropertyConstants{
         public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
         public static final String PROCESSING_CHART_CODE = "processingChartCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+    }
+
+    public static class DunningLetterTemplateFields {
+        public static final String LETTER_TEMPLATE_CODE = "letterTemplateCode";
     }
 
     // Contracts And Grants Aging Report

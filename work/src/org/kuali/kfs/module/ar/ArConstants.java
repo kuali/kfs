@@ -117,7 +117,9 @@ public class ArConstants{
 
     public static final String CUSTOMER_COMPONENT = "Customer";
 
+    public static final String DOWNLOAD_METHOD = "download";
     public static final String PRINT_METHOD = "print";
+    public static final String UPLOAD_METHOD = "upload";
     public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
     public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
 
@@ -525,6 +527,10 @@ public class ArConstants{
         public static final String COLLECTION_ACTIVITY_INVOICES = "arCollectionActivityDocument.do";
         public static final String CONTRACTS_GRANTS_INVOICES = "arContractsGrantsInvoiceSummary.do";
         public static final String DUNNING_LETTER_DISTRIBUTIONS = "arDunningLetterDistributionSummary.do";
+    }
+
+    public static class UrlActions {
+        public static final String ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableLetterTemplateUpload.do";
     }
 
     public static class ContractsAndGrantsCategorySections {

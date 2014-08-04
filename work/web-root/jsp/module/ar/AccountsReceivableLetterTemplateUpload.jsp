@@ -48,7 +48,7 @@
 							attributeEntry="${LetterTemplateAttributes.letterTemplateCode}"
 							useShortLabel="false" /> 
 						<html:select property="letterTemplateCode">
-                 				<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|AgencyLetterTemplateValuesFinder" label="value" value="key"/>
+                 				<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|DunningLetterTemplateValuesFinder" label="value" value="key"/>
                			</html:select>
 					</td>
 

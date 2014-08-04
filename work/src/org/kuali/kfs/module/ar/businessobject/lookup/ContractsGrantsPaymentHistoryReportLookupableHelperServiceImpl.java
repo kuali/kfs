@@ -54,7 +54,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
 
         Collection<ContractsGrantsPaymentHistoryReport> displayList = new ArrayList<ContractsGrantsPaymentHistoryReport>();
 
-        lookupFormFields.put("invoiceDocumentType", ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        lookupFormFields.put(ArConstants.INVOICE_DOCUMENT_TYPE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
         Collection<CashControlDocument> cgCashControlDocs = getLookupService().findCollectionBySearchHelper(CashControlDocument.class, lookupFormFields, true);
 
 

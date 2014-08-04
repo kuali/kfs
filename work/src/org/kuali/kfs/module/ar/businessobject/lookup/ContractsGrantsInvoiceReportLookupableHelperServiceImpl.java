@@ -127,7 +127,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
             // get payment amount
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("financialDocumentReferenceInvoiceNumber", openCGInvoiceDoc.getDocumentNumber());
+            criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, openCGInvoiceDoc.getDocumentNumber());
             Collection<InvoicePaidApplied> paidAppliedInvoices = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
             KualiDecimal paymentAmount = KualiDecimal.ZERO;
             for (InvoicePaidApplied invoicePaidApplied : paidAppliedInvoices) {

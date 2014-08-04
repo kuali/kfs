@@ -558,6 +558,7 @@ public class ArConstants{
             }
             return null;
         }
-
     }
+
+    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
 }

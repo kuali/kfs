@@ -76,7 +76,7 @@ public class ContractsGrantsLOCReportLookupAction extends ContractsGrantsReportL
         LookupForm lookupForm = (LookupForm)form;
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
-        String reportType = (String)lookupFormFields.remove("reportType");
+        String reportType = (String)lookupFormFields.get("reportType");
 
         if (reportType.equals(ArConstants.LOCReportTypeFieldValues.AMOUNTS_NOT_DRAWN)) {
             reportTitle = "Letter of Credit Amounts Not Drawn Report";
@@ -84,7 +84,7 @@ public class ContractsGrantsLOCReportLookupAction extends ContractsGrantsReportL
             reportTitle = "Letter of Credit Detail Report";
         }
 
-        ((ReportInfoHolder)this.getContractsGrantsReportDataBuilderService().getReportInfo()).setReportTitle(reportTitle);
+        ((ReportInfoHolder)getContractsGrantsReportDataBuilderService().getReportInfo()).setReportTitle(reportTitle);
 
         return super.print(mapping, form, request, response);
     }

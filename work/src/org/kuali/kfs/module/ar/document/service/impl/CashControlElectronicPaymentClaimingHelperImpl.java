@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -40,6 +41,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CashControlElectronicPaymentClaimingHelperImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlElectronicPaymentClaimingHelperImpl.class);
@@ -52,10 +54,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     protected FinancialSystemUserService financialSystemUserService;
     private static DocumentTypeService documentTypeService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    protected final static String URL_PREFIX = "ar";
-    protected final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
-    protected final static String URL_SUFFIX = "&docId=";
-    protected final static String URL_DOC_TYPE = "CashControl";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
@@ -137,14 +135,12 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @return the relative URL to redirect to
      */
     protected String getURLForDocument(CashControlDocument doc) {
-        StringBuilder url = new StringBuilder();
-        url.append(URL_PREFIX);
-        url.append(URL_DOC_TYPE);
-        url.append(URL_MIDDLE);
-        url.append(KewApiConstants.ACTIONLIST_COMMAND);
-        url.append(URL_SUFFIX);
-        url.append(doc.getDocumentNumber());
-        return url.toString();
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.ACTIONLIST_COMMAND);
+        parameters.put(KFSConstants.PARAMETER_DOC_ID, doc.getDocumentNumber());
+
+        return UrlFactory.parameterizeUrl(ArConstants.UrlActions.CASH_CONTROL_DOCUMENT, parameters);
     }
 
     /**

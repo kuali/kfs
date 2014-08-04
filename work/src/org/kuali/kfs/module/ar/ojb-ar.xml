@@ -2167,11 +2167,11 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage" table="AR_INV_DOC_ERROR_MSG_T">
-		<field-descriptor name="errorLogIdentifier" column="ERROR_LOG_ID" jdbc-type="BIGINT" primarykey="true" index="true" />
 		<field-descriptor name="errorMessageIdentifier" column="ERROR_MSG_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
 			sequence-name="AR_ERROR_MSG_ID_SEQ" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="errorLogIdentifier" column="ERROR_LOG_ID" jdbc-type="BIGINT" index="true" />
 		<field-descriptor name="errorMessageText" column="ERROR_MSG_TXT" jdbc-type="VARCHAR"  />
 	</class-descriptor>
 	

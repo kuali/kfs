@@ -342,9 +342,6 @@
 			<column name="CRTN_PRCS_TYP_CD" type="VARCHAR(1)" />
 		</createTable>
 		<createTable tableName="AR_INV_DOC_ERROR_MSG_T">
-			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
-				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_MSG_TP1" />
-			</column>
 			<column name="ERROR_MSG_ID" type="DECIMAL(12,0)" >
 				<constraints primaryKey="true" primaryKeyName="AR_INV_DOC_ERROR_MSG_TP1" />
 			</column>
@@ -352,6 +349,9 @@
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DOC_ERROR_MSG_TC0" />
 			</column>
 			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ERROR_LOG_ID" type="DECIMAL(12,0)" >
 				<constraints nullable="false" />
 			</column>
 			<column name="ERROR_MSG_TXT" type="VARCHAR(500)" />

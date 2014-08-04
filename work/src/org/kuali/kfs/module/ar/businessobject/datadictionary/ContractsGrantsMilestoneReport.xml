@@ -185,11 +185,12 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
-				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

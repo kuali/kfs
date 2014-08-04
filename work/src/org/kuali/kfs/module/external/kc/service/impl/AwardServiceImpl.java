@@ -39,7 +39,7 @@ import org.kuali.kfs.module.external.kc.dto.AwardFieldValuesDto;
 import org.kuali.kfs.module.external.kc.dto.AwardSearchCriteriaDto;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
-import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
@@ -58,7 +58,7 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
  *
  */
 
-public class AwardServiceImpl implements ExternalizableBusinessObjectService {
+public class AwardServiceImpl implements ExternalizableLookupableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     protected AccountDefaultsService accountDefaultsService;
@@ -128,6 +128,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         }
     }
 
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<AwardDTO> result = null;
         AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();

@@ -27,6 +27,7 @@ import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateDto;
 import org.kuali.kfs.module.external.kc.dto.AwardBillingUpdateStatusDto;
 import org.kuali.kfs.module.external.kc.dto.AwardFieldValuesDto;
+import org.kuali.kfs.module.external.kc.service.ExternalizableLookupableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
@@ -39,18 +40,18 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndGrantsModuleBillingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleBillingServiceImpl.class);
 
-    protected AwardServiceImpl awardService;
+    protected ExternalizableLookupableBusinessObjectService awardService;
 
     @Override
     public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded) {
         return (List<Award>)getAwardService().getSearchResults(fieldValues);
     }
 
-    public AwardServiceImpl getAwardService() {
+    public ExternalizableLookupableBusinessObjectService getAwardService() {
         return awardService;
     }
 
-    public void setAwardService(AwardServiceImpl awardService) {
+    public void setAwardService(ExternalizableLookupableBusinessObjectService awardService) {
         this.awardService = awardService;
     }
 

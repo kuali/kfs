@@ -30,6 +30,8 @@ import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -179,7 +181,12 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
                 if (StringUtils.isNotBlank(propValue)) {
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
-                        String propertyURL = getKualiConfigurationService().getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        String baseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KFSConstants.DOC_HANDLER_ACTION;
+                        Properties parameters = new Properties();
+                        parameters.put(KFSConstants.PARAMETER_DOC_ID, propValue);
+                        parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+
+                        String propertyURL = UrlFactory.parameterizeUrl(baseUrl, parameters);
                         col.setPropertyURL(propertyURL);
                     } else if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT, col.getPropertyName())){
                         String documentNumber = ObjectUtils.getPropertyValue(element, KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER).toString();

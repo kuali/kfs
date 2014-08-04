@@ -26,7 +26,6 @@ import java.util.Map;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
@@ -35,6 +34,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;

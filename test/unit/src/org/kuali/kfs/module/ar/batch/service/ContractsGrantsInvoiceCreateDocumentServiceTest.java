@@ -18,19 +18,12 @@ package org.kuali.kfs.module.ar.batch.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -38,50 +31,29 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
-import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAgencyFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
-import org.kuali.kfs.module.ar.fixture.ARAwardFundManagerFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
-import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateTestBase;
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
 
 @ConfigureContext(session = khuntley)
-public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBase {
+public class ContractsGrantsInvoiceCreateDocumentServiceTest extends ContractsGrantsInvoiceCreateTestBase {
 
     protected ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    protected BusinessObjectService businessObjectService;
-    protected ConfigurationService configurationService;
-    protected DocumentService documentService;
-    protected KualiModuleService kualiModuleService;
-    protected AccountingPeriodService accountingPeriodService;
-    protected VerifyBillingFrequencyService verifyBillingFrequencyService;
-
-    private String errorOutputFile;
 
     @Override
     public void setUp() throws Exception {
@@ -89,27 +61,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
 
         contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
         contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        documentService = SpringContext.getBean(DocumentService.class);
-        kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        configurationService = SpringContext.getBean(ConfigurationService.class);
-        accountingPeriodService = SpringContext.getBean(AccountingPeriodService.class);
-        verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
-
-        ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
-        String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
-        errorOutputFile = destinationFolderPath + "JUNIT TEST.log";
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-        File errors = new File(errorOutputFile);
-
-        if (errors.exists()) {
-            errors.delete();
-        }
-
-        super.tearDown();
     }
 
     public void testValidateManualAwardsOneValidAward() {
@@ -516,177 +467,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         }
     }
 
-    public void testBatchCreateCGInvoiceDocumentsByAwardsOneValid() {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
-
-        File errors = new File(errorOutputFile);
-        assertFalse("errors should not be written", errors.exists());
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("no errors should be persisted", persistedErrors.size() == 0);
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByAwardsEmptyAwardsList() throws IOException {
-        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_AWARD);
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByAwardsNullAwardsList() throws IOException {
-        List<ContractsAndGrantsBillingAward> awards = null;
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_AWARD);
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByAwardsNoOrg() throws IOException {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        Award award = (Award)awards.get(0);
-        award.setAwardOrganizations(new ArrayList<AwardOrganization>());
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NO_ORGANIZATION_ON_AWARD);
-        errorMessage = MessageFormat.format(errorMessage, award.getProposalNumber().toString());
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByAccountNonBillable() throws WorkflowException, IOException {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
-        documentService.saveDocument(cgInvoice);
-        setupBills(cgInvoice);
-        documentService.saveDocument(cgInvoice);
-
-        List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_ACCOUNT);
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NON_BILLABLE);
-        errorMessage = MessageFormat.format(errorMessage, award2.getActiveAwardAccounts().get(0).getAccountNumber(), award.getProposalNumber().toString());
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByCCAContractAccountNotBillable() throws WorkflowException, IOException {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
-        documentService.saveDocument(cgInvoice);
-        setupBills(cgInvoice);
-        documentService.saveDocument(cgInvoice);
-
-        List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.CONTROL_ACCOUNT_NON_BILLABLE);
-        errorMessage = MessageFormat.format(errorMessage, award2.getActiveAwardAccounts().get(0).getAccount().getContractControlAccount().getAccountNumber(), award.getProposalNumber().toString());
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
-    public void testBatchCreateCGInvoiceDocumentsByAwardNotAllBillableAccounts() throws WorkflowException, IOException {
-        List<ContractsAndGrantsBillingAward> awards = setupAwards();
-        Award award = ((Award)awards.get(0));
-        award.setPreferredBillingFrequency(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
-        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, award.getActiveAwardAccounts(), "BL", "PSY", errorMessages);
-        documentService.saveDocument(cgInvoice);
-        setupBills(cgInvoice);
-        documentService.saveDocument(cgInvoice);
-
-        List<ContractsAndGrantsBillingAward> awards2 = setupAwards();
-        Award award2 = (Award)awards2.get(0);
-        award2.setInvoicingOptions(ArPropertyConstants.INV_AWARD);
-
-        contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards2, errorOutputFile);
-
-        String errorMessage = configurationService.getPropertyValueAsString(ArKeyConstants.ContractsGrantsInvoiceCreateDocumentConstants.NOT_ALL_BILLABLE_ACCOUNTS);
-        errorMessage = MessageFormat.format(errorMessage, award2.getProposalNumber().toString());
-
-        File errors = new File(errorOutputFile);
-        assertTrue("errors should be written", errors.exists());
-        assertTrue("errorOutputFile should not be empty", errors.length() > 0);
-        assertTrue("error file should contain expected error", FileUtils.readFileToString(errors).contains(errorMessage));
-
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> persistedErrors = businessObjectService.findAll(ContractsGrantsInvoiceDocumentErrorLog.class);
-        assertTrue("one error should be persisted", persistedErrors.size() == 1);
-        for (ContractsGrantsInvoiceDocumentErrorLog persistedError: persistedErrors) {
-            assertTrue("process type should be batch", persistedError.getCreationProcessTypeCode().equals(ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.BATCH.getCode()));
-            assertTrue("error message text should match", persistedError.getErrorMessages().get(0).getErrorMessageText().equals(errorMessage));
-        }
-    }
-
     private boolean messagesContainsExpectedError(List<ErrorMessage> errorMessages, String expectedErrorMessage) {
         ErrorMessage errorMessage = errorMessages.get(0);
         String errorMessageString = MessageFormat.format(configurationService.getPropertyValueAsString(errorMessage.getErrorKey()), (Object[])errorMessage.getMessageParameters());
@@ -702,64 +482,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         return false;
     }
 
-    protected List<ContractsAndGrantsBillingAward> setupAwards() {
-        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
 
-        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.createAward();
-        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.setAgencyFromFixture((Award) award);
-        award.getActiveAwardAccounts().clear();
-        AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_WITH_CCA_1.createAwardAccount();
-        awardAccount_1.refreshReferenceObject("account");
-        List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
-        awardAccounts.add(awardAccount_1);
-        ((Award)award).setAwardAccounts(awardAccounts);
-        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_VALID.setAwardOrganizationFromFixture((Award) award);
-        AwardFundManager awardFundManager = ARAwardFundManagerFixture.AWD_FND_MGR1.createAwardFundManager();
-        ((Award)award).getAwardFundManagers().add(awardFundManager);
-        ((Award)award).setAwardPrimaryFundManager(ARAwardFundManagerFixture.AWD_FND_MGR1.createAwardFundManager());
-        awards.add(award);
-
-        return awards;
-    }
-
-    protected void setupBills(ContractsGrantsInvoiceDocument document) {
-        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
-        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_2.createInvoiceBill();
-        invBill_1.setDocumentNumber(document.getDocumentNumber());
-        invBill_1.setProposalNumber(document.getProposalNumber());
-        invBill_1.setBilledIndicator(false);
-
-        Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        java.sql.Date today = new java.sql.Date(ts.getTime());
-        AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(document.getAward(), currPeriod);
-        Date invoiceDate = pair[1];
-        Date billDate = new Date(new DateTime(invoiceDate.getTime()).minusDays(1).toDate().getTime());
-
-        invBill_1.setBillDate(billDate);
-
-        businessObjectService.save(invBill_1);
-        invoiceBills.add(invBill_1);
-        document.setInvoiceBills(invoiceBills);
-
-        Bill bill = new Bill();
-        bill.setProposalNumber(invBill_1.getProposalNumber());
-        bill.setBillNumber(invBill_1.getBillNumber());
-        bill.setBillDescription(invBill_1.getBillDescription());
-        bill.setBillIdentifier(invBill_1.getBillIdentifier());
-        bill.setBillDate(invBill_1.getBillDate());
-        bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
-        bill.setBilledIndicator(invBill_1.isBilledIndicator());
-        bill.setAward(document.getAward());
-        bill.setActive(true);
-
-        PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
-        predeterminedBillingSchedule.setProposalNumber(document.getProposalNumber());
-        List<Bill> bills = new ArrayList<Bill>();
-        bills.add(bill);
-        predeterminedBillingSchedule.setBills(bills);
-        businessObjectService.save(predeterminedBillingSchedule);
-        businessObjectService.save(bill);
-    }
 
 }

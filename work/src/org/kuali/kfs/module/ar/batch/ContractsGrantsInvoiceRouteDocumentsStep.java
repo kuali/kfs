@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 
 /**

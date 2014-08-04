@@ -251,7 +251,7 @@
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
-	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
+	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -292,6 +292,12 @@
 			<ref bean="workflowDocumentService" />
 		</property>
 	</bean>
+	
+	<bean id="contractsGrantsInvoiceBatchCreateDocumentService" parent="contractsGrantsInvoiceBatchCreateDocumentService-parentBean"/>
+	<bean id="contractsGrantsInvoiceBatchCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceBatchCreateDocumentServiceImpl" abstract="true">
+		<property name="contractsGrantsInvoiceCreateDocumentService" ref="contractsGrantsInvoiceCreateDocumentService"/>
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 
 	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -326,8 +332,8 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep" parent="step">
-		<property name="cgInvoiceDocumentCreateService">
-			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
+		<property name="cgInvoiceBatchDocumentCreateService">
+			<ref bean="contractsGrantsInvoiceBatchCreateDocumentService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />

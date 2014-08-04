@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.Date;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceBatchCreateDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 
@@ -30,7 +30,7 @@ public class ContractsGrantsInvoiceDocumentBatchStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocumentBatchStep.class);
 
     protected String batchFileDirectoryName;
-    protected ContractsGrantsInvoiceCreateDocumentService cgInvoiceDocumentCreateService;
+    protected ContractsGrantsInvoiceBatchCreateDocumentService cgInvoiceBatchDocumentCreateService;
     protected DateTimeService dateTimeService;
 
     /**
@@ -43,7 +43,7 @@ public class ContractsGrantsInvoiceDocumentBatchStep extends AbstractStep {
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
         String errOutputFile1 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_BATCH_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
         String errOutputFile2 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_BATCH_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-        cgInvoiceDocumentCreateService.processBatchInvoiceDocumentCreation(errOutputFile1, errOutputFile2);
+        cgInvoiceBatchDocumentCreateService.processBatchInvoiceDocumentCreation(errOutputFile1, errOutputFile2);
         return true;
     }
 
@@ -64,8 +64,8 @@ public class ContractsGrantsInvoiceDocumentBatchStep extends AbstractStep {
      *
      * @param cgInvoiceDocumentCreateService The cgInvoiceDocumentCreateService to set.
      */
-    public void setCgInvoiceDocumentCreateService(ContractsGrantsInvoiceCreateDocumentService cgInvoiceDocumentCreateService) {
-        this.cgInvoiceDocumentCreateService = cgInvoiceDocumentCreateService;
+    public void setCgInvoiceBatchDocumentCreateService(ContractsGrantsInvoiceBatchCreateDocumentService cgInvoiceBatchDocumentCreateService) {
+        this.cgInvoiceBatchDocumentCreateService = cgInvoiceBatchDocumentCreateService;
     }
 
 

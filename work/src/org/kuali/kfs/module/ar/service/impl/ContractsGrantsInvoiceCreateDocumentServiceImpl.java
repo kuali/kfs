@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.batch.service.impl;
+package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,15 +40,15 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorMessage;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
@@ -95,36 +95,15 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
-    /**
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#createCGInvoiceDocumentsByAwards(java.lang.String)
-     */
     @Override
-    public void createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFileName) {
+    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType creationProcessTypeCode) {
         List<ErrorMessage> errorMessages = createInvoices(awards);
 
-        // print out the invalid awards which has not been used to create CINV edoc
         if (!CollectionUtils.isEmpty(errorMessages)) {
-            File errOutPutfile = new File(errOutputFileName);
-            PrintStream outputFileStream = null;
-
-            try {
-                outputFileStream = new PrintStream(errOutPutfile);
-                for (ErrorMessage errorMessage : errorMessages) {
-                    outputFileStream.printf("%s\n", MessageFormat.format(configurationService.getPropertyValueAsString(errorMessage.getErrorKey()), (Object[])errorMessage.getMessageParameters()));
-                }
-            } catch (IOException ex) {
-                throw new RuntimeException("Could not write error entries for batch Contracts and Grants Invoice document creation", ex);
-            } finally {
-                if (outputFileStream != null) {
-                    outputFileStream.close();
-                }
-            }
+            storeCreationErrors(errorMessages, creationProcessTypeCode.getCode());
         }
-    }
 
-    @Override
-    public List<ErrorMessage> createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards) {
-        return createInvoices(awards);
+        return errorMessages;
     }
 
     /**
@@ -393,24 +372,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * Retrieves the awards, validates them, and then creates documents for all valid awards
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#processBatchInvoiceDocumentCreation(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService#retrieveNonLOCAwards()
      */
     @Override
-    public void processBatchInvoiceDocumentCreation(String validationErrorOutputFileName, String invoiceDocumentErrorOutputFileName) {
-        final Collection<ContractsAndGrantsBillingAward> awards = retrieveNonLOCAwards();
-        final Collection<ContractsAndGrantsBillingAward> validAwards = validateAwards(awards, validationErrorOutputFileName);
-        createCGInvoiceDocumentsByAwards(validAwards, invoiceDocumentErrorOutputFileName);
-    }
-
-
-    /**
-     * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
-     *
-     * @param fileName Name of file to be uploaded and processed.
-     * @return True if the file load and store was successful, false otherwise.
-     */
-    protected Collection<ContractsAndGrantsBillingAward> retrieveNonLOCAwards() {
+    public Collection<ContractsAndGrantsBillingAward> retrieveNonLOCAwards() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.ACTIVE, true);
         // It would be nice not to have to manually remove LOC awards, maybe when we convert to KRAD
@@ -427,36 +392,24 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#validateAwards(java.util.Collection, java.lang.String)
-     */
-    @Override
-    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile) {
-        Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
-        List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
-        Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
-
-        performAwardValidation(awards, invalidGroup, qualifiedAwards);
-
-        if (!CollectionUtils.isEmpty(invalidGroup)) {
-            writeErrorToFile(invalidGroup, errOutputFile);
-            storeValidationErrors(invalidGroup, contractsGrantsInvoiceDocumentErrorLogs, true);
-        }
-
-        return qualifiedAwards;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#validateAwards(java.util.Collection, java.util.Collection)
      */
     @Override
-    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs) {
+    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, String errOutputFile, String creationProcessTypeCode) {
         Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
         List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
+
+        if (ObjectUtils.isNull(contractsGrantsInvoiceDocumentErrorLogs)) {
+            contractsGrantsInvoiceDocumentErrorLogs = new ArrayList<ContractsGrantsInvoiceDocumentErrorLog>();
+        }
 
         performAwardValidation(awards, invalidGroup, qualifiedAwards);
 
         if (!CollectionUtils.isEmpty(invalidGroup)) {
-            storeValidationErrors(invalidGroup, contractsGrantsInvoiceDocumentErrorLogs, false);
+            if (StringUtils.isNotBlank(errOutputFile)) {
+                writeErrorToFile(invalidGroup, errOutputFile);
+            }
+            storeValidationErrors(invalidGroup, contractsGrantsInvoiceDocumentErrorLogs, creationProcessTypeCode);
         }
 
         return qualifiedAwards;
@@ -616,7 +569,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
     }
 
-    protected void storeValidationErrors(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, boolean batch) {
+    protected void storeValidationErrors(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, String creationProcessTypeCode) {
         for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
             boolean firstLineFlag = true;
             String awardBeginningDate;
@@ -643,7 +596,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 contractsGrantsInvoiceDocumentErrorLog.setAwardTotalAmount(award.getAwardTotalAmount().bigDecimalValue());
                 contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
                 if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
-                    contractsGrantsInvoiceDocumentErrorLog.setPrimaryFundManagerPrincipalName(award.getAwardPrimaryFundManager().getFundManager().getPrincipalName());
+                    contractsGrantsInvoiceDocumentErrorLog.setPrimaryFundManagerPrincipalId(award.getAwardPrimaryFundManager().getPrincipalId());
                 }
                 if (!isActiveAwardAccountsEmpty) {
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
@@ -659,15 +612,29 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
             for (String vCat : invalidGroup.get(award)) {
-                ContractsGrantsInvoiceDocumentErrorCategory contractsGrantsInvoiceDocumentErrorCategory = new ContractsGrantsInvoiceDocumentErrorCategory();
-                contractsGrantsInvoiceDocumentErrorCategory.setValidationCategoryText(vCat);
-                contractsGrantsInvoiceDocumentErrorLog.getValidationCategories().add(contractsGrantsInvoiceDocumentErrorCategory);
+                ContractsGrantsInvoiceDocumentErrorMessage contractsGrantsInvoiceDocumentErrorCategory = new ContractsGrantsInvoiceDocumentErrorMessage();
+                contractsGrantsInvoiceDocumentErrorCategory.setErrorMessageText(vCat);
+                contractsGrantsInvoiceDocumentErrorLog.getErrorMessages().add(contractsGrantsInvoiceDocumentErrorCategory);
             }
 
             contractsGrantsInvoiceDocumentErrorLog.setErrorDate(dateTimeService.getCurrentTimestamp());
-            contractsGrantsInvoiceDocumentErrorLog.setBatch(batch);
+            contractsGrantsInvoiceDocumentErrorLog.setCreationProcessTypeCode(creationProcessTypeCode);
             businessObjectService.save(contractsGrantsInvoiceDocumentErrorLog);
             contractsGrantsInvoiceDocumentErrorLogs.add(contractsGrantsInvoiceDocumentErrorLog);
+        }
+    }
+
+    protected void storeCreationErrors(List<ErrorMessage> errorMessages, String creationProcessTypeCode) {
+        for (ErrorMessage errorMessage : errorMessages) {
+            ContractsGrantsInvoiceDocumentErrorLog contractsGrantsInvoiceDocumentErrorLog = new ContractsGrantsInvoiceDocumentErrorLog();
+
+            ContractsGrantsInvoiceDocumentErrorMessage contractsGrantsInvoiceDocumentErrorCategory = new ContractsGrantsInvoiceDocumentErrorMessage();
+            contractsGrantsInvoiceDocumentErrorCategory.setErrorMessageText(MessageFormat.format(configurationService.getPropertyValueAsString(errorMessage.getErrorKey()), (Object[])errorMessage.getMessageParameters()));
+            contractsGrantsInvoiceDocumentErrorLog.getErrorMessages().add(contractsGrantsInvoiceDocumentErrorCategory);
+
+            contractsGrantsInvoiceDocumentErrorLog.setErrorDate(dateTimeService.getCurrentTimestamp());
+            contractsGrantsInvoiceDocumentErrorLog.setCreationProcessTypeCode(creationProcessTypeCode);
+            businessObjectService.save(contractsGrantsInvoiceDocumentErrorLog);
         }
     }
 

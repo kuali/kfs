@@ -598,6 +598,15 @@
 		</property>
 	</bean>
 
+	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService"/>
+
+	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" />
+		</property>
+	</bean>
+
 	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo" parent="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean"/>
 	<bean id="contractsGrantsInvoiceDocumentErrorLogReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Contracts Grants Invoice Document Error Log Report" />
@@ -611,7 +620,7 @@
 			<map>
 				<entry key="contractsGrantsInvoiceDetails" value="ContractsGrantsInvoiceDocumentErrorLogDetails" />
 				<entry key="searchCriteria" value="SearchCriteria" />
-				<entry key="validationCategories" value="ContractsGrantsInvoiceDocumentErrorLogCategories" />
+				<entry key="errorMessages" value="ContractsGrantsInvoiceDocumentErrorLogMessages" />
 			</map>
 		</property>
 	</bean>

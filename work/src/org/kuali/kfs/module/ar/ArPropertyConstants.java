@@ -320,7 +320,14 @@ public class ArPropertyConstants{
     public static final String PRINT_INVOICES_TO_LABEL = "Print Invoices To";
 
     // CG Invoice Reports
+    public static final String RANGE_LOWER_BOUND_KEY_PREFIX = "rangeLowerBoundKeyPrefix_";
+
     public static final String INVOICE_REPORT_DELIVERY_PROPERTY_PATH = KFSConstants.DOCUMENT_PROPERTY_NAME + ".invoiceReportDelivery";
+
+    public static class ContractsGrantsInvoiceDocumentErrorLogLookupFields {
+        public static final String ACCOUNTS = "accounts";
+        public static final String ERROR_DATE = "errorDate";
+    }
 
     public static class TransmitContractsAndGrantsInvoicesLookupFields {
         public static final String INVOICE_INITIATOR_PRINCIPAL_NAME = "invoiceInitiatorPrincipalName";

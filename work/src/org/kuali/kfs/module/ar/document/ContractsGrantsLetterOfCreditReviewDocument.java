@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErrorLog;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
@@ -255,9 +256,13 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     }
 
     /**
-     * populate customer credit memo details based on the invoice info
+     * populate CGB LOC Review details based on the invoice info
+     *
+     * @param contractsGrantsInvoiceDocumentErrorLogs Collection used to hold any validation errors from the awards processed
+     * @return true if process succeeded, and there is at least one valid award for the LOC doc, false otherwise
      */
-    public void populateContractsGrantsLOCReviewDetails() {
+    public boolean populateContractsGrantsLOCReviewDetails(Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs) {
+        boolean valid = true;
 
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
@@ -292,14 +297,11 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 destinationFolderPath = batchDirectories.get(0);
             }
 
-            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-            String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.LOC_REVIEW_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-
-            validAwards = (List<ContractsAndGrantsBillingAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, errOutputFile1);
-
+            validAwards = (List<ContractsAndGrantsBillingAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, contractsGrantsInvoiceDocumentErrorLogs, null, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC.getCode());
 
             if (CollectionUtils.isEmpty(validAwards)) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_AWARDS_INVALID);
+                GlobalVariables.getMessageMap().putWarningForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_AWARDS_INVALID);
+                valid = false;
             }
             else {
                 setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
@@ -370,7 +372,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
         }
 
-
+        return valid;
     }
 
 
@@ -520,17 +522,10 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                 destinationFolderPath = batchDirectories.get(0);
             }
 
-            String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-
-            String errOutputFile2 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.LOC_REVIEW_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-
-
-            contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errOutputFile2);
+            contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, ArConstants.ContractsAndGrantsInvoiceDocumentCreationProcessType.LOC);
 
             //To route the invoices automatically as the initator would be system user after a wait time.
-
             try {
-
                 Thread.sleep(100);
             }
             catch (InterruptedException e) {
@@ -538,7 +533,6 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             }
 
             contractsGrantsInvoiceCreateDocumentService.routeContractsGrantsInvoiceDocuments();
-
 
             // The next important step is to set the locReviewIndicator to false and amount to Draw fields in award Account to zero.
             // This should not affect any further invoicing.
@@ -548,19 +542,12 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                     criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);// clear
-                    // values
-                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);// clear
-                    // values
-
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setAmountToDrawToAwardAccount(criteria, KualiDecimal.ZERO);
+                    SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCReviewIndicatorToAwardAccount(criteria, false);
                 }
                 SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).setLOCCreationTypeToAward(award.getProposalNumber(), null);
-
             }
-
-
         }
-
     }
 
 }

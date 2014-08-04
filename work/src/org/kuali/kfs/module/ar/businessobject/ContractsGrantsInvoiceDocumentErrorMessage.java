@@ -18,22 +18,13 @@ package org.kuali.kfs.module.ar.businessobject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Defines a Contracts & Grants Billing Invoice Document Error Category.
+ * Defines a Contracts & Grants Billing Invoice Document Error Message.
  */
-public class ContractsGrantsInvoiceDocumentErrorCategory extends PersistableBusinessObjectBase {
+public class ContractsGrantsInvoiceDocumentErrorMessage extends PersistableBusinessObjectBase {
 
-    private Long proposalNumber;
     private Long errorLogIdentifier;
-    private Long validationCategoryIdentifier;
-    private String validationCategoryText;
-
-    public Long getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(Long proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
+    private Long errorMessageIdentifier;
+    private String errorMessageText;
 
     public Long getErrorLogIdentifier() {
         return errorLogIdentifier;
@@ -43,20 +34,30 @@ public class ContractsGrantsInvoiceDocumentErrorCategory extends PersistableBusi
         this.errorLogIdentifier = errorLogIdentifier;
     }
 
-    public Long getValidationCategoryIdentifier() {
-        return validationCategoryIdentifier;
+    public Long getErrorMessageIdentifier() {
+        return errorMessageIdentifier;
     }
 
-    public void setValidationCategoryIdentifier(Long validationCategoryIdentifier) {
-        this.validationCategoryIdentifier = validationCategoryIdentifier;
+    public void setErrorMessageIdentifier(Long errorMessageIdentifier) {
+        this.errorMessageIdentifier = errorMessageIdentifier;
     }
 
-    public String getValidationCategoryText() {
-        return validationCategoryText;
+    public String getErrorMessageText() {
+        return errorMessageText;
     }
 
-    public void setValidationCategoryText(String validationCategoryText) {
-        this.validationCategoryText = validationCategoryText;
+    public void setErrorMessageText(String errorMessageText) {
+        this.errorMessageText = errorMessageText;
+    }
+
+    /**
+     * This can be displayed by ContractsGrantsInvoiceDocumentErrorLog lookup results.
+     *
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+        return errorMessageText;
     }
 
 }

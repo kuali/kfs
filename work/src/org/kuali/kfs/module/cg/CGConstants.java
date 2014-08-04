@@ -29,9 +29,6 @@ public class CGConstants{
      */
     public static final String CLOSE_DOCUMENT_TAB_ERRORS = "document.userInitiatedCloseDate";
 
-    public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
-    public static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
-
     public static final int maximumPeriodLengthUnits = Calendar.YEAR;
 
     public static final String DATABASE_TRUE_VALUE = "Y";

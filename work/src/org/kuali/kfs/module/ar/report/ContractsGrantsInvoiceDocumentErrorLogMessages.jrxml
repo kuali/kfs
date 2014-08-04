@@ -23,7 +23,7 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
-	<field name="validationCategoryText" class="java.lang.String"/>
+	<field name="errorMessageText" class="java.lang.String"/>
 	
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -54,7 +54,7 @@
 					<textElement>
 						<font fontName="SansSerif" size="7" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{validationCategoryText}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{errorMessageText}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

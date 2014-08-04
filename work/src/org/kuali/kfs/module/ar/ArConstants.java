@@ -24,6 +24,8 @@ public class ArConstants{
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
 
+    public static final String REPORT_TIME_FORMAT = "HH:mm:ss";
+
     public static final String CG_PRORATE_BILL_IND = "CG_PRORATE_BILL_IND";
     public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String INVOICE_DOC_TYPE = "Invoice";
@@ -527,5 +529,35 @@ public class ArConstants{
 
     public static class ContractsAndGrantsCategorySections {
         public static final String EDIT_CATEGORY = "EditCategory";
+    }
+
+    public static enum ContractsAndGrantsInvoiceDocumentCreationProcessType {
+        BATCH("B", "Batch"), LOC("L", "LOC"), MANUAL("M", "Manual");
+
+        private String code;
+        private String name;
+
+        ContractsAndGrantsInvoiceDocumentCreationProcessType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public static String getName(String code) {
+            for(ContractsAndGrantsInvoiceDocumentCreationProcessType type : ContractsAndGrantsInvoiceDocumentCreationProcessType.values()) {
+                if(type.getCode().equals(code)){
+                    return type.getName();
+                }
+            }
+            return null;
+        }
+
     }
 }

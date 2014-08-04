@@ -15,6 +15,18 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+
 
 /**
  * Form class for Contracts Grants Invoice Report Lookup screen.
@@ -27,4 +39,41 @@ public class ContractsGrantsInvoiceDocumentErrorLogReportForm extends ContractsG
     public ContractsGrantsInvoiceDocumentErrorLogReportForm() {
         setHtmlFormAction("contractsGrantsInvoiceDocumentErrorLogReport");
     }
+
+    @Override
+    public Map<String, String> getFieldsForLookup() {
+        Map<String, String> fieldValues = super.getFieldsForLookup();
+
+        // Add wildcard character to start and end of accounts field so users can search for single account
+        // within the delimited list of accounts without having to add the wildcards explicitly themselves.
+        String accounts = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ACCOUNTS);
+        if (StringUtils.isNotBlank(accounts)) {
+            // only add wildcards if they haven't already been added (for some reason this method gets called twice when generating the pdf report)
+            if (!StringUtils.startsWith(accounts, KFSConstants.WILDCARD_CHARACTER)) {
+                accounts = KFSConstants.WILDCARD_CHARACTER + accounts;
+            }
+            if (!StringUtils.endsWith(accounts, KFSConstants.WILDCARD_CHARACTER)) {
+                accounts += KFSConstants.WILDCARD_CHARACTER;
+            }
+        }
+        fieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ACCOUNTS, accounts);
+
+        // Add time component to error date since it's stored as both a date and time in the database and without this
+        // records with an error date of the date being searched for won't show up in the results
+        // (ex: 7/29/2014 09:35 AM is not <= 7/29/2014, but it is <= 7/29/2014 23:59:59)
+        String errorDate = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ERROR_DATE);
+        if (StringUtils.isNotBlank(errorDate)) {
+            Date endOfDay = DateUtils.addMilliseconds(DateUtils.ceiling(SpringContext.getBean(DateTimeService.class).getCurrentDate(), Calendar.DATE), -1);
+            String endOfDayTime = KFSConstants.BLANK_SPACE + SpringContext.getBean(DateTimeService.class).toString(endOfDay, ArConstants.REPORT_TIME_FORMAT);
+            // only add time string if it hasn't already been added (for some reason this method gets called twice when generating the pdf report)
+            if (!StringUtils.contains(errorDate, endOfDayTime)) {
+                errorDate += endOfDayTime;
+            }
+        }
+
+        fieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ERROR_DATE, errorDate);
+
+        return fieldValues;
+    }
+
 }

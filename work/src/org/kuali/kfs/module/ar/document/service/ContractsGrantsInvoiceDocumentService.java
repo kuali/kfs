@@ -110,13 +110,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
 
     /**
-     * This method removes the InvoiceDetailAccountObjectCodes where the current expenditure is zero.
-     *
-     * @param invoiceDetailAccountObjectCode
-     */
-    public void performInvoiceAccountObjectCodeCleanup(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes);
-
-    /**
      * Returns the total amount billed to date for an Award.
      *
      * @param proposalNumber used to find the AwardAccountObjectCodeTotalBilled
@@ -167,15 +160,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return
      */
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByLOCFundGroup(String locFundGroup, String errorFileName);
-
-    /**
-     * This method retrieves all invoices with open and with final status with param customer number
-     *
-     * @param customerNumber
-     * @param errorFileName
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByCustomerNumber(String customerNumber, String errorFileName);
 
     /**
      * This method retrieves CG invoice documents that match the given field values
@@ -259,36 +243,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate);
 
     /**
-     * Check if the award is closed
-     *
-     * @param award
-     * @return True if award's closing date is before the current day.
-     */
-    public boolean isAwardClosed(ContractsAndGrantsBillingAward award);
-
-    /**
      * Check if Award Invoicing suspended by user.
      *
      * @param award
      * @return
      */
     public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if Award is past the stop date
-     *
-     * @param award
-     * @return
-     */
-    public boolean isAwardPassedStopDate(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if Award contains expired account or accounts
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasExpiredAccounts(ContractsAndGrantsBillingAward award);
 
     /**
      * Get award accounts's control accounts
@@ -370,14 +330,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return
      */
     public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method returns the invoices realted to the PaymentApplicationNumber.
-     *
-     * @param paymentApplicationNumberCorrecting
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getContractsGrantsInvoiceDocumentAppliedByPaymentApplicationNumber(String paymentApplicationNumberCorrecting);
 
     /**
      * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code

@@ -836,18 +836,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#performInvoiceAccountObjectCodeCleanup(java.util.List)
-     */
-    @Override
-    public void performInvoiceAccountObjectCodeCleanup(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
-        for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
-            if (invoiceDetailAccountObjectCode.getCurrentExpenditures().compareTo(KualiDecimal.ZERO) == 0) {
-                invoiceDetailAccountObjectCode = null;
-            }
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long)
      */
     @Override
@@ -952,27 +940,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;
         cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
-        List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
-        if (!CollectionUtils.isEmpty(invalidInvoices)) {
-            return null;
-
-        }
-        return cgInvoices;
-    }
-
-    /**
-     * This method retrieves all invoices with open and with final status based on customer number
-     *
-     * @param customerNumber
-     * @param errorFileName
-     * @return
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByCustomerNumber(String customerNumber, String errorFileName) {
-
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        cgInvoices = contractsGrantsInvoiceDocumentDao.getOpenInvoicesByCustomerNumber(customerNumber);
-        String detail = "Customer Number#" + customerNumber;
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
             return null;
@@ -1841,33 +1808,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardClosed(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean isAwardClosed(ContractsAndGrantsBillingAward award) {
-        Date today, clsDt;
-        today = dateTimeService.getCurrentSqlDateMidnight();
-        clsDt = award.getAwardClosingDate();
-        if (ObjectUtils.isNotNull(clsDt) && clsDt.before(today)) {
-            return true;
-        }
-        return false;
-
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasExpiredAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean hasExpiredAccounts(ContractsAndGrantsBillingAward award) {
-        Collection<Account> accounts = getExpiredAccountsOfAward(award);
-        if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
@@ -1888,20 +1828,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsBillingAward award) {
 
         return award.isSuspendInvoicingIndicator();
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardPassedStopDate(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean isAwardPassedStopDate(ContractsAndGrantsBillingAward award) {
-
-        Date today = dateTimeService.getCurrentSqlDateMidnight();
-        Date stopDt = award.getAwardEndingDate();
-        if (ObjectUtils.isNotNull(stopDt) && stopDt.before(today)) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -2133,24 +2059,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         return isValid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractsGrantsInvoiceDocumentAppliedByPaymentApplicationNumber(java.lang.String)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getContractsGrantsInvoiceDocumentAppliedByPaymentApplicationNumber(String paymentApplicationNumberCorrecting) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        try {
-            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(paymentApplicationNumberCorrecting);
-            for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-                cgInvoices.add((ContractsGrantsInvoiceDocument) invoicePaidApplied.getCustomerInvoiceDocument());
-            }
-            return cgInvoices;
-        }
-        catch (WorkflowException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     /**

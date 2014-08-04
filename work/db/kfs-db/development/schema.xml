@@ -4009,7 +4009,7 @@
         <column name="CG_AGENCY_ADDR_INTL_PROV_NM" size="45" type="VARCHAR"/>
         <column name="CG_AGENCY_INTL_MAIL_CD" size="20" type="VARCHAR"/>
         <column name="CG_AGENCY_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
-        <column name="CG_AGENCY_ADDR_END_DT" type="TIMESTAMP"/>
+        <column name="CG_AGENCY_ADDR_END_DT" type="DATE"/>
         <column name="CNTCT_NM" size="40" type="VARCHAR"/>
         <column name="PHN_NBR" size="40" type="VARCHAR"/>
         <column name="FAX_NBR" size="40" type="VARCHAR"/>
@@ -4091,8 +4091,8 @@
         <column name="FINAL_BILLED" size="1" type="VARCHAR"/>
         <column default="0" name="AMT_TO_DRW" scale="2" size="19" type="DECIMAL"/>
         <column name="LTRCR_RVW_IND" size="1" type="VARCHAR"/>
-        <column name="CURR_LST_BILLED_DT" type="TIMESTAMP"/>
-        <column name="PREV_LST_BILLED_DT" type="TIMESTAMP"/>
+        <column name="CURR_LST_BILLED_DT" type="DATE"/>
+        <column name="PREV_LST_BILLED_DT" type="DATE"/>
         <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_ACCT_TR1">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
@@ -4302,7 +4302,7 @@
         <column name="CG_MIN_INV_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="CG_LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="AUTO_APP" size="1" type="VARCHAR"/>
-        <column name="FUNDING_EXP_DT" type="TIMESTAMP"/>
+        <column name="FUNDING_EXP_DT" type="DATE"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
         <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="SUSP_REASON_TXT" size="255" type="VARCHAR"/>
@@ -4421,8 +4421,8 @@
         <column name="CG_LTRCR_FND_DESC" size="40" type="VARCHAR"/>
         <column name="CG_LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column name="CG_LTRCR_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="CG_LTRCR_START_DT" type="TIMESTAMP"/>
-        <column name="CG_LTRCR_EXPIRATION_DT" type="TIMESTAMP"/>
+        <column name="CG_LTRCR_START_DT" type="DATE"/>
+        <column name="CG_LTRCR_EXPIRATION_DT" type="DATE"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_LTRCR_FND_TR1">
             <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>

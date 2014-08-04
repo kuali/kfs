@@ -158,7 +158,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
 
                 if (StringUtils.isNotBlank(propValue)) {
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
-                        String propertyURL = getKualiConfigurationService().getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        String propertyURL = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
                         col.setPropertyURL(propertyURL);
                     }else if (StringUtils.equals("Actions", col.getColumnTitle())) {
                         col.setPropertyURL(getCollectionActivityDocumentUrl(element, col.getColumnTitle()));

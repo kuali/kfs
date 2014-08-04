@@ -30,9 +30,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -128,7 +126,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
                     // Add url when property is documentNumber
                     ReferralToCollectionsReport bo = (ReferralToCollectionsReport) element;
                     if (col.getPropertyName().equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
-                        String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
+                        String url = contractsGrantsReportHelperService.getDocSearchUrl(propValue);
 
                         Map<String, String> fieldList = new HashMap<String, String>();
                         fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);

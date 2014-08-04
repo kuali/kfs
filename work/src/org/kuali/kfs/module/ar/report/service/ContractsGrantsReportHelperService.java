@@ -82,4 +82,13 @@ public interface ContractsGrantsReportHelperService {
      * @return the String with the appended end time if it didn't have it already
      */
     public String appendEndTimeToDate(String dateString);
+
+    /**
+     * Builds and returns a document search URL for the given doc id
+     *
+     * @param docId document id to build doc search URL for
+     * @return URL
+     */
+    public String getDocSearchUrl(String docId);
+
 }

@@ -1293,11 +1293,14 @@
         </unique>
     </table>
     <table name="AR_INV_DOC_ERROR_MSG_T">
-        <column name="ERROR_LOG_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="ERROR_MSG_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="ERROR_LOG_ID" required="true" size="12" type="DECIMAL"/>
         <column name="ERROR_MSG_TXT" size="500" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_INV_DOC_ERROR_LOG_T" name="AR_INV_DOC_ERROR_MSG_TR1">
+            <reference foreign="ERROR_LOG_ID" local="ERROR_LOG_ID"/>
+        </foreign-key>
         <unique name="AR_INV_DOC_ERROR_MSG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

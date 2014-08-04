@@ -378,8 +378,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
         Properties parameters = new Properties();
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CustomerOpenItemReportDetail.class.getName());
-        parameters.put(KFSConstants.BACK_LOCATION, StringUtils.EMPTY);
-        parameters.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "arCustomerOpenItemReportLookupable");
+        parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, StringUtils.EMPTY);
+        parameters.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, ArConstants.CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         parameters.put(KFSConstants.CustomerOpenItemReport.REPORT_NAME, KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME);
         parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");

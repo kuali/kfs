@@ -188,16 +188,16 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
         if (StringUtils.isBlank(operatorAndValue)) {
             return null; // nothing to parse
         }
-        if (operatorAndValue.startsWith("<=")) {
+        if (operatorAndValue.startsWith(SearchOperator.LESS_THAN_EQUAL.op())) {
             final String valueOnly = operatorAndValue.substring(2);
             return new OperatorAndValue(SearchOperator.LESS_THAN_EQUAL, valueOnly);
-        } else if (operatorAndValue.startsWith(">=")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.GREATER_THAN_EQUAL.toString())) {
             final String valueOnly = operatorAndValue.substring(2);
             return new OperatorAndValue(SearchOperator.GREATER_THAN_EQUAL, valueOnly);
-        } else if (operatorAndValue.startsWith("<")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.LESS_THAN.op())) {
             final String valueOnly = operatorAndValue.substring(1);
             return new OperatorAndValue(SearchOperator.LESS_THAN, valueOnly);
-        } else if (operatorAndValue.startsWith(">")) {
+        } else if (operatorAndValue.startsWith(SearchOperator.GREATER_THAN.op())) {
             final String valueOnly = operatorAndValue.substring(1);
             return new OperatorAndValue(SearchOperator.GREATER_THAN, valueOnly);
         }

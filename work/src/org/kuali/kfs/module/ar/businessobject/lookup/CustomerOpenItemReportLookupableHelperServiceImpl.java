@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -39,6 +42,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
@@ -180,14 +184,17 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                     } else if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT, col.getPropertyName())){
                         String documentNumber = ObjectUtils.getPropertyValue(element, KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER).toString();
                         if (refDocumentNumbers.contains(documentNumber)){
-                            String href="arCustomerOpenItemReportLookup.do" +
-                            "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +
-                            "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
-                            "&methodToCall=search&customerNumber="+customerNumber+
-                            "&reportName=" + KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT +
-                            "&customerName=" + customerName +
-                            "&documentNumber=" + documentNumber +
-                            "&reportName=Unpaid / Unapplied Amount Report&docFormKey=88888888";
+                            Properties params = new Properties();
+                            params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CustomerOpenItemReportDetail.class.getName());
+                            params.put(KFSConstants.RETURN_LOCATION_PARAMETER, StringUtils.EMPTY);
+                            params.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, ArConstants.CUSTOMER_OPEN_ITEM_REPORT_LOOKUPABLE_IMPL);
+                            params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+                            params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+                            params.put(KFSConstants.CustomerOpenItemReport.REPORT_NAME, KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT);
+                            params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NAME, customerName);
+                            params.put(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, documentNumber);
+                            params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+                            String href = UrlFactory.parameterizeUrl(ArConstants.UrlActions.CUSTOMER_OPEN_ITEM_REPORT_LOOKUP, params);
                             col.setPropertyURL(href);
                         }
                         else {

@@ -314,69 +314,69 @@
 
 	<!-- Rice sources; put these in rice-sources-->
 		<dependency org="org.kuali.rice" name="rice-core-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-service-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-service-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-service-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-service-web" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-core-web" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-edl-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-edl-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-ken-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kew-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kew-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kew-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kim-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kim-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kim-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-kns" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-krad-app-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-krad-web-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-krms-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-krms-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-krms-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-ksb-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-ksb-client-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-ksb-server-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-ksb-web" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-location-api" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-location-framework" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-location-impl" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 		<dependency org="org.kuali.rice" name="rice-location-web" rev="&rice.version;"
-			transitive="false" conf="rice-sources->default"/>
+			transitive="false" conf="rice-sources->sources"/>
 
 		<!--  Rice war; move this to external/appserver -->
 		<dependency org="org.kuali.rice" name="rice-web" rev="&rice.version;"

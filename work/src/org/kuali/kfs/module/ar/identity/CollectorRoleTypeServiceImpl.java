@@ -46,8 +46,13 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
         String processingChartOfAccountsCode = qualification.get(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE);
         String processingOrganizationCode = qualification.get(ArKimAttributes.PROCESSING_ORGANIZATION_CODE);
 
-        matches &= (doesOrgMatch(billingChartOfAccountsCode, billingOrganizationCode, ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.BILLING_ORGANIZATION_CODE, roleQualifier)
-                || doesOrgMatch(processingChartOfAccountsCode, processingOrganizationCode, ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.PROCESSING_ORGANIZATION_CODE, roleQualifier));
+        if (StringUtils.isNotBlank(billingChartOfAccountsCode) && StringUtils.isNotBlank(billingOrganizationCode)) {
+            matches &= doesOrgMatch(billingChartOfAccountsCode, billingOrganizationCode, ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.BILLING_ORGANIZATION_CODE, roleQualifier);
+        }
+
+        if (StringUtils.isNotBlank(processingChartOfAccountsCode) && StringUtils.isNotBlank(processingOrganizationCode)) {
+            matches &= doesOrgMatch(processingChartOfAccountsCode, processingOrganizationCode, ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKimAttributes.PROCESSING_ORGANIZATION_CODE, roleQualifier);
+        }
 
         return matches;
     }
@@ -67,10 +72,7 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
         String chart = roleQualifier.get(chartOfAccountsCodeKey);
         String org = roleQualifier.get(organizationCodeKey);
 
-        // only billing chart/org or processing chart/org will be populated, and we don't want to call isParentOrg
-        // with null values, so we need to check for empty values first before calling isParentOrg
         if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(org) &&
-                StringUtils.isNotEmpty(chartOfAccountsCode) && StringUtils.isNotEmpty(organizationCode) &&
                 isParentOrg(chartOfAccountsCode, organizationCode, chart, org, true)) {
             orgMatches = true;
         }

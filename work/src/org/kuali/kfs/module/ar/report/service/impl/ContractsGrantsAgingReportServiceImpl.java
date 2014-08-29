@@ -229,7 +229,8 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = iter.next();
-                if (awardIds == null || (!ObjectUtils.isNull(document.getAward()) && awardIds.contains(document.getAward().getProposalNumber()))) {
+                if (!ObjectUtils.isNull(document.getAward()) && awardIds != null && !awardIds.contains(document.getAward().getProposalNumber())) {
+                    iter.remove();
                 } else if (StringUtils.isNotEmpty(collectorPrincipalId)) {
                     if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
                         iter.remove();

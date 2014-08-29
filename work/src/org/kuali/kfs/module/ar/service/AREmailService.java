@@ -46,6 +46,6 @@ public interface AREmailService {
      * @param milestones
      * @param award
      */
-    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsBillingAward award);
+    public void sendEmailNotificationsForMilestones(List<Milestone> milestones, ContractsAndGrantsBillingAward award);
 
 }

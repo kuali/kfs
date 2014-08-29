@@ -81,7 +81,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
      * @see org.kuali.kfs.pdp.batch.service.AchAdviceNotificationService#sendAdviceNotifications()
      */
     protected void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
-        arEmailService.sendEmail(milestones, award);
+        arEmailService.sendEmailNotificationsForMilestones(milestones, award);
     }
 
     /**

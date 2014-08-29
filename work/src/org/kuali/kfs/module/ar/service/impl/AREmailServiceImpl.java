@@ -268,7 +268,7 @@ public class AREmailServiceImpl implements AREmailService {
      * @see org.kuali.kfs.module.ar.service.CGEmailService#sendEmail(java.util.List, org.kuali.kfs.module.ar.businessobject.Award)
      */
     @Override
-    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
+    public void sendEmailNotificationsForMilestones(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
         LOG.debug("sendEmail() starting");
 
         MailMessage message = new MailMessage();

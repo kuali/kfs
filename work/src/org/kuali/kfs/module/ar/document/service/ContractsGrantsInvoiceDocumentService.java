@@ -206,13 +206,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public void updateLastBilledDate(ContractsGrantsInvoiceDocument document);
 
     /**
-     * This method updates the Bills and Milestone objects isItBilles Field.
+     * This method updates the Bills and Milestone objects billed Field.
      *
-     * @param string
+     * @param billed
      * @param invoiceMilestones
      * @param invoiceBills
      */
-    public void updateBillsAndMilestones(String string,List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
+    public void updateBillsAndMilestones(boolean billed, List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
 
     /**
      * This method generates the attached invoices for the invoice addresses in the Contracts and Grants Invoice Document.

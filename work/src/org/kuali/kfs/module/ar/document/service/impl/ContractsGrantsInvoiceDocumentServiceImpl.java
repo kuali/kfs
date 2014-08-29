@@ -1189,9 +1189,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method get the milestones with the criteria defined and set value to billed.
      *
      * @param invoiceMilestones
-     * @param string
+     * @param billed
      */
-    protected void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) {
+    protected void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, boolean billed) {
         if (invoiceMilestones == null) {
             throw new IllegalArgumentException("(List<InvoiceMilestone> invoiceMilestones cannot be null");
         }
@@ -1202,26 +1202,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
         if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            setMilestonesBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+            setMilestonesBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, billed);
         }
     }
 
     /**
-     * This method updates value of billed in Milestone BO to Yes
+     * This method updates value of billed in Milestone BO to the value of the billed parameter
      *
-     * @param criteria
+     * @param proposalNumber
+     * @param milestoneIds
+     * @param billed
      */
-    protected void setMilestonesBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
+    protected void setMilestonesBilled(Long proposalNumber, List<Long> milestoneIds, boolean billed) {
         Collection<Milestone> milestones = null;
         milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
 
         if (!ObjectUtils.isNull(milestones)) {
             for (Milestone milestone : milestones) {
-                if (value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)) {
-                    milestone.setBilled(Boolean.TRUE);
-                }else{
-                    milestone.setBilled(Boolean.FALSE);
-                }
+                milestone.setBilled(billed);
                 getBusinessObjectService().save(milestone);
             }
         }
@@ -1247,9 +1245,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method get the bills with the criteria defined and set value to billed.
      *
      * @param invoiceBills
-     * @param value
+     * @param billed
      */
-    protected void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) {
+    protected void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, boolean billed) {
         if (invoiceBills == null) {
             throw new IllegalArgumentException("(List<InvoiceBill> invoiceBills cannot be null");
         }
@@ -1275,24 +1273,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             fieldValuesList.add(tempFieldValues);
         }
 
-        // To get the bills with the criteria defined and set value to isItBilled.
-        setBillsBilled(fieldValuesList, value);
+        // To get the bills with the criteria defined and set value to billed.
+        setBillsBilled(fieldValuesList, billed);
     }
 
     /**
-     * This method updates value of billed in Bill BO to Yes
+     * This method updates value of billed in Bill BO to billed
      *
-     * @param criteria
+     * @param fieldValuesList
+     * @param billed
      */
-    protected void setBillsBilled(List<Map<String, String>> fieldValuesList, String value) {
+    protected void setBillsBilled(List<Map<String, String>> fieldValuesList, boolean billed) {
         Collection<Bill> bills = billDao.getBillsByMatchingCriteria(fieldValuesList);
         for (Bill bill : bills) {
-            if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
-                bill.setBilled(true);
-            }
-            else {
-                bill.setBilled(false);
-            }
+            bill.setBilled(billed);
         }
         List<Bill> billsToSave = new ArrayList<Bill>();
         billsToSave.addAll(bills);
@@ -2068,20 +2062,23 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method updates the Bills and Milestone objects billed Field.
      *
-     * @param string
+     * @param billed
+     * @param invoiceMilestones
+     * @param invoiceBills
      */
     @Override
-    public void updateBillsAndMilestones(String string, List<InvoiceMilestone> invoiceMilestones, List<InvoiceBill> invoiceBills) {
-        updateMilestonesBilledIndicator(string, invoiceMilestones);
-        updateBillsBilledIndicator(string, invoiceBills);
+    public void updateBillsAndMilestones(boolean billed, List<InvoiceMilestone> invoiceMilestones, List<InvoiceBill> invoiceBills) {
+        updateMilestonesBilledIndicator(billed, invoiceMilestones);
+        updateBillsBilledIndicator(billed, invoiceBills);
     }
 
     /**
-     * Update Milestone objects isItBilled value.
+     * Update Milestone objects billed value.
      *
-     * @param string
+     * @param billed
+     * @param invoiceMilestones
      */
-    protected void updateMilestonesBilledIndicator(String string, List<InvoiceMilestone> invoiceMilestones) {
+    protected void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones) {
         // Get a list of invoiceMilestones from the Contracts Grants Invoice document. Then search for the actual Milestone object in this list through dao
         // Finally, set these milestones to billed
         if (invoiceMilestones != null && !invoiceMilestones.isEmpty()) {
@@ -2091,19 +2088,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 milestoneIds.add(invoiceMilestone.getMilestoneIdentifier());
             }
 
-            retrieveAndUpdateMilestones(invoiceMilestones, string);
+            retrieveAndUpdateMilestones(invoiceMilestones, billed);
         }
     }
 
     /**
-     * Update Bill objects isItBilled value.
+     * Update Bill objects billed value.
      *
-     * @param string
+     * @param billed
+     * @param invoiceBills
      */
-    protected void updateBillsBilledIndicator(String string, List<InvoiceBill> invoiceBills) {
-        /* update Bill */
-        if (invoiceBills != null && !invoiceBills.isEmpty()) {
-            retrieveAndUpdateBills(invoiceBills, string);
+    protected void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills) {
+        if (CollectionUtils.isNotEmpty(invoiceBills)) {
+            retrieveAndUpdateBills(invoiceBills, billed);
         }
     }
 
@@ -2286,7 +2283,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException {
-        updateBillsBilledIndicator(KFSConstants.ParameterValues.STRING_NO, invoiceBills);
+        updateBillsBilledIndicator(false, invoiceBills);
     }
 
     /**
@@ -2296,7 +2293,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException {
-        updateMilestonesBilledIndicator(KFSConstants.ParameterValues.STRING_NO, invoiceMilestones);
+        updateMilestonesBilledIndicator(false, invoiceMilestones);
     }
 
     /**

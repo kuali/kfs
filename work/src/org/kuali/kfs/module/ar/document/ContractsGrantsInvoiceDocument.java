@@ -213,7 +213,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             }
             else {
                 // update Milestones and Bills when invoice goes to final state
-                contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,invoiceMilestones,invoiceBills);
+                contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(true, invoiceMilestones, invoiceBills);
             }
 
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);

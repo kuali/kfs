@@ -581,7 +581,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     protected List<String> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices, String detail, String errorFileName) {
-        boolean resultInd = false;
         boolean isInvalid = false;
         String line = null;
         List<String> invalidGroup = new ArrayList<String>();

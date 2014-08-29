@@ -1899,8 +1899,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneIdentifier", org.apache.commons.lang.ObjectUtils.toString(document.getInvoiceMilestones().get(i).getMilestoneIdentifier()));
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneDescription", document.getInvoiceMilestones().get(i).getMilestoneDescription());
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneAmount", contractsGrantsBillingUtilityService.formatForCurrency(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", getDateTimeService().toDateString(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneCompletionDate", getDateTimeService().toDateString(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", stringifyDate(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].milestoneCompletionDate", stringifyDate(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceMilestones[" + i + "].billed", org.apache.commons.lang.ObjectUtils.toString(document.getInvoiceMilestones().get(i).isBilled()));
             }
         }
@@ -1923,7 +1923,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.amountRemainingToBill", contractsGrantsBillingUtilityService.formatForCurrency(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.billedToDateAmount", contractsGrantsBillingUtilityService.formatForCurrency(document.getInvoiceGeneralDetail().getBilledToDateAmount()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.costShareAmount", contractsGrantsBillingUtilityService.formatForCurrency(document.getInvoiceGeneralDetail().getCostShareAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.lastBilledDate", getDateTimeService().toDateString(document.getInvoiceGeneralDetail().getLastBilledDate()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.lastBilledDate", stringifyDate(document.getInvoiceGeneralDetail().getLastBilledDate()));
             String strArray[] = document.getInvoiceGeneralDetail().getBillingPeriod().split(" to ");
             if (ObjectUtils.isNotNull(strArray[0])) {
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.invoicingPeriodStartDate", strArray[0]);
@@ -1940,7 +1940,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billNumber", org.apache.commons.lang.ObjectUtils.toString(document.getInvoiceBills().get(i).getBillNumber()));
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billDescription", document.getInvoiceBills().get(i).getBillDescription());
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billIdentifier", org.apache.commons.lang.ObjectUtils.toString(document.getInvoiceBills().get(i).getBillIdentifier()));
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billDate", getDateTimeService().toDateString(document.getInvoiceBills().get(i).getBillDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billDate", stringifyDate(document.getInvoiceBills().get(i).getBillDate()));
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].amount", contractsGrantsBillingUtilityService.formatForCurrency(document.getInvoiceBills().get(i).getEstimatedAmount()));
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceBills[" + i + "].billed", stringifyBooleanForContractsGrantsInvoiceTemplate(document.getInvoiceBills().get(i).isBilled()));
             }
@@ -1978,7 +1978,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardDirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardDirectCostAmount()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardIndirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardIndirectCostAmount()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.federalFundedAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getFederalFundedAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardCreateTimestamp", getDateTimeService().toDateString(award.getAwardCreateTimestamp()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardCreateTimestamp", stringifyDate(award.getAwardCreateTimestamp()));
             if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardClosingDate", FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate()));
             }
@@ -2014,7 +2014,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.lookupPerson", award.getLookupPerson().getPrincipalName());
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.userLookupRoleNamespaceCode", award.getUserLookupRoleNamespaceCode());
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.userLookupRoleName", award.getUserLookupRoleName());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.fundingExpirationDate", getDateTimeService().toDateString(award.getFundingExpirationDate()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.fundingExpirationDate", stringifyDate(award.getFundingExpirationDate()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.stopWorkIndicator", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isStopWorkIndicator()));
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.stopWorkReason", award.getStopWorkReason());
             if (ObjectUtils.isNotNull(award.getAwardPrimaryProjectDirector())) {
@@ -2049,6 +2049,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     protected String stringifyBooleanForContractsGrantsInvoiceTemplate(boolean bool) { // the name is longer than the code : - ?
        return bool ? "Yes" : "Off";
+    }
+
+    /**
+     * Turns a given date into a String for the sake of PDF parameters
+     * @param d the date to format into a String
+     * @return the date converted into a String or an empty String if the date was null
+     */
+    protected String stringifyDate(java.util.Date d) {
+        if (!ObjectUtils.isNull(d)) {
+            return getDateTimeService().toDateString(d);
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

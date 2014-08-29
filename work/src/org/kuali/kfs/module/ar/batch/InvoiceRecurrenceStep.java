@@ -27,14 +27,14 @@ public class InvoiceRecurrenceStep extends AbstractStep {
 
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        boolean resultInd = true;
+        boolean result = true;
         try {
-            resultInd = invoiceRecurrenceService.processInvoiceRecurrence();
+            result = invoiceRecurrenceService.processInvoiceRecurrence();
         } catch (Exception e) {
             LOG.error("problem during invoiceRecurrenceService.processInvoiceRecurrence()", e);
             throw new RuntimeException("problem during invoiceRecurrenceService.processInvoiceRecurrence()", e);
         }
-        return resultInd;
+        return result;
     }
 
     public void setInvoiceRecurrenceService(InvoiceRecurrenceService irs) {

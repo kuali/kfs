@@ -71,6 +71,11 @@ public class CGPropertyConstants{
         public static final String AGENCY_CUSTOMER_TYPE_CODE= "customerTypeCode";
     }
 
+    public static class AwardFields {
+        public static final String MILESTONE_SCHEDULE_INQUIRY_TITLE = "milestoneSchedule.milestoneScheduleInquiryTitle";
+        public static final String PREDETERMINED_BILLING_SCHEDULE_INQUIRY_TITLE = "predeterminedBillingSchedule.predeterminedBillingScheduleInquiryTitle";
+    }
+
     // AR related constants
     public static final String CUSTOMER = "customer";
     public static final String CUSTOMER_NUMBER = "customerNumber";

@@ -19,29 +19,76 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
+import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.service.ContractsAndGrantsBillingService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.inquiry.InquiryRestrictions;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.web.ui.SectionBridge;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Used for wiring up {@link Award} for inquiries.
  */
 public class AwardInquirableImpl extends KfsInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardInquirableImpl.class);
+
+    /**
+     * Helper method to build an inquiry URLs for MilestoneSchedule or PredeterminedBillingSchedule links.
+     *
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, boolean)
+     */
+    @Override
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+
+        if (StringUtils.equals(CGPropertyConstants.AwardFields.MILESTONE_SCHEDULE_INQUIRY_TITLE, attributeName)) {
+            return buildInquiryUrl(businessObject, AccountsReceivableMilestoneSchedule.class);
+        } else if (StringUtils.equals(CGPropertyConstants.AwardFields.PREDETERMINED_BILLING_SCHEDULE_INQUIRY_TITLE, attributeName)) {
+            return buildInquiryUrl(businessObject, AccountsReceivablePredeterminedBillingSchedule.class);
+        }
+
+        return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
+    }
+
+    /**
+     * Build the inquiry URL for the business object passed in as a parameter.
+     * 
+     * @param businessObject
+     * @param inquiryHref
+     */
+    protected AnchorHtmlData buildInquiryUrl(BusinessObject businessObject, Class businessObjectClass) {
+        AnchorHtmlData inquiryHref = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
+
+        String baseUrl = KRADConstants.INQUIRY_ACTION;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObjectClass.getName());
+        parameters.put(KFSPropertyConstants.PROPOSAL_NUMBER, ObjectUtils.getPropertyValue(businessObject, KFSPropertyConstants.PROPOSAL_NUMBER).toString());
+
+        inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
+
+        return inquiryHref;
+    }
 
     /**
      * Only show the Schedule link if CGB is enabled and for the appropriate Billing Frequency

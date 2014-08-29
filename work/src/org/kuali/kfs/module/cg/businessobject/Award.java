@@ -1610,9 +1610,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return Returns the milestoneSchedule.
      */
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
-        if (milestoneSchedule != null) {
-            SpringContext.getBean(AccountsReceivableModuleBillingService.class).setProposalNumber(milestoneSchedule, proposalNumber);
-        }
         return milestoneSchedule;
     }
 
@@ -1631,9 +1628,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return Returns the predeterminedBillingSchedule.
      */
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
-        if (predeterminedBillingSchedule != null) {
-            SpringContext.getBean(AccountsReceivableModuleBillingService.class).setProposalNumber(predeterminedBillingSchedule, proposalNumber);
-        }
         return predeterminedBillingSchedule;
     }
 
@@ -1666,7 +1660,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardPrimaryFundManager.
      */
-
     @Override
     public AwardFundManager getAwardPrimaryFundManager() {
         for (AwardFundManager awdFundMgr : awardFundManagers) {

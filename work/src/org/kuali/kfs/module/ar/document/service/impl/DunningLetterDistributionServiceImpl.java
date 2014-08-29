@@ -77,11 +77,12 @@ import com.lowagie.text.pdf.PdfReader;
 @Transactional
 public class DunningLetterDistributionServiceImpl implements DunningLetterDistributionService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DunningLetterDistributionServiceImpl.class);
-    private BusinessObjectService businessObjectService;
-    private ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
+
+    protected BusinessObjectService businessObjectService;
+    protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected DateTimeService dateTimeService;
-    private KualiModuleService kualiModuleService;
+    protected KualiModuleService kualiModuleService;
     protected NoteService noteService;
     protected FinancialSystemUserService financialSystemUserService;
 

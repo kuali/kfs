@@ -113,10 +113,7 @@ public class PdfFormFillerUtil {
             PdfStamper pdfStamper = new PdfStamper(pdfReader, outputStream);
             // Replace the form data with the final values
             AcroFields fields = pdfStamper.getAcroFields();
-            Object[] fieldNameList = fields.getFields().keySet().toArray();
-            for (Object fieldName : fieldNameList)
-
-            {
+            for (Object fieldName : fields.getFields().keySet()) {
                 // Read the field data
                 String text = fields.getField(fieldName.toString());
                 String newText = fields.getField(fieldName.toString());

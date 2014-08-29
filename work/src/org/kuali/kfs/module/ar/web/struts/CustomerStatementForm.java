@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,6 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class is the action form for Customer Aging Reports.
  */
 public class CustomerStatementForm extends KualiForm {
-    private static final long serialVersionUID = 1L;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CustomerStatementForm.class);
 
@@ -40,10 +39,10 @@ public class CustomerStatementForm extends KualiForm {
     private String statementFormat;
     private String statementFormatOption;
     private String includeZeroBalanceCustomers;
-    private String message;  
+    private String message;
 
     /**
-     * Gets the message attribute. 
+     * Gets the message attribute.
      * @return Returns the message.
      */
     public String getMessage() {
@@ -64,7 +63,7 @@ public class CustomerStatementForm extends KualiForm {
     }
 
     /**
-     * Gets the chartCode attribute. 
+     * Gets the chartCode attribute.
      * @return Returns the chartCode.
      */
     public String getChartCode() {
@@ -84,7 +83,7 @@ public class CustomerStatementForm extends KualiForm {
 
 
     /**
-     * Gets the orgCode attribute. 
+     * Gets the orgCode attribute.
      * @return Returns the orgCode.
      */
     public String getOrgCode() {
@@ -102,7 +101,7 @@ public class CustomerStatementForm extends KualiForm {
     }
 
     /**
-     * Gets the customerNumber attribute. 
+     * Gets the customerNumber attribute.
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -118,7 +117,7 @@ public class CustomerStatementForm extends KualiForm {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -132,7 +131,7 @@ public class CustomerStatementForm extends KualiForm {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-    
+
     /**
      * Gets the satementFormat attribute
      */
@@ -189,38 +188,38 @@ public class CustomerStatementForm extends KualiForm {
 
     /**
     * KRAD Conversion: creates extra buttons.
-    * 
+    *
     * No use of data dictionary.
     */
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();
      //   HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
-       
+
         // Print button
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.print");
         printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_genprintfile.gif");
         printButton.setExtraButtonAltText("Print");
         buttons.add(printButton);
-        
+
         // Clear button
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clear");
         clearButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_clear.gif");
         clearButton.setExtraButtonAltText("Clear");
         buttons.add(clearButton);
-        
+
         // Cancel button
         ExtraButton cancelButton = new ExtraButton();
         cancelButton.setExtraButtonProperty("methodToCall.cancel");
         cancelButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
         cancelButton.setExtraButtonAltText("Cancel");
         buttons.add(cancelButton);
-        
+
         return buttons;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
      */

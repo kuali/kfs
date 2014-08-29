@@ -22,7 +22,6 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
  * This class is the action form for Customer Aging Reports.
  */
 public class CustomerAgingReportForm extends LookupForm {
-    private static final long serialVersionUID = 1L;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CustomerAgingReportForm.class);
 

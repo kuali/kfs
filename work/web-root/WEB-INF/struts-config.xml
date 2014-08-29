@@ -900,8 +900,6 @@
 			parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/cg/{1}.jsp" />
-			<forward name="cgPrintPDF" path="/jsp/module/cg/CgPrintForward.jsp"
-				redirect="false" />
 		</action>
 		
 		<action path="/contractsGrantsAwardBalancesReport" name="ContractsGrantsAwardBalancesReportLookupForm"

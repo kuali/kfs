@@ -467,6 +467,9 @@
 		<property name="personService">
 			<ref bean="personService"/>
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
 	</bean>
 
 	<bean id="dunningLetterDistributionLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

@@ -31,6 +31,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -3022,4 +3023,34 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
     }
+    
+    /**
+     * This function removes CapitalAssetInformations that don't have at least one capital asset object
+     * code in their group details.
+     *
+     * @param infos
+     */
+    @Override
+    public void filterNonCapitalAssets(List<CapitalAssetInformation> infos){
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        List<String> capitalAssetObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
+        for (int i = 0; i < infos.size(); ++i) {
+            boolean remove = true;
+            CapitalAssetInformation info = infos.get(i);
+            for (CapitalAssetAccountsGroupDetails det : info.getCapitalAssetAccountsGroupDetails()) {
+                ObjectCode obj = objectCodeService.getByPrimaryIdForCurrentYear(det.getChartOfAccountsCode(), det.getFinancialObjectCode());
+                boolean isCapitalObjectCode = capitalAssetObjectSubTypes.contains(obj.getFinancialObjectSubTypeCode());
+                if (isCapitalObjectCode) {
+                    remove = false;
+                    break;
+                }
+            }
+            if (remove) {
+                /* We don't want facade CapitalAssetInformations. */
+                infos.remove(i--);
+            }
+        }
+    }
+    
+
 }

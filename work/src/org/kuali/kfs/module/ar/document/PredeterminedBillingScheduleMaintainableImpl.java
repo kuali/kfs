@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
@@ -47,40 +48,19 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
     private static volatile PredeterminedBillingScheduleMaintenanceService predeterminedBillingScheduleMaintenanceService;
 
     /**
-     * Constructs an MilestoneScheduleMaintainableImpl.
-     */
-    public PredeterminedBillingScheduleMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a MilestoneScheduleMaintainableImpl.
-     *
-     * @param award
-     */
-    public PredeterminedBillingScheduleMaintainableImpl(PredeterminedBillingSchedule predeterminedBillingSchedule) {
-        super(predeterminedBillingSchedule);
-        this.setBoClass(predeterminedBillingSchedule.getClass());
-    }
-
-    /**
      * This method is called to check if the award already has bills set, and to validate on refresh
      *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
-
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        if (StringUtils.equals("awardLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
-
-            boolean isMilestonesExist = PredeterminedBillingScheduleRuleUtil.checkIfBillsExist(getPredeterminedBillingSchedule());
-            if (isMilestonesExist) {
+        if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
+            if (PredeterminedBillingScheduleRuleUtil.checkIfBillsExist(getPredeterminedBillingSchedule())) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, ArKeyConstants.ERROR_AWARD_PREDETERMINED_BILLING_SCHEDULE_EXISTS, new String[] { getPredeterminedBillingSchedule().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
-
             }
         }
         else {
@@ -125,7 +105,6 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
      * @return
      */
     public PredeterminedBillingSchedule getPredeterminedBillingSchedule() {
-
         return (PredeterminedBillingSchedule) getBusinessObject();
     }
 

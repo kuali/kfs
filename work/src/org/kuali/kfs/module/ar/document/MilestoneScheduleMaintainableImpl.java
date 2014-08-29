@@ -57,14 +57,11 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
-
-            boolean isMilestonesExist = MilestoneScheduleRuleUtil.checkIfMilestonesExists(getMilestoneSchedule());
-            if (isMilestonesExist) {
+            if (MilestoneScheduleRuleUtil.checkIfMilestonesExists(getMilestoneSchedule())) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, ArKeyConstants.ERROR_AWARD_MILESTONE_SCHEDULE_EXISTS, new String[] { getMilestoneSchedule().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
-
             }
         }
         else {

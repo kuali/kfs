@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class defines all the service methods for Contracts and Grants invoice Document.
@@ -291,14 +290,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber, String errorFileName);
 
     /**
-     * To retrieve the payment amount by given document number.
-     *
-     * @param documentNumber The invoice number of the document.
-     * @return Returns the total payment amount.
-     */
-    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber);
-
-    /**
      * Determine if the collectorPrincipalId can view the invoice, leverages role qualifiers
      * on the CGB Collector role to perform the check.
      *
@@ -398,15 +389,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return errorString
      */
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Determines if the given invoice template can be utilized by the given current user
-     *
-     * @param invoiceTemplate the invoice template to check
-     * @param user the user to check if they can utilize the template
-     * @return true if the user can utilize the template, false otherwise
-     */
-    public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user);
 
     /**
      * Determines if the given invoice template can be utilized by the given CGB Invoice Document based on

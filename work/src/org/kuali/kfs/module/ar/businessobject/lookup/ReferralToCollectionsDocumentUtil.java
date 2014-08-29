@@ -31,7 +31,7 @@ import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -123,9 +123,9 @@ public class ReferralToCollectionsDocumentUtil {
             rcDetail.setBillingDate(invoice.getBillingDate());
             rcDetail.setFinalDispositionCode(invoice.getFinalDispositionCode());
 
-            ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+            CollectionActivityDocumentService collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
 
-            KualiDecimal paymentAmount = contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(invoice.getDocumentNumber());
+            KualiDecimal paymentAmount = collectionActivityDocumentService.retrievePaymentAmountByDocumentNumber(invoice.getDocumentNumber());
             rcDetail.setInvoiceBalance(invoice.getSourceTotal().subtract(paymentAmount));
 
             List<InvoiceAccountDetail> invAccDets = invoice.getAccountDetails();

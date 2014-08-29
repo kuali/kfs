@@ -25,6 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
@@ -47,6 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
+    protected CollectionActivityDocumentService collectionActivityDocumentService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
 
@@ -86,7 +88,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail())) {
             cl.setBillingFrequency(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency());
         }
-        cl.setPaymentAmount(contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
+        cl.setPaymentAmount(getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
         cl.setBalanceDue(cl.getInvoiceAmount().subtract(cl.getPaymentAmount()));
         cl.setAge(contractsGrantsInvoiceDocument.getAge());
         return cl;
@@ -187,5 +189,13 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
         this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
+    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
+        return collectionActivityDocumentService;
+    }
+
+    public void setCollectionActivityDocumentService(CollectionActivityDocumentService collectionActivityDocumentService) {
+        this.collectionActivityDocumentService = collectionActivityDocumentService;
     }
 }

@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentServic
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
@@ -269,6 +270,21 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             }
         }
         return paymentDate;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrievePaymentAmountByDocumentNumber(java.lang.String)
+     */
+    @Override
+    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber) {
+        KualiDecimal paymentAmount = KualiDecimal.ZERO;
+        Collection<InvoicePaidApplied> invoicePaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
+        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
+            for (InvoicePaidApplied invPaidApp : invoicePaidApplieds) {
+                paymentAmount = paymentAmount.add(invPaidApp.getInvoiceItemAppliedAmount());
+            }
+        }
+        return paymentAmount;
     }
 
     @NonTransactional

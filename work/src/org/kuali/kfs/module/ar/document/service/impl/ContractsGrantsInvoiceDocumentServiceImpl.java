@@ -89,7 +89,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
-import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -2037,18 +2036,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return cgInvoices;
     }
 
-    @Override
-    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber) {
-        KualiDecimal paymentAmount = KualiDecimal.ZERO;
-        Collection<InvoicePaidApplied> invoicePaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);
-        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
-            for (InvoicePaidApplied invPaidApp : invoicePaidApplieds) {
-                paymentAmount = paymentAmount.add(invPaidApp.getInvoiceItemAppliedAmount());
-            }
-        }
-        return paymentAmount;
-    }
-
     /**
      * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
      */
@@ -3144,20 +3131,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             return true; // is the error correction currently undergoing error correction itself?  Then recheck the rules on the newer error corrector to see if this document is effective or not
         }
         return false; // the error correction document is not effective and has freed resources
-    }
-
-    /**
-     * Checks if the primary chart/org for the user matches the bill to chart/org on the invoice template
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isValidOrganizationForTemplate(org.kuali.kfs.module.ar.businessobject.InvoiceTemplate, org.kuali.rice.kim.api.identity.Person)
-     */
-    @Override
-    public boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user) {
-        final ChartOrgHolder userChartOrg = getFinancialSystemUserService().getPrimaryOrganization(user, ArConstants.AR_NAMESPACE_CODE);
-
-        if (!StringUtils.isBlank(invoiceTemplate.getBillByChartOfAccountCode()) && !StringUtils.isBlank(invoiceTemplate.getBilledByOrganizationCode())) {
-            return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), userChartOrg.getChartOfAccountsCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),userChartOrg.getOrganizationCode());
-        }
-        return false;
     }
 
     /**

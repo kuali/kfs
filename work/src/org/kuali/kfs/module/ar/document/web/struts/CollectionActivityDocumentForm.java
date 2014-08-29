@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -49,7 +48,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     protected String selectedCustomerNumber;
     protected String selectedCustomerName;
     protected ContractsGrantsInvoiceDocument selectedInvoiceApplication;
-    protected transient ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected transient static volatile CollectionActivityDocumentService collectionActivityDocumentService;
 
     /**
@@ -94,7 +92,6 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     public CollectionActivityDocumentForm() {
         super();
         selectedInvoiceApplication = null;
-        contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
     }
 
     /**
@@ -267,7 +264,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      */
     public KualiDecimal getSelectedInvoicePaymentAmount() {
         ContractsGrantsInvoiceDocument invoiceDoc = this.getSelectedInvoiceApplication();
-        return contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(invoiceDoc.getDocumentNumber());
+        return getCollectionActivityDocumentService().retrievePaymentAmountByDocumentNumber(invoiceDoc.getDocumentNumber());
     }
 
     /**

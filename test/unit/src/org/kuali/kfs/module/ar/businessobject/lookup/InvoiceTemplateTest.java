@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.document;
+package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
@@ -78,13 +80,14 @@ public class InvoiceTemplateTest extends KualiTestBase {
     }
 
     public void testValidOrganization() {
-        final ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        InvoiceTemplateLookupableHelperServiceImpl invoiceTemplateLookupable = new InvoiceTemplateLookupableHelperServiceImpl();
+        invoiceTemplateLookupable.setFinancialSystemUserService(SpringContext.getBean(FinancialSystemUserService.class));
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
-        assertFalse(contractsGrantsInvoiceDocumentService.isTemplateValidForUser(invoiceTemplate, currentUser));
+        assertFalse(invoiceTemplateLookupable.isTemplateValidForUser(invoiceTemplate, currentUser));
         invoiceTemplate.setBillByChartOfAccountCode((new CurrentUserChartValueFinder()).getValue());
         invoiceTemplate.setBilledByOrganizationCode((new CurrentUserOrgValueFinder()).getValue());
-        assertTrue(contractsGrantsInvoiceDocumentService.isTemplateValidForUser(invoiceTemplate, currentUser));
+        assertTrue(invoiceTemplateLookupable.isTemplateValidForUser(invoiceTemplate, currentUser));
     }
 
     public void testIsTemplateValidForContractsGrantsInvoiceDocument() {

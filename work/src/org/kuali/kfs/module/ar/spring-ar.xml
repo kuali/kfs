@@ -222,9 +222,6 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService"/>
-		</property>
 		<property name="financialSystemUserService">
 			<ref bean="financialSystemUserService"/>
 		</property>
@@ -453,8 +450,8 @@
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
+	<bean id="dunningLetterDistributionLookupableHelperService" parent="dunningLetterDistributionLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="dunningLetterDistributionLookupableHelperService-parentBean" abstract="true" parent="lookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionLookupableHelperServiceImpl">
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
@@ -2316,7 +2313,11 @@
 		</property>
 	</bean>
 	
-	<bean id="collectionActivityInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="collectionActivityInvoiceLookupableHelperService" parent="collectionActivityInvoiceLookupableHelperService-parentBean"/>
+	<bean id="collectionActivityInvoiceLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="collectionActivityDocumentService">
+			<ref bean="collectionActivityDocumentService"/>
+		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService"/>
 		</property>

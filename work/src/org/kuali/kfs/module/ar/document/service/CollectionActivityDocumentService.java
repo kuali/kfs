@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
@@ -91,4 +92,12 @@ public interface CollectionActivityDocumentService {
      * @return Returns the first payment date.
      */
     public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
+
+    /**
+     * To retrieve the payment amount by given document number.
+     *
+     * @param documentNumber The invoice number of the document.
+     * @return Returns the total payment amount.
+     */
+    public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber);
 }

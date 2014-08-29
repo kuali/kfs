@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -47,7 +46,6 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     protected KualiModuleService kualiModuleService;
-    protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected FinancialSystemUserService financialSystemUserService;
 
     /***
@@ -79,7 +77,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
             if (allowsMaintenanceNewOrCopyAction()) {
                 htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
             }
-            if (getContractsGrantsInvoiceDocumentService().isTemplateValidForUser(invoiceTemplate, currentUser)) {
+            if (isTemplateValidForUser(invoiceTemplate, currentUser)) {
                 htmlDataList.add(getInvoiceTemplateUploadUrl(businessObject));
             }
             if (StringUtils.isNotBlank(invoiceTemplate.getFilename()) && templateFileExists(invoiceTemplate.getFilename())) {
@@ -138,6 +136,22 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
     }
 
     /**
+     * Determines if the given invoice template can be utilized by the given current user
+     *
+     * @param invoiceTemplate the invoice template to check
+     * @param user the user to check if they can utilize the template
+     * @return true if the user can utilize the template, false otherwise
+     */
+    protected boolean isTemplateValidForUser(InvoiceTemplate invoiceTemplate, Person user) {
+        final ChartOrgHolder userChartOrg = getFinancialSystemUserService().getPrimaryOrganization(user, ArConstants.AR_NAMESPACE_CODE);
+
+        if (!StringUtils.isBlank(invoiceTemplate.getBillByChartOfAccountCode()) && !StringUtils.isBlank(invoiceTemplate.getBilledByOrganizationCode())) {
+            return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), userChartOrg.getChartOfAccountsCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),userChartOrg.getOrganizationCode());
+        }
+        return false;
+    }
+
+    /**
      * Gets the kualiModuleService attribute.
      *
      * @return Returns the kualiModuleService
@@ -154,14 +168,6 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
-    }
-
-    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return contractsGrantsInvoiceDocumentService;
-    }
-
-    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
-        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 
     public FinancialSystemUserService getFinancialSystemUserService() {

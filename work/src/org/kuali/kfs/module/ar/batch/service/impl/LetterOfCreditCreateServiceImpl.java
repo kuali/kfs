@@ -213,7 +213,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
             if (CollectionUtils.isNotEmpty(cashControlDetails)) {
                 isExists = true;
-                String error = ArConstants.BatchFileSystem.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
+                String error = ArKeyConstants.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
                 try {
 
                     writeErrorEntry(error, outputFileStream);
@@ -601,7 +601,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
                 isInvalid = false;
                 // if the invoices are not final yet - then the LOC cannot be created
                 if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
-                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
+                    line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArKeyConstants.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
                     invalidGroup.add(line);
                     isInvalid = true;
                 }

@@ -140,7 +140,7 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
     @Override
     public void validateSearchParameters(Map<String,String> fieldValues) {
         super.validateSearchParameters(fieldValues);
-        String proposalNumber = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER);
+        String proposalNumber = fieldValues.get(ArPropertyConstants.PROPOSAL_NUMBER);
 
         String awardBeginningDateFromString = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM);
         String awardBeginningDateToString = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_TO);
@@ -153,7 +153,7 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
         String primaryFundManagerPrincipalId = fieldValues.get(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PRIMARY_FUND_MANAGER_PRINCIPAL_NAME);
 
         if (!StringUtils.isNumeric(proposalNumber)) {
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER_LABEL);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.PROPOSAL_NUMBER_LABEL);
         }
 
         validateDate(awardBeginningDateFromString, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_BEGINNING_DATE_FROM_LABEL);

@@ -22,6 +22,8 @@ import org.kuali.kfs.sys.KFSConstants;
  */
 public class ArPropertyConstants{
 
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
+
     // CustomerInvoiceDocument
     public static class CustomerInvoiceDocumentFields {
 
@@ -197,7 +199,6 @@ public class ArPropertyConstants{
         public static final String COLLECTOR = "principalId";
         public static final String FOLLOWUP_DATE = "followupDate";
         public static final String ACTIVITY_CODE = "activityCode";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String COMPLETED = "completed";
@@ -223,7 +224,6 @@ public class ArPropertyConstants{
     public static class CollectionActivityDocumentFields {
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
     }
 
     // OrganizationOptions
@@ -348,7 +348,6 @@ public class ArPropertyConstants{
         public static final String ERROR_DATE_TO_LABEL = "Error Date To";
         public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME = "primaryFundManagerPrincipalName";
         public static final String PRIMARY_FUND_MANAGER_PRINCIPAL_NAME_LABEL = "Primary Fund Manager Principal Name";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String PROPOSAL_NUMBER_LABEL = "Proposal Number";
     }
 
@@ -443,7 +442,6 @@ public class ArPropertyConstants{
     public static class CollectionActivityReportFields {
         public static final String COLLECTOR = "principalId";
         public static final String ACTIVITY_TYPE = "activityType";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String ACCOUNT_NUMBER = "accountNumber";
@@ -452,7 +450,6 @@ public class ArPropertyConstants{
     // Referral To Collections Report fields
     public static class ReferralToCollectionsReportFields {
         public static final String COLLECTOR = "principalId";
-        public static final String PROPOSAL_NUMBER = "proposalNumber";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String INVOICE_NUMBER = "invoiceNumber";
         public static final String ACCOUNT_NUMBER = "accountNumber";

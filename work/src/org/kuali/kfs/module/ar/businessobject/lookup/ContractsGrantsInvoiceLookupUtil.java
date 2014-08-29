@@ -133,7 +133,7 @@ public class ContractsGrantsInvoiceLookupUtil {
 
         for (String selectedProposalNumber: selectedProposalNumbers) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, selectedProposalNumber);
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, selectedProposalNumber);
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
             if (ObjectUtils.isNotNull(award)) {
                 awards.add(award);
@@ -171,7 +171,7 @@ public class ContractsGrantsInvoiceLookupUtil {
                             // the columns in the sub result rows. If that changes, this will no longer work and will
                             // need to be changed.
                             for (Column column: subResultRow.getColumns()) {
-                                if (StringUtils.equals(column.getPropertyName(), ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER)) {
+                                if (StringUtils.equals(column.getPropertyName(), ArPropertyConstants.PROPOSAL_NUMBER)) {
                                     selectedProposalNumbers.add(subResultRow.getColumns().get(0).getPropertyValue());
                                     break;
                                 }

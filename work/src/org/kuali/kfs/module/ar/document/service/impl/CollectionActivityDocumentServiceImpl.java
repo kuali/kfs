@@ -194,7 +194,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
         if (ObjectUtils.isNotNull(colActDoc) && ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
             List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
             if (CollectionUtils.isNotEmpty(invoices)) {
@@ -229,7 +229,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         ContractsAndGrantsBillingAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
+            map.put(ArPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
             award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;

@@ -137,7 +137,7 @@ public class ReferralToCollectionsReportServiceImpl implements ReferralToCollect
 
         String collectorPrincName = lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME).toString();
         String collector = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.COLLECTOR).toString();
-        proposalNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.PROPOSAL_NUMBER).toString();
+        proposalNumber = lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER).toString();
         String agencyNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.AGENCY_NUMBER).toString();
         invoiceNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.INVOICE_NUMBER).toString();
         accountNumber = lookupFormFields.get(ArPropertyConstants.ReferralToCollectionsReportFields.ACCOUNT_NUMBER).toString();

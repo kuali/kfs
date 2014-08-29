@@ -113,7 +113,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
 
         String collectorPrincName = (String)lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
         String collector = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.COLLECTOR);
-        String proposalNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.PROPOSAL_NUMBER);
+        String proposalNumber = (String)lookupFormFields.get(ArPropertyConstants.PROPOSAL_NUMBER);
         String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER);
         String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.INVOICE_NUMBER);
         String accountNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER);

@@ -374,4 +374,14 @@ public class ArKeyConstants {
      public static final String CGINVOICE_EMAIL_SUBJECT = "cginvoice.email.subject";
      public static final String CGINVOICE_EMAIL_BODY = "cginvoice.email.body";
 
+     // messages for LOC pdf
+     public static final String LOC_REVIEW_PDF_TITLE = "locreview.pdf.title";
+     public static final String LOC_REVIEW_PDF_HEADER_FUND_GROUP_CODE = "locreview.pdf.header.fund.group.code";
+     public static final String LOC_REVIEW_PDF_HEADER_FUND_CODE = "locreview.pdf.header.fund.code";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_NUMBER = "locreview.pdf.header.document.number";
+     public static final String LOC_REVIEW_PDF_HEADER_APP_DOC_STATUS = "locreview.pdf.header.application.document.status";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR = "locreview.pdf.header.initiator.principal.name";
+     public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE = "locreview.pdf.header.create.date";
+     public static final String LOC_REVIEW_PDF_SUBHEADER_AWARDS = "locreview.pdf.subheader.awards";
+
 }

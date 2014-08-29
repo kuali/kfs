@@ -37,6 +37,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -86,8 +87,6 @@ import com.lowagie.text.pdf.PdfWriter;
  * This class implements the methods for report generation services for Contracts and Grants.
  */
 public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsInvoiceReportService {
-    protected Map<String, String> replacementList = new HashMap<String, String>();
-    //protected SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportServiceImpl.class);
     protected DateTimeService dateTimeService;
     protected DataDictionaryService dataDictionaryService;
@@ -106,10 +105,10 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
     @Override
-    public byte[] generateInvoice(ContractsGrantsLetterOfCreditReviewDocument document) {
+    public byte[] generateLOCReviewAsPdf(ContractsGrantsLetterOfCreditReviewDocument document) {
         Date runDate = new Date(new java.util.Date().getTime());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        this.generateInvoiceInPdf(baos, document);
+        this.generateLOCReviewInPdf(baos, document);
         return baos.toByteArray();
     }
 
@@ -119,7 +118,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param os
      * @param LOCDocument
      */
-    protected void generateInvoiceInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
+    protected void generateLOCReviewInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument locDocument) {
         try {
             Document document = new Document(new Rectangle(1350, 595));
             PdfWriter.getInstance(document, os);
@@ -132,27 +131,27 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             Paragraph title = new Paragraph();
 
             // Lets write the header
-            header.add(new Paragraph("Contracts and Grants Letter of Credit Review Document", titleFont));
-            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundGroupCode())) {
-                header.add(new Paragraph("Letter of Credit Fund Group: " + returnProperStringValue(LOCDocument.getLetterOfCreditFundGroupCode()), titleFont));
+            header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_TITLE), titleFont));
+            if (StringUtils.isNotEmpty(locDocument.getLetterOfCreditFundGroupCode())) {
+                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_GROUP_CODE) + returnProperStringValue(locDocument.getLetterOfCreditFundGroupCode()), titleFont));
             }
-            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundCode())) {
-                header.add(new Paragraph("Letter of Credit Fund: " + returnProperStringValue(LOCDocument.getLetterOfCreditFundCode()), titleFont));
+            if (StringUtils.isNotEmpty(locDocument.getLetterOfCreditFundCode())) {
+                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_CODE) + returnProperStringValue(locDocument.getLetterOfCreditFundCode()), titleFont));
             }
-            header.add(new Paragraph(" "));
+            header.add(new Paragraph(KFSConstants.BLANK_SPACE));
             header.setAlignment(Element.ALIGN_CENTER);
-            title.add(new Paragraph("Document Number: " + returnProperStringValue(LOCDocument.getDocumentNumber()), headerFont));
-            Person person = personService.getPerson(LOCDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_NUMBER) + returnProperStringValue(locDocument.getDocumentNumber()), headerFont));
+            Person person = getPersonService().getPerson(locDocument.getFinancialSystemDocumentHeader().getInitiatorPrincipalId());
             // writing the Document details
-            title.add(new Paragraph("Document Status: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus()), headerFont));
-            title.add(new Paragraph("Document Initiator: " + returnProperStringValue(person.getName()), headerFont));
-            title.add(new Paragraph("Document Creation Date: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toLocalDate().toString()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_APP_DOC_STATUS) + returnProperStringValue(locDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR) + returnProperStringValue(person.getName()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE) + returnProperStringValue(getDateTimeService().toDateString(locDocument.getFinancialSystemDocumentHeader().getWorkflowCreateDate())), headerFont));
 
-            title.add(new Paragraph(" "));
+            title.add(new Paragraph(KFSConstants.BLANK_SPACE));
             title.setAlignment(Element.ALIGN_RIGHT);
 
-            text.add(new Paragraph("Awards", smallBold));
-            text.add(new Paragraph(" "));
+            text.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_SUBHEADER_AWARDS), smallBold));
+            text.add(new Paragraph(KFSConstants.BLANK_SPACE));
 
             document.add(header);
             document.add(title);
@@ -167,8 +166,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             table.setWidths(widths);
             table.setHorizontalAlignment(0);
             addAwardHeaders(table);
-            if (CollectionUtils.isNotEmpty(LOCDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(LOCDocument.getAccountReviewDetails())) {
-                for (ContractsGrantsLetterOfCreditReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
+            if (CollectionUtils.isNotEmpty(locDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(locDocument.getAccountReviewDetails())) {
+                for (ContractsGrantsLetterOfCreditReviewDetail item : locDocument.getHeaderReviewDetails()) {
                     table.addCell(returnProperStringValue(item.getProposalNumber()));
                     table.addCell(returnProperStringValue(item.getAwardDocumentNumber()));
                     table.addCell(returnProperStringValue(item.getAgencyNumber()));
@@ -194,7 +193,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     newTable.setWidths(newWidths);
                     newTable.setHorizontalAlignment(0);
                     addAccountsHeaders(newTable);
-                    for (ContractsGrantsLetterOfCreditReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
+                    for (ContractsGrantsLetterOfCreditReviewDetail newItem : locDocument.getAccountReviewDetails()) {
                         if (item.getProposalNumber().equals(newItem.getProposalNumber())) {
                             newTable.addCell(returnProperStringValue(newItem.getAccountDescription()));
                             newTable.addCell(returnProperStringValue(newItem.getChartOfAccountsCode()));
@@ -277,6 +276,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     @Override
     public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) {
+        Map<String, String> replacementList = new HashMap<String, String>();
         Date runDate = new Date(new java.util.Date().getTime());
         String reportFileName = getReportInfo().getReportFileName();
         String reportDirectory = getReportInfo().getReportsDirectory();
@@ -285,14 +285,14 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425") + ".pdf";
                 File file = new File(fullReportFileName);
                 FileOutputStream fos = new FileOutputStream(file);
-                stampPdfFormValues425(award, period, year, fos);
+                stampPdfFormValues425(award, period, year, fos, replacementList);
                 return file;
             }
             else if (formType.equals(ArConstants.FEDERAL_FORM_425A) && ObjectUtils.isNotNull(agency)) {
                 String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "FF425A") + ".pdf";
                 File file = new File(fullReportFileName);
                 FileOutputStream fos = new FileOutputStream(file);
-                stampPdfFormValues425A(agency, period, year, fos);
+                stampPdfFormValues425A(agency, period, year, fos, replacementList);
                 return file;
             }
         }
@@ -300,24 +300,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             throw new RuntimeException("Cannot find pdf to stamp for federal financial form", ex);
         }
         return null;
-    }
-
-    /**
-     * Gets the replacementList attribute.
-     *
-     * @return Returns the replacementList.
-     */
-    public Map<String, String> getReplacementList() {
-        return replacementList;
-    }
-
-    /**
-     * Sets the replacementList attribute value.
-     *
-     * @param replacementList The replacementList to set.
-     */
-    public void setReplacementList(Map<String, String> replacementList) {
-        this.replacementList = replacementList;
     }
 
     /**
@@ -354,8 +336,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param reportingPeriod
      * @param year
      */
-    protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year) {
-        replacementList.clear();
+    protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, Map<String, String> replacementList) {
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             int index = 0;
@@ -395,8 +376,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         }
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        primaryKeys.put("processingChartOfAccountCode", award.getPrimaryAwardOrganization().getChartOfAccountsCode());
-        primaryKeys.put("processingOrganizationCode", award.getPrimaryAwardOrganization().getOrganizationCode());
+        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, award.getPrimaryAwardOrganization().getChartOfAccountsCode());
+        primaryKeys.put(ArPropertyConstants.SystemInformationFields.PROCESSING_ORGANIZATION_CODE, award.getPrimaryAwardOrganization().getOrganizationCode());
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
@@ -453,23 +434,23 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         replacementList.put("Email Address", returnProperStringValue(null));
         replacementList.put("Date Report Submitted", returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
         if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
-            replacementList.put("Quaterly", "Yes");
+            replacementList.put("Quaterly", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
-            replacementList.put("Semi Annual", "Yes");
+            replacementList.put("Semi Annual", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.ANNUAL.equals(reportingPeriod)) {
-            replacementList.put("Annual", "Yes");
+            replacementList.put("Annual", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.FINAL.equals(reportingPeriod)) {
-            replacementList.put("Final", "Yes");
+            replacementList.put("Final", KFSConstants.OptionLabels.YES);
         }
         String accountingBasis = parameterService.getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
-            replacementList.put("Cash", "Yes");
+            replacementList.put("Cash", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
-            replacementList.put("Accrual", "Yes");
+            replacementList.put("Accrual", KFSConstants.OptionLabels.YES);
         }
     }
 
@@ -484,7 +465,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @return total amount
      */
     protected List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsBillingAward> awards, String reportingPeriod, String year, ContractsAndGrantsBillingAgency agency) {
-        replacementList.clear();
+        Map<String, String> replacementList = new HashMap<String, String>();
         replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(agency.getFullName())));
 
@@ -520,23 +501,23 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         }
 
         if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
-            replacementList.put("Quaterly", "Yes");
+            replacementList.put("Quaterly", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
-            replacementList.put("Semi Annual", "Yes");
+            replacementList.put("Semi Annual", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.ANNUAL.equals(reportingPeriod)) {
-            replacementList.put("Annual", "Yes");
+            replacementList.put("Annual", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.FINAL.equals(reportingPeriod)) {
-            replacementList.put("Final", "Yes");
+            replacementList.put("Final", KFSConstants.OptionLabels.YES);
         }
         String accountingBasis = parameterService.getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
-            replacementList.put("Cash", "Yes");
+            replacementList.put("Cash", KFSConstants.OptionLabels.YES);
         }
         if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
-            replacementList.put("Accrual", "Yes");
+            replacementList.put("Accrual",KFSConstants.OptionLabels.YES);
         }
         replacementList.put("Date Report Submitted", returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
         KualiDecimal totalCashControl = KualiDecimal.ZERO;
@@ -589,7 +570,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param year
      * @param returnStream The output stream the federal form will be written to.
      */
-    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) {
+    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream, Map<String, String> replacementList) {
         String reportTemplateName = ArConstants.FF_425_TEMPLATE_NM + ".pdf";
         try {
             String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -597,10 +578,9 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             PdfReader reader = new PdfReader(federalReportTemplatePath + reportTemplateName);
             PdfStamper stamper = new PdfStamper(reader, returnStream);
             AcroFields fields = stamper.getAcroFields();
-            populateListByAward(award, reportingPeriod, year);
-            Map<String, String> list = getReplacementList();
-            for (String field : list.keySet()) {
-                fields.setField(field, list.get(field));
+            populateListByAward(award, reportingPeriod, year, replacementList);
+            for (String field : replacementList.keySet()) {
+                fields.setField(field, replacementList.get(field));
             }
             stamper.close();
         }
@@ -617,7 +597,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param year
      * @param returnStream The output stream the federal form will be written to.
      */
-    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) {
+    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream, Map<String, String> replacementList) {
         String reportTemplateName = ArConstants.FF_425A_TEMPLATE_NM + ".pdf";
         String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {

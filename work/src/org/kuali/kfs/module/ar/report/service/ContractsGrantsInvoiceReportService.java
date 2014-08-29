@@ -38,7 +38,7 @@ public interface ContractsGrantsInvoiceReportService {
      * @param document
      * @return Byte array is returned so a file is not created on the server.
      */
-    public byte[] generateInvoice(ContractsGrantsLetterOfCreditReviewDocument document);
+    public byte[] generateLOCReviewAsPdf(ContractsGrantsLetterOfCreditReviewDocument document);
 
     /**
      * This method generates the federal financial forms (425 and 425A) for Contracts and Grants.

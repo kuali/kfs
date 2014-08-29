@@ -142,6 +142,13 @@ public class ArPropertyConstants{
         public static final String CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER = "financialDocumentReferenceInvoiceNumber";
     }
 
+    public static class CustomerStatementFields {
+        public static final String CHART_CODE = "chartCode";
+        public static final String ORG_CODE = "orgCode";
+        public static final String STATEMENT_FORMAT = "statementFormat";
+        public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "includeZeroBalanceCustomers";
+    }
+
     // CashControlDocument
     public static class CashControlDocumentFields {
         public static final String FINANCIAL_DOCUMENT_LINE_AMOUNT = "financialDocumentLineAmount";

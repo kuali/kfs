@@ -119,6 +119,7 @@ public class ArConstants{
 
     public static final String CUSTOMER_COMPONENT = "Customer";
 
+    public static final String PRINT_STATEMENT_PDF_METHOD = "printStatementPDF";
     public static final String PRINT_CREDIT_MEMO_PDF_METHOD = "printCreditMemoPDF";
     public static final String PRINT_INVOICE_PDF_METHOD = "printInvoicePDF";
     public static final String DOWNLOAD_METHOD = "download";
@@ -127,6 +128,8 @@ public class ArConstants{
     public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
     public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
     public static final String MAPPING_PRINT_PDF = "arPrintPDF";
+
+    public static final String CUSTOMER_STATEMENT_LABEL = "Customer Statement";
 
     // Agency Address
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
@@ -542,6 +545,7 @@ public class ArConstants{
         public static final String CUSTOMER_CREDIT_MEMO_DOCUMENT = "arCustomerCreditMemoDocument.do";
         public static final String CUSTOMER_INVOICE_DOCUMENT = "arCustomerInvoiceDocument.do";
         public static final String CONTRACTS_GRANTS_LETTER_OF_CREDIT_REVIEW_DOCUMENT = "arContractsGrantsLetterOfCreditReviewDocument.do";
+        public static final String CUSTOMER_STATEMENT = "arCustomerStatement.do";
     }
 
     public static class ContractsAndGrantsCategorySections {

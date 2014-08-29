@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Properties;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +31,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.util.UrlFactory;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -76,50 +79,40 @@ public class CustomerStatementAction extends KualiAction {
 
         HashMap<String, String> params = new HashMap<String, String>();
         if(StringUtils.isNotBlank(chartCode)) {
-            params.put("chartCode", chartCode);
+            params.put(ArPropertyConstants.CustomerStatementFields.CHART_CODE, chartCode);
+            request.setAttribute(ArPropertyConstants.CustomerStatementFields.CHART_CODE, chartCode);
         }
         if(StringUtils.isNotBlank(orgCode)) {
-            params.put("orgCode", orgCode);
+            params.put(ArPropertyConstants.CustomerStatementFields.ORG_CODE, orgCode);
+            request.setAttribute(ArPropertyConstants.CustomerStatementFields.ORG_CODE, orgCode);
         }
         if(StringUtils.isNotBlank(customerNumber)) {
-            params.put("customerNumber", customerNumber);
+            params.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+            request.setAttribute(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         }
         if(StringUtils.isNotBlank(accountNumber)) {
-            params.put("accountNumber", accountNumber);
+            params.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+            request.setAttribute(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         }
         if(StringUtils.isNotBlank(statementFormat)) {
-            params.put("statementFormat", statementFormat);
+            params.put(ArPropertyConstants.CustomerStatementFields.STATEMENT_FORMAT, statementFormat);
         } else {
-            params.put("statementFormat", "Summary");
+            params.put(ArPropertyConstants.CustomerStatementFields.STATEMENT_FORMAT, ArConstants.STATEMENT_FORMAT_SUMMARY);
         }
         if(StringUtils.isNotBlank(includeZeroBalanceCustomers)) {
-            params.put("includeZeroBalanceCustomers", includeZeroBalanceCustomers);
+            params.put(ArPropertyConstants.CustomerStatementFields.INCLUDE_ZERO_BALANCE_CUSTOMERS, includeZeroBalanceCustomers);
         } else {
-            params.put("includeZeroBalanceCustomers", "No");
+            params.put(ArPropertyConstants.CustomerStatementFields.INCLUDE_ZERO_BALANCE_CUSTOMERS, ArConstants.INCLUDE_ZERO_BALANCE_NO);
         }
 
-        String methodToCallPrintPDF = "printStatementPDF";
-        String methodToCallStart = "start";
-        String printPDFUrl = getUrlForPrintStatement(basePath, methodToCallPrintPDF, params);
-        String displayTabbedPageUrl = getUrlForPrintStatement(basePath, methodToCallStart, params);
+        String printPDFUrl = getUrlForPrintStatement(basePath, ArConstants.PRINT_STATEMENT_PDF_METHOD, params);
+        String displayTabbedPageUrl = getUrlForPrintStatement(basePath, KFSConstants.START_METHOD, params);
 
-        request.setAttribute("printPDFUrl", printPDFUrl);
-        request.setAttribute("displayTabbedPageUrl", displayTabbedPageUrl);
-        if(!StringUtils.isBlank(chartCode)) {
-            request.setAttribute("chartCode", chartCode);
-        }
-        if(!StringUtils.isBlank(orgCode)) {
-            request.setAttribute("orgCode", orgCode);
-        }
-        if(!StringUtils.isBlank(customerNumber)) {
-            request.setAttribute("customerNumber", customerNumber);
-        }
-        if(!StringUtils.isBlank(accountNumber)) {
-            request.setAttribute("accountNumber", accountNumber);
-        }
-        request.setAttribute("printLabel", "Customer Statement");
-        return mapping.findForward("arPrintPDF");
+        request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printPDFUrl);
+        request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayTabbedPageUrl);
+        request.setAttribute(ArPropertyConstants.PRINT_LABEL, ArConstants.CUSTOMER_STATEMENT_LABEL);
 
+        return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
     }
 
     public ActionForward printStatementPDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -264,14 +257,12 @@ public class CustomerStatementAction extends KualiAction {
      * @return The URL
      */
     private String getUrlForPrintStatement(String basePath, String methodToCall, HashMap<String, String> params) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arCustomerStatement.do?methodToCall=").append(methodToCall);
-        Set<String> keys = params.keySet();
-        for(String key : keys) {
-            result.append("&").append(key).append("=").append(params.get(key));
-        }
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.CUSTOMER_STATEMENT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.putAll(params);
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
 }

@@ -15,35 +15,37 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected DateTimeService dateTimeService;
+    protected LookupService lookupService;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
 
     /**
@@ -134,13 +137,12 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
         String invoiceDateFromString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_FROM);
         String invoiceDateToString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO);
+        String invoiceDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(invoiceDateFromString, invoiceDateToString, true);
+
         String responsibilityId = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.CG_ACCT_RESP_ID);
 
-        String endDateFromString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.AWARD_END_DATE_FROM);
-        String endDateToString = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.AWARD_END_DATE_TO);
-
-        java.sql.Date awardEndFromDate = null;
-        java.sql.Date awardEndToDate = null;
+        String awardEndFromDate = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.AWARD_END_DATE_FROM);
+        String awardEndToDate = (String) fieldValues.get(ArPropertyConstants.ContractsGrantsAgingReportFields.AWARD_END_DATE_TO);
 
         Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
         fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
@@ -187,58 +189,32 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
             fieldValuesForInvoice.put(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES+"."+KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         }
 
-
-        if (!StringUtils.isBlank(endDateFromString)) {
-            awardEndFromDate = getDateTimeService().convertToSqlDate(endDateFromString);
+        if (!StringUtils.isBlank(invoiceDateCriteria)) {
+            fieldValuesForInvoice.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, invoiceDateCriteria);
         }
 
-        if (!StringUtils.isBlank(endDateToString)) {
-            awardEndToDate = getDateTimeService().convertToSqlDate(endDateToString);
+        final String sourceTotalCriteria = getAmountCriteria(invoiceAmountFrom, invoiceAmountTo);
+        if (!StringUtils.isBlank(sourceTotalCriteria)) {
+            fieldValuesForInvoice.put(KFSPropertyConstants.SOURCE_TOTAL, sourceTotalCriteria);
         }
+
+        String billingBeginDateString = null;
+        if (begin != null) {
+            billingBeginDateString = getDateTimeService().toDateString(begin);
+        }
+        String billingEndDateString = null;
+        if (end != null) {
+            billingEndDateString = getDateTimeService().toDateString(end);
+        }
+        final String billingDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(billingBeginDateString, billingEndDateString, false);
+        if (!StringUtils.isBlank(billingDateCriteria)) {
+            fieldValuesForInvoice.put(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, billingDateCriteria);
+        }
+
+        final Set<Long> awardIds = lookupBillingAwards(awardDocumentNumber, awardEndFromDate, awardEndToDate, fundManager);
 
         // here put all criterias and find the docs
-        Map<String, ContractsGrantsInvoiceDocument> documents = new HashMap<String, ContractsGrantsInvoiceDocument>();
-        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = retrieveAllCGInvoicesByCriteriaAndBillingDateRange(fieldValuesForInvoice, begin, end);
-
-        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
-            for (ContractsGrantsInvoiceDocument document : contractsGrantsInvoiceDocs) {
-                documents.put(document.getDocumentNumber(), document);
-            }
-        }
-
-        // filter Billing Org
-        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
-            Map<String, Boolean> billerOrgCache = new HashMap<String, Boolean>();
-            boolean isBiller = false;
-            for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
-                // biller false remove from the list
-                if (!hasCGBillingOrganization(document, billerOrgCache)) {
-                    iter.remove();
-                }
-            }
-        }
-
-        // filter by award
-        if(awardDocumentNumber != null || awardEndFromDate != null || awardEndToDate != null || fundManager != null) {
-            contractsGrantsInvoiceDocs = filterContractsGrantsDocsAccordingToAward(contractsGrantsInvoiceDocs, awardDocumentNumber, awardEndFromDate, awardEndToDate, fundManager);
-        }
-
-        // filter by amount from and to
-        boolean includeFromAmt = false;
-        if (!StringUtils.isBlank(invoiceAmountFrom)) {
-            includeFromAmt = true;
-        }
-
-        boolean includeToAmt = false;
-        if (!StringUtils.isBlank(invoiceAmountTo)) {
-            includeToAmt = true;
-        }
-
-        // filter invoice according to amount
-        if (includeFromAmt || includeToAmt) {
-            contractsGrantsInvoiceDocs = filterInvoicesAccordingToAmount(contractsGrantsInvoiceDocs, includeFromAmt, includeToAmt, invoiceAmountFrom, invoiceAmountTo);
-        }
+        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = getLookupService().findCollectionBySearch(ContractsGrantsInvoiceDocument.class, fieldValuesForInvoice);
 
         // filter by collector and user performing the search
         String collectorPrincipalId = null;
@@ -253,7 +229,8 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = iter.next();
-                if (StringUtils.isNotEmpty(collectorPrincipalId)) {
+                if (awardIds == null || (!ObjectUtils.isNull(document.getAward()) && awardIds.contains(document.getAward().getProposalNumber()))) {
+                } else if (StringUtils.isNotEmpty(collectorPrincipalId)) {
                     if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
                         iter.remove();
                     }
@@ -262,12 +239,6 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
                 }
             }
         }
-
-        // filter by invoice date
-        invoiceDateFromString = (ObjectUtils.isNull(invoiceDateFromString)) ? "" : invoiceDateFromString;
-        invoiceDateToString = (ObjectUtils.isNull(invoiceDateToString)) ? "" : invoiceDateToString;
-
-        contractsGrantsInvoiceDocs = filterInvoicesAccordingToInvoiceDate(contractsGrantsInvoiceDocs, invoiceDateFromString, invoiceDateToString);
 
         // prepare map of cgDocs by customer.
         List<ContractsGrantsInvoiceDocument> cgInvoiceDocs = null;
@@ -292,145 +263,63 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     }
 
     /**
-     * This method retrieves all CG invoice document that match the given field values and the date range.
-     *
-     * @param fieldValues field values to match against
-     * @param beginningInvoiceBillingDate Beginning invoice billing date
-     * @param endingInvoiceBillingDate Ending invoice billing date
-     * @return a collection of CG Invoices that match the given parameters
+     * Generates a Set of proposal ids for awards which match the given criteria
+     * @param awardDocumentNumber the document number of the award
+     * @param awardEndFromDate the award ending date of the award
+     * @param awardEndToDate the award ending date of the award
+     * @param fundManager the principal name of the fund manager
+     * @return a Set of Award ids to filter on, or null if no search was actually completed
      */
-    protected Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteriaAndBillingDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoiceBillingDate) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = getContractsGrantsInvoiceDocumentService().getMatchingInvoicesByCollectionAndDateRange(fieldValues, beginningInvoiceBillingDate, endingInvoiceBillingDate);
-        if (CollectionUtils.isEmpty(cgInvoices)) {
-            return null;
+    protected Set<Long> lookupBillingAwards(String awardDocumentNumber, String awardEndFromDate, String awardEndToDate, String fundManager) {
+        if (StringUtils.isBlank(awardDocumentNumber) && StringUtils.isBlank(awardEndFromDate) && StringUtils.isBlank(awardEndToDate) && StringUtils.isBlank(fundManager)) {
+            return null; // nothing to search on?  then return null to note that no search was completed
         }
-        return cgInvoices;
-    }
 
-    /**
-     * Determines if the given contracts and grants invoice has an organization set up for c&g billing
-     * @param document the CINV document to check
-     * @param billerOrgCache a cache of all found billing organizations
-     * @return true if the given document has an organization involved in c&g billing
-     */
-    protected boolean hasCGBillingOrganization(ContractsGrantsInvoiceDocument document, Map<String, Boolean> billerOrgCache) {
-        boolean isBiller = false;
-        final String org = document.getBilledByChartOfAccCodeAndOrgCode();
-        if (!StringUtils.isBlank(org)) {
-            // find in map
-            if (billerOrgCache.containsKey(org)) {
-                isBiller = billerOrgCache.get(org);
-            }
-            else {
-                isBiller = false;
-                Map<String, String> orgCriteria = new HashMap<>();
-                orgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, document.getBillByChartOfAccountCode());
-                orgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, document.getBilledByOrganizationCode());
-                // retrive Organization
-                OrganizationOptions orgOp = businessObjectService.findByPrimaryKey(OrganizationOptions.class, orgCriteria);
-                if (orgOp != null) {
-                    isBiller = orgOp.isCgBillerIndicator();
-                    billerOrgCache.put(org, isBiller);
-                }
+        final Set<String> fundManagerIds = getContractsGrantsReportHelperService().lookupPrincipalIds(fundManager);
 
-            }
-        }
-        return isBiller;
-    }
-
-    /**
-     * This method filters the Contracts Grants Invoice doc by Award related details
-     *
-     * @param contractsGrantsInvoiceDocs
-     * @param awardDocumentNumber
-     * @param awardEndDate
-     * @param fundManager
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
-     */
-    @SuppressWarnings("unchecked")
-    protected Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAward(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String awardDocumentNumber, java.sql.Date awardEndFromDate, java.sql.Date awardEndToDate, String fundManager) {
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
-            for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                boolean considerAwardDocNumber = (ObjectUtils.isNotNull(awardDocumentNumber) && !StringUtils.isEmpty(awardDocumentNumber)) ? false : true;
-                boolean considerFundMngr = (ObjectUtils.isNotNull(fundManager) && !StringUtils.isEmpty(fundManager)) ? false : true;
-                boolean considerAwardEndDate = false;
-                ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
-                considerAwardDocNumber = !considerAwardDocNumber ? awardDocumentNumber.equals(document.getAward().getAwardDocumentNumber()) : considerAwardDocNumber;
-
-                if (!ObjectUtils.isNull(document.getAward())) {
-                    considerAwardEndDate = includeInvoiceAccordingToAwardDate(document.getAward().getAwardEndingDate(), awardEndFromDate, awardEndToDate);
-                }
-
-                considerFundMngr = !considerFundMngr ? fundManager.equalsIgnoreCase(document.getAward().getAwardPrimaryFundManager().getFundManager().getPrincipalId()) : considerFundMngr;
-                if (!(considerAwardDocNumber && considerFundMngr && considerAwardEndDate)) {
-                    iter.remove();
-                }
-            }
-        }
-        return contractsGrantsInvoiceDocs;
-    }
-
-    /*protected Set<Long> lookupBillingAwards(String awardDocumentNumber, java.sql.Date awardEndFromDate, java.sql.Date awardEndToDate, String fundManager) {
         Map<String, String> fieldValues = new HashMap<>();
-        fieldValues.put(KFSPropertyConstants.AWARD_DOCUMENT_NUMBER, awardDocumentNumber);
-
-
-    }*/
-
-    /**
-     * This method calculates if given invoice has award end date within the given award date range.
-     *
-     * @param awardDate
-     * @param awardStartDate
-     * @param awardEndDate
-     * @return Returns true if award end date is within the given range.
-     */
-    protected boolean includeInvoiceAccordingToAwardDate(Date awardDate, Date awardStartDate, Date awardEndDate) {
-        boolean includeInvoice = true;
-        if (ObjectUtils.isNotNull(awardStartDate) && ObjectUtils.isNotNull(awardEndDate)) {
-            includeInvoice = awardDate.compareTo(awardStartDate) >= 0 && awardDate.compareTo(awardEndDate) <= 0;
+        if (!StringUtils.isBlank(awardDocumentNumber)) {
+            fieldValues.put(KFSPropertyConstants.AWARD_DOCUMENT_NUMBER, awardDocumentNumber);
         }
-        else {
-            if (ObjectUtils.isNotNull(awardStartDate)) {
-                includeInvoice = awardDate.compareTo(awardStartDate) >= 0;
-            }
-            if (ObjectUtils.isNotNull(awardEndDate) && includeInvoice) {
-                includeInvoice = awardDate.compareTo(awardEndDate) <= 0;
+
+        final String awardEnd = getContractsGrantsReportHelperService().fixDateCriteria(awardEndFromDate, awardEndToDate, false);
+        if (!StringUtils.isBlank(awardEnd)) {
+            fieldValues.put(KFSPropertyConstants.AWARD_ENDING_DATE, awardEnd);
+        }
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+
+        final List<? extends ContractsAndGrantsAward> awards = getContractsAndGrantsModuleBillingService().lookupAwards(fieldValues, true);
+
+        Set<Long> billingAwardIds = new HashSet<>();
+        for (ContractsAndGrantsAward award : awards) {
+            if (award instanceof ContractsAndGrantsBillingAward) {
+                final ContractsAndGrantsBillingAward cgbAward = (ContractsAndGrantsBillingAward)award;
+                if (ObjectUtils.isNull(cgbAward.getAwardPrimaryFundManager()) || fundManagerIds.isEmpty() || fundManagerIds.contains(cgbAward.getAwardPrimaryFundManager().getPrincipalId())) {
+                    billingAwardIds.add(cgbAward.getProposalNumber());
+                }
             }
         }
-        return includeInvoice;
+        return billingAwardIds;
     }
 
     /**
-     * This method filters invoices according to the amount
-     *
-     * @param contractsGrantsInvoiceDocuments
-     * @param includeFromAmt
-     * @param includeToAmt
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
+     * Turns a from amount and to amount into a lookupable criteria
+     * @param fromAmount the lower bound amount
+     * @param toAmount the upper bound amount
+     * @return a lookupable criteria
      */
-    protected Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToAmount(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, boolean includeFromAmt, boolean includeToAmt, String invoiceAmountFrom, String invoiceAmountTo) {
-        List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        for (ContractsGrantsInvoiceDocument doc : contractsGrantsInvoiceDocuments) {
-            if (includeFromAmt && includeToAmt) {
-                if (doc.getSourceTotal().compareTo(new KualiDecimal(invoiceAmountFrom)) >= 0 && doc.getSourceTotal().compareTo(new KualiDecimal(invoiceAmountTo)) <= 0) {
-                    filteredInvoices.add(doc);
-                }
+    protected String getAmountCriteria(String fromAmount, String toAmount) {
+        if (!StringUtils.isBlank(fromAmount)) {
+            if (!StringUtils.isBlank(toAmount)) {
+                return fromAmount+SearchOperator.BETWEEN.op()+toAmount;
+            } else {
+                return SearchOperator.GREATER_THAN_EQUAL.op()+fromAmount;
             }
-            else if (includeFromAmt) {
-                if (doc.getSourceTotal().compareTo(new KualiDecimal(invoiceAmountFrom)) >= 0) {
-                    filteredInvoices.add(doc);
-                }
-            }
-            else {
-                if (doc.getSourceTotal().compareTo(new KualiDecimal(invoiceAmountTo)) <= 0) {
-                    filteredInvoices.add(doc);
-                }
-            }
+        } else if (!StringUtils.isBlank(toAmount)) {
+            return SearchOperator.LESS_THAN_EQUAL.op()+toAmount;
         }
-        return filteredInvoices;
+        return null;
     }
-
 
     /**
      * This method is used to get the Invoice Details by account number and chart code
@@ -449,28 +338,6 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
             args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
         }
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }
-
-    /**
-     * This method filters invoices according to the Invoice date
-     *
-     * @param contractsGrantsInvoiceDocuments
-     * @param includeFromAmt
-     * @param includeToAmt
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
-     */
-    protected Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToInvoiceDate(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, String invoiceFromDateString, String invoiceToDateString) {
-        List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        Date docInvoiceDate = null;
-        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocuments)) {
-            for (ContractsGrantsInvoiceDocument doc : contractsGrantsInvoiceDocuments) {
-                docInvoiceDate = new Date(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
-                if (ContractsGrantsReportUtils.isDateFieldInRange(invoiceFromDateString, invoiceToDateString, docInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO)) {
-                    filteredInvoices.add(doc);
-                }
-            }
-        }
-        return filteredInvoices;
     }
 
     /**
@@ -545,5 +412,13 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
     public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
         this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
+    }
+
+    public LookupService getLookupService() {
+        return lookupService;
+    }
+
+    public void setLookupService(LookupService lookupService) {
+        this.lookupService = lookupService;
     }
 }

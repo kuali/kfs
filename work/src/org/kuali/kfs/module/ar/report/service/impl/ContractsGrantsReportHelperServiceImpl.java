@@ -21,10 +21,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRParameter;
@@ -46,6 +49,9 @@ import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -63,6 +69,7 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
     protected ReportGenerationService reportGenerationService;
     protected ConfigurationService configurationService;
     protected DateTimeService dateTimeService;
+    protected PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder, org.kuali.kfs.sys.report.ReportInfo, java.io.ByteArrayOutputStream)
@@ -220,6 +227,32 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
         return null;
     }
 
+
+    /**
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#lookupPrincipalIds(java.lang.String)
+     */
+    @Override
+    public Set<String> lookupPrincipalIds(String principalName) {
+        if (org.apache.commons.lang.StringUtils.isBlank(principalName)) {
+            return new HashSet<String>();
+        }
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, principalName);
+        final Collection<Person> peoples = getPersonService().findPeople(fieldValues);
+
+        if (peoples == null || peoples.isEmpty()) {
+            return new HashSet<String>();
+        }
+
+        Set<String> principalIdsSet = new HashSet<String>();
+        for (Person person : peoples) {
+            principalIdsSet.add(person.getPrincipalId());
+        }
+
+        return principalIdsSet;
+    }
+
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -257,6 +290,14 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     @Override

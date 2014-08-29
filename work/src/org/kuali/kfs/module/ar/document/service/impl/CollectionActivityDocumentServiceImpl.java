@@ -254,6 +254,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     }
 
     @Override
+    @Transactional
     public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber) {
         List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) getInvoicePaidAppliedService().getInvoicePaidAppliedsForInvoice(documentNumber);
         java.sql.Date paymentDate = null;
@@ -276,6 +277,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrievePaymentAmountByDocumentNumber(java.lang.String)
      */
     @Override
+    @Transactional
     public KualiDecimal retrievePaymentAmountByDocumentNumber(String documentNumber) {
         KualiDecimal paymentAmount = KualiDecimal.ZERO;
         Collection<InvoicePaidApplied> invoicePaidApplieds = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(documentNumber);

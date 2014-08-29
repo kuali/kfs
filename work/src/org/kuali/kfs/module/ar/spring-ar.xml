@@ -900,6 +900,9 @@
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
+		<property name="lookupService">
+			<ref bean="lookupService"/>
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsMilestoneReportLookupableHelperService" parent="contractsGrantsMilestoneReportLookupableHelperService-parentBean"/>
@@ -2370,6 +2373,7 @@
 		<property name="reportGenerationService" ref="reportGenerationService"/>
 		<property name="configurationService" ref="configurationService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="personService" ref="personService"/>
 	</bean>
 	
 	<bean id="contractsGrantsSuspendedInvoiceSummaryReportBuilderService" parent="contractsGrantsSuspendedInvoiceSummaryReportBuilderService-parentBean"/>

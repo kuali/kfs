@@ -2599,15 +2599,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return getContractsGrantsInvoiceDocumentDao().getMatchingInvoicesByCollection(fieldValues);
     }
 
-    /**
-     * Defers to DAO to lookup C&G invoices within date range and limited by given Map of Criteria
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getMatchingInvoicesByCollectionAndDateRange(java.util.Map, java.util.Date, java.util.Date)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollectionAndDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoiceBillingDate) {
-        return getContractsGrantsInvoiceDocumentDao().getMatchingInvoicesByCollectionAndDateRange(fieldValues, beginningInvoiceBillingDate, endingInvoiceBillingDate);
-    }
-
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
     }

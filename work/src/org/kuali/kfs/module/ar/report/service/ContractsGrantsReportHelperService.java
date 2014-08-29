@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.report.service;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.sys.report.ReportInfo;
@@ -100,4 +101,11 @@ public interface ContractsGrantsReportHelperService {
      * @return the date criteria, or null if nothing could be constructed
      */
     public String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime);
+
+    /**
+     * Does a lookup on the given principal name and joins the principal ids of any matches together as an or'd String, ready for another lookup
+     * @param principalName principalName to find matches for
+     * @return a Set of matching principalIds
+     */
+    public Set<String> lookupPrincipalIds(String principalName);
 }

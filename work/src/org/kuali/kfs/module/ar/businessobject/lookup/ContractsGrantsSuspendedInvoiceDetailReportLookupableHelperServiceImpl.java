@@ -156,7 +156,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         // awardFundManager.principalName should be award.awardPrimaryFundManager.fundManager.principalId
         final String fundManagerPrincipalName = (String)lookupFields.get(ArConstants.AWARD_FUND_MANAGER+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
-        final Set<String> fundManagerPrincipalIds = lookupPrincipalIds(fundManagerPrincipalName);
+        final Set<String> fundManagerPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(fundManagerPrincipalName);
         if (!fundManagerPrincipalIds.isEmpty()) {
             final String joinedFundManagerPrincipalIds = StringUtils.join(fundManagerPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_FUND_MANAGERS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedFundManagerPrincipalIds);
@@ -164,7 +164,7 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
 
         // awardProjectDirector.principalName should be award.awardPrimaryProjectDirector.projectDirector.principalId
         final String projectDirectorPrincipalName = (String)lookupFields.get(ArConstants.AWARD_PROJECT_DIRECTOR+"."+KimConstants.UniqueKeyConstants.PRINCIPAL_NAME);
-        final Set<String> projectDirectorPrincipalIds = lookupPrincipalIds(projectDirectorPrincipalName);
+        final Set<String> projectDirectorPrincipalIds = getContractsGrantsReportHelperService().lookupPrincipalIds(projectDirectorPrincipalName);
         if (!projectDirectorPrincipalIds.isEmpty()) {
             final String joinedProjectDirectorPrincipalIds = StringUtils.join(projectDirectorPrincipalIds, SearchOperator.OR.op());
             awardLookupFields.put(ArConstants.AWARD_PROJECT_DIRECTORS+"."+KFSPropertyConstants.PRINCIPAL_ID, joinedProjectDirectorPrincipalIds);
@@ -219,32 +219,6 @@ public class ContractsGrantsSuspendedInvoiceDetailReportLookupableHelperServiceI
         }
         final String proposalIdsForLookup = StringUtils.join(proposalIdsSet, SearchOperator.OR.op());
         return proposalIdsForLookup;
-    }
-
-    /**
-     * Does a lookup on the given principal name and joins the principal ids of any matches together as an or'd String, ready for another lookup
-     * @param principalName principalName to find matches for
-     * @return a Set of matching principalIds
-     */
-    protected Set<String> lookupPrincipalIds(String principalName) {
-        if (StringUtils.isBlank(principalName)) {
-            return new HashSet<String>();
-        }
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, principalName);
-        final Collection<Person> peoples = getPersonService().findPeople(fieldValues);
-
-        if (peoples == null || peoples.isEmpty()) {
-            return new HashSet<String>();
-        }
-
-        Set<String> principalIdsSet = new HashSet<String>();
-        for (Person person : peoples) {
-            principalIdsSet.add(person.getPrincipalId());
-        }
-
-        return principalIdsSet;
     }
 
     @Override

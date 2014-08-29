@@ -301,16 +301,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues);
 
     /**
-     * This method retrieves all Invoice Documents that match the given field values.
-     *
-     * @param fieldValues for search criteria.
-     * @param beginningInvoiceBillingDate the beginning date of the date range
-     * @param endingInvoiceBillingDate the ending date of the date range
-     * @return Returns the invoices which matches the given field values.
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollectionAndDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoiceBillingDate);
-
-    /**
      * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
      *
      * @return Set<String> objectCodes

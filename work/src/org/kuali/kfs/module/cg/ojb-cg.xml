@@ -141,7 +141,7 @@
 		<field-descriptor name="letterOfCreditFundCode" column="CG_LTRCR_FND_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="fundDescription" column="CG_LTRCR_FND_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditFundDescription" column="CG_LTRCR_FND_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundAmount" column="CG_LTRCR_AMT" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />

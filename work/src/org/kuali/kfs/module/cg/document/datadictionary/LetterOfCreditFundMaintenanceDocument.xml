@@ -53,7 +53,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundCode"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="fundDescription"
+				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundDescription"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundGroupCode"
 					p:required="true" />

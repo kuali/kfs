@@ -25,12 +25,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund, MutableInactivatable {
 
     private String letterOfCreditFundCode;
-    private String fundDescription;
+    private String letterOfCreditFundDescription;
 
     public LetterOfCreditFund() { }
-    public LetterOfCreditFund(String letterOfCreditFundCode, String fundDescription) {
+    public LetterOfCreditFund(String letterOfCreditFundCode, String letterOfCreditFundDescription) {
         this.letterOfCreditFundCode = letterOfCreditFundCode;
-        this.fundDescription = fundDescription;
+        this.letterOfCreditFundDescription = letterOfCreditFundDescription;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund,
     }
 
     @Override
-    public String getFundDescription() {
-        return fundDescription;
+    public String getLetterOfCreditFundDescription() {
+        return letterOfCreditFundDescription;
     }
 
-    public void setFundDescription(String fundDescription) {
-        this.fundDescription = fundDescription;
+    public void setLetterOfCreditFundDescription(String letterOfCreditFundDescription) {
+        this.letterOfCreditFundDescription = letterOfCreditFundDescription;
     }
 
     @Override

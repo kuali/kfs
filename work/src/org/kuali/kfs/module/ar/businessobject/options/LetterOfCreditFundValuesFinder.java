@@ -42,7 +42,7 @@ public class LetterOfCreditFundValuesFinder extends KeyValuesBase {
 
         for (ContractsAndGrantsLetterOfCreditFund code : codes) {
             if (code.isActive()) {
-                labels.add(new ConcreteKeyValue(code.getLetterOfCreditFundCode(), code.getLetterOfCreditFundCode() + " - " + code.getFundDescription()));
+                labels.add(new ConcreteKeyValue(code.getLetterOfCreditFundCode(), code.getLetterOfCreditFundCode() + " - " + code.getLetterOfCreditFundDescription()));
             }
         }
 

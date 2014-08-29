@@ -24,10 +24,9 @@
 		<property name="attributes">
 			<list>
 				<ref bean="LetterOfCreditFund-letterOfCreditFundCode" />
-				<ref bean="LetterOfCreditFund-fundDescription" />
+				<ref bean="LetterOfCreditFund-letterOfCreditFundDescription" />
 				<ref bean="LetterOfCreditFund-letterOfCreditFundGroupCode" />
-				<ref
-					bean="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
+				<ref bean="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 				<ref bean="LetterOfCreditFund-letterOfCreditFundAmount" />
 				<ref bean="LetterOfCreditFund-letterOfCreditFundStartDate" />
 				<ref bean="LetterOfCreditFund-letterOfCreditFundExpirationDate" />
@@ -60,15 +59,14 @@
 		</property>
 	</bean>
 
-	<bean id="LetterOfCreditFund-fundDescription" parent="LetterOfCreditFund-fundDescription-parentBean" />
+	<bean id="LetterOfCreditFund-letterOfCreditFundDescription" parent="LetterOfCreditFund-letterOfCreditFundDescription-parentBean" />
 
-
-	<bean id="LetterOfCreditFund-fundDescription-parentBean" abstract="true"
+	<bean id="LetterOfCreditFund-letterOfCreditFundDescription-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="fundDescription" />
+		<property name="name" value="letterOfCreditFundDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="LOC Fund Description" />
-		<property name="shortLabel" value="fundDescription" />
+		<property name="shortLabel" value="LOCFndDesc" />
 		<property name="maxLength" value="45" />
 		<property name="required" value="false" />
 		<property name="control">
@@ -167,7 +165,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
-							<bean parent="FieldDefinition" p:attributeName="fundDescription" />
+							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundDescription" />
 							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
 							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 							<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundAmount" />
@@ -205,10 +203,9 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundCode" />
-				<bean parent="FieldDefinition" p:attributeName="fundDescription" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundDescription" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" p:noInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" p:noInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundAmount" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundStartDate" />
 				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundExpirationDate" />

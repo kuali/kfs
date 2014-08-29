@@ -58,7 +58,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
     protected PersonService personService;
     protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     protected DateTimeService dateTimeService;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
 
     /**
      * Gets the businessObjectService attribute.
@@ -141,8 +141,6 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
         java.sql.Date awardEndFromDate = null;
         java.sql.Date awardEndToDate = null;
-        java.sql.Date invoiceFromDate = null;
-        java.sql.Date invoiceToDate = null;
 
         Map<String,String> fieldValuesForInvoice = new HashMap<String,String>();
         fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");

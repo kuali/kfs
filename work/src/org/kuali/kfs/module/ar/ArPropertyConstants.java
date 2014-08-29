@@ -535,6 +535,8 @@ public class ArPropertyConstants{
 
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
     public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
+    public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
+    public static final String CATEGORY_CODE = "categoryCode";
     public static final String INVOICE_TYPE = "invoiceType";
     public static final String AGE_IN_DAYS = "ageInDays";
     public static final String AWARD = "award";

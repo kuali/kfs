@@ -62,7 +62,7 @@ public interface ContractsGrantsInvoiceReportService {
      * @throws DocumentException
      * @throws IOException
      */
-    public byte[] generateListOfInvoicesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws FileNotFoundException, DocumentException, IOException;
+    public byte[] combineInvoicePdfs(Collection<ContractsGrantsInvoiceDocument> list) throws FileNotFoundException, DocumentException, IOException;
 
     /**
      * This method generates a combined pdf files for the envelopes for Mailing invoice reports.
@@ -72,7 +72,7 @@ public interface ContractsGrantsInvoiceReportService {
      * @throws DocumentException
      * @throws IOException
      */
-    public byte[] generateListOfInvoicesEnvelopesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException;
+    public byte[] combineInvoicePdfEnvelopes(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException;
 
     /**
      * This method is used to generate CSV file for Contracts and Grants LOC review document.
@@ -80,5 +80,5 @@ public interface ContractsGrantsInvoiceReportService {
      * @param contractsGrantsLOCReviewDocument
      * @return Byte array is returned so a file is not created on the server.
      */
-    public byte[] generateCSVToExport(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument);
+    public byte[] convertLetterOfCreditReviewToCSV(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument);
 }

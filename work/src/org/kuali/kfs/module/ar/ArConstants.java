@@ -512,6 +512,12 @@ public class ArConstants{
     public static final String INVOICE_ENVELOPES_FILE_PREFIX = "InvoiceEnvelopes-";
     public static final String INVOICE_ZIP_FILE_PREFIX = "Invoice-report";
 
+    // federal financial report
+    public static final String FF_425_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425";
+    public static final String FF_425A_TEMPLATE_NM = "FEDERAL_FINANCIAL_FORM_425A";
+    public static final String FEDERAL_FORM_425 = "425";
+    public static final String FEDERAL_FORM_425A = "425A";
+
     public static class ReportBuilderDataServiceBeanNames {
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_SUMMARY = "contractsGrantsSuspendedInvoiceSummaryReportBuilderService";
         public static final String CONTRACTS_GRANTS_AGING = "contractsGrantsAgingReportBuilderService";

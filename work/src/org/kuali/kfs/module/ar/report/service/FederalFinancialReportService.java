@@ -21,8 +21,6 @@ package org.kuali.kfs.module.ar.report.service;
  * Services to support the Federal Financial Report
  */
 public interface FederalFinancialReportService {
-    public static final Object FEDERAL_FORM_425 = "425";
-    public static final Object FEDERAL_FORM_425A = "425A";
     public static final String FINANCIAL_FORM_REQUIRED = "Please select a Financial Form to generate.";
     public static final String FISCAL_YEAR_AND_PERIOD_REQUIRED = "Enter both period and fiscal year.";
     public static final String PROPOSAL_NUMBER_REQUIRED = "Please enter a proposal Number for SF425.";

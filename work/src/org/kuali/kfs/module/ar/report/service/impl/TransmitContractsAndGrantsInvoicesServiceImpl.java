@@ -181,8 +181,8 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
     @Override
     public boolean printInvoicesAndEnvelopesZip(Collection<ContractsGrantsInvoiceDocument> list, ByteArrayOutputStream baos) throws DocumentException, IOException {
         if (CollectionUtils.isNotEmpty(list)) {
-            byte[] envelopes = contractsGrantsInvoiceReportService.generateListOfInvoicesEnvelopesPdfToPrint(list);
-            byte[] report = contractsGrantsInvoiceReportService.generateListOfInvoicesPdfToPrint(list);
+            byte[] envelopes = contractsGrantsInvoiceReportService.combineInvoicePdfEnvelopes(list);
+            byte[] report = contractsGrantsInvoiceReportService.combineInvoicePdfs(list);
             boolean invoiceFileWritten = false;
             boolean envelopeFileWritten = false;
 

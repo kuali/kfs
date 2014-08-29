@@ -36,7 +36,7 @@ public class FederalFinancialReportServiceImpl implements FederalFinancialReport
     @Override
     public String validate(String federalForm, String proposalNumber, String fiscalYear, String reportingPeriod, String agencyNumber) {
         if (StringUtils.isNotEmpty(federalForm)) {
-            if (FEDERAL_FORM_425.equals(federalForm)) {
+            if (StringUtils.equals(ArConstants.FEDERAL_FORM_425, federalForm)) {
                 if (ObjectUtils.isNull(proposalNumber)) {
                     return PROPOSAL_NUMBER_REQUIRED;
                 }
@@ -44,7 +44,7 @@ public class FederalFinancialReportServiceImpl implements FederalFinancialReport
                     return FISCAL_YEAR_AND_PERIOD_REQUIRED;
                 }
             }
-            else if (FEDERAL_FORM_425A.equals(federalForm)) {
+            else if (StringUtils.equals(ArConstants.FEDERAL_FORM_425A, federalForm)) {
                 if (ObjectUtils.isNull(agencyNumber)) {
                     return AGENCY_REQUIRED;
                 }

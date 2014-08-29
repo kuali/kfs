@@ -50,7 +50,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
     protected PersonService personService;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
+    private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
 
     /**
      * Gets the businessObjectService attribute.

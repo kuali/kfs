@@ -104,7 +104,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         //  manually fire off the batch job
         SpringContext.getBean(CustomerInvoiceWriteoffBatchService.class).loadFiles();
 
-        customerInvoiceWriteoffLookupSummaryForm.setSentToBatchInd(true);
+        customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
 
         KNSGlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

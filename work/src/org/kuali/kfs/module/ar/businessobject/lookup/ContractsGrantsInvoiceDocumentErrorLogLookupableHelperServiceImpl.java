@@ -16,15 +16,14 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,6 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    protected ContractsGrantsReportHelperService contractsGrantsReportHelperService;
     protected DateTimeService dateTimeService;
 
     /**
@@ -131,14 +131,9 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
      */
     protected void incrementErrorDate(Map<String, String> newFieldValues, String errorDate, int index) {
         String errorDatePrefix = errorDate.substring(0, index + 2);
-        String errorDateString = errorDate.substring(index + 2);
-        try {
-            Date newDate = DateUtils.addDays(dateTimeService.convertToDate(errorDateString), 1);
-            String newDateString = errorDatePrefix + dateTimeService.toString(newDate, KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
-            newFieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ERROR_DATE_TO, newDateString);
-        }
-        catch (ParseException ex) {
-            LOG.warn("invalid date format for errorDate: " + errorDate);
+        String newDateString = contractsGrantsReportHelperService.correctEndDateForTime(errorDate.substring(index + 2));
+        if (StringUtils.isNotBlank(errorDate.substring(index + 2))) {
+            newFieldValues.put(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.ERROR_DATE_TO, errorDatePrefix + newDateString);
         }
     }
 
@@ -167,11 +162,11 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
         validateDate(awardEndingpDateFromString, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_ENDING_DATE_FROM, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_ENDING_DATE_FROM_LABEL);
         validateDate(awardEndingDateToString, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_ENDING_DATE_TO, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_ENDING_DATE_TO_LABEL);
 
-        if (!KualiDecimal.isNumeric(awardTotalAmount)) {
+        if (StringUtils.isNotBlank(awardTotalAmount) && !KualiDecimal.isNumeric(awardTotalAmount)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_TOTAL_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.AWARD_TOTAL_AMOUNT_LABEL);
         }
 
-        if (!KualiDecimal.isNumeric(cumulativeExpensesAmount)) {
+        if (StringUtils.isNotBlank(cumulativeExpensesAmount) && !KualiDecimal.isNumeric(cumulativeExpensesAmount)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.CUMULATIVE_EXPENSES_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.ContractsGrantsInvoiceDocumentErrorLogLookupFields.CUMULATIVE_EXPENSES_AMOUNT_LABEL);
         }
 
@@ -208,6 +203,16 @@ public class ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl e
             }
         }
     }
+
+    public ContractsGrantsReportHelperService getContractsGrantsReportHelperService() {
+        return contractsGrantsReportHelperService;
+    }
+
+
+    public void setContractsGrantsReportHelperService(ContractsGrantsReportHelperService contractsGrantsReportHelperService) {
+        this.contractsGrantsReportHelperService = contractsGrantsReportHelperService;
+    }
+
 
     public DateTimeService getDateTimeService() {
         return dateTimeService;

@@ -611,6 +611,9 @@
 
 	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
+		<property name="contractsGrantsReportHelperService">
+			<ref bean="contractsGrantsReportHelperService" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

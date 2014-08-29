@@ -275,7 +275,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_TO_LABEL);
             }
         }
-        if (!KualiDecimal.isNumeric(invoiceAmount)) {
+        if (StringUtils.isNotBlank(invoiceAmount) && !KualiDecimal.isNumeric(invoiceAmount)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.INVOICE_AMOUNT_LABEL);
         }
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {

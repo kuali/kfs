@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
@@ -38,12 +41,14 @@ import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.UrlFactory;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -251,18 +256,15 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = getApplicationBaseUrl();
         String docId = ((CustomerCreditMemoDocumentForm) form).getDocument().getDocumentNumber();
-        String methodToCallPrintCreditMemoPDF = "printCreditMemoPDF";
-        String methodToCallDocHandler = "docHandler";
-        String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallPrintCreditMemoPDF);
-        String displayInvoiceTabbedPageUrl = getUrlForPrintCreditMemo(basePath, docId, methodToCallDocHandler);
-
-        request.setAttribute("printPDFUrl", printCreditMemoPDFUrl);
-        request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
-        request.setAttribute("docId", docId);
+        String printCreditMemoPDFUrl = getUrlForPrintCreditMemo(basePath, docId, ArConstants.PRINT_CREDIT_MEMO_PDF_METHOD);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintCreditMemo(basePath, docId, KFSConstants.DOC_HANDLER_METHOD);
+        
+        request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printCreditMemoPDFUrl);
+        request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayInvoiceTabbedPageUrl);
+        request.setAttribute(KFSConstants.PARAMETER_DOC_ID, docId);
         String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_CREDIT_MEMO);
-        request.setAttribute("printLabel", label);
-        return mapping.findForward("arPrintPDF");
-
+        request.setAttribute(ArPropertyConstants.PRINT_LABEL, label);
+        return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
     }
 
     /**
@@ -369,14 +371,13 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      * @return The URL
      */
     protected String getUrlForPrintCreditMemo(String basePath, String docId, String methodToCall) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arCustomerCreditMemoDocument.do?methodToCall=");
-        result.append(methodToCall);
-        result.append("&docId=");
-        result.append(docId);
-        result.append("&command=displayDocSearchView");
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.CUSTOMER_CREDIT_MEMO_DOCUMENT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KFSConstants.PARAMETER_DOC_ID, docId);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.ACTIONLIST_COMMAND);
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
 

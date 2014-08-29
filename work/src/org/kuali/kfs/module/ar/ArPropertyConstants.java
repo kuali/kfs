@@ -502,10 +502,10 @@ public class ArPropertyConstants{
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
-    public static final String  INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
-    public static final String  SEQUENCE_NUMBER= "sequenceNumber";
-    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
-    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
+    public static final String INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
+    public static final String SEQUENCE_NUMBER= "sequenceNumber";
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
     public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
@@ -523,4 +523,7 @@ public class ArPropertyConstants{
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String LETTER_OF_CREDIT_REVIEW_CREATE_DATE = "letterOfCreditReviewCreateDate";
     public static final String MILESTONE_EXPECTED_COMPLETION_DATE = "milestoneExpectedCompletionDate";
+    public static final String PRINT_PDF_URL = "printPDFUrl";
+    public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
+    public static final String PRINT_LABEL = "printLabel";
 }

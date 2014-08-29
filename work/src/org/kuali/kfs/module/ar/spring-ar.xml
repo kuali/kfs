@@ -610,7 +610,11 @@
 	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceDocumentErrorLogLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService"/>
+		scope="prototype" parent="lookupableHelperService">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentErrorLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

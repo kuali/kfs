@@ -15,9 +15,12 @@
  */
 package org.kuali.kfs.module.ar.service;
 
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
@@ -49,5 +52,19 @@ public interface ContractsGrantsBillingUtilityService {
      * @param value the value
      */
     public void putValueOrEmptyString(Map<String,String> map, String key, String value);
+
+    /**
+     * Retrieves all active bills associated with the given proposal number
+     * @param proposalNumber the proposal number to lookup active bills for
+     * @return a List of active bills, or an empty List of naught could be found
+     */
+    public List<Bill> getActiveBillsForProposalNumber(Long proposalNumber);
+
+    /**
+     * Retrieves all active milestones associated with the given proposal number
+     * @param proposalNumber the proposal number to retrieve milestones for
+     * @return a List of active milestones, or an empty List if BusinessObjectService couldn't turn any up
+     */
+    public List<Milestone> getActiveMilestonesForProposalNumber(Long proposalNumber);
 
 }

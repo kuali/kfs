@@ -401,10 +401,21 @@ public class ArKeyConstants {
      public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE = "locreview.pdf.header.create.date";
      public static final String LOC_REVIEW_PDF_SUBHEADER_AWARDS = "locreview.pdf.subheader.awards";
 
+     public static final String LOC_REVIEW_CREATION_TYPE = "message.locreview.creation.type";
+
      // Final Billed Indicator Validation error messages
      public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_FINAL = "error.final.billed.indicator.invoice.not.final";
      public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_MARKED_FINAL_BILL = "error.final.billed.indicator.invoice.not.marked.final.bill";
      public static final String ERROR_FINAL_BILLED_INDICATOR_INVALID_INVOICE = "error.final.billed.indicator.invalid.invoice";
      public static final String ERROR_FINAL_BILLED_INDICATOR_NO_INVOICE = "error.final.billed.indicator.no.invoice";
+
+     public static final String INVOICE_ADDRESS_PDF_WATERMARK_COPY = "invoice.address.pdf.copy.watermark";
+     public static final String INVOICE_ADDRESS_PDF_WATERMARK_FINAL = "invoice.address.pdf.final.watermark";
+     public static final String INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX = "invoice.address.pdf.copy.filename.suffix";
+     public static final String INVOICE_ADDRESS_PDF_FINAL_NOTE = "invoice.address.pdf.final.note";
+     public static final String INVOICE_ADDRESS_PDF_COPY_NOTE = "invoice.address.pdf.copy.note";
+
+     public static final String CONTRACTS_GRANTS_INVOICE_FINAL_STATUS_MESSAGE = "contracts.grants.invoice.final.status.message";
+     public static final String CONTRACTS_GRANTS_INVOICE_CORRECTED_STATUS_MESSAGE = "contracts.grants.invoice.corrected.status.message";
 
 }

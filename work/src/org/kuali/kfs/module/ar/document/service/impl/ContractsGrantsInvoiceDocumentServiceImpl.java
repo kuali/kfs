@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,8 +94,6 @@ import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
@@ -127,7 +126,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLinesAndGLPEs(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLines(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
     public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
@@ -308,8 +307,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         cid.setSequenceNumber(seqNum);
         cid.setInvoiceItemQuantity(BigDecimal.ONE);
-        cid.setInvoiceItemUnitOfMeasureCode("EA");
-
+        cid.setInvoiceItemUnitOfMeasureCode(ArConstants.CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT);
 
         cid.setInvoiceItemUnitPrice(totalAmount);
         cid.setAmount(totalAmount);
@@ -327,7 +325,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void recalculateNewTotalBilled(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-
         ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
 
         // To verify the expenditure amounts have been changed and
@@ -479,20 +476,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalBilledKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, invoiceDetailAccountObjectCode.getFinancialObjectCode());
 
             List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
+            AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = new AwardAccountObjectCodeTotalBilled();
             if (awardAccountObjectCodeTotalBilledList != null && !awardAccountObjectCodeTotalBilledList.isEmpty()) {
-                AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = awardAccountObjectCodeTotalBilledList.get(0);
+                awardAccountObjectCodeTotalBilled = awardAccountObjectCodeTotalBilledList.get(0);
                 awardAccountObjectCodeTotalBilled.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
-                getBusinessObjectService().save(awardAccountObjectCodeTotalBilled);
             }
             else {
-                AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = new AwardAccountObjectCodeTotalBilled();
                 awardAccountObjectCodeTotalBilled.setProposalNumber(invoiceDetailAccountObjectCode.getProposalNumber());
                 awardAccountObjectCodeTotalBilled.setChartOfAccountsCode(invoiceDetailAccountObjectCode.getChartOfAccountsCode());
                 awardAccountObjectCodeTotalBilled.setAccountNumber(invoiceDetailAccountObjectCode.getAccountNumber());
                 awardAccountObjectCodeTotalBilled.setFinancialObjectCode(invoiceDetailAccountObjectCode.getFinancialObjectCode());
                 awardAccountObjectCodeTotalBilled.setTotalBilled(invoiceDetailAccountObjectCode.getCurrentExpenditures());
-                getBusinessObjectService().save(awardAccountObjectCodeTotalBilled);
             }
+            getBusinessObjectService().save(awardAccountObjectCodeTotalBilled);
         }
     }
 
@@ -547,7 +543,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected KualiDecimal getSumOfExpendituresOfCategory(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
         KualiDecimal total = KualiDecimal.ZERO;
         // null can occur if this category has no invoice detail objectcode amounts
-        if (invoiceDetailAccountObjectCodes != null) {
+        if (!ObjectUtils.isNull(invoiceDetailAccountObjectCodes)) {
             for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : invoiceDetailAccountObjectCodes) {
                 total = total.add(invoiceDetailAccountObjectCode.getCurrentExpenditures());
             }
@@ -556,9 +552,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method recalculates the invoiceDetailAccountObjectCode in one category that sits behind the scenes of the invoice
-     * document.
-     *
+     * This method recalculates the invoiceDetailAccountObjectCode in one category that sits behind the scenes of the invoice document.
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      * @param total is the sum of the current expenditures from all the object codes in that category
@@ -620,13 +614,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, ContractsGrantsInvoiceDetail invoiceDetail) {
         String categoryCode = invoiceDetail.getCategoryCode();
         if (StringUtils.isBlank(categoryCode)) {
-            LOG.error("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
+            throw new IllegalArgumentException("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
         // get the category that matches this category code.
         final ContractsAndGrantsCategory category = businessObjectService.findBySinglePrimaryKey(ContractsAndGrantsCategory.class, categoryCode);
 
         // got the category now.
-        if (category != null) {
+        if (!ObjectUtils.isNull(category)) {
             final KualiDecimal oneCent = new KualiDecimal(0.01);
 
             int size = contractsGrantsInvoiceDocument.getAccountDetails().size();
@@ -814,7 +808,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check if amount to bill with amount already billed is greater than the award total amount
-        if (isBillAmountExceedAwardTotalAmount(contractsGrantsInvoiceDocument)) {
+        if (contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getAward().getAwardTotalAmount())) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL);
         }
         else {
@@ -854,7 +848,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Make sure invoice is final if the award is already expired
-        if (isInvoiceNotFinalAndAwardExpired(contractsGrantsInvoiceDocument)) {
+        if (isAwardExpired(contractsGrantsInvoiceDocument.getAward()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBillIndicator()) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED);
         }
         else {
@@ -912,7 +906,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see if invoice type is missing from award
-        if (isAwardMarkedStopWork(award)) {
+        if (award.isStopWorkIndicator()) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_STOP_WORK_MARKED);
         }
         else {
@@ -989,14 +983,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    protected boolean isBillAmountExceedAwardTotalAmount(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled().isGreaterThan(contractsGrantsInvoiceDocument.getAward().getAwardTotalAmount());
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
     protected boolean isInvoiceAmountLessThanInvoiceMinimumRequirements(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         KualiDecimal invoiceMinimumAmount = contractsGrantsInvoiceDocument.getAward().getMinInvoiceAmount();
         if (invoiceMinimumAmount == null) {
@@ -1051,14 +1037,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    protected boolean isInvoiceNotFinalAndAwardExpired(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return isAwardExpired(contractsGrantsInvoiceDocument.getAward()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBillIndicator();
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
     protected boolean isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         ContractsGrantsInvoiceDetail totalCostInvoiceDetail = contractsGrantsInvoiceDocument.getTotalCostInvoiceDetail();
         if (ObjectUtils.isNotNull(totalCostInvoiceDetail)) {
@@ -1071,18 +1049,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             return categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure);
         }
-        else {
-            return false;
-        }
-
-    }
-
-    /**
-     * @param award
-     * @return
-     */
-    protected boolean isAwardMarkedStopWork(ContractsAndGrantsBillingAward award) {
-        return award.isStopWorkIndicator();
+        return false;
     }
 
     /**
@@ -1103,8 +1070,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     protected boolean doesAwardHaveAnyActiveExpiredAccounts(ContractsAndGrantsBillingAward award) {
-        Calendar calendar = Calendar.getInstance();
-        Date now = calendar.getTime();
+        Date now = getDateTimeService().getCurrentDate();
         List<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             if (ObjectUtils.isNotNull(awardAccount.getAccount())) {
@@ -1122,8 +1088,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     protected boolean isAwardExpired(ContractsAndGrantsBillingAward award) {
-        Calendar calendar = Calendar.getInstance();
-        Date now = calendar.getTime();
+        Date now = getDateTimeService().getCurrentDate();
         return now.after(award.getAwardEndingDate());
     }
 
@@ -1287,7 +1252,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Collection<Bill> bills = billDao.getBillsByMatchingCriteria(fieldValuesList);
         for (Bill bill : bills) {
             bill.setBilled(billed);
-        }
+            }
         List<Bill> billsToSave = new ArrayList<Bill>();
         billsToSave.addAll(bills);
         getBusinessObjectService().save(billsToSave);
@@ -1441,7 +1406,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
 
-        if (!hasNoActiveAccountsAssigned(award)) {
+        if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
             List<Account> controlAccounts = new ArrayList<Account>();
             for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
@@ -1453,14 +1418,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         return null;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award) {
-        return CollectionUtils.isEmpty(award.getActiveAwardAccounts());
     }
 
     /**
@@ -1519,35 +1476,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#attachWorkflowHeadersToCGInvoices(java.util.Collection)
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> attachWorkflowHeadersToCGInvoices(Collection<ContractsGrantsInvoiceDocument> invoices) {
-        List<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
-        if (invoices == null || invoices.isEmpty()) {
-            return docs;
-        }
-
-        // make a list of necessary workflow docs to retrieve
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            documentHeaderIds.add(invoice.getDocumentNumber());
-        }
-
-        // get all of our docs with full workflow headers
-        try {
-            for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)) {
-                docs.add((ContractsGrantsInvoiceDocument) doc);
-            }
-        }
-        catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve ContractsGrants Invoice Documents", e);
-        }
-
-        return docs;
-    }
-
-    /**
      * This method retrieves all invoices with open and with final status based on proposal number
      *
      * @param proposalNumber
@@ -1556,20 +1484,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber) {
-        // Setting up proposal number and error correcting document for search
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        if (ObjectUtils.isNotNull(proposalNumber)) {
-            fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber.toString());
-        }
-        fieldValues.put(ArPropertyConstants.DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER, "NULL");
-
-        // Retrieving invoice numbers to exclude
-        Collection<String> invoiceNumbers = contractsGrantsInvoiceDocumentDao.getFinancialDocumentInErrorNumbers();
-
-        // Retrieving matching invoices
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues, invoiceNumbers);
-
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByProposalNumber(proposalNumber);
         return cgInvoices;
     }
 
@@ -1605,19 +1520,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // generating original invoice
                     outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                     Map<String, String> replacementList = getTemplateParameterList(document);
-                    replacementList.put("customer.fullAddress", contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
+                    replacementList.put(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER+"."+ArPropertyConstants.FULL_ADDRESS, contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
                     // creating and saving the original note with an attachment
                     if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-                        reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, "FINAL INVOICE");
+                        reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_FINAL));
                     }
                     Note note = new Note();
                     note.setNotePostedTimestampToCurrent();
-                    note.setNoteText("Auto-generated invoice for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
+                    final String finalNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_FINAL_NOTE);
+                    note.setNoteText(MessageFormat.format(finalNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
                     note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
-                    Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
+                    Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), KFSConstants.EMPTY_STRING);
                     // adding attachment to the note
                     note.setAttachment(attachment);
                     noteService.save(note);
@@ -1626,15 +1542,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     document.addNote(note);
 
                     // generating Copy invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + "_COPY" + ArConstants.TemplateUploadSystem.EXTENSION;
-                    copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, "COPY");
+                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_FILENAME_SUFFIX) + ArConstants.TemplateUploadSystem.EXTENSION;
+                    copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_WATERMARK_COPY));
                     // creating and saving the copy note with an attachment
                     Note copyNote = new Note();
                     copyNote.setNotePostedTimestampToCurrent();
-                    copyNote.setNoteText("Auto-generated invoice (Copy) for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
+                    final String copyNotePattern = getConfigurationService().getPropertyValueAsString(ArKeyConstants.INVOICE_ADDRESS_PDF_COPY_NOTE);
+                    copyNote.setNoteText(MessageFormat.format(copyNotePattern, document.getDocumentNumber(), invoiceAddressDetail.getCustomerAddressName()));
                     copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     copyNote = noteService.createNote(copyNote, document.getNoteTarget(), systemUser.getPrincipalId());
-                    Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
+                    Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), KFSConstants.EMPTY_STRING);
                     // adding attachment to the note
                     copyNote.setAttachment(copyAttachment);
                     noteService.save(copyNote);
@@ -1682,8 +1599,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "payee.city", document.getBillingCityName());
         contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "payee.state", document.getBillingStateCode());
         contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "payee.zipcode", document.getBillingZipCode());
-        contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "advanceFlag", stringifyBooleanForContractsGrantsInvoiceTemplate(isAdvance(document)));
-        contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "reimbursementFlag", stringifyBooleanForContractsGrantsInvoiceTemplate(!(isAdvance(document))));
+        contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "advanceFlag", stringifyBooleanForContractsGrantsInvoiceTemplate(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency())));
+        contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "reimbursementFlag", stringifyBooleanForContractsGrantsInvoiceTemplate(!ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency())));
         contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "accountDetails.contractControlAccountNumber", getRecipientAccountNumber(document.getAccountDetails()));
         if (ObjectUtils.isNotNull(sysInfo)) {
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "systemInformation.feinNumber", sysInfo.getUniversityFederalEmployerIdentificationNumber());
@@ -1920,15 +1837,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * Returns true if the billing Frequency is Predetermined Billing.
-     *
-     * @return
-     */
-    protected boolean isAdvance(ContractsGrantsInvoiceDocument document) {
-        return (ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency()));
-    }
-
-    /**
      * Converts boolean to a String to display on pdf report
      * @param bool a boolean value
      * @return a String for the pdf based on the given boolean value
@@ -1973,9 +1881,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void updateLastBilledDate(ContractsGrantsInvoiceDocument document) {
         boolean isFinalBill = document.getInvoiceGeneralDetail().isFinalBillIndicator();
-        String invoiceStatus = "FINAL";
+        String invoiceStatus = getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_FINAL_STATUS_MESSAGE);
         if (document.isInvoiceReversal()) {
-            invoiceStatus = "CORRECTED";
+            invoiceStatus = getConfigurationService().getPropertyValueAsString(ArKeyConstants.CONTRACTS_GRANTS_INVOICE_CORRECTED_STATUS_MESSAGE);
         }
         String invoiceDocumentStatus = document.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
 
@@ -2063,8 +1971,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method updates the Bills and Milestone objects billed Field.
      *
      * @param billed
-     * @param invoiceMilestones
-     * @param invoiceBills
      */
     @Override
     public void updateBillsAndMilestones(boolean billed, List<InvoiceMilestone> invoiceMilestones, List<InvoiceBill> invoiceBills) {
@@ -2074,11 +1980,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Update Milestone objects billed value.
-     *
      * @param billed
      * @param invoiceMilestones
      */
-    protected void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones) {
+    @Override
+    public void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones) {
         // Get a list of invoiceMilestones from the Contracts Grants Invoice document. Then search for the actual Milestone object in this list through dao
         // Finally, set these milestones to billed
         if (invoiceMilestones != null && !invoiceMilestones.isEmpty()) {
@@ -2094,12 +2000,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Update Bill objects billed value.
-     *
      * @param billed
      * @param invoiceBills
      */
-    protected void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills) {
-        if (CollectionUtils.isNotEmpty(invoiceBills)) {
+    @Override
+    public void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills) {
+        if (!CollectionUtils.isEmpty(invoiceBills)) {
             retrieveAndUpdateBills(invoiceBills, billed);
         }
     }
@@ -2274,26 +2180,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         invoiceAccountDetail.setExpenditureAmount(invoiceAccountDetail.getExpenditureAmount().negated());
         invoiceAccountDetail.setCumulativeAmount(KualiDecimal.ZERO);
         invoiceAccountDetail.setInvoiceDocument(null);
-    }
-
-    /**
-     * This method corrects the Maintenance Document for Predetermined Billing
-     *
-     * @throws WorkflowException
-     */
-    @Override
-    public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException {
-        updateBillsBilledIndicator(false, invoiceBills);
-    }
-
-    /**
-     * This method corrects the Maintenance Document for milestones
-     *
-     * @throws WorkflowException
-     */
-    @Override
-    public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException {
-        updateMilestonesBilledIndicator(false, invoiceMilestones);
     }
 
     /**

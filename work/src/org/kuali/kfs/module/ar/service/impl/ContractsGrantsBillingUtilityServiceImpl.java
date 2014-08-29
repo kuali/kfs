@@ -16,20 +16,26 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Contains Utility methods used by CGB.
  */
 public class ContractsGrantsBillingUtilityServiceImpl implements ContractsGrantsBillingUtilityService {
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService#returnProperStringValue(java.lang.Object)
@@ -81,4 +87,43 @@ public class ContractsGrantsBillingUtilityServiceImpl implements ContractsGrants
         map.put(key, (ObjectUtils.isNull(value) ? KFSConstants.EMPTY_STRING : value));
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService#getActiveBillsForProposalNumber(java.lang.Long)
+     */
+    @Override
+    public List<Bill> getActiveBillsForProposalNumber(Long proposalNumber) {
+        if (proposalNumber == null) {
+            throw new IllegalArgumentException("proposalNumber may not be null");
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        map.put(KFSPropertyConstants.ACTIVE, true);
+        final List<Bill> bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
+        return bills;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService#getActiveMilestonesForProposalNumber(java.lang.Long)
+     */
+    @Override
+    public List<Milestone> getActiveMilestonesForProposalNumber(Long proposalNumber) {
+        if (proposalNumber == null) {
+            throw new IllegalArgumentException("proposalNumber may not be null");
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        map.put(KFSPropertyConstants.ACTIVE, true);
+        final List<Milestone> milestones = (List<Milestone>)(businessObjectService.findMatching(Milestone.class, map));
+        return milestones;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

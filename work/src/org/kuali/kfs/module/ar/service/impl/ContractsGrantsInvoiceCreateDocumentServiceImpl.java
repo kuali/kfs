@@ -72,6 +72,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsBillingAwardVerificationService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -112,6 +113,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected BusinessObjectService businessObjectService;
     protected ConfigurationService configurationService;
     protected ContractsGrantsBillingAwardVerificationService contractsGrantsBillingAwardVerificationService;
+    protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected CustomerService customerService;
@@ -409,14 +411,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param document
      */
     protected void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
-        List<Milestone> milestones = new ArrayList<Milestone>();
-        List<Bill> bills = new ArrayList<Bill>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        map.put(KFSPropertyConstants.ACTIVE, true);
-        milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
-        bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
-
         if (ObjectUtils.isNotNull(award)) {
 
             // Invoice General Detail section
@@ -451,17 +445,23 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
             java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();
-            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(milestones)) {// To check if award has milestones
-                // copy award milestones to invoice milestones
-                document.getInvoiceMilestones().clear();
-                final List<InvoiceMilestone> invoiceMilestones = buildInvoiceMilestones(milestones, invoiceDate);
-                document.getInvoiceMilestones().addAll(invoiceMilestones);
+            if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {// To check if award has milestones
+                final List<Milestone> milestones = getContractsGrantsBillingUtilityService().getActiveMilestonesForProposalNumber(award.getProposalNumber());
+                if (!CollectionUtils.isEmpty(milestones)) {
+                    // copy award milestones to invoice milestones
+                    document.getInvoiceMilestones().clear();
+                    final List<InvoiceMilestone> invoiceMilestones = buildInvoiceMilestones(milestones, invoiceDate);
+                    document.getInvoiceMilestones().addAll(invoiceMilestones);
+                }
             }
-            else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && !CollectionUtils.isEmpty(bills)) {// To check if award has bills
-                // copy award milestones to invoice milestones
-                document.getInvoiceBills().clear();
-                final List<InvoiceBill> invoiceBills = buildInvoiceBills(bills, invoiceDate);
-                document.getInvoiceBills().addAll(invoiceBills);
+            else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {// To check if award has bills
+                final List<Bill> bills = getContractsGrantsBillingUtilityService().getActiveBillsForProposalNumber(award.getProposalNumber());
+                if (!CollectionUtils.isEmpty(bills)) {
+                    // copy award milestones to invoice milestones
+                    document.getInvoiceBills().clear();
+                    final List<InvoiceBill> invoiceBills = buildInvoiceBills(bills, invoiceDate);
+                    document.getInvoiceBills().addAll(invoiceBills);
+                }
             }
             else {
 
@@ -605,10 +605,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         Set<String> categoryArray = new HashSet<String>();
 
-        // To get only the active categories.
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = retrieveAllBillingCategories();
 
         // query database for award account object code details. then divi them up into categories
         List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = getAwardAccountObjectCodeTotalBilledDao().getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
@@ -721,27 +718,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     }
 
     /**
+     *
      * @param awardAccounts
      * @param award
      */
     protected void generateValuesForAccountObjectCodes(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
-        List<Integer> fiscalYears = new ArrayList<Integer>();
-        Calendar c = Calendar.getInstance();
-        Integer currentYear = universityDateService.getCurrentFiscalYear();
-        Map<String, Set<String>> objectCodeFromCategoriesMap = new HashMap<String, Set<String>>();
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
-        // get the categories and create a new arraylist for each one
-        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
-            // populate the category object code maps
-            objectCodeFromCategoriesMap.put(category.getCategoryCode(), contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory(category, document));
-
-        }
-        // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case
-        // of fiscal year change)
+        final Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = retrieveAllBillingCategories();
+        final Map<String, Set<String>> objectCodeFromCategoriesMap = mapCategoriesToDocumentObjectCodes(document, contractsAndGrantsCategories);
+        // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case of fiscal year change)
         final Integer awardBeginningYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
         final Set<String> awardObjectCodes = contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromContractsAndGrantsCategories(document);
 
         final List<Balance> glBalances = retrieveBalancesForAwardAccounts(awardAccounts, awardBeginningYear, currentYear, awardObjectCodes);
@@ -771,7 +757,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                         // add this single account object code item to the list in the Map
                         businessObjectService.save(invoiceDetailAccountObjectCode);
-
 
                         break; // found a match into which category, we can stop and move on to next balance entry
                     }
@@ -824,6 +809,31 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
 
         }
+    }
+
+    /**
+     * get the categories and create a new set for each one
+     * @param document
+     * @param contractsAndGrantsCategories
+     * @return
+     */
+    protected Map<String, Set<String>> mapCategoriesToDocumentObjectCodes(ContractsGrantsInvoiceDocument document, Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories) {
+        Map<String, Set<String>> objectCodeFromCategoriesMap = new HashMap<>();
+        for (ContractsAndGrantsCategory category : contractsAndGrantsCategories) {
+            // populate the category object code maps
+            objectCodeFromCategoriesMap.put(category.getCategoryCode(), contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory(category, document));
+        }
+        return objectCodeFromCategoriesMap;
+    }
+
+    /**
+     * @return a Collection of all active contracts and grants billing categories
+     */
+    protected Collection<ContractsAndGrantsCategory> retrieveAllBillingCategories() {
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ACTIVE, true);
+        Collection<ContractsAndGrantsCategory> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategory.class, criteria);
+        return contractsAndGrantsCategories;
     }
 
     /**
@@ -1006,7 +1016,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         KualiDecimal totalExpendituredAmount = KualiDecimal.ZERO;
         for (InvoiceAccountDetail invAcctD : document.getAccountDetails()) {
             KualiDecimal currentExpenditureAmount = KualiDecimal.ZERO;
-            if (totalBilledByAccountNumberMap.get(invAcctD.getAccountNumber()) != null) {
+            if (!ObjectUtils.isNull(totalBilledByAccountNumberMap.get(invAcctD.getAccountNumber()))) {
                 invAcctD.setBilledAmount(totalBilledByAccountNumberMap.get(invAcctD.getAccountNumber()));
             }
 
@@ -1288,7 +1298,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 6. Award has no accounts assigned
-        if (getContractsGrantsInvoiceDocumentService().hasNoActiveAccountsAssigned(award)) {
+        if (CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_NO_ACTIVE_ACCOUNTS_ASSIGNED_ERROR));
         }
 
@@ -1319,7 +1329,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 11. Agency has no matching Customer record
-        if (getContractsGrantsBillingAwardVerificationService().owningAgencyHasNoCustomerRecord(award)) {
+        if (!getContractsGrantsBillingAwardVerificationService().owningAgencyHasCustomerRecord(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
         }
 
@@ -1743,6 +1753,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         this.configurationService = configurationService;
     }
 
+    public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {
+        return contractsGrantsBillingUtilityService;
+    }
+
+    public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
+        this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
+    }
 
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;

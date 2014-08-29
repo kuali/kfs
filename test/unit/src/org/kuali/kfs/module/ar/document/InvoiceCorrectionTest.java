@@ -111,7 +111,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             assertTrue(cid.isBilled());
         }
 
-        contractsGrantsInvoiceDocumentService.correctMilestones(document.getInvoiceMilestones());
+        contractsGrantsInvoiceDocumentService.updateMilestonesBilledIndicator(false,document.getInvoiceMilestones());
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
@@ -150,7 +150,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             assertTrue(cid.isBilled());
         }
 
-        contractsGrantsInvoiceDocumentService.correctBills(document.getInvoiceBills());
+        contractsGrantsInvoiceDocumentService.updateBillsBilledIndicator(false,document.getInvoiceBills());
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);

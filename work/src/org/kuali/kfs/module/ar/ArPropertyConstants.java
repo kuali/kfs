@@ -572,6 +572,7 @@ public class ArPropertyConstants{
 
     public static final String ACCOUNTS_RECEIVABLE_DOCUMENT_HEADER = "accountsReceivableDocumentHeader";
     public static final String ACTIVE_AWARD_ACCOUNTS = "activeAwardAccounts";
+    public static final String AGING_BUCKET = "agingBucket";
     public static final String AWARD_BUDGET_AMOUNT = "awardBudgetAmount";
     public static final String CATEGORY_CODE = "categoryCode";
     public static final String INVOICE_TYPE = "invoiceType";
@@ -581,7 +582,9 @@ public class ArPropertyConstants{
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
     public static final String BILLED = "billed";
+    public static final String FULL_ADDRESS = "fullAddress";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
+    public static final String INVOICE_GENERAL_DETAIL = "invoiceGeneralDetail";
     public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";

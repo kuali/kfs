@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +52,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportServic
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ReportGenerationService;
@@ -296,7 +298,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
         }
         List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
-        if (ObjectUtils.isNotNull(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             for(ContractsGrantsInvoiceDocument invoice: list){
                 Map primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoice.getDocumentNumber());
@@ -567,7 +569,9 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         try {
             String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
             populateListByAward(award, reportingPeriod, year, replacementList);
-            final byte[] pdfBytes = renameFieldsIn(federalReportTemplatePath + reportTemplateName, replacementList);
+            //final byte[] pdfBytes = renameFieldsIn(federalReportTemplatePath + reportTemplateName, replacementList);
+            URL template = new URL(federalReportTemplatePath + reportTemplateName);
+            final byte[] pdfBytes = PdfFormFillerUtil.populateTemplate(template.openStream(), replacementList);
             returnStream.write(pdfBytes);
         }
         catch (IOException | DocumentException ex) {

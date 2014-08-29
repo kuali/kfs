@@ -275,6 +275,9 @@
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
+		<property name="contractsGrantsBillingUtilityService">
+			<ref bean="contractsGrantsBillingUtilityService"/>
+		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
@@ -374,7 +377,9 @@
 	</bean>
 
 	<bean id="contractsGrantsBillingUtilityService" parent="contractsGrantsBillingUtilityService-parentBean" />
-	<bean id="contractsGrantsBillingUtilityService-parentBean" class="org.kuali.kfs.module.ar.service.impl.ContractsGrantsBillingUtilityServiceImpl" abstract="true" />
+	<bean id="contractsGrantsBillingUtilityService-parentBean" class="org.kuali.kfs.module.ar.service.impl.ContractsGrantsBillingUtilityServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
 	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true" parent="customerInvoiceDocumentService">

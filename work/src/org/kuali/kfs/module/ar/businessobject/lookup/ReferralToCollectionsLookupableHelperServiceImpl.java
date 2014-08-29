@@ -329,19 +329,19 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
             fieldValuesForInvoice.put(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNTS_RECEIVABLE_CUSTOMER_NAME, customerName);
         }
 
-        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValuesForInvoice.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
         fieldValuesForInvoice.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
 
         Map<String, String> refFieldValues = new HashMap<String, String>();
-        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, "true");
-        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, "true");
+        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, KFSConstants.Booleans.TRUE);
+        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, KFSConstants.Booleans.TRUE);
         List<ReferralType> refTypes = (List<ReferralType>) businessObjectService.findMatching(ReferralType.class, refFieldValues);
         String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;
 
-
         invoices = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(fieldValuesForInvoice, outsideColAgencyCode);
 
+        // there's no ORM relationship between awards and the CINV - since awards are EBOs; so we just need to filter them after the query
         if ((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) || ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
             filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
         }
@@ -358,7 +358,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
     protected void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
         boolean checkAwardNumber = ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber);
         boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
-        if (invoices != null && !invoices.isEmpty()) {
+        if (!CollectionUtils.isEmpty(invoices)) {
             Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
             while (itr.hasNext()) {
                 ContractsGrantsInvoiceDocument invoice = itr.next();

@@ -15,13 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -82,15 +78,23 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
      *      Retrieve CG Invoices that are in final, with some additional field values passed.
      */
     @Override
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues, Collection<String> excludedInvoiceNumbers) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new ContractsGrantsInvoiceDocument());
+    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByProposalNumber(Long proposalNumber) {
+        if (proposalNumber == null) {
+            throw new IllegalArgumentException("Cannot find contracts and grants invoices for blank proposal number");
+        }
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        criteria.addIsNull(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_IN_ERROR_NUMBER);
 
-        if (CollectionUtils.isNotEmpty(excludedInvoiceNumbers)) {
-            criteria.addNotIn(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, excludedInvoiceNumbers);
-        }
+        Criteria subCri = new Criteria();
+        subCri.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
+        subCri.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        subCri.addNotNull(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_IN_ERROR_NUMBER);
+        ReportQueryByCriteria errorCorrectedDocumentsQuery = new ReportQueryByCriteria(ContractsGrantsInvoiceDocument.class, new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_IN_ERROR_NUMBER }, subCri);
+        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_NUMBER, errorCorrectedDocumentsQuery);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria));
     }
@@ -102,31 +106,12 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
     @Override
     public Collection<ContractsGrantsInvoiceDocument> getOpenInvoicesByCustomerNumber(String customerNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, Boolean.TRUE);
         criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
         criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao#getFinancialDocumentInErrorNumbers()
-     */
-    @Override
-    public Collection<String> getFinancialDocumentInErrorNumbers() {
-        Criteria subCri = new Criteria();
-        subCri.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
-        subCri.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
-        subCri.addNotNull(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_IN_ERROR_NUMBER);
-        ReportQueryByCriteria reportQuery = new ReportQueryByCriteria(ContractsGrantsInvoiceDocument.class, new String[] { KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_IN_ERROR_NUMBER }, subCri);
-
-        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
-        List<String> invoiceNumbers = new ArrayList<String>();
-        while (iter.hasNext()) {
-            invoiceNumbers.add((String) iter.next()[0]);
-        }
-        return invoiceNumbers;
     }
 
 }

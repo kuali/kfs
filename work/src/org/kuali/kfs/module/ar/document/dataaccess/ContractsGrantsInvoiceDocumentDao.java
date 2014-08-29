@@ -51,19 +51,11 @@ public interface ContractsGrantsInvoiceDocumentDao {
     public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude);
 
     /**
-     * This method retrieves all Invoice Documents that match the given field values, excluding the given
-     * invoice numbers.
+     * This method retrieves all Invoice Documents that match the given field values, excluding any error corrected documents
      *
      * @param fieldValues for search criteria.
      * @param excludedInvoiceNumbers Collection of invoice numbers to exclude from the result set.
      * @return Returns the invoices which matches the given field values.
      */
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollection(Map fieldValues, Collection<String> excludedInvoiceNumbers);
-
-    /**
-     * Gets the invoice numbers which are corrected later.
-     *
-     * @return Returns the collection of invoice numbers.
-     */
-    public Collection<String> getFinancialDocumentInErrorNumbers();
+    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByProposalNumber(Long proposalNumber);
 }

@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -112,37 +111,27 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
      */
     @Override
     public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award) {
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        ContractsAndGrantsBillingAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
-        while (iterator.hasNext()) {
-            awardAccount = iterator.next();
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             if (!awardAccount.isFinalBilledIndicator()) {
-                awardAccounts.add(awardAccount);
-            }
-            if (CollectionUtils.isEmpty(awardAccounts)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
-
 
     /**
      * this method checks If all accounts of award has invoices in progress.
-     *
      * @param award
      * @return
      */
     @Override
     public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, getFinancialSystemDocumentService().getPendingDocumentStatuses());
 
-        final int inProgressCount = getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-        return inProgressCount > 0;
+        return getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues) > 0;
     }
 
     /**
@@ -220,16 +209,14 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#owningAgencyHasNoCustomerRecord(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award) {
+    public boolean owningAgencyHasCustomerRecord(ContractsAndGrantsBillingAward award) {
         boolean isValid = true;
         if (ObjectUtils.isNotNull(award.getAgency().getCustomerNumber())) {
             Customer customer = customerService.getByPrimaryKey(award.getAgency().getCustomerNumber());
-            if (ObjectUtils.isNotNull(customer)) {
-                isValid = false;
-            }
+            return !ObjectUtils.isNull(customer);
         }
 
-        return isValid;
+        return false;
     }
 
     /**
@@ -341,26 +328,21 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
         boolean isValid = true;
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        // This condition is validated only if GLPE is 3 and CG enhancements is ON
+        boolean isUsingReceivableFAU = StringUtils.equals(receivableOffsetOption, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
         if (isUsingReceivableFAU) {
             if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
-                isValid = false;
+                return false;
             }
             else {
-                int arCount = 0;
                 for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
                     if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                        arCount++;
-
+                        return true;
                     }
                 }
-                if (arCount == 0) {
-                    isValid = false;
-                }
+                return false; // we made it through the loop without finding an award invoice account with type AR account...so this test fails
             }
         }
-        return isValid;
+        return true;
     }
 
     public AccountingPeriodService getAccountingPeriodService() {

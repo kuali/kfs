@@ -196,10 +196,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
 
                         if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-                            contractsGrantsInvoiceDocumentService.correctMilestones(invoice.getInvoiceMilestones());
+                            contractsGrantsInvoiceDocumentService.updateMilestonesBilledIndicator(false,invoice.getInvoiceMilestones());
                         }
                         else if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-                            contractsGrantsInvoiceDocumentService.correctBills(invoice.getInvoiceBills());
+                            contractsGrantsInvoiceDocumentService.updateBillsBilledIndicator(false,invoice.getInvoiceBills());
                         }
                     }
                     else {

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -538,9 +539,10 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, ArConstants.LOC_BY_LOC_FUND);
         fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_CODE, locFund);
-        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, KFSConstants.Booleans.TRUE);
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND + " of value " + locFund;
+        final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
+        String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND, locFund);
         cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {
@@ -563,7 +565,8 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
         fieldValues.put(ArPropertyConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locFundGroup);
         fieldValues.put(ArPropertyConstants.OPEN_INVOICE_IND, "true");
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        String detail = "LOC Creation Type:" + ArConstants.LOC_BY_LOC_FUND_GRP + " of value " + locFundGroup;
+        final String detailMessagePattern = getConfigService().getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_CREATION_TYPE);
+        String detail = MessageFormat.format(detailMessagePattern, ArConstants.LOC_BY_LOC_FUND_GRP, locFundGroup);
         cgInvoices = contractsGrantsInvoiceDocumentService.getMatchingInvoicesByCollection(fieldValues);
         List<String> invalidInvoices = validateInvoices(cgInvoices, detail, errorFileName);
         if (!CollectionUtils.isEmpty(invalidInvoices)) {

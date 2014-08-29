@@ -69,7 +69,7 @@ public interface ContractsGrantsBillingAwardVerificationService {
     * @param award
     * @return
     */
-   public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award);
+   public boolean owningAgencyHasCustomerRecord(ContractsAndGrantsBillingAward award);
 
    /**
     * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code

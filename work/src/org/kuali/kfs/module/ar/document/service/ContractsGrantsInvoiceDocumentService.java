@@ -164,14 +164,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public List<String> getProcessingFromBillingCodes(String coaCode, String orgCode);
 
     /**
-     * Check iF Award has no accounts assigned
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award);
-
-    /**
      * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.
      *
      * @param proposalNumber
@@ -188,14 +180,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return Returns true if the collector can view the invoice, false otherwise.
      */
     public boolean canViewInvoice(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalId);
-
-    /**
-     * This method retrieves the CGDocs with their workflow headers.
-     *
-     * @param invoices
-     * @return
-     */
-    public Collection<ContractsGrantsInvoiceDocument> attachWorkflowHeadersToCGInvoices(Collection<ContractsGrantsInvoiceDocument> invoices);
 
     /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice.
@@ -236,22 +220,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @throws WorkflowException
      */
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException;
-
-    /**
-     * This method corrects the Maintenance Document for Predetermined Billing
-     *
-     * @param invoiceBills
-     * @throws WorkflowException
-     */
-    public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException;
-
-    /**
-     * This method corrects the Maintenance Document for milestones
-     *
-     * @param invoiceMilestones
-     * @throws WorkflowException
-     */
-    public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException;
 
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
@@ -313,4 +281,18 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return true if the document is "effective" given the rules above, false otherwise
      */
     public boolean isInvoiceDocumentEffective(String documentNumber);
+
+    /**
+     * Update the billed indicator on a List of given Invoice Bills
+     * @param billed the value for the billed indicator
+     * @param invoiceBills the bills to update
+     */
+    public void updateBillsBilledIndicator(boolean billed, List<InvoiceBill> invoiceBills);
+
+    /**
+     * Update the billed indicator on a List of given Milestones
+     * @param billed the value for the billed indicator
+     * @param invoiceMilestones the invoice milestones to update
+     */
+    public void updateMilestonesBilledIndicator(boolean billed, List<InvoiceMilestone> invoiceMilestones);
 }

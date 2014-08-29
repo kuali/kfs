@@ -36,20 +36,24 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * The unit tests for methods in SalaryExpenseTransferErrorCertificationValidation. Note that this validation also
- * depends on methods in SalaryExpenseTransferTransactionAgeService.
+ * The unit tests for methods in SalaryExpenseTransferErrorCertificationValidation. Note that this validation also depends on
+ * methods in SalaryExpenseTransferTransactionAgeService.
  *
  * @see org.kuali.kfs.module.ld.document.validation.impl.SalaryExpenseTransferErrorCertificationValidation
  */
 
 @ConfigureContext
 public class SalaryExpenseTransferErrorCertificationValidationTest extends KualiTestBase {
-    private static final String DEFAULT_PARM_FISCAL_PERIODS="3";
-    private static final String DEFAULT_PARM_SUBFUND="FEDERA=2";
-    private static final String YOUNGER_FISCAL_PER="11";
-    private static final String OLDER_FISCAL_PER="7";
-    private static final String NON_PARM_SUBFUND="AG";
-    private static final String PARM_SUBFUND="FEDERA";
+    private static final String DEFAULT_PARM_FISCAL_PERIODS = "3";
+    private static final String DEFAULT_PARM_SUBFUND = "FEDERA=2";
+    private static final String YOUNGER_FISCAL_PER = "11";
+    private static final String OLDER_FISCAL_PER = "7";
+    private static final String FISCAL_PERIOD_FOR_REGULAR_TEST = "13";    // July
+    private static final String YOUNGER_FISCAL_PER_FOR_FY_TEST = "13";
+    private static final String OLDER_FISCAL_PER_FOR_FY_TEST = "12";
+    private static final String FISCAL_PERIOD_FOR_FY_TEST = "3";          // September
+    private static final String NON_PARM_SUBFUND = "AG";
+    private static final String PARM_SUBFUND = "FEDERA";
 
     private SalaryExpenseTransferErrorCertificationValidation validation;
     private SalaryExpenseTransferTransactionAgeServiceImpl salaryExpenseTransferTransactionAgeService;
@@ -58,6 +62,14 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     private SalaryExpenseTransferDocument stDoc;
     private MyAttributedDocumentEvent event;
     private ErrorCertification errorCertification;
+
+    private enum TabState {
+        FULL, PARTIAL, EMPTY
+    };
+
+    private enum CrossFY {
+        YES, NO
+    }
 
     @Override
     public void setUp() throws Exception {
@@ -86,10 +98,55 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Test the case where the source accounting line is "younger" and the error certification tab is complete.
-     * This is based on fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the current year and will be set to YOUNGER_FISCAL_PER.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Create errorCertification object for use in the test validations. Based on an enum, can specify how complete the fields are.
+     *
+     * @param tabState
+     */
+    public void setUpErrorCertificationObject(TabState tabState) {
+        switch (tabState) {
+            case FULL:
+                errorCertification.setErrorCorrectionReason("test reason");
+                errorCertification.setErrorDescription("test desc");
+                errorCertification.setExpenditureDescription("test description");
+                errorCertification.setExpenditureProjectBenefit("test benefit");
+                break;
+            case PARTIAL:
+                errorCertification.setErrorCorrectionReason("test reason");
+                errorCertification.setErrorDescription("test desc");
+                errorCertification.setExpenditureDescription("");
+                errorCertification.setExpenditureProjectBenefit("");
+                break;
+            case EMPTY:
+                errorCertification.setErrorCorrectionReason("");
+                errorCertification.setErrorDescription("");
+                errorCertification.setExpenditureDescription("");
+                errorCertification.setExpenditureProjectBenefit("");
+                break;
+        }
+    }
+
+    /**
+     * Sets the current fiscal period of the university date in our custom UniversityDateService. Required because some tests are
+     * based around crossing the current fiscal year.
+     *
+     * @param crossFiscalYear
+     */
+    public void setCustomUniversityDateFiscalPeriod(CrossFY crossFiscalYear) {
+        switch (crossFiscalYear) {
+            case YES:
+                salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().setUniversityFiscalAccountingPeriod(FISCAL_PERIOD_FOR_FY_TEST);
+                break;
+            case NO:
+                salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().setUniversityFiscalAccountingPeriod(FISCAL_PERIOD_FOR_REGULAR_TEST);
+                break;
+        }
+    }
+
+    /**
+     * Test the case where the source accounting line is "younger" and the error certification tab is empty. This is based on fiscal
+     * periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The source accounting line will
+     * use the current year and will be set to YOUNGER_FISCAL_PER. The validation will use the UniversityDateService that is defined
+     * in this test class set to FISCAL_PERIOD_FOR_REGULAR_TEST.
      */
     public void testSourceAccountingLine() {
         // create a source accounting line
@@ -99,8 +156,10 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
-        // modify error certification's state as completely filled out
-        setUpErrorCertificationObject(true);
+        setCustomUniversityDateFiscalPeriod(CrossFY.NO);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -109,10 +168,10 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Test the case where the source accounting line is "older" and the error certification tab is incomplete.
-     * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the current year, but will be set to OLDER_FISCAL_PER.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Test the case where the source accounting line is "older" and the error certification tab is empty. This is based on the
+     * fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The source accounting
+     * line will use the current year, but will be set to OLDER_FISCAL_PER. The validation will use the UniversityDateService that
+     * is defined in this test class set to FISCAL_PERIOD_FOR_REGULAR_TEST.
      */
     public void testOlderSourceAccountingLine() {
         // create a source accounting line
@@ -122,8 +181,10 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
-        // modify error certification's state as partially filled out
-        setUpErrorCertificationObject(false);
+        setCustomUniversityDateFiscalPeriod(CrossFY.NO);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -132,21 +193,23 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Test the case where the source accounting line is in previous fiscal year and the error certification tab is incomplete.
-     * This is based on the fiscal year and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The source accounting line will use the previous year and will be set to OLDER_FISCAL_PER.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Test the case where the source accounting line is in previous fiscal year, is "older", and the error certification tab is
+     * empty. This is based on the fiscal year and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
+     * The source accounting line will use the previous year and will be set to OLDER_FISCAL_PER. The validation will use the
+     * UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_FY_TEST.
      */
-    public void testPriorYearSourceAccountingLine() {
+    public void testPriorYearOlderSourceAccountingLine() {
         // create a source accounting line
         ExpenseTransferSourceAccountingLine sourceAccountingLine = new ExpenseTransferSourceAccountingLine();
         sourceAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
+        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER_FOR_FY_TEST);
 
         stDoc.addSourceAccountingLine(sourceAccountingLine);
 
-        // modify error certification's state as partially filled out
-        setUpErrorCertificationObject(false);
+        setCustomUniversityDateFiscalPeriod(CrossFY.YES);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -155,11 +218,36 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Test the case where the target accounting line is "younger" and the error certification tab is complete.
-     * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the current year and will be set to YOUNGER_FISCAL_PER. It will also have a sub fund that is
-     * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Test the case where the source accounting line is in the previous fiscal year, is "younger", and the error certification tab
+     * is empty. This will test the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter and the fact that
+     * fiscal year should not matter. The source accounting line will use the previous year and will be set to YOUNGER_FISCAL_PER.
+     * The validation will use the UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_FY_TEST.
+     */
+    public void testPriorYearYoungerSourceAccountingLine() {
+        // create a source accounting line
+        ExpenseTransferSourceAccountingLine sourceAccountingLine = new ExpenseTransferSourceAccountingLine();
+        sourceAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
+        sourceAccountingLine.setPayrollEndDateFiscalPeriodCode(YOUNGER_FISCAL_PER_FOR_FY_TEST);
+
+        stDoc.addSourceAccountingLine(sourceAccountingLine);
+
+        setCustomUniversityDateFiscalPeriod(CrossFY.YES);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
+
+        validation.validate(event);
+
+        boolean hasError = GlobalVariables.getMessageMap().doesPropertyHaveError(LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_KEY);
+        assertFalse("Error Certification Tab is required, but shouldn't be.", hasError);
+    }
+
+    /**
+     * Test the case where the target accounting line is "younger" and the error certification tab is empty. This is based on the
+     * fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The target accounting
+     * line will use the current year and will be set to YOUNGER_FISCAL_PER. It will also have a sub fund that is not in the
+     * contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the
+     * UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_REGULAR_TEST.
      */
     public void testTargetAccountingLine() {
         Account account = new Account();
@@ -175,8 +263,10 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
 
-        // modify error certification's state as completely filled out
-        setUpErrorCertificationObject(true);
+        setCustomUniversityDateFiscalPeriod(CrossFY.NO);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -185,11 +275,11 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Test the case where the target accounting line is "older" and the error certification tab is complete.
-     * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
-     * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Test the case where the target accounting line is "older" and the error certification tab is empty. This is based on the
+     * fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The target accounting
+     * line will use the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is not in the
+     * contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the
+     * UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_REGULAR_TEST.
      */
     public void testOlderTargetAccountingLine() {
         Account account = new Account();
@@ -205,24 +295,25 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
 
-        // modify error certification's state as completely filled out
-        setUpErrorCertificationObject(true);
+        setCustomUniversityDateFiscalPeriod(CrossFY.NO);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
         boolean hasError = GlobalVariables.getMessageMap().doesPropertyHaveError(LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_KEY);
-        assertFalse("Unexpected requirement of Error Certification Tab.", hasError);
+        assertTrue("Error Certification Tab isn't required, but should be.", hasError);
     }
 
     /**
-     * Test the case where the target accounting line is in previous fiscal year and the error certification tab is complete.
-     * This is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter.
-     * The target accounting line will use the previous year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
-     * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * Test the case where the target accounting line is in previous fiscal year, is "older", and the error certification tab is empty. This
+     * is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The
+     * target accounting line will use the previous year and will be set to OLDER_FISCAL_PER_FOR_FY_TEST. It will also have a sub fund that is
+     * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the
+     * UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_FY_TEST.
      */
-    @SuppressWarnings("deprecation")
-    public void testPriorYearTargetAccountingLine() {
+    public void testPriorYearOlderTargetAccountingLine() {
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setSubFundGroupCode(NON_PARM_SUBFUND);
@@ -231,13 +322,47 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
         targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER_FOR_FY_TEST);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
 
-        // modify error certification's state as filled out
-        setUpErrorCertificationObject(true);
+        setCustomUniversityDateFiscalPeriod(CrossFY.YES);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
+
+        validation.validate(event);
+
+        boolean hasError = GlobalVariables.getMessageMap().doesPropertyHaveError(LaborKeyConstants.ErrorCertification.ERROR_ERROR_CERT_KEY);
+        assertTrue("Error Certification Tab isn't required, but should be.", hasError);
+    }
+
+    /**
+     * Test the case where the target accounting line is in previous fiscal year, is "younger", and the error certification tab is empty. This
+     * is based on the fiscal periods and the DEFAULT_NUMBER_OF_FISCAL_PERIODS_ERROR_CERTIFICATION_TAB_REQUIRED parameter. The
+     * target accounting line will use the previous year and will be set to YOUNGER_FISCAL_PER_FOR_FY_TEST. It will also have a sub fund that is
+     * not in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the
+     * UniversityDateService that is defined in this test class set to FISCAL_PERIOD_FOR_FY_TEST.
+     */
+    public void testPriorYearYoungerTargetAccountingLine() {
+        Account account = new Account();
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(NON_PARM_SUBFUND);
+        account.setSubFundGroup(subFundGroup);
+
+        // create a target accounting line for testing in set object
+        ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
+        targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(YOUNGER_FISCAL_PER_FOR_FY_TEST);
+        targetAccountingLine.setAccount(account);
+
+        stDoc.addTargetAccountingLine(targetAccountingLine);
+
+        setCustomUniversityDateFiscalPeriod(CrossFY.YES);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -247,13 +372,12 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
     /**
      * Test the case where the target accounting line is "older", has a subfund in the contribution approved
-     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is incomplete.
-     * This is based on the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The target accounting line will use the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is in
-     * the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is empty. This is based on
+     * the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The target accounting line will use
+     * the current year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is in the contribution approved
+     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the UniversityDateService that is defined
+     * in this test class set to FISCAL_PERIOD_FOR_REGULAR_TEST.
      */
-    @SuppressWarnings("deprecation")
     public void testOlderSubFundTargetAccountingLine() {
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
@@ -268,8 +392,10 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
 
-        // modify error certification's state as partially filled out
-        setUpErrorCertificationObject(false);
+        setCustomUniversityDateFiscalPeriod(CrossFY.NO);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -279,13 +405,12 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
 
     /**
      * Test the case where the target accounting line is from the previous fiscal year, has a subfund in the contribution approved
-     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is incomplete.
-     * This is based on the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The target accounting line will use the previous year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is
-     * in the contribution approved ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter.
-     * The validation will use the UniversityDateService that is defined in this test class.
+     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter, and the error certification tab is empty. This is based on
+     * the fiscal periods and the ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The target accounting line will use
+     * the previous year and will be set to OLDER_FISCAL_PER. It will also have a sub fund that is in the contribution approved
+     * ERROR_CERTIFICATION_DEFAULT_OVERRIDE_BY_SUB_FUND parameter. The validation will use the UniversityDateService that is defined
+     * in this test class set to FISCAL_PERIOD_FOR_FY_TEST.
      */
-    @SuppressWarnings("deprecation")
     public void testPriorYearSubFundTargetAccountingLine() {
         Account account = new Account();
         SubFundGroup subFundGroup = new SubFundGroup();
@@ -295,13 +420,15 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
         // create a target accounting line for testing in set object
         ExpenseTransferTargetAccountingLine targetAccountingLine = new ExpenseTransferTargetAccountingLine();
         targetAccountingLine.setPayrollEndDateFiscalYear(salaryExpenseTransferTransactionAgeService.getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear() - 1);
-        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER);
+        targetAccountingLine.setPayrollEndDateFiscalPeriodCode(OLDER_FISCAL_PER_FOR_FY_TEST);
         targetAccountingLine.setAccount(account);
 
         stDoc.addTargetAccountingLine(targetAccountingLine);
 
-        // modify error certification's state as partially filled out
-        setUpErrorCertificationObject(false);
+        setCustomUniversityDateFiscalPeriod(CrossFY.YES);
+
+        // modify error certification's state as empty
+        setUpErrorCertificationObject(TabState.EMPTY);
 
         validation.validate(event);
 
@@ -310,33 +437,12 @@ public class SalaryExpenseTransferErrorCertificationValidationTest extends Kuali
     }
 
     /**
-     * Create errorCertification object for use in the test validations. Can specify whether the fields should be complete or not.
-     *
-     * @param isCompleted
-     */
-    public void setUpErrorCertificationObject(boolean isCompleted) {
-        if (isCompleted) {
-            errorCertification.setErrorCorrectionReason("test reason");
-            errorCertification.setErrorDescription("test desc");
-            errorCertification.setExpenditureDescription("test description");
-            errorCertification.setExpenditureProjectBenefit("test benefit");
-        }
-        else {
-            errorCertification.setErrorCorrectionReason("test reason");
-            errorCertification.setErrorDescription("test desc");
-            errorCertification.setExpenditureDescription("");
-            errorCertification.setExpenditureProjectBenefit("");
-        }
-    }
-
-    /**
-     * Fake the current university date for this test to be in period 13.
+     * Fake the current university date for this test.
      */
     static class MyUniversityDateService extends UniversityDateServiceImpl {
         @Override
         public UniversityDate getCurrentUniversityDate() {
             UniversityDate universityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-            universityDate.setUniversityFiscalAccountingPeriod("13");
             return universityDate;
         }
     }

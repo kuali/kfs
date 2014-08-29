@@ -46,6 +46,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -54,8 +55,6 @@ import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -81,6 +80,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
 
     protected BusinessObjectService businessObjectService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
+    protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
     protected DateTimeService dateTimeService;
     protected KualiModuleService kualiModuleService;
     protected NoteService noteService;
@@ -145,7 +145,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 }
             }
 
-
             // to generate dunning letter from templates.
             ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
             String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
@@ -162,25 +161,9 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, dunningLetterDistributionLookupResult.getCustomerNumber());
                 primaryKeys.put("customerAddressTypeCode", "P");
                 address = businessObjectService.findByPrimaryKey(CustomerAddress.class, primaryKeys);
-                String fullAddress = "";
-                if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
-                    fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
-                }
-                if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
-                    fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
-                }
-                if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
-                    fullAddress += returnProperStringValue(address.getCustomerCityName());
-                }
-                if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
-                    fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
-                }
-                if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
-                    fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
-                }
-                replacementList.put("agency.fullAddressInline", returnProperStringValue(fullAddress));
-                replacementList.put("agency.fullName", returnProperStringValue(address.getCustomer().getCustomerName()));
-                replacementList.put("agency.contactName", returnProperStringValue(address.getCustomer().getCustomerContactName()));
+                replacementList.put("agency.fullAddressInline", contractsGrantsBillingUtilityService.buildFullAddress(address));
+                replacementList.put("agency.fullName", contractsGrantsBillingUtilityService.returnProperStringValue(address.getCustomer().getCustomerName()));
+                replacementList.put("agency.contactName", contractsGrantsBillingUtilityService.returnProperStringValue(address.getCustomer().getCustomerContactName()));
                 if(CollectionUtils.isNotEmpty(selectedInvoices)){
                 reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
 
@@ -263,19 +246,19 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
         if (CollectionUtils.isNotEmpty(invoices)){
             ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
             Map primaryKeys = new HashMap<String, Object>();
-            parameterMap.put("award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
-            parameterMap.put("currentDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date())));
+            parameterMap.put("award.proposalNumber", contractsGrantsBillingUtilityService.returnProperStringValue(award.getProposalNumber()));
+            parameterMap.put("currentDate", contractsGrantsBillingUtilityService.returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date())));
             if (CollectionUtils.isNotEmpty(invoices)) {
                 for (int i = 0; i < invoices.size(); i++) {
-                    parameterMap.put("invoice[" + i + "].documentNumber", returnProperStringValue(invoices.get(i).getDocumentNumber()));
-                    parameterMap.put("invoice[" + i + "].billingDate", returnProperStringValue(invoices.get(i).getBillingDate()));
-                    parameterMap.put("invoice[" + i + "].totalAmount", returnProperStringValue(invoices.get(i).getTotalDollarAmount()));
-                    parameterMap.put("invoice[" + i + "].customerName", returnProperStringValue(invoices.get(i).getCustomerName()));
-                    parameterMap.put("invoice[" + i + "].customerNumber", returnProperStringValue(invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber()));
+                    parameterMap.put("invoice[" + i + "].documentNumber", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getDocumentNumber()));
+                    parameterMap.put("invoice[" + i + "].billingDate", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getBillingDate()));
+                    parameterMap.put("invoice[" + i + "].totalAmount", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getTotalDollarAmount()));
+                    parameterMap.put("invoice[" + i + "].customerName", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getCustomerName()));
+                    parameterMap.put("invoice[" + i + "].customerNumber", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber()));
                 }
             }
             if (ObjectUtils.isNotNull(award)) {
-                parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
+                parameterMap.put("award.awardProjectTitle", contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardProjectTitle()));
             }
         }
         return parameterMap;
@@ -353,23 +336,6 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
             }
         }
         copy.close();
-    }
-
-    /**
-     * Returns a proper String Value. Also returns proper value for currency (USD)
-     *
-     * @param string
-     * @return
-     */
-    protected String returnProperStringValue(Object string) {
-        if (ObjectUtils.isNotNull(string)) {
-            if (string instanceof KualiDecimal) {
-                String amount = (new CurrencyFormatter()).format(string).toString();
-                return "$" + (StringUtils.isEmpty(amount) ? "0.00" : amount);
-            }
-            return string.toString();
-        }
-        return "";
     }
 
     /**
@@ -453,5 +419,13 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
 
     public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
         this.financialSystemUserService = financialSystemUserService;
+    }
+
+    public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {
+        return contractsGrantsBillingUtilityService;
+    }
+
+    public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
+        this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
     }
 }

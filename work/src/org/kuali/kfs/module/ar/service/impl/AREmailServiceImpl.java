@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.mail.AttachmentMailMessage;
@@ -47,8 +48,6 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Attachment;
@@ -76,6 +75,7 @@ public class AREmailServiceImpl implements AREmailService {
     protected DocumentService documentService;
     protected NoteService noteService;
     protected KualiModuleService kualiModuleService;
+    protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
 
     /**
      * Sets the kualiModuleService attribute value.
@@ -185,9 +185,9 @@ public class AREmailServiceImpl implements AREmailService {
     protected String getSubject(ContractsGrantsInvoiceDocument invoice) {
         String subject = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_SUBJECT);
 
-        return MessageFormat.format(subject, returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()),
-                returnProperStringValue(invoice.getProposalNumber()),
-                returnProperStringValue(invoice.getDocumentNumber()));
+        return MessageFormat.format(subject, contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getProposalNumber()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getDocumentNumber()));
     }
 
     protected String getMessageBody(ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
@@ -200,27 +200,16 @@ public class AREmailServiceImpl implements AREmailService {
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[1].trim());
         Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
         if (ObjectUtils.isNotNull(org)) {
-            department = returnProperStringValue(org.getOrganizationName());
+            department = contractsGrantsBillingUtilityService.returnProperStringValue(org.getOrganizationName());
         }
 
-        return MessageFormat.format(message, returnProperStringValue(customerAddress.getCustomer().getCustomerName()),
-                returnProperStringValue(customerAddress.getCustomerAddressName()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()),
+        return MessageFormat.format(message, contractsGrantsBillingUtilityService.returnProperStringValue(customerAddress.getCustomer().getCustomerName()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(customerAddress.getCustomerAddressName()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()),
                 department,
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()),
-                returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
-    }
-
-    protected String returnProperStringValue(Object string) {
-        if (ObjectUtils.isNotNull(string)) {
-            if (string instanceof KualiDecimal) {
-                String amount = (new CurrencyFormatter()).format(string).toString();
-                return "$" + (StringUtils.isEmpty(amount) ? "0.00" : amount);
-            }
-            return string.toString();
-        }
-        return "";
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()),
+                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
 
     /**
@@ -361,5 +350,13 @@ public class AREmailServiceImpl implements AREmailService {
 
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {
+        return contractsGrantsBillingUtilityService;
+    }
+
+    public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
+        this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
     }
 }

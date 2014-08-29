@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
+import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.report.ReportInfo;
@@ -56,7 +57,6 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -100,6 +100,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected ReportInfo reportInfo;
     protected ReportGenerationService reportGenerationService;
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
@@ -133,19 +134,19 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             // Lets write the header
             header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_TITLE), titleFont));
             if (StringUtils.isNotEmpty(locDocument.getLetterOfCreditFundGroupCode())) {
-                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_GROUP_CODE) + returnProperStringValue(locDocument.getLetterOfCreditFundGroupCode()), titleFont));
+                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_GROUP_CODE) + contractsGrantsBillingUtilityService.returnProperStringValue(locDocument.getLetterOfCreditFundGroupCode()), titleFont));
             }
             if (StringUtils.isNotEmpty(locDocument.getLetterOfCreditFundCode())) {
-                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_CODE) + returnProperStringValue(locDocument.getLetterOfCreditFundCode()), titleFont));
+                header.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_FUND_CODE) + contractsGrantsBillingUtilityService.returnProperStringValue(locDocument.getLetterOfCreditFundCode()), titleFont));
             }
             header.add(new Paragraph(KFSConstants.BLANK_SPACE));
             header.setAlignment(Element.ALIGN_CENTER);
-            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_NUMBER) + returnProperStringValue(locDocument.getDocumentNumber()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_NUMBER) + contractsGrantsBillingUtilityService.returnProperStringValue(locDocument.getDocumentNumber()), headerFont));
             Person person = getPersonService().getPerson(locDocument.getFinancialSystemDocumentHeader().getInitiatorPrincipalId());
             // writing the Document details
-            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_APP_DOC_STATUS) + returnProperStringValue(locDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus()), headerFont));
-            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR) + returnProperStringValue(person.getName()), headerFont));
-            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE) + returnProperStringValue(getDateTimeService().toDateString(locDocument.getFinancialSystemDocumentHeader().getWorkflowCreateDate())), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_APP_DOC_STATUS) + contractsGrantsBillingUtilityService.returnProperStringValue(locDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR) + contractsGrantsBillingUtilityService.returnProperStringValue(person.getName()), headerFont));
+            title.add(new Paragraph(configService.getPropertyValueAsString(ArKeyConstants.LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE) + contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(locDocument.getFinancialSystemDocumentHeader().getWorkflowCreateDate())), headerFont));
 
             title.add(new Paragraph(KFSConstants.BLANK_SPACE));
             title.setAlignment(Element.ALIGN_RIGHT);
@@ -168,17 +169,17 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             addAwardHeaders(table);
             if (CollectionUtils.isNotEmpty(locDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(locDocument.getAccountReviewDetails())) {
                 for (ContractsGrantsLetterOfCreditReviewDetail item : locDocument.getHeaderReviewDetails()) {
-                    table.addCell(returnProperStringValue(item.getProposalNumber()));
-                    table.addCell(returnProperStringValue(item.getAwardDocumentNumber()));
-                    table.addCell(returnProperStringValue(item.getAgencyNumber()));
-                    table.addCell(returnProperStringValue(item.getCustomerNumber()));
-                    table.addCell(returnProperStringValue(item.getAwardBeginningDate()));
-                    table.addCell(returnProperStringValue(item.getAwardEndingDate()));
-                    table.addCell(returnProperStringValue(item.getAwardBudgetAmount()));
-                    table.addCell(returnProperStringValue(item.getLetterOfCreditAmount()));
-                    table.addCell(returnProperStringValue(item.getClaimOnCashBalance()));
-                    table.addCell(returnProperStringValue(item.getAmountToDraw()));
-                    table.addCell(returnProperStringValue(item.getAmountAvailableToDraw()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getProposalNumber()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAwardDocumentNumber()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAgencyNumber()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getCustomerNumber()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAwardBeginningDate()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAwardEndingDate()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAwardBudgetAmount()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getLetterOfCreditAmount()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getClaimOnCashBalance()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAmountToDraw()));
+                    table.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(item.getAmountAvailableToDraw()));
 
                     PdfPCell cell = new PdfPCell();
                     cell.setPadding(20f);
@@ -195,14 +196,14 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     addAccountsHeaders(newTable);
                     for (ContractsGrantsLetterOfCreditReviewDetail newItem : locDocument.getAccountReviewDetails()) {
                         if (item.getProposalNumber().equals(newItem.getProposalNumber())) {
-                            newTable.addCell(returnProperStringValue(newItem.getAccountDescription()));
-                            newTable.addCell(returnProperStringValue(newItem.getChartOfAccountsCode()));
-                            newTable.addCell(returnProperStringValue(newItem.getAccountNumber()));
-                            newTable.addCell(returnProperStringValue(newItem.getAccountExpirationDate()));
-                            newTable.addCell(returnProperStringValue(newItem.getAwardBudgetAmount()));
-                            newTable.addCell(returnProperStringValue(newItem.getClaimOnCashBalance()));
-                            newTable.addCell(returnProperStringValue(newItem.getAmountToDraw()));
-                            newTable.addCell(returnProperStringValue(newItem.getFundsNotDrawn()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountDescription()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getChartOfAccountsCode()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountNumber()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountExpirationDate()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAwardBudgetAmount()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getClaimOnCashBalance()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAmountToDraw()));
+                            newTable.addCell(contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getFundsNotDrawn()));
                         }
                     }
                     cell.addElement(newTable);
@@ -216,23 +217,6 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         catch (DocumentException e) {
             LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateInvoiceInPdf()", e);
         }
-    }
-
-    /**
-     * This method returns a proper String value for any given object.
-     *
-     * @param string
-     * @return
-     */
-    protected String returnProperStringValue(Object string) {
-        if (ObjectUtils.isNotNull(string)) {
-            if (string instanceof KualiDecimal) {
-                String amount = (new CurrencyFormatter()).format(string).toString();
-                return "$" + (StringUtils.isEmpty(amount) ? "0.00" : amount);
-            }
-            return string.toString();
-        }
-        return "";
     }
 
     /**
@@ -345,15 +329,15 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             cashDisbursement = cashDisbursement.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
             if (ObjectUtils.isNotNull(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()) && ObjectUtils.isNotNull(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd())) {
                 index++;
-                replacementList.put("Indirect Expense Type " + index, returnProperStringValue(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd()));
-                replacementList.put("Indirect Expense Rate " + index, returnProperStringValue(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()));
+                replacementList.put("Indirect Expense Type " + index, contractsGrantsBillingUtilityService.returnProperStringValue(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd()));
+                replacementList.put("Indirect Expense Rate " + index, contractsGrantsBillingUtilityService.returnProperStringValue(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()));
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getAccountEffectiveDate())) {
-                    replacementList.put("Indirect Expense Period From " + index, returnProperStringValue(getDateTimeService().toDateString(awardAccount.getAccount().getAccountEffectiveDate())));
+                    replacementList.put("Indirect Expense Period From " + index, contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(awardAccount.getAccount().getAccountEffectiveDate())));
                 }
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getAccountExpirationDate())) {
-                    replacementList.put("Indirect Expense Period To " + index, returnProperStringValue(getDateTimeService().toDateString(awardAccount.getAccount().getAccountExpirationDate())));
+                    replacementList.put("Indirect Expense Period To " + index, contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(awardAccount.getAccount().getAccountExpirationDate())));
                 }
-                replacementList.put("Indirect Expense Base " + index, returnProperStringValue(award.getAwardTotalAmount()));
+                replacementList.put("Indirect Expense Base " + index, contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardTotalAmount()));
                 Map<String, Object> key = new HashMap<String, Object>();
                 key.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
                 key.put("financialIcrSeriesIdentifier", awardAccount.getAccount().getFinancialIcrSeriesIdentifier());
@@ -363,16 +347,16 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 if (CollectionUtils.isNotEmpty(icrDetail)) {
                     KualiDecimal rate = new KualiDecimal(icrDetail.get(0).getAwardIndrCostRcvyRatePct());
                     if (ObjectUtils.isNotNull(rate)) {
-                        replacementList.put("Indirect Expense Amount " + index, returnProperStringValue(award.getAwardTotalAmount().multiply(rate)));
-                        replacementList.put("Indirect Expense Federal " + index, returnProperStringValue(award.getAwardTotalAmount().multiply(rate)));
+                        replacementList.put("Indirect Expense Amount " + index, contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardTotalAmount().multiply(rate)));
+                        replacementList.put("Indirect Expense Federal " + index, contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardTotalAmount().multiply(rate)));
                         amountSum = amountSum.add(award.getAwardTotalAmount().multiply(rate));
                     }
                 }
                 baseSum = baseSum.add(award.getAwardTotalAmount());
             }
-            replacementList.put("Indirect Expense Base Sum", returnProperStringValue(baseSum));
-            replacementList.put("Indirect Expense Amount Sum", returnProperStringValue(amountSum));
-            replacementList.put("Indirect Expense Federal Sum", returnProperStringValue(amountSum));
+            replacementList.put("Indirect Expense Base Sum", contractsGrantsBillingUtilityService.returnProperStringValue(baseSum));
+            replacementList.put("Indirect Expense Amount Sum", contractsGrantsBillingUtilityService.returnProperStringValue(amountSum));
+            replacementList.put("Indirect Expense Federal Sum", contractsGrantsBillingUtilityService.returnProperStringValue(amountSum));
         }
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
@@ -381,58 +365,58 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
-            String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
+            String address = contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode())) {
-                address += " " + returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
+                address += " " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode())) {
-                address += "-" + returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
+                address += "-" + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
             }
 
-            replacementList.put("Recipient Organization", returnProperStringValue(address));
-            replacementList.put("EIN", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
+            replacementList.put("Recipient Organization", contractsGrantsBillingUtilityService.returnProperStringValue(address));
+            replacementList.put("EIN", contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
         }
-        replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(award.getAgency().getFullName())));
-        replacementList.put("Federal Grant Number", returnProperStringValue(award.getAwardDocumentNumber()));
+        replacementList.put("Federal Agency", contractsGrantsBillingUtilityService.returnProperStringValue(contractsGrantsBillingUtilityService.returnProperStringValue(award.getAgency().getFullName())));
+        replacementList.put("Federal Grant Number", contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardDocumentNumber()));
         if(CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())){
-            replacementList.put("Recipient Account Number", returnProperStringValue(award.getActiveAwardAccounts().get(0).getAccountNumber()));
+            replacementList.put("Recipient Account Number", contractsGrantsBillingUtilityService.returnProperStringValue(award.getActiveAwardAccounts().get(0).getAccountNumber()));
         }
         if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
-            replacementList.put("Grant Period From", returnProperStringValue(getDateTimeService().toDateString(award.getAwardBeginningDate())));
+            replacementList.put("Grant Period From", contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(award.getAwardBeginningDate())));
         }
         if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
-            replacementList.put("Grant Period To", returnProperStringValue(getDateTimeService().toDateString(award.getAwardClosingDate())));
+            replacementList.put("Grant Period To", contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(award.getAwardClosingDate())));
         }
-        replacementList.put("Cash Receipts", returnProperStringValue(this.getCashReceipts(award)));
-        replacementList.put("Total Federal Funds Authorized", returnProperStringValue(award.getAwardTotalAmount()));
+        replacementList.put("Cash Receipts", contractsGrantsBillingUtilityService.returnProperStringValue(this.getCashReceipts(award)));
+        replacementList.put("Total Federal Funds Authorized", contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardTotalAmount()));
 
-        replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
+        replacementList.put("Reporting Period End Date", contractsGrantsBillingUtilityService.returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
         if (ObjectUtils.isNotNull(cashDisbursement)) {
-            replacementList.put("Cash Disbursements", returnProperStringValue(cashDisbursement));
-            replacementList.put("Cash on Hand", returnProperStringValue(this.getCashReceipts(award).subtract(cashDisbursement)));
-            replacementList.put("Federal Share of Expenditures", returnProperStringValue(returnProperStringValue(cashDisbursement)));
-            replacementList.put("Total Federal Share", returnProperStringValue(returnProperStringValue(cashDisbursement)));
-            replacementList.put("Unobligated Balance of Federal Funds", returnProperStringValue(award.getAwardTotalAmount().subtract(cashDisbursement)));
+            replacementList.put("Cash Disbursements", contractsGrantsBillingUtilityService.returnProperStringValue(cashDisbursement));
+            replacementList.put("Cash on Hand", contractsGrantsBillingUtilityService.returnProperStringValue(this.getCashReceipts(award).subtract(cashDisbursement)));
+            replacementList.put("Federal Share of Expenditures", contractsGrantsBillingUtilityService.returnProperStringValue(contractsGrantsBillingUtilityService.returnProperStringValue(cashDisbursement)));
+            replacementList.put("Total Federal Share", contractsGrantsBillingUtilityService.returnProperStringValue(contractsGrantsBillingUtilityService.returnProperStringValue(cashDisbursement)));
+            replacementList.put("Unobligated Balance of Federal Funds", contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardTotalAmount().subtract(cashDisbursement)));
         }
-        replacementList.put("Federal Share of Unliquidated Obligations", returnProperStringValue(KualiDecimal.ZERO));
+        replacementList.put("Federal Share of Unliquidated Obligations", contractsGrantsBillingUtilityService.returnProperStringValue(KualiDecimal.ZERO));
 
-        replacementList.put("Total Federal Income Earned", returnProperStringValue(null));
-        replacementList.put("Income Expended in Accordance to Deduction Alternative", returnProperStringValue(null));
-        replacementList.put("Income Expended in Accordance to Addition Alternative", returnProperStringValue(null));
-        replacementList.put("Unexpended Program Income", returnProperStringValue(null));
-        replacementList.put("Name", returnProperStringValue(null));
-        replacementList.put("Telephone", returnProperStringValue(null));
-        replacementList.put("Email Address", returnProperStringValue(null));
-        replacementList.put("Date Report Submitted", returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
+        replacementList.put("Total Federal Income Earned", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Income Expended in Accordance to Deduction Alternative", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Income Expended in Accordance to Addition Alternative", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Unexpended Program Income", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Name", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Telephone", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Email Address", contractsGrantsBillingUtilityService.returnProperStringValue(null));
+        replacementList.put("Date Report Submitted", contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
         if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
             replacementList.put("Quaterly", KFSConstants.OptionLabels.YES);
         }
@@ -466,8 +450,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     protected List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsBillingAward> awards, String reportingPeriod, String year, ContractsAndGrantsBillingAgency agency) {
         Map<String, String> replacementList = new HashMap<String, String>();
-        replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
-        replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(agency.getFullName())));
+        replacementList.put("Reporting Period End Date", contractsGrantsBillingUtilityService.returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
+        replacementList.put("Federal Agency", contractsGrantsBillingUtilityService.returnProperStringValue(contractsGrantsBillingUtilityService.returnProperStringValue(agency.getFullName())));
 
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
@@ -479,25 +463,25 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
-            String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
+            String address = contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName())) {
-                address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
+                address += ", " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode())) {
-                address += " " + returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
+                address += " " + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
             }
             if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode())) {
-                address += "-" + returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
+                address += "-" + contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
             }
 
-            replacementList.put("Recipient Organization", returnProperStringValue(address));
-            replacementList.put("EIN", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
+            replacementList.put("Recipient Organization", contractsGrantsBillingUtilityService.returnProperStringValue(address));
+            replacementList.put("EIN", contractsGrantsBillingUtilityService.returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
         }
 
         if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
@@ -519,14 +503,14 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
             replacementList.put("Accrual",KFSConstants.OptionLabels.YES);
         }
-        replacementList.put("Date Report Submitted", returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
+        replacementList.put("Date Report Submitted", contractsGrantsBillingUtilityService.returnProperStringValue(getDateTimeService().toDateString(new Date(new java.util.Date().getTime()))));
         KualiDecimal totalCashControl = KualiDecimal.ZERO;
         KualiDecimal totalCashDisbursement = KualiDecimal.ZERO;
         for (int i = 0; i < 30; i++) {
             if (i < awards.size()) {
-                replacementList.put("Federal Grant Number " + (i + 1), returnProperStringValue(awards.get(i).getAwardDocumentNumber()));
-                replacementList.put("Recipient Acount Number " + (i + 1), returnProperStringValue(awards.get(i).getActiveAwardAccounts().get(0).getAccountNumber()));
-                replacementList.put("Federal Cash Disbursement " + (i + 1), returnProperStringValue(this.getCashReceipts(awards.get(i))));
+                replacementList.put("Federal Grant Number " + (i + 1), contractsGrantsBillingUtilityService.returnProperStringValue(awards.get(i).getAwardDocumentNumber()));
+                replacementList.put("Recipient Acount Number " + (i + 1), contractsGrantsBillingUtilityService.returnProperStringValue(awards.get(i).getActiveAwardAccounts().get(0).getAccountNumber()));
+                replacementList.put("Federal Cash Disbursement " + (i + 1), contractsGrantsBillingUtilityService.returnProperStringValue(this.getCashReceipts(awards.get(i))));
                 totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
 
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
@@ -611,7 +595,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
             // generate replacement list for FF425
             populateListByAgency(awards, reportingPeriod, year, agency);
-            replacementList.put("totalPages", returnProperStringValue(totalPages + 1));
+            replacementList.put("totalPages", contractsGrantsBillingUtilityService.returnProperStringValue(totalPages + 1));
             KualiDecimal sumCashControl = KualiDecimal.ZERO;
             KualiDecimal sumCumExp = KualiDecimal.ZERO;
             while (pageNumber <= totalPages) {
@@ -631,12 +615,12 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 }
 
                 // populate form with document values
-                replacementList.put("pageNumber", returnProperStringValue(pageNumber + 1));
+                replacementList.put("pageNumber", contractsGrantsBillingUtilityService.returnProperStringValue(pageNumber + 1));
                 if (pageNumber == totalPages){
-                    replacementList.put("Total", returnProperStringValue(sumCashControl));
-                    replacementList.put("Cash Receipts", returnProperStringValue(sumCashControl));
-                    replacementList.put("Cash Disbursements", returnProperStringValue(sumCumExp));
-                    replacementList.put("Cash on Hand", returnProperStringValue(sumCashControl.subtract(sumCumExp)));
+                    replacementList.put("Total", contractsGrantsBillingUtilityService.returnProperStringValue(sumCashControl));
+                    replacementList.put("Cash Receipts", contractsGrantsBillingUtilityService.returnProperStringValue(sumCashControl));
+                    replacementList.put("Cash Disbursements", contractsGrantsBillingUtilityService.returnProperStringValue(sumCumExp));
+                    replacementList.put("Cash on Hand", contractsGrantsBillingUtilityService.returnProperStringValue(sumCashControl.subtract(sumCumExp)));
                 }
                 // add a document
                 copy.addDocument(new PdfReader(renameFieldsIn(federalReportTemplatePath + reportTemplateName, replacementList)));
@@ -871,8 +855,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
             if (CollectionUtils.isNotEmpty(LOCDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(LOCDocument.getAccountReviewDetails())) {
                 for (ContractsGrantsLetterOfCreditReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
-                    String proposalNumber = returnProperStringValue(item.getProposalNumber());
-                    String awardDocumentNumber = returnProperStringValue(item.getAwardDocumentNumber());
+                    String proposalNumber = contractsGrantsBillingUtilityService.returnProperStringValue(item.getProposalNumber());
+                    String awardDocumentNumber = contractsGrantsBillingUtilityService.returnProperStringValue(item.getAwardDocumentNumber());
 
                     for (ContractsGrantsLetterOfCreditReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
                         if (item.getProposalNumber().equals(newItem.getProposalNumber())) {
@@ -880,21 +864,21 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                             writer.append(',');
                             writer.append("\"" + awardDocumentNumber + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getAccountDescription()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountDescription()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getChartOfAccountsCode()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getChartOfAccountsCode()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getAccountNumber()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountNumber()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getAccountExpirationDate()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAccountExpirationDate()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getAwardBudgetAmount()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAwardBudgetAmount()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getClaimOnCashBalance()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getClaimOnCashBalance()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getAmountToDraw()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getAmountToDraw()) + "\"");
                             writer.append(',');
-                            writer.append("\"" + returnProperStringValue(newItem.getFundsNotDrawn()) + "\"");
+                            writer.append("\"" + contractsGrantsBillingUtilityService.returnProperStringValue(newItem.getFundsNotDrawn()) + "\"");
                             writer.append('\n');
                         }
                     }
@@ -1027,5 +1011,13 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {
+        return contractsGrantsBillingUtilityService;
+    }
+
+    public void setContractsGrantsBillingUtilityService(ContractsGrantsBillingUtilityService contractsGrantsBillingUtilityService) {
+        this.contractsGrantsBillingUtilityService = contractsGrantsBillingUtilityService;
     }
 }

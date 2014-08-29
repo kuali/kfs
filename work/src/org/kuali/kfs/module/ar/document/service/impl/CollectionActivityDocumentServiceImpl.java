@@ -242,15 +242,15 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     @Transactional
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
-        boolean resultInd = true;
+        boolean result = true;
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
 
         List<Event> events = (List<Event>) this.retrieveEvents(fieldValues, true, documentNumber);
         if (CollectionUtils.isNotEmpty(events)) {
-            resultInd = false;
+            result = false;
         }
-        return resultInd;
+        return result;
     }
 
     @Override

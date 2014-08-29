@@ -343,7 +343,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
         invoices = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(fieldValuesForInvoice, outsideColAgencyCode);
 
         if ((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) || ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
-            this.filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
+            filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
         }
 
         return ReferralToCollectionsDocumentUtil.getPopulatedReferralToCollectionsLookupResults(invoices);

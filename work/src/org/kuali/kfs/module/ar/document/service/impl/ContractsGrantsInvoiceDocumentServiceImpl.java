@@ -809,11 +809,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteria(Map fieldValues) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
-        if (CollectionUtils.isEmpty(cgInvoices)) {
-            return null;
-        }
-        return cgInvoices;
+        return contractsGrantsInvoiceDocumentDao.getMatchingInvoicesByCollection(fieldValues);
     }
 
     /**
@@ -826,11 +822,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude) {
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentDao.getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(fieldValues, outsideColAgencyCodeToExclude);
-        if (CollectionUtils.isEmpty(cgInvoices)) {
-            return null;
-        }
-        return cgInvoices;
+        return contractsGrantsInvoiceDocumentDao.getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(fieldValues, outsideColAgencyCodeToExclude);
     }
 
     /**
@@ -1557,10 +1549,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
                 }
             }
-            if (CollectionUtils.isEmpty(controlAccounts)) {
-                return null;
-            }
-            else {
+            if (CollectionUtils.isNotEmpty(controlAccounts)) {
                 return controlAccounts;
             }
         }
@@ -1572,9 +1561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award) {
-
-        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
-        return CollectionUtils.isEmpty(awardAccounts);
+        return CollectionUtils.isEmpty(award.getActiveAwardAccounts());
     }
 
     /**

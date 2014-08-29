@@ -115,9 +115,6 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
 
         Collection<ContractsGrantsInvoiceDocument> list = getContractsGrantsInvoiceDocumentService().retrieveAllCGInvoicesByCriteria(fieldValues);
         Collection<ContractsGrantsInvoiceDocument> finalList = new ArrayList<ContractsGrantsInvoiceDocument>();
-        if (CollectionUtils.isEmpty(list)) {
-            return null;
-        }
         for (ContractsGrantsInvoiceDocument item : list) {
             ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument)getDocumentService().getByDocumentHeaderId(item.getDocumentNumber());
 

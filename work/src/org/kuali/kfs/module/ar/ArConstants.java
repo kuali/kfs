@@ -120,6 +120,7 @@ public class ArConstants{
     public static final String CUSTOMER_COMPONENT = "Customer";
 
     public static final String PRINT_CREDIT_MEMO_PDF_METHOD = "printCreditMemoPDF";
+    public static final String PRINT_INVOICE_PDF_METHOD = "printInvoicePDF";
     public static final String DOWNLOAD_METHOD = "download";
     public static final String PRINT_METHOD = "print";
     public static final String UPLOAD_METHOD = "upload";
@@ -539,6 +540,7 @@ public class ArConstants{
         public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUP = "arCustomerOpenItemReportLookup.do";
         public static final String CASH_CONTROL_DOCUMENT = "arCashControlDocument.do";
         public static final String CUSTOMER_CREDIT_MEMO_DOCUMENT = "arCustomerCreditMemoDocument.do";
+        public static final String CUSTOMER_INVOICE_DOCUMENT = "arCustomerInvoiceDocument.do";
     }
 
     public static class ContractsAndGrantsCategorySections {

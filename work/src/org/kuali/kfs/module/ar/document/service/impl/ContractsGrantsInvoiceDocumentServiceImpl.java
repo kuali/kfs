@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,10 +36,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
-import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -48,7 +45,6 @@ import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -59,7 +55,6 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -1476,365 +1471,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return cumAmt;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award) {
 
-        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
-        if (awardAccounts.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check if Preferred Billing Frequency is set correctly.
-     *
-     * @param award
-     * @return False if preferred billing schedule is null, or set as perdetermined billing schedule or milestone billing schedule
-     *         and award has no award account or more than 1 award accounts assigned.
-     */
-    @Override
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award) {
-
-        if (award.getPreferredBillingFrequency() == null || ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) && award.getActiveAwardAccounts().size() != 1)) {
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * Check if the value of PreferredBillingFrequency is in the BillingFrequency value set.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
-        if (!StringUtils.isBlank(award.getPreferredBillingFrequency())) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.FREQUENCY, award.getPreferredBillingFrequency());
-            criteria.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsBillingFrequency> matchingBillingFrequencies = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
-
-            if (matchingBillingFrequencies != null && matchingBillingFrequencies.size() > 0) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getExpiredAccountsOfAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     *      Retrive all the expired accounts of an award
-     */
-    @Override
-    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award) {
-
-        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
-        Collection<Account> expiredAwardAccounts = new ArrayList<Account>();
-
-        if (awardAccounts != null && !awardAccounts.isEmpty()) {
-
-            Date today = dateTimeService.getCurrentSqlDateMidnight();
-
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-                Account account = awardAccount.getAccount();
-
-                if (account != null) {
-                    Date expDt = account.getAccountExpirationDate();
-
-                    if (expDt != null && expDt.before(today)) {
-                        expiredAwardAccounts.add(account);
-                    }
-                }
-
-            }
-
-            return expiredAwardAccounts;
-        }
-
-        return null;
-    }
-
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
-
-        if (!hasNoActiveAccountsAssigned(award)) {
-            List<Account> controlAccounts = new ArrayList<Account>();
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
-                    controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
-                }
-            }
-            if (CollectionUtils.isEmpty(controlAccounts)) {
-                return null;
-            }
-            else {
-                return controlAccounts;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardFinalInvoiceAlreadyBuilt(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award) {
-        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        ContractsAndGrantsBillingAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
-        while (iterator.hasNext()) {
-            awardAccount = iterator.next();
-            if (!awardAccount.isFinalBilledIndicator()) {
-                awardAccounts.add(awardAccount);
-            }
-            if (CollectionUtils.isEmpty(awardAccounts)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    /**
-     * this method checks If all accounts of award has invoices in progress.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, getFinancialSystemDocumentService().getPendingDocumentStatuses());
-
-        final int inProgressCount = getBusinessObjectService().countMatching(ContractsGrantsInvoiceDocument.class, fieldValues);
-        return inProgressCount > 0;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoMilestonesToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award) {
-        boolean isValid = false;
-        if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            List<Milestone> milestones = new ArrayList<Milestone>();
-            List<Milestone> validMilestones = new ArrayList<Milestone>();
-
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-            map.put(KFSPropertyConstants.ACTIVE, true);
-            milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
-
-            // To retrieve the previous period end Date to check for milestones and billing schedule.
-
-            Timestamp ts = new Timestamp(new java.util.Date().getTime());
-            java.sql.Date today = new java.sql.Date(ts.getTime());
-            AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-            java.sql.Date invoiceDate = pair[1];
-
-
-            for (Milestone awdMilestone : milestones) {
-                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilledIndicator() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
-                    validMilestones.add(awdMilestone);
-                }
-            }
-            if (CollectionUtils.isEmpty(validMilestones)) {
-                isValid = true;
-            }
-        }
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoBillsToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award) {
-        boolean isValid = false;
-        if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-
-            List<Bill> bills = new ArrayList<Bill>();
-            List<Bill> validBills = new ArrayList<Bill>();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-            map.put(KFSPropertyConstants.ACTIVE, true);
-
-            bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
-            // To retrieve the previous period end Date to check for milestones and billing schedule.
-
-            Timestamp ts = new Timestamp(new java.util.Date().getTime());
-            java.sql.Date today = new java.sql.Date(ts.getTime());
-            AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
-            java.sql.Date invoiceDate = pair[1];
-
-            for (Bill awdBill : bills) {
-                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
-                    validBills.add(awdBill);
-                }
-            }
-            if (CollectionUtils.isEmpty(validBills)) {
-                isValid = true;
-            }
-        }
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#owningAgencyHasNoCustomerRecord(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
-     */
-    @Override
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award) {
-        boolean isValid = true;
-        if (ObjectUtils.isNotNull(award.getAgency().getCustomerNumber())) {
-            Customer customer = customerService.getByPrimaryKey(award.getAgency().getCustomerNumber());
-            if (ObjectUtils.isNotNull(customer)) {
-                isValid = false;
-            }
-        }
-
-        return isValid;
-    }
-
-    /**
-     * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code
-     * from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
-        String coaCode = award.getPrimaryAwardOrganization().getChartOfAccountsCode();
-        String orgCode = award.getPrimaryAwardOrganization().getOrganizationCode();
-        String procCoaCode = null, procOrgCode = null;
-        Integer currentYear = universityDateService.getCurrentFiscalYear();
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        Map<String, Object> sysCriteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-        sysCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-
-
-        // To retrieve processing codes based on billing codes using organization options
-        List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
-        if (!CollectionUtils.isEmpty(procCodes) && procCodes.size() > 1) {
-
-            sysCriteria.put(ArPropertyConstants.OrganizationAccountingDefaultFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, procCodes.get(0));
-            sysCriteria.put(ArPropertyConstants.OrganizationAccountingDefaultFields.PROCESSING_ORGANIZATION_CODE, procCodes.get(1));
-            OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
-
-            SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
-            if (ObjectUtils.isNotNull(organizationAccountingDefault) && ObjectUtils.isNotNull(systemInformation)) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-    /**
-     * To retrieve processing chart code and org code from the billing chart code and org code
-     *
-     * @param cgInvoiceDocument
-     * @param billingChartOfAccountsCode
-     * @param billingOrganizationCode
-     * @return
-     */
-    @Override
-    public List<String> getProcessingFromBillingCodes(String billingChartCode, String billingOrgCode) {
-
-        List<String> procCodes = new ArrayList<String>();
-        // To access Organization Options to find the billing values based on procesing codes
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, billingChartCode);
-        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, billingOrgCode);
-        OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
-
-        if (ObjectUtils.isNotNull(organizationOptions)) {
-            procCodes.add(0, organizationOptions.getProcessingChartOfAccountCode());
-            procCodes.add(1, organizationOptions.getProcessingOrganizationCode());
-        }
-
-        return procCodes;
-    }
-
-    /**
-     * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
-        String coaCode = null, orgCode = null;
-        Integer currentYear = universityDateService.getCurrentFiscalYear();
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        // This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            Map<String, Object> sysCriteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
-            // 1. To get the chart code and org code for invoicing depending on the invoicing options.
-            if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
-                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return true;
-                        }
-                    }
-                }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                    List<Account> controlAccounts = getContractControlAccounts(award);
-
-                    for (Account controlAccount : controlAccounts) {
-                        coaCode = controlAccount.getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return true;
-                        }
-                    }
-                }
-                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
-                    List<Account> controlAccounts = getContractControlAccounts(award);
-
-                    for (Account controlAccount : controlAccounts) {
-                        coaCode = controlAccount.getChartOfAccountsCode();
-                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
-                        if (ObjectUtils.isNull(offset)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
 
     /**
@@ -1917,40 +1554,98 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return billedToDateAmount;
     }
 
-
     /**
-     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     *
-     * @param award
-     * @return
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getExpiredAccountsOfAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
+     *      Retrive all the expired accounts of an award
      */
     @Override
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
-        boolean isValid = true;
-        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        // This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU) {
-            if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
-                isValid = false;
-            }
-            else {
-                int arCount = 0;
-                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                        arCount++;
+    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award) {
 
+        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        Collection<Account> expiredAwardAccounts = new ArrayList<Account>();
+
+        if (awardAccounts != null && !awardAccounts.isEmpty()) {
+
+            Date today = dateTimeService.getCurrentSqlDateMidnight();
+
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
+                Account account = awardAccount.getAccount();
+
+                if (account != null) {
+                    Date expDt = account.getAccountExpirationDate();
+
+                    if (expDt != null && expDt.before(today)) {
+                        expiredAwardAccounts.add(account);
                     }
                 }
-                if (arCount == 0) {
-                    isValid = false;
-                }
+
             }
+
+            return expiredAwardAccounts;
         }
-        return isValid;
+
+        return null;
     }
 
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
+     */
+    @Override
+    public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
+
+        if (!hasNoActiveAccountsAssigned(award)) {
+            List<Account> controlAccounts = new ArrayList<Account>();
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
+                    controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
+                }
+            }
+            if (CollectionUtils.isEmpty(controlAccounts)) {
+                return null;
+            }
+            else {
+                return controlAccounts;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
+     */
+    @Override
+    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award) {
+
+        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        return CollectionUtils.isEmpty(awardAccounts);
+    }
+
+    /**
+     * To retrieve processing chart code and org code from the billing chart code and org code
+     *
+     * @param cgInvoiceDocument
+     * @param billingChartOfAccountsCode
+     * @param billingOrganizationCode
+     * @return
+     */
+    @Override
+    public List<String> getProcessingFromBillingCodes(String billingChartCode, String billingOrgCode) {
+
+        List<String> procCodes = new ArrayList<String>();
+        // To access Organization Options to find the billing values based on procesing codes
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, billingChartCode);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, billingOrgCode);
+        OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+
+        if (ObjectUtils.isNotNull(organizationOptions)) {
+            procCodes.add(0, organizationOptions.getProcessingChartOfAccountCode());
+            procCodes.add(1, organizationOptions.getProcessingOrganizationCode());
+        }
+
+        return procCodes;
+    }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#canViewInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument, java.lang.String)

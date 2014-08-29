@@ -267,6 +267,9 @@
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="contractsGrantsBillingAwardVerificationService">
+			<ref bean="contractsGrantsBillingAwardVerificationService"/>
+		</property>
 		<property name="contractsAndGrantsModuleBillingService">
 			<ref bean="contractsAndGrantsModuleBillingService"/>
 		</property>
@@ -2437,5 +2440,18 @@
 	<bean id="milestoneScheduleMaintenanceService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.MilestoneScheduleMaintenanceServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService"/>
 	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	</bean>
+	
+	<bean id="contractsGrantsBillingAwardVerificationService" parent="contractsGrantsBillingAwardVerificationService-parentBean"/>
+	<bean id="contractsGrantsBillingAwardVerificationService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsBillingAwardVerificationServiceImpl">
+		<property name="accountingPeriodService" ref="accountingPeriodService"/>
+	    <property name="businessObjectService" ref="businessObjectService"/>
+	    <property name="customerService" ref="customerService"/>
+	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	    <property name="financialSystemDocumentService" ref="financialSystemDocumentService"/>
+	    <property name="kualiModuleService" ref="kualiModuleService"/>
+	    <property name="parameterService" ref="parameterService"/>
+	    <property name="verifyBillingFrequencyService" ref="verifyBillingFrequencyService"/>
+	    <property name="universityDateService" ref="universityDateService"/>
 	</bean>
 </beans>

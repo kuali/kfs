@@ -174,102 +174,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public List<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
 
     /**
-     * Check iF Award has no accounts assigned
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if Preferred Billing Frequency is set correctly.
-     *
-     * @param award
-     * @return False if preferred billing schedule is set as perdetermined billing schedule or milestone billing schedule, and award
-     *         has no award account or more than 1 award accounts assigned.
-     */
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if the value of PreferredBillingFrequency is in the value set.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if the final Invoice for all accounts in the invoice have already been built.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award);
-
-    /**
      * Retrieve all the expired accounts of an award
      *
      * @param award
      * @return
      */
     public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Checks if the award has valid milestones to invoice.
-     *
-     * @param award
-     * @return true if has valid milestones to invoice. false if not.
-     */
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Checks if the award has valid milestones to invoice.
-     *
-     * @param award
-     * @return true if has valid milestones to invoice. false if not.
-     */
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award);
-
-    /**
-     * Check if agency owning award has no customer record
-     *
-     * @param award
-     * @return
-     */
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code
-     * from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
-
-    /**
-     * this method checks If all accounts of award has invoices in progress.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     *
-     * @param award
-     * @return
-     */
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award);
-
-    /**
-     * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
-     *
-     * @param award
-     * @return
-     */
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
 
     /**
      * To retrieve processing chart code and org code from the billing chart code and org code
@@ -279,6 +189,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return list of processing codes
      */
     public List<String> getProcessingFromBillingCodes(String coaCode, String orgCode);
+
+    /**
+     * Check iF Award has no accounts assigned
+     *
+     * @param award
+     * @return
+     */
+    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award);
 
     /**
      * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.

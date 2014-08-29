@@ -124,12 +124,24 @@ public class ArConstants{
 
     public static final String CUSTOMER_COMPONENT = "Customer";
 
-    public static final String PRINT_STATEMENT_PDF_METHOD = "printStatementPDF";
+    public static final String CLEAR_INIT_TAB_METHOD = "clearInitTab";
+    public static final String CONTINUE_LOC_REVIEW_METHOD = "continueLOCReview";
+    public static final String DOWNLOAD_METHOD = "download";
+    public static final String EXPORT_METHOD = "export";
+    public static final String PRINT_METHOD = "print";
     public static final String PRINT_CREDIT_MEMO_PDF_METHOD = "printCreditMemoPDF";
     public static final String PRINT_INVOICE_PDF_METHOD = "printInvoicePDF";
-    public static final String DOWNLOAD_METHOD = "download";
-    public static final String PRINT_METHOD = "print";
+    public static final String PRINT_STATEMENT_PDF_METHOD = "printStatementPDF";
     public static final String UPLOAD_METHOD = "upload";
+    public static final String CLEAR_BUTTON_FILE_NAME = "buttonsmall_clear.gif";
+    public static final String CLEAR_BUTTON_ALT_TEXT = "Clear";
+    public static final String CONTINUE_BUTTON_FILE_NAME = "buttonsmall_continue.gif";
+    public static final String CONTINUE_BUTTON_ALT_TEXT = "Continue";
+    public static final String EXPORT_BUTTON_FILE_NAME = "buttonsmall_export.gif";
+    public static final String EXPORT_BUTTON_ALT_TEXT = "Export";
+    public static final String EXPORT_BUTTON_ONCLICK_TEXT = "excludeSubmitRestriction=true";
+    public static final String PRINT_BUTTON_FILE_NAME = "buttonsmall_genprintfile.gif";
+    public static final String PRINT_BUTTON_ALT_TEXT = "Print";
     public static final String PRORATE_BUTTON_METHOD = "methodToCall.prorateBill";
     public static final String PRORATE_BUTTON_FILE_NAME = "buttonsmall_prorate.gif";
     public static final String PRORATE_BUTTON_ALT_TEXT = "Prorate Bill";
@@ -473,9 +485,10 @@ public class ArConstants{
     public static final String ZERO = "0";
 
     public static class ArDocumentTypeCodes {
-        public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
-        public static final String REFERRAL_TO_COLLECTIONS = "RTCL";
         public static final String COLLECTION_ACTIVTY = "COLA";
+        public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
+        public static final String LETTER_OF_CREDIT_REVIEW = "LCR";
+        public static final String REFERRAL_TO_COLLECTIONS = "RTCL";
     }
 
     // CG Invoice Document

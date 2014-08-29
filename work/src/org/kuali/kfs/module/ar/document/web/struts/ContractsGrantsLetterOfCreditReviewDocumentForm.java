@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.web.struts;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,18 +21,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -42,29 +39,12 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  */
 public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 
-    private List<Long> proposalNumbers;
-
-    public ContractsGrantsLetterOfCreditReviewDocumentForm() {
-        super();
-    }
-
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "LCR";
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void populate(HttpServletRequest request) {
-
-        super.populate(request);
-
-
+        return ArConstants.ArDocumentTypeCodes.LETTER_OF_CREDIT_REVIEW;
     }
 
     /**
@@ -86,14 +66,15 @@ public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSy
         // special buttons for the first 'init' screen
         if (editModes.contains(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB)) {
             String externalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
-            addExtraButton("methodToCall.continueLOCReview", externalImageURL + "buttonsmall_continue.gif", "Continue");
-            addExtraButton("methodToCall.clearInitTab", externalImageURL + "buttonsmall_clear.gif", "Clear");
+            addExtraButton(KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + ArConstants.CONTINUE_LOC_REVIEW_METHOD, externalImageURL + ArConstants.CONTINUE_BUTTON_FILE_NAME, ArConstants.CONTINUE_BUTTON_ALT_TEXT);
+            addExtraButton(KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + ArConstants.CLEAR_INIT_TAB_METHOD, externalImageURL + ArConstants.CLEAR_BUTTON_FILE_NAME, ArConstants.CLEAR_BUTTON_ALT_TEXT);
+        } else {
+            // draw the Print File button if appropriate
+            String printButtonURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            addExtraButton(KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + ArConstants.PRINT_METHOD, printButtonURL + ArConstants.PRINT_BUTTON_FILE_NAME, ArConstants.PRINT_BUTTON_ALT_TEXT);
+            String exportButtonURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+            addExtraButton(KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + ArConstants.EXPORT_METHOD, exportButtonURL + ArConstants.EXPORT_BUTTON_FILE_NAME, ArConstants.EXPORT_BUTTON_ALT_TEXT, ArConstants.EXPORT_BUTTON_ONCLICK_TEXT);
         }
-        // draw the Print File button if appropriate
-        String printButtonURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
-        String exportButtonURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
-        addExtraButton("methodToCall.export", exportButtonURL + "buttonsmall_export.gif", "Export", "excludeSubmitRestriction=true");
 
         return extraButtons;
     }
@@ -106,14 +87,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSy
      * @param altText - alternate text for button if images don't appear
      */
     protected void addExtraButton(String property, String source, String altText) {
-
-        ExtraButton newButton = new ExtraButton();
-
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-
-        extraButtons.add(newButton);
+        addExtraButton(property, source, altText, StringUtils.EMPTY);
     }
 
     /**
@@ -125,7 +99,6 @@ public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSy
      * @param onClick - onclick property for the button
      */
     protected void addExtraButton(String property, String source, String altText, String onClick) {
-
         ExtraButton newButton = new ExtraButton();
 
         newButton.setExtraButtonProperty(property);
@@ -154,15 +127,5 @@ public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSy
         Collections.sort(ppNos);
         return ppNos;
     }
-
-    /**
-     * Sets the proposalNumbers attribute value.
-     *
-     * @param proposalNumbers The proposalNumbers to set.
-     */
-    public void setProposalNumbers(List<Long> proposalNumbers) {
-        this.proposalNumbers = proposalNumbers;
-    }
-
 
 }

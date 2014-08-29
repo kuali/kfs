@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.web.struts;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Properties;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -38,13 +35,17 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErro
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
+import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
@@ -52,12 +53,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Action class for Contracts Grants LetterOfCredit Review Document.
@@ -204,19 +200,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         }
 
         ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
-        byte[] report = reportService.generateCSVToExport(document);
+        byte[] report = reportService.convertLetterOfCreditReviewToCSV(document);
         if (report.length == 0) {
             throw new RuntimeException("Error: non-existent file or directory provided");
         }
-        response.setContentType("text/csv");
-        response.setHeader("Content-disposition", "attachment; filename=CSV-Export-" + document.getDocumentNumber() + "-" + document.getLetterOfCreditFundGroupCode() + ".csv");
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
-        response.setContentLength(report.length);
-        InputStream fis = new ByteArrayInputStream(report);
-        IOUtils.copy(fis, response.getOutputStream());
-        response.getOutputStream().flush();
+
+        WebUtils.saveMimeInputStreamAsFile(response, KFSConstants.ReportGeneration.CSV_MIME_TYPE, new ByteArrayInputStream(report), "CSV-Export-" + document.getDocumentNumber() + "-" + document.getLetterOfCreditFundGroupCode() + KFSConstants.ReportGeneration.CSV_FILE_EXTENSION, report.length);
         return null;
     }
 
@@ -251,15 +240,13 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
-        String methodToCallPrintInvoicePDF = "printInvoicePDF";
-        String methodToCallDocHandler = "docHandler";
-        String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, methodToCallPrintInvoicePDF);
-        String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, docId, methodToCallDocHandler);
 
-        request.setAttribute("printPDFUrl", printInvoicePDFUrl);
-        request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
-        return mapping.findForward("arPrintPDF");
+        String printInvoicePDFUrl = getUrlForPrintInvoice(basePath, docId, ArConstants.PRINT_INVOICE_PDF_METHOD);
+        String displayInvoiceTabbedPageUrl = getUrlForPrintInvoice(basePath, docId, KFSConstants.DOC_HANDLER_METHOD);
 
+        request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printInvoicePDFUrl);
+        request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayInvoiceTabbedPageUrl);
+        return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
     }
 
     /**
@@ -275,84 +262,27 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String invoiceDocId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
         ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
+
         if (ObjectUtils.isNotNull(contractsGrantsLOCReviewDocument)) {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
-            byte[] report = reportService.generateInvoice(contractsGrantsLOCReviewDocument);
-
-            StringBuilder fileName = new StringBuilder();
-            fileName.append(contractsGrantsLOCReviewDocument.getLetterOfCreditFundCode());
-            fileName.append("-");
-            fileName.append(contractsGrantsLOCReviewDocument.getDocumentNumber());
-            fileName.append(".pdf");
+            byte[] report = reportService.generateLOCReviewAsPdf(contractsGrantsLOCReviewDocument);
 
             if (report.length == 0) {
-                System.out.println("No Report Generated");
+                LOG.warn("No Report Generated");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            String contentDisposition = "";
-            ArrayList master = new ArrayList();
-            PdfCopy writer = null;
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(report);
 
-            // create a reader for the document
-            PdfReader reader = new PdfReader(new ByteArrayInputStream(report));
-            reader.consolidateNamedDestinations();
+            StringBuilder fileName = new StringBuilder();
+            fileName.append(contractsGrantsLOCReviewDocument.getLetterOfCreditFundCode());
+            fileName.append(KFSConstants.DASH);
+            fileName.append(contractsGrantsLOCReviewDocument.getDocumentNumber());
+            fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
 
-            // retrieve the total number of pages
-            int n = reader.getNumberOfPages();
-            List bookmarks = SimpleBookmark.getBookmark(reader);
-            if (bookmarks != null) {
-                master.addAll(bookmarks);
-            }
-
-            // step 1: create a document-object
-            Document document = new Document(reader.getPageSizeWithRotation(1));
-            // step 2: create a writer that listens to the document
-            writer = new PdfCopy(document, baos);
-            // step 3: open the document
-            document.open();
-            // step 4: add content
-            PdfImportedPage page;
-            for (int i = 0; i < n;) {
-                ++i;
-                page = writer.getImportedPage(reader, i);
-                writer.addPage(page);
-            }
-            writer.freeReader(reader);
-            if (!master.isEmpty()) {
-                writer.setOutlines(master);
-            }
-            // step 5: we close the document
-            document.close();
-
-            StringBuffer sbContentDispValue = new StringBuffer();
-            String useJavascript = request.getParameter("useJavascript");
-            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                sbContentDispValue.append("attachment");
-            }
-            else {
-                sbContentDispValue.append("inline");
-            }
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(fileName);
-
-            contentDisposition = sbContentDispValue.toString();
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", contentDisposition);
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Pragma", "public");
-            response.setContentLength(baos.size());
-
-            // write to output
-            ServletOutputStream sos;
-            sos = response.getOutputStream();
-            baos.writeTo(sos);
-            sos.flush();
-            sos.close();
+            KfsWebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, fileName.toString(), Boolean.parseBoolean(request.getParameter(KFSConstants.ReportGeneration.USE_JAVASCRIPT)));
         }
+
         return null;
     }
 
@@ -384,15 +314,12 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
      * @return The URL
      */
     protected String getUrlForPrintInvoice(String basePath, String docId, String methodToCall) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=");
-        result.append(methodToCall);
-        if (ObjectUtils.isNotNull(docId)) {
-            result.append("&docId=");
-            result.append(docId);
-        }
-        result.append("&command=displayDocSearchView");
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.CONTRACTS_GRANTS_LETTER_OF_CREDIT_REVIEW_DOCUMENT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KFSConstants.PARAMETER_DOC_ID, docId);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.ACTIONLIST_COMMAND);
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 }

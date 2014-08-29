@@ -24,12 +24,12 @@
 		<property name="lookupDefinition">
 			<ref bean="DunningLetterTemplate-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="letterTemplateCode" />
+		<property name="titleAttribute" value="dunningLetterTemplateCode" />
 		<property name="objectLabel" value="Dunning Letter Template" />
 		<property name="attributes">
 			<list>
-				<ref bean="DunningLetterTemplate-letterTemplateCode" />
-				<ref bean="DunningLetterTemplate-letterTemplateDescription" />
+				<ref bean="DunningLetterTemplate-dunningLetterTemplateCode" />
+				<ref bean="DunningLetterTemplate-dunningLetterTemplateDescription" />
 				<ref bean="TemplateBase-filename" />
 				<ref bean="TemplateBase-active" />
 				<ref bean="TemplateBase-accessRestricted" />
@@ -42,11 +42,11 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="DunningLetterTemplate-letterTemplateCode" parent="DunningLetterTemplate-letterTemplateCode-parentBean" />
+	<bean id="DunningLetterTemplate-dunningLetterTemplateCode" parent="DunningLetterTemplate-dunningLetterTemplateCode-parentBean" />
 
-	<bean id="DunningLetterTemplate-letterTemplateCode-parentBean"
+	<bean id="DunningLetterTemplate-dunningLetterTemplateCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="letterTemplateCode" />
+		<property name="name" value="dunningLetterTemplateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Dunning Letter Template Code" />
 		<property name="shortLabel" value="Code" />
@@ -60,11 +60,11 @@
 		</property>
 	</bean>
 
-	<bean id="DunningLetterTemplate-letterTemplateDescription" parent="DunningLetterTemplate-letterTemplateDescription-parentBean" />
+	<bean id="DunningLetterTemplate-dunningLetterTemplateDescription" parent="DunningLetterTemplate-dunningLetterTemplateDescription-parentBean" />
 
-	<bean id="DunningLetterTemplate-letterTemplateDescription-parentBean"
+	<bean id="DunningLetterTemplate-dunningLetterTemplateDescription-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="letterTemplateDescription" />
+		<property name="name" value="dunningLetterTemplateDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Dunning Letter Template Description" />
 		<property name="shortLabel" value="Description" />
@@ -92,8 +92,8 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
-							<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+							<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateCode" />
+							<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
 						</list>
@@ -130,7 +130,7 @@
 	<bean id="DunningLetterTemplate-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Dunning Letter Template Lookup" />
-		<property name="lookupableID" value="letterTemplateLookupable" />
+		<property name="lookupableID" value="dunningLetterTemplateLookupable" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
@@ -138,15 +138,15 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateDescription" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="dunningLetterTemplateDescription" />
 				<bean parent="FieldDefinition" p:attributeName="filename" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

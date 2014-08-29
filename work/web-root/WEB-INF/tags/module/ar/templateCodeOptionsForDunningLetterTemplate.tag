@@ -1,5 +1,5 @@
 <%--
- Copyright 2007 The Kuali Foundation
+ Copyright 2006-2009 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,6 +15,13 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<ar:templateUploadPage>
-	<ar:templateCodeOptionsForInvoiceTemplate />
-</ar:templateUploadPage>
+<c:set var="LetterTemplateAttributes"
+	value="${DataDictionary.DunningLetterTemplate.attributes}" />
+
+<td class="infoline"><kul:htmlAttributeLabel
+		attributeEntry="${LetterTemplateAttributes.dunningLetterTemplateCode}"
+		useShortLabel="false" /> 
+	<html:select property="dunningLetterTemplateCode">
+		<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|DunningLetterTemplateValuesFinder" label="value" value="key"/>
+    </html:select>
+</td>

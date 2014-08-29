@@ -397,7 +397,7 @@ public class ArPropertyConstants{
     }
 
     public static class DunningLetterTemplateFields {
-        public static final String LETTER_TEMPLATE_CODE = "letterTemplateCode";
+        public static final String DUNNING_LETTER_TEMPLATE_CODE = "dunningLetterTemplateCode";
     }
 
     public static class InvoiceTemplateFields {

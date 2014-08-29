@@ -360,6 +360,14 @@ public class ArKeyConstants {
 
      public static final String ERROR_REPORT_INVALID_CALCULATED_PATTERN = "error.report.invalid.calculated.pattern";
 
+     public static class TemplateUploadErrors {
+         public static final String ERROR_TEMPLATE_UPLOAD_NO_TEMPLATE = "error.template.upload.no.template";
+         public static final String ERROR_TEMPLATE_UPLOAD_NO_TEMPLATE_TYPE = "error.template.upload.no.template.type";
+         public static final String ERROR_TEMPLATE_UPLOAD_USER_NOT_AUTHORIZED = "error.template.upload.user.not.authorized";
+         public static final String ERROR_TEMPLATE_UPLOAD_TEMPLATE_NOT_AVAILABLE = "error.template.upload.template.not.available";
+         public static final String ERROR_TEMPLATE_UPLOAD_INVALID_FILE_TYPE = "error.template.upload.invalid.file.type";
+     }
+
      // messages for Transmit Contracts & Grants Invoices
      public static final String NO_DELIVERY_TYPE_SELECTED = "error.no.delivery.type.selected";
      public static final String NO_PRINCIPAL_NAME_FOUND = "error.no.principal.name.found";

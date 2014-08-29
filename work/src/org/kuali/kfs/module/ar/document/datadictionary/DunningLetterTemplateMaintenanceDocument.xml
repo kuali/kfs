@@ -29,7 +29,7 @@
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>letterTemplateCode</value>
+				<value>dunningLetterTemplateCode</value>
 			</list>
 		</property>
 		<property name="documentTypeName" value="DLTM" />
@@ -71,9 +71,9 @@
 		<property name="title" value="Dunning Letter Template" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="letterTemplateCode"
+				<bean parent="MaintainableFieldDefinition" p:name="dunningLetterTemplateCode"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="letterTemplateDescription"
+				<bean parent="MaintainableFieldDefinition" p:name="dunningLetterTemplateDescription"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />

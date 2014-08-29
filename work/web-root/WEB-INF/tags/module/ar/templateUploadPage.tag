@@ -1,5 +1,5 @@
 <%--
- Copyright 2007 The Kuali Foundation
+ Copyright 2006-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,50 +13,42 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp" %>
 
 <kul:page showDocumentInfo="false"
-	headerTitle="Accounts Receivable Letter Template Upload" docTitle=""
+	headerTitle="Accounts Receivable ${KualiForm.templateType} Template Upload" docTitle=""
 	renderMultipart="true" transactionalDocument="false"
-	htmlFormAction="arAccountsReceivableLetterTemplateUpload" errorKey="foo">
+	htmlFormAction="${KualiForm.htmlFormAction}" errorKey="foo">
 
-	<c:set var="LetterTemplateAttributes"
-		value="${DataDictionary.DunningLetterTemplate.attributes}" />
-
-	<strong><h2>Dunning Letter Template Upload</h2> </strong>
+	<strong><h2>${KualiForm.templateType} Template Upload</h2> </strong>
 	</br>
 
 	<table width="100%" border="0">
 		<tr>
-			<td><kul:errors keyMatch="document.letterTemplateUpload"
+			<td><kul:errors keyMatch="${KualiForm.errorPropertyName}"
 					errorTitle="Errors Found On Page:" />
 			</td>
 		</tr>
 	</table>
 	</br>
 
-	<kul:tabTop tabTitle="Manage Dunning Letter Template Files" defaultOpen="true"
+	<kul:tabTop tabTitle="Manage ${KualiForm.templateType} Template Files" defaultOpen="true"
 		tabErrorKey="">
 		<div class="tab-container" align="center">
-			<h3>Upload Dunning Letter Template Document</h3>
+			<h3>Upload ${KualiForm.templateType} Template Document</h3>
 			<table width="100%" summary="" cellpadding="0" cellspacing="0">
 				<tr>
 					<td class="infoline"><html:file title="Browse File"
 							property="uploadedFile" /> <span class="fineprint"></span>
 					</td>
-					<td class="infoline"><kul:htmlAttributeLabel
-							attributeEntry="${LetterTemplateAttributes.letterTemplateCode}"
-							useShortLabel="false" /> 
-						<html:select property="letterTemplateCode">
-                 				<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ar|businessobject|options|DunningLetterTemplateValuesFinder" label="value" value="key"/>
-               			</html:select>
-					</td>
+
+					<jsp:doBody/>
 
 					<td class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.save"
 								src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-								alt="Add a Letter Template" title="Add a Letter Template"
+								alt="Add ${KualiForm.templateType} Template" title="Add ${KualiForm.templateType} Template"
 								styleClass="tinybutton" />
 						</div>
 					</td>

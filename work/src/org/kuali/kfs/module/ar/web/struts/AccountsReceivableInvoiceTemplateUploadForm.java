@@ -15,73 +15,21 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.TemplateBase;
+
 
 
 /**
  * This class represents the form for the InvoiceTemplate.
  */
-public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
+public class AccountsReceivableInvoiceTemplateUploadForm extends AccountsReceivableTemplateUploadForm {
 
-    private FormFile uploadedFile;
-    private boolean active;
-    private boolean accessRestricted;
     private String invoiceTemplateCode;
-    private String fileName;
 
-    /**
-     * Gets the fileName attribute.
-     *
-     * @return Returns the fileName.
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * Sets the fileName attribute value.
-     *
-     * @param fileName The fileName to set.
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    /**
-     * Gets the active attribute.
-     *
-     * @return Returns the active.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Sets the active attribute value.
-     *
-     * @param active The active to set.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * Gets the accessRestricted attribute.
-     *
-     * @return Returns the accessRestricted.
-     */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
-    }
-
-    /**
-     * Sets the accessRestricted attribute value.
-     *
-     * @param accessRestricted The accessRestricted to set.
-     */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public AccountsReceivableInvoiceTemplateUploadForm() {
+        setHtmlFormAction(ArConstants.Actions.ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD);
     }
 
     /**
@@ -102,33 +50,29 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
         this.invoiceTemplateCode = invoiceTemplateCode;
     }
 
-    /**
-     * Gets the uploadedFile attribute.
-     *
-     * @return Returns the uploadedFile.
-     */
-    public FormFile getUploadedFile() {
-        return uploadedFile;
+    @Override
+    public String getTemplateCode() {
+        return invoiceTemplateCode;
     }
 
-    /**
-     * Constructs a AccountsReceivableInvoiceTemplateUploadForm.java.
-     *
-     * @param document
-     * @param uploadedFile
-     */
-    public AccountsReceivableInvoiceTemplateUploadForm() {
-        super();
-
+    @Override
+    public Class<? extends TemplateBase> getTemplateClass() {
+        return InvoiceTemplate.class;
     }
 
-    /**
-     * Sets the uploadedFile attribute value.
-     *
-     * @param uploadedFile The uploadedFile to set.
-     */
-    public void setUploadedFile(FormFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
+    @Override
+    public String getErrorPropertyName() {
+        return ArConstants.INVOICE_TEMPLATE_UPLOAD;
+    }
+
+    @Override
+    public String getTemplateType() {
+        return ArConstants.INVOICE_TEMPLATE_TYPE;
+    }
+
+    @Override
+    public String getNewFileNamePrefix() {
+        return ArConstants.INVOICE_TEMPLATE_NEW_FILE_NAME_PREFIX;
     }
 
 }

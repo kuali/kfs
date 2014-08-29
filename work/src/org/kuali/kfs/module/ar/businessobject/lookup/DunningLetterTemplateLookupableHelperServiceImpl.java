@@ -43,7 +43,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLo
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
 
-        DunningLetterTemplate letterTemplate = (DunningLetterTemplate) businessObject;
+        DunningLetterTemplate dunningLetterTemplate = (DunningLetterTemplate) businessObject;
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject)) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
@@ -51,11 +51,11 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLo
         if (allowsMaintenanceNewOrCopyAction()) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
-        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(letterTemplate, currentUser) || !letterTemplate.isAccessRestricted()) {
-            htmlDataList.add(getTemplateUploadUrl(ArPropertyConstants.DunningLetterTemplateFields.LETTER_TEMPLATE_CODE, letterTemplate.getLetterTemplateCode()));
+        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(dunningLetterTemplate, currentUser) || !dunningLetterTemplate.isAccessRestricted()) {
+            htmlDataList.add(getTemplateUploadUrl(ArPropertyConstants.DunningLetterTemplateFields.DUNNING_LETTER_TEMPLATE_CODE, dunningLetterTemplate.getDunningLetterTemplateCode()));
         }
-        if (StringUtils.isNotBlank(letterTemplate.getFilename()) && templateFileExists(letterTemplate.getFilename())) {
-            htmlDataList.add(getTemplateDownloadUrl(letterTemplate.getFilename()));
+        if (StringUtils.isNotBlank(dunningLetterTemplate.getFilename()) && templateFileExists(dunningLetterTemplate.getFilename())) {
+            htmlDataList.add(getTemplateDownloadUrl(dunningLetterTemplate.getFilename()));
         }
 
         return htmlDataList;
@@ -66,7 +66,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends TemplateLo
      */
     @Override
     protected String getAction() {
-        return ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD;
+        return ArConstants.UrlActions.ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD;
     }
 
     public DunningLetterDistributionService getDunningLetterDistributionService() {

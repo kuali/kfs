@@ -203,7 +203,7 @@
 		</property>
 	</bean>
 	
-	<bean id="letterTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterTemplateLookupableHelperServiceImpl"
+	<bean id="dunningLetterTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterTemplateLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
@@ -213,9 +213,9 @@
 		</property>
 	</bean>
 
-	<bean id="letterTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="dunningLetterTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
-			<ref bean="letterTemplateLookupableHelperService" />
+			<ref bean="dunningLetterTemplateLookupableHelperService" />
 		</property>
 	</bean>
 	

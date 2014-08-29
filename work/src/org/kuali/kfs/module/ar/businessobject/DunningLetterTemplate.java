@@ -23,43 +23,43 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
  */
 public class DunningLetterTemplate extends TemplateBase implements MutableInactivatable {
 
-    private String letterTemplateCode;
-    private String letterTemplateDescription;
+    private String dunningLetterTemplateCode;
+    private String dunningLetterTemplateDescription;
 
     /**
-     * Gets the letterTemplateCode attribute.
+     * Gets the dunningLetterTemplateCode attribute.
      *
-     * @return Returns letterTemplateCode.
+     * @return Returns dunningLetterTemplateCode.
      */
-    public String getLetterTemplateCode() {
-        return letterTemplateCode;
+    public String getDunningLetterTemplateCode() {
+        return dunningLetterTemplateCode;
     }
 
     /**
-     * Sets the letterTemplateCode attribute.
+     * Sets the dunningLetterTemplateCode attribute.
      *
-     * @param letterTemplateCode The letterTemplateCode attribute to set.
+     * @param dunningLetterTemplateCode The dunningLetterTemplateCode attribute to set.
      */
-    public void setLetterTemplateCode(String letterTemplateCode) {
-        this.letterTemplateCode = letterTemplateCode;
+    public void setDunningLetterTemplateCode(String dunningLetterTemplateCode) {
+        this.dunningLetterTemplateCode = dunningLetterTemplateCode;
     }
 
     /**
-     * Gets the letterTemplateDescription attribute.
+     * Gets the dunningLetterTemplateDescription attribute.
      *
-     * @return Returns the letterTemplateDescription attribute.
+     * @return Returns the dunningLetterTemplateDescription attribute.
      */
-    public String getLetterTemplateDescription() {
-        return letterTemplateDescription;
+    public String getDunningLetterTemplateDescription() {
+        return dunningLetterTemplateDescription;
     }
 
     /**
-     * Sets the letterTemplateDescription attribute.
+     * Sets the dunningLetterTemplateDescription attribute.
      *
-     * @param letterTemplateDescription The letterTemplateDescription attribute to set.
+     * @param dunningLetterTemplateDescription The dunningLetterTemplateDescription attribute to set.
      */
-    public void setLetterTemplateDescription(String letterTemplateDescription) {
-        this.letterTemplateDescription = letterTemplateDescription;
+    public void setDunningLetterTemplateDescription(String dunningLetterTemplateDescription) {
+        this.dunningLetterTemplateDescription = dunningLetterTemplateDescription;
     }
 
 }

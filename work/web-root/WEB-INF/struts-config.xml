@@ -266,8 +266,8 @@
 		<form-bean name="AccountsReceivableInvoiceTemplateUploadForm"
 			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableInvoiceTemplateUploadForm" />
 
-		<form-bean name="AccountsReceivableLetterTemplateUploadForm"
-			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableLetterTemplateUploadForm" />
+		<form-bean name="AccountsReceivableDunningLetterTemplateUploadForm"
+			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableDunningLetterTemplateUploadForm" />
 			
 		<form-bean name="ContractsGrantsAgingReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm" />
@@ -536,12 +536,12 @@
 				path="/jsp/module/ar/AccountsReceivableInvoiceTemplateUpload.jsp" />
 		</action>
 
-		<action path="/arAccountsReceivableLetterTemplateUpload" name="AccountsReceivableLetterTemplateUploadForm"
+		<action path="/arAccountsReceivableDunningLetterTemplateUpload" name="AccountsReceivableDunningLetterTemplateUploadForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableLetterTemplateUploadAction">
+			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableTemplateUploadAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/AccountsReceivableLetterTemplateUpload.jsp" />
+				path="/jsp/module/ar/AccountsReceivableDunningLetterTemplateUpload.jsp" />
 		</action>
 
 		<action path="/arFederalFinancialReport" name="FederalFinancialReportForm"

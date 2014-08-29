@@ -47,11 +47,11 @@ public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
         List<DunningLetterTemplate> boList = (List<DunningLetterTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(DunningLetterTemplate.class);
         for (DunningLetterTemplate element : boList) {
             if (!element.isAccessRestricted() && element.isActive()) {
-                keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));
+                keyValues.add(new ConcreteKeyValue(element.getDunningLetterTemplateCode(), element.getDunningLetterTemplateDescription()));
             }
             else {
                 if (getDunningLetterDistributionService().isValidOrganizationForTemplate(element, currentUser) && element.isActive()) {
-                    keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));
+                    keyValues.add(new ConcreteKeyValue(element.getDunningLetterTemplateCode(), element.getDunningLetterTemplateDescription()));
                 }
             }
         }

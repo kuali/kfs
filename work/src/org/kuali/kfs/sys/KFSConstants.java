@@ -472,7 +472,6 @@ public class KFSConstants {
     public static final int CORRECTION_RECENT_GROUPS_DAY = 10;
 
     public static final String GLOBAL_ERRORS = "GLOBAL_ERRORS";
-    public static final String INVOICE_TEMPLATE_UPLOAD = "document.invoiceTemplateUpload";
     public static final String GLOBAL_MESSAGES = "GlobalMessages";
     public static final String DOCUMENT_DOCUMENT_ERRORS = "document.document*";
     public static final String DOCUMENT_EXPLANATION_ERRORS = "document.explanation*";

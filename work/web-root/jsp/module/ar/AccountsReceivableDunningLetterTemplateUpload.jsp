@@ -16,5 +16,5 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <ar:templateUploadPage>
-	<ar:templateCodeOptionsForInvoiceTemplate />
+	<ar:templateCodeOptionsForDunningLetterTemplate />
 </ar:templateUploadPage>

@@ -124,7 +124,7 @@ public class DunningLetterDistributionLookupableHelperServiceImplTest extends Ku
         dunningLetterDistribution.setSendDunningLetterIndicator(true);
         DunningLetterTemplate dunningLetterTemplate = DunningLetterTemplateFixture.CG_DLTS1.createDunningLetterTemplate();
         SpringContext.getBean(BusinessObjectService.class).save(dunningLetterTemplate);
-        dunningLetterDistribution.setDunningLetterTemplate(dunningLetterTemplate.getLetterTemplateCode());
+        dunningLetterDistribution.setDunningLetterTemplate(dunningLetterTemplate.getDunningLetterTemplateCode());
         dunningCampaign.getDunningLetterDistributions().add(dunningLetterDistribution);
         SpringContext.getBean(BusinessObjectService.class).save(dunningCampaign);
 

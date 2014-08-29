@@ -102,7 +102,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
         if (ObjectUtils.isNotNull(dunningLetterTemplate) && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
             // To get list of invoices per award per dunning letter template
             for (ContractsGrantsInvoiceDocument cgInvoice : dunningLetterDistributionLookupResult.getInvoices()) {
-                if (cgInvoice.getInvoiceGeneralDetail().getDunningLetterTemplateAssigned().equals(dunningLetterTemplate.getLetterTemplateCode())) {
+                if (cgInvoice.getInvoiceGeneralDetail().getDunningLetterTemplateAssigned().equals(dunningLetterTemplate.getDunningLetterTemplateCode())) {
                     selectedInvoices.add(cgInvoice);
                     // 1. Now we know that the invoice is going to have its dunning letter processed. So we assume the letter is
                     // sent and set the event for it.

@@ -95,7 +95,7 @@
 	<bean id="DunningLetterDistribution-dunningLetterTemplate" parent="DunningLetterDistribution-dunningLetterTemplate-parentBean" />
 
 	<bean id="DunningLetterDistribution-dunningLetterTemplate-parentBean" abstract="true"
-		parent="DunningLetterTemplate-letterTemplateCode">
+		parent="DunningLetterTemplate-dunningLetterTemplateCode">
 		<property name="name" value="dunningLetterTemplate" />
 		<property name="label" value="Dunning Letter Template" />
 		<property name="shortLabel" value="dunningLetterTemplate" />

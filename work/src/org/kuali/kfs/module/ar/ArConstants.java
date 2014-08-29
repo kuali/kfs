@@ -61,7 +61,12 @@ public class ArConstants{
     public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
     public static final String BASIS_OF_ACCOUNTING_CASH = "1";
     public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
-    public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
+    public static final String DUNNING_LETTER_TEMPLATE_UPLOAD = "template.dunningLetterTemplateUpload";
+    public static final String DUNNING_LETTER_TEMPLATE_TYPE = "Dunning Letter";
+    public static final String DUNNING_LETTER_TEMPLATE_NEW_FILE_NAME_PREFIX = "Dunning_Letter_Template_";
+    public static final String INVOICE_TEMPLATE_UPLOAD = "document.invoiceTemplateUpload";
+    public static final String INVOICE_TEMPLATE_TYPE = "Invoice";
+    public static final String INVOICE_TEMPLATE_NEW_FILE_NAME_PREFIX = "Invoice_Template_";
 
     public static final String CONTRACTS_GRANTS_INVOICE_COMPONENT = "ContractsGrantsInvoice";
     public static final String AWARD_STATUS_CODES = "AWARD_STATUS_CODES";
@@ -509,7 +514,7 @@ public class ArConstants{
     public static final String ANNUALLY_BILLING_SCHEDULE_CODE = "ANNU";
     public static final String LOC_BILLING_SCHEDULE_CODE = "LOCB";
 
-    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
+    public static final String YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String INVOICES_FILE_PREFIX = "Invoices-";
     public static final String INVOICE_ENVELOPES_FILE_PREFIX = "InvoiceEnvelopes-";
     public static final String INVOICE_ZIP_FILE_PREFIX = "Invoice-report";
@@ -534,6 +539,8 @@ public class ArConstants{
         public static final String CONTRACTS_GRANTS_SUSPENDED_INVOICE_DETAIL = "contractsGrantsSuspendedInvoiceDetailReportBuilderService";
     }
     public static class Actions {
+        public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload";
+        public static final String ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableDunningLetterTemplateUpload";
         public static final String TRANSMIT_CONTRACTS_AND_GRANTS_INVOICES = "arTransmitContractsAndGrantsInvoices";
         public static final String CONTRACTS_GRANTS_LOC_REPORT = "contractsGrantsLOCReport";
     }
@@ -546,7 +553,7 @@ public class ArConstants{
     }
 
     public static class UrlActions {
-        public static final String ACCOUNTS_RECEIVABLE_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableLetterTemplateUpload.do";
+        public static final String ACCOUNTS_RECEIVABLE_DUNNING_LETTER_TEMPLATE_UPLOAD = "arAccountsReceivableDunningLetterTemplateUpload.do";
         public static final String ACCOUNTS_RECEIVABLE_INVOICE_TEMPLATE_UPLOAD = "arAccountsReceivableInvoiceTemplateUpload.do";
         public static final String CUSTOMER_OPEN_ITEM_REPORT_LOOKUP = "arCustomerOpenItemReportLookup.do";
         public static final String CASH_CONTROL_DOCUMENT = "arCashControlDocument.do";

@@ -15,264 +15,32 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.URLConnection;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
-import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
-import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.businessobject.TemplateBase;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action Class for Accounts Receivable Invoice Template Upload Action.
  */
-public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
+public class AccountsReceivableInvoiceTemplateUploadAction extends AccountsReceivableTemplateUploadAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableInvoiceTemplateUploadAction.class);
-    private static CurrentUserChartValueFinder currentUserChartValueFinder;
-    private static CurrentUserOrgValueFinder currentUserOrgValueFinder;
-    private ModuleConfiguration systemConfiguration;
-    private ConfigurationService kualiConfigurationService;
-    private BusinessObjectService boService;
 
-    /**
-     * Constructs a AccountsReceivableInvoiceTemplateUploadAction.java.
-     */
-    public AccountsReceivableInvoiceTemplateUploadAction() {
-        super();
-        boService = SpringContext.getBean(BusinessObjectService.class);
-        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-        systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
-        currentUserOrgValueFinder = new CurrentUserOrgValueFinder();
-        currentUserChartValueFinder = new CurrentUserChartValueFinder();
-    }
-
-    /**
-     * Gets the boService attribute.
-     *
-     * @return Returns the boService.
-     */
-    public BusinessObjectService getBoService() {
-        return boService;
-    }
-
-    /**
-     * Sets the boService attribute value.
-     *
-     * @param boService The boService to set.
-     */
-    public void setBoService(BusinessObjectService boService) {
-        this.boService = boService;
-    }
-
-    /**
-     * Gets the kualiConfigurationService attribute.
-     *
-     * @return Returns the kualiConfigurationService.
-     */
-    public ConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     *
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        return forward;
-    }
+    protected void performAdditionalAuthorizationChecks(TemplateBase template) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        final ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, ArConstants.AR_NAMESPACE_CODE);
 
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
-     *      java.lang.String)
-     */
-    @Override
-    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-
-    }
-
-    /**
-     * Forwards to the batch upload JSP. Initial request.
-     */
-    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Sends the uploaded file contents to the templateService for storage. If errors were encountered, messages will be in
-     * GlobalVariables.errorMap, which is checked and set for display by the request processor.
-     */
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AccountsReceivableInvoiceTemplateUploadForm newForm = (AccountsReceivableInvoiceTemplateUploadForm) form;
-        FormFile uploadedFile = newForm.getUploadedFile();
-
-        // validations performed on the required values for saving the template
-        boolean isRequiredValuesForFilesMissing = false;
-        InvoiceTemplate document = boService.findBySinglePrimaryKey(InvoiceTemplate.class, newForm.getInvoiceTemplateCode());
-
-        // check uploaded file
-        if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please check the Template being uploaded.");
-            isRequiredValuesForFilesMissing = true;
-        }
-
-        // check template code for null and being empty, and check if org code and COAcode exists for the template
-        if (ObjectUtils.isNull(newForm.getInvoiceTemplateCode()) || StringUtils.isEmpty(newForm.getInvoiceTemplateCode())) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please select an Invoice Type.");
-            isRequiredValuesForFilesMissing = true;
-        }
-        else {
-            if (ObjectUtils.isNotNull(document)) {
-                if (ObjectUtils.isNull(document.getBillByChartOfAccountCode()) || ObjectUtils.isNull(document.getBilledByOrganizationCode())) {
-                    GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Current User is not authorized to upload Template");
-                    isRequiredValuesForFilesMissing = true;
-                }
-                else if (!document.getBillByChartOfAccountCode().equals(currentUserChartValueFinder.getValue()) || !document.getBilledByOrganizationCode().equals(currentUserOrgValueFinder.getValue())) {
-                    GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Current User is not authorized to upload Template");
-                    isRequiredValuesForFilesMissing = true;
-                }
-            }
-            else {
-                GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Invoice Document Not Available.");
-                isRequiredValuesForFilesMissing = true;
-            }
-        }
-        // check for valid pdf template file
-        if (!"application/pdf".equals(URLConnection.guessContentTypeFromName(uploadedFile.getFileName()))) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please upload a valid file type.");
-            isRequiredValuesForFilesMissing = true;
-        }
-        if (isRequiredValuesForFilesMissing) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        // set filename for the template
-        document.setFilename("Invoice_Template_" + newForm.getInvoiceTemplateCode().replaceAll("[\\/]", "-") + ".pdf");
-        String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
-        /*
-         * Uncomment this section if the above property is working... String destinationFolderPath =
-         * kualiConfigurationService.getPropertyValueAsString(KFSConstants.TEMPLATES_DIRECTORY_KEY)+"/cg";
-         */
-        String destinationPath = destinationFolderPath + File.separator + document.getFilename();
-        File destinationFolder = new File(destinationFolderPath);
-        File destinationFile = new File(destinationPath);
-        // upload the file and save the document
-        try {
-            if (!destinationFolder.exists()) {
-                destinationFolder.mkdirs();
-            }
-            if (destinationFile.exists()) {
-                destinationFile.delete();
-            }
-            java.util.Date dt = new java.util.Date();
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            this.writeInputStreamToFileStorage(uploadedFile.getInputStream(), destinationFile);
-            document.setDate(sdf.format(dt));
-            boService.save(document);
-        }
-        catch (FileStorageException e) {
-            LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
-            GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, new String[] { e.getMessage() });
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        catch (ValidationException e) {
-            LOG.error("Error occured while trying to validate file set.", e);
-            GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        KNSGlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method enables user to download the template
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AccountsReceivableInvoiceTemplateUploadForm fileAdminForm = (AccountsReceivableInvoiceTemplateUploadForm) form;
-        String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
-        String filePath = templateFolderPath + File.separator + fileAdminForm.getFileName();
-        File file = new File(filePath).getAbsoluteFile();
-        if (!file.exists() || !file.isFile()) {
-            throw new RuntimeException("Error: non-existent file or directory provided");
-        }
-
-        WebUtils.saveMimeInputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, new FileInputStream(file), file.getName(), new BigDecimal(file.length()).intValueExact());
-
-        return null;
-    }
-
-    /**
-     * This method writes the contents from the input stream to the destination storage place.
-     *
-     * @param fileContents
-     * @param destinationFile
-     * @throws IOException
-     */
-    protected void writeInputStreamToFileStorage(InputStream fileContents, File destinationFile) throws IOException {
-        FileOutputStream streamOut = null;
-        BufferedOutputStream bufferedStreamOut = null;
-        try {
-            streamOut = new FileOutputStream(destinationFile);
-            bufferedStreamOut = new BufferedOutputStream(streamOut);
-            int c;
-            while ((c = fileContents.read()) != -1) {
-                bufferedStreamOut.write(c);
-            }
-        }
-        finally {
-            if (bufferedStreamOut != null) {
-                bufferedStreamOut.close();
-            }
-            if (streamOut != null) {
-                streamOut.close();
-            }
+        if (!StringUtils.equals(template.getBillByChartOfAccountCode(), chartOrg.getChartOfAccountsCode()) ||
+                !StringUtils.equals(template.getBilledByOrganizationCode(), chartOrg.getOrganizationCode())) {
+            GlobalVariables.getMessageMap().putError(ArConstants.INVOICE_TEMPLATE_UPLOAD, ArKeyConstants.TemplateUploadErrors.ERROR_TEMPLATE_UPLOAD_USER_NOT_AUTHORIZED);
         }
     }
+
 }

@@ -222,13 +222,11 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                     }
                 }
             }
+            reportCopy.close();
             finalReport = zos.toByteArray();
         } finally {
             if (zos != null) {
                 zos.close();
-            }
-            if (reportCopy != null) {
-                reportCopy.close();
             }
         }
         return finalReport;

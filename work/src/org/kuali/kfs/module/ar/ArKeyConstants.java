@@ -283,9 +283,6 @@ public class ArKeyConstants {
         public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
     }
 
-    // Final Billed Indicator Error
-    public static final String FINAL_BILLED_INDICATOR_EDOC_ERROR_KEY = "error.custom";
-
     /* Start TEM REFUND Merge */
     // ar refunding
     public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
@@ -391,5 +388,11 @@ public class ArKeyConstants {
      public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_INITIATOR = "locreview.pdf.header.initiator.principal.name";
      public static final String LOC_REVIEW_PDF_HEADER_DOCUMENT_CREATE_DATE = "locreview.pdf.header.create.date";
      public static final String LOC_REVIEW_PDF_SUBHEADER_AWARDS = "locreview.pdf.subheader.awards";
+
+     // Final Billed Indicator Validation error messages
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_FINAL = "error.final.billed.indicator.invoice.not.final";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVOICE_NOT_MARKED_FINAL_BILL = "error.final.billed.indicator.invoice.not.marked.final.bill";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_INVALID_INVOICE = "error.final.billed.indicator.invalid.invoice";
+     public static final String ERROR_FINAL_BILLED_INDICATOR_NO_INVOICE = "error.final.billed.indicator.no.invoice";
 
 }

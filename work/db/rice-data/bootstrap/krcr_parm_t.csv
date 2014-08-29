@@ -426,7 +426,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-GL","CurrentAccountBalance","ENCUMBRANCE_BALANCE_TYPE","KFS-PARM-181",1,"VALID","","Encumbrance balance types.","A","KFS"
 "KFS-GL","CurrentAccountBalance","EXPENSE_OBJECT_TYPE","KFS-PARM-180",1,"VALID","","Expense object type codes.","A","KFS"
 "KFS-GL","CurrentAccountBalance","INCOME_OBJECT_TYPE","KFS-PARM-179",1,"VALID","","Income object type codes.","A","KFS"
-"KFS-GL","CurrentAccountBalance","FUND_BALANCE_OBJECT_CODE","KFS-PARM-184",1,"VALID","","Liability object codes.","A","KFS"
+"KFS-GL","CurrentAccountBalance","FUND_BALANCE_OBJECT_CODE","KFS-PARM-184",1,"VALID","","Current Fund Balance Object codes","A","KFS"
 "KFS-GL","CollectorStep","EQUAL_DEBIT_CREDIT_TOTAL_DOCUMENT_TYPES","KFS308","1","CONFG","ID*;EB*","Document types that trigger a balance of credits, debits and total as part of the Collector Step process.","A","KFS"
 "KFS-GL","CollectorStep","ERROR_EMAIL_SUBJECT_LINE","KFS309","1","CONFG","Collector Input - INVALID DOCUMENT","This is the subject line used when the collector sends out email notifying the user that the collector has excluded origin entries from processing (i.e. demerged).","A","KFS"
 "KFS-GL","CollectorStep","PERFORM_DUPLICATE_HEADER_CHECK_IND","KFS310","1","CONFG","N","Flag for turning the duplicate file check on or off.","A","KFS"

@@ -217,7 +217,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLinesAndGLPEs(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
-    public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
+    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
         final List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = retrieveInvoiceAccountsForAward(contractsGrantsInvoiceDocument.getAward());
         boolean awardBillByInvoicingAccount = false;
         List<String> invoiceAccountDetails = new ArrayList<String>();
@@ -917,7 +917,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see that an attachment is made if it is required by the award
-        if (isReportNotAttachedButRequiredByAward(contractsGrantsInvoiceDocument)) {
+        if (contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator()) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.REPORTS_ARE_REQUIRED_TO_BE_ATTACHED);
         }
         else {
@@ -959,7 +959,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see if Loc Amount is sufficient
-        if (isLocAmountNotSufficent(contractsGrantsInvoiceDocument)) {
+        if (!isLocAmountSufficent(contractsGrantsInvoiceDocument)) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT);
         }
         else {
@@ -967,7 +967,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see if award has any active but expired account
-        if (isAwardHasActiveExpiredAccount(award)) {
+        if (doesAwardHaveAnyActiveExpiredAccounts(award)) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT);
         }
         else {
@@ -990,8 +990,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             removeSuspensionCategoryFromDocument(suspensionCategoryCodes, invoiceSuspensionCategories, ArConstants.SuspensionCategories.INVOICE_TYPE_IS_MISSING);
         }
 
-        // validation suspension code - Check to see if award has closed account of which the still have current expenditure
-        if (isAwardHasClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument)) {
+        // validation suspension code - Check to see if award has closed account which still has current expenditure
+        if (doesAwardHaveClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument)) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_HAS_CLOSED_ACCOUNT_WITH_CURRENT_EXPENDITURES);
         }
         else {
@@ -1093,14 +1093,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @param contractsGrantsInvoiceDocument
-     * @return
-     */
-    protected boolean isReportNotAttachedButRequiredByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator();
-    }
-
-    /**
      * @param agency
      * @return
      */
@@ -1184,20 +1176,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    protected boolean isLocAmountNotSufficent(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+    protected boolean isLocAmountSufficent(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         if (ArConstants.LOC_BILLING_SCHEDULE_CODE.equals(contractsGrantsInvoiceDocument.getAward().getBillingFrequency().getFrequency())) {
             if (contractsGrantsInvoiceDocument.getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled())) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
      * @param award
      * @return
      */
-    protected boolean isAwardHasActiveExpiredAccount(ContractsAndGrantsBillingAward award) {
+    protected boolean doesAwardHaveAnyActiveExpiredAccounts(ContractsAndGrantsBillingAward award) {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
         List<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
@@ -1226,7 +1218,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    public boolean isAwardHasClosedAccountWithCurrentExpenditures(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+    public boolean doesAwardHaveClosedAccountWithCurrentExpenditures(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         // for each InvoiceDetailAccountObjectCode, extract the chart code and account number, and store it in a map
         // where the key is chart code and value is a set of account numbers (no duplicates).
         Map<String, Set<String>> map = new HashMap<String, Set<String>>();

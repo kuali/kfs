@@ -46,7 +46,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param document the cash control document
      * @throws WorkflowException
      */
-    public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
+    public void createSourceAccountingLines(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException;
 
     /**
      * This method creates Source Accounting lines enabling the creation of GLPEs in the document.

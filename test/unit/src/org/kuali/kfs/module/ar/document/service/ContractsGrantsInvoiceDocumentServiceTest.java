@@ -325,10 +325,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method is intented to test if the source accounting lines are created properly for every type of GLPE and invoicing
+     * This method is intended to test if the source accounting lines are created properly for every type of GLPE and invoicing
      * option in the award.
      */
-    public void testCreateSourceAccountingLinesAndGLPEs() {
+    public void testCreateSourceAccountingLines() {
 
         String coaCode = "BL";
         String orgCode = "SRS";
@@ -552,7 +552,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         try {
-            contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(contractsGrantsInvoiceDocument);
+            contractsGrantsInvoiceDocumentService.createSourceAccountingLines(contractsGrantsInvoiceDocument);
         }
         catch (WorkflowException ex) {
             throw new RuntimeException("Call to createSourceAccountingLinesAndGLPEs failed with WorkflowException.");
@@ -576,7 +576,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
     /**
      * Tests isAwardHasClosedAccountWithCurrentExpenditures() method of service.
      */
-    public void testIsAwardHasClosedAccountWithCurrentExpenditures() {
+    public void testDoesAwardHaveClosedAccountWithCurrentExpenditures() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
@@ -593,7 +593,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
 
-        assertFalse(contractsGrantsInvoiceDocumentServiceImpl.isAwardHasClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument));
+        assertFalse(contractsGrantsInvoiceDocumentServiceImpl.doesAwardHaveClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument));
 
     }
 }

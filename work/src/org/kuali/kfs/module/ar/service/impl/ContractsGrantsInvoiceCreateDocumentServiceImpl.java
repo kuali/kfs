@@ -378,7 +378,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     cgInvoiceDocument.setAward(awd);
                     populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
-                    contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(cgInvoiceDocument);
+                    contractsGrantsInvoiceDocumentService.createSourceAccountingLines(cgInvoiceDocument);
                     if (ObjectUtils.isNotNull(cgInvoiceDocument.getAward())) {
                         contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }

@@ -28,6 +28,7 @@ import org.kuali.kfs.gl.batch.service.IcrEncumbranceService;
 import org.kuali.kfs.gl.dataaccess.IcrEncumbranceDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +57,9 @@ public class IcrEncumbranceServiceImpl implements IcrEncumbranceService {
         String[] expenseObjectTypes = objectTypeService.getBasicExpenseObjectTypes(currentFiscalYear).toArray(new String[0]);
         String costShareSubAccountType = KFSConstants.SubAccountType.COST_SHARE;
 
+        //Get ICR Cost Types to exclude
+        Collection<String> icrCostTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.INDIRECT_COST_TYPES_PARAMETER) );
+
         //Get ICR Encumbrance Origination Code and Balance Types
         String icrEncumbOriginCode = parameterService.getParameterValueAsString(KFSConstants.CoreModuleNamespaces.GL, GeneralLedgerConstants.PosterService.ICR_ENCUMBRANCE_FEED_PARM_TYP, GeneralLedgerConstants.PosterService.ICR_ENCUMBRANCE_ORIGIN_CODE_PARM_NM);
         Collection<String> icrEncumbBalanceTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(KFSConstants.CoreModuleNamespaces.GL, GeneralLedgerConstants.PosterService.ICR_ENCUMBRANCE_FEED_PARM_TYP, GeneralLedgerConstants.PosterService.ICR_ENCUMBRANCE_BALANCE_TYPE_PARM_NM) );
@@ -69,7 +73,7 @@ public class IcrEncumbranceServiceImpl implements IcrEncumbranceService {
 
             BufferedWriter fw = new BufferedWriter(new FileWriter(encumbranceFeedFile));
             try {
-                icrEncumbranceDao.buildIcrEncumbranceFeed(currentFiscalYear, currentFiscalPeriod, icrEncumbOriginCode, icrEncumbBalanceTypes, expenseObjectTypes, costShareSubAccountType, fw);
+                icrEncumbranceDao.buildIcrEncumbranceFeed(currentFiscalYear, currentFiscalPeriod, icrEncumbOriginCode, icrEncumbBalanceTypes, icrCostTypes, expenseObjectTypes, costShareSubAccountType, fw);
             }
             finally {
                 if (fw != null) {

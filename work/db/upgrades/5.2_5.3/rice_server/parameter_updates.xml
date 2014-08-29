@@ -321,4 +321,12 @@
         </update>
     </changeSet>
     
+    <changeSet author="KFS53" id="KFSCNTRB-1156">
+		<comment>Update parameter INDIRECT_COST_TYPES to have component Batch.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="CMPNT_CD" value="Batch" />
+			<where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'PosterIndirectCostRecoveryEntriesStep' and parm_nm = 'INDIRECT_COST_TYPES' and appl_id = 'KFS'</where>
+		</update>		
+	</changeSet>
+    
 </databaseChangeLog>

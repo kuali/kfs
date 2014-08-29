@@ -79,18 +79,8 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
     }
 
     @Override
-    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
-        ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
-    }
-
-    @Override
     public AccountsReceivablePredeterminedBillingSchedule getPredeterminedBillingSchedule() {
         return new PredeterminedBillingSchedule();
-    }
-
-    @Override
-    public void setProposalNumber(AccountsReceivablePredeterminedBillingSchedule predeterminedBillingSchedule, Long proposalNumber) {
-        ((PredeterminedBillingSchedule) predeterminedBillingSchedule).setProposalNumber(proposalNumber);
     }
 
     /**

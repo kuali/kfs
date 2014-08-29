@@ -782,7 +782,6 @@
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column default="0" name="PRPSL_NBR" size="12" type="DECIMAL"/>
-        <column name="REFND_FDOC_NBR" size="14" type="VARCHAR"/>
         <unique name="AR_APPLICATION_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1842,7 +1841,6 @@
         <column name="PROJECT_CD" size="10" type="VARCHAR"/>
         <column name="FDOC_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_OVERRIDE_CD" size="100" type="VARCHAR"/>
-        <column default="N" name="REFND_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="AR_DOC_HDR_T" name="AR_NON_INV_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -2154,9 +2152,6 @@
         <column name="ORG_REMIT_ZIP_CD" size="20" type="VARCHAR"/>
         <column name="ORG_CHCK_PAY_TO_NM" size="40" type="VARCHAR"/>
         <column name="FDOC_INITIATOR_ID" size="40" type="VARCHAR"/>
-        <column name="REFND_PMT_REAS_CD" size="1" type="VARCHAR"/>
-        <column name="REFND_FIN_OBJECT_CD" size="4" type="VARCHAR"/>
-        <column name="REFND_DOC_LOC_CD" size="2" type="VARCHAR"/>
         <unique name="AR_SYS_INFO_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -7859,7 +7854,6 @@
         <column name="DV_PDP_BNK_CD" size="4" type="VARCHAR"/>
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
-        <column default="N" name="REFND_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="FP_DV_DOC_TR2">
             <reference foreign="PMT_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
         </foreign-key>
@@ -8012,7 +8006,6 @@
         <column name="DV_PMT_REAS_NM" size="40" type="VARCHAR"/>
         <column name="DV_PMT_REAS_DESC" size="2500" type="VARCHAR"/>
         <column name="DV_PMT_REAS_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="N" name="AR_REFND_IND" size="1" type="VARCHAR"/>
         <unique name="FP_DV_PMT_REAS_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

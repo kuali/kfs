@@ -162,8 +162,8 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 primaryKeys.put("customerAddressTypeCode", "P");
                 address = businessObjectService.findByPrimaryKey(CustomerAddress.class, primaryKeys);
                 replacementList.put("agency.fullAddressInline", contractsGrantsBillingUtilityService.buildFullAddress(address));
-                replacementList.put("agency.fullName", contractsGrantsBillingUtilityService.returnProperStringValue(address.getCustomer().getCustomerName()));
-                replacementList.put("agency.contactName", contractsGrantsBillingUtilityService.returnProperStringValue(address.getCustomer().getCustomerContactName()));
+                replacementList.put("agency.fullName", address.getCustomer().getCustomerName());
+                replacementList.put("agency.contactName", address.getCustomer().getCustomerContactName());
                 if(CollectionUtils.isNotEmpty(selectedInvoices)){
                 reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
 
@@ -246,19 +246,19 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
         if (CollectionUtils.isNotEmpty(invoices)){
             ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
             Map primaryKeys = new HashMap<String, Object>();
-            parameterMap.put("award.proposalNumber", contractsGrantsBillingUtilityService.returnProperStringValue(award.getProposalNumber()));
-            parameterMap.put("currentDate", contractsGrantsBillingUtilityService.returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date())));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.proposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getProposalNumber()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "currentDate", FILE_NAME_TIMESTAMP.format(new Date()));
             if (CollectionUtils.isNotEmpty(invoices)) {
                 for (int i = 0; i < invoices.size(); i++) {
-                    parameterMap.put("invoice[" + i + "].documentNumber", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getDocumentNumber()));
-                    parameterMap.put("invoice[" + i + "].billingDate", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getBillingDate()));
-                    parameterMap.put("invoice[" + i + "].totalAmount", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getTotalDollarAmount()));
-                    parameterMap.put("invoice[" + i + "].customerName", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getCustomerName()));
-                    parameterMap.put("invoice[" + i + "].customerNumber", contractsGrantsBillingUtilityService.returnProperStringValue(invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber()));
+                    contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].documentNumber", invoices.get(i).getDocumentNumber());
+                    contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].billingDate", getDateTimeService().toDateString(invoices.get(i).getBillingDate()));
+                    contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].totalAmount", contractsGrantsBillingUtilityService.formatForCurrency(invoices.get(i).getTotalDollarAmount()));
+                    contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].customerName", invoices.get(i).getCustomerName());
+                    contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoice[" + i + "].customerNumber", invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber());
                 }
             }
             if (ObjectUtils.isNotNull(award)) {
-                parameterMap.put("award.awardProjectTitle", contractsGrantsBillingUtilityService.returnProperStringValue(award.getAwardProjectTitle()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardProjectTitle", award.getAwardProjectTitle());
             }
         }
         return parameterMap;

@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lowagie.text.Font;
+
 
 public class ArConstants{
 
@@ -453,10 +455,10 @@ public class ArConstants{
     public static final String TICKLERS_REPORT_SORT_FIELD = "TicklersReport";
     public static final String COLLECTION_ACTIVITY_REPORT_TITLE = "Collection Activity Report";
     public static final String PROJECT_DIRECTOR = "projectDirector";
-    public static final String QUATER1 = "q1";
-    public static final String QUATER2 = "q2";
-    public static final String QUATER3 = "q3";
-    public static final String QUATER4 = "q4";
+    public static final String QUARTER1 = "q1";
+    public static final String QUARTER2 = "q2";
+    public static final String QUARTER3 = "q3";
+    public static final String QUARTER4 = "q4";
     public static final String SEMI_ANNUAL = "Sa";
     public static final String ANNUAL = "An";
     public static final String FINAL = "F";
@@ -591,5 +593,14 @@ public class ArConstants{
         }
     }
 
-    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
+    public static class PdfReportFonts {
+        public static final Font LOC_REVIEW_TITLE_FONT = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
+        public static final Font LOC_REVIEW_HEADER_FONT = new Font(Font.TIMES_ROMAN, 16, Font.BOLD);
+        public static final Font LOC_REVIEW_SMALL_BOLD = new Font(Font.TIMES_ROMAN, 14, Font.BOLD);
+        public static final Font ENVELOPE_TITLE_FONT = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
+        public static final Font ENVELOPE_SMALL_FONT = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
+    }
+
+    public static final String FEDERAL_FUND_425_REPORT_ABBREVIATION = "FF425";
+    public static final String FEDERAL_FUND_425A_REPORT_ABBREVIATION = "FF425A";
 }

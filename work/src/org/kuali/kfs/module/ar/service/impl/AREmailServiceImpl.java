@@ -185,9 +185,9 @@ public class AREmailServiceImpl implements AREmailService {
     protected String getSubject(ContractsGrantsInvoiceDocument invoice) {
         String subject = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_EMAIL_SUBJECT);
 
-        return MessageFormat.format(subject, contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getProposalNumber()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getDocumentNumber()));
+        return MessageFormat.format(subject, invoice.getAward().getProposal().getGrantNumber(),
+                invoice.getProposalNumber(),
+                invoice.getDocumentNumber());
     }
 
     protected String getMessageBody(ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
@@ -200,16 +200,16 @@ public class AREmailServiceImpl implements AREmailService {
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[1].trim());
         Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
         if (ObjectUtils.isNotNull(org)) {
-            department = contractsGrantsBillingUtilityService.returnProperStringValue(org.getOrganizationName());
+            department = org.getOrganizationName();
         }
 
-        return MessageFormat.format(message, contractsGrantsBillingUtilityService.returnProperStringValue(customerAddress.getCustomer().getCustomerName()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(customerAddress.getCustomerAddressName()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()),
+        return MessageFormat.format(message, customerAddress.getCustomer().getCustomerName(),
+                customerAddress.getCustomerAddressName(),
+                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName(),
+                invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle(),
                 department,
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()),
-                contractsGrantsBillingUtilityService.returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber(),
+                invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress());
     }
 
     /**

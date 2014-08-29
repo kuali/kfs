@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.ar.service;
 
+import java.util.Map;
+
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**
@@ -29,7 +32,7 @@ public interface ContractsGrantsBillingUtilityService {
      * @param string
      * @return
      */
-    public String returnProperStringValue(Object string);
+    public String formatForCurrency(KualiDecimal amount);
 
     /**
      * Builds and resturns a full address string from a CustomerAddress
@@ -38,5 +41,13 @@ public interface ContractsGrantsBillingUtilityService {
      * @return
      */
     public String buildFullAddress(CustomerAddress address);
+
+    /**
+     * Places a value into a Map, but if that value is null, it places an empty String into the Map instead
+     * @param map the Map to place the key into
+     * @param key the key
+     * @param value the value
+     */
+    public void putValueOrEmptyString(Map<String,String> map, String key, String value);
 
 }

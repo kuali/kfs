@@ -517,6 +517,53 @@ public class ArPropertyConstants{
         public static final String MILESTONE_NUMBER = "milestoneNumber";
     }
 
+    public static class FederalFormReportFields {
+        public static final String INDIRECT_EXPENSE_TYPE = "Indirect Expense Type";
+        public static final String INDIRECT_EXPENSE_RATE = "Indirect Expense Rate";
+        public static final String INDIRECT_EXPENSE_PERIOD_FROM = "Indirect Expense Period From";
+        public static final String INDIRECT_EXPENSE_PERIOD_TO = "Indirect Expense Period To";
+        public static final String INDIRECT_EXPENSE_BASE = "Indirect Expense Base";
+        public static final String INDIRECT_EXPENSE_AMOUNT = "Indirect Expense Amount";
+        public static final String INDIRECT_EXPENSE_FEDERAL = "Indirect Expense Federal";
+        public static final String INDIRECT_EXPENSE_BASE_SUM = "Indirect Expense Base Sum";
+        public static final String INDIRECT_EXPENSE_AMOUNT_SUM = "Indirect Expense Amount Sum";
+        public static final String INDIRECT_EXPENSE_FEDERAL_SUM = "Indirect Expense Federal Sum";
+        public static final String RECIPIENT_ORGANIZATION = "Recipient Organization";
+        public static final String ZWEI = "EIN";
+        public static final String FEDERAL_AGENCY = "Federal Agency";
+        public static final String FEDERAL_GRANT_NUMBER = "Federal Grant Number";
+        public static final String RECIPIENT_ACCOUNT_NUMBER = "Recipient Account Number";
+        public static final String GRANT_PERIOD_FROM = "Grant Period From";
+        public static final String GRANT_PERIOD_TO = "Grant Period To";
+        public static final String CASH_RECEIPTS = "Cash Receipts";
+        public static final String TOTAL_FEDERAL_FUNDS_AUTHORIZED = "Total Federal Funds Authorized";
+        public static final String REPORTING_PERIOD_END_DATE = "Reporting Period End Date";
+        public static final String CASH_DISBURSEMENTS = "Cash Disbursements";
+        public static final String CASH_ON_HAND = "Cash on Hand";
+        public static final String FEDERAL_SHARE_OF_EXPENDITURES = "Federal Share of Expenditures";
+        public static final String TOTAL_FEDERAL_SHARE = "Total Federal Share";
+        public static final String UNOBLIGATED_BALANCE_OF_FEDERAL_FUNDS = "Unobligated Balance of Federal Funds";
+        public static final String FEDERAL_SHARE_OF_UNLIQUIDATED_OBLIGATION = "Federal Share of Unliquidated Obligations";
+        public static final String TOTAL_FEDERAL_INCOME_EARNED = "Total Federal Income Earned";
+        public static final String INCOME_EXPENDED_DEDUCATION_ALTERNATIVE = "Income Expended in Accordance to Deduction Alternative";
+        public static final String INCOME_EXPENDED_ADDITION_ALTERNATIVE = "Income Expended in Accordance to Addition Alternative";
+        public static final String UNEXPECTED_PROGRAM_INCOME = "Unexpended Program Income";
+        public static final String NAME = "Name";
+        public static final String TELEPHONE = "Telephone";
+        public static final String EMAIL_ADDRESS = "Email Address";
+        public static final String DATE_REPORT_SUBMITTED = "Date Report Submitted";
+        public static final String QUARTERLY = "Quaterly";
+        public static final String SEMI_ANNUAL = "Semi Annual";
+        public static final String ANNUAL = "Annual";
+        public static final String FINAL = "Final";
+        public static final String CASH = "Cash";
+        public static final String ACCRUAL = "Accrual";
+        public static final String FEDERAL_CASH_DISBURSEMENT = "Federal Cash Disbursement";
+        public static final String TOTAL_PAGES = "totalPages";
+        public static final String PAGE_NUMBER = "pageNumber";
+        public static final String TOTAL = "Total";
+    };
+
     public static final String INVOICE_NUMBER="invoiceItemNumber";
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
@@ -539,6 +586,7 @@ public class ArPropertyConstants{
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
     public static final String BILLED = "billed";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
+    public static final String LETTER_OF_CREDIT_AMOUNT = "letterOfCreditAmount";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
     public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
@@ -547,4 +595,6 @@ public class ArPropertyConstants{
     public static final String PRINT_PDF_URL = "printPDFUrl";
     public static final String DISPLAY_TABBED_PAGE_URL = "displayTabbedPageUrl";
     public static final String PRINT_LABEL = "printLabel";
+
+    public static final String INVOICE_DOCUMENT_TYPE = "invoiceDocumentType";
 }

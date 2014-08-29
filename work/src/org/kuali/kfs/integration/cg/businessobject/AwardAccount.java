@@ -273,9 +273,6 @@ public class AwardAccount implements ContractsAndGrantsBillingAwardAccount, Muta
         return chartOfAccounts;
     }
 
-    public void prepareForWorkflow() {
-    }
-
     @Override
     public void refresh() {
     }

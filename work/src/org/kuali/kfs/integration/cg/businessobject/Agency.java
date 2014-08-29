@@ -341,8 +341,6 @@ public class Agency implements ContractsAndGrantsBillingAgency, MutableInactivat
         this.agencyAddresses = agencyAddresses;
     }
 
-    public void prepareForWorkflow() {}
-
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */

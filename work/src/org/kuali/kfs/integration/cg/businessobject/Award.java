@@ -1324,13 +1324,6 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     /**
      *
-     * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
-     */
-    public void prepareForWorkflow1() {
-    }
-
-    /**
-     *
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     @Override

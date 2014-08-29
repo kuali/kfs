@@ -367,8 +367,12 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                 index++;
                 replacementList.put("Indirect Expense Type " + index, returnProperStringValue(awardAccount.getAccount().getAcctIndirectCostRcvyTypeCd()));
                 replacementList.put("Indirect Expense Rate " + index, returnProperStringValue(awardAccount.getAccount().getFinancialIcrSeriesIdentifier()));
-                replacementList.put("Indirect Expense Period From " + index, returnProperStringValue(formatter.format(awardAccount.getAccount().getAccountEffectiveDate())));
-                replacementList.put("Indirect Expense Period To " + index, returnProperStringValue(formatter.format(awardAccount.getAccount().getAccountExpirationDate())));
+                if (ObjectUtils.isNotNull(awardAccount.getAccount().getAccountEffectiveDate())) {
+                    replacementList.put("Indirect Expense Period From " + index, returnProperStringValue(formatter.format(awardAccount.getAccount().getAccountEffectiveDate())));
+                }
+                if (ObjectUtils.isNotNull(awardAccount.getAccount().getAccountExpirationDate())) {
+                    replacementList.put("Indirect Expense Period To " + index, returnProperStringValue(formatter.format(awardAccount.getAccount().getAccountExpirationDate())));
+                }
                 replacementList.put("Indirect Expense Base " + index, returnProperStringValue(award.getAwardTotalAmount()));
                 Map<String, Object> key = new HashMap<String, Object>();
                 key.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);

@@ -1379,35 +1379,27 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     protected void storeValidationErrors(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, Collection<ContractsGrantsInvoiceDocumentErrorLog> contractsGrantsInvoiceDocumentErrorLogs, String creationProcessTypeCode) {
         for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
-            boolean firstLineFlag = true;
-            String awardBeginningDate;
-            String awardEndingDate;
-            String awardTotalAmount;
-
-            String proposalNumber = award.getProposalNumber().toString();
-            Date beginningDate = award.getAwardBeginningDate();
-            Date endingDate = award.getAwardEndingDate();
-            KualiDecimal totalAmount = award.getAwardTotalAmount();
-
             KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
-            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
-            }
             ContractsGrantsInvoiceDocumentErrorLog contractsGrantsInvoiceDocumentErrorLog = new ContractsGrantsInvoiceDocumentErrorLog();
 
             if (ObjectUtils.isNotNull(award)){
-                boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
+                String proposalNumber = award.getProposalNumber().toString();
+                Date beginningDate = award.getAwardBeginningDate();
+                Date endingDate = award.getAwardEndingDate();
+                KualiDecimal totalAmount = award.getAwardTotalAmount();
 
                 contractsGrantsInvoiceDocumentErrorLog.setProposalNumber(award.getProposalNumber());
                 contractsGrantsInvoiceDocumentErrorLog.setAwardBeginningDate(beginningDate);
                 contractsGrantsInvoiceDocumentErrorLog.setAwardEndingDate(endingDate);
                 contractsGrantsInvoiceDocumentErrorLog.setAwardTotalAmount(award.getAwardTotalAmount().bigDecimalValue());
-                contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
                 if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
                     contractsGrantsInvoiceDocumentErrorLog.setPrimaryFundManagerPrincipalId(award.getAwardPrimaryFundManager().getPrincipalId());
                 }
-                if (!isActiveAwardAccountsEmpty) {
+                if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
+                    boolean firstLineFlag = true;
+
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, beginningDate));
                         if (firstLineFlag) {
                             firstLineFlag = false;
                             contractsGrantsInvoiceDocumentErrorLog.setAccounts(awardAccount.getAccountNumber());
@@ -1417,6 +1409,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                         }
                     }
                 }
+                contractsGrantsInvoiceDocumentErrorLog.setCumulativeExpensesAmount(cumulativeExpenses.bigDecimalValue());
             }
 
             for (String vCat : invalidGroup.get(award)) {
@@ -1502,37 +1495,35 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     protected void writeErrorEntryByAward(ContractsAndGrantsBillingAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
         // %15s %18s %20s %19s %15s %18s %23s %18s
-        boolean firstLineFlag = true;
-        String awardBeginningDate;
-        String awardEndingDate;
-        String awardTotalAmount;
-
-        String proposalNumber = award.getProposalNumber().toString();
-        Date beginningDate = award.getAwardBeginningDate();
-        Date endingDate = award.getAwardEndingDate();
-        KualiDecimal totalAmount = award.getAwardTotalAmount();
-
-        if (ObjectUtils.isNotNull(beginningDate)) {
-            awardBeginningDate = beginningDate.toString();
-        } else {
-            awardBeginningDate = "null award beginning date";
-        }
-
-        if (ObjectUtils.isNotNull(endingDate)) {
-            awardEndingDate = endingDate.toString();
-        } else {
-            awardEndingDate = "null award ending date";
-        }
-
-        if (ObjectUtils.isNotNull(totalAmount) && ObjectUtils.isNotNull(totalAmount.bigDecimalValue())) {
-            awardTotalAmount = totalAmount.toString();
-        } else {
-            awardTotalAmount = "null award total amount";
-        }
-
-        KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
-
         if (ObjectUtils.isNotNull(award)){
+            KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
+            String awardBeginningDate;
+            String awardEndingDate;
+            String awardTotalAmount;
+
+            String proposalNumber = award.getProposalNumber().toString();
+            Date beginningDate = award.getAwardBeginningDate();
+            Date endingDate = award.getAwardEndingDate();
+            KualiDecimal totalAmount = award.getAwardTotalAmount();
+
+            if (ObjectUtils.isNotNull(beginningDate)) {
+                awardBeginningDate = beginningDate.toString();
+            } else {
+                awardBeginningDate = "null award beginning date";
+            }
+
+            if (ObjectUtils.isNotNull(endingDate)) {
+                awardEndingDate = endingDate.toString();
+            } else {
+                awardEndingDate = "null award ending date";
+            }
+
+            if (ObjectUtils.isNotNull(totalAmount) && ObjectUtils.isNotNull(totalAmount.bigDecimalValue())) {
+                awardTotalAmount = totalAmount.toString();
+            } else {
+                awardTotalAmount = "null award total amount";
+            }
+
             if (CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
                 writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
             }
@@ -1541,6 +1532,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
                 }
+                boolean firstLineFlag = true;
 
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     if (firstLineFlag) {

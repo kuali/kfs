@@ -89,7 +89,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
     }
 
    /**
-    * Not to copy over the Bills billedIndicators and billIdentifiers to prevent
+    * Not to copy over the Bills billed and billIdentifier values to prevent
     * bad data and PK issues when saving new Bills.
     */
     @Override
@@ -101,7 +101,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         List<Bill> bills = getPredeterminedBillingSchedule().getBills();
         if (ObjectUtils.isNotNull(bills)) {
             for (Bill bill:bills) {
-                bill.setBilledIndicator(false);
+                bill.setBilled(false);
                 bill.setBillIdentifier(null);
             }
         }

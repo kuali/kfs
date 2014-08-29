@@ -34,17 +34,17 @@ public enum InvoiceBillFixture {
     private String billDescription;
     private Long billIdentifier;
     private Date billDate;
-    private boolean isBilledIndicator;
+    private boolean billed;
     private KualiDecimal estimatedAmount;
 
-    private InvoiceBillFixture(String documentNumber, Long proposalNumber, Long billNumber, String billDescription, Long billIdentifier, Date billDate, boolean isBilledIndicator, KualiDecimal estimatedAmount) {
+    private InvoiceBillFixture(String documentNumber, Long proposalNumber, Long billNumber, String billDescription, Long billIdentifier, Date billDate, boolean billed, KualiDecimal estimatedAmount) {
         this.documentNumber = documentNumber;
         this.proposalNumber = proposalNumber;
         this.billNumber = billNumber;
         this.billDescription = billDescription;
         this.billIdentifier = billIdentifier;
         this.billDate = billDate;
-        this.isBilledIndicator = isBilledIndicator;
+        this.billed = billed;
         this.estimatedAmount = estimatedAmount;
     }
 
@@ -56,7 +56,7 @@ public enum InvoiceBillFixture {
         bill.setBillIdentifier(this.billIdentifier);
         bill.setBillDescription(this.billDescription);
         bill.setBillDate(this.billDate);
-        bill.setBilledIndicator(this.isBilledIndicator);
+        bill.setBilled(this.billed);
         bill.setEstimatedAmount(this.estimatedAmount);
         return bill;
     }

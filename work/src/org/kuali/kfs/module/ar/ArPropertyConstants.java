@@ -540,7 +540,7 @@ public class ArPropertyConstants{
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";
     public static final String AMOUNT_TO_DRAW = "amountToDraw";
-    public static final String BILLED_INDICATOR = "billedIndicator";
+    public static final String BILLED = "billed";
     public static final String FUNDS_NOT_DRAWN = "fundsNotDrawn";
     public static final String LETTER_OF_CREDIT_FUND = "letterOfCreditFund";
     public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";

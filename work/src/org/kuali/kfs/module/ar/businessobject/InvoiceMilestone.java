@@ -40,7 +40,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
     private Long milestoneNumber;
     private Long milestoneIdentifier;
     private String milestoneDescription;
-    private boolean billedIndicator = false;
+    private boolean billed = false;
     private KualiDecimal milestoneAmount;
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
@@ -77,12 +77,12 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
         return invoiceDocument;
     }
 
-    public boolean isBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    public void setBilledIndicator(boolean billedIndicator) {
-        this.billedIndicator = billedIndicator;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     /**
@@ -250,7 +250,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
         m.put("milestoneDescription", this.milestoneDescription);
-        m.put("billedIndicator", this.billedIndicator);
+        m.put("billed", this.billed);
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }

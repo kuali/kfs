@@ -98,7 +98,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
         List<InvoiceMilestone> milestones = new ArrayList<InvoiceMilestone>();
         InvoiceMilestone invMilestone_2 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
-        invMilestone_2.setBilledIndicator(true);
+        invMilestone_2.setBilled(true);
         milestones.add(invMilestone_2);
         Iterator<InvoiceMilestone> iterator = milestones.iterator();
         contractsGrantsInvoiceDocumentService.correctContractsGrantsInvoiceDocument(document);
@@ -108,7 +108,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             InvoiceMilestone id = iterator.next();
             InvoiceMilestone cid = correctedIterator.next();
             assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
-            assertTrue(cid.isBilledIndicator());
+            assertTrue(cid.isBilled());
         }
 
         contractsGrantsInvoiceDocumentService.correctMilestones(document.getInvoiceMilestones());
@@ -121,7 +121,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         if (CollectionUtils.isNotEmpty(updatedMilestones)) {
             Iterator<Milestone> iterator2 = updatedMilestones.iterator();
             while (iterator2.hasNext()) {
-                assertFalse(iterator2.next().isBilledIndicator());
+                assertFalse(iterator2.next().isBilled());
             }
         }
 
@@ -147,7 +147,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
             InvoiceBill id = (InvoiceBill) iterator.next();
             InvoiceBill cid = (InvoiceBill) correctedIterator.next();
             assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
-            assertTrue(cid.isBilledIndicator());
+            assertTrue(cid.isBilled());
         }
 
         contractsGrantsInvoiceDocumentService.correctBills(document.getInvoiceBills());
@@ -160,7 +160,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
         if (CollectionUtils.isNotEmpty(updatedBills)) {
             Iterator<Bill> iterator2 = updatedBills.iterator();
             while (iterator2.hasNext()) {
-                assertFalse(iterator2.next().isBilledIndicator());
+                assertFalse(iterator2.next().isBilled());
             }
         }
 

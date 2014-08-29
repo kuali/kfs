@@ -39,7 +39,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     private Date billDate;
 
     private KualiDecimal estimatedAmount = KualiDecimal.ZERO;
-    private boolean billedIndicator = false;
+    private boolean billed = false;
     private boolean active;
 
     private ContractsAndGrantsBillingAward award;
@@ -75,12 +75,12 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     }
 
     @Override
-    public boolean isBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    public void setBilledIndicator(boolean billedIndicator) {
-        this.billedIndicator = billedIndicator;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     /**
@@ -198,7 +198,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         m.put("billIdentifier", this.billIdentifier);
         m.put("billDate", this.billDate.toString());
         m.put("estimatedAmount", this.estimatedAmount.toString());
-        m.put("isBilledIndicator", this.billedIndicator);
+        m.put("billed", this.billed);
         return m;
     }
 

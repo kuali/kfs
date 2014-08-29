@@ -167,12 +167,12 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         this.document = document;
     }
 
-    protected void setupBills(String documentNumber, Long proposalNumber, boolean billedIndicator) {
+    protected void setupBills(String documentNumber, Long proposalNumber, boolean billed) {
         List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
         InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
         invBill_1.setDocumentNumber(documentNumber);
         invBill_1.setProposalNumber(proposalNumber);
-        invBill_1.setBilledIndicator(billedIndicator);
+        invBill_1.setBilled(billed);
         boService.save(invBill_1);
         invoiceBills.add(invBill_1);
         document.setInvoiceBills(invoiceBills);
@@ -184,7 +184,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         bill.setBillIdentifier(invBill_1.getBillIdentifier());
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
-        bill.setBilledIndicator(invBill_1.isBilledIndicator());
+        bill.setBilled(invBill_1.isBilled());
         bill.setAward(document.getAward());
 
         PredeterminedBillingSchedule predeterminedBillingSchedule = new PredeterminedBillingSchedule();
@@ -196,12 +196,12 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         boService.save(bill);
     }
 
-    protected void setupMilestones(String documentNumber, Long proposalNumber, boolean billedIndicator) {
+    protected void setupMilestones(String documentNumber, Long proposalNumber, boolean billed) {
         List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
         InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
         invMilestone_1.setDocumentNumber(documentNumber);
         invMilestone_1.setProposalNumber(proposalNumber);
-        invMilestone_1.setBilledIndicator(billedIndicator);
+        invMilestone_1.setBilled(billed);
         boService.save(invMilestone_1);
         invoiceMilestones.add(invMilestone_1);
         document.setInvoiceMilestones(invoiceMilestones);
@@ -214,7 +214,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         milestone.setMilestoneAmount(invMilestone_1.getMilestoneAmount());
         milestone.setMilestoneActualCompletionDate(invMilestone_1.getMilestoneActualCompletionDate());
         milestone.setMilestoneExpectedCompletionDate(invMilestone_1.getMilestoneExpectedCompletionDate());
-        milestone.setBilledIndicator(invMilestone_1.isBilledIndicator());
+        milestone.setBilled(invMilestone_1.isBilled());
         milestone.setAward(document.getAward());
 
         MilestoneSchedule milestoneSchedule = new MilestoneSchedule();

@@ -170,7 +170,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
 
 
             for (Milestone awdMilestone : milestones) {
-                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilledIndicator() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilled() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validMilestones.add(awdMilestone);
                 }
             }
@@ -205,7 +205,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
             java.sql.Date invoiceDate = pair[1];
 
             for (Bill awdBill : bills) {
-                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilled() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validBills.add(awdBill);
                 }
             }

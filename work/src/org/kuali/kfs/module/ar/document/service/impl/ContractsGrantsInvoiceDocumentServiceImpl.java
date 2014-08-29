@@ -1288,7 +1288,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method get the milestones with the criteria defined and set value to isBilledIndicator.
+     * This method get the milestones with the criteria defined and set value to billed.
      *
      * @param invoiceMilestones
      * @param string
@@ -1304,25 +1304,25 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
         if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
-            setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+            setMilestonesBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
         }
     }
 
     /**
-     * This method updates value of isItBilled in Milestone BO to Yes
+     * This method updates value of billed in Milestone BO to Yes
      *
      * @param criteria
      */
-    protected void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
+    protected void setMilestonesBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
         Collection<Milestone> milestones = null;
         milestones = getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
 
         if (!ObjectUtils.isNull(milestones)) {
             for (Milestone milestone : milestones) {
                 if (value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)) {
-                    milestone.setBilledIndicator(Boolean.TRUE);
+                    milestone.setBilled(Boolean.TRUE);
                 }else{
-                    milestone.setBilledIndicator(Boolean.FALSE);
+                    milestone.setBilled(Boolean.FALSE);
                 }
                 getBusinessObjectService().save(milestone);
             }
@@ -1346,7 +1346,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * This method get the bills with the criteria defined and set value to isBilledIndicator.
+     * This method get the bills with the criteria defined and set value to billed.
      *
      * @param invoiceBills
      * @param value
@@ -1378,22 +1378,22 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To get the bills with the criteria defined and set value to isItBilled.
-        setBilledIndicator(fieldValuesList, value);
+        setBillsBilled(fieldValuesList, value);
     }
 
     /**
-     * This method updates value of isItBilled in Bill BO to Yes
+     * This method updates value of billed in Bill BO to Yes
      *
      * @param criteria
      */
-    protected void setBilledIndicator(List<Map<String, String>> fieldValuesList, String value) {
+    protected void setBillsBilled(List<Map<String, String>> fieldValuesList, String value) {
         Collection<Bill> bills = billDao.getBillsByMatchingCriteria(fieldValuesList);
         for (Bill bill : bills) {
             if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
-                bill.setBilledIndicator(true);
+                bill.setBilled(true);
             }
             else {
-                bill.setBilledIndicator(false);
+                bill.setBilled(false);
             }
         }
         List<Bill> billsToSave = new ArrayList<Bill>();
@@ -1479,7 +1479,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
                 Milestone milestone = iterator.next();
-                if (milestone.isBilledIndicator()) {
+                if (milestone.isBilled()) {
                     billedToDateAmount = billedToDateAmount.add(milestone.getMilestoneAmount());
                 }
             }
@@ -1501,7 +1501,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<Bill> iterator = bills.iterator();
             while (iterator.hasNext()) {
                 Bill bill = iterator.next();
-                if (bill.isBilledIndicator()) {
+                if (bill.isBilled()) {
                     billedToDateAmount = billedToDateAmount.add(bill.getEstimatedAmount());
                 }
             }
@@ -1937,7 +1937,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
-                parameterMap.put("invoiceMilestones[" + i + "].billedIndicator", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceMilestones[" + i + "].billed", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilled()));
             }
         }
         if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
@@ -1978,7 +1978,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
                 parameterMap.put("invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
                 parameterMap.put("invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
-                parameterMap.put("invoiceBills[" + i + "].billedIndicator", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceBills[" + i + "].billed", returnProperStringValue(document.getInvoiceBills().get(i).isBilled()));
             }
         }
         if (ObjectUtils.isNotNull(award)) {
@@ -2198,7 +2198,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method updates the Bills and Milestone objects isItBilles Field.
+     * This method updates the Bills and Milestone objects billed Field.
      *
      * @param string
      */

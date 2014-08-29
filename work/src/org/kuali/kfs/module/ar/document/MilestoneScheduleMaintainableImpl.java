@@ -89,7 +89,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
     }
 
    /**
-    * Not to copy over the Milestones billedIndicators and billIdentifiers to prevent
+    * Not to copy over the Milestones billed and milestoneIdentifier values to prevent
     * bad data and PK issues when saving new Milestones.
     */
     @Override
@@ -98,10 +98,10 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
         // clear out Bill IDs so new ones will get generated for these bills
         // reset billed indicator in case bill we're copying from was already billed
-        List<Milestone> milestonss = getMilestoneSchedule().getMilestones();
-        if (ObjectUtils.isNotNull(milestonss)) {
-            for (Milestone milestone:milestonss) {
-                milestone.setBilledIndicator(false);
+        List<Milestone> milestons = getMilestoneSchedule().getMilestones();
+        if (ObjectUtils.isNotNull(milestons)) {
+            for (Milestone milestone:milestons) {
+                milestone.setBilled(false);
                 milestone.setMilestoneIdentifier(null);
             }
         }

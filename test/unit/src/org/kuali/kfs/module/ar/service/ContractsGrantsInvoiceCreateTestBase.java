@@ -111,7 +111,7 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_2.createInvoiceBill();
         invBill_1.setDocumentNumber(document.getDocumentNumber());
         invBill_1.setProposalNumber(document.getProposalNumber());
-        invBill_1.setBilledIndicator(false);
+        invBill_1.setBilled(false);
 
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         java.sql.Date today = new java.sql.Date(ts.getTime());
@@ -133,7 +133,7 @@ public abstract class ContractsGrantsInvoiceCreateTestBase extends KualiTestBase
         bill.setBillIdentifier(invBill_1.getBillIdentifier());
         bill.setBillDate(invBill_1.getBillDate());
         bill.setEstimatedAmount(invBill_1.getEstimatedAmount());
-        bill.setBilledIndicator(invBill_1.isBilledIndicator());
+        bill.setBilled(invBill_1.isBilled());
         bill.setAward(document.getAward());
         bill.setActive(true);
 

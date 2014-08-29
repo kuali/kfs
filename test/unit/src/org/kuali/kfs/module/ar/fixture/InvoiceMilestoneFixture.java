@@ -58,7 +58,7 @@ public enum InvoiceMilestoneFixture {
         milestone.setMilestoneIdentifier(this.milestoneIdentifier);
         milestone.setMilestoneDescription(this.milestoneDescription);
         milestone.setMilestoneAmount(this.milestoneAmount);
-        milestone.setBilledIndicator(this.isBilledIndicator);
+        milestone.setBilled(this.isBilledIndicator);
         milestone.setMilestoneActualCompletionDate(this.milestoneActualCompletionDate);
         milestone.setMilestoneExpectedCompletionDate(this.milestoneExpectedCompletionDate);
         return milestone;

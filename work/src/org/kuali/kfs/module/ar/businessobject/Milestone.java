@@ -41,7 +41,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
 
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
-    private boolean billedIndicator = false;
+    private boolean billed = false;
     private boolean active;
 
     private ContractsAndGrantsBillingAward award;
@@ -124,12 +124,12 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
 
 
     @Override
-    public boolean isBilledIndicator() {
-        return billedIndicator;
+    public boolean isBilled() {
+        return billed;
     }
 
-    public void setBilledIndicator(boolean billedIndicator) {
-        this.billedIndicator = billedIndicator;
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     /**
@@ -219,7 +219,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
         m.put("milestoneIdentifier", milestoneIdentifier);
         m.put("milestoneDescription", milestoneDescription);
         m.put("milestoneAmount", milestoneAmount);
-        m.put("isBilledIndicator", billedIndicator);
+        m.put("billed", billed);
         return m;
     }
 

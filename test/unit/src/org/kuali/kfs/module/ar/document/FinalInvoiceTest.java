@@ -72,7 +72,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
         if (CollectionUtils.isNotEmpty(updatedMilestones)) {
             Iterator<Milestone> iterator = updatedMilestones.iterator();
             while (iterator.hasNext()) {
-                assertTrue(iterator.next().isBilledIndicator());
+                assertTrue(iterator.next().isBilled());
             }
         }
 
@@ -83,7 +83,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
             Iterator<Bill> iterator = updatedBills.iterator();
 
             while (iterator.hasNext()) {
-                assertTrue(iterator.next().isBilledIndicator());
+                assertTrue(iterator.next().isBilled());
             }
         }
     }

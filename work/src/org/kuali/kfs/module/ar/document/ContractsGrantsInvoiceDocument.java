@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
@@ -48,8 +49,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -452,22 +451,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        if ( ObjectUtils.isNull(proposalNumber)) {
-            award = null;
-        } else {
-            if ( award == null || !award.getProposalNumber().equals(proposalNumber))  {
-                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class);
-                if ( moduleService != null ) {
-                    Map<String,Object> key = new HashMap<String, Object>(1);
-                    key.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-                    award = moduleService.getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, key);
-                } else {
-                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
-                }
-            }
-        }
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
         return award;
-
     }
 
     /**

@@ -16,18 +16,16 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * Milestone to be used for Milestone Schedule under Contracts and Grants
@@ -198,11 +196,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
      */
     @Override
     public ContractsAndGrantsBillingAward getAward() {
-        if (award == null && proposalNumber != null) {
-            Map<String, Object> map = new HashMap<String, Object> ();
-            map.put("proposalNumber", this.proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
-        }
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
         return award;
     }
 

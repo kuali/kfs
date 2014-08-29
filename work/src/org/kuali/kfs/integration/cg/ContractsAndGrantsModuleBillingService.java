@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * the provided NoOp implementation of the service.
  */
 public interface ContractsAndGrantsModuleBillingService {
+
     /**
      * This method would return list of business object - in this case Awards for CG Invoice functionality in AR.
      *
@@ -34,6 +35,17 @@ public interface ContractsAndGrantsModuleBillingService {
      * @return
      */
     public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded);
+
+    /**
+     * Compares the Proposal Number passed in with that in the Award object.  If they are the same, it returns the
+     * original object.  Otherwise, it retrieves the Award based on the proposalNumber and returns it.
+     *
+     * @param proposalNumber
+     * @param currentAward
+     * @return
+     */
+    public ContractsAndGrantsBillingAward updateAwardIfNecessary(Long proposalNumber, ContractsAndGrantsBillingAward currentAward);
+
     /**
      * This method sets last Billed Date to award Account.
      *
@@ -94,4 +106,5 @@ public interface ContractsAndGrantsModuleBillingService {
      * @param invoiceDocumentStatus
      */
     public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, java.sql.Date lastBilledDate, String invoiceDocumentStatus);
+
 }

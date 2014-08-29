@@ -16,18 +16,16 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
@@ -176,10 +174,8 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        Map<String,Object> key = new HashMap<String, Object>(1);
-        key.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, key);
-
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
+        return award;
     }
 
     /**

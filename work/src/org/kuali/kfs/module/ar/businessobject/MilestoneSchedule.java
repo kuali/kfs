@@ -16,19 +16,17 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -162,13 +160,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      */
     @Override
     public ContractsAndGrantsBillingAward getAward() {
-        if (ObjectUtils.isNotNull(proposalNumber)) {
-            if (ObjectUtils.isNull(award) || award.getProposalNumber() != proposalNumber) {
-                Map<String, Object> map = new HashMap<String, Object> ();
-                map.put("proposalNumber", this.proposalNumber);
-                award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
-            }
-        }
+        award = SpringContext.getBean(ContractsAndGrantsModuleBillingService.class).updateAwardIfNecessary(proposalNumber, award);
         return award;
     }
 

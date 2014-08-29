@@ -21,17 +21,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
-import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.AwardService;
-import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This Class provides implementation to the services required for inter-module communication, allowing AR to utilize
@@ -39,9 +38,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndGrantsModuleBillingService {
     protected AwardService awardService;
-    protected ParameterService parameterService;
-    protected AgencyService agencyService;
-    protected CfdaService cfdaService;
     protected BusinessObjectService businessObjectService;
 
     /**
@@ -91,6 +87,20 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
         }
 
         return (List<Award>)service.callGetSearchResultsHelper(LookupUtils.forceUppercase(Award.class, fieldValues), unbounded);
+    }
+
+    @Override
+    public ContractsAndGrantsBillingAward updateAwardIfNecessary(Long proposalNumber, ContractsAndGrantsBillingAward currentAward ) {
+        ContractsAndGrantsBillingAward award = currentAward;
+
+        if ( ObjectUtils.isNull(proposalNumber)) {
+            award = null;
+        } else {
+            if ( ObjectUtils.isNull(currentAward) || !currentAward.getProposalNumber().equals(proposalNumber))  {
+                award = awardService.getByPrimaryId(proposalNumber);
+            }
+        }
+        return award;
     }
 
     /**
@@ -210,33 +220,6 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
     }
 
     /**
-     * Returns an implementation of the parameterService
-     *
-     * @return an implementation of the parameterService
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Returns the default implementation of the C&G AgencyService
-     *
-     * @return an implementation of AgencyService
-     */
-    public AgencyService getAgencyService() {
-        return agencyService;
-    }
-
-    /**
-     * Returns an implementation of the CfdaService
-     *
-     * @return an implementation of the CfdaService
-     */
-    public CfdaService getCfdaService() {
-        return cfdaService;
-    }
-
-    /**
      * Returns an implementation of the BusinessObjectService
      *
      * @return an implementation of the BusinessObjectService
@@ -258,19 +241,8 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
         this.awardService = awardService;
     }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setAgencyService(AgencyService agencyService) {
-        this.agencyService = agencyService;
-    }
-
-    public void setCfdaService(CfdaService cfdaService) {
-        this.cfdaService = cfdaService;
-    }
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
 }

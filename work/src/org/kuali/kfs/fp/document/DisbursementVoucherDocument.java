@@ -155,7 +155,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean payeeAssigned = false;
     protected boolean editW9W8BENbox = false;
     protected boolean immediatePaymentIndicator = false;
-    protected boolean refundIndicator;
 
     protected DocumentHeader financialDocument;
     protected PaymentDocumentationLocation disbVchrDocumentationLoc;
@@ -1538,16 +1537,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public void setDisbVchrPdpBankCode(String disbVchrPdpBankCode) {
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }
-
-    /* Start TEM REFUND Merge */
-    public boolean isRefundIndicator() {
-        return refundIndicator;
-    }
-
-    public void setRefundIndicator(boolean refundIndicator) {
-        this.refundIndicator = refundIndicator;
-    }
-    /* End TEM REFUND Merge */
 
     /**
      * @return whether this document should be paid out immediately from PDP

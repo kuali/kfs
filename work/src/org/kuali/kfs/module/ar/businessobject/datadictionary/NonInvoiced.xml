@@ -39,7 +39,6 @@
 				<ref bean="NonInvoiced-financialSubObjectCode" />
 				<ref bean="NonInvoiced-projectCode" />
 				<ref bean="NonInvoiced-subAccountNumber" />
-				<ref bean="NonInvoiced-refundIndicator" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -190,17 +189,7 @@
     	</property>
 	</bean>
 
-	<bean id="NonInvoiced-refundIndicator" parent="NonInvoiced-refundIndicator-parentBean" />
-
-	<bean id="NonInvoiced-refundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-		<property name="name" value="refundIndicator" />
-		<property name="required" value="false" />
-		<property name="label" value="Refund" />
-		<property name="shortLabel" value="Refund" />
-	</bean>
-
 	<!-- Business Object Inquiry Definition -->
-
 
 	<bean id="NonInvoiced-inquiryDefinition" parent="NonInvoiced-inquiryDefinition-parentBean" />
 

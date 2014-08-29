@@ -87,7 +87,7 @@
                             <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
                             <table class='datatable'>
 								<tr>
-									<td colspan='4' class='tab-subhead'>
+									<td colspan='3' class='tab-subhead'>
 										Unapplied Funds
 									</td>
 								</tr>
@@ -112,9 +112,6 @@
 									</c:if>
 									<th class='tab-subhead'>
 										Applied Amount
-                                    </th>
-                                    <th class='tab-subhead'>
-                                    	Refund
                                     </th>
 								</tr>
 								<tr>
@@ -143,9 +140,6 @@
 										${KualiForm.totalApplied}								
 										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
-									<td style="text-align: right;">
-										${KualiForm.document.refundAmount}								
-									</td>									
 								</tr>
 							</table>
 						<td>

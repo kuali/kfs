@@ -660,7 +660,6 @@
 			<column name="LTRCR_FND_CD" type="VARCHAR(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="VARCHAR(4)" />			
 			<column name="PRPSL_NBR" type="DECIMAL(12,0)" defaultValue="0" />
-			<column name="REFND_FDOC_NBR" type="VARCHAR(14)" />
 		</addColumn>
 		<addColumn tableName="AR_CSH_CTRL_T">
 			<column name="LTRCR_CRTN_TYP" type="VARCHAR(45)" />
@@ -693,16 +692,8 @@
 			<column name="RFRL_TYP_CD" type="VARCHAR(6)" />
 			<column name="FINAL_DISPOS_CD" type="VARCHAR(4)" />
 		</addColumn>
-		<addColumn tableName="AR_NON_INV_T">
-			<column name="REFND_IND" type="VARCHAR(1)" defaultValue="N" />
-		</addColumn>
 		<addColumn tableName="AR_ORG_OPTION_T">
 			<column name="AR_CG_BILLER_IND" type="VARCHAR(1)" />
-		</addColumn>
-		<addColumn tableName="AR_SYS_INFO_T">
-			<column name="REFND_PMT_REAS_CD" type="VARCHAR(1)" />
-			<column name="REFND_FIN_OBJECT_CD" type="VARCHAR(4)" />
-			<column name="REFND_DOC_LOC_CD" type="VARCHAR(2)" />
 		</addColumn>
 		<modifySql>
 		   	<replace replace="TIMESTAMP" with="DATE"/>

@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
@@ -34,11 +33,8 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.api.identity.Person)
-     */
-    /**
-     * Overridden to make:
-     * 1. amount read only for fiscal officer
-     * 2. field read only for refund DVs
+     *
+     * Overridden to make amount read only for fiscal officer
      */
     @Override
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
@@ -53,14 +49,6 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
             }
         }
 
-        /*Start TEM Merge for Customer Refund*/
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocument;
-
-        // If this is a refund DV and the eDoc is not inititated, read only
-        if (dvDocument.isRefundIndicator() && !dvDocument.getDocumentHeader().getWorkflowDocument().isInitiated()) {
-            return false;
-        }
-        /*End TEM Merge for Customer Refund*/
         return canModify;
     }
 
@@ -71,19 +59,6 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
     protected String getAmountPropertyName() {
         return "amount";
     }
-
-    /*Start TEM Merge for Customer Refund*/
-    @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocument;
-
-        if (dvDocument.isRefundIndicator() && !dvDocument.getDocumentHeader().getWorkflowDocument().isInitiated()) {
-            return false;
-        }
-
-        return super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
-    }
-    /*End TEM Merge for Customer Refund*/
 
 }
 

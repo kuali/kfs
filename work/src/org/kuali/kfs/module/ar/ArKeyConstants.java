@@ -258,8 +258,6 @@ public class ArKeyConstants {
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
         public static final String ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION = "error.document.paymentApplication.missing.system.information";
-        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_PAYMENT_REASON = "error.system.information.missing.refund.payment.reason";
-        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_DOCUMENTATION_LOCATION = "error.system.information.missing.refund.documentation.location";
     }
 
     public static class CollectionActivityDocumentErrors {
@@ -304,13 +302,6 @@ public class ArKeyConstants {
         public static final String NO_AWARD = "error.invoice.create.document.no.award";
         public static final String NO_CHART_OR_ORG = "error.invoice.create.document.no.chart.or.org";
     }
-
-    /* Start TEM REFUND Merge */
-    // ar refunding
-    public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
-    public static final String MESSAGE_REFUND_DV_CHECK_STUB_TEXT = "message.document.refundDV.checkStubText";
-
-    /* End TEM REFUND Merge */
 
     // Collection Activity Type errors
     public static class CollectionActivityTypeConstants {

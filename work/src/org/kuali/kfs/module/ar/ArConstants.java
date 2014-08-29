@@ -159,14 +159,6 @@ public class ArConstants{
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
 
-    /* Start TEM REFUND Merge */
-    public static class ArRefunding {
-        public static final String DV_ROUTE_PARAMETER_NAME = "DV_DOCUMENT_ROUTE_ACTION";
-        public static final String DV_ROUTE_SAVE = "SAVE";
-        public static final String DV_ROUTE_ROUTE = "ROUTE";
-        public static final String DV_ROUTE_BLANKETAPPROVE = "BLANKETAPPROVE";
-    }
-
     public static class SuspensionCategories {
         public static final String BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE = "1";
         public static final String NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL = "2";

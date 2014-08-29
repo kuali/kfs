@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.document;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,7 +32,6 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -45,13 +43,11 @@ import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -67,7 +63,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
@@ -78,7 +73,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -104,7 +98,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected Collection<NonAppliedDistribution> nonAppliedDistributions;
     protected NonAppliedHolding nonAppliedHolding;
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    protected String refundDocumentNumber;
     protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
     protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected Long proposalNumber;// For loc creation type = Award
@@ -1135,19 +1128,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 }
 
             }
-
-            // for refunds need to spawn DV document
-            boolean isRefund = false;
-            for (NonInvoiced nonInvoiced : nonInvoiceds) {
-                if (nonInvoiced.isRefundIndicator()) {
-                    isRefund = true;
-                    break;
-                }
-            }
-
-            if (isRefund) {
-                SpringContext.getBean(PaymentApplicationDocumentService.class).createDisbursementVoucherDocumentForRefund(this);
-            }
         }
     }
 
@@ -1621,63 +1601,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * @return
-     */
-    public String getRefundDocumentNumber() {
-        return refundDocumentNumber;
-    }
-
-    /**
-     * @param refundDocumentNumber
-     */
-    public void setRefundDocumentNumber(String refundDocumentNumber) {
-        this.refundDocumentNumber = refundDocumentNumber;
-    }
-
-    /**
-     * @return
-     */
-    public KualiDecimal getRefundAmount() {
-        if (StringUtils.isNotBlank(refundDocumentNumber)) {
-            try {
-                Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(refundDocumentNumber);
-
-                return ((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentTotalAmount();
-            }
-            catch (WorkflowException ex) {
-                // just swallow exception and return 0 amount
-            }
-        }
-
-        return KualiDecimal.ZERO;
-    }
-
-    /**
-     * @return
-     */
-    public String getRefundDate() {
-        if (StringUtils.isNotBlank(refundDocumentNumber)) {
-            WorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = SpringContext.getBean(org.kuali.rice.krad.workflow.service.WorkflowDocumentService.class).loadWorkflowDocument(refundDocumentNumber, GlobalVariables.getUserSession().getPerson());
-            }
-            catch (NumberFormatException ex) {
-                // just swallow exception and return empty string
-            }
-            catch (WorkflowException ex) {
-                // just swallow exception and return empty string
-            }
-
-            if (workflowDocument != null) {
-                Timestamp refundDate = new Timestamp(workflowDocument.getDateCreated().getMillis());
-                return SpringContext.getBean(DateTimeService.class).toDateString(refundDate);
-            }
-        }
-
-        return "";
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#toErrorCorrection()
      */
     @Override
@@ -1697,8 +1620,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (nonAppliedHolding != null) {
             nonAppliedHolding.setReferenceFinancialDocumentNumber(this.getDocumentNumber());
         }
-
-        reduceCashControlTotalByRefundAmount();
 
         negateDocumentValues();
 
@@ -1834,21 +1755,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      *
      */
-    // Reduce the Cash Control Total Amount by removing the total from Refunds for error Correction Documents.
-    private void reduceCashControlTotalByRefundAmount() {
-        KualiDecimal refundTotal = KualiDecimal.ZERO;
-        for (NonInvoiced invoiced : getNonInvoiceds()) {
-            if (invoiced.isRefundIndicator()) {
-                refundTotal = refundTotal.add(invoiced.getFinancialDocumentLineAmount());
-            }
-        }
-
-        getCashControlDetail().setFinancialDocumentLineAmount(getCashControlDetail().getFinancialDocumentLineAmount().subtract(refundTotal));
-    }
-
-    /**
-     *
-     */
     private void negateDocumentValues() {
         for (InvoicePaidApplied invoicePaidApplied : getInvoicePaidApplieds()) {
             invoicePaidApplied.setInvoiceItemAppliedAmount(invoicePaidApplied.getInvoiceItemAppliedAmount().negated());
@@ -1858,12 +1764,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         List<NonInvoiced> nonInvoicedsToRemove = new ArrayList<NonInvoiced>();
 
         for (NonInvoiced nonInvoiced : nonInvoiceds) {
-            if (nonInvoiced.isRefundIndicator()) {
-                nonInvoicedsToRemove.add(nonInvoiced);
-            }
-            else {
-                nonInvoiced.setFinancialDocumentLineAmount(nonInvoiced.getFinancialDocumentLineAmount().negated());
-            }
+            nonInvoiced.setFinancialDocumentLineAmount(nonInvoiced.getFinancialDocumentLineAmount().negated());
         }
 
         // remove Non-AR item from list for Correction Document, because you can't reverse a check that has been sent out.

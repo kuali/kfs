@@ -26,11 +26,9 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
-import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -68,12 +66,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected String organizationRemitToZipCode;
     protected String organizationCheckPayableToName;
     protected String financialDocumentInitiatorIdentifier;
-//    protected String wireChartOfAccountsCode;
-//    protected String wireAccountNumber;
-//    protected String wireSubAccountNumber;
-//    protected String wireObjectCode;
-//    protected String wireSubObjectCode;
-
     protected ObjectCode creditCardFinancialObject;
     protected SubObjectCode universityClearingSubObject;
     protected ObjectCode universityClearingObject;
@@ -85,72 +77,18 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected SubAccount universityClearingSubAccount;
     protected ObjectCode universityFiscalYearObject;
     protected StateEbo organizationRemitToState;
-//    protected Chart wireChartOfAccounts;
-//    protected Account wireAccount;
-//    protected SubAccount wireSubAccount;
-//    protected ObjectCode wireObject;
-//    protected SubObjectCode wireSubObject;
     protected Person financialDocumentInitiator;
     protected SystemOptions universityFiscal;
     protected PostalCodeEbo orgRemitToZipCode;
-    /* Start TEM REFUND Merge */
-    private PaymentReasonCode refundPaymentReason;
-    private ObjectCode refundObjectCode;
-    private PaymentDocumentationLocation refundDocumentationLocation;
-    /* End TEM REFUND Merge */
-    /* Start TEM REFUND Merge */
-    private String refundPaymentReasonCode;
-    private String refundFinancialObjectCode;
-    private String refundDocumentationLocationCode;
-/* End TEM REFUND Merge */
 
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
         return financialDocumentInitiator;
     }
 
-    public PaymentDocumentationLocation getRefundDocumentationLocation() {
-        return refundDocumentationLocation;
-    }
-
-    public void setRefundDocumentationLocation(PaymentDocumentationLocation refundDocumentationLocation) {
-        this.refundDocumentationLocation = refundDocumentationLocation;
-    }
-
     public void setFinancialDocumentInitiator(Person financialDocumentInitiator) {
         this.financialDocumentInitiator = financialDocumentInitiator;
     }
-
-    public String getRefundPaymentReasonCode() {
-        return refundPaymentReasonCode;
-    }
-
-    public void setRefundPaymentReasonCode(String refundPaymentReasonCode) {
-        this.refundPaymentReasonCode = refundPaymentReasonCode;
-    }
-
-    public String getRefundFinancialObjectCode() {
-        return refundFinancialObjectCode;
-    }
-
-    public void setRefundFinancialObjectCode(String refundFinancialObjectCode) {
-        this.refundFinancialObjectCode = refundFinancialObjectCode;
-    }
-
-    public String getRefundDocumentationLocationCode() {
-        return refundDocumentationLocationCode;
-    }
-
-    public void setRefundDocumentationLocationCode(String refundDocumentationLocationCode) {
-        this.refundDocumentationLocationCode = refundDocumentationLocationCode;
-    }
-
-    /**
-	 * Default constructor.
-	 */
-	public SystemInformation() {
-
-	}
 
 	/**
 	 * Gets the universityFiscalYear attribute.
@@ -563,86 +501,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
         this.organizationRemitToZipCode = organizationRemitToZipCode;
     }
 
-//    /**
-//     * Gets the wireAccountNumber attribute.
-//     * @return Returns the wireAccountNumber.
-//     */
-//    public String getWireAccountNumber() {
-//        return wireAccountNumber;
-//    }
-//
-//    /**
-//     * Sets the wireAccountNumber attribute value.
-//     * @param wireAccountNumber The wireAccountNumber to set.
-//     */
-//    public void setWireAccountNumber(String wireAccountNumber) {
-//        this.wireAccountNumber = wireAccountNumber;
-//    }
-//
-//    /**
-//     * Gets the wireChartOfAccountsCode attribute.
-//     * @return Returns the wireChartOfAccountsCode.
-//     */
-//    public String getWireChartOfAccountsCode() {
-//        return wireChartOfAccountsCode;
-//    }
-//
-//    /**
-//     * Sets the wireChartOfAccountsCode attribute value.
-//     * @param wireChartOfAccountsCode The wireChartOfAccountsCode to set.
-//     */
-//    public void setWireChartOfAccountsCode(String wireChartOfAccountsCode) {
-//        this.wireChartOfAccountsCode = wireChartOfAccountsCode;
-//    }
-//
-//    /**
-//     * Gets the wireObjectCode attribute.
-//     * @return Returns the wireObjectCode.
-//     */
-//    public String getWireObjectCode() {
-//        return wireObjectCode;
-//    }
-//
-//    /**
-//     * Sets the wireObjectCode attribute value.
-//     * @param wireObjectCode The wireObjectCode to set.
-//     */
-//    public void setWireObjectCode(String wireObjectCode) {
-//        this.wireObjectCode = wireObjectCode;
-//    }
-//
-//    /**
-//     * Gets the wireSubAccountNumber attribute.
-//     * @return Returns the wireSubAccountNumber.
-//     */
-//    public String getWireSubAccountNumber() {
-//        return wireSubAccountNumber;
-//    }
-//
-//    /**
-//     * Sets the wireSubAccountNumber attribute value.
-//     * @param wireSubAccountNumber The wireSubAccountNumber to set.
-//     */
-//    public void setWireSubAccountNumber(String wireSubAccountNumber) {
-//        this.wireSubAccountNumber = wireSubAccountNumber;
-//    }
-//
-//    /**
-//     * Gets the wireSubObjectCode attribute.
-//     * @return Returns the wireSubObjectCode.
-//     */
-//    public String getWireSubObjectCode() {
-//        return wireSubObjectCode;
-//    }
-//
-//    /**
-//     * Sets the wireSubObjectCode attribute value.
-//     * @param wireSubObjectCode The wireSubObjectCode to set.
-//     */
-//    public void setWireSubObjectCode(String wireSubObjectCode) {
-//        this.wireSubObjectCode = wireSubObjectCode;
-//    }
-
 	/**
 	 * Gets the creditCardFinancialObject attribute.
 	 *
@@ -861,107 +719,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     @Deprecated
     public void setOrganizationRemitToState(StateEbo organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
-    }
-
-//    /**
-//     * Gets the wireAccount attribute.
-//     * @return Returns the wireAccount.
-//     */
-//    public Account getWireAccount() {
-//        return wireAccount;
-//    }
-//
-//    /**
-//     * Sets the wireAccount attribute value.
-//     * @param wireAccount The wireAccount to set.
-//     * @deprecated
-//     */
-//    public void setWireAccount(Account wireAccount) {
-//        this.wireAccount = wireAccount;
-//    }
-//
-//    /**
-//     * Gets the wireChartOfAccounts attribute.
-//     * @return Returns the wireChartOfAccounts.
-//     */
-//    public Chart getWireChartOfAccounts() {
-//        return wireChartOfAccounts;
-//    }
-//
-//    /**
-//     * Sets the wireChartOfAccounts attribute value.
-//     * @param wireChartOfAccounts The wireChartOfAccounts to set.
-//     * @deprecated
-//     */
-//    public void setWireChartOfAccounts(Chart wireChartOfAccounts) {
-//        this.wireChartOfAccounts = wireChartOfAccounts;
-//    }
-//
-//    /**
-//     * Gets the wireObject attribute.
-//     * @return Returns the wireObject.
-//     */
-//    public ObjectCode getWireObject() {
-//        return wireObject;
-//    }
-//
-//    /**
-//     * Sets the wireObject attribute value.
-//     * @param wireObject The wireObject to set.
-//     * @deprecated
-//     */
-//    public void setWireObject(ObjectCode wireObject) {
-//        this.wireObject = wireObject;
-//    }
-//
-//    /**
-//     * Gets the wireSubAccount attribute.
-//     * @return Returns the wireSubAccount.
-//     */
-//    public SubAccount getWireSubAccount() {
-//        return wireSubAccount;
-//    }
-//
-//    /**
-//     * Sets the wireSubAccount attribute value.
-//     * @param wireSubAccount The wireSubAccount to set.
-//     * @deprecated
-//     */
-//    public void setWireSubAccount(SubAccount wireSubAccount) {
-//        this.wireSubAccount = wireSubAccount;
-//    }
-//
-//    /**
-//     * Gets the wireSubObject attribute.
-//     * @return Returns the wireSubObject.
-//     */
-//    public SubObjectCode getWireSubObject() {
-//        return wireSubObject;
-//    }
-//
-//    /**
-//     * Sets the wireSubObject attribute value.
-//     * @param wireSubObject The wireSubObject to set.
-//     * @deprecated
-//     */
-//    public void setWireSubObject(SubObjectCode wireSubObject) {
-//        this.wireSubObject = wireSubObject;
-//    }
-
-    public PaymentReasonCode getRefundPaymentReason() {
-        return refundPaymentReason;
-    }
-
-    public void setRefundPaymentReason(PaymentReasonCode refundPaymentReason) {
-        this.refundPaymentReason = refundPaymentReason;
-    }
-
-    public ObjectCode getRefundObjectCode() {
-        return refundObjectCode;
-    }
-
-    public void setRefundObjectCode(ObjectCode refundObjectCode) {
-        this.refundObjectCode = refundObjectCode;
     }
 
     /**

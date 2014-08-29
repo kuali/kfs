@@ -276,9 +276,6 @@ public class ArPropertyConstants{
         public static final String DELETE_NON_INVOICED_LINE_PREFIX = "methodToCall.deleteNonArLine.line";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER = "selectedCustomerNumber";
         public static final String ENTERED_INVOICE_NUMBER = "enteredInvoiceDocumentNumber";
-        /* Start TEM REFUND Merge */
-        public static final String REFUND_DOCUMENT_NUMBER = "refundDocumentNumber";
-        /* End TEM REFUND Merge */
     }
 
     // Suspension Category

@@ -194,7 +194,6 @@ public class ArKeyConstants {
     public static final String ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY = "error.ar.bankNotEligibleForDepositActivity";
     public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";
     public static final String CASH_CTRL_DOC_CREATED_BY_BATCH = "message.ar.cashControlDocCreatedByLOC";
-    public static final String CASH_CTRL_DOC_CORRECTION = "message.ar.cashControlDocCorrection";
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
     public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";

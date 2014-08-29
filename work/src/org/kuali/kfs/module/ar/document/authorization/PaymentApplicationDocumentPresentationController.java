@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.Set;
-
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -28,7 +27,15 @@ import org.kuali.rice.krad.document.Document;
 public class PaymentApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
+     */
+    @Override
+    public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
+        return false;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCancel(Document document) {
@@ -42,45 +49,15 @@ public class PaymentApplicationDocumentPresentationController extends FinancialS
             return true;
         }
     }
-
-    /**
-     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
-     */
-    @Override
-    public boolean canCopy(Document document) {
-        boolean copyable = true;
-        PaymentApplicationDocument ciDoc = (PaymentApplicationDocument) document;
-
-        // Confirm doc is in a saved and copyable state.
-        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isInitiated();
-        copyable &= !ciDoc.getDocumentHeader().getWorkflowDocument().isCanceled();
-
-        // Confirm doc is reversible.
-        copyable &= !((PaymentApplicationDocument) document).isPaymentApplicationCorrection();
-        return copyable;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
-     */
     @Override
     public boolean canEdit(Document document) {
-        return (super.canEdit(document) && !((PaymentApplicationDocument) document).isPaymentApplicationCorrection()); // can't edit
-                                                                                                                       // if it's a
-                                                                                                                       // correction
-                                                                                                                       // document
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
-     */
-    @Override
-    public Set<String> getEditModes(Document document) {
-
-        Set<String> editModes = super.getEditModes(document);
-        if (((PaymentApplicationDocument) document).isPaymentApplicationCorrection()) {
-            editModes.add(KFSConstants.ERROR_CORRECTION_EDITING_MODE);
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isEnroute()) {
+            return false;
         }
-        return editModes;
+        else {
+            return super.canEdit(document);
+        }
     }
+
 }

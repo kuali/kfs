@@ -36,13 +36,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -568,7 +566,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     protected NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
-        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
 
         // validate the customer number in the unapplied
@@ -990,24 +987,4 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
     }
 
-    /**
-     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
-        PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
-        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
-        if (cashControlDocument != null) {
-            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-                if (cashControlDetail.getReferenceFinancialDocumentNumber().equals(paymentApplicationDocument.getDocumentNumber())) {
-                    cashControlDetail.setToCorrectIndicator(true);
-                    break;
-                }
-            }
-            cashControlDocument.toErrorCorrection();
-        }
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 }

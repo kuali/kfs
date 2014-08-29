@@ -31,6 +31,7 @@
  -->
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentAuthorizer"/>
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.PaymentApplicationDocumentPresentationController"/>
+    	<property name="allowsErrorCorrection" value="false"/>
 		<property name="attributes">
 			<list>
 			    <ref bean="PaymentApplicationDocument-unappliedCustomerNumber"/>

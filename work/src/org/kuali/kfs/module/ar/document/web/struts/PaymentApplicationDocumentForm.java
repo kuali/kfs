@@ -47,7 +47,6 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -88,22 +87,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         nonAppliedControlHoldings = new ArrayList<NonAppliedHolding>();
         nonAppliedControlAllocations = new HashMap<String, KualiDecimal>();
         distributionsFromControlDocs = new HashMap<String, KualiDecimal>();
-    }
-
-    /**
-     * @param property
-     * @param source
-     * @param altText
-     */
-    protected void addExtraButton(String property, String source, String altText) {
-
-        ExtraButton newButton = new ExtraButton();
-
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-
-        extraButtons.add(newButton);
     }
 
     /**
@@ -169,6 +152,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             if (ObjectUtils.isNotNull(arHeader)) {
                 customerNumber = arHeader.getCustomerNumber();
             }
+        }
 
         if(ObjectUtils.isNull(getSelectedInvoiceApplication())) {
             if(ObjectUtils.isNull(invoices) || invoices.isEmpty()) {
@@ -184,7 +168,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 }
             }
         }
-    }
     }
 
     /**

@@ -329,10 +329,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
 
-        if (cashControlDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
-            reverseDebitCreditForCorrectionDocument(cashControlDocument);
-        }
-
         // approve the GLPEs
         cashControlDocument.changeGeneralLedgerPendingEntriesApprovedStatusCode();
 
@@ -347,21 +343,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
-
-    /**
-     * Reverse credit and debit code for Correction document
-     */
-    private void reverseDebitCreditForCorrectionDocument(CashControlDocument cashControlDocument) {
-        for (GeneralLedgerPendingEntry generalLedgerPendingEntry : cashControlDocument.getGeneralLedgerPendingEntries()) {
-            if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerPendingEntry.getTransactionDebitCreditCode())) {
-                generalLedgerPendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-            }
-            else if (KFSConstants.GL_DEBIT_CODE.equals(generalLedgerPendingEntry.getTransactionDebitCreditCode())) {
-                generalLedgerPendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            }
-        }
-    }
-
 
     /**
      * Recalculates the cash control total since user could have changed it during their update.

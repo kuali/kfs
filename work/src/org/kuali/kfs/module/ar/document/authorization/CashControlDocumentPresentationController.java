@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,13 +23,12 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.module.ar.util.AccountsReceivableUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Cash Control Document presentation Controller.
@@ -123,32 +122,16 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         return hasAllAppDocsApproved((CashControlDocument) document);
     }
 
-    /*
-     * Can correct if 1. there is at least one correctable cash control detail (payment application) 2. and cash control document is
-     * enroute or final
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#canErrorCorrect(org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument)
      */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
-        return (hasAtLeastOneCorrectableCashControlDetail((CashControlDocument) document) && (document.getDocumentHeader().getWorkflowDocument().isEnroute() || document.getDocumentHeader().getWorkflowDocument().isFinal()));
-    }
-
-    /**
-     * This method returns true if there is at least one correctable cash control detail.
-     * 
-     * @param cashControlDocument
-     * @return
-     */
-    protected boolean hasAtLeastOneCorrectableCashControlDetail(CashControlDocument cashControlDocument) {
-        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
-            if (AccountsReceivableUtils.canCorrectDetail(cashControlDetail)) {
-                return true;
-            }
-        }
         return false;
     }
 
     /**
-     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCancel(Document document) {
@@ -165,7 +148,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
 
     /**
      * This method checks if the CashControlDocument has at least one application document that has been approved
-     * 
+     *
      * @param ccDoc the CashControlDocument
      * @return true if it has at least one application document approved, false otherwise
      */
@@ -186,7 +169,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
 
     /**
      * This method chech if all application document have been approved
-     * 
+     *
      * @param cashControlDocument the CashControlDocument
      * @return true if all application documents have been approved, false otherwise
      */

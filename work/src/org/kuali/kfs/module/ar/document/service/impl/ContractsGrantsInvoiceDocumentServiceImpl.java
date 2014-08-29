@@ -2510,7 +2510,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                             tmpAcct2 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
                             // if the Invoicing option is "By Award" and there are more than one contract control account assigned
                             // for the award, then throw error.
-                            if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !areTheSameAccounts(tmpAcct1, tmpAcct2)) {
+                            if (ObjectUtils.isNull(tmpAcct1) || !tmpAcct1.equals(tmpAcct2)) {
                                 errorString.add(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT);
                                 errorString.add(award.getInvoicingOptionDescription());
                             }
@@ -2520,28 +2520,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         return errorString;
-    }
-
-    /**
-     * This method validate if two accounts present the same account by comparing their "account number" and
-     * "chart of account code",which are primary key.
-     *
-     * @param obj1
-     * @param obj2
-     * @return True if these two accounts are the same
-     */
-    protected boolean areTheSameAccounts(Account obj1, Account obj2) {
-        boolean isEqual = false;
-
-        if (obj1 != null && obj2 != null) {
-            if (StringUtils.equals(obj1.getChartOfAccountsCode(), obj2.getChartOfAccountsCode())) {
-                if (StringUtils.equals(obj1.getAccountNumber(), obj2.getAccountNumber())) {
-                    isEqual = true;
-                }
-            }
-        }
-
-        return isEqual;
     }
 
     /**

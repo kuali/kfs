@@ -130,6 +130,9 @@ public class ArConstants{
     public static final String DOWNLOAD_METHOD = "download";
     public static final String PRINT_METHOD = "print";
     public static final String UPLOAD_METHOD = "upload";
+    public static final String PRORATE_BUTTON_METHOD = "methodToCall.prorateBill";
+    public static final String PRORATE_BUTTON_FILE_NAME = "buttonsmall_prorate.gif";
+    public static final String PRORATE_BUTTON_ALT_TEXT = "Prorate Bill";
     public static final String TRANSMIT_GENERATE_BUTTON_FILE_NAME = "buttonsmall_transmitgenerate.gif";
     public static final String TRANSMIT_GENERATE_BUTTON_ALT_TEXT = "transmit/generate print file";
     public static final String MAPPING_PRINT_PDF = "arPrintPDF";

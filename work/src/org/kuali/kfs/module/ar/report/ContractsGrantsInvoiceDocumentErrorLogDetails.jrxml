@@ -60,7 +60,7 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="30"
+						width="25"
 						height="11"
 						key="textField-1"/>
 					<box></box>
@@ -71,7 +71,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="35"
+						x="30"
 						y="0"
 						width="200"
 						height="11"
@@ -84,9 +84,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="240"
+						x="235"
 						y="0"
-						width="40"
+						width="37"
 						height="11"
 						key="textField-3"/>
 					<box></box>
@@ -97,9 +97,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="285"
+						x="275"
 						y="0"
-						width="40"
+						width="37"
 						height="11"
 						key="textField-4"/>
 					<box></box>
@@ -110,9 +110,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="330"
+						x="315"
 						y="0"
-						width="50"
+						width="45"
 						height="11"
 						key="textField-5"/>
 					<box></box>
@@ -123,9 +123,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="385"
+						x="365"
 						y="0"
-						width="50"
+						width="45"
 						height="11"
 						key="textField-6"/>
 					<box></box>
@@ -134,11 +134,11 @@
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{cumulativeExpensesAmount}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="MM/dd/yyyy h:mm a" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="440"
+						x="415"
 						y="0"
-						width="40"
+						width="75"
 						height="11"
 						key="textField-7"/>
 					<box></box>
@@ -149,7 +149,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="485"
+						x="495"
 						y="0"
 						width="40"
 						height="11"
@@ -162,7 +162,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="530"
+						x="540"
 						y="0"
 						width="30"
 						height="11"

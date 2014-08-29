@@ -235,11 +235,11 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
-            if (groupAccountLine.getDocumentNumber().equals(entry.getDocumentNumber()) &&
-                    groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) &&
-                    groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) &&
-                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode()) &&
-                    groupAccountLine.getOrganizationReferenceId().equals(entry.getOrganizationReferenceId())) {
+            if (StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
+                    StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
+                    StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
+                    StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) &&
+                    StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
                 matchingAssets.add(capitalAsset);
                 break;
             }

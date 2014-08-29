@@ -301,34 +301,34 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument _previousInvoiceDocument = null;
+        ContractsGrantsInvoiceDocument previousInvoiceDocument = null;
 
         ContractsGrantsInvoiceDocument selectedCGInvoiceDocument = getSelectedInvoiceApplication();
         if (null == selectedCGInvoiceDocument || 2 > getCgInvoices().size()) {
-            _previousInvoiceDocument = null;
+            previousInvoiceDocument = null;
         }
         else {
             Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
-            ContractsGrantsInvoiceDocument previousInvoiceDocument = iterator.next();
+            ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = iterator.next();
             String selectedInvoiceDocumentNumber = selectedCGInvoiceDocument.getDocumentNumber();
-            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(previousInvoiceDocument.getDocumentNumber())) {
-                _previousInvoiceDocument = null;
+            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(contractsGrantsInvoiceDocument.getDocumentNumber())) {
+                previousInvoiceDocument = null;
             }
             else {
                 while (iterator.hasNext()) {
                     ContractsGrantsInvoiceDocument currentInvoiceDocument = iterator.next();
                     String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                     if (null != currentInvoiceDocumentNumber && currentInvoiceDocumentNumber.equals(selectedCGInvoiceDocument.getDocumentNumber())) {
-                        _previousInvoiceDocument = previousInvoiceDocument;
+                        previousInvoiceDocument = contractsGrantsInvoiceDocument;
                     }
                     else {
-                        previousInvoiceDocument = currentInvoiceDocument;
+                        contractsGrantsInvoiceDocument = currentInvoiceDocument;
                     }
                 }
             }
         }
 
-        return null == _previousInvoiceDocument ? "" : _previousInvoiceDocument.getDocumentNumber();
+        return null == previousInvoiceDocument ? "" : previousInvoiceDocument.getDocumentNumber();
     }
 
     /**
@@ -337,11 +337,11 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
-        ContractsGrantsInvoiceDocument _nextInvoiceDocument = null;
+        ContractsGrantsInvoiceDocument nextInvoiceDocument = null;
 
         ContractsGrantsInvoiceDocument selectedInvoiceDocument = getSelectedInvoiceApplication();
         if (null == selectedInvoiceDocument || 2 > getCgInvoices().size()) {
-            _nextInvoiceDocument = null;
+            nextInvoiceDocument = null;
         }
         else {
             Iterator<ContractsGrantsInvoiceDocument> iterator = getCgInvoices().iterator();
@@ -350,16 +350,16 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
                 String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                 if (currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
                     if (iterator.hasNext()) {
-                        _nextInvoiceDocument = iterator.next();
+                        nextInvoiceDocument = iterator.next();
                     }
                     else {
-                        _nextInvoiceDocument = null;
+                        nextInvoiceDocument = null;
                     }
                 }
             }
         }
 
-        return null == _nextInvoiceDocument ? "" : _nextInvoiceDocument.getDocumentNumber();
+        return null == nextInvoiceDocument ? "" : nextInvoiceDocument.getDocumentNumber();
     }
 
     /**

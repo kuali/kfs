@@ -218,11 +218,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public KualiDecimal getSumOfInvoicePaidApplieds() {
         KualiDecimal amount = KualiDecimal.ZERO;
         for (InvoicePaidApplied payment : getInvoicePaidApplieds()) {
-            KualiDecimal _amount = payment.getInvoiceItemAppliedAmount();
-            if (null == _amount) {
-                _amount = KualiDecimal.ZERO;
+            KualiDecimal invoiceItemAppliedAmount = payment.getInvoiceItemAppliedAmount();
+            if (null == invoiceItemAppliedAmount) {
+                invoiceItemAppliedAmount = KualiDecimal.ZERO;
             }
-            amount = amount.add(_amount);
+            amount = amount.add(invoiceItemAppliedAmount);
         }
         return amount;
     }

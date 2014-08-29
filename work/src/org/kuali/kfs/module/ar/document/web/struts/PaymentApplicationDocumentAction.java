@@ -139,7 +139,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         Map<String, Object> parameters = request.getParameterMap();
-        String _indexToRemove = null;
+        String indexToRemoveString = null;
         Integer indexToRemove = null;
 
         // Figure out which line to remove.
@@ -149,7 +149,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     int beginIndex = ArPropertyConstants.PaymentApplicationDocumentFields.DELETE_NON_INVOICED_LINE_PREFIX.length();
                     int endIndex = k.lastIndexOf(".");
                     if (beginIndex >= 0 && endIndex > beginIndex) {
-                        _indexToRemove = k.substring(beginIndex, endIndex);
+                        indexToRemoveString = k.substring(beginIndex, endIndex);
                     }
                     break;
                 }
@@ -157,8 +157,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
 
         // If we know which line to remove, remove it.
-        if (null != _indexToRemove) {
-            indexToRemove = new Integer(_indexToRemove);
+        if (null != indexToRemoveString) {
+            indexToRemove = new Integer(indexToRemoveString);
             NonInvoiced toRemove = null;
             for (NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
                 if (indexToRemove.equals(nonInvoiced.getFinancialDocumentLineNumber())) {
@@ -936,8 +936,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentApplicationDocumentForm _form = (PaymentApplicationDocumentForm) form;
-        if (null == _form.getCashControlDocument()) {
+        PaymentApplicationDocumentForm newForm = (PaymentApplicationDocumentForm) form;
+        if (null == newForm.getCashControlDocument()) {
             return super.cancel(mapping, form, request, response);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

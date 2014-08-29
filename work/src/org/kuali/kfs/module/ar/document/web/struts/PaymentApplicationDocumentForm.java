@@ -500,35 +500,35 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
-        CustomerInvoiceDocument _previousInvoiceDocument = null;
+        CustomerInvoiceDocument previousInvoiceDocument = null;
 
         PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication();
         CustomerInvoiceDocument selectedInvoiceDocument = invoiceApplication == null ? null : invoiceApplication.getInvoice();
         if (null == selectedInvoiceDocument || 2 > invoices.size()) {
-            _previousInvoiceDocument = null;
+            previousInvoiceDocument = null;
         }
         else {
             Iterator<CustomerInvoiceDocument> iterator = invoices.iterator();
-            CustomerInvoiceDocument previousInvoiceDocument = iterator.next();
+            CustomerInvoiceDocument customerInvoiceDocument = iterator.next();
             String selectedInvoiceDocumentNumber = selectedInvoiceDocument.getDocumentNumber();
-            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(previousInvoiceDocument.getDocumentNumber())) {
-                _previousInvoiceDocument = null;
+            if (null != selectedInvoiceDocumentNumber && selectedInvoiceDocumentNumber.equals(customerInvoiceDocument.getDocumentNumber())) {
+                previousInvoiceDocument = null;
             }
             else {
                 while (iterator.hasNext()) {
                     CustomerInvoiceDocument currentInvoiceDocument = iterator.next();
                     String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                     if (null != currentInvoiceDocumentNumber && currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
-                        _previousInvoiceDocument = previousInvoiceDocument;
+                        previousInvoiceDocument = customerInvoiceDocument;
                     }
                     else {
-                        previousInvoiceDocument = currentInvoiceDocument;
+                        customerInvoiceDocument = currentInvoiceDocument;
                     }
                 }
             }
         }
 
-        return null == _previousInvoiceDocument ? "" : _previousInvoiceDocument.getDocumentNumber();
+        return null == previousInvoiceDocument ? "" : previousInvoiceDocument.getDocumentNumber();
     }
 
     /**
@@ -537,12 +537,12 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
-        CustomerInvoiceDocument _nextInvoiceDocument = null;
+        CustomerInvoiceDocument nextInvoiceDocument = null;
 
         PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication();
         CustomerInvoiceDocument selectedInvoiceDocument = invoiceApplication == null ? null : invoiceApplication.getInvoice();
         if (null == selectedInvoiceDocument || 2 > invoices.size()) {
-            _nextInvoiceDocument = null;
+            nextInvoiceDocument = null;
         }
         else {
             Iterator<CustomerInvoiceDocument> iterator = invoices.iterator();
@@ -551,16 +551,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 String currentInvoiceDocumentNumber = currentInvoiceDocument.getDocumentNumber();
                 if (currentInvoiceDocumentNumber.equals(selectedInvoiceDocument.getDocumentNumber())) {
                     if (iterator.hasNext()) {
-                        _nextInvoiceDocument = iterator.next();
+                        nextInvoiceDocument = iterator.next();
                     }
                     else {
-                        _nextInvoiceDocument = null;
+                        nextInvoiceDocument = null;
                     }
                 }
             }
         }
 
-        return null == _nextInvoiceDocument ? "" : _nextInvoiceDocument.getDocumentNumber();
+        return null == nextInvoiceDocument ? "" : nextInvoiceDocument.getDocumentNumber();
     }
 
     /**

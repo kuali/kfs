@@ -111,4 +111,9 @@ cg_agency_nbr|obj_id|ver_nbr|cg_agency_rpt_nm|cg_agency_full_nm|cg_agncy_indr_am
 55119|35989102-b276-4b8c-8813-ba1dda9af74d|5.0|KUALI-OTHER|Kuali Other Testing|2000000.0|N|N|G||||||KUA2000|04|E||N|
 55120|bbc14812-6dbf-45fe-818c-f09892100afc|5.0|KUALI-PY PDBS|Kuali PYPDBS Testing|2000000.0|N|N|G||||||KUA2001|03|E||N|
 55121|f5c0f60c-a394-448e-a0a0-ed97dba2875c|7.0|KUALI-OTHER2|Kuali Other2 Testing|2000000.0|N|N|G||||||KUA2002|03|E||N|
-55122|feb7800b-e993-427b-a411-386d0ad61e0f|1.0|Kuali Monthly Testing - 2|Kuali Monthly Testing|200000.0|N|N|S||||||KUA2000|01|E||Y|
+55122|feb7800b-e993-427b-a411-386d0ad61e0f|1.0|Kuali Monthly Testing - 2|Kuali Monthly Testing|200000.0|N|N|S||||||KUA0000|01|E||Y|
+55124|d02d1b9e-37ac-4d7e-a4d8-4cf246691559|1.0|Kuali LOC Testing2|Kuali LOC Testing2|100000.0|N|N|D||||||KUA2005|06|E|KUAL|N|
+55125|3be35803-c0be-4ee7-b1d6-a94c7b8956f8|1.0|Kuali LOC Testing3|Kuali LOC Testing3|100000.0|N|N|D||||||KUA2008|06|E|KUAL|Y|
+55126|d79349ad-29bb-4c46-bbe8-bb5f69d20b3b|1.0|Kuali Monthly 3|Kuali Monthly 3|200000.0|N|N|S||||||KUA2009|02|E|KUAL|Y|
+55127|7804f2d4-9569-422c-84a9-bcd06dff4186|1.0|Kuali Monthly 4|Kuali Monthly 4|200000.0|N|N|S||||||KUA2010|02|E|KUAL|Y|
+55128|7736f011-84ce-4db2-a4d7-d6aec9a3036f|1.0|KUALI-OTHER 3|Kuali Other 3|2000000.0|N|N|G||||||KUA2011|03|E||N|

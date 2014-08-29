@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,13 +32,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
+import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -71,7 +72,7 @@ public class FederalFinancialReportAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
 
     /**
@@ -147,36 +148,28 @@ public class FederalFinancialReportAction extends KualiAction {
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
         ContractsAndGrantsBillingAgency agency = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, map);
 
-        // get directory of template
-        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
-
         if (ObjectUtils.isNotNull(award) || ObjectUtils.isNotNull(agency)) {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
             File report = reportService.generateFederalFinancialForm(award, period, year, formType, agency);
 
-            final String useJavascriptParameter = request.getParameter("useJavascript");
-            final boolean useJavascript = !(StringUtils.isBlank(useJavascriptParameter) || StringUtils.equalsIgnoreCase(useJavascriptParameter, "false"));
+            byte[] content = Files.readAllBytes(report.toPath());
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(content);
 
-            final ReportPDFHolder pdfHolder = getFederalFinancialReportService().pdferizeReport(report, formType, period, proposalNumber, agencyNumber, useJavascript);
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", pdfHolder.getContentDisposition());
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Pragma", "public");
-            response.setContentLength(pdfHolder.getReportBytes().size());
-
-            // write to output
-            ServletOutputStream sos = null;
-            try {
-                sos = response.getOutputStream();
-                pdfHolder.getReportBytes().writeTo(sos);
-            } finally {
-                if (sos != null) {
-                    sos.flush();
-                    sos.close();
-                }
+            StringBuilder fileName = new StringBuilder();
+            fileName.append(formType);
+            fileName.append(KFSConstants.DASH);
+            fileName.append(period);
+            if (ObjectUtils.isNotNull(proposalNumber)) {
+                fileName.append(KFSConstants.DASH);
+                fileName.append(proposalNumber);
             }
+            else if (ObjectUtils.isNotNull(agencyNumber)) {
+                fileName.append(KFSConstants.DASH);
+                fileName.append(agencyNumber);
+            }
+            fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
+
+            KfsWebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, fileName.toString(), Boolean.parseBoolean(request.getParameter(KFSConstants.ReportGeneration.USE_JAVASCRIPT)));
         }
         return null;
 

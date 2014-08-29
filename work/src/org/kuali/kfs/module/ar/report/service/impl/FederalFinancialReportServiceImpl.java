@@ -15,28 +15,15 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
 
 /**
  * Default implementation of the FederalFinancialReportService
@@ -98,71 +85,4 @@ public class FederalFinancialReportServiceImpl implements FederalFinancialReport
         return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.service.FederalFinancialReportService#generateReport(java.io.File, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean)
-     */
-    @Override
-    public ReportPDFHolder pdferizeReport(File report, String formType, String period, String proposalNumber, String agencyNumber, boolean useJavascript) throws DocumentException, IOException {
-        StringBuilder fileName = new StringBuilder();
-        fileName.append(formType);
-        fileName.append("-");
-        fileName.append(period);
-        if (ObjectUtils.isNotNull(proposalNumber)) {
-            fileName.append("-");
-            fileName.append(proposalNumber);
-        }
-        else if (ObjectUtils.isNotNull(agencyNumber)) {
-            fileName.append("-");
-            fileName.append(agencyNumber);
-        }
-        fileName.append(".pdf");
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        ArrayList master = new ArrayList();
-        PdfCopy writer = null;
-
-        // create a reader for the document
-        String reportName = report.getAbsolutePath();
-        PdfReader reader = new PdfReader(reportName);
-        reader.consolidateNamedDestinations();
-
-        // retrieve the total number of pages
-        int n = reader.getNumberOfPages();
-        List bookmarks = SimpleBookmark.getBookmark(reader);
-        if (bookmarks != null) {
-            master.addAll(bookmarks);
-        }
-
-        // step 1: create a document-object
-        Document document = new Document(reader.getPageSizeWithRotation(1));
-        // step 2: create a writer that listens to the document
-        writer = new PdfCopy(document, baos);
-        // step 3: open the document
-        document.open();
-        // step 4: add content
-        PdfImportedPage page;
-        for (int i = 0; i < n;) {
-            ++i;
-            page = writer.getImportedPage(reader, i);
-            writer.addPage(page);
-        }
-        writer.freeReader(reader);
-        if (!master.isEmpty()) {
-            writer.setOutlines(master);
-        }
-        // step 5: we close the document
-        document.close();
-
-        StringBuffer sbContentDispValue = new StringBuffer();
-        if (useJavascript) {
-            sbContentDispValue.append("inline");
-        } else {
-            sbContentDispValue.append("attachment");
-        }
-        sbContentDispValue.append("; filename=");
-        sbContentDispValue.append(fileName);
-
-        return new ReportPDFHolder(baos, sbContentDispValue.toString());
-    }
 }

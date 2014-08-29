@@ -59,7 +59,7 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         criteria1.addEqualTo(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER,customerNumber);
 
         //Collection<AccountsReceivableDocumentHeader> arHeadersByCustomer = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria1));
-        ReportQueryByCriteria query = new ReportQueryByCriteria(AccountsReceivableDocumentHeader.class, new String[]{KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER}, criteria1);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(AccountsReceivableDocumentHeader.class, new String[]{KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER}, criteria1, true);
         Iterator results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         while(results.hasNext()) {
             Object[] res = (Object[]) results.next();
@@ -72,11 +72,14 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
             Criteria criteria2 = new Criteria();
             criteria2.addIn("financialDocumentReferenceInvoiceNumber",documentNumbers);
             //Collection<InvoicePaidApplied> invoicePaidAppliedList = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(InvoicePaidApplied.class, criteria2));
-            query = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[]{KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER}, criteria2);
+            query = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[]{KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER}, criteria2, true);
             results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
             while(results.hasNext()) {
                 Object[] res = (Object[])results.next();
-                documentNumbers.add((String)res[0]);
+                 String documentNumber = (String)res[0];
+                if(!documentNumbers.contains(documentNumber)) {
+                   documentNumbers.add(documentNumber);
+                }
             }
         }
 

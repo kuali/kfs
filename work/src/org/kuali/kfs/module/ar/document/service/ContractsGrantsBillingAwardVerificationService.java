@@ -102,5 +102,5 @@ public interface ContractsGrantsBillingAwardVerificationService {
     * @param award
     * @return
     */
-   public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
+   public boolean isOffsetDefinitionSetupForInvoicing(ContractsAndGrantsBillingAward award);
 }

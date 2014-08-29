@@ -1350,7 +1350,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 17. Offset Definition is not available when the GLPE is 3.
-        if (getContractsGrantsBillingAwardVerificationService().isOffsetDefNotSetupForInvoicing(award)) {
+        if (!getContractsGrantsBillingAwardVerificationService().isOffsetDefinitionSetupForInvoicing(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
         }
     }

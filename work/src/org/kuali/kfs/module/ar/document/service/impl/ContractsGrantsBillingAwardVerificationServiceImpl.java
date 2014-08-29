@@ -278,7 +278,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
      * @return
      */
     @Override
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
+    public boolean isOffsetDefinitionSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = null, orgCode = null;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
@@ -298,7 +298,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                         OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
-                            return true;
+                            return false;
                         }
                     }
                 }
@@ -310,7 +310,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                         OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
-                            return true;
+                            return false;
                         }
                     }
                 }
@@ -322,13 +322,13 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                         OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
-                            return true;
+                            return false;
                         }
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     /**

@@ -167,6 +167,16 @@
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Organization" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
+							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Invoice Template" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -174,16 +184,7 @@
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Organization" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
-							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+							<bean parent="FieldDefinition" p:attributeName="accessRestrictedIndicator" />
 						</list>
 					</property>
 				</bean>

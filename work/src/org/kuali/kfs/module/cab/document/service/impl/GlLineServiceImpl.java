@@ -806,3 +806,4 @@ public class GlLineServiceImpl implements GlLineService {
         this.capitalAssetInformationDao = dao;
     }
 }
+

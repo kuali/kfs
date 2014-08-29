@@ -301,6 +301,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
             if (!awardAccount.isFinalBilledIndicator()) {
                 // only one account is added into the list to create cgin
+                tmpAcctList.clear();
                 tmpAcctList.add(awardAccount);
 
                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method

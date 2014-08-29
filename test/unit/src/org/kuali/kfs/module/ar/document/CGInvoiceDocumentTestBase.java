@@ -145,15 +145,9 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
      *
      * @return Returns the document.
      */
-    public ContractsGrantsInvoiceDocument getDocument() {
-        try {
-            if (ObjectUtils.isNull(document)) {
-                this.setUp();
-            }
-        }
-        catch (Exception ex) {
-
-            ex.printStackTrace();
+    public ContractsGrantsInvoiceDocument getDocument() throws Exception {
+        if (ObjectUtils.isNull(document)) {
+            this.setUp();
         }
         return document;
     }

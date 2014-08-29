@@ -553,12 +553,10 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         try {
             contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(contractsGrantsInvoiceDocument);
-
         }
         catch (WorkflowException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Call to createSourceAccountingLinesAndGLPEs failed with WorkflowException.");
         }
-
 
         CustomerInvoiceDetail invoiceDetail = (CustomerInvoiceDetail) contractsGrantsInvoiceDocument.getSourceAccountingLine(0);
 
@@ -573,8 +571,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
             assertEquals(invoiceDetail.getAccountsReceivableObjectCode(), customerInvoiceDetail.getAccountsReceivableObjectCode());
         }
         assertEquals(invoiceDetail.getAmount(), customerInvoiceDetail.getAmount());
-
-
     }
 
     /**

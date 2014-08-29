@@ -95,75 +95,68 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
         CollectionActivityDocument collectionActivityDocument;
         Event newEvent = new Event();
 
-        try {
-            collectionActivityDocument = (CollectionActivityDocument) documentService.getNewDocument(CollectionActivityDocument.class);
+        collectionActivityDocument = (CollectionActivityDocument) documentService.getNewDocument(CollectionActivityDocument.class);
 
 
-            collectionActivityDocument.getDocumentHeader().setDocumentDescription("Collection Activity created for testing");
+        collectionActivityDocument.getDocumentHeader().setDocumentDescription("Collection Activity created for testing");
 
 
-            // To create a basic invoice with test data
+        // To create a basic invoice with test data
 
-            String coaCode = "BL";
-            String orgCode = "SRS";
-            ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
-            ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
-            List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-            awardAccounts.add(awardAccount_1);
-            award.getActiveAwardAccounts().clear();
+        String coaCode = "BL";
+        String orgCode = "SRS";
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
+        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        award.getActiveAwardAccounts().clear();
 
-            award.getActiveAwardAccounts().add(awardAccount_1);
-            award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
-            collectionActivityDocument.setProposalNumber(award.getProposalNumber());
-            collectionActivityDocumentService.loadAwardInformationForCollectionActivityDocument(collectionActivityDocument);
+        award.getActiveAwardAccounts().add(awardAccount_1);
+        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
+        collectionActivityDocument.setProposalNumber(award.getProposalNumber());
+        collectionActivityDocumentService.loadAwardInformationForCollectionActivityDocument(collectionActivityDocument);
 
-            // To add data for OrganizationOptions as fixture.
-            OrganizationOptions organizationOptions = new OrganizationOptions();
+        // To add data for OrganizationOptions as fixture.
+        OrganizationOptions organizationOptions = new OrganizationOptions();
 
-            organizationOptions.setChartOfAccountsCode(coaCode);
-            organizationOptions.setOrganizationCode(orgCode);
-            organizationOptions.setProcessingChartOfAccountCode(coaCode);
-            organizationOptions.setProcessingOrganizationCode(orgCode);
-            SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
+        organizationOptions.setChartOfAccountsCode(coaCode);
+        organizationOptions.setOrganizationCode(orgCode);
+        organizationOptions.setProcessingChartOfAccountCode(coaCode);
+        organizationOptions.setProcessingOrganizationCode(orgCode);
+        SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
 
-            List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-            ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
-            cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-            for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
-                invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
-                invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
-            }
-            documentService.saveDocument(cgInvoice);
-
-            // to Add events
-            Event event = new Event();
-            event.setDocumentNumber(cgInvoice.getDocumentNumber());
-            event.setInvoiceNumber(cgInvoice.getDocumentNumber());
-            event.setActivityCode("TEST");
-            event.setFollowup(true);
-            event.setActivityText("Activity Text");
-            Timestamp ts = new Timestamp(new java.util.Date().getTime());
-            Date today = new Date(ts.getTime());
-            event.setFollowupDate(today);
-            event.setActivityDate(today);
-            SpringContext.getBean(BusinessObjectService.class).save(event);
-            cgInvoice.getEvents().add(event);
-
-            documentService.saveDocument(cgInvoice);
-
-
-            Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(award.getProposalNumber(), "CATestError.txt");
-            if (CollectionUtils.isNotEmpty(cgInvoices)) {
-                collectionActivityDocument.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
-            }
-
-
-            collectionActivityDocumentService.addNewEvent("Collection Activity created for testing", collectionActivityDocument, event);
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
+        cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
         }
-        catch (Exception e) {
-            LOG.error("An Exception was thrown while trying to add a new collection activity document detail.", e);
-            throw new RuntimeException("An Exception was thrown while trying to a new collection activity document detail.", e);
+        documentService.saveDocument(cgInvoice);
+
+        // to Add events
+        Event event = new Event();
+        event.setDocumentNumber(cgInvoice.getDocumentNumber());
+        event.setInvoiceNumber(cgInvoice.getDocumentNumber());
+        event.setActivityCode("TEST");
+        event.setFollowup(true);
+        event.setActivityText("Activity Text");
+        Timestamp ts = new Timestamp(new java.util.Date().getTime());
+        Date today = new Date(ts.getTime());
+        event.setFollowupDate(today);
+        event.setActivityDate(today);
+        SpringContext.getBean(BusinessObjectService.class).save(event);
+        cgInvoice.getEvents().add(event);
+
+        documentService.saveDocument(cgInvoice);
+
+
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(award.getProposalNumber(), "CATestError.txt");
+        if (CollectionUtils.isNotEmpty(cgInvoices)) {
+            collectionActivityDocument.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
         }
+
+        collectionActivityDocumentService.addNewEvent("Collection Activity created for testing", collectionActivityDocument, event);
     }
 
     /**

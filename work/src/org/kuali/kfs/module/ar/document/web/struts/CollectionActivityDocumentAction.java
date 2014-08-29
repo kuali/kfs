@@ -185,7 +185,6 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
      *
      * @param applicationDocumentForm
      */
-    @SuppressWarnings("unused")
     protected void loadInvoices(CollectionActivityDocumentForm colActForm, String selectedInvoiceNumber) {
         CollectionActivityDocument colActDoc = colActForm.getCollectionActivityDocument();
         String currentInvoiceNumber = selectedInvoiceNumber;

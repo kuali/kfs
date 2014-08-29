@@ -65,7 +65,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
      */
-    @SuppressWarnings("unused")
     protected KualiDecimal awardTotalAmount;
 
     private String awardAddendumNumber;

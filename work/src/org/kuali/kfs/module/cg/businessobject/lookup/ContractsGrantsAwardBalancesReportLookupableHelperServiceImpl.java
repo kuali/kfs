@@ -81,7 +81,7 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
      * @param bounded
      * @return
      */
-    @SuppressWarnings({ "deprecation", "rawtypes" })
+    @SuppressWarnings("rawtypes")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean unbounded) {
         Map lookupFormFields = lookupForm.getFieldsForLookup();

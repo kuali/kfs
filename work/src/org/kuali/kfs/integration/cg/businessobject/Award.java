@@ -55,7 +55,6 @@ public class Award implements ContractsAndGrantsBillingAward {
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
      */
-    @SuppressWarnings("unused")
     protected KualiDecimal awardTotalAmount;
 
     private String awardAddendumNumber;
@@ -1434,6 +1433,7 @@ public class Award implements ContractsAndGrantsBillingAward {
         this.stopWorkIndicator = stopWorkIndicator;
     }
 
+    @Override
     public String getStopWorkReason() {
         return stopWorkReason;
     }

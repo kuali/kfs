@@ -232,7 +232,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
-    @SuppressWarnings("deprecation")
     @Override
     protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List pkNames) {
         Properties parameters = new Properties();

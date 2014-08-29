@@ -78,7 +78,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * The KFS AR module implementation of the AccountsReceivableModuleService
  */
-@SuppressWarnings("deprecation")
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
 

@@ -20,13 +20,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivablePredeterminedBillingSchedule;
@@ -42,10 +39,10 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -1211,20 +1208,16 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the active awardAccounts.
      */
-
     @Override
     public List<ContractsAndGrantsBillingAwardAccount> getActiveAwardAccounts() {
         List<ContractsAndGrantsBillingAwardAccount> activeAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
-        List<AwardAccount> awdAccts = new ArrayList<AwardAccount>();
         for (AwardAccount awardAccount : awardAccounts) {
             if (awardAccount.isActive()) {
-                awdAccts.add(awardAccount);
+                activeAwardAccounts.add(awardAccount);
             }
         }
-        activeAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>(awdAccts);
         return activeAwardAccounts;
     }
-
 
     /**
      * Sets the awardAccounts list.
@@ -1374,12 +1367,9 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return the id of the lookup person
      */
-
     @Override
     public String getLookupPersonUniversalIdentifier() {
-        // NOTE
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
-//        lookupPerson = SpringContext.getBean(PersonService.class).getPrincipal(lookupPersonUniversalIdentifier);
+        lookupPerson = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPersonUniversalIdentifier;
     }
 
@@ -1397,18 +1387,9 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the userLookupRoleNamespaceCode.
      */
-
     @Override
     public String getUserLookupRoleNamespaceCode() {
         return userLookupRoleNamespaceCode;
-    }
-
-    /**
-     * Sets the universal user id of the lookup person
-     *
-     * @param lookupPersonId the id of the lookup person
-     */
-    public void setUserLookupRoleNamespaceCode(String userLookupRoleNamespaceCode) {
     }
 
     /**
@@ -1423,17 +1404,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Sets the userLookupRoleName of the lookup person
-     *
-     * @param userLookupRoleName
-     */
-    public void setUserLookupRoleName(String userLookupRoleName) {
-    }
-
-    /**
      * @return a String to represent this field on the inquiry
      */
-
     @Override
     public String getAwardInquiryTitle() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
@@ -1451,7 +1423,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the preferredBillingFrequency.
      */
-
     @Override
     public String getPreferredBillingFrequency() {
         return preferredBillingFrequency;
@@ -1567,25 +1538,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.billingFrequency = billingFrequency;
     }
 
-
-    public List<AccountsReceivableMilestone> getMilestones() {
-        // To get completed milestones only - Milestones that have a completion date filled
-        List<AccountsReceivableMilestone> milestones = new ArrayList<AccountsReceivableMilestone>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
-
-        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableMilestone.class).getExternalizableBusinessObjectsList(AccountsReceivableMilestone.class, map);
-
-        List<AccountsReceivableMilestone> milestonesCompleted = new ArrayList<AccountsReceivableMilestone>();
-        for (AccountsReceivableMilestone mlstn : milestones) {
-            if (mlstn.getMilestoneActualCompletionDate() != null) {
-                milestonesCompleted.add(mlstn);
-            }
-        }
-
-        return milestonesCompleted;
-    }
-
     /**
      * Gets the autoApproveIndicator attribute.
      *
@@ -1651,7 +1603,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setInvoicingOptions(String invoicingOptions) {
         this.invoicingOptions = invoicingOptions;
     }
-
 
     /**
      * Gets the milestoneSchedule attribute.
@@ -1892,13 +1843,11 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     @Override
     public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
         List<ContractsGrantsAwardInvoiceAccountInformation> activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
-        List<AwardInvoiceAccount> awdInvAccts = new ArrayList<AwardInvoiceAccount>();
         for (AwardInvoiceAccount awardInvAccount : awardInvoiceAccounts) {
             if (awardInvAccount.isActive()) {
-                awdInvAccts.add(awardInvAccount);
+                activeAwardInvoiceAccounts.add(awardInvAccount);
             }
         }
-        activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>(awdInvAccts);
         return activeAwardInvoiceAccounts;
 
     }
@@ -1925,7 +1874,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the boNotes
      */
-
     public List<Note> getBoNotes() {
         List<Note> boNotes = new ArrayList<Note>();
 

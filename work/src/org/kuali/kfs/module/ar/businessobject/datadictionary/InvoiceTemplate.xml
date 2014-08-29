@@ -36,7 +36,7 @@
 				<ref bean="InvoiceTemplate-invoiceTemplateDescription" />
 				<ref bean="InvoiceTemplate-filename" />
 				<ref bean="InvoiceTemplate-active" />
-				<ref bean="InvoiceTemplate-accessRestrictedIndicator" />
+				<ref bean="InvoiceTemplate-accessRestricted" />
 				<ref bean="InvoiceTemplate-billByChartOfAccountCode" />
 				<ref bean="InvoiceTemplate-billedByOrganizationCode" />
 				<ref bean="InvoiceTemplate-date" />
@@ -122,10 +122,10 @@
 		</property>
 	</bean>
 
-	<bean id="InvoiceTemplate-accessRestrictedIndicator" parent="InvoiceTemplate-accessRestrictedIndicator-parentBean" />
+	<bean id="InvoiceTemplate-accessRestricted" parent="InvoiceTemplate-accessRestricted-parentBean" />
 
-	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
-		<property name="name" value="accessRestrictedIndicator" />
+	<bean id="InvoiceTemplate-accessRestricted-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
+		<property name="name" value="accessRestricted" />
 		<property name="label" value="Restrict Use by Chart/Org" />
 		<property name="shortLabel" value="Restrict Use by Chart/Org" />
 	</bean>
@@ -184,7 +184,7 @@
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="invoiceTemplateDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="accessRestrictedIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
 						</list>
 					</property>
 				</bean>

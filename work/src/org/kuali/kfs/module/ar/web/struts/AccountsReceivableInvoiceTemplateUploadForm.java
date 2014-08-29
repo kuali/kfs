@@ -26,7 +26,7 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
 
     private FormFile uploadedFile;
     private boolean active;
-    private boolean accessRestrictedInd;
+    private boolean accessRestricted;
     private String invoiceTemplateCode;
     private String fileName;
 
@@ -67,21 +67,21 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
     }
 
     /**
-     * Gets the accessRestrictedInd attribute.
+     * Gets the accessRestricted attribute.
      *
-     * @return Returns the accessRestrictedInd.
+     * @return Returns the accessRestricted.
      */
-    public boolean isAccessRestrictedInd() {
-        return accessRestrictedInd;
+    public boolean isAccessRestricted() {
+        return accessRestricted;
     }
 
     /**
-     * Sets the accessRestrictedInd attribute value.
+     * Sets the accessRestricted attribute value.
      *
-     * @param accessRestrictedInd The accessRestrictedInd to set.
+     * @param accessRestricted The accessRestricted to set.
      */
-    public void setAccessRestrictedInd(boolean accessRestrictedInd) {
-        this.accessRestrictedInd = accessRestrictedInd;
+    public void setAccessRestricted(boolean accessRestricted) {
+        this.accessRestricted = accessRestricted;
     }
 
     /**

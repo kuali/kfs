@@ -63,7 +63,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
         if (allowsMaintenanceNewOrCopyAction()) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
-        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(letterTemplate, currentUser) || !letterTemplate.isAccessRestrictedInd()) {
+        if (getDunningLetterDistributionService().isValidOrganizationForTemplate(letterTemplate, currentUser) || !letterTemplate.isAccessRestricted()) {
             // can upload file and do changes.
             htmlDataList.add(getDunningLetterTemplateUploadUrl(businessObject));
         }

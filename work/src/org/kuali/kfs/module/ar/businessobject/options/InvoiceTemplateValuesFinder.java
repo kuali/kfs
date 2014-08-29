@@ -51,7 +51,7 @@ public class InvoiceTemplateValuesFinder extends KeyValuesBase {
         List<InvoiceTemplate> boList = (List<InvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(InvoiceTemplate.class);
         for (InvoiceTemplate element : boList) {
             if (element.isActive()) {
-                if (!element.isAccessRestrictedIndicator()) {
+                if (!element.isAccessRestricted()) {
                     keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
                 }
                 else {

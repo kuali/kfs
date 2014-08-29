@@ -39,7 +39,7 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
     protected String billedByOrganizationCode;
     protected Chart billByChartOfAccount;
     protected Organization billedByOrganization;
-    private boolean accessRestrictedIndicator;
+    private boolean accessRestricted;
     private String filename;
     private String date;
 
@@ -63,13 +63,13 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
     }
 
     /**
-     * Gets the accessRestrictedIndicator attribute.
+     * Gets the accessRestricted attribute.
      *
-     * @return Returns the accessRestrictedIndicator.
+     * @return Returns the accessRestricted.
      */
     @Override
-    public boolean isAccessRestrictedIndicator() {
-        return accessRestrictedIndicator;
+    public boolean isAccessRestricted() {
+        return accessRestricted;
     }
 
     /**
@@ -149,12 +149,12 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
     }
 
     /**
-     * Sets the accessRestrictedIndicator attribute value.
+     * Sets the accessRestricted attribute value.
      *
-     * @param accessRestrictedIndicator The accessRestrictedIndicator to set.
+     * @param accessRestricted The accessRestricted to set.
      */
-    public void setAccessRestrictedIndicator(boolean accessRestrictedIndicator) {
-        this.accessRestrictedIndicator = accessRestrictedIndicator;
+    public void setAccessRestricted(boolean accessRestricted) {
+        this.accessRestricted = accessRestricted;
     }
 
     /**

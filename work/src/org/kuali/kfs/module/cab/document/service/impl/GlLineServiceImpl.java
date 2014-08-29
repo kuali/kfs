@@ -27,6 +27,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
+import org.kuali.kfs.fp.document.dataaccess.CapitalAssetInformationDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
@@ -73,7 +74,7 @@ public class GlLineServiceImpl implements GlLineService {
     protected ParameterService parameterService;
     protected ParameterEvaluatorService parameterEvaluatorService;
     protected DocumentHeaderService documentHeaderService;
-
+    protected CapitalAssetInformationDao capitalAssetInformationDao;
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
@@ -655,17 +656,11 @@ public class GlLineServiceImpl implements GlLineService {
     @Override
     public void setupCapitalAssetInformation(GeneralLedgerEntry entry) {
         List<CapitalAccountingLines> capitalAccountingLines;
-
-        // get all related entries and create capital asset record for each
-        Collection<GeneralLedgerEntry> glEntries = findAllGeneralLedgerEntry(entry.getDocumentNumber());
-        int nextCapitalAssetLineNumber = 1;
-        for (GeneralLedgerEntry glEntry: glEntries) {
-            capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
-            createCapitalAccountingLine(capitalAccountingLines, glEntry, null);
-            createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
-            nextCapitalAssetLineNumber++;
-        }
-
+        int nextCapitalAssetLineNumber = capitalAssetInformationDao.getNextCapitalAssetLineNumber(entry.getDocumentNumber());
+        capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        createCapitalAccountingLine(capitalAccountingLines, entry, null);
+        createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
+        nextCapitalAssetLineNumber++;
     }
 
     private List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
@@ -805,5 +800,9 @@ public class GlLineServiceImpl implements GlLineService {
 
     public void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
         this.documentHeaderService = documentHeaderService;
+    }
+
+    public void setCapitalAssetInformationDao(CapitalAssetInformationDao dao){
+        this.capitalAssetInformationDao = dao;
     }
 }

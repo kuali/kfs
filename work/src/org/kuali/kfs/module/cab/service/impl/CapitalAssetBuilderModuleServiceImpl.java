@@ -2199,7 +2199,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 List<CapitalAssetInformation> capitalAssetInfoList = glLineService.findCapitalAssetInformationForGLLine(generalLedgerEntry);
                 String assetNumber;
                 for(CapitalAssetInformation capitalAssetInformation : capitalAssetInfoList) {
-                    assetNumber = String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
+                    assetNumber = capitalAssetInformation.getCapitalAssetNumber() == null ? null : String.valueOf(capitalAssetInformation.getCapitalAssetNumber());
                     getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), assetNumber,null);
                 }
             }
@@ -2545,13 +2545,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
+        String capitalAssetObjectSubType = this.parameterService.getParameterValueAsString(CabConstants.Parameters.NAMESPACE, "Document", CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
 
         for (GeneralLedgerEntry glLine: glLines) {
-            glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
-            glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+            boolean isCapitalObjectCode = StringUtils.containsIgnoreCase(capitalAssetObjectSubType,glLine.getFinancialObject().getFinancialObjectSubTypeCode());
+            /*We only want to approve "capital" lines so that users have a chance
+             * to work with non-capital lines.
+             */
+            if (isCapitalObjectCode) {
+                glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
+                glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+                businessObjectService.save(glLine);
+            }
         }
-
-        businessObjectService.save(glLines);
 
         return true;
 

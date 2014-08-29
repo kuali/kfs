@@ -31,6 +31,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
@@ -40,6 +42,7 @@ import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
 import org.kuali.kfs.integration.cam.businessobject.Asset;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -49,6 +52,7 @@ import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -1549,6 +1553,34 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
+     * This function removes CapitalAssetInformations that don't have at least one capital asset object
+     * code in their group details.
+     *
+     * @param infos
+     */
+    protected void filterNonCapitalAssets(List<CapitalAssetInformation> infos){
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+        String capitalAssetObjectSubType = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, KFSConstants.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        for (int i = 0; i < infos.size(); ++i) {
+            boolean remove = true;
+            CapitalAssetInformation info = infos.get(i);
+            for (CapitalAssetAccountsGroupDetails det : info.getCapitalAssetAccountsGroupDetails()) {
+                ObjectCode obj = objectCodeService.getByPrimaryIdForCurrentYear(det.getChartOfAccountsCode(), det.getFinancialObjectCode());
+                boolean isCapitalObjectCode = StringUtils.containsIgnoreCase(capitalAssetObjectSubType, obj.getFinancialObjectSubTypeCode());
+                if (isCapitalObjectCode) {
+                    remove = false;
+                    break;
+                }
+            }
+            if (remove) {
+                /* We don't want facade CapitalAssetInformations. */
+                infos.remove(i--);
+            }
+        }
+    }
+    
+    /**
      * sets the capital accounting lines select and amount distributed values to true if
      * there are capital asset records for a given capital accounting line. The system control
      * amount and system control remaining amounts are calculated here.
@@ -1557,13 +1589,12 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      */
     protected void checkCapitalAccountingLinesSelected(CapitalAccountingLinesFormBase calfb) {
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();
-
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
-
         KualiAccountingDocumentFormBase kadfb = calfb;
-
         List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
 
+        /*We don't want facade objects in our CapitalAssetInformations!*/
+        filterNonCapitalAssets(currentCapitalAssetInformation);
         calfb.setCreatedAssetsControlAmount(KualiDecimal.ZERO);
         calfb.setSystemControlAmount(KualiDecimal.ZERO);
 

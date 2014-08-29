@@ -312,4 +312,13 @@
         </update>
     </changeSet>
     
+    <changeSet author="KFS53" id="KFSTP-1276">
+    	<comment>Changes the KFS-GL / Encumbrance / USE_ICR_ENCUMBRANCE_IND to have "N" as a default value and changes the component to batch.</comment>
+    	<update tableName="KRCR_PARM_T">
+            <column name="VAL" value="N"/>
+            <column name="CMPNT_CD" value="Batch"/>
+            <where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'Encumbrance' and parm_nm = 'USE_ICR_ENCUMBRANCE_IND' and appl_id = 'KFS'</where>
+        </update>
+    </changeSet>
+    
 </databaseChangeLog>

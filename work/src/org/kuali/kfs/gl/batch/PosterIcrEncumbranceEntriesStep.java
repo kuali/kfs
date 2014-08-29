@@ -15,22 +15,30 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 
 /**
  * The step that runs the poster service on indirect cost recovery encumbrance entries.
  */
 public class PosterIcrEncumbranceEntriesStep extends AbstractWrappedBatchStep {
-    private PosterService posterService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrEncumbranceEntriesStep.class);
+    protected PosterService posterService;
 
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {
         return new CustomBatchExecutor() {
             @Override
             public boolean execute() {
-                posterService.postIcrEncumbranceEntries();
+                final boolean shouldRunIcrEncumbranceActivity = getParameterService().getParameterValueAsBoolean(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM);
+                if (shouldRunIcrEncumbranceActivity) {
+                    posterService.postIcrEncumbranceEntries();
+                } else {
+                    LOG.info("Skipping running of PosterIcrEncumbranceEntriesStep because parameter KFS-GL / Encumbrance / USE_ICR_ENCUMBRANCE_IND has turned this functionality off.");
+                }
                 return true;
             }
         };

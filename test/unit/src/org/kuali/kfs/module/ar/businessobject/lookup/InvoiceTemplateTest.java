@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
@@ -25,13 +23,9 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -40,12 +34,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 @ConfigureContext(session = UserNameFixture.khuntley)
 public class InvoiceTemplateTest extends KualiTestBase {
 
-    public MaintenanceDocument document;
-    public DocumentService documentService;
     public static final String TYPE_CODE = "1115";
     public static final String TYPE_DESCRIPTION = "Federal SF-1115";
     public static final boolean ACTIVE = true;
-    public static final Class<MaintenanceDocument> DOCUMENT_CLASS = MaintenanceDocument.class;
     private InvoiceTemplate invoiceTemplate;
 
     /**
@@ -54,29 +45,10 @@ public class InvoiceTemplateTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("ITM");
-        document.getDocumentHeader().setDocumentDescription("Test Document");
-        documentService = SpringContext.getBean(DocumentService.class);
         invoiceTemplate = new InvoiceTemplate();
         invoiceTemplate.setInvoiceTemplateCode(TYPE_CODE);
         invoiceTemplate.setInvoiceTemplateDescription(TYPE_DESCRIPTION);
         invoiceTemplate.setActive(ACTIVE);
-        document.getNewMaintainableObject().setBusinessObject(invoiceTemplate);
-        document.getNewMaintainableObject().setBoClass(invoiceTemplate.getClass());
-    }
-
-    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
-    public void testSaveDocument() throws Exception {
-        MaintenanceDocumentTestUtils.testSaveDocument(document, documentService);
-    }
-
-
-    public void testGetNewDocument() throws Exception {
-        Document document = documentService.getNewDocument("ITM");
-        // verify document was created
-        assertNotNull(document);
-        assertNotNull(document.getDocumentHeader());
-        assertNotNull(document.getDocumentHeader().getDocumentNumber());
     }
 
     public void testValidOrganization() {

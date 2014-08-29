@@ -18,9 +18,7 @@ package org.kuali.kfs.module.ar.document.web.struts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletRequest;
@@ -39,7 +37,6 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDocumentEvent;
 import org.kuali.kfs.sys.KFSConstants;
@@ -203,8 +200,6 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
         // reload invoices for the selected proposal number
         if (ObjectUtils.isNotNull(proposalNumber)) {
-            Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-            Collection<ContractsGrantsInvoiceDocument> newCGInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
             colActDoc.setInvoiceListByProposalNumber(proposalNumber);
         }
 
@@ -343,7 +338,6 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         CollectionActivityDocumentForm collectionActivityDocumentForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = collectionActivityDocumentForm.getCollectionActivityDocument();
         Collection<PersistableBusinessObject> rawValues = null;
-        Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
 
         // If multiple asset lookup was used to select the assets, then....
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, collectionActivityDocumentForm.getRefreshCaller())) {

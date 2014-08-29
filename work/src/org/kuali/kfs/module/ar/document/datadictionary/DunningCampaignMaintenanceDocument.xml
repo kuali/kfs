@@ -21,6 +21,7 @@
 			value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
 		<property name="maintainableClass"
 			value="org.kuali.kfs.module.ar.document.DunningCampaignMaintainableImpl" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.DunningCampaignRule" />
 		<property name="maintainableSections">
 			<list>
 				<ref bean="DunningCampaignMaintenanceDocument-DunningCampaign" />

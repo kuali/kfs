@@ -24,9 +24,8 @@
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="poItemInactive" required="false" description="True if the item this is part of is inactive."%>
+<%@ attribute name="fullEntryMode" required="true" description="Determines if the asset information should editable." %>
 
-
-<c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && not empty KualiForm.editingMode['allowCapitalAssetEdit']}" />
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
 <c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.line${camsItemIndex}.(((${ctr})))" />
 <c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByItem.line${ctr}" />
@@ -195,7 +194,7 @@
 
 			<!-- Cams Location Entry -->
             <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
-    			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="new" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" availability="${availability}" poItemInactive="${poItemInactive}"/>
+    			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="new" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" availability="${availability}" poItemInactive="${poItemInactive}" fullEntryMode="${fullEntryMode}"/>
     	    </c:if>
 			
 			<table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
@@ -252,7 +251,7 @@
 					</c:if>   
 				        <th colspan="10" style="padding:0;">
 							<!-- Cams Location List -->
-							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.capitalAssetLocations[${ctr2}]" availability="${availability}" poItemInactive="${poItemInactive}"/>
+							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.capitalAssetLocations[${ctr2}]" availability="${availability}" poItemInactive="${poItemInactive}" fullEntryMode="${fullEntryMode}"/>
 				        </th>
 				    
 					<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

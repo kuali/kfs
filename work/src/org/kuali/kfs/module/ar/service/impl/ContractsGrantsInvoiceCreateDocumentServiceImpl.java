@@ -1531,18 +1531,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
-        // calculate cumulativeExpenses
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-            cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
-        }
 
         if (ObjectUtils.isNotNull(award)){
-            boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
-
-            if (isActiveAwardAccountsEmpty) {
+            if (CollectionUtils.isEmpty(award.getActiveAwardAccounts())) {
                 writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
             }
             else {
+                // calculate cumulativeExpenses
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                    cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
+                }
+
                 for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     if (firstLineFlag) {
                         writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);

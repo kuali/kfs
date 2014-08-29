@@ -22,7 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,7 +51,6 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportServic
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ReportGenerationService;
@@ -594,8 +592,8 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
     protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream, Map<String, String> replacementList) {
         String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
-            URL federal425ATemplateUrl = new URL(federalReportTemplatePath + ArConstants.FF_425A_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
-            URL federal425TemplateUrl = new URL(federalReportTemplatePath + ArConstants.FF_425_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
+            final String federal425ATemplateUrl = federalReportTemplatePath + ArConstants.FF_425A_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
+            final String federal425TemplateUrl = federalReportTemplatePath + ArConstants.FF_425_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 
             Map<String, Object> fieldValues = new HashMap<>();
             fieldValues.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
@@ -635,13 +633,13 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.CASH_ON_HAND, contractsGrantsBillingUtilityService.formatForCurrency(sumCashControl.subtract(sumCumExp)));
                 }
                 // add a document
-                copy.addDocument(new PdfReader(PdfFormFillerUtil.populateTemplate(federal425ATemplateUrl.openStream(), replacementList)));
+                copy.addDocument(new PdfReader(renameFieldsIn(federal425ATemplateUrl, replacementList)));
                 pageNumber++;
             }
             contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.PAGE_NUMBER, "1");
 
             // add the FF425 form.
-            copy.addDocument(new PdfReader(PdfFormFillerUtil.populateTemplate(federal425TemplateUrl.openStream(), replacementList)));
+            copy.addDocument(new PdfReader(renameFieldsIn(federal425TemplateUrl, replacementList)));
             // Close the PdfCopyFields object
             copy.close();
         }
@@ -649,6 +647,29 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             throw new RuntimeException("Tried to stamp the 425A, but couldn't do it.  Just...just couldn't do it.", ex);
         }
     }
+
+    /**
+    *
+    * @param template the path to the original form
+    * @param list the replacement list
+    * @return
+    * @throws IOException
+    * @throws DocumentException
+    */
+   protected byte[] renameFieldsIn(String template, Map<String, String> list) throws IOException, DocumentException {
+       ByteArrayOutputStream baos = new ByteArrayOutputStream();
+       // Create the stamper
+       PdfStamper stamper = new PdfStamper(new PdfReader(template), baos);
+       // Get the fields
+       AcroFields fields = stamper.getAcroFields();
+       // Loop over the fields
+       for (String field : list.keySet()) {
+           fields.setField(field, list.get(field));
+       }
+       // close the stamper
+       stamper.close();
+       return baos.toByteArray();
+   }
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesPdfToPrint(java.util.Collection)

@@ -18,10 +18,9 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public class VendorCreditMemoFlagLineItemTotalsValidation extends GenericValidation {
 
@@ -29,8 +28,7 @@ public class VendorCreditMemoFlagLineItemTotalsValidation extends GenericValidat
     
     public boolean validate(AttributedDocumentEvent event) {        
         if (itemForValidation.getItemQuantity() != null && itemForValidation.getExtendedPrice()!=null && itemForValidation.calculateExtendedPrice().compareTo(itemForValidation.getExtendedPrice()) != 0) {
-            String errorKey = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.EXTENDED_PRICE;
-            GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, itemForValidation.getItemIdentifierString());
         }
         
         return true;

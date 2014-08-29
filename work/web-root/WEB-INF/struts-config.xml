@@ -916,11 +916,85 @@
 				redirect="false" />
 		</action>
 		
-		<action path="/contractsGrants*" name="ContractsGrants{1}LookupForm" input="/jsp/module/cg/ContractsGrantsReportLookup.jsp"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrants{1}LookupAction" scope="request"
-			parameter="methodToCall" validate="true" attribute="KualiForm">
+		<action path="/contractsGrantsAwardBalancesReport" name="ContractsGrantsAwardBalancesReportLookupForm"
+			input="/jsp/module/cg/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.cg.web.struts.ContractsGrantsAwardBalancesReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/cg/ContractsGrantsReportLookup.jsp" />
+			<forward name="basic"
+				path="/jsp/module/cg/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsInvoiceDocumentErrorLogReport" name="ContractsGrantsInvoiceDocumentErrorLogReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentErrorLogReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsInvoiceReport" name="ContractsGrantsInvoiceReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsPaymentHistoryReport" name="ContractsGrantsPaymentHistoryReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsPaymentHistoryReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsLOCReport" name="ContractsGrantsLOCReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsLOCAmountsNotDrawnReport"
+			name="ContractsGrantsLOCAmountsNotDrawnReportLookupForm" input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCAmountsNotDrawnReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsSuspendedInvoiceSummaryReport"
+			name="ContractsGrantsSuspendedInvoiceSummaryReportLookupForm" input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceSummaryReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsSuspendedInvoiceDetailReport" name="ContractsGrantsSuspendedInvoiceDetailReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsSuspendedInvoiceDetailReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
+		</action>
+
+		<action path="/contractsGrantsMilestoneReport" name="ContractsGrantsMilestoneReportLookupForm"
+			input="/jsp/module/ar/ContractsGrantsReportLookup.jsp"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsMilestoneReportLookupAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/ContractsGrantsReportLookup.jsp" />
 		</action>
 		
 		<action path="/effort*" name="{1}Form" input="/jsp/module/ec/{1}.jsp"

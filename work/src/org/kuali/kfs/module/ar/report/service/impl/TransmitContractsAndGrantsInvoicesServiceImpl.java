@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.search.SearchOperator;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -274,7 +275,7 @@ public class TransmitContractsAndGrantsInvoicesServiceImpl implements TransmitCo
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_PRINT_DATE_TO, KFSKeyConstants.ERROR_DATE_TIME, ArPropertyConstants.PRINT_INVOICES_TO_LABEL);
             }
         }
-        if (!StringUtils.isNumeric(invoiceAmount)) {
+        if (!KualiDecimal.isNumeric(invoiceAmount)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.TransmitContractsAndGrantsInvoicesLookupFields.INVOICE_AMOUNT, KFSKeyConstants.ERROR_NUMERIC, ArPropertyConstants.INVOICE_AMOUNT_LABEL);
         }
         if (StringUtils.isNotEmpty(invoiceInitiatorPrincipalName)) {

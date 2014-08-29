@@ -609,14 +609,6 @@
 				path="/jsp/module/ar/ReferralToCollectionsSummary.jsp" />
 		</action>
 
- 		<action path="/arReferralToCollectionsDocument" name="ReferralToCollectionsDocumentForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/ar/ReferralToCollectionsDocument.jsp" />
-		</action>
-
 		<action path="/arContractsGrantsLetterOfCreditReviewDocument" name="ContractsGrantsLetterOfCreditReviewDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentAction">

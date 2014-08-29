@@ -173,7 +173,7 @@ public class ContractsGrantsLOCReportLookupableHelperServiceImpl extends Contrac
 
         final String lowerBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX+ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
         final String upperBoundLetterOfCreditReviewCreateDate = (String)lookupFormFields.get(ArPropertyConstants.LETTER_OF_CREDIT_REVIEW_CREATE_DATE);
-        final String letterOfCreditReviewCreateDateCriteria = fixDateCriteria(lowerBoundLetterOfCreditReviewCreateDate, upperBoundLetterOfCreditReviewCreateDate, true);
+        final String letterOfCreditReviewCreateDateCriteria = getContractsGrantsReportHelperService().fixDateCriteria(lowerBoundLetterOfCreditReviewCreateDate, upperBoundLetterOfCreditReviewCreateDate, true);
         if (!StringUtils.isBlank(letterOfCreditReviewCreateDateCriteria)) {
             lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_CREATE_DATE, letterOfCreditReviewCreateDateCriteria);
         }

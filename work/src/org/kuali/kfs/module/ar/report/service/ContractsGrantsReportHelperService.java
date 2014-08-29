@@ -92,4 +92,12 @@ public interface ContractsGrantsReportHelperService {
      */
     public String getDocSearchUrl(String docId);
 
+    /**
+     * Translates the date criteria to a form which the LookupService will comprehend
+     * @param dateLowerBound the lower bound of the date
+     * @param dateUpperBound the upper bound of the date
+     * @param includeTime denotes whether time should be included on the upper bound
+     * @return the date criteria, or null if nothing could be constructed
+     */
+    public String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime);
 }

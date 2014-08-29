@@ -146,6 +146,7 @@ public class KFSPropertyConstants {
     public static final String AWARD_ACCOUNTS = "awardAccounts";
     public static final String AWARD_ACCUMULATED_TO_DATE_DIRECT_COST_AMOUNT = "awardAccumulatedToDateDirectCostAmount";
     public static final String AWARD_BEGINNING_DATE = "awardBeginningDate";
+    public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
     public static final String AWARD_ENTRY_DATE = "awardEntryDate";
     public static final String AWARD_FEDERAL_PASS_THROUGH_INDICATOR = "awardFederalPassThroughIndicator";

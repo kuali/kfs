@@ -1504,4 +1504,9 @@ public class KFSConstants {
         }
     }
 
+    public static class Booleans {
+        public static final String TRUE = "true";
+        public static final String FALSE = "false";
+    }
+
 }

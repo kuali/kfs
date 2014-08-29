@@ -897,6 +897,9 @@
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
 		</property>
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService"/>
+		</property>
 	</bean>
 
 	<bean id="contractsGrantsMilestoneReportLookupableHelperService" parent="contractsGrantsMilestoneReportLookupableHelperService-parentBean"/>

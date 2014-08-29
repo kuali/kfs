@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -196,6 +197,27 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
             LOG.warn("invalid date format for errorDate: " + dateString);
         }
         return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#fixDateCriteria(java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+    public String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
+        final String correctedUpperBound = includeTime && !org.apache.commons.lang.StringUtils.isBlank(dateUpperBound) ? correctEndDateForTime(dateUpperBound) : dateUpperBound;
+        if (!org.apache.commons.lang.StringUtils.isBlank(dateLowerBound)) {
+            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+                return dateLowerBound+SearchOperator.BETWEEN.op()+correctedUpperBound;
+            } else {
+                return SearchOperator.GREATER_THAN_EQUAL.op()+dateLowerBound;
+            }
+        } else {
+            if (!org.apache.commons.lang.StringUtils.isBlank(dateUpperBound)) {
+                return SearchOperator.LESS_THAN_EQUAL.op()+correctedUpperBound;
+            }
+        }
+        return null;
     }
 
     public DataDictionaryService getDataDictionaryService() {

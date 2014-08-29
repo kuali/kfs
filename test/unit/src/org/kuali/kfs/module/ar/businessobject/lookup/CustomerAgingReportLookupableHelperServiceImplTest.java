@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -45,7 +44,6 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImplTest.class);
 
-    private CustomerInvoiceDocumentBatchStep customerInvoiceDocumentBatchStep;
     private CustomerAgingReportLookupableHelperServiceImpl customerAgingReportLookupableHelperServiceImpl;
     private CustomerAgingReportForm customerAgingReportForm;
     private Map fieldValues;

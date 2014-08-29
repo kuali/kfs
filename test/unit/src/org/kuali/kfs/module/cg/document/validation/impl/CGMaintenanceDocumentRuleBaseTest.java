@@ -24,7 +24,6 @@ import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
-import org.kuali.kfs.module.cg.fixture.AgencyAddressFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -47,15 +46,11 @@ public class CGMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     @Override
     public void setUp() throws Exception {
         rule = new CGMaintenanceDocumentRuleBase();
-        agencyNumber = new Long(12851);
+        agencyNumber = new Long(55076);
         proposalNumber = new Long(39603);
         boService = SpringContext.getBean(BusinessObjectService.class);
         award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
         agency = boService.findBySinglePrimaryKey(Agency.class, agencyNumber);
-        // save a test agency address since we don't have those in our test data
-        AgencyAddress agencyAddress = AgencyAddressFixture.CG_AGENCY_ADD3.createAgencyAddress();
-        agencyAddress.setAgencyNumber(String.valueOf(agencyNumber));
-        boService.save(agencyAddress);
     }
 
     public void testCheckEndAfterBegin() {

@@ -41,9 +41,8 @@ import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
 import org.kuali.kfs.integration.cam.businessobject.Asset;
-import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabParameterConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -1562,7 +1561,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     protected void filterNonCapitalAssets(List<CapitalAssetInformation> infos){
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        String capitalAssetObjectSubType = parameterService.getParameterValueAsString(CabConstants.Parameters.NAMESPACE, "Document", CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        String capitalAssetObjectSubType = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, KFSConstants.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
         for (int i = 0; i < infos.size(); ++i) {
             boolean remove = true;
             CapitalAssetInformation info = infos.get(i);

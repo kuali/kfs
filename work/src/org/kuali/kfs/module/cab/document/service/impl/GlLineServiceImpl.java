@@ -63,7 +63,9 @@ import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
 

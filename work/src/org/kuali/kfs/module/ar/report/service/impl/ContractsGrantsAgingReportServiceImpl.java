@@ -180,11 +180,11 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         }
 
 
-        if (!StringUtils.isBlank(endDateFromString.trim())) {
+        if (!StringUtils.isBlank(endDateFromString)) {
             awardEndFromDate = getDateTimeService().convertToSqlDate(endDateFromString);
         }
 
-        if (!StringUtils.isBlank(endDateToString.trim())) {
+        if (!StringUtils.isBlank(endDateToString)) {
             awardEndToDate = getDateTimeService().convertToSqlDate(endDateToString);
         }
 

@@ -332,10 +332,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     @Override
     public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied) {
-        boolean isPairs = true;
-        isPairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
-        isPairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
-        return isPairs;
+        boolean pairs = true;
+        pairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
+        pairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
+        return pairs;
     }
 
     /* Start TEM REFUND merge */
@@ -367,48 +367,48 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         populateDisbursementVoucherFields(disbursementVoucherDocument, paymentApplicationDocument);
 
         // save, route, or blanketapprove based on parameter
-        boolean saveDVInd = false;
-        boolean routeDVInd = false;
-        boolean blanketApproveDVInd = false;
+        boolean saveDV = false;
+        boolean routeDV = false;
+        boolean blanketApproveDV = false;
 
         String dvRouteConfig = parameterService.getParameterValueAsString(PaymentApplicationDocument.class, ArConstants.ArRefunding.DV_ROUTE_PARAMETER_NAME);
         if (StringUtils.isNotBlank(dvRouteConfig)) {
             if (ArConstants.ArRefunding.DV_ROUTE_SAVE.equals(dvRouteConfig)) {
-                saveDVInd = true;
+                saveDV = true;
             }
             else if (ArConstants.ArRefunding.DV_ROUTE_ROUTE.equals(dvRouteConfig)) {
-                routeDVInd = true;
+                routeDV = true;
             }
             else if (ArConstants.ArRefunding.DV_ROUTE_BLANKETAPPROVE.equals(dvRouteConfig)) {
-                blanketApproveDVInd = true;
+                blanketApproveDV = true;
             }
         }
         else {
             // default
-            saveDVInd = true;
+            saveDV = true;
         }
 
         try {
-            if (blanketApproveDVInd) {
+            if (blanketApproveDV) {
                 boolean isValid = kualiRuleService.applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.blanketApproveDocument(disbursementVoucherDocument, "blanket approved for payment application refund", new ArrayList());
                 }
                 else {
-                    saveDVInd = true;
+                    saveDV = true;
                 }
             }
-            else if (routeDVInd) {
+            else if (routeDV) {
                 boolean isValid = kualiRuleService.applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.routeDocument(disbursementVoucherDocument, "routed for payment application refund", new ArrayList());
                 }
                 else {
-                    saveDVInd = true;
+                    saveDV = true;
                 }
             }
 
-            if (saveDVInd) {
+            if (saveDV) {
                 // clear message map so save can happen
                 GlobalVariables.setMessageMap(new MessageMap());
 

@@ -238,7 +238,8 @@ public class GlLineServiceImpl implements GlLineService {
             if (groupAccountLine.getDocumentNumber().equals(entry.getDocumentNumber()) &&
                     groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) &&
                     groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) &&
-                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
+                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode()) &&
+                    groupAccountLine.getOrganizationReferenceId().equals(entry.getOrganizationReferenceId())) {
                 matchingAssets.add(capitalAsset);
                 break;
             }
@@ -660,7 +661,6 @@ public class GlLineServiceImpl implements GlLineService {
         capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
         createCapitalAccountingLine(capitalAccountingLines, entry, null);
         createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
-        nextCapitalAssetLineNumber++;
     }
 
     private List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {

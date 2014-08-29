@@ -174,7 +174,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    @SuppressWarnings("null")
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);

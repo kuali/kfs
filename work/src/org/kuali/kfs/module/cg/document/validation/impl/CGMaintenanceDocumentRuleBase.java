@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
@@ -48,6 +49,13 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = { PROJECT_DIRECTOR_DECEASED };
 
     protected static final String AGENCY_TYPE_CODE_FEDERAL = "F";
+
+    protected boolean contractsGrantsBillingEnhancementActive;
+
+    public CGMaintenanceDocumentRuleBase() {
+        super();
+        contractsGrantsBillingEnhancementActive = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
+    }
 
     /**
      * Checks to see if the end date is after the begin date

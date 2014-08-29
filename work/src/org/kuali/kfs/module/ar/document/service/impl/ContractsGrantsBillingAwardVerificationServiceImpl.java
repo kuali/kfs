@@ -112,12 +112,12 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
     @Override
     public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award) {
         for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-            if (!awardAccount.isFinalBilledIndicator()) {
-                return false;
+            if (awardAccount.isFinalBilledIndicator()) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**

@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<c:set var="camsFullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && not empty KualiForm.editingMode['allowCapitalAssetEdit']}" />
+
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="RequisitionDocument"
 	htmlFormAction="purapRequisition" renderMultipart="true"
@@ -52,7 +54,8 @@
 		camsSystemAttributes="${DataDictionary.RequisitionCapitalAssetSystem.attributes}"
 		camsAssetAttributes="${DataDictionary.RequisitionItemCapitalAsset.attributes}"
 		camsLocationAttributes="${DataDictionary.RequisitionCapitalAssetLocation.attributes}" 
-		isRequisition="true" />
+		isRequisition="true"
+		fullEntryMode="${camsFullEntryMode}" />
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />

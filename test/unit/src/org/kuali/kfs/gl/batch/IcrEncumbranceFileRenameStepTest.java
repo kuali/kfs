@@ -22,8 +22,11 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class tests the renaming step of generated ICR Encumbrance files.
@@ -52,6 +55,7 @@ public class IcrEncumbranceFileRenameStepTest extends IcrEncumbranceStepTestBase
         this.fileRenameStep = SpringContext.getBean(FileRenameStep.class);
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
         this.posterIcrEncumbranceEntriesStep = SpringContext.getBean(PosterIcrEncumbranceEntriesStep.class);
+        this.posterIcrEncumbranceEntriesStep.setParameterService(SpringContext.getBean(ParameterService.class));
 
         // Override spring-gl-test.xml, since all of the other IcrEncumbranceSuite tests use spring-gl.xml
         fileRenameStep = (FileRenameStep)ProxyUtils.getTargetIfProxied(fileRenameStep);
@@ -82,6 +86,7 @@ public class IcrEncumbranceFileRenameStepTest extends IcrEncumbranceStepTestBase
      */
     @Override
     public void testExecute() {
+        TestUtils.setSystemParameter(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.USE_ICR_ENCUMBRANCE_PARAM, "Y");
 
         // Generate feed file
         icrEncumbranceService.buildIcrEncumbranceFeed();

@@ -1504,7 +1504,4 @@ public class KFSConstants {
         }
     }
 
-    // temporary way to allow fp to access this cab parameter, till we get a response from the rice data approval folks as to where this should be moved (if at all)
-    public static final String FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES = "FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES";
-
 }

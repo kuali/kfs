@@ -611,8 +611,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-        final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
-        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+        final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
+        if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && item.getExtendedPrice()==null) {
             KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
             item.setExtendedPrice(newExtendedPrice);
         }

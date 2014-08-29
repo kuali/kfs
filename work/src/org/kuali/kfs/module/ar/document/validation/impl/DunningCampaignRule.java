@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
@@ -27,7 +27,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
 
@@ -52,15 +51,7 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
             Set<String> daysPastDueSet = new HashSet<String>();
             daysPastDueSet.add(newLine.getDaysPastDue());
 
-            //check if the new line is a duplicate
-            if (ObjectUtils.isNotNull(dunningCampaign) && CollectionUtils.isNotEmpty(dunningCampaign.getDunningLetterDistributions())) {
-                for (DunningLetterDistribution dld : dunningCampaign.getDunningLetterDistributions()) {
-                    if (!daysPastDueSet.add(dld.getDaysPastDue())) {
-                        putFieldError(ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
-                        return false;
-                    }
-                }
-            }
+            return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions());
         }
 
         return true;
@@ -71,12 +62,15 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
         DunningCampaign dunningCampaign = (DunningCampaign) maintDoc.getNewMaintainableObject().getDataObject();
         Set<String> daysPastDueSet = new HashSet<String>();
 
-        if (ObjectUtils.isNotNull(dunningCampaign) && CollectionUtils.isNotEmpty(dunningCampaign.getDunningLetterDistributions())) {
-            for (DunningLetterDistribution dld : dunningCampaign.getDunningLetterDistributions()) {
-                if (!daysPastDueSet.add(dld.getDaysPastDue())) {
-                    putFieldError(ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
-                    return false;
-                }
+        return isDuplicatePastDue(daysPastDueSet, dunningCampaign.getDunningLetterDistributions());
+    }
+
+    private boolean isDuplicatePastDue(Set<String> daysPastDueSet, List<DunningLetterDistribution> dunningLetterDistributions ) {
+
+        for (DunningLetterDistribution dld : dunningLetterDistributions ) {
+            if (!daysPastDueSet.add(dld.getDaysPastDue())) {
+                putFieldError(ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                return false;
             }
         }
 

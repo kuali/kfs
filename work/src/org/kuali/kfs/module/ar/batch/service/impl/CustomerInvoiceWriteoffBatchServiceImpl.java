@@ -83,19 +83,19 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     public boolean loadFiles() {
         LOG.info("Beginning processing of all available files for AR Customer Invoice Writeoff Batch Documents.");
 
-        boolean resultInd = true;
+        boolean result = true;
 
         //  create a list of the files to process
         List<String> fileNamesToLoad = getListOfFilesToProcess();
         LOG.info("Found " + fileNamesToLoad.size() + " file(s) to process.");
-        boolean isAnyFilesFound = (fileNamesToLoad.size() > 0);
+        boolean anyFilesFound = (fileNamesToLoad.size() > 0);
 
         //  create the pdf doc
         com.lowagie.text.Document pdfdoc = null;
         //  process each file in turn
         List<String> processedFiles;
         try {
-            if (isAnyFilesFound) {
+            if (anyFilesFound) {
                 pdfdoc = getPdfDoc();
             }
             try {
@@ -108,26 +108,26 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
                     writeFileNameSectionTitle(pdfdoc, inputFileName);
 
                     //  load the file
-                    boolean successInd = false;
+            		boolean success = false;
                     try {
-                        successInd = loadFile(inputFileName, pdfdoc);
+                		success = loadFile(inputFileName, pdfdoc);
                     }
                     catch (Exception e) {
                        LOG.error("An unhandled error occurred.  " + e.getMessage());
                        writeInvoiceSectionMessage(pdfdoc, "ERROR - Unhandled exception caught.");
                        writeInvoiceSectionMessage(pdfdoc, e.getMessage());
                     }
-                    resultInd &= successInd;
+            		result &= success;
 
                     //  handle result
-                    if (successInd) {
-                        resultInd &= true;
+            		if (success) {
+                		result &= true;
                         writeInvoiceSectionMessage(pdfdoc, "File successfully completed processing.");
                         processedFiles.add(inputFileName);
                     }
                     else {
                         writeInvoiceSectionMessage(pdfdoc, "File failed to process successfully.");
-                        resultInd &= false;
+                		result &= false;
                     }
                 }
             } finally {
@@ -144,7 +144,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
             throw new RuntimeException("Could not load customer invoice writeoff files", ex);
         }
 
-        return resultInd;
+        return result;
     }
 
     /**
@@ -162,7 +162,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
 
     public boolean loadFile(String fileName, com.lowagie.text.Document pdfdoc) {
 
-        boolean resultInd = true;
+        boolean result = true;
 
         //  load up the file into a byte array
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
@@ -192,7 +192,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         LOG.info("Beginning validation and preparation of batch file.");
         createCustomerInvoiceWriteoffDocumentsFromBatchVO(batchVO, pdfdoc);
 
-        return resultInd;
+        return result;
     }
 
     /**
@@ -220,17 +220,17 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         }
 
         //  create a new Invoice Writeoff document for each invoice number in the batch file
-        boolean isSucceeded = true;
-        boolean isCustomerNoteSet = false;
+        boolean succeeded = true;
+        boolean customerNoteIsSet = false;
         String writeoffDocNumber = null;
         for (String invoiceNumber : batchVO.getInvoiceNumbers()) {
 
             //  set the customer note
-            if (!isCustomerNoteSet) {
+            if (!customerNoteIsSet) {
                 Customer customer = invoiceDocumentService.getCustomerByInvoiceDocumentNumber(invoiceNumber);
                 if (customer != null) {
                     customerService.createCustomerNote(customer.getCustomerNumber(), note);
-                    isCustomerNoteSet = true;
+                    customerNoteIsSet = true;
                 }
             }
 
@@ -238,19 +238,19 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
             writeInvoiceSectionTitle(pdfdoc, "INVOICE DOC#: " + invoiceNumber);
 
             //  attempt to create the writeoff document
-            isSucceeded = true;
+            succeeded = true;
             writeoffDocNumber = null;
             try {
                 writeoffDocNumber = getInvoiceWriteoffDocumentService().createCustomerInvoiceWriteoffDocument(invoiceNumber, note);
             }
             catch (WorkflowException e) {
-                isSucceeded = false;
+                succeeded = false;
                 writeInvoiceSectionMessage(pdfdoc, "ERROR - Failed to create and route the Invoice Writeoff Document.");
                 writeInvoiceSectionMessage(pdfdoc, "EXCEPTION DETAILS: " + e.getMessage());
             }
 
             //  write the successful information if we got it
-            if (isSucceeded) {
+            if (succeeded) {
                 if (StringUtils.isNotBlank(writeoffDocNumber)) {
                     writeInvoiceSectionMessage(pdfdoc, "SUCCESS - Created new Invoice Writeoff Document #" + writeoffDocNumber);
                 }

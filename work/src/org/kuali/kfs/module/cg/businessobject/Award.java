@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -1635,6 +1636,11 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     @Override
     public String getInvoicingOptions() {
         return invoicingOptions;
+    }
+
+    @Override
+    public String getInvoicingOptionDescription() {
+        return CGPropertyConstants.AwardInvoicingOption.Types.get(invoicingOptions);
     }
 
     /**

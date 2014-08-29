@@ -33,7 +33,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -449,7 +448,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     public void testCheckAwardContractControlAccounts_ValidInvoicingByAward() throws Exception {
@@ -478,7 +477,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     public void testCheckAwardContractControlAccounts_InvalidInvoicingByAwardMultipleCCAs() throws Exception {
@@ -498,7 +497,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertNotNull(errorString);
         assertEquals(2, errorString.size());
         assertTrue(errorString.contains(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT));
-        assertTrue(errorString.contains(ArPropertyConstants.INV_AWARD));
+        assertTrue(errorString.contains(award.getInvoicingOptionDescription()));
     }
 
     private void refreshAccounts(ContractsAndGrantsBillingAward award) {

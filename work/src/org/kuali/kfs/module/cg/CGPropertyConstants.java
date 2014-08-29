@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.cg;
 
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Property Constants for CG module
@@ -48,9 +46,6 @@ public class CGPropertyConstants{
 
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String INV_AWARD = "Invoice by Award";
-    public static final String INV_ACCOUNT = "Invoice by Account";
-    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";
     public static final String AWARD_INVOICING_OPTIONS = "invoicingOptions";
@@ -76,16 +71,33 @@ public class CGPropertyConstants{
         public static final String AGENCY_CUSTOMER_TYPE_CODE= "customerTypeCode";
     }
 
-
     // Award Invoicing Option
     public static class AwardInvoicingOption {
-        public static final Map<String, String> invoicingCode = new HashMap<String, String>();
-        static {
-            invoicingCode.put("1", CGPropertyConstants.INV_AWARD);
-            invoicingCode.put("2", CGPropertyConstants.INV_ACCOUNT);
-            invoicingCode.put("3", CGPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+        public enum Types {
+            AWARD("1", "Invoice by Award"), ACCOUNT("2", "Invoice by Account"), CONTRACT_CONTROL("3", "Invoice by Contract Control Account");
+            private String code;
+            private String name;
+            Types(String code, String name) {
+                this.code = code;
+                this.name = name;
+            }
+            public String getCode() {
+                return code;
+            }
+            public String getName() {
+                return name;
+            }
+            public static String get(String code) {
+                for(Types type : Types.values()) {
+                    if(type.getCode().equals(code)){
+                        return type.getName();
+                    }
+                }
+                return null;
+            }
         }
     }
+
 
     // AR related constants
     public static final String CUSTOMER = "customer";

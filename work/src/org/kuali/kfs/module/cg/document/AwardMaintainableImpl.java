@@ -113,7 +113,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
             // Retrieving Default Invoicing Option
             String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.invoicingCode.get(defaultInvoiceParm);
+            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.Types.get(defaultInvoiceParm);
 
 
             // Retrieving Default Billing Schedule
@@ -125,7 +125,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
                 getAward().setInvoicingOptions(defaultInvoiceType);
             }
             else {
-                getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
+                getAward().setInvoicingOptions(CGPropertyConstants.AwardInvoicingOption.Types.AWARD.getCode());
             }
 
 
@@ -140,7 +140,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
         }
         catch (IllegalArgumentException e) {
-            getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
+            getAward().setInvoicingOptions(CGPropertyConstants.AwardInvoicingOption.Types.AWARD.getCode());
         }
     }
 

@@ -367,6 +367,14 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getInvoicingOptions();
 
     /**
+     * Returns the module specific description for the invoicing option selected.
+     * This will likely be different from CG and KC.
+     *
+     * @return
+     */
+    public String getInvoicingOptionDescription();
+
+    /**
      * Gets the minInvoiceAmount attribute.
      *
      * @return Returns the minInvoiceAmount.

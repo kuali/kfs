@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -1094,6 +1095,11 @@ public class Award implements ContractsAndGrantsBillingAward {
     @Override
     public String getInvoicingOptions() {
         return invoicingOptions;
+    }
+
+    @Override
+    public String getInvoicingOptionDescription() {
+        return CGPropertyConstants.AwardInvoicingOption.Types.get(invoicingOptions);
     }
 
 

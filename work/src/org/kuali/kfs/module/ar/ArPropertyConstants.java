@@ -298,9 +298,9 @@ public class ArPropertyConstants{
     public static final String INVOICE_ACCOUNT_SECTION = "Invoice Accounts";
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
-    public static final String INV_AWARD = "Invoice by Award";
-    public static final String INV_ACCOUNT = "Invoice by Account";
-    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "Invoice by Contract Control Account";
+    public static final String INV_AWARD = "1";
+    public static final String INV_ACCOUNT = "2";
+    public static final String INV_CONTRACT_CONTROL_ACCOUNT = "3";
     public static final String PREFERRED_BILLING_FREQUENCY = "preferredBillingFrequency";
     public static final String AWARD_FUND_TYPE = "fundsType";
     public static final String AWARD_INSTRUMENT_TYPE = "instrumentTypeCode";

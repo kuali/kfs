@@ -2605,7 +2605,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
-                    errorString.add(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
+                    errorString.add(award.getInvoicingOptionDescription());
                 }
             }
 
@@ -2614,7 +2614,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             else if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
                 if (!isValid) {
                     errorString.add(ArKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
-                    errorString.add(ArPropertyConstants.INV_AWARD);
+                    errorString.add(award.getInvoicingOptionDescription());
                 }
                 else {
                     if (accountNum != 1) {
@@ -2628,7 +2628,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                             // for the award, then throw error.
                             if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !areTheSameAccounts(tmpAcct1, tmpAcct2)) {
                                 errorString.add(ArKeyConstants.AwardConstants.ERROR_MULTIPLE_CTRL_ACCT);
-                                errorString.add(ArPropertyConstants.INV_AWARD);
+                                errorString.add(award.getInvoicingOptionDescription());
                             }
                         }
                     }

@@ -566,15 +566,9 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
         String reportTemplateName = ArConstants.FF_425_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
         try {
             String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
-            // populate form with document values
-            PdfReader reader = new PdfReader(federalReportTemplatePath + reportTemplateName);
-            PdfStamper stamper = new PdfStamper(reader, returnStream);
-            AcroFields fields = stamper.getAcroFields();
             populateListByAward(award, reportingPeriod, year, replacementList);
-            for (String field : replacementList.keySet()) {
-                fields.setField(field, replacementList.get(field));
-            }
-            stamper.close();
+            final byte[] pdfBytes = renameFieldsIn(federalReportTemplatePath + reportTemplateName, replacementList);
+            returnStream.write(pdfBytes);
         }
         catch (IOException | DocumentException ex) {
             throw new RuntimeException("Troubles stamping the old 425!", ex);

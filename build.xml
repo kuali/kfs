@@ -625,7 +625,7 @@
 	</target>
 	
 	<target name="filter-project-help" if="do.filter.project.help" depends="init-properties">
-		<unzip dest="${help.directory}" src="${build.project.directory}/kfs-help.zip" />
+		<unzip dest="${help.directory}" src="${build.project.directory}/kfs-help.jar" />
 	</target>
 
 	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties,clean-rice">

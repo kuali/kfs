@@ -89,7 +89,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private java.util.Date dateEmailProcessed;
     public Date paymentDate;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
-    private boolean showEventsInd = true;
+    private boolean showEvents = true;
 
     /**
      * Default constructor.
@@ -774,21 +774,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the showEventsInd attribute.
+     * Gets the showEvents attribute.
      *
-     * @return Returns the showEventsInd attribute.
+     * @return Returns the showEvents attribute.
      */
-    public boolean isShowEventsInd() {
-        return showEventsInd;
+    public boolean isShowEvents() {
+        return showEvents;
     }
 
     /**
-     * Sets the showEventsInd attribute.
+     * Sets the showEvents attribute.
      *
-     * @param showEventsInd The showEventsInd to set.
+     * @param showEvents The showEvents to set.
      */
-    public void setShowEventsInd(boolean showEventsInd) {
-        this.showEventsInd = showEventsInd;
+    public void setShowEvents(boolean showEvents) {
+        this.showEvents = showEvents;
     }
 
     public String getCustomerNumber() {

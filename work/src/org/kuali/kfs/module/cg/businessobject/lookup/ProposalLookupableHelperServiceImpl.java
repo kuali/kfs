@@ -19,9 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
+import org.kuali.kfs.module.cg.service.ContractsAndGrantsLookupService;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -29,9 +28,8 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * Allows custom handling of Proposals within the lookup framework.
  */
 public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
 
+    protected ContractsAndGrantsLookupService contractsAndGrantsLookupService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -39,19 +37,19 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the project director object first
-        if (!StringUtils.isBlank(fieldValues.get(LOOKUP_USER_ID_FIELD))) {
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
-
-            // if no project directors match, we can return an empty list right now
-            if (principal == null) {
-                return Collections.EMPTY_LIST;
-            }
-
-            // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, principal.getPrincipalId());
-            fieldValues.remove(LOOKUP_USER_ID_FIELD);
+        if (contractsAndGrantsLookupService.setupSearchFields(fieldValues, CGPropertyConstants.LOOKUP_USER_ID_FIELD, CGPropertyConstants.PROPOSAL_LOOKUP_UNIVERSAL_USER_ID_FIELD)) {
+            return super.getSearchResultsHelper(fieldValues, unbounded);
         }
 
-        return super.getSearchResultsHelper(fieldValues, unbounded);
+        return Collections.EMPTY_LIST;
     }
+
+    public ContractsAndGrantsLookupService getContractsAndGrantsLookupService() {
+        return contractsAndGrantsLookupService;
+    }
+
+    public void setContractsAndGrantsLookupService(ContractsAndGrantsLookupService contractsAndGrantsLookupService) {
+        this.contractsAndGrantsLookupService = contractsAndGrantsLookupService;
+    }
+
 }

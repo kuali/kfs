@@ -21,17 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.service.ContractsAndGrantsLookupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -44,13 +41,20 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.principalId";
-    private static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
-    private static final String LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
-
     protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
+    protected ContractsAndGrantsLookupService contractsAndGrantsLookupService;
     protected PersonService personService;
+
+    /**
+     * This is a intermediate method to call the getSearchResultsHelper() as it is protected.
+     *
+     * @param fieldValues
+     * @param unbounded
+     * @return
+     */
+    public List<? extends BusinessObject> callGetSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
+        return getSearchResultsHelper(fieldValues, unbounded);
+    }
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -58,33 +62,12 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the project director and fund manager objects first
-        if (!StringUtils.isBlank(fieldValues.get(LOOKUP_USER_ID_FIELD))) {
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
-
-            // if no project directors match, we can return an empty list right now
-            if (principal == null) {
-                return Collections.EMPTY_LIST;
-            }
-
-            // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, principal.getPrincipalId());
-            fieldValues.remove(LOOKUP_USER_ID_FIELD);
+        if (contractsAndGrantsLookupService.setupSearchFields(fieldValues, CGPropertyConstants.LOOKUP_USER_ID_FIELD, CGPropertyConstants.AWARD_LOOKUP_UNIVERSAL_USER_ID_FIELD) &&
+                contractsAndGrantsLookupService.setupSearchFields(fieldValues, CGPropertyConstants.LOOKUP_FUND_MGR_USER_ID_FIELD, CGPropertyConstants.AWARD_LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD)) {
+            return super.getSearchResultsHelper(fieldValues, unbounded);
         }
 
-        if (!StringUtils.isBlank(fieldValues.get(LOOKUP_FUND_MGR_USER_ID_FIELD))) {
-            Person person = getPersonService().getPersonByPrincipalName(fieldValues.get(LOOKUP_FUND_MGR_USER_ID_FIELD));
-
-            // if no fund managers match, we can return an empty list right now
-            if (person == null) {
-                return Collections.EMPTY_LIST;
-            }
-
-            // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD, person.getPrincipalId());
-            fieldValues.remove(LOOKUP_FUND_MGR_USER_ID_FIELD);
-        }
-
-        return super.getSearchResultsHelper(fieldValues, unbounded);
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -136,27 +119,20 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         this.accountsReceivableModuleBillingService = accountsReceivableModuleBillingService;
     }
 
-    /**
-     * @return Returns the personService.
-     */
+    public ContractsAndGrantsLookupService getContractsAndGrantsLookupService() {
+        return contractsAndGrantsLookupService;
+    }
+
+    public void setContractsAndGrantsLookupService(ContractsAndGrantsLookupService contractsAndGrantsLookupService) {
+        this.contractsAndGrantsLookupService = contractsAndGrantsLookupService;
+    }
+
     public PersonService getPersonService() {
         return personService;
     }
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
-    }
-
-
-    /**
-     * This is a intermediate method to call the getSearchResultsHelper() as its protected.
-     *
-     * @param fieldValues
-     * @param unbounded
-     * @return
-     */
-    public List<? extends BusinessObject> callGetSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return getSearchResultsHelper(fieldValues, unbounded);
     }
 
 }

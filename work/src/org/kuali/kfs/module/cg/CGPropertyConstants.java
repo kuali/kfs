@@ -82,4 +82,10 @@ public class CGPropertyConstants{
     public static final String PROPOSAL_AWARD_CLOSE_DOC_AWARD_CLOSED_COUNT = "awardClosedCount";
     public static final String PROPOSAL_AWARD_CLOSE_DOC_PROPOSAL_CLOSED_COUNT = "proposalClosedCount";
     public static final String PPROPOSAL_AWARD_CLOSE_DOC_RINCIPAL_NAME = "principalName";
+
+    public static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
+    public static final String LOOKUP_FUND_MGR_USER_ID_FIELD = "lookupFundMgrPerson.principalName";
+    public static final String AWARD_LOOKUP_FUND_MGR_UNIVERSAL_USER_ID_FIELD = "awardFundManagers.principalId";
+    public static final String AWARD_LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.principalId";
+    public static final String PROPOSAL_LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.principalId";
 }

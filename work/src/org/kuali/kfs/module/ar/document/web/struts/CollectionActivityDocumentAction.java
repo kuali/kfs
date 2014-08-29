@@ -347,7 +347,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
                 colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
             }
         }
-        if (StringUtils.equals(KFSConstants.AWARD_LOOKUP, collectionActivityDocumentForm.getRefreshCaller())) {
+        if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, collectionActivityDocumentForm.getRefreshCaller())) {
             if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
                 ContractsAndGrantsBillingAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
                 if (ObjectUtils.isNotNull(award)) {

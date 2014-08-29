@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
@@ -47,23 +48,6 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
     private static volatile MilestoneScheduleMaintenanceService milestoneScheduleMaintenanceService;
 
     /**
-     * Constructs an MilestoneScheduleMaintainableImpl.
-     */
-    public MilestoneScheduleMaintainableImpl() {
-        super();
-    }
-
-    /**
-     * Constructs a MilestoneScheduleMaintainableImpl.
-     *
-     * @param award
-     */
-    public MilestoneScheduleMaintainableImpl(MilestoneSchedule milestoneSchedule) {
-        super(milestoneSchedule);
-        this.setBoClass(milestoneSchedule.getClass());
-    }
-
-    /**
      * This method is called to check if the award already has milestones set, and to validate on refresh
      *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
@@ -72,7 +56,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        if (StringUtils.equals("awardLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
+        if (StringUtils.equals(ArConstants.AWARD_LOOKUP_IMPL, (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
 
             boolean isMilestonesExist = MilestoneScheduleRuleUtil.checkIfMilestonesExists(getMilestoneSchedule());
             if (isMilestonesExist) {
@@ -98,9 +82,9 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
 
         // clear out Bill IDs so new ones will get generated for these bills
         // reset billed indicator in case bill we're copying from was already billed
-        List<Milestone> milestons = getMilestoneSchedule().getMilestones();
-        if (ObjectUtils.isNotNull(milestons)) {
-            for (Milestone milestone:milestons) {
+        List<Milestone> milestones = getMilestoneSchedule().getMilestones();
+        if (ObjectUtils.isNotNull(milestones)) {
+            for (Milestone milestone:milestones) {
                 milestone.setBilled(false);
                 milestone.setMilestoneIdentifier(null);
             }

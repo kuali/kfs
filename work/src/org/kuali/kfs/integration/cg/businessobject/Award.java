@@ -177,7 +177,7 @@ public class Award implements ContractsAndGrantsBillingAward {
      */
     @Override
     public ContractAndGrantsProposal getProposal() {
-        return null;
+        return proposal;
     }
 
     /**

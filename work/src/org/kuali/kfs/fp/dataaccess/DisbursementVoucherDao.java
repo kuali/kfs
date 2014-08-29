@@ -22,13 +22,6 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 public interface DisbursementVoucherDao {
 
     /**
-     * Saves the Disbursement Voucher Document
-     *
-     * @param document
-     */
-    public void save(DisbursementVoucherDocument document);
-
-    /**
      * Returns a document by its document number
      *
      * @param fdocNbr

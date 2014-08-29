@@ -50,7 +50,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AwardRule extends CGMaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
-    protected boolean contractsGrantsBillingEnhancementsInd;
+    protected boolean contractsGrantsBillingEnhancementActive;
     protected Award newAwardCopy;
 
 
@@ -59,7 +59,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      */
     public AwardRule() {
         super();
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
+        contractsGrantsBillingEnhancementActive = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**
@@ -97,7 +97,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkSuspendedAwardInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         success &= checkStopWorkReason();
-        if(contractsGrantsBillingEnhancementsInd){
+        if(contractsGrantsBillingEnhancementActive){
             success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
             success &= checkInvoicingOptions();
             success &= checkAwardInvoiceAccounts();
@@ -501,7 +501,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         boolean success = true;
 
         Person fundManager = awardFundManager.getFundManager();
-        if(contractsGrantsBillingEnhancementsInd){
+        if(contractsGrantsBillingEnhancementActive){
         if (StringUtils.isBlank(awardFundManager.getPrincipalId()) || ObjectUtils.isNull(fundManager)) {
             String errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_FUND_MANAGERS + "." + "fundManager.principalName";
             String label = this.getDataDictionaryService().getAttributeLabel(AwardFundManager.class, "fundManager.principalName");
@@ -544,7 +544,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
         //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementsInd) {
+        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementActive) {
             if (!ObjectUtils.isNull(awardInvoiceAccounts) || !awardInvoiceAccounts.isEmpty()) {
                 int arCount = 0;
                 int incomeCount = 0;

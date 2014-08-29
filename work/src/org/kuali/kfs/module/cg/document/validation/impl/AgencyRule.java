@@ -49,7 +49,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
     protected Agency newAgency;
     protected Agency oldAgency;
-    protected boolean contractsGrantsBillingEnhancementsInd;
+    protected boolean contractsGrantsBillingEnhancementActive;
 
     BusinessObjectService businessObjectService;
 
@@ -59,7 +59,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public AgencyRule() {
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        contractsGrantsBillingEnhancementsInd = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
+        contractsGrantsBillingEnhancementActive = SpringContext.getBean(AccountsReceivableModuleBillingService.class).isContractsGrantsBillingEnhancementActive();
     }
 
     /**
@@ -87,7 +87,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
         success &= checkAgencyReportsTo(document);
 
         // Only do further custom Contracts and Grants Billing validations for route document, if the enhancements are active
-        if (contractsGrantsBillingEnhancementsInd) {
+        if (contractsGrantsBillingEnhancementActive) {
             // There must be at least one primary Agency Address in Agency
             success &= checkPrimary(newAgency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class);
 
@@ -229,7 +229,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
 
         // Only do if the CG Billing enhancements are turned on
-        if (contractsGrantsBillingEnhancementsInd) {
+        if (contractsGrantsBillingEnhancementActive) {
 
             if (line instanceof AgencyAddress) {
                 AgencyAddress newAgencyAddress = (AgencyAddress) line;

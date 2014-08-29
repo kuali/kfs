@@ -803,7 +803,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                             sendTo.add(new Paragraph(string, titleFont));
                         }
                         sendTo.setAlignment(Element.ALIGN_CENTER);
-                        sendTo.add(new Paragraph(" "));
+                        sendTo.add(new Paragraph(KFSConstants.BLANK_SPACE));
 
                         // adding the sent From address
                         Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();

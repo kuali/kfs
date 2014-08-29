@@ -78,7 +78,7 @@ public class ArKeyConstants {
     static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "error.cginvoice.award.inactive";
     static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "error.cginvoice.award.missing";
     static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "error.cginvoice.billing.missing.frequency";
-    static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "error.cginvoice.no.account.assigned";
+    static final public String CGINVOICE_CREATION_NO_ACTIVE_ACCOUNTS_ASSIGNED_ERROR = "error.cginvoice.no.active.accounts.assigned";
     static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "error.cginvoice.already.billed";
     static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
     static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";

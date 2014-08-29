@@ -1289,7 +1289,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         // 6. Award has no accounts assigned
         if (getContractsGrantsInvoiceDocumentService().hasNoActiveAccountsAssigned(award)) {
-            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR));
+            errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_NO_ACTIVE_ACCOUNTS_ASSIGNED_ERROR));
         }
 
         // 7. Award contains expired account or accounts

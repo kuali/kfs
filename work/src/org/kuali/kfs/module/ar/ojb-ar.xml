@@ -2038,7 +2038,7 @@
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.ReferralType" table="AR_RFRL_TYP_T">
 		<field-descriptor name="referralTypeCode" column="AR_RFRL_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="description" column="RFRL_TYP_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="outsideCollectionAgencyInd" column="OUTSD_CLCTN_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="outsideCollectionAgency" column="OUTSD_CLCTN_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

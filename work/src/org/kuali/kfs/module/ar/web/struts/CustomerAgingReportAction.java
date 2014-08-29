@@ -179,7 +179,7 @@ public class CustomerAgingReportAction extends KualiAction {
     }
 
     /**
-     * Returns as if return with no value was selected.
+     * Cancels the action and returns to portal main page.
      *
      * @param mapping
      * @param form
@@ -189,11 +189,7 @@ public class CustomerAgingReportAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
-
-        //String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
-        String backUrl = getApplicationBaseUrl()+"/portal.do?selectedTab=maintenance";
-        return new ActionForward(backUrl, true);
+        return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }
 
 

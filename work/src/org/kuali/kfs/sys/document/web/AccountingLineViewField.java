@@ -61,13 +61,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private PersistenceStructureService persistenceStructureService;
 
     /*These are the properties that shall not be refreshed because they commonly
-           * are not in the database by the time they need to be rendered (perhaps they're
-          * only attached to the form).*/
+     * are not in the database by the time they need to be rendered (perhaps they're
+     * only attached to the form).*/
 
-    protected static final List<String> nonrefreshedPropertyList;
-          static {
-              nonrefreshedPropertyList = Collections.unmodifiableList(Arrays.asList(KFSPropertyConstants.SALES_TAX));
-          }
+    protected List<String> nonRefreshedPropertyList = Collections.unmodifiableList(Arrays.asList(KFSPropertyConstants.SALES_TAX));
+
 
     /**
      * Gets the definition attribute.
@@ -439,8 +437,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             String currentProperty = StringUtils.substringBefore(dynamicLabelProperty, ".");
             dynamicLabelProperty = StringUtils.substringAfter(dynamicLabelProperty, ".");
             if (value instanceof PersistableBusinessObject) {
-                if (!nonrefreshedPropertyList.contains(currentProperty)){
-                ((PersistableBusinessObject) value).refreshReferenceObject(currentProperty);
+                if (!nonRefreshedPropertyList.contains(currentProperty)){
+                    ((PersistableBusinessObject) value).refreshReferenceObject(currentProperty);
                 }
             }
             value = ObjectUtils.getPropertyValue(value, currentProperty);

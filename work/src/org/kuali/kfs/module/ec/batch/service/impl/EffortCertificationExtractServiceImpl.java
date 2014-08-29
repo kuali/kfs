@@ -57,7 +57,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This is an implemeation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were
+ * This is an implementation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were
  * paid on a grant or cost shared during the selected reporting period, and generates effort certification build/temporary document.
  * Its major tasks include:
  *
@@ -101,7 +101,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
-        // check if a report has been defined and its docuemnts have not been generated.
+        // check if a report has been defined and its documents have not been generated.
+        LOG.info("Validating and retrieving report definition ...");
         String errorMessage = this.validateReportDefintion(fiscalYear, reportNumber);
         errorMessage = StringUtils.isNotEmpty(errorMessage) ? errorMessage : this.existEffortCertificationDocument(fieldValues);
         if (StringUtils.isNotEmpty(errorMessage)) {
@@ -115,11 +116,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         EffortCertificationReportDefinition reportDefinition = effortCertificationReportDefinitionService.findReportDefinitionByPrimaryKey(fieldValues);
         ExtractProcessReportDataHolder reportDataHolder = this.initializeReportData(reportDefinition);
 
+        LOG.info("Finding employees eligible for effort certification ...");
         List<String> employees = this.findEmployeesEligibleForEffortCertification(reportDefinition);
 
+        LOG.info("Generating document build for the eligible employees ...");
         effortCertificationDocumentBuildService.removeExistingDocumentBuild(fieldValues);
         this.generateDocumentBuild(reportDefinition, employees, reportDataHolder, parameters);
 
+        LOG.info("Generating report for extract process ...");
         Date runDate = dateTimeService.getCurrentSqlDate();
         effortCertificationReportService.generateReportForExtractProcess(reportDataHolder, runDate);
     }
@@ -173,7 +177,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      *
      * @param fiscalYear the the given fiscalYear
      * @param reportNumber the the given report number
-     * @return a message if a report has not been defined or its documents have been gerenated; otherwise, return null
+     * @return a message if a report has not been defined or its documents have been generated; otherwise, return null
      */
     protected String validateReportDefintion(Integer fiscalYear, String reportNumber) {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
@@ -185,11 +189,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * check if the docuemnts for the given report definition have not been generated. The combination of fiscal year and report
+     * check if the documents for the given report definition have not been generated. The combination of fiscal year and report
      * number can determine a report definition.
      *
      * @param fieldValues the map containing fiscalYear and report number
-     * @return a message if the documents have been gerenated; otherwise, return null
+     * @return a message if the documents have been generated; otherwise, return null
      */
     protected String existEffortCertificationDocument(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -239,7 +243,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param emplid the given employee id
      * @param positionGroupCodes the specified position group codes
      * @param reportDefinition the specified report definition
-     * @param parameters the system paramters setup in front
+     * @param parameters the system parameters setup in front
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      * @return the qualified labor ledger balance records of the given employee
      */
@@ -300,14 +304,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * check all ledger balances of the given employee and see if they can meet certain requiremnets. If not, the employee would be
+     * check all ledger balances of the given employee and see if they can meet certain requirements. If not, the employee would be
      * unqualified for effort reporting
      *
      * @param emplid the given employee id
      * @param ledgerBalances the all pre-qualified ledger balances of the employee
      * @param reportDefinition the specified report definition
      * @param reportDataHolder the given holder that contains any information to be written into the working report
-     * @param parameters the system paramters setup in front
+     * @param parameters the system parameters setup in front
      * @return true if all ledger balances as whole meet requirements; otherwise, return false
      */
     protected boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, Collection<String>> parameters) {
@@ -350,12 +354,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * select the labor ledger balances for the specifed employee
+     * select the labor ledger balances for the specified employee
      *
-     * @param emplid the given empolyee id
+     * @param emplid the given employee id
      * @param positionObjectGroupCodes the specified position object group codes
      * @param reportDefinition the specified report definition
-     * @return the labor ledger balances for the specifed employee
+     * @return the labor ledger balances for the specified employee
      */
     protected Collection<LaborLedgerBalance> selectLedgerBalanceForEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, Collection<String>> parameters) {
         Collection<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);

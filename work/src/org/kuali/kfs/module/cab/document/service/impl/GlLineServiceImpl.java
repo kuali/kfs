@@ -63,7 +63,9 @@ import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
 
@@ -235,10 +237,11 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
-            if (groupAccountLine.getDocumentNumber().equals(entry.getDocumentNumber()) &&
-                    groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) &&
-                    groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) &&
-                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
+            if (StringUtils.equals(groupAccountLine.getDocumentNumber(), entry.getDocumentNumber()) &&
+                    StringUtils.equals(groupAccountLine.getChartOfAccountsCode(), entry.getChartOfAccountsCode()) &&
+                    StringUtils.equals(groupAccountLine.getAccountNumber(), entry.getAccountNumber()) &&
+                    StringUtils.equals(groupAccountLine.getFinancialObjectCode(), entry.getFinancialObjectCode()) &&
+                    StringUtils.equals(groupAccountLine.getOrganizationReferenceId(), entry.getOrganizationReferenceId())){
                 matchingAssets.add(capitalAsset);
                 break;
             }
@@ -660,7 +663,6 @@ public class GlLineServiceImpl implements GlLineService {
         capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
         createCapitalAccountingLine(capitalAccountingLines, entry, null);
         createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
-        nextCapitalAssetLineNumber++;
     }
 
     private List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
@@ -806,3 +808,4 @@ public class GlLineServiceImpl implements GlLineService {
         this.capitalAssetInformationDao = dao;
     }
 }
+

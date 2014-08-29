@@ -73,6 +73,7 @@
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
 				<value>faxPendingDocumentTrigger</value>
+				<value>beginningOfBusinessDayJobTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -574,6 +575,11 @@
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
 	
+	<bean id="beginningOfBusinessDayJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="receivingPaymentRequestJob" />
+		<property name="cronExpression" value="00 01 00 ? * *" />
+	</bean>
+	
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -593,6 +599,11 @@
 			<list>
 				<ref bean="autoApprovePaymentRequestsStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="receivingPaymentRequestJob" value="softDependency" />
+			</map>
 		</property>
 	</bean>
 	

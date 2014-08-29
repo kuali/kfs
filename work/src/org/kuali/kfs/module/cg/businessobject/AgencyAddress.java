@@ -32,10 +32,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
-public class AgencyAddress extends PersistableBusinessObjectBase implements Comparable<AgencyAddress>, Primaryable, ContractsAndGrantsAgencyAddress {
+public class AgencyAddress extends PersistableBusinessObjectBase implements Primaryable, ContractsAndGrantsAgencyAddress {
 
     private String agencyNumber;
     private Long agencyAddressIdentifier;
@@ -495,66 +492,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
             m.put("agencyAddressIdentifier", this.agencyAddressIdentifier.toString());
         }
         return m;
-    }
-
-
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    @Override
-    public int compareTo(AgencyAddress address) {
-        if (this.getAgencyNumber() != null && address.getAgencyNumber() != null && !this.getAgencyNumber().equalsIgnoreCase(address.getAgencyNumber())) {
-            return -1;
-        }
-        if (this.getAgencyAddressName() != null && address.getAgencyAddressName() != null && !this.getAgencyAddressName().equalsIgnoreCase(address.getAgencyAddressName())) {
-            return -1;
-        }
-        if (this.getAgencyContactName() != null && address.getAgencyContactName() != null && !this.getAgencyContactName().equalsIgnoreCase(address.getAgencyContactName())) {
-            return -1;
-        }
-        if (this.getAgencyFaxNumber() != null && address.getAgencyFaxNumber() != null && !this.getAgencyFaxNumber().equalsIgnoreCase(address.getAgencyFaxNumber())) {
-            return -1;
-        }
-        if (this.getAgencyPhoneNumber() != null && address.getAgencyPhoneNumber() != null && !this.getAgencyPhoneNumber().equalsIgnoreCase(address.getAgencyPhoneNumber())) {
-            return -1;
-        }
-        if (this.getAgencyLine1StreetAddress() != null && address.getAgencyLine1StreetAddress() != null && !this.getAgencyLine1StreetAddress().equalsIgnoreCase(address.getAgencyLine1StreetAddress())) {
-            return -1;
-        }
-        if (this.getAgencyLine2StreetAddress() != null && address.getAgencyLine2StreetAddress() != null && !this.getAgencyLine2StreetAddress().equalsIgnoreCase(address.getAgencyLine2StreetAddress()) || (this.getAgencyLine2StreetAddress() == null && address.getAgencyLine2StreetAddress() != null) || (this.getAgencyLine2StreetAddress() != null && address.getAgencyLine2StreetAddress() == null)) {
-            return -1;
-        }
-        if (this.getAgencyLine3StreetAddress() != null && address.getAgencyLine3StreetAddress() != null && !this.getAgencyLine3StreetAddress().equalsIgnoreCase(address.getAgencyLine3StreetAddress()) || (this.getAgencyLine3StreetAddress() == null && address.getAgencyLine3StreetAddress() != null) || (this.getAgencyLine3StreetAddress() != null && address.getAgencyLine3StreetAddress() == null)) {
-            return -1;
-        }
-        if (this.getAgencyLine4StreetAddress() != null && address.getAgencyLine4StreetAddress() != null && !this.getAgencyLine4StreetAddress().equalsIgnoreCase(address.getAgencyLine4StreetAddress()) || (this.getAgencyLine4StreetAddress() == null && address.getAgencyLine4StreetAddress() != null) || (this.getAgencyLine4StreetAddress() != null && address.getAgencyLine4StreetAddress() == null)) {
-            return -1;
-        }
-        if (this.getAgencyCityName() != null && address.getAgencyCityName() != null && !this.getAgencyCityName().equalsIgnoreCase(address.getAgencyCityName())) {
-            return -1;
-        }
-        if (this.getAgencyStateCode() != null && address.getAgencyStateCode() != null && !this.getAgencyStateCode().equalsIgnoreCase(address.getAgencyStateCode()) || (this.getAgencyStateCode() == null && address.getAgencyStateCode() != null) || (this.getAgencyStateCode() != null && address.getAgencyStateCode() == null)) {
-            return -1;
-        }
-        if (this.getAgencyZipCode() != null && address.getAgencyZipCode() != null && !this.getAgencyZipCode().equalsIgnoreCase(address.getAgencyZipCode()) || (this.getAgencyZipCode() == null && address.getAgencyZipCode() != null) || (this.getAgencyZipCode() != null && address.getAgencyZipCode() == null)) {
-            return -1;
-        }
-        if (this.getAgencyCountryCode() != null && address.getAgencyCountryCode() != null && !this.getAgencyCountryCode().equalsIgnoreCase(address.getAgencyCountryCode())) {
-            return -1;
-        }
-        if (this.getAgencyAddressInternationalProvinceName() != null && address.getAgencyAddressInternationalProvinceName() != null && !this.getAgencyAddressInternationalProvinceName().equalsIgnoreCase(address.getAgencyAddressInternationalProvinceName()) || (this.getAgencyAddressInternationalProvinceName() == null && address.getAgencyAddressInternationalProvinceName() != null) || (this.getAgencyAddressInternationalProvinceName() != null && address.getAgencyAddressInternationalProvinceName() == null)) {
-            return -1;
-        }
-        if (this.getAgencyContactEmailAddress() != null && address.getAgencyContactEmailAddress() != null && !this.getAgencyContactEmailAddress().equalsIgnoreCase(address.getAgencyContactEmailAddress()) || (this.getAgencyContactEmailAddress() == null && address.getAgencyContactEmailAddress() != null) || (this.getAgencyContactEmailAddress() != null && address.getAgencyContactEmailAddress() == null)) {
-            return -1;
-        }
-        if (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() != null && !this.getCustomerAddressTypeCode().equalsIgnoreCase(address.getCustomerAddressTypeCode()) || (this.getCustomerAddressTypeCode() == null && address.getCustomerAddressTypeCode() != null) || (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() == null)) {
-            return -1;
-        }
-        if (this.getAgencyAddressIdentifier() != null && address.getAgencyAddressIdentifier() != null && this.getAgencyAddressIdentifier().compareTo(address.getAgencyAddressIdentifier()) != 0 || (this.getAgencyAddressIdentifier() == null && address.getAgencyAddressIdentifier() != null) || (this.getAgencyAddressIdentifier() != null && address.getAgencyAddressIdentifier() == null)) {
-            return -1;
-        }
-        return 0;
     }
 
     @Override

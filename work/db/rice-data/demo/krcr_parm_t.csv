@@ -429,7 +429,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-GL","CurrentAccountBalance","ENCUMBRANCE_BALANCE_TYPE","KFS-PARM-181",1,"VALID","EX;IE;PE;CE","Encumbrance balance types.","A","KFS"
 "KFS-GL","CurrentAccountBalance","EXPENSE_OBJECT_TYPE","KFS-PARM-180",1,"VALID","EE;ES;EX;TE","Expense object type codes.","A","KFS"
 "KFS-GL","CurrentAccountBalance","FUND_BALANCE_OBJECT_CODE","KFS-PARM-184",1,"VALID","9899","Liability object codes.","A","KFS"
-"KFS-GL","CurrentAccountBalance","INCOME_OBJECT_TYPE","KFS-PARM-179",1,"VALID","CH;IC;IN;TI","Income object type codes.","A","KFS"
+"KFS-GL","CurrentAccountBalance","INCOME_OBJECT_TYPE","KFS-PARM-179",1,"VALID","CH;IC;IN;TI","Income object type codes.","A","KFS"3
 "KFS-GL","EncumbranceForwardStep","BEGINNING_FUND_BALANCE_TRANSACTION_LEDGER_ENTRY_DESCRIPTION","KFS313","1","CONFG","BEGINNING FUND BALANCE OFFSET","Default Transaction Ledger Entry Description to use for generated beginning fund balance offsets created by the encumbrance closing process.","A","KFS"
 "KFS-GL","EncumbranceForwardStep","FORWARDING_ENCUMBRANCE_BALANCE_TYPES","KFS314","1","CONFG","CE","Used to narrow down the set of encumbrance balance types (obtained from the balance type table) that will be used to identify the encumbrances that should be carried forward to the next fiscal year.","D","KFS"
 "KFS-GL","EncumbranceForwardStep","FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE","KFS315","1","CONFG","IE=LD","Either includes or excludes all encumbrances from forward","D","KFS"
@@ -903,12 +903,3 @@ dress is a PO type address.","A","KFS"
 "KR-NS","All","ENABLE_DIRECT_INQUIRIES_IND","KFS603","1","CONFG","N","Flag for enabling/disabling direct inquiries on screens that are drawn by the nervous system (i.e. lookups and maintenance documents)","A","KFS"
 "KR-NS","All","ENABLE_FIELD_LEVEL_HELP_IND","KFS604","1","CONFG","N","Indicates whether field level help links are enabled on lookup pages and documents.","A","KFS"
 "KR-WKFLW","All","KIM_PRIORITY_ON_DOC_TYP_PERMS_IND","KFS608","1","CONFG","Y","Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies.","A","KFS"
-
-
-
-
-
-
-
-
-

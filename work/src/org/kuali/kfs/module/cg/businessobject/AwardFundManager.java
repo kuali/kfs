@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and a fund manager. It's like a reference to the fund manager from the
  * award. This way an award can maintain a collection of these references instead of owning fund managers directly.
  */
-public class AwardFundManager extends PersistableBusinessObjectBase implements Primaryable, CGFundManager, MutableInactivatable, ContractsAndGrantsFundManager {
+public class AwardFundManager extends PersistableBusinessObjectBase implements Primaryable, MutableInactivatable, ContractsAndGrantsFundManager {
 
     private String principalId;
     private Long proposalNumber;
@@ -40,38 +40,28 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
     private Person fundManager;
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#getPrincipalId()
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getPrincipalId()
      */
     @Override
     public String getPrincipalId() {
         return principalId;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#setPrincipalId(java.lang.String)
-     */
-    @Override
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
 
-
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#getProposalNumber()
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getProposalNumber()
      */
     @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#setProposalNumber(java.lang.Long)
-     */
-    @Override
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
-
 
     /**
      * Gets the awardPrimaryFundManagerIndicator attribute.
@@ -82,7 +72,6 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
         return awardPrimaryFundManagerIndicator;
     }
 
-
     /**
      * Sets the awardPrimaryFundManagerIndicator attribute.
      *
@@ -92,11 +81,8 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
         this.awardPrimaryFundManagerIndicator = awardPrimaryFundManagerIndicator;
     }
 
-
     /**
-     * Gets the awardFundManagerProjectTitle attribute.
-     *
-     * @return Returns the awardFundManagerProjectTitle
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getAwardFundManagerProjectTitle()
      */
     @Override
     public String getAwardFundManagerProjectTitle() {
@@ -113,7 +99,7 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#getFundManager()
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager#getFundManager()
      */
     @Override
     public Person getFundManager() {
@@ -121,16 +107,12 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
         return fundManager;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGFundManager#setFundManager(org.kuali.kfs.module.cg.businessobject.FundManager)
-     */
-    @Override
     public void setFundManager(Person fundManager) {
         this.fundManager = fundManager;
     }
 
     /**
-     * @see Primaryable#isPrimary()
+     * @see org.kuali.kfs.module.cg.businessobject.Primaryable#isPrimary()
      */
     @Override
     public boolean isPrimary() {
@@ -138,7 +120,7 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
     }
 
     /**
-     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.Inactivatable#isActive()
      */
     @Override
     public boolean isActive() {
@@ -153,14 +135,10 @@ public class AwardFundManager extends PersistableBusinessObjectBase implements P
         this.active = active;
     }
 
-    public void setUserLookupRoleName(String userLookupRoleName) {
-    }
-
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, this.principalId);

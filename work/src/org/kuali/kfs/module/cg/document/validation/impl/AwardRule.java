@@ -90,7 +90,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkForDuplicateAwardOrganization();
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
-        success &= checkFundManagersExist(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS);
+        success &= checkFundManagersExist(newAwardCopy.getAwardFundManagers(), KFSPropertyConstants.AWARD_FUND_MANAGERS);
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
         success &= checkProjectDirectorsStatuses(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkFederalPassThrough();

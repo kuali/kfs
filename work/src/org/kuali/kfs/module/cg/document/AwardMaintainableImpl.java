@@ -41,7 +41,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
-import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
@@ -406,7 +405,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
      *
      * @param director the FundManager to refresh
      */
-    private static void refreshWithSecondaryKey(CGFundManager fundManager) {
+    private static void refreshWithSecondaryKey(AwardFundManager fundManager) {
         Person cdFundMgr = fundManager.getFundManager();
         if (ObjectUtils.isNotNull(cdFundMgr)) {
             String secondaryKey = cdFundMgr.getPrincipalName();

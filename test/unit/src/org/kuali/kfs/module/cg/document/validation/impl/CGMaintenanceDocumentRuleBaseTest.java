@@ -23,7 +23,6 @@ import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.fixture.AgencyAddressFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -69,7 +68,7 @@ public class CGMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     public void testAll() {
         assertTrue(rule.checkPrimary(agency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class));
         assertTrue(rule.checkProjectDirectorsExist(award.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS));
-        assertTrue(rule.checkFundManagersExist(award.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS));
+        assertTrue(rule.checkFundManagersExist(award.getAwardFundManagers(), KFSPropertyConstants.AWARD_FUND_MANAGERS));
         assertTrue(rule.checkProjectDirectorsExist(award.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS));
         assertTrue(rule.checkProjectDirectorsStatuses(award.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS));
         assertTrue(rule.checkFederalPassThrough(award.getFederalPassThroughIndicator(), award.getAgency(), award.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR));

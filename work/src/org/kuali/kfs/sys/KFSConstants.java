@@ -1045,6 +1045,8 @@ public class KFSConstants {
         public final static String PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME = "SUBREPORT_TEMPLATE_NAMES";
         public final static String DESIGN_FILE_EXTENSION = ".jrxml";
         public final static String JASPER_REPORT_EXTENSION = ".jasper";
+        public final static String CSV_FILE_EXTENSION = ".csv";
+        public final static String CSV_MIME_TYPE = "text/csv";
         public final static String PDF_FILE_EXTENSION = ".pdf";
         public final static String PDF_MIME_TYPE = "application/pdf";
         public final static String ZIP_FILE_EXTENSION = ".zip";
@@ -1053,6 +1055,7 @@ public class KFSConstants {
         public final static String ACCOUNT_EXPORT_FILE_NAME = "account_export.txt";
         public final static String MONTHLY_EXPORT_FILE_NAME = "monthly_export.txt";
         public final static String FUNDING_EXPORT_FILE_NAME = "funding_export.txt";
+        public final static String USE_JAVASCRIPT = "useJavascript";
     }
 
     public final static KualiInteger ONE_HUNDRED = new KualiInteger(100);
@@ -1501,7 +1504,7 @@ public class KFSConstants {
             return String.format("%s - %s", this.code, this.name);
         }
     }
-    
+
     // temporary way to allow fp to access this cab parameter, till we get a response from the rice data approval folks as to where this should be moved (if at all)
     public static final String FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES = "FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES";
 

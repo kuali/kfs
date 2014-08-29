@@ -118,6 +118,9 @@
 		<property name="moduleConfiguration" ref="arModuleConfiguration" />
 	</bean>
 
+    <bean id="accountsReceivableWebUtilityService" parent="accountsReceivableWebUtilityService-parentBean"/>
+    <bean id="accountsReceivableWebUtilityService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableWebUtilityServiceImpl" abstract="true"/>
+
     <bean id="accountsReceivableModuleService" parent="accountsReceivableModuleService-parentBean"/>
     <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true">
 		<property name="accountsReceivableDocumentHeaderService">

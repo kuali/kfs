@@ -1720,7 +1720,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                     Map<String, String> replacementList = getTemplateParameterList(document);
                     replacementList.put("customer.fullAddress", contractsGrantsBillingUtilityService.buildFullAddress(invoiceAddressDetail.getCustomerAddress()));
-                    reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
+                    reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
                     // creating and saving the original note with an attachment
                     if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
                         reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, "FINAL INVOICE");
@@ -1930,7 +1930,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             if (ObjectUtils.isNotNull(strArray[1])) {
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "invoiceGeneralDetail.invoicingPeriodEndDate", strArray[1]);
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.cumulativePeriod", award.getAwardBeginningDate().toString() + " to " + strArray[1]);
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".cumulativePeriod", award.getAwardBeginningDate().toString() + " to " + strArray[1]);
             }
         }
 
@@ -1949,82 +1949,82 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             KualiDecimal billing = getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
             KualiDecimal payments = calculateTotalPaymentsToDateByAward(award);
             KualiDecimal receivable = billing.subtract(payments);
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.billings", contractsGrantsBillingUtilityService.formatForCurrency(billing));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.payments", contractsGrantsBillingUtilityService.formatForCurrency(payments));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.receivables", contractsGrantsBillingUtilityService.formatForCurrency(receivable));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.proposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getProposalNumber()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".billings", contractsGrantsBillingUtilityService.formatForCurrency(billing));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".payments", contractsGrantsBillingUtilityService.formatForCurrency(payments));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".receivables", contractsGrantsBillingUtilityService.formatForCurrency(receivable));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".proposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getProposalNumber()));
             if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardBeginningDate", FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardBeginningDate", FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate()));
             }
             if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardEndingDate", FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardEndingDate", FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate()));
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardTotalAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardTotalAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardAddendumNumber", award.getAwardAddendumNumber());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardAllocatedUniversityComputingServicesAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardAllocatedUniversityComputingServicesAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.federalPassThroughFundedAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getFederalPassThroughFundedAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardTotalAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardTotalAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardAddendumNumber", award.getAwardAddendumNumber());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardAllocatedUniversityComputingServicesAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardAllocatedUniversityComputingServicesAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".federalPassThroughFundedAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getFederalPassThroughFundedAmount()));
             if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardEntryDate", FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardEntryDate", FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate()));
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.agencyFuture1Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture1Amount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.agencyFuture2Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture2Amount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.agencyFuture3Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture3Amount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardDocumentNumber", award.getAwardDocumentNumber());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".agencyFuture1Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture1Amount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".agencyFuture2Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture2Amount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".agencyFuture3Amount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAgencyFuture3Amount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardDocumentNumber", award.getAwardDocumentNumber());
             if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardLastUpdateDate", FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardLastUpdateDate", FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate()));
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.federalPassthroughIndicator", stringifyBooleanForContractsGrantsInvoiceTemplate(award.getFederalPassThroughIndicator()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.oldProposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getOldProposalNumber()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardDirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardDirectCostAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardIndirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardIndirectCostAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.federalFundedAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getFederalFundedAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardCreateTimestamp", stringifyDate(award.getAwardCreateTimestamp()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".federalPassthroughIndicator", stringifyBooleanForContractsGrantsInvoiceTemplate(award.getFederalPassThroughIndicator()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".oldProposalNumber", org.apache.commons.lang.ObjectUtils.toString(award.getOldProposalNumber()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardDirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardDirectCostAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardIndirectCostAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getAwardIndirectCostAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".federalFundedAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getFederalFundedAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardCreateTimestamp", stringifyDate(award.getAwardCreateTimestamp()));
             if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardClosingDate", FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate()));
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardClosingDate", FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate()));
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.proposalAwardTypeCode", award.getProposalAwardTypeCode());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardStatusCode", award.getAwardStatusCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".proposalAwardTypeCode", award.getProposalAwardTypeCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardStatusCode", award.getAwardStatusCode());
             if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.letterOfCreditFundGroupCode", award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".letterOfCreditFundGroupCode", award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode());
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.letterOfCreditFundCode", award.getLetterOfCreditFundCode());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.grantDescriptionCode", award.getGrantDescriptionCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".letterOfCreditFundCode", award.getLetterOfCreditFundCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".grantDescriptionCode", award.getGrantDescriptionCode());
             if (ObjectUtils.isNotNull(award.getProposal())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.grantNumber", award.getProposal().getGrantNumber());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".grantNumber", award.getProposal().getGrantNumber());
             }
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "agencyNumber", award.getAgencyNumber());
             contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "agency.fullName", award.getAgency().getFullName());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.federalPassThroughAgencyNumber", award.getFederalPassThroughAgencyNumber());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.agencyAnalystName", award.getAgencyAnalystName());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.analystTelephoneNumber;", award.getAnalystTelephoneNumber());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.preferredBillingFrequency", award.getPreferredBillingFrequency());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardProjectTitle", award.getAwardProjectTitle());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardPurposeCode", award.getAwardPurposeCode());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.active", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isActive()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.kimGroupNames", award.getKimGroupNames());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.routingOrg", award.getRoutingOrg());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.routingChart", award.getRoutingChart());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.suspendInvoicing", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isSuspendInvoicingIndicator()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.additionalFormsRequired", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isAdditionalFormsRequiredIndicator()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.additionalFormsDescription", award.getAdditionalFormsDescription());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.instrumentTypeCode", award.getInstrumentTypeCode());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.minInvoiceAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getMinInvoiceAmount()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.autoApprove", stringifyBooleanForContractsGrantsInvoiceTemplate(award.getAutoApproveIndicator()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.lookupPersonUniversalIdentifier", award.getLookupPersonUniversalIdentifier());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.lookupPerson", award.getLookupPerson().getPrincipalName());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.userLookupRoleNamespaceCode", award.getUserLookupRoleNamespaceCode());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.userLookupRoleName", award.getUserLookupRoleName());
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.fundingExpirationDate", stringifyDate(award.getFundingExpirationDate()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.stopWorkIndicator", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isStopWorkIndicator()));
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.stopWorkReason", award.getStopWorkReason());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".federalPassThroughAgencyNumber", award.getFederalPassThroughAgencyNumber());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".agencyAnalystName", award.getAgencyAnalystName());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".analystTelephoneNumber;", award.getAnalystTelephoneNumber());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".preferredBillingFrequency", award.getPreferredBillingFrequency());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardProjectTitle", award.getAwardProjectTitle());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardPurposeCode", award.getAwardPurposeCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".active", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isActive()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".kimGroupNames", award.getKimGroupNames());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".routingOrg", award.getRoutingOrg());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".routingChart", award.getRoutingChart());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".suspendInvoicing", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isSuspendInvoicingIndicator()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".additionalFormsRequired", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isAdditionalFormsRequiredIndicator()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".additionalFormsDescription", award.getAdditionalFormsDescription());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".instrumentTypeCode", award.getInstrumentTypeCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".minInvoiceAmount", contractsGrantsBillingUtilityService.formatForCurrency(award.getMinInvoiceAmount()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".autoApprove", stringifyBooleanForContractsGrantsInvoiceTemplate(award.getAutoApproveIndicator()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".lookupPersonUniversalIdentifier", award.getLookupPersonUniversalIdentifier());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".lookupPerson", award.getLookupPerson().getPrincipalName());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".userLookupRoleNamespaceCode", award.getUserLookupRoleNamespaceCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".userLookupRoleName", award.getUserLookupRoleName());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".fundingExpirationDate", stringifyDate(award.getFundingExpirationDate()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".stopWorkIndicator", stringifyBooleanForContractsGrantsInvoiceTemplate(award.isStopWorkIndicator()));
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".stopWorkReason", award.getStopWorkReason());
             if (ObjectUtils.isNotNull(award.getAwardPrimaryProjectDirector())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.awardProjectDirector.name", award.getAwardPrimaryProjectDirector().getProjectDirector().getName());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".awardProjectDirector.name", award.getAwardPrimaryProjectDirector().getProjectDirector().getName());
             }
-            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.letterOfCreditFundCode", award.getLetterOfCreditFundCode());
+            contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".letterOfCreditFundCode", award.getLetterOfCreditFundCode());
             if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.primaryFundManager.name", award.getAwardPrimaryFundManager().getFundManager().getName());
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.primaryFundManager.email", award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
-                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "award.primaryFundManager.phone", award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".primaryFundManager.name", award.getAwardPrimaryFundManager().getFundManager().getName());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".primaryFundManager.email", award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
+                contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, KFSPropertyConstants.AWARD+".primaryFundManager.phone", award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber());
             }
             if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
                 contractsGrantsBillingUtilityService.putValueOrEmptyString(parameterMap, "totalAmountDue", contractsGrantsBillingUtilityService.formatForCurrency(receivable.add(document.getInvoiceGeneralDetail().getNewTotalBilled())));

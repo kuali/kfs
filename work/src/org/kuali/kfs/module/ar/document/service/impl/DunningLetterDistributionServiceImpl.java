@@ -165,7 +165,7 @@ public class DunningLetterDistributionServiceImpl implements DunningLetterDistri
                 replacementList.put("agency.fullName", address.getCustomer().getCustomerName());
                 replacementList.put("agency.contactName", address.getCustomer().getCustomerContactName());
                 if(CollectionUtils.isNotEmpty(selectedInvoices)){
-                reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
+                reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList);
 
                 // Step3. attach each dunning letter to invoice pdfs.
                 finalReportStream = generateListOfInvoicesPdfToPrint(selectedInvoices, reportStream);

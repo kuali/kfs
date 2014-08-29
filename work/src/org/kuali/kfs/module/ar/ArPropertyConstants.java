@@ -579,7 +579,6 @@ public class ArPropertyConstants{
     public static final String CATEGORY_CODE = "categoryCode";
     public static final String INVOICE_TYPE = "invoiceType";
     public static final String AGE_IN_DAYS = "ageInDays";
-    public static final String AWARD = "award";
     public static final String REMAINING_AMOUNT = "remainingAmount";
     public static final String AMOUNT_AVAILABLE_TO_DRAW = "amountAvailableToDraw";
     public static final String CLAIM_ON_CASH_BALANCE = "claimOnCashBalance";

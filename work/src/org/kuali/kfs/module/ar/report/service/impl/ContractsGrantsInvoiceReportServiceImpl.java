@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +52,7 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportServic
 import org.kuali.kfs.module.ar.service.ContractsGrantsBillingUtilityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ReportGenerationService;
@@ -122,7 +124,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      */
     protected void generateLOCReviewInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument locDocument) {
         try {
-            Document document = new Document(new Rectangle(1350, 595));
+            Document document = new Document(new Rectangle(ArConstants.LOCReviewPdf.LENGTH, ArConstants.LOCReviewPdf.WIDTH));
             PdfWriter.getInstance(document, os);
             document.open();
 
@@ -157,7 +159,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             document.add(title);
             document.add(text);
             PdfPTable table = new PdfPTable(11);
-            table.setTotalWidth(1300f);
+            table.setTotalWidth(ArConstants.LOCReviewPdf.RESULTS_TABLE_WIDTH);
             // fix the absolute width of the table
             table.setLockedWidth(true);
 
@@ -181,10 +183,10 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     table.addCell(contractsGrantsBillingUtilityService.formatForCurrency(item.getAmountAvailableToDraw()));
 
                     PdfPCell cell = new PdfPCell();
-                    cell.setPadding(20f);
-                    cell.setColspan(11);
-                    PdfPTable newTable = new PdfPTable(8);
-                    newTable.setTotalWidth(1000f);
+                    cell.setPadding(ArConstants.LOCReviewPdf.RESULTS_TABLE_CELL_PADDING);
+                    cell.setColspan(ArConstants.LOCReviewPdf.RESULTS_TABLE_COLSPAN);
+                    PdfPTable newTable = new PdfPTable(ArConstants.LOCReviewPdf.INNER_TABLE_COLUMNS);
+                    newTable.setTotalWidth(ArConstants.LOCReviewPdf.INNER_TABLE_WIDTH);
                     // fix the absolute width of the newTable
                     newTable.setLockedWidth(true);
 
@@ -537,18 +539,21 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @return
      */
     protected String getReportingPeriodEndDate(String reportingPeriod, String year) {
+        Integer yearAsInt = Integer.parseInt(year);
+        java.util.Date endDate = null;
         if (ArConstants.QUARTER1.equals(reportingPeriod)) {
-            return "03/31/" + year;
+            endDate = ArConstants.BillingQuarterLastDays.FIRST_QUARTER.getDateForYear(yearAsInt);
         }
         else if (ArConstants.QUARTER2.equals(reportingPeriod) || ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
-            return "06/30/" + year;
+            endDate = ArConstants.BillingQuarterLastDays.SECOND_QUARTER.getDateForYear(yearAsInt);
         }
         else if (ArConstants.QUARTER3.equals(reportingPeriod)) {
-            return "09/30/" + year;
+            endDate = ArConstants.BillingQuarterLastDays.THIRD_QUARTER.getDateForYear(yearAsInt);
         }
         else {
-            return "12/31/" + year;
+            endDate = ArConstants.BillingQuarterLastDays.FOURTH_QUARTER.getDateForYear(yearAsInt);
         }
+        return getDateTimeService().toDateString(endDate);
     }
 
     /**
@@ -587,15 +592,17 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @param returnStream The output stream the federal form will be written to.
      */
     protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream, Map<String, String> replacementList) {
-        String reportTemplateName = ArConstants.FF_425A_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
         String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
+            URL federal425ATemplateUrl = new URL(federalReportTemplatePath + ArConstants.FF_425A_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
+            URL federal425TemplateUrl = new URL(federalReportTemplatePath + ArConstants.FF_425_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
+
             Map<String, Object> fieldValues = new HashMap<>();
             fieldValues.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
             fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
             List<ContractsAndGrantsBillingAward> awards = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, fieldValues);
             Integer pageNumber = 1, totalPages;
-            totalPages = (awards.size() / 30) + 1;
+            totalPages = (awards.size() / ArConstants.Federal425APdf.NUMBER_OF_SUMMARIES_PER_PAGE) + 1;
             PdfCopyFields copy = new PdfCopyFields(returnStream);
 
             // generate replacement list for FF425
@@ -605,7 +612,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
             KualiDecimal sumCumExp = KualiDecimal.ZERO;
             while (pageNumber <= totalPages) {
                 List<ContractsAndGrantsBillingAward> awardsList = new ArrayList<ContractsAndGrantsBillingAward>();
-                for (int i = ((pageNumber - 1) * 30); i < (pageNumber * 30); i++) {
+                for (int i = ((pageNumber - 1) * ArConstants.Federal425APdf.NUMBER_OF_SUMMARIES_PER_PAGE); i < (pageNumber * ArConstants.Federal425APdf.NUMBER_OF_SUMMARIES_PER_PAGE); i++) {
                     if (i < awards.size()) {
                         awardsList.add(awards.get(i));
                     }
@@ -628,43 +635,19 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                     contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.CASH_ON_HAND, contractsGrantsBillingUtilityService.formatForCurrency(sumCashControl.subtract(sumCumExp)));
                 }
                 // add a document
-                copy.addDocument(new PdfReader(renameFieldsIn(federalReportTemplatePath + reportTemplateName, replacementList)));
+                copy.addDocument(new PdfReader(PdfFormFillerUtil.populateTemplate(federal425ATemplateUrl.openStream(), replacementList)));
                 pageNumber++;
             }
             contractsGrantsBillingUtilityService.putValueOrEmptyString(replacementList, ArPropertyConstants.FederalFormReportFields.PAGE_NUMBER, "1");
 
             // add the FF425 form.
-            copy.addDocument(new PdfReader(renameFieldsIn(federalReportTemplatePath + ArConstants.FF_425_TEMPLATE_NM + KFSConstants.ReportGeneration.PDF_FILE_EXTENSION, replacementList)));
+            copy.addDocument(new PdfReader(PdfFormFillerUtil.populateTemplate(federal425TemplateUrl.openStream(), replacementList)));
             // Close the PdfCopyFields object
             copy.close();
         }
         catch (DocumentException | IOException ex) {
             throw new RuntimeException("Tried to stamp the 425A, but couldn't do it.  Just...just couldn't do it.", ex);
         }
-    }
-
-    /**
-     *
-     *
-     * @param template the path to the original form
-     * @param list the replacement list
-     * @return
-     * @throws IOException
-     * @throws DocumentException
-     */
-    protected static byte[] renameFieldsIn(String template, Map<String, String> list) throws IOException, DocumentException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // Create the stamper
-        PdfStamper stamper = new PdfStamper(new PdfReader(template), baos);
-        // Get the fields
-        AcroFields fields = stamper.getAcroFields();
-        // Loop over the fields
-        for (String field : list.keySet()) {
-            fields.setField(field, list.get(field));
-        }
-        // close the stamper
-        stamper.close();
-        return baos.toByteArray();
     }
 
     /**
@@ -742,7 +725,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
      * @throws IOException
      */
     protected void generateCombinedPdfForEnvelopes(Collection<ContractsGrantsInvoiceDocument> list, OutputStream outputStream) throws DocumentException, IOException {
-        Document document = new Document(new Rectangle(650, 320));
+        Document document = new Document(new Rectangle(ArConstants.InvoiceEnvelopePdf.LENGTH, ArConstants.InvoiceEnvelopePdf.WIDTH));
         PdfWriter.getInstance(document, outputStream);
         boolean pageAdded = false;
 
@@ -767,7 +750,7 @@ public class ContractsGrantsInvoiceReportServiceImpl implements ContractsGrantsI
                         document.newPage();
                         Paragraph sendTo = new Paragraph();
                         Paragraph sentBy = new Paragraph();
-                        sentBy.setIndentationLeft(20);
+                        sentBy.setIndentationLeft(ArConstants.InvoiceEnvelopePdf.INDENTATION_LEFT);
                         // adding the send To address
                         sendTo.add(new Paragraph(address.getCustomerAddressName(), ArConstants.PdfReportFonts.ENVELOPE_TITLE_FONT));
                         if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {

@@ -46,17 +46,37 @@ public class PdfFormFillerUtil {
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("_yyyy-MM-dd_hhmmss");
 
     /**
+     * This method generates the reports from the template stream provided.
+     *
+     * @param template
+     * @param replacementList
+     * @throws IOException, DocumentException
+     */
+    public static byte[] populateTemplate(InputStream templateStream, Map<String, String> replacementList) throws IOException, DocumentException {
+        // --------------------------------------------------
+        // Validate the parameters
+        // --------------------------------------------------
+        if (templateStream == null || replacementList == null) {
+            throw new IllegalArgumentException("All parameters are required, but one or more were null.");
+        }
+
+        // --------------------------------------------------
+        // Use iText to build the new PDF
+        // --------------------------------------------------
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        pdfStampValues(templateStream, outputStream, replacementList);
+        return outputStream.toByteArray();
+    }
+
+    /**
      * This method generates the reports from the template file provided.
      *
      * @param template
-     * @param outputDir
-     * @param baseOutputFileName
      * @param replacementList
-     * @return outputFile Generated report file
-     * @throws IOException
+     * @throws IOException, DocumentException
      */
-    public static byte[] populateTemplate(File template, Map<String, String> replacementList, String watermarkText) throws IOException, DocumentException {
-        // --------------------------------------------------
+    public static byte[] populateTemplate(File template, Map<String, String> replacementList) throws IOException, DocumentException {
+     // --------------------------------------------------
         // Validate the parameters
         // --------------------------------------------------
         if (template == null || replacementList == null) {
@@ -67,10 +87,10 @@ public class PdfFormFillerUtil {
         if (template.exists() == false) {
             throw new IOException("The template file '" + template.getAbsolutePath() + "' does not exist.");
         }
-        if (template.isFile() == false) {
+        if (!template.isFile()) {
             throw new RuntimeException("The template file '" + template.getAbsolutePath() + "' is not a valid file.");
         }
-        if (template.canRead() == false) {
+        if (!template.canRead()) {
             throw new RuntimeException("The template file '" + template.getAbsolutePath() + "' cannot be read.");
         }
 
@@ -78,10 +98,9 @@ public class PdfFormFillerUtil {
         // Use iText to build the new PDF
         // --------------------------------------------------
         InputStream templateStream = new FileInputStream(template);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        pdfStampValues(templateStream, outputStream, replacementList);
-        return outputStream.toByteArray();
+        return populateTemplate(templateStream, replacementList);
     }
+
 
     /**
      * This method stamps the values onto the pdf file from the replacement list

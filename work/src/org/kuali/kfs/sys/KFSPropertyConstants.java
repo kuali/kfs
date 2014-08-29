@@ -143,6 +143,7 @@ public class KFSPropertyConstants {
     public static final String ATTRIBUTE_SUMMARY = KRADPropertyConstants.ATTRIBUTE_SUMMARY;
     public static final String ATTRIBUTE_VALIDATING_EXPRESSION = KRADPropertyConstants.ATTRIBUTE_VALIDATING_EXPRESSION;
     public static final String AUTHENTICATION_USER_ID = "authenticationUserId";
+    public static final String AWARD = "award";
     public static final String AWARD_ACCOUNTS = "awardAccounts";
     public static final String AWARD_ACCUMULATED_TO_DATE_DIRECT_COST_AMOUNT = "awardAccumulatedToDateDirectCostAmount";
     public static final String AWARD_BEGINNING_DATE = "awardBeginningDate";

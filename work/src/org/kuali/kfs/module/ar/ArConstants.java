@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.lowagie.text.Font;
@@ -594,12 +595,69 @@ public class ArConstants{
         }
     }
 
+    /**
+     * Convenience class to hold a month and day without a year
+     */
+    public static class MonthDay {
+        private int month;
+        private int day;
+
+        public MonthDay(int month, int day) {
+            this.month = month;
+            this.day = day;
+        }
+
+        public int getMonth() {
+            return month;
+        }
+
+        public int getDay() {
+            return day;
+        }
+
+        public java.util.Date getDateForYear(int year) {
+            Calendar c = Calendar.getInstance();
+            c.clear();
+            c.set(Calendar.MONTH, getMonth());
+            c.set(Calendar.DAY_OF_MONTH, getDay());
+            c.set(Calendar.YEAR, year);
+            return c.getTime();
+        }
+    }
+
+    public static class BillingQuarterLastDays {
+        public static MonthDay FIRST_QUARTER = new MonthDay(Calendar.MARCH, 31);
+        public static MonthDay SECOND_QUARTER = new MonthDay(Calendar.JUNE, 30);
+        public static MonthDay THIRD_QUARTER = new MonthDay(Calendar.SEPTEMBER, 30);
+        public static MonthDay FOURTH_QUARTER = new MonthDay(Calendar.DECEMBER, 31);
+    }
+
     public static class PdfReportFonts {
         public static final Font LOC_REVIEW_TITLE_FONT = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
         public static final Font LOC_REVIEW_HEADER_FONT = new Font(Font.TIMES_ROMAN, 16, Font.BOLD);
         public static final Font LOC_REVIEW_SMALL_BOLD = new Font(Font.TIMES_ROMAN, 14, Font.BOLD);
         public static final Font ENVELOPE_TITLE_FONT = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
         public static final Font ENVELOPE_SMALL_FONT = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
+    }
+
+    public static class LOCReviewPdf {
+        public static final float LENGTH = 1350f;
+        public static final float WIDTH = 595f;
+        public static final float RESULTS_TABLE_WIDTH = 1300f;
+        public static final float RESULTS_TABLE_CELL_PADDING = 20f;
+        public static final int RESULTS_TABLE_COLSPAN = 11;
+        public static final int INNER_TABLE_COLUMNS = 8;
+        public static final float INNER_TABLE_WIDTH = 1000f;
+    }
+
+    public static class InvoiceEnvelopePdf {
+        public static final float LENGTH = 650f;
+        public static final float WIDTH = 320f;
+        public static final float INDENTATION_LEFT = 20f;
+    }
+
+    public static class Federal425APdf {
+        public static final int NUMBER_OF_SUMMARIES_PER_PAGE = 30;
     }
 
     public static final String FEDERAL_FUND_425_REPORT_ABBREVIATION = "FF425";

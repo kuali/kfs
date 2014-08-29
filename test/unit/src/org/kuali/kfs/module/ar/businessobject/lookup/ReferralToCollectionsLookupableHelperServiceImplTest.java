@@ -38,7 +38,6 @@ import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.module.ar.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupForm;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -46,6 +45,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -60,7 +60,7 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
 
     private ReferralToCollectionsLookupableHelperServiceImpl referralToCollectionsLookupableHelperServiceImpl;
     private ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
-    private ReferralToCollectionsLookupForm referralToCollectionsLookupForm;
+    private MultipleValueLookupForm referralToCollectionsLookupForm;
     private Map fieldValues;
 
     private static final String AGENCY_NUMBER = "11505";
@@ -87,7 +87,7 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectClass(ReferralToCollectionsLookupResult.class);
         referralToCollectionsLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
 
-        referralToCollectionsLookupForm = new ReferralToCollectionsLookupForm();
+        referralToCollectionsLookupForm = new MultipleValueLookupForm();
         fieldValues = new LinkedHashMap();
         fieldValues.put("agencyNumber", AGENCY_NUMBER);
     }

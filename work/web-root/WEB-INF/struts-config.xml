@@ -17,6 +17,8 @@
 			type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
 		<form-bean name="KualiLogoutForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
+		<form-bean name="MultipleValueLookupForm"
+			type="org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm" />
 
 		<!-- KFS Core Bean Definitions -->
 		<form-bean name="KualiBalanceInquiryReportMenuForm"
@@ -104,8 +106,6 @@
 			type="org.kuali.kfs.module.ar.web.struts.TicklersReportLookupForm" />
 		<form-bean name="CustomerOpenItemReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerOpenItemReportForm" />
-		<form-bean name="CustomerInvoiceWriteoffLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />
 		<form-bean name="CustomerInvoiceWriteoffLookupSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryForm" />
 		<form-bean name="CustomerStatementForm"
@@ -140,23 +140,14 @@
 		<form-bean name="ContractsGrantsMilestoneReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsMilestoneReportLookupForm" />
 
-		<form-bean name="ContractsGrantsInvoiceLookupForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceLookupForm" />
-
 		<form-bean name="ContractsGrantsInvoiceSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSummaryForm" />
 
-		<form-bean name="CollectionActivityInvoiceLookupForm"
- 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityInvoiceLookupForm" />
- 						
-		<form-bean name="DunningLetterDistributionLookupForm"
+		<form-bean name=""
 			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm" />
 
 		<form-bean name="DunningLetterDistributionSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionSummaryForm" />
-
- 		<form-bean name="ReferralToCollectionsLookupForm"
- 			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupForm" />
 
  		<form-bean name="ReferralToCollectionsSummaryForm"
  			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsSummaryForm" />
@@ -520,7 +511,7 @@
 			<forward name="basic" path="/jsp/module/ar/ContractsGrantsAgingReportLookup.jsp" />
 		</action>
 		
-		<action path="/collectionActivityInvoiceLookup" name="CollectionActivityInvoiceLookupForm"
+		<action path="/collectionActivityInvoiceLookup" name="MultipleValueLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityInvoiceLookupAction">
 			<set-property property="cancellable" value="true" />
@@ -594,7 +585,7 @@
 				path="/jsp/module/ar/ContractsGrantsInvoiceSummary.jsp" />
 		</action>
 
-		<action path="/arContractsGrantsInvoiceLookup" name="ContractsGrantsInvoiceLookupForm"
+		<action path="/arContractsGrantsInvoiceLookup" name="MultipleValueLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceLookupAction">
 			<set-property property="cancellable" value="true" />
@@ -618,7 +609,7 @@
 				path="/jsp/module/ar/DunningLetterDistributionLookup.jsp" />
 		</action>
 
-		<action path="/arReferralToCollectionsLookup" name="ReferralToCollectionsLookupForm"
+		<action path="/arReferralToCollectionsLookup" name="MultipleValueLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsLookupAction">
 			<set-property property="cancellable" value="true" />
@@ -676,7 +667,7 @@
 				path="/jsp/module/ar/ContractsGrantsAgingOpenInvoicesReportLookup.jsp" />
 		</action>
 
-		<action path="/arCustomerInvoiceWriteoffLookup" name="CustomerInvoiceWriteoffLookupForm"
+		<action path="/arCustomerInvoiceWriteoffLookup" name="MultipleValueLookupForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupAction">
 			<set-property property="cancellable" value="true" />

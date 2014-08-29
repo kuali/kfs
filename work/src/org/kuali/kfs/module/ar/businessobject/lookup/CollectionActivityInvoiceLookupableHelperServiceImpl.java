@@ -28,7 +28,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -38,13 +37,14 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Defines a lookupable helper service class for Referral To Collections Report.
+ * Defines a lookupable helper service class for the Collection Activity Report.
  */
 public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityInvoiceLookupableHelperServiceImpl.class);
@@ -157,7 +157,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
                 }
                 lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                 HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-                CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+                ResultRow row = new ResultRow(columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
                     row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                     row.setRowId(returnUrl.getName());
                     row.setReturnUrlHtmlData(returnUrl);

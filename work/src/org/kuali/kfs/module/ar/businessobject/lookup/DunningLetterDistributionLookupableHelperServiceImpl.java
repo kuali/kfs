@@ -43,7 +43,7 @@ import org.kuali.kfs.module.ar.businessobject.inquiry.DunningLetterDistributionL
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.web.format.Formatter;
@@ -132,7 +132,7 @@ public class DunningLetterDistributionLookupableHelperServiceImpl extends KualiL
             // Create main customer header row
             Collection<Column> columns = getColumns(result, businessObjectRestrictions);
             HtmlData returnUrl = getReturnUrl(result, lookupForm, returnKeys, businessObjectRestrictions);
-            DunningLetterDistributionResultRow row = new DunningLetterDistributionResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(result, pkNames, businessObjectRestrictions));
+            ContractsGrantsLookupResultRow row = new ContractsGrantsLookupResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(result, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 

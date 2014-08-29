@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,19 +20,34 @@ import java.util.List;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
-public class CustomerInvoiceWriteoffLookupResultRow extends ResultRow {
-    
+/**
+ * This class defines a Contracts Grants Lookup Result Row. This class extends ResultRow and adds a List of sub result rows.
+ */
+public class ContractsGrantsLookupResultRow extends ResultRow {
+
     private List<ResultRow> subResultRows;
-    
-    public CustomerInvoiceWriteoffLookupResultRow(List<Column> columns, List<ResultRow> subResultRows, String returnUrl, String actionUrls) {
+
+    /**
+     * @param columns
+     * @param subResultRows
+     * @param returnUrl
+     * @param actionUrls
+     */
+    public ContractsGrantsLookupResultRow(List<Column> columns, List<ResultRow> subResultRows, String returnUrl, String actionUrls) {
         super(columns, returnUrl, actionUrls);
         this.subResultRows = subResultRows;
     }
 
+    /**
+     * @return subResultRows
+     */
     public List<ResultRow> getSubResultRows() {
         return subResultRows;
     }
 
+    /**
+     * @param subResultRows
+     */
     public void setSubResultRows(List<ResultRow> subResultRows) {
         this.subResultRows = subResultRows;
     }

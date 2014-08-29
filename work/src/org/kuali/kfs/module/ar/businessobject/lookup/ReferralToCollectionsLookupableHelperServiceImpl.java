@@ -40,7 +40,7 @@ import org.kuali.kfs.module.ar.businessobject.inquiry.ReferralToCollectionsLooku
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.web.format.Formatter;
@@ -179,7 +179,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
             // Create main customer header row
             Collection<Column> columns = getColumns(element, businessObjectRestrictions);
             HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-            ReferralToCollectionsResultRow row = new ReferralToCollectionsResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+            ContractsGrantsLookupResultRow row = new ContractsGrantsLookupResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 

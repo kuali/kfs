@@ -30,7 +30,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
-import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceResultRow;
+import org.kuali.kfs.module.ar.web.ui.ContractsGrantsLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
@@ -103,7 +103,7 @@ public class ContractsGrantsInvoiceLookupableHelperServiceImpl extends KualiLook
             // Create main customer header row
             Collection<Column> columns = getColumns(element, businessObjectRestrictions);
             HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
-            ContractsGrantsInvoiceResultRow row = new ContractsGrantsInvoiceResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
+            ContractsGrantsLookupResultRow row = new ContractsGrantsLookupResultRow((List<Column>) columns, subResultRows, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
             resultTable.add(row);
         }
 

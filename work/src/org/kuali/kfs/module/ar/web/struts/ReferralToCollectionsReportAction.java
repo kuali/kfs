@@ -16,18 +16,12 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
-import org.kuali.kfs.module.ar.report.ContractsGrantsReportSearchCriteriaDataHolder;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -44,31 +38,6 @@ public class ReferralToCollectionsReportAction extends ContractsGrantsReportLook
     @Override
     public String generateReportTitle(LookupForm lookupForm) {
         return "Referral to Collections Report";
-    }
-
-    /**
-     * This method is used to build pdf report search criteria for Collection activity report
-     *
-     * @param searchCriteria
-     * @param fieldsForLookup
-     */
-    @Override
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        for (Object field : fieldsForLookup.keySet()) {
-            String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
-            String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();
-            if (!fieldString.equals("") && !valueString.equals("") && !ArConstants.ReportsConstants.reportSearchCriteriaExceptionList.contains(fieldString)) {
-                ControlDefinition controldef = dataDictionaryService.getAttributeControlDefinition(getPrintSearchCriteriaClass(), fieldString);
-                if (!(controldef instanceof HiddenControlDefinition)) {
-                    ContractsGrantsReportSearchCriteriaDataHolder criteriaData = new ContractsGrantsReportSearchCriteriaDataHolder();
-                    String label = dataDictionaryService.getAttributeLabel(getPrintSearchCriteriaClass(), fieldString);
-                    criteriaData.setSearchFieldLabel(label);
-                    criteriaData.setSearchFieldValue(valueString);
-                    searchCriteria.add(criteriaData);
-                }
-            }
-        }
     }
 
     /**

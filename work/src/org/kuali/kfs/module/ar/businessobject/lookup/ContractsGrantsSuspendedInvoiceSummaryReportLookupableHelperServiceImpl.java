@@ -61,12 +61,13 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportLookupableHelperService
         Map<String, List<String>> documentNumbersByCategory = new TreeMap<String, List<String>>();
         Map<String, String> suspensionCategoryDescriptions = new HashMap<String, String>();
 
-        final String suspensionCategoryCodeFromLookup = (String)lookupFormFields.remove(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
+        final String suspensionCategoryCodeFromLookup = (String)lookupFormFields.get(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE);
         final Set<String> suspensionCategoryCodes = retrieveMatchingSuspensionCategories(suspensionCategoryCodeFromLookup);
 
+        Map<String, String> lookupFields = new HashMap<>();
         final String processingDocumentStatuses = buildProcessingDocumentStatusesForLookup();
-        lookupFormFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
-        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFormFields, true);
+        lookupFields.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, processingDocumentStatuses);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments = getLookupService().findCollectionBySearchHelper(ContractsGrantsInvoiceDocument.class, lookupFields, true);
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocuments) {
             if (!ObjectUtils.isNull(cgInvoiceDoc.getInvoiceSuspensionCategories()) && !cgInvoiceDoc.getInvoiceSuspensionCategories().isEmpty()) { // only report on documents which have suspension categories associated

@@ -38,6 +38,26 @@
 <%@ attribute name="editPaymentAppDoc" required="true"%>
 <c:set var="tabindexOverrideBase" value="20" />
 
+<%-- determine backdoor user to display app link; taken from kr:immutableBar.tag --%>
+<c:set var="backdoorEnabled" value="<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean(org.kuali.rice.kew.api.KewApiConstants.KEW_NAMESPACE, org.kuali.rice.krad.util.KRADConstants.DetailTypes.BACKDOOR_DETAIL_TYPE, org.kuali.rice.kew.api.KewApiConstants.SHOW_BACK_DOOR_LOGIN_IND)%>"/>
+<c:if test="${backdoorEnabled}">
+	<c:choose> 
+		<c:when test="${empty UserSession.loggedInUserPrincipalName}" > 
+			<c:set var="backdoorIdUrl" value=""/> 			
+		</c:when> 
+		<c:otherwise> 			
+			<c:choose>
+				<c:when test="${UserSession.backdoorInUse}" >
+					<c:set var="backdoorIdUrl" value="backdoorId=${UserSession.principalName}"/> 					
+				</c:when>
+				<c:otherwise>
+					<c:set var="backdoorIdUrl" value="backdoorId=${UserSession.loggedInUserPrincipalName}"/>
+				</c:otherwise>
+			</c:choose>				 			
+		</c:otherwise> 
+	</c:choose>
+</c:if>
+
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row"
 		rowspan="2">
@@ -52,7 +72,7 @@
 					readOnly="true" />
 			</c:when>
 			<c:otherwise>
-				<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.cashControlDetails[rowHeading-1].referenceFinancialDocumentNumber}&command=displayDocSearchView" target="cashControlDetailPayApp">
+				<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.cashControlDetails[rowHeading-1].referenceFinancialDocumentNumber}&command=displayDocSearchView${empty backdoorIdUrl ? "" : "&"}${backdoorIdUrl}" target="cashControlDetailPayApp">
 					<kul:htmlControlAttribute
 						attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
 						property="${propertyName}.referenceFinancialDocumentNumber"

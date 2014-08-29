@@ -482,8 +482,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_CREDIT_MEMO);
         request.setAttribute(ArPropertyConstants.PRINT_LABEL, label);
         return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
-
-
     }
 
     /**
@@ -597,9 +595,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.ACTIONLIST_COMMAND);
 
         return UrlFactory.parameterizeUrl(baseUrl, parameters);
-
     }
-
-
 
 }

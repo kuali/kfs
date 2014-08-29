@@ -36,7 +36,7 @@ public class ReferralToCollectionsReportDetailDataHolder {
     private String finalDisposition;
     private String sortedFieldValue;
     private boolean displaySubtotal;
-    private boolean displayTotalInd;
+    private boolean displayTotal;
     private BigDecimal invoiceTotal;
     private BigDecimal openTotal;
     private BigDecimal invoiceSubTotal;
@@ -266,21 +266,21 @@ public class ReferralToCollectionsReportDetailDataHolder {
     }
 
     /**
-     * Gets the displayTotalInd attribute.
+     * Gets the displayTotal attribute.
      * 
-     * @return Returns the displayTotalInd.
+     * @return Returns the displayTotal.
      */
-    public boolean isDisplayTotalInd() {
-        return displayTotalInd;
+    public boolean isDisplayTotal() {
+        return displayTotal;
     }
 
     /**
-     * Sets the displayTotalInd attribute.
+     * Sets the displayTotal attribute.
      * 
-     * @param displayTotalInd The displayTotalInd to set.
+     * @param displayTotal The displayTotal to set.
      */
-    public void setDisplayTotalInd(boolean displayTotalInd) {
-        this.displayTotalInd = displayTotalInd;
+    public void setDisplayTotal(boolean displayTotal) {
+        this.displayTotal = displayTotal;
     }
 
     /**

@@ -40,7 +40,7 @@ public class ContractsGrantsAgingReportDetailDataHolder {
     private BigDecimal paymentSubTotal;
     private BigDecimal remainingSubTotal;
     public boolean displaySubtotal;
-    public boolean displayTotalInd;
+    public boolean displayTotal;
     private BigDecimal invoiceTotal;
     private BigDecimal paymentTotal;
     private BigDecimal remainingTotal;
@@ -339,21 +339,21 @@ public class ContractsGrantsAgingReportDetailDataHolder {
     }
 
     /**
-     * Gets the displayTotalInd attribute.
+     * Gets the displayTotal attribute.
      * 
-     * @return Returns the displayTotalInd
+     * @return Returns the displayTotal
      */
-    public boolean isDisplayTotalInd() {
-        return displayTotalInd;
+    public boolean isDisplayTotal() {
+        return displayTotal;
     }
 
     /**
-     * Sets the displayTotalInd attribute value.
+     * Sets the displayTotal attribute value.
      * 
-     * @param displayTotalInd The displayTotalInd to set.
+     * @param displayTotal The displayTotal to set.
      */
-    public void setDisplayTotalInd(boolean displayTotalInd) {
-        this.displayTotalInd = displayTotalInd;
+    public void setDisplayTotal(boolean displayTotal) {
+        this.displayTotal = displayTotal;
     }
 
     /**

@@ -97,7 +97,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
 
         // set total field
         ContractsGrantsAgingReportDetailDataHolder reportDetail = new ContractsGrantsAgingReportDetailDataHolder();
-        reportDetail.setDisplayTotalInd(true);
+        reportDetail.setDisplayTotal(true);
         reportDetail.setInvoiceTotal(invoiceTotal);
         reportDetail.setPaymentTotal(paymentTotal);
         reportDetail.setRemainingTotal(remainingTotal);

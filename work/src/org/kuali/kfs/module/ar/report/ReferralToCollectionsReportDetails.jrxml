@@ -34,7 +34,7 @@
 	<field name="openSubTotal" class="java.math.BigDecimal"/>
 	<field name="billingDate" class="java.util.Date"/>
 	<field name="documentNumber" class="java.lang.String"/>
-	<field name="displayTotalInd" class="java.lang.Boolean"/>
+	<field name="displayTotal" class="java.lang.Boolean"/>
 	<field name="openTotal" class="java.math.BigDecimal"/>
 	<field name="invoiceTotal" class="java.math.BigDecimal"/>
 	<field name="referredTo" class="java.lang.String"/>
@@ -114,7 +114,7 @@
 						width="560"
 						height="0"
 						key="line-2">
-							<printWhenExpression><![CDATA[new Boolean($F{displayTotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displayTotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -125,7 +125,7 @@
 						width="40"
 						height="11"
 						key="textField-29">
-							<printWhenExpression><![CDATA[new Boolean($F{displayTotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displayTotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -140,7 +140,7 @@
 						width="60"
 						height="11"
 						key="textField-30">
-							<printWhenExpression><![CDATA[new Boolean($F{displayTotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displayTotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -155,7 +155,7 @@
 						width="60"
 						height="11"
 						key="textField-31">
-							<printWhenExpression><![CDATA[new Boolean($F{displayTotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displayTotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">

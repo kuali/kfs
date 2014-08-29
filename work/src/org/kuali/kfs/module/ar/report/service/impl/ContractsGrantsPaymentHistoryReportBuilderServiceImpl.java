@@ -64,14 +64,14 @@ public class ContractsGrantsPaymentHistoryReportBuilderServiceImpl implements Co
             if (isFieldSubtotalRequired) {
                 // set sortedFieldValue for grouping in the report
                 reportDetail.setSortedFieldValue(getContractsGrantsReportHelperService().getPropertyValue(cgPaymentHistoryReportEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
+                reportDetail.setDisplaySubtotal(true);
                 // set subTotal from subTotalMap
                 reportDetail.setInvoiceSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgPaymentHistoryReportEntry, sortPropertyName)).get(0).bigDecimalValue());
                 reportDetail.setPaymentSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgPaymentHistoryReportEntry, sortPropertyName)).get(1).bigDecimalValue());
             }
             else {
                 // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
+                reportDetail.setDisplaySubtotal(false);
             }
             details.add(reportDetail);
         }

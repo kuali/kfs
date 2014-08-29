@@ -53,7 +53,7 @@ public class ContractsGrantsSuspendedInvoiceSummaryReportBuilderServiceImpl impl
             // set report data
             setReportDate(cgSuspendedInvoiceSummaryReportEntry, reportDetail);
 
-            reportDetail.setDisplaySubtotalInd(false);
+            reportDetail.setDisplaySubtotal(false);
 
             details.add(reportDetail);
         }

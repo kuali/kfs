@@ -63,13 +63,13 @@ public class ContractsGrantsLOCReportBuilderServiceImpl implements ContractsGran
             if (isFieldSubtotalRequired) {
                 // set sortedFieldValue for grouping in the report
                 reportDetail.setSortedFieldValue(getContractsGrantsReportHelperService().getPropertyValue(cgLOCDrawDetailsReportEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
+                reportDetail.setDisplaySubtotal(true);
                 // set subTotal from subTotalMap
                 reportDetail.setSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgLOCDrawDetailsReportEntry, sortPropertyName)).bigDecimalValue());
             }
             else {
                 // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
+                reportDetail.setDisplaySubtotal(false);
             }
             details.add(reportDetail);
         }

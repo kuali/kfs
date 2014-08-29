@@ -76,7 +76,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
             if (isFieldSubtotalRequired) {
                 // set sortedFieldValue for grouping in the report
                 reportDetail.setSortedFieldValue(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceEntry, sortPropertyName));
-                reportDetail.setDisplaySubtotalInd(true);
+                reportDetail.setDisplaySubtotal(true);
                 // set subTotal from subTotalMap
                 reportDetail.setInvoiceSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceEntry, sortPropertyName)).get(0).bigDecimalValue());
                 reportDetail.setPaymentSubTotal(subTotalMap.get(getContractsGrantsReportHelperService().getPropertyValue(cgInvoiceEntry, sortPropertyName)).get(1).bigDecimalValue());
@@ -86,7 +86,7 @@ public class ContractsGrantsAgingReportBuilderServiceImpl implements ContractsGr
             }
             else {
                 // set this to empty string for not displaying subtotal
-                reportDetail.setDisplaySubtotalInd(false);
+                reportDetail.setDisplaySubtotal(false);
             }
 
             invoiceTotal = invoiceTotal.add(reportDetail.getInvoiceAmount());

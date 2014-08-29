@@ -38,7 +38,7 @@
 	<field name="amountCurrentlyDue" class="java.math.BigDecimal"/>
 	<field name="sortedFieldValue" class="java.lang.String"/>
 	<field name="subTotal" class="java.math.BigDecimal"/>
-	<field name="displaySubtotalInd" class="java.lang.Boolean"/>
+	<field name="displaySubtotal" class="java.lang.Boolean"/>
 
 
 		<group  name="sortedFieldGroup" >
@@ -56,7 +56,7 @@
 						width="100"
 						height="11"
 						key="textField-8">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement textAlignment="Right">
@@ -71,7 +71,7 @@
 						width="40"
 						height="11"
 						key="textField-9">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement>
@@ -86,7 +86,7 @@
 						width="155"
 						height="0"
 						key="line-1">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>

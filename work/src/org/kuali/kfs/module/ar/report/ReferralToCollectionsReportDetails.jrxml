@@ -30,7 +30,7 @@
 	<field name="openAmount" class="java.math.BigDecimal"/>
 	<field name="sortedFieldValue" class="java.lang.String"/>
 	<field name="invoiceSubTotal" class="java.math.BigDecimal"/>
-	<field name="displaySubtotalInd" class="java.lang.Boolean"/>
+	<field name="displaySubtotal" class="java.lang.Boolean"/>
 	<field name="openSubTotal" class="java.math.BigDecimal"/>
 	<field name="billingDate" class="java.util.Date"/>
 	<field name="documentNumber" class="java.lang.String"/>
@@ -58,7 +58,7 @@
 						width="60"
 						height="11"
 						key="textField-18">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -73,7 +73,7 @@
 						width="40"
 						height="11"
 						key="textField-19">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -88,7 +88,7 @@
 						width="340"
 						height="0"
 						key="line-1">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -99,7 +99,7 @@
 						width="60"
 						height="11"
 						key="textField-21">
-							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotalInd}.booleanValue())]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean($F{displaySubtotal}.booleanValue())]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">

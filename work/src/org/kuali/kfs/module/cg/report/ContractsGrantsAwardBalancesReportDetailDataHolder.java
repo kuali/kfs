@@ -41,7 +41,7 @@ public class ContractsGrantsAwardBalancesReportDetailDataHolder {
 
     private BigDecimal subTotal;
 
-    public boolean displaySubtotalInd;
+    public boolean displaySubtotal;
 
     public Long getProposalNumber() {
         return proposalNumber;
@@ -156,12 +156,12 @@ public class ContractsGrantsAwardBalancesReportDetailDataHolder {
     }
 
 
-    public boolean isDisplaySubtotalInd() {
-        return displaySubtotalInd;
+    public boolean isDisplaySubtotal() {
+        return displaySubtotal;
     }
 
-    public void setDisplaySubtotalInd(boolean displaySubtotalInd) {
-        this.displaySubtotalInd = displaySubtotalInd;
+    public void setDisplaySubtotal(boolean displaySubtotal) {
+        this.displaySubtotal = displaySubtotal;
     }
 
 }

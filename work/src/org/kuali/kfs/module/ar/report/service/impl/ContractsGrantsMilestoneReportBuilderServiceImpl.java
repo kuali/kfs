@@ -46,7 +46,7 @@ public class ContractsGrantsMilestoneReportBuilderServiceImpl implements Contrac
             // set report data
             setReportDate(cgMilestoneReport, reportDetail);
 
-            reportDetail.setDisplaySubtotalInd(false);
+            reportDetail.setDisplaySubtotal(false);
 
             details.add(reportDetail);
         }

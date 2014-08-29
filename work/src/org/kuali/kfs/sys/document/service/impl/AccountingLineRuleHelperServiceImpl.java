@@ -180,6 +180,16 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
+     * Method moved to AccountService, use method there instead. Same logic.
+     * @see org.kuali.kfs.coa.service.AccountService#getUnexpiredContinuationAccountOrNull(org.kuali.kfs.coa.businessobject.Account)
+     */
+    @Deprecated
+    protected Account getUnexpiredContinuationAccountOrNull(Account account) {
+        return accountService.getUnexpiredContinuationAccountOrNull(account);
+    }
+
+
+    /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
     @Override

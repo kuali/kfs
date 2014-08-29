@@ -376,11 +376,11 @@ public class AccountServiceImpl implements AccountService {
         while (count++ < 10) { // prevents infinite loops
             String continuationChartCode = account.getContinuationFinChrtOfAcctCd();
             String continuationAccountNumber = account.getContinuationAccountNumber();
-            // todo: does AccountService already handle blank keys this way?
+
             if (StringUtils.isBlank(continuationChartCode) || StringUtils.isBlank(continuationAccountNumber)) {
                 return null;
             }
-            account = SpringContext.getBean(AccountService.class).getByPrimaryId(continuationChartCode, continuationAccountNumber);
+            account = getByPrimaryId(continuationChartCode, continuationAccountNumber);
             if (ObjectUtils.isNull(account)) {
                 return null;
             }

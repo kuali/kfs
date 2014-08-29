@@ -16,6 +16,8 @@
 package org.kuali.kfs.sys.document.web;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -56,6 +59,15 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private int arbitrarilyHighIndex;
     private List<AccountingLineViewOverrideField> overrideFields;
     private PersistenceStructureService persistenceStructureService;
+
+    /*These are the properties that shall not be refreshed because they commonly
+           * are not in the database by the time they need to be rendered (perhaps they're
+          * only attached to the form).*/
+
+    protected static final List<String> nonrefreshedPropertyList;
+          static {
+              nonrefreshedPropertyList = Collections.unmodifiableList(Arrays.asList(KFSPropertyConstants.SALES_TAX));
+          }
 
     /**
      * Gets the definition attribute.
@@ -427,7 +439,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             String currentProperty = StringUtils.substringBefore(dynamicLabelProperty, ".");
             dynamicLabelProperty = StringUtils.substringAfter(dynamicLabelProperty, ".");
             if (value instanceof PersistableBusinessObject) {
+                if (!nonrefreshedPropertyList.contains(currentProperty)){
                 ((PersistableBusinessObject) value).refreshReferenceObject(currentProperty);
+                }
             }
             value = ObjectUtils.getPropertyValue(value, currentProperty);
         }

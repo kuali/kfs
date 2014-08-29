@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
@@ -30,7 +29,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 public class ContractsGrantsAgingReportForm extends LookupForm {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ContractsGrantsAgingReportForm.class);
     private String awardInquiryTitle;
-    private Lookupable pendingEntryLookupable;
 
     private String total0to30;
     private String total31to60;
@@ -59,21 +57,6 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
         buttons.add(printButton);
 
         return buttons;
-    }
-
-    /**
-     * @param pendingEntryLookupable
-     */
-    public void setPendingEntryLookupable(Lookupable pendingEntryLookupable) {
-        this.pendingEntryLookupable = pendingEntryLookupable;
-    }
-
-
-    /**
-     * @return Returns the pendingEntryLookupable.
-     */
-    public Lookupable getPendingEntryLookupable() {
-        return this.pendingEntryLookupable;
     }
 
     /**

@@ -298,9 +298,13 @@
 																value="${column.columnAnchor.target}" />
 														</c:otherwise>
 													</c:choose>
-													<%-- NOTE: removed hyperlink --%>
-													<c:out
-														value="${fn:substring(column.propertyValue, 0, column.maxLength)}" />
+													<a href="<c:out value="${column.columnAnchor.href}"/>"
+														target='<c:out value="${anchorTarget}"/>'
+														title="${column.columnAnchor.title}"><c:out
+															value="${fn:substring(column.propertyValue, 0, column.maxLength)}"
+															escapeXml="${column.escapeXMLValue}" /> <c:if
+															test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if>
+													</a>
 												</c:otherwise>
 											</c:choose>
 										</display:column>

@@ -159,13 +159,15 @@
 											value="clearValues"
 											src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif"
 											styleClass="tinybutton" alt="clear" title="clear" border="0" />
-									 
+									</c:if> <c:if test="${KualiForm.formKey!=''}">
+										<c:if test="${!empty KualiForm.backLocation}">
 											<a
 												href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}&docNum=${KualiForm.docNum}" />'
 												title="cancel"><img
 												src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif"
 												class="tinybutton" alt="cancel" title="cancel" border="0" />
 											</a>
+										</c:if>
 										</c:if> <!-- Optional extra buttons --> <c:set var="extraButtons"
 										value="${KualiForm.extraButtons}" />
 									<div id="globalbuttons" class="globalbuttons">
@@ -296,7 +298,6 @@
 																value="${column.columnAnchor.target}" />
 														</c:otherwise>
 													</c:choose>
-													<%-- NOTE: removed hyperlink --%>
 													<a href="<c:out value="${column.columnAnchor.href}"/>"
 														target='<c:out value="${anchorTarget}"/>'
 														title="${column.columnAnchor.title}"><c:out
@@ -304,7 +305,6 @@
 															escapeXml="${column.escapeXMLValue}" /> <c:if
 															test="${column.maxLength gt 0 && fn:length(column.propertyValue) gt column.maxLength}">...</c:if>
 													</a>
-													<%-- <c:out value="${fn:substring(column.propertyValue, 0, column.maxLength)}"/> --%>
 												</c:otherwise>
 											</c:choose>
 										</display:column>

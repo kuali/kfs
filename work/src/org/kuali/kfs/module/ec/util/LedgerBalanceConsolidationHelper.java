@@ -146,7 +146,21 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     /**
-     * summurize the balance amounts of a given ledger balance within the specified report periods
+     * @deprecated Use calculateTotalAmountWithinReportPeriod(LaborLedgerBalance,Map<Integer, Set<String>>) instead
+     * Summarizes the balance amounts of a given ledger balance within the specified report periods
+     *
+     * @param ledgerBalance the given labor ledger balance
+     * @param reportPeriods the given report periods
+     * @param allFiscalYears allows for total amount calculation across all fiscal years. This is useful if the ledger balances have already been consolidated which is the case once we build the document
+     * @return the total amounts of the given balance within the specified report periods
+     */
+    @Deprecated
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(LaborLedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods, boolean allFiscalYears) {
+        return calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+    }
+
+    /**
+     * Summarizes the balance amounts of a given ledger balance within the specified report periods
      *
      * @param ledgerBalance the given labor ledger balance
      * @param reportPeriods the given report periods
@@ -164,7 +178,21 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     /**
-     * summurize the balance amounts of the given ledger balances within the specified report periods
+     * @deprecated Use calculateTotalAmountWithinReportPeriod(Collection<LaborLedgerBalance>,Map<Integer, Set<String>>) instead
+     * Summarizes the balance amounts of the given ledger balances within the specified report periods
+     *
+     * @param ledgerBalance the given labor ledger balances
+     * @param reportPeriods the given report periods
+     * @param allFiscalYears allows for total amount calculation across all fiscal years. This is useful if the ledger balances have already been consolidated
+     * @return the total amounts of the given balances within the specified report periods
+     */
+    @Deprecated
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LaborLedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods, boolean allFiscalYears) {
+        return calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+    }
+
+    /**
+     * Summarizes the balance amounts of the given ledger balances within the specified report periods
      *
      * @param ledgerBalance the given labor ledger balances
      * @param reportPeriods the given report periods

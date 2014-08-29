@@ -2011,9 +2011,6 @@
 		<property name="accountsReceivableDocumentHeaderDao">
 			<ref bean="accountsReceivableDocumentHeaderDao" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>

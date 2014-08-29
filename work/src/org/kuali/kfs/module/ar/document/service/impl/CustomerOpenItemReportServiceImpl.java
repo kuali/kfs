@@ -57,7 +57,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -66,7 +65,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
 
     protected AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
-    protected WorkflowDocumentService workflowDocumentService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
@@ -893,10 +891,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setAccountsReceivableDocumentHeaderDao(AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao) {
         this.accountsReceivableDocumentHeaderDao = accountsReceivableDocumentHeaderDao;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
     }
 
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {

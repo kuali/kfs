@@ -29,14 +29,14 @@ public class ContractsGrantsInvoiceSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<ContractsGrantsInvoiceLookupResult> contractsGrantsInvoiceLookupResults;
-    private boolean awardInvoicedInd;
+    private boolean awardInvoiced;
 
     /**
-     * Initialize contractsGrantsInvoiceLookupResults and awardInvoicedInd.
+     * Initialize contractsGrantsInvoiceLookupResults and awardInvoiced.
      */
     public ContractsGrantsInvoiceSummaryForm() {
         contractsGrantsInvoiceLookupResults = new ArrayList<ContractsGrantsInvoiceLookupResult>();
-        awardInvoicedInd = false;
+        awardInvoiced = false;
     }
 
     /**
@@ -81,21 +81,21 @@ public class ContractsGrantsInvoiceSummaryForm extends KualiForm {
     }
 
     /**
-     * Gets the awardInvoicedInd attribute.
+     * Gets the awardInvoiced attribute.
      *
-     * @return Returns the awardInvoicedInd.
+     * @return Returns the awardInvoiced.
      */
-    public boolean isAwardInvoicedInd() {
-        return awardInvoicedInd;
+    public boolean isAwardInvoiced() {
+        return awardInvoiced;
     }
 
     /**
-     * Sets the awardInvoicedInd attribute value.
+     * Sets the awardInvoiced attribute value.
      *
-     * @param awardInvoicedInd The awardInvoicedInd to set.
+     * @param awardInvoiced The awardInvoiced to set.
      */
-    public void setAwardInvoicedInd(boolean awardInvoicedInd) {
-        this.awardInvoicedInd = awardInvoicedInd;
+    public void setAwardInvoiced(boolean awardInvoiced) {
+        this.awardInvoiced = awardInvoiced;
     }
 
 }

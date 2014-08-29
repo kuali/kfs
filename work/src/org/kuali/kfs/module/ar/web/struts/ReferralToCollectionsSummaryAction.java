@@ -40,8 +40,8 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class ReferralToCollectionsSummaryAction extends KualiAction {
 
     /**
-     * 1. This method passes the control from Contracts Grants Invoice lookup to the Contracts Grants Invoice
-     * Summary page. 2. Retrieves the list of selected awards by agency for creating invoices.
+     * 1. This method passes the control from the Referral To Collections lookup to the Referral To Collections
+     * Summary page. 2. Retrieves the list of selected invoices by award for creating the Referral To Collections document.
      *
      * @param mapping
      * @param form
@@ -64,7 +64,7 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
     }
 
     /**
-     * This method would create invoices for the list of awards. It calls the batch process to reuse the functionality to create the
+     * This method initiates a Referral To Collections document for the list of invoices.
      * invoices.
      *
      * @param mapping
@@ -92,7 +92,7 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
     }
 
     /**
-     * To cancel the document, invoices are not created when the cancel method is called.
+     * To cancel the process, the Referral To Collections document is not created when the cancel method is called.
      *
      * @param mapping
      * @param form

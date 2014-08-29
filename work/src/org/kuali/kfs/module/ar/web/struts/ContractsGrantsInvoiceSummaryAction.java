@@ -132,7 +132,7 @@ public class ContractsGrantsInvoiceSummaryAction extends KualiAction {
         }
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-        contractsGrantsInvoiceSummaryForm.setAwardInvoicedInd(true);
+        contractsGrantsInvoiceSummaryForm.setAwardInvoiced(true);
         int validationErrors = 0;
         int validAwards = 0;
 

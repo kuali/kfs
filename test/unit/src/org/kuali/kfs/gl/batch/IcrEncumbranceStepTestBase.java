@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UniversityDateServiceFixture;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 
 /**
@@ -65,7 +64,6 @@ public abstract class IcrEncumbranceStepTestBase extends KualiTestBase {
         // the crux is injecting the fixture's resulting createUniversityDateService() object through configuration.
         icrEncumbranceService = (IcrEncumbranceServiceImpl) ProxyUtils.getTargetIfProxied(icrEncumbranceService);
         ((IcrEncumbranceServiceImpl)icrEncumbranceService).setUniversityDateService(UniversityDateServiceFixture.DATE_2009_03_14.createUniversityDateService());
-        ((IcrEncumbranceServiceImpl)icrEncumbranceService).setParameterService(SpringContext.getBean(ParameterService.class));
 
         initFileNames();
     }

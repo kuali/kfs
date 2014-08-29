@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class tests the renaming step of generated ICR Encumbrance files.
@@ -52,6 +53,7 @@ public class IcrEncumbranceFileRenameStepTest extends IcrEncumbranceStepTestBase
         this.fileRenameStep = SpringContext.getBean(FileRenameStep.class);
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
         this.posterIcrEncumbranceEntriesStep = SpringContext.getBean(PosterIcrEncumbranceEntriesStep.class);
+        this.posterIcrEncumbranceEntriesStep.setParameterService(SpringContext.getBean(ParameterService.class));
 
         // Override spring-gl-test.xml, since all of the other IcrEncumbranceSuite tests use spring-gl.xml
         fileRenameStep = (FileRenameStep)ProxyUtils.getTargetIfProxied(fileRenameStep);

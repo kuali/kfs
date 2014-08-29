@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class tests posting of ICR Encumbrance entries to the general ledger table.
@@ -53,7 +54,9 @@ public class PosterIcrEncumbranceEntriesStepTest extends IcrEncumbranceStepTestB
 
         // Init services
         this.icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
+        this.icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
         this.posterIcrEncumbranceEntriesStep = SpringContext.getBean(PosterIcrEncumbranceEntriesStep.class);
+        this.posterIcrEncumbranceEntriesStep.setParameterService(SpringContext.getBean(ParameterService.class));
         this.unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 

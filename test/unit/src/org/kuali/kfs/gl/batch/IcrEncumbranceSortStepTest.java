@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.IcrEncumbranceSuite;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * A class to test functionality of the IcrEncumbranceSortStepTest class.
@@ -44,6 +45,7 @@ public class IcrEncumbranceSortStepTest extends IcrEncumbranceStepTestBase {
     public void setUp() throws Exception {
         super.setUp();
         icrEncumbranceSortStep = SpringContext.getBean(IcrEncumbranceSortStep.class);
+        icrEncumbranceSortStep.setParameterService(SpringContext.getBean(ParameterService.class));
     }
 
     /**

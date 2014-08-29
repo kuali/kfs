@@ -149,8 +149,8 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoMilestonesToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award) {
-        boolean isValid = false;
+    public boolean hasMilestonesToInvoice(ContractsAndGrantsBillingAward award) {
+        boolean hasMilestonesToInvoice = true;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             List<Milestone> milestones = new ArrayList<Milestone>();
             List<Milestone> validMilestones = new ArrayList<Milestone>();
@@ -175,18 +175,18 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                 }
             }
             if (CollectionUtils.isEmpty(validMilestones)) {
-                isValid = true;
+                hasMilestonesToInvoice = false;
             }
         }
-        return isValid;
+        return hasMilestonesToInvoice;
     }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoBillsToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award) {
-        boolean isValid = false;
+    public boolean hasBillsToInvoice(ContractsAndGrantsBillingAward award) {
+        boolean hasBillsToInvoice = true;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
             List<Bill> bills = new ArrayList<Bill>();
@@ -210,10 +210,10 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
                 }
             }
             if (CollectionUtils.isEmpty(validBills)) {
-                isValid = true;
+                hasBillsToInvoice = false;
             }
         }
-        return isValid;
+        return hasBillsToInvoice;
     }
 
     /**
@@ -240,7 +240,7 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
      * @return
      */
     @Override
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
+    public boolean isChartAndOrgSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = award.getPrimaryAwardOrganization().getChartOfAccountsCode();
         String orgCode = award.getPrimaryAwardOrganization().getOrganizationCode();
         String procCoaCode = null, procOrgCode = null;
@@ -264,10 +264,10 @@ public class ContractsGrantsBillingAwardVerificationServiceImpl implements Contr
 
             SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault) && ObjectUtils.isNotNull(systemInformation)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
 
     }
 

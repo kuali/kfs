@@ -53,7 +53,7 @@ public interface ContractsGrantsBillingAwardVerificationService {
     * @param award
     * @return true if has valid milestones to invoice. false if not.
     */
-   public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award);
+   public boolean hasMilestonesToInvoice(ContractsAndGrantsBillingAward award);
 
    /**
     * Checks if the award has valid milestones to invoice.
@@ -61,7 +61,7 @@ public interface ContractsGrantsBillingAwardVerificationService {
     * @param award
     * @return true if has valid milestones to invoice. false if not.
     */
-   public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award);
+   public boolean hasBillsToInvoice(ContractsAndGrantsBillingAward award);
 
    /**
     * Check if agency owning award has no customer record
@@ -78,7 +78,7 @@ public interface ContractsGrantsBillingAwardVerificationService {
     * @param award
     * @return
     */
-   public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
+   public boolean isChartAndOrgSetupForInvoicing(ContractsAndGrantsBillingAward award);
 
    /**
     * this method checks If all accounts of award has invoices in progress.

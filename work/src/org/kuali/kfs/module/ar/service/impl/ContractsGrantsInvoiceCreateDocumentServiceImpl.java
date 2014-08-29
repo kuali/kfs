@@ -1309,12 +1309,12 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 9. Award has no valid milestones to invoice
-        if (getContractsGrantsBillingAwardVerificationService().hasNoMilestonesToInvoice(award)) {
+        if (!getContractsGrantsBillingAwardVerificationService().hasMilestonesToInvoice(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
         }
 
         // 10. All has no valid bills to invoice
-        if (getContractsGrantsBillingAwardVerificationService().hasNoBillsToInvoice(award)) {
+        if (!getContractsGrantsBillingAwardVerificationService().hasBillsToInvoice(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
         }
 
@@ -1335,7 +1335,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         // 14. System Information and ORganization Accounting Default not setup.
-        if (getContractsGrantsBillingAwardVerificationService().isChartAndOrgNotSetupForInvoicing(award)) {
+        if (!getContractsGrantsBillingAwardVerificationService().isChartAndOrgSetupForInvoicing(award)) {
             errorList.add(configurationService.getPropertyValueAsString(ArKeyConstants.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
         }
 

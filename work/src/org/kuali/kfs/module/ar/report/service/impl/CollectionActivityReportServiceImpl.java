@@ -128,13 +128,8 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
             fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
         }
 
-        if (!StringUtils.isBlank(agencyNumber)) {
-            fieldValues.put(ArPropertyConstants.AWARD+"."+KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
-        }
-
         // Filter Invoice docs according to criteria.
         Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
-        contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
         if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             String collectorPrincipalId = null;
@@ -150,6 +145,9 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 ContractsGrantsInvoiceDocument document = iter.next();
 
                 if (!canDocumentBeViewed(document, collectorPrincipalId)) {
+                    iter.remove();
+                }
+                if (!StringUtils.isBlank(agencyNumber) && !matchesAgencyNumber(document, agencyNumber)) {
                     iter.remove();
                 }
             }
@@ -188,6 +186,19 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 && contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId());
     }
 
+    /**
+     * Determines if the given document matches the passed in agency number
+     * @param document the document to check
+     * @param agencyNumber the agency number to verify against
+     * @return true if the document matches the given agency number, false otherwise
+     */
+    protected boolean matchesAgencyNumber(ContractsGrantsInvoiceDocument document, String agencyNumber) {
+        if (!ObjectUtils.isNull(document) && !ObjectUtils.isNull(document.getAward()) && !StringUtils.isBlank(document.getAward().getAgencyNumber())) {
+            final String documentAgencyNumber = document.getAward().getAgencyNumber();
+            return StringUtils.equals(documentAgencyNumber, agencyNumber);
+        }
+        return false;
+    }
 
     /**
      * This method is used to convert the Event Object into collection activity report.

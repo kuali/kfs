@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,11 +29,15 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
@@ -207,6 +212,68 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         Query query = this.getOpenEncumbranceQuery(fieldValues, includeZeroEncumbrances);
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    /**
+     * Builds query of open encumbrances that have the keys given in the map summarized by balance type codes
+     * where the sum(ACCOUNT_LINE_ENCUMBRANCE_AMOUNT  - sum(ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT ) != 0
+     * and returns true if there are any results.
+     *
+     * @param fieldValues the input fields and values
+     * @param includeZeroEncumbrances
+     * @return true if there any open encumbrances when summarized by balance type
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#hasSummarizedOpenEncumbranceRecords(java.util.Map)
+     */
+    @Override
+    public boolean hasSummarizedOpenEncumbranceRecords(Map fieldValues, boolean includeZeroEncumbrances) {
+        LOG.debug("hasSummarizedOpenEncumbranceRecords() started");
+
+        // For PE - For all records on this account: sum (ACCOUNT_LINE_ENCUMBRANCE_AMOUNT ) - sum (ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT) <> 0
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+        criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(new String[] { options.getPreencumbranceFinBalTypeCd() }));
+
+        if (!includeZeroEncumbrances) {
+            Criteria nonZeroEncumbranceCriteria = new Criteria();
+            nonZeroEncumbranceCriteria.addNotEqualToField(KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT, KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT);
+            criteria.addAndCriteria(nonZeroEncumbranceCriteria);
+        }
+
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
+
+        // set the selection attributes
+        query.setAttributes(new String[] {KFSPropertyConstants.BALANCE_TYPE_CODE,
+                "sum(" + GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ") - sum(" + GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT + ")"} );
+
+        // add the group criteria into the selection statement
+        query.addGroupBy(new String[] {KFSPropertyConstants.BALANCE_TYPE_CODE} );
+
+        // set the having clause
+        Criteria having = new Criteria ();
+        having.addNotEqualTo("sum(" + GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ") - sum(" + GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT + ")", new Integer (0));
+        query.setHavingCriteria(having);
+        Iterator searchResultsIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+
+        // For EX & IE - For any record on this account: acln_encum_amt - acln_encum_cls_amt <> 0
+        Criteria criteria2 = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
+        criteria2.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(new String[] { options.getExtrnlEncumFinBalanceTypCd(), options.getIntrnlEncumFinBalanceTypCd() }));
+
+        if (!includeZeroEncumbrances) {
+            Criteria nonZeroEncumbranceCriteria = new Criteria();
+            nonZeroEncumbranceCriteria.addNotEqualToField(KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT, KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT);
+            criteria2.addAndCriteria(nonZeroEncumbranceCriteria);
+        }
+
+        ReportQueryByCriteria query2 = QueryFactory.newReportQuery(Encumbrance.class, criteria2);
+
+        // set the selection attributes
+        query2.setAttributes(new String[] {KFSPropertyConstants.BALANCE_TYPE_CODE,
+                GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + " - " + GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT} );
+
+        Iterator searchResultsIterator2 = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query2);
+
+        return searchResultsIterator.hasNext() || searchResultsIterator2.hasNext();
     }
 
     /**

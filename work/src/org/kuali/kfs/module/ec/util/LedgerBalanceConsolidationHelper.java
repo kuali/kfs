@@ -146,7 +146,8 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     /**
-     * @deprecated Use calculateTotalAmountWithinReportPeriod(LaborLedgerBalance,Map<Integer, Set<String>>) instead
+     * @deprecated Use calculateTotalAmountWithinReportPeriod(LaborLedgerBalance,Map<Integer,Set<String>>) instead. Boolean allFiscalYears was dropped because EffortCertificationExtractServiceImpl.getConsolidationKeys allows a consolidation key for fiscal year to be added which is a solution that doesn't suffer from the bugs as the allFiscalYears solution
+     * @since deprecated as of 5.2.2
      * Summarizes the balance amounts of a given ledger balance within the specified report periods
      *
      * @param ledgerBalance the given labor ledger balance
@@ -178,7 +179,8 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     /**
-     * @deprecated Use calculateTotalAmountWithinReportPeriod(Collection<LaborLedgerBalance>,Map<Integer, Set<String>>) instead
+     * @deprecated Use calculateTotalAmountWithinReportPeriod(Collection<LaborLedgerBalance>,Map<Integer, Set<String>>) instead. Boolean allFiscalYears was dropped because EffortCertificationExtractServiceImpl.getConsolidationKeys allows a consolidation key for fiscal year to be added which is a solution that doesn't suffer from the bugs as the allFiscalYears solution
+     * @since deprecated as of 5.2.2
      * Summarizes the balance amounts of the given ledger balances within the specified report periods
      *
      * @param ledgerBalance the given labor ledger balances

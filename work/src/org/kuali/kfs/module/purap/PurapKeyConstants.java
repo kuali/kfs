@@ -175,7 +175,6 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";
     public static final String ERROR_CANCEL_CANCELLED = "errors.cancel.cancelled";
     public static final String ERROR_CANCEL_EXTRACTED = "errors.cancel.extracted";
-    public static final String ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "error.paymentRequest.item.TotalInvoice.notEqual";
     public static final String ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE = "error.paymentRequest.grandTotal.not.positive";
     public static final String ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED = "error.paymentRequest.invoice.required";
     public static final String ERROR_PAYMENT_REQUEST_LINE_ITEM_QUANTITY_ZERO = "error.paymentRequest.lineItem.quantity.zero";
@@ -211,7 +210,8 @@ public class PurapKeyConstants {
     public static final String WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS = "warning.paymentRequest.payDate.over.threshold.days";
     public static final String MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS = "message.paymentRequest.payDate.over.threshold.days";
     public static final String WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID = "warning.paymentRequest.vendorInvoiceAmount.invalid";
-
+    public static final String WARNING_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "warning.paymentRequest.item.TotalInvoice.notEqual";
+    
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED = "errors.paymentRequest.tax.field.required";
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_REQUIRED_IF = "errors.paymentRequest.tax.field.required.if";
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF = "errors.paymentRequest.tax.field.disallowed.if";

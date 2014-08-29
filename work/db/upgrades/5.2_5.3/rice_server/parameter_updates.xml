@@ -115,7 +115,7 @@
 	</changeSet>
 
 	<changeSet author="KFS53" id="KFSCNTRB-1156">
-		<comment>Add parameters for KFSCNTRB-1156 Calculate ICR Encumbrances.</comment>
+		<comment>KFSCNTRB-1156 Calculate ICR Encumbrances add two new parameters and update parameter INDIRECT_COST_TYPES to have component Batch.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-GL"/>
 			<column name="CMPNT_CD" value="IcrEncumbranceFeedStep"/>
@@ -137,7 +137,11 @@
 			<column name="PARM_DESC_TXT" value="Identifies Encumbrance Balance Type codes that should be included when determining on which balances to calculate encumbrances."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
-		</insert> 
+		</insert>
+		<update tableName="KRCR_PARM_T">
+			<column name="CMPNT_CD" value="Batch" />
+			<where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'PosterIndirectCostRecoveryEntriesStep' and parm_nm = 'INDIRECT_COST_TYPES' and appl_id = 'KFS'</where>
+		</update>	 
   	</changeSet>
 
 	<changeSet author="KFS53" id="KFSCNTRB-784">
@@ -319,14 +323,6 @@
             <column name="CMPNT_CD" value="Batch"/>
             <where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'Encumbrance' and parm_nm = 'USE_ICR_ENCUMBRANCE_IND' and appl_id = 'KFS'</where>
         </update>
-    </changeSet>
-    
-    <changeSet author="KFS53" id="KFSCNTRB-1156">
-		<comment>Update parameter INDIRECT_COST_TYPES to have component Batch.</comment>
-		<update tableName="KRCR_PARM_T">
-			<column name="CMPNT_CD" value="Batch" />
-			<where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'PosterIndirectCostRecoveryEntriesStep' and parm_nm = 'INDIRECT_COST_TYPES' and appl_id = 'KFS'</where>
-		</update>		
-	</changeSet>
-    
+    </changeSet>    
+   
 </databaseChangeLog>

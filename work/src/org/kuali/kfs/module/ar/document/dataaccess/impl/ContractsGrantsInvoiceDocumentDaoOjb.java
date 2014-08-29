@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,7 +32,6 @@ import org.kuali.kfs.module.ar.document.dataaccess.ContractsGrantsInvoiceDocumen
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation class for ContractsGrantsInvoiceDocumentDao DAO.
@@ -75,28 +73,6 @@ public class ContractsGrantsInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOj
         subCriteria.addOrCriteria(referralOutside);
 
         criteria.addAndCriteria(subCriteria);
-
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao#getMatchingInvoicesByCollection(java.util.Map)
-     *      Retrieve CG Invoices that are in final, with some additional field values passed.
-     */
-    @Override
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollectionAndDateRange(Map fieldValues, Date begin, Date end) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new ContractsGrantsInvoiceDocument());
-        criteria.addNotNull(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
-
-        if (ObjectUtils.isNotNull(begin)) {
-            criteria.addGreaterOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, begin);
-        }
-        if (ObjectUtils.isNotNull(end)) {
-            criteria.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, end);
-        }
-
-        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
-        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ContractsGrantsInvoiceDocument.class, criteria));
     }

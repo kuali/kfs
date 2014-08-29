@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
 
@@ -50,14 +49,6 @@ public interface ContractsGrantsInvoiceDocumentDao {
      * @return Returns the invoices which matches the given field values.
      */
     public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesForReferallExcludingOutsideCollectionAgency(Map fieldValues, String outsideColAgencyCodeToExclude);
-
-    /**
-     * This method retrieves all Invoice Documents that match the given field values.
-     *
-     * @param fieldValues for search criteria.
-     * @return Returns the invoices which matches the given field values.
-     */
-    public Collection<ContractsGrantsInvoiceDocument> getMatchingInvoicesByCollectionAndDateRange(Map fieldValues, Date beginningInvoiceBillingDate, Date endingInvoiceBillingDate);
 
     /**
      * This method retrieves all Invoice Documents that match the given field values, excluding the given

@@ -121,11 +121,7 @@ public class AccountsReceivableModuleBillingServiceImpl implements AccountsRecei
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         MilestoneSchedule schedule = getBusinessObjectService().findByPrimaryKey(MilestoneSchedule.class, map);
-        if (ObjectUtils.isNotNull(schedule)) {
-            return true;
-        } else {
-            return false;
-        }
+        return ObjectUtils.isNotNull(schedule);
     }
 
     @Override

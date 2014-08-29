@@ -747,8 +747,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         final List<Balance> glBalances = retrieveBalancesForAwardAccounts(awardAccounts, awardBeginningYear, currentYear, awardObjectCodes);
 
-        final String documentNumber = document.getDocumentNumber();
-        final Long proposalNumber = document.getProposalNumber();
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNull(bal.getSubAccount()) || ObjectUtils.isNull(bal.getSubAccount().getA21SubAccount()) || !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
 
@@ -757,7 +755,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     // if the object code from this balance is in the list of object code retrieved from the category, then include in the detail
                     if (objectCodeFromCategoriesSet.contains(bal.getObjectCode())) {
-                        final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(bal, category, documentNumber, proposalNumber);
+                        final InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = getInvoiceDetailAccountObjectCodeByBalanceAndCategory(bal, category, document.getDocumentNumber(), document.getProposalNumber());
 
                         if (!document.getInvoiceDetailAccountObjectCodes().contains(invoiceDetailAccountObjectCode)) {
                             document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);

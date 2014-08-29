@@ -50,6 +50,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     protected String selectedCustomerName;
     protected ContractsGrantsInvoiceDocument selectedInvoiceApplication;
     protected transient ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected transient static volatile CollectionActivityDocumentService collectionActivityDocumentService;
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#search(org.apache.struts.action.ActionMapping,
@@ -227,7 +228,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      * @return a ContractsGrantsInvoiceDocument
      */
     public ContractsGrantsInvoiceDocument getInvoiceApplication(int index) {
-        return (ContractsGrantsInvoiceDocument) getCgInvoices().get(index);
+        return getCgInvoices().get(index);
     }
 
     /**
@@ -276,7 +277,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      */
     public Date getSelectedInvoicePaymentDate() {
         ContractsGrantsInvoiceDocument invoiceDoc = this.getSelectedInvoiceApplication();
-        return contractsGrantsInvoiceDocumentService.retrievePaymentDateByDocumentNumber(invoiceDoc.getDocumentNumber());
+        return getCollectionActivityDocumentService().retrievePaymentDateByDocumentNumber(invoiceDoc.getDocumentNumber());
     }
 
     /**
@@ -414,6 +415,12 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
             }
             SpringContext.getBean(CollectionActivityDocumentService.class).loadAwardInformationForCollectionActivityDocument(colActDoc);
         }
+    }
 
+    public CollectionActivityDocumentService getCollectionActivityDocumentService() {
+        if (collectionActivityDocumentService == null) {
+            collectionActivityDocumentService = SpringContext.getBean(CollectionActivityDocumentService.class);
+        }
+        return collectionActivityDocumentService;
     }
 }

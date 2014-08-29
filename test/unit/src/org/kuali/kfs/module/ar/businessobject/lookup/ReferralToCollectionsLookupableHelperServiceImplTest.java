@@ -24,13 +24,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
+import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
@@ -41,6 +44,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -55,6 +59,7 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReferralToCollectionsLookupableHelperServiceImplTest.class);
 
     private ReferralToCollectionsLookupableHelperServiceImpl referralToCollectionsLookupableHelperServiceImpl;
+    private ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl;
     private ReferralToCollectionsLookupForm referralToCollectionsLookupForm;
     private Map fieldValues;
 
@@ -68,9 +73,17 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
+        contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setObjectCodeService(SpringContext.getBean(ObjectCodeService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setObjectLevelService(SpringContext.getBean(ObjectLevelService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setUniversityDateService(SpringContext.getBean(UniversityDateService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentDao(SpringContext.getBean(ContractsGrantsInvoiceDocumentDao.class));
+
         referralToCollectionsLookupableHelperServiceImpl = new ReferralToCollectionsLookupableHelperServiceImpl();
-        referralToCollectionsLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
+        referralToCollectionsLookupableHelperServiceImpl.setContractsGrantsInvoiceDocumentService(contractsGrantsInvoiceDocumentServiceImpl);
         referralToCollectionsLookupableHelperServiceImpl.setContractsGrantsReportHelperService(SpringContext.getBean(ContractsGrantsReportHelperService.class));
+        referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         referralToCollectionsLookupableHelperServiceImpl.setBusinessObjectClass(ReferralToCollectionsLookupResult.class);
         referralToCollectionsLookupableHelperServiceImpl.setAccountService(SpringContext.getBean(AccountService.class));
 
@@ -128,5 +141,46 @@ public class ReferralToCollectionsLookupableHelperServiceImplTest extends KualiT
         documentService.saveDocument(cgInvoice);
 
         assertTrue(referralToCollectionsLookupableHelperServiceImpl.performLookup(referralToCollectionsLookupForm, resultTable, true).size() > 0);
+    }
+
+    /**
+     * Tests the GetInvoiceDocumentsForReferralToCollectionsLookup() method of service class.
+     */
+    public void testGetInvoiceDocumentsForReferralToCollectionsLookup() throws WorkflowException {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        Map<String, String> fieldValues = new LinkedHashMap<String, String>();
+        fieldValues.put("agencyNumber", "11505");
+
+        // To create a basic invoice with test data
+        String coaCode = "BL";
+        String orgCode = "SRS";
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
+        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+        awardAccounts.add(awardAccount_1);
+        award.getActiveAwardAccounts().clear();
+
+        award.getActiveAwardAccounts().add(awardAccount_1);
+        award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
+
+        // To add data for OrganizationOptions as fixture.
+        OrganizationOptions organizationOptions = new OrganizationOptions();
+
+        organizationOptions.setChartOfAccountsCode(coaCode);
+        organizationOptions.setOrganizationCode(orgCode);
+        organizationOptions.setProcessingChartOfAccountCode(coaCode);
+        organizationOptions.setProcessingOrganizationCode(orgCode);
+        SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
+
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+        ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode, errorMessages);
+        cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        for (InvoiceAddressDetail invoiceAddressDetail : cgInvoice.getInvoiceAddressDetails()) {
+            invoiceAddressDetail.setCustomerInvoiceTemplateCode("STD");
+            invoiceAddressDetail.setInvoiceTransmissionMethodCode("MAIL");
+        }
+        documentService.saveDocument(cgInvoice);
+
+        assertTrue(referralToCollectionsLookupableHelperServiceImpl.getInvoiceDocumentsForReferralToCollectionsLookup(fieldValues).size() > 0);
     }
 }

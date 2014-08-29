@@ -26,10 +26,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -50,12 +53,14 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementation class for Collection Activity Document.
  */
 public class CollectionActivityDocumentServiceImpl implements CollectionActivityDocumentService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentServiceImpl.class);
 
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentTypeService documentTypeService;
     protected EventDao eventDao;
+    protected InvoicePaidAppliedService invoicePaidAppliedService;
     protected KualiModuleService kualiModuleService;
 
     /**
@@ -247,6 +252,25 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         return resultInd;
     }
 
+    @Override
+    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber) {
+        List<InvoicePaidApplied> invoicePaidApplieds = (List<InvoicePaidApplied>) getInvoicePaidAppliedService().getInvoicePaidAppliedsForInvoice(documentNumber);
+        java.sql.Date paymentDate = null;
+        if (invoicePaidApplieds != null && !invoicePaidApplieds.isEmpty()) {
+            InvoicePaidApplied invPaidApp = invoicePaidApplieds.get(invoicePaidApplieds.size() - 1);
+            PaymentApplicationDocument referenceFinancialDocument;
+            try {
+                referenceFinancialDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(invPaidApp.getDocumentNumber());
+                paymentDate = referenceFinancialDocument.getFinancialSystemDocumentHeader().getDocumentFinalDate();
+            }
+            catch (WorkflowException ex) {
+                LOG.error("Could not retrieve payment application document while calculating payment date: " + ex.getMessage());
+                throw new RuntimeException("Could not retrieve payment application document while calculating payment date", ex);
+            }
+        }
+        return paymentDate;
+    }
+
     @NonTransactional
     public EventDao getEventDao() {
         return eventDao;
@@ -255,5 +279,15 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @NonTransactional
     public void setEventDao(EventDao eventDao) {
         this.eventDao = eventDao;
+    }
+
+    @NonTransactional
+    public InvoicePaidAppliedService getInvoicePaidAppliedService() {
+        return invoicePaidAppliedService;
+    }
+
+    @NonTransactional
+    public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
+        this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
 }

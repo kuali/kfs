@@ -83,4 +83,12 @@ public interface CollectionActivityDocumentService {
      *         and different document number found.
      */
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber);
+
+    /**
+     * To retrieve the first payment date by given document number.
+     *
+     * @param documentNumber The invoice number of the document.
+     * @return Returns the first payment date.
+     */
+    public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
 }

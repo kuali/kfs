@@ -261,6 +261,9 @@
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
+		<property name="awardAccountObjectCodeTotalBilledDao">
+			<ref bean="awardAccountObjectCodeTotalBilledDao" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -272,6 +275,9 @@
 		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -285,11 +291,17 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 		<property name="verifyBillingFrequencyService">
 			<ref bean="verifyBillingFrequencyService" />
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService"/>
 		</property>
 	</bean>
 	
@@ -367,9 +379,6 @@
 		</property>
 		<property name="attachmentService">
 			<ref bean="attachmentService" />
-		</property>
-		<property name="awardAccountObjectCodeTotalBilledDao">
-			<ref bean="awardAccountObjectCodeTotalBilledDao" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
@@ -457,6 +466,9 @@
 		</property>
 		<property name="contractsGrantsReportHelperService">
 			<ref bean="contractsGrantsReportHelperService"/>
+		</property>
+		<property name="personService">
+			<ref bean="personService"/>
 		</property>
 	</bean>
 
@@ -1311,6 +1323,9 @@
    		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
 		<property name="eventDao">
 			<ref bean="eventDao" />
+		</property>
+		<property name="invoicePaidAppliedService">
+			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
@@ -2406,5 +2421,17 @@
 	    <property name="contractsAndGrantsModuleBillingService" ref="contractsAndGrantsModuleBillingService"/>
 	    <property name="kualiModuleService" ref="kualiModuleService"/>
 	    <property name="universityDateService" ref="universityDateService"/>
+	</bean>
+	
+	<bean id="predeterminedBillingScheduleMaintenanceService" parent="predeterminedBillingScheduleMaintenanceService-parentBean"/>
+	<bean id="predeterminedBillingScheduleMaintenanceService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.PredeterminedBillingScheduleMaintenanceServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
+	</bean>
+	
+	<bean id="milestoneScheduleMaintenanceService" parent="milestoneScheduleMaintenanceService-parentBean"/>
+	<bean id="milestoneScheduleMaintenanceService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.MilestoneScheduleMaintenanceServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	    <property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService"/>
 	</bean>
 </beans>

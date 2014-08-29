@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.MilestoneScheduleMaintenanceService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
@@ -39,6 +39,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(MilestoneScheduleRule.class);
     protected MilestoneSchedule newMilestoneScheduleCopy;
+
+    private static volatile MilestoneScheduleMaintenanceService milestoneScheduleMaintenanceService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -150,7 +152,7 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
                 // we will highlight.
                 boolean copiedToInvoice = false;
                 if (ObjectUtils.isNotNull(milestone.getMilestoneIdentifier())) {
-                    if (SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).hasMilestoneBeenCopiedToInvoice(milestone.getProposalNumber(), milestone.getMilestoneIdentifier().toString())) {
+                    if (getMilestoneScheduleMaintenanceService().hasMilestoneBeenCopiedToInvoice(milestone.getProposalNumber(), milestone.getMilestoneIdentifier().toString())) {
                         copiedToInvoice = true;
                     }
                 }
@@ -174,4 +176,10 @@ public class MilestoneScheduleRule extends KfsMaintenanceDocumentRuleBase {
         newMilestoneScheduleCopy = (MilestoneSchedule) super.getNewBo();
     }
 
+    public MilestoneScheduleMaintenanceService getMilestoneScheduleMaintenanceService() {
+        if (milestoneScheduleMaintenanceService == null) {
+            milestoneScheduleMaintenanceService = SpringContext.getBean(MilestoneScheduleMaintenanceService.class);
+        }
+        return milestoneScheduleMaintenanceService;
+    }
 }

@@ -26,7 +26,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.MilestoneScheduleMaintenanceService;
 import org.kuali.kfs.module.ar.document.validation.impl.MilestoneScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,6 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Methods for the Milestone Schedule maintenance document UI.
  */
 public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainable {
+    private static volatile MilestoneScheduleMaintenanceService milestoneScheduleMaintenanceService;
 
     /**
      * Constructs an MilestoneScheduleMaintainableImpl.
@@ -143,9 +144,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
      * @param section Milestone section to review and possibly set readonly
      * @param proposalNumber used to look for CG Invoice docs
      */
-    private void prepareMilestonesTab(Section section, Long proposalNumber) {
-        ContractsGrantsInvoiceDocumentService cgInvDocService  = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
+    protected void prepareMilestonesTab(Section section, Long proposalNumber) {
         for (Row row : section.getRows()) {
             for (Field field : row.getFields()) {
                 if (field.getCONTAINER().equalsIgnoreCase(field.getFieldType())) {
@@ -155,7 +154,7 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
                             if (ObjectUtils.getNestedAttributePrimitive(containerRowfield.getPropertyName()).matches(ArPropertyConstants.MilestoneFields.MILESTONE_IDENTIFIER)) {
                                 String milestoneId = containerRowfield.getPropertyValue();
                                 if (StringUtils.isNotEmpty(milestoneId)) {
-                                    if (cgInvDocService.hasMilestoneBeenCopiedToInvoice(proposalNumber, milestoneId)) {
+                                    if (getMilestoneScheduleMaintenanceService().hasMilestoneBeenCopiedToInvoice(proposalNumber, milestoneId)) {
                                         for (Field rowfield : row.getFields()) {
                                             if (rowfield.getCONTAINER().equalsIgnoreCase(rowfield.getFieldType())) {
                                                 for (Row fieldContainerRow : rowfield.getContainerRows()) {
@@ -175,15 +174,18 @@ public class MilestoneScheduleMaintainableImpl extends FinancialSystemMaintainab
         }
     }
 
-
     /**
      * Gets the underlying Milestone Schedule.
-     *
      * @return
      */
     public MilestoneSchedule getMilestoneSchedule() {
-
         return (MilestoneSchedule) getBusinessObject();
     }
 
+    public MilestoneScheduleMaintenanceService getMilestoneScheduleMaintenanceService() {
+        if (milestoneScheduleMaintenanceService == null) {
+            milestoneScheduleMaintenanceService = SpringContext.getBean(MilestoneScheduleMaintenanceService.class);
+        }
+        return milestoneScheduleMaintenanceService;
+    }
 }

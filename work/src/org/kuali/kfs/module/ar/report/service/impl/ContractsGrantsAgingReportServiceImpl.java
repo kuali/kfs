@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -195,7 +196,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
 
         // here put all criterias and find the docs
         Map<String, ContractsGrantsInvoiceDocument> documents = new HashMap<String, ContractsGrantsInvoiceDocument>();
-        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteriaAndBillingDateRange(fieldValuesForInvoice, begin, end);
+        Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = retrieveAllCGInvoicesByCriteriaAndBillingDateRange(fieldValuesForInvoice, begin, end);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
         // Filter "CINV" docs and remove "INV" docs.
@@ -362,6 +363,21 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
         return cgMapByCustomer;
     }
 
+    /**
+     * This method retrieves all CG invoice document that match the given field values and the date range.
+     *
+     * @param fieldValues field values to match against
+     * @param beginningInvoiceBillingDate Beginning invoice billing date
+     * @param endingInvoiceBillingDate Ending invoice billing date
+     * @return a collection of CG Invoices that match the given parameters
+     */
+    protected Collection<ContractsGrantsInvoiceDocument> retrieveAllCGInvoicesByCriteriaAndBillingDateRange(Map fieldValues, java.sql.Date beginningInvoiceBillingDate, java.sql.Date endingInvoiceBillingDate) {
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = getContractsGrantsInvoiceDocumentService().getMatchingInvoicesByCollectionAndDateRange(fieldValues, beginningInvoiceBillingDate, endingInvoiceBillingDate);
+        if (CollectionUtils.isEmpty(cgInvoices)) {
+            return null;
+        }
+        return cgInvoices;
+    }
 
     /**
      * This method filters the Contracts Grants Invoice doc by Award related details

@@ -26,7 +26,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.PredeterminedBillingSchedule;
-import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.PredeterminedBillingScheduleMaintenanceService;
 import org.kuali.kfs.module.ar.document.validation.impl.PredeterminedBillingScheduleRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,6 +44,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Methods for the Predetermined Billing Schedule maintenance document UI.
  */
 public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSystemMaintainable {
+    private static volatile PredeterminedBillingScheduleMaintenanceService predeterminedBillingScheduleMaintenanceService;
 
     /**
      * Constructs an MilestoneScheduleMaintainableImpl.
@@ -153,9 +154,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
      * @param section Bill section to review and possibly set readonly
      * @param proposalNumber used to look for CG Invoice docs
      */
-    private void prepareBillsTab(Section section, Long proposalNumber) {
-        ContractsGrantsInvoiceDocumentService cgInvDocService  = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-
+    protected void prepareBillsTab(Section section, Long proposalNumber) {
         for (Row row : section.getRows()) {
             for (Field field : row.getFields()) {
                 if (field.getCONTAINER().equalsIgnoreCase(field.getFieldType())) {
@@ -165,7 +164,7 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
                             if (ObjectUtils.getNestedAttributePrimitive(containerRowfield.getPropertyName()).matches(ArPropertyConstants.BillFields.BILL_IDENTIFIER)) {
                                 String billId = containerRowfield.getPropertyValue();
                                 if (StringUtils.isNotEmpty(billId)) {
-                                    if (cgInvDocService.hasBillBeenCopiedToInvoice(proposalNumber, billId)) {
+                                    if (getPredeterminedBillingScheduleMaintenanceService().hasBillBeenCopiedToInvoice(proposalNumber, billId)) {
                                         for (Field rowfield : row.getFields()) {
                                             if (rowfield.getCONTAINER().equalsIgnoreCase(rowfield.getFieldType())) {
                                                 for (Row fieldContainerRow : rowfield.getContainerRows()) {
@@ -185,5 +184,10 @@ public class PredeterminedBillingScheduleMaintainableImpl extends FinancialSyste
         }
     }
 
-
+    public static PredeterminedBillingScheduleMaintenanceService getPredeterminedBillingScheduleMaintenanceService() {
+        if (predeterminedBillingScheduleMaintenanceService == null) {
+            predeterminedBillingScheduleMaintenanceService = SpringContext.getBean(PredeterminedBillingScheduleMaintenanceService.class);
+        }
+        return predeterminedBillingScheduleMaintenanceService;
+    }
 }

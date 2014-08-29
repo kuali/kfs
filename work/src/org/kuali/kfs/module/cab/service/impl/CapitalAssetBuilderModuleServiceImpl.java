@@ -2530,7 +2530,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Helper method to retrieve the capital assets on the document and check if they have all been
-     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount to on each gl entry line to the
+     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount on each gl entry line to the
      * entry amount and mark activity indicator flag to "P" (processed).
      *
      * @param glEntry

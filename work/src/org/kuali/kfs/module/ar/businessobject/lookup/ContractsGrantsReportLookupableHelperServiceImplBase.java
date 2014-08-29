@@ -225,16 +225,16 @@ public abstract class ContractsGrantsReportLookupableHelperServiceImplBase exten
      * @return the date criteria, or null if nothing could be constructed
      */
     protected String fixDateCriteria(String dateLowerBound, String dateUpperBound, boolean includeTime) {
-        final String correctedUpperBound = includeTime && !StringUtils.isBlank(dateUpperBound) ? getContractsGrantsReportHelperService().appendEndTimeToDate(dateUpperBound) : dateUpperBound;
+        final String correctedUpperBound = includeTime && !StringUtils.isBlank(dateUpperBound) ? getContractsGrantsReportHelperService().correctEndDateForTime(dateUpperBound) : dateUpperBound;
         if (!StringUtils.isBlank(dateLowerBound)) {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return dateLowerBound+".."+correctedUpperBound;
+                return dateLowerBound+SearchOperator.BETWEEN.op()+correctedUpperBound;
             } else {
-                return ">="+dateLowerBound;
+                return SearchOperator.GREATER_THAN_EQUAL.op()+dateLowerBound;
             }
         } else {
             if (!StringUtils.isBlank(dateUpperBound)) {
-                return "<="+correctedUpperBound;
+                return SearchOperator.LESS_THAN_EQUAL.op()+correctedUpperBound;
             }
         }
         return null;

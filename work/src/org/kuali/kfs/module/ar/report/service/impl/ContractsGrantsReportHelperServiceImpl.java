@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -57,6 +56,8 @@ import org.springframework.util.StringUtils;
  * A number of methods which help the C&G Billing reports build their PDFs and do look-ups
  */
 public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsReportHelperService {
+    private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsReportHelperServiceImpl.class);
+
     protected DataDictionaryService dataDictionaryService;
     protected ReportGenerationService reportGenerationService;
     protected ConfigurationService configurationService;
@@ -185,17 +186,16 @@ public class ContractsGrantsReportHelperServiceImpl implements ContractsGrantsRe
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsReportHelperService#appendEndTimeToDate(java.lang.String)
      */
     @Override
-    public String appendEndTimeToDate(String dateString) {
-        String resultString = dateString;
-        if (!org.apache.commons.lang.StringUtils.isBlank(dateString)) {
-            Date endOfDay = DateUtils.addMilliseconds(DateUtils.ceiling(getDateTimeService().getCurrentDate(), Calendar.DATE), -1);
-            String endOfDayTime = KFSConstants.BLANK_SPACE + getDateTimeService().toString(endOfDay, ArConstants.REPORT_TIME_FORMAT);
-            // only add time string if it hasn't already been added (for some reason this method gets called twice when generating the pdf report)
-            if (!org.apache.commons.lang.StringUtils.contains(dateString, endOfDayTime)) {
-                resultString += endOfDayTime;
-            }
+    public String correctEndDateForTime(String dateString) {
+        try {
+            final Date dateDate = DateUtils.addDays(dateTimeService.convertToDate(dateString), 1);
+            final String newDateString = dateTimeService.toString(dateDate, KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+            return newDateString;
         }
-        return resultString;
+        catch (ParseException ex) {
+            LOG.warn("invalid date format for errorDate: " + dateString);
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 
     public DataDictionaryService getDataDictionaryService() {

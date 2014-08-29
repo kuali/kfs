@@ -77,11 +77,12 @@ public interface ContractsGrantsReportHelperService {
     public String formatByType(Object prop, Formatter preferredFormatter);
 
     /**
-     * Adds an end time (the last moment in the day) to a date string if it is not already there
-     * @param dateString the date string to append an end time to
-     * @return the String with the appended end time if it didn't have it already
+     * Since times seem to be passed to the database by lookup service in kind of wonky ways, we're going to correct for that by
+     * adding a day to dates at upper bounds of criteria to guarantee inclusion of all of the records from the previous day
+     * @param dateString the date string to add a day to
+     * @return the date string of the very next day
      */
-    public String appendEndTimeToDate(String dateString);
+    public String correctEndDateForTime(String dateString);
 
     /**
      * Builds and returns a document search URL for the given doc id

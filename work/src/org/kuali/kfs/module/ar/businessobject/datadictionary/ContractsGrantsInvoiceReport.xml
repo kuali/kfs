@@ -184,7 +184,7 @@
 	<bean id="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption" parent="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption-parentBean" />
 
 	<bean id="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption-parentBean" abstract="true"
-		parent="TransientContractsGrantsAttributes-invoiceReportOption">
+		parent="TransientContractsGrantsBillingAttributes-invoiceReportOption">
 		<property name="name" value="dummyBusinessObject.invoiceReportOption" />
 	</bean>
 

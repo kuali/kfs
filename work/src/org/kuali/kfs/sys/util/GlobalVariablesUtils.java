@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -29,7 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class GlobalVariablesUtils {
-   private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlobalVariablesExtractHelper.class);
+   private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlobalVariablesUtils.class);
 
    public static List<String> extractGlobalVariableErrors() {
        List<String> result = new ArrayList<String>();

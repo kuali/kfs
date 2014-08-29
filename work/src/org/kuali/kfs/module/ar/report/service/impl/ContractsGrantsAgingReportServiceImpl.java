@@ -203,7 +203,7 @@ public class ContractsGrantsAgingReportServiceImpl implements ContractsGrantsAgi
             for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
                 String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
+                if (!StringUtils.equals(documentTypeName, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
                     iter.remove();
                 }
                 else {

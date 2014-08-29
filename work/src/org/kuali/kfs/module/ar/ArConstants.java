@@ -466,6 +466,8 @@ public class ArConstants{
 
     public static class ArDocumentTypeCodes {
         public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
+        public static final String REFERRAL_TO_COLLECTIONS = "RTCL";
+        public static final String COLLECTION_ACTIVTY = "COLA";
     }
 
     // CG Invoice Document

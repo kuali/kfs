@@ -25,10 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -85,8 +86,8 @@ public class ReferralToCollectionsSummaryAction extends KualiAction {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         parameters.put(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, lookupResultsSequenceNumber);
-        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArPropertyConstants.REFERRAL_TO_COLL_DOC_TYPE);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.REFERRAL_TO_COLLECTIONS);
         String referralToCollectionsSummaryUrl = UrlFactory.parameterizeUrl("arReferralToCollectionsDocument.do", parameters);
         return new ActionForward(referralToCollectionsSummaryUrl, true);
     }

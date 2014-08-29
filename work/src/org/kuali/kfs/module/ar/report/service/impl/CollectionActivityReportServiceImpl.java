@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
@@ -32,10 +33,10 @@ import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.CollectionActivityReportService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -49,6 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CollectionActivityReportServiceImpl implements CollectionActivityReportService {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
+    protected FinancialSystemDocumentService financialSystemDocumentService;
     protected PersonService personService;
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
 
@@ -99,39 +101,42 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     @Transactional
     public List<CollectionActivityReport> filterEventsForCollectionActivity(Map lookupFormFields) {
 
-        List<CollectionActivityReport> displayList = new ArrayList<CollectionActivityReport>();
+        List<CollectionActivityReport> displayList = new ArrayList<>();
 
-        Map<String,String> fieldValues = new HashMap<String,String>();
+        Map<String,String> fieldValues = new HashMap<>();
 
-        String collectorPrincName = lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME).toString();
-        String collector = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.COLLECTOR).toString();
-        String proposalNumber = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.PROPOSAL_NUMBER).toString();
-        String agencyNumber = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER).toString();
-        String invoiceNumber = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.INVOICE_NUMBER).toString();
-        String accountNumber = lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER).toString();
+        String collectorPrincName = (String)lookupFormFields.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+        String collector = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.COLLECTOR);
+        String proposalNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.PROPOSAL_NUMBER);
+        String agencyNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.AGENCY_NUMBER);
+        String invoiceNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.INVOICE_NUMBER);
+        String accountNumber = (String)lookupFormFields.get(ArPropertyConstants.CollectionActivityReportFields.ACCOUNT_NUMBER);
 
         // Getting final docs
-        fieldValues.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_STATUS_CODE, StringUtils.join(getFinancialSystemDocumentService().getSuccessfulDocumentStatuses(), "|"));
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.WORKFLOW_DOCUMENT_TYPE_NAME, ArConstants.ArDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
 
-        if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotEmpty(proposalNumber)) {
+        if (!StringUtils.isBlank(proposalNumber)) {
             fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
 
-        if (ObjectUtils.isNotNull(invoiceNumber) && StringUtils.isNotEmpty(invoiceNumber)) {
+        if (!StringUtils.isBlank(invoiceNumber)) {
             fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumber);
         }
 
-        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
+        if (!StringUtils.isBlank(accountNumber)) {
             fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.ACCOUNT_NUMBER, accountNumber);
+        }
+
+        if (!StringUtils.isBlank(agencyNumber)) {
+            fieldValues.put(ArPropertyConstants.AWARD+"."+KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
         }
 
         // Filter Invoice docs according to criteria.
         Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(fieldValues);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
-        // Filter "CINV" docs and remove "INV" docs.
-        // also filter out invoice docs by collector and for the user performing the search
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
+        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             String collectorPrincipalId = null;
             if (StringUtils.isNotEmpty(collectorPrincName.trim())) {
                 Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
@@ -139,47 +144,28 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                     collectorPrincipalId = collUser.getPrincipalId();
                 }
             }
-            Person user = GlobalVariables.getUserSession().getPerson();
+
 
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = iter.next();
-                String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
-                    iter.remove();
-                    continue;
-                }
 
-                if (StringUtils.isNotEmpty(collectorPrincipalId)) {
-                    if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
-                        iter.remove();
-                        continue;
-                    }
-                }
-
-                if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId())) {
+                if (!canDocumentBeViewed(document, collectorPrincipalId)) {
                     iter.remove();
                 }
             }
         }
 
-        // find by agency number
-        if (ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotEmpty(agencyNumber)) {
-            contractsGrantsInvoiceDocs = this.filterContractsGrantsDocsAccordingToAgency(contractsGrantsInvoiceDocs, agencyNumber);
-        }
-
-        // Set account number.
-        String accountNum = null;
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocs)) {
+        if (!CollectionUtils.isEmpty(contractsGrantsInvoiceDocs)) {
             for (ContractsGrantsInvoiceDocument cgInvoiceDocument : contractsGrantsInvoiceDocs) {
                 List<Event> events = cgInvoiceDocument.getEvents();
                 List<CustomerInvoiceDetail> details = cgInvoiceDocument.getSourceAccountingLines();
-                accountNum = (CollectionUtils.isNotEmpty(details) && ObjectUtils.isNotNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
+                final String accountNum = (!CollectionUtils.isEmpty(details) && !ObjectUtils.isNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
                 if (CollectionUtils.isNotEmpty(events)) {
                     for (Event event : events) {
-                        if (ObjectUtils.isNull(event.getEventRouteStatus()) || !event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
+                        if (ObjectUtils.isNull(event.getEventRouteStatus()) || !StringUtils.equals(event.getEventRouteStatus(), DocumentStatus.SAVED.getCode())) {
                             CollectionActivityReport collectionActivityReport = new CollectionActivityReport();
                             collectionActivityReport.setAccountNumber(accountNum);
-                            this.convertEventToCollectionActivityReport(collectionActivityReport, event);
+                            convertEventToCollectionActivityReport(collectionActivityReport, event);
                             displayList.add(collectionActivityReport);
                         }
                     }
@@ -190,28 +176,16 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         return displayList;
     }
 
-
     /**
-     * This method filters the Contracts Grants Invoice doc by Award related details
-     *
-     * @param contractsGrantsInvoiceDocs
-     * @param awardDocumentNumber
-     * @param awardEndDate
-     * @param fundManager
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
+     * Determines if the given CINV can be viewed for the given collector and by the current user
+     * @param document the CINV document to test
+     * @param collectorPrincipalId the collector principal id to test if it exists
+     * @return true if the document can be viewed, false otherwise
      */
-    @SuppressWarnings("unchecked")
-    protected Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAgency(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String agencyNumber) {
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
-            for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
-                ContractsGrantsInvoiceDocument cgDoc = (ContractsGrantsInvoiceDocument) iter.next();
-                String agencyNum = cgDoc.getAward().getAgencyNumber();
-                if (!(ObjectUtils.isNotNull(agencyNum) && agencyNum.equals(agencyNumber))) {
-                    iter.remove();
-                }
-            }
-        }
-        return contractsGrantsInvoiceDocs;
+    protected boolean canDocumentBeViewed(ContractsGrantsInvoiceDocument document, String collectorPrincipalId) {
+        final Person user = GlobalVariables.getUserSession().getPerson();
+        return (StringUtils.isBlank(collectorPrincipalId) || contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId))
+                && contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId());
     }
 
 
@@ -273,4 +247,11 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         this.personService = personService;
     }
 
+    public FinancialSystemDocumentService getFinancialSystemDocumentService() {
+        return financialSystemDocumentService;
+    }
+
+    public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
+        this.financialSystemDocumentService = financialSystemDocumentService;
+    }
 }

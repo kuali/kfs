@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
@@ -292,7 +292,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return ArPropertyConstants.COLLECTION_ACTIVTY_DOC_TYPE;
+        return ArConstants.ArDocumentTypeCodes.COLLECTION_ACTIVTY;
     }
 
     /**

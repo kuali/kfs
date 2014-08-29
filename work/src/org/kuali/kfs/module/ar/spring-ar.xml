@@ -2094,6 +2094,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="financialSystemDocumentService">
+			<ref bean="financialSystemDocumentService" />
+		</property>
 		<property name="personService">
 			<ref bean="personService" />
 		</property>

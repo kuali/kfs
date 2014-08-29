@@ -1525,8 +1525,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             awardEndingDate = "null award ending date";
         }
 
-        if (ObjectUtils.isNotNull(totalAmount)) {
-            awardTotalAmount = award.getAwardTotalAmount().toString();
+        if (ObjectUtils.isNotNull(totalAmount) && ObjectUtils.isNotNull(totalAmount.bigDecimalValue())) {
+            awardTotalAmount = totalAmount.toString();
         } else {
             awardTotalAmount = "null award total amount";
         }

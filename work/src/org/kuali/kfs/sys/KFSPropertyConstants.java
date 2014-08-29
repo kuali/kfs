@@ -157,7 +157,9 @@ public class KFSPropertyConstants {
     public static final String AWARD_PERIOD_END_MONTH = "awardPeriodEndMonth";
     public static final String AWARD_PERIOD_END_YEAR = "awardPeriodEndYear";
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
+    public static final String AWARD_PROJECT_TITLE = "awardProjectTitle";
     public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
+    public static final String AWARD_STATUS_CODE = "awardStatusCode";
     public static final String AWARD_SUBCONTRACTORS = "awardSubcontractors";
     public static final String AWARD_THRESHOLD_AMOUNT = "awardThresholdAmount";
     public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";

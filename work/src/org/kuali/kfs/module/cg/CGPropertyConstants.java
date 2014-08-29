@@ -71,34 +71,6 @@ public class CGPropertyConstants{
         public static final String AGENCY_CUSTOMER_TYPE_CODE= "customerTypeCode";
     }
 
-    // Award Invoicing Option
-    public static class AwardInvoicingOption {
-        public enum Types {
-            AWARD("1", "Invoice by Award"), ACCOUNT("2", "Invoice by Account"), CONTRACT_CONTROL("3", "Invoice by Contract Control Account");
-            private String code;
-            private String name;
-            Types(String code, String name) {
-                this.code = code;
-                this.name = name;
-            }
-            public String getCode() {
-                return code;
-            }
-            public String getName() {
-                return name;
-            }
-            public static String get(String code) {
-                for(Types type : Types.values()) {
-                    if(type.getCode().equals(code)){
-                        return type.getName();
-                    }
-                }
-                return null;
-            }
-        }
-    }
-
-
     // AR related constants
     public static final String CUSTOMER = "customer";
     public static final String CUSTOMER_NUMBER = "customerNumber";

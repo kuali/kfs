@@ -32,6 +32,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
@@ -113,7 +114,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
             // Retrieving Default Invoicing Option
             String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.Types.get(defaultInvoiceParm);
+            String defaultInvoiceType = CGIntegrationConstants.AwardInvoicingOption.Types.get(defaultInvoiceParm);
 
 
             // Retrieving Default Billing Schedule
@@ -125,7 +126,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
                 getAward().setInvoicingOptions(defaultInvoiceType);
             }
             else {
-                getAward().setInvoicingOptions(CGPropertyConstants.AwardInvoicingOption.Types.AWARD.getCode());
+                getAward().setInvoicingOptions(CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode());
             }
 
 
@@ -140,7 +141,7 @@ public class AwardMaintainableImpl extends ContractsGrantsBillingMaintainable {
 
         }
         catch (IllegalArgumentException e) {
-            getAward().setInvoicingOptions(CGPropertyConstants.AwardInvoicingOption.Types.AWARD.getCode());
+            getAward().setInvoicingOptions(CGIntegrationConstants.AwardInvoicingOption.Types.AWARD.getCode());
         }
     }
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.businessobject.options;
 
-import org.kuali.kfs.module.cg.CGPropertyConstants;
+import org.kuali.kfs.integration.cg.CGIntegrationConstants;
 import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 
 /**
@@ -24,17 +24,17 @@ import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 public class InvoicingOptionsValuesFinder extends EnumValuesFinder {
 
     public InvoicingOptionsValuesFinder() {
-        super(CGPropertyConstants.AwardInvoicingOption.Types.class);
+        super(CGIntegrationConstants.AwardInvoicingOption.Types.class);
     }
 
     @Override
     protected String getEnumKey(Enum enm) {
-        return ((CGPropertyConstants.AwardInvoicingOption.Types)enm).getCode();
+        return ((CGIntegrationConstants.AwardInvoicingOption.Types)enm).getCode();
     }
 
     @Override
     protected String getEnumLabel(Enum enm) {
-        return ((CGPropertyConstants.AwardInvoicingOption.Types)enm).getName();
+        return ((CGIntegrationConstants.AwardInvoicingOption.Types)enm).getName();
     }
 
 }

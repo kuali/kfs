@@ -857,7 +857,9 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
                     if (ObjectUtils.isNotNull(creditDocs) && !creditDocs.isEmpty()) {
                         for (CustomerCreditMemoDocument cm : creditDocs) {
                             for (CustomerCreditMemoDetail cmDetail : cm.getCreditMemoDetails()) {
-                                credits = credits.add(cmDetail.getCreditMemoItemTotalAmount());
+                                if (ObjectUtils.isNotNull(cmDetail.getCreditMemoItemTotalAmount())) {
+                                    credits = credits.add(cmDetail.getCreditMemoItemTotalAmount());
+                                }
                             }
                         }
                     }

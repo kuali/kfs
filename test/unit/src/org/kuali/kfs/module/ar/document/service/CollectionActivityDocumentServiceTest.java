@@ -140,7 +140,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
             event.setDocumentNumber(cgInvoice.getDocumentNumber());
             event.setInvoiceNumber(cgInvoice.getDocumentNumber());
             event.setActivityCode("TEST");
-            event.setFollowupInd(true);
+            event.setFollowup(true);
             event.setActivityText("Activity Text");
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             Date today = new Date(ts.getTime());

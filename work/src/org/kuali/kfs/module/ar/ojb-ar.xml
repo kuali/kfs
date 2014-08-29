@@ -1314,7 +1314,7 @@
 		<field-descriptor name="activityCode" column="ACTVTY_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="activityDate" column="ACTVTY_DT" jdbc-type="DATE" />
 		<field-descriptor name="activityText" column="ACTVTY_TXT" jdbc-type="VARCHAR" />
-		<field-descriptor name="followupInd" column="FLW_UP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="followup" column="FLW_UP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="followupDate" column="FLW_UP_DT" jdbc-type="DATE" />
 		<field-descriptor name="completed" column="CMPLTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="completedDate" column="CMPLTD_DT" jdbc-type="DATE" />

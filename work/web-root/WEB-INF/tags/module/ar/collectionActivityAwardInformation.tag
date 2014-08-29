@@ -152,7 +152,7 @@
 									<kul:htmlAttributeHeaderCell
 										attributeEntry="${eventAttributes.activityText}" />
 									<kul:htmlAttributeHeaderCell
-										attributeEntry="${eventAttributes.followupInd}" />
+										attributeEntry="${eventAttributes.followup}" />
 									<kul:htmlAttributeHeaderCell
 										attributeEntry="${eventAttributes.followupDate}" />
 									<kul:htmlAttributeHeaderCell
@@ -316,7 +316,7 @@
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.activityText}" />
 																<kul:htmlAttributeHeaderCell
-																	attributeEntry="${eventAttributes.followupInd}" />
+																	attributeEntry="${eventAttributes.followup}" />
 																<kul:htmlAttributeHeaderCell
 																	attributeEntry="${eventAttributes.followupDate}" />
 																<kul:htmlAttributeHeaderCell

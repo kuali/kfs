@@ -96,7 +96,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        event.setFollowupInd(Boolean.TRUE);
+        event.setFollowup(Boolean.TRUE);
 
         boolean result = collectionActivityDocumentRule.validateEvent(event);
         assertFalse(result);

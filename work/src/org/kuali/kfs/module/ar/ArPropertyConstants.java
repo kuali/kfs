@@ -211,7 +211,7 @@ public class ArPropertyConstants{
         public static final String EVENT_CODE = "eventCode";
         public static final String EVENT_IDENTIFIER = "eventIdentifier";
         public static final String INVOICE_NUMBER = "invoiceNumber";
-        public static final String FOLLOW_UP_IND = "followupInd";
+        public static final String FOLLOW_UP = "followup";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
         public static final String COMPLETED = "completed";

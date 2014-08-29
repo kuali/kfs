@@ -21,12 +21,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -241,15 +242,9 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Error: non-existent file or directory provided");
         }
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename=" + file.getName());
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
-        response.setContentLength((int) file.length());
-        InputStream fis = new FileInputStream(file);
-        IOUtils.copy(fis, response.getOutputStream());
-        response.getOutputStream().flush();
+
+        WebUtils.saveMimeInputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, new FileInputStream(file), file.getName(), new BigDecimal(file.length()).intValueExact());
+
         return null;
     }
 

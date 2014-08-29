@@ -98,7 +98,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
         ContractsGrantsReportDataHolder cgSuspendedInvoiceSummaryReportDataHolder = reportDataBuilderService.buildReportDataHolder(displayList, sortPropertyName);
 
         // build search criteria for report
-        buildReportForSearchCriteria(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), lookupForm.getFieldsForLookup());
+        buildSearchCriteriaReportSection(cgSuspendedInvoiceSummaryReportDataHolder.getSearchCriteria(), lookupForm.getFieldsForLookup());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String reportFileName = generateReportPdf(cgSuspendedInvoiceSummaryReportDataHolder, baos);
@@ -119,7 +119,7 @@ public abstract class ContractsGrantsReportLookupAction extends KualiLookupActio
      * @param searchCriteria the reporty versions of the fields
      * @param fieldsForLookup the fields from the lookup itself
      */
-    protected void buildReportForSearchCriteria(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
+    protected void buildSearchCriteriaReportSection(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         for (Object field : fieldsForLookup.keySet()) {
             String fieldString = (ObjectUtils.isNull(field)) ? "" : field.toString();
             String valueString = (ObjectUtils.isNull(fieldsForLookup.get(field))) ? "" : fieldsForLookup.get(field).toString();

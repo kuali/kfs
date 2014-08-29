@@ -90,7 +90,6 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     @Override
     public boolean calculateIfWithinGracePeriod(Date today, Date previousAccountingPeriodEndDate, Date previousAccountingPeriodStartDate, Date lastBilledDate, int gracePeriodDays) {
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        boolean resultInd = false;
         int lastBilled = -1;
 
         if (previousAccountingPeriodEndDate == null || previousAccountingPeriodStartDate == null) {

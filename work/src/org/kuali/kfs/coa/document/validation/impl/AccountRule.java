@@ -1242,7 +1242,11 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, oldAccount.getChartOfAccountsCode());
             pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, oldAccount.getAccountNumber());
             int encumbranceCount = getEncumbranceService().getOpenEncumbranceRecordCount(pkMap, false);
-            if ( encumbranceCount > 0){
+
+            /* (IU ref: FSKD-5277 / KFSCNTRB-1701): some encumbrances were still showing up as open because the old method
+             * looked at a count of records instead of totaling the records together and only counting the
+             * ones that had a net balance.*/
+            if ( getEncumbranceService().hasSummarizedOpenEncumbranceRecords(pkMap, false)){
                 success = false;
                 putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);
             }

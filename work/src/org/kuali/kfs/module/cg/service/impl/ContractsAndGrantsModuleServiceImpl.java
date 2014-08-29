@@ -245,24 +245,6 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         return awardService;
     }
 
-    /**
-     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
-     *      java.lang.String, java.util.List)
-     */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
-        AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
-        if (primaryAward == null) {
-            return false;
-        }
-
-        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
-        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
-            return true;
-        }
-
-        return false;
-    }
-
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }

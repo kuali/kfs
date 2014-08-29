@@ -240,10 +240,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             map.put(KFSPropertyConstants.ACTIVE, true);
             awardInvoiceAccounts = kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         }
-        boolean awardBillByControlAccountInd = false;
-        boolean awardBillByInvoicingAccountInd = false;
+        boolean awardBillByControlAccount = false;
+        boolean awardBillByInvoicingAccount = false;
         List<String> invoiceAccountDetails = new ArrayList<String>();
-        boolean invoiceWithControlAccountInd = false;
 
         // To check if the Source accounting lines are existing. If they are do nothing
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
@@ -256,7 +255,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
                         if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
                             if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
-                                awardBillByInvoicingAccountInd = true;
+                                awardBillByInvoicingAccount = true;
                                 invoiceAccountDetails.add(awardInvoiceAccount.getChartOfAccountsCode());
                                 invoiceAccountDetails.add(awardInvoiceAccount.getAccountNumber());
                                 invoiceAccountDetails.add(awardInvoiceAccount.getObjectCode());
@@ -269,10 +268,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // To check if award is set to bill by Contract Control Account.
 
             if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && contractsGrantsInvoiceDocument.getAward().getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                awardBillByControlAccountInd = true;
+                awardBillByControlAccount = true;
             }
             else {
-                awardBillByControlAccountInd = false;
+                awardBillByControlAccount = false;
             }
 
 
@@ -306,7 +305,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // it somewhere.
             OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
-                if (awardBillByInvoicingAccountInd) {
+                if (awardBillByInvoicingAccount) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
                     if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2) {
@@ -316,7 +315,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 else {
                     // If its bill by Contract Control Account there would be a single source accounting line.
-                    if (awardBillByControlAccountInd) {
+                    if (awardBillByControlAccount) {
 
                         // To get the account number and coa code for contract control account.
                         String accountNumber = null;

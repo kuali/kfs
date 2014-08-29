@@ -26,7 +26,6 @@
 		<property name="objectLabel" value="Award Invoice Account" />
 		<property name="attributes">
 			<list>
-				<bean parent="Proposal-proposalNumber" />
 				<ref bean="AwardInvoiceAccount-chartOfAccountsCode" />
 				<ref bean="AwardInvoiceAccount-accountNumber" />
 				<ref bean="AwardInvoiceAccount-account.accountName" />

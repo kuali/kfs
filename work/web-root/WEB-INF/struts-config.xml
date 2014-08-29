@@ -143,7 +143,7 @@
 		<form-bean name="ContractsGrantsInvoiceSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceSummaryForm" />
 
-		<form-bean name=""
+		<form-bean name="DunningLetterDistributionLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionLookupForm" />
 
 		<form-bean name="DunningLetterDistributionSummaryForm"

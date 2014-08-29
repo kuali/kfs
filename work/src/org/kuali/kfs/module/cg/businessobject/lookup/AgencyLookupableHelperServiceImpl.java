@@ -17,17 +17,22 @@ package org.kuali.kfs.module.cg.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleBillingService;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Helper service class for Agency lookup
@@ -64,7 +69,13 @@ public class AgencyLookupableHelperServiceImpl extends KualiLookupableHelperServ
     private AnchorHtmlData getAgencyAwardLookupUrl(BusinessObject bo) {
         Agency agency = (Agency) bo;
 
-        String href = "../" + KFSConstants.LOOKUP_ACTION + "?businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Award" + "&methodToCall=search" + "&" + CGPropertyConstants.AgencyFields.AGENCY_NUMBER + "=" + agency.getAgencyNumber();
+        String baseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.LOOKUP_ACTION;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Award.class.getName());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        parameters.put(CGPropertyConstants.AgencyFields.AGENCY_NUMBER, agency.getAgencyNumber());
+
+        String href = UrlFactory.parameterizeUrl(baseUrl, parameters);
 
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, "Awards");
     }

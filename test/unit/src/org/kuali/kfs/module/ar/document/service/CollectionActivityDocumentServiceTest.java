@@ -151,7 +151,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
         documentService.saveDocument(cgInvoice);
 
 
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(award.getProposalNumber(), "CATestError.txt");
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(award.getProposalNumber());
         if (CollectionUtils.isNotEmpty(cgInvoices)) {
             collectionActivityDocument.setInvoices(new ArrayList<ContractsGrantsInvoiceDocument>(cgInvoices));
         }

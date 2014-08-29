@@ -175,10 +175,9 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * To retrieve the list of ContractsGrantsInvoiceDocument from proposal number.
      *
      * @param proposalNumber
-     * @param outputFileStream
      * @return
      */
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber, String errorFileName);
+    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber);
 
     /**
      * Determine if the collectorPrincipalId can view the invoice, leverages role qualifiers

@@ -127,93 +127,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
-     * Sets the accountService attribute value.
-     *
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    /**
-     * Gets the objectCodeService attribute.
-     * @return Returns the objectCodeService.
-     */
-    public ObjectCodeService getObjectCodeService() {
-        return objectCodeService;
-    }
-
-    /**
-     * Sets the objectCodeService attribute value.
-     * @param objectCodeService The objectCodeService to set.
-     */
-    public void setObjectCodeService(ObjectCodeService objectCodeService) {
-        this.objectCodeService = objectCodeService;
-    }
-
-    public void setObjectLevelService(ObjectLevelService objectLevelService) {
-        this.objectLevelService = objectLevelService;
-    }
-
-    /**
-     * Gets the attachmentService attribute.
-     *
-     * @return Returns the attachmentService.
-     */
-    public AttachmentService getAttachmentService() {
-        return attachmentService;
-    }
-
-    /**
-     * Sets the attachmentService attribute value.
-     *
-     * @param attachmentService The attachmentService to set.
-     */
-    public void setAttachmentService(AttachmentService attachmentService) {
-        this.attachmentService = attachmentService;
-    }
-
-    public NoteService getNoteService() {
-        return noteService;
-    }
-
-    @Override
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
-    /**
-     * Sets the kualiModuleService attribute value.
-     *
-     * @param kualiModuleService The kualiModuleService to set.
-     */
-    public void setKualiModuleService(KualiModuleService kualiModuleService) {
-        this.kualiModuleService = kualiModuleService;
-    }
-
-    /**
-     * @return
-     */
-    public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
-        return contractsGrantsInvoiceDocumentDao;
-    }
-
-    /**
-     * @param contractsGrantsInvoiceDocumentDao
-     */
-    public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
-        this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
-    }
-
-    public BillDao getBillDao() {
-        return billDao;
-    }
-
-    public void setBillDao(BillDao billDao) {
-        this.billDao = billDao;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#createSourceAccountingLinesAndGLPEs(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
@@ -1648,7 +1561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber, String errorFileName) {
+    public Collection<ContractsGrantsInvoiceDocument> retrieveOpenAndFinalCGInvoicesByProposalNumber(Long proposalNumber) {
         // Setting up proposal number and error correcting document for search
         Map<String, String> fieldValues = new HashMap<String, String>();
         if (ObjectUtils.isNotNull(proposalNumber)) {
@@ -2555,26 +2468,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return getContractsGrantsInvoiceDocumentDao().getMatchingInvoicesByCollection(fieldValues);
     }
 
-    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
-        return contractsAndGrantsModuleBillingService;
-    }
-
-    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
-        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
-    }
-
-    public KualiModuleService getKualiModuleService() {
-        return kualiModuleService;
-    }
-
-    public ObjectLevelService getObjectLevelService() {
-        return objectLevelService;
-    }
-
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
     @Override
     public List<String> checkAwardContractControlAccounts(ContractsAndGrantsBillingAward award) {
         List<String> errorString = new ArrayList<String>();
@@ -2697,6 +2590,113 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), contractsGrantsInvoiceDocument.getBillByChartOfAccountCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
         }
         return true;
+    }
+
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
+    }
+
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    /**
+     * Sets the accountService attribute value.
+     *
+     * @param accountService The accountService to set.
+     */
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    /**
+     * Gets the objectCodeService attribute.
+     * @return Returns the objectCodeService.
+     */
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+
+    /**
+     * Sets the objectCodeService attribute value.
+     * @param objectCodeService The objectCodeService to set.
+     */
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    public ObjectLevelService getObjectLevelService() {
+        return objectLevelService;
+    }
+
+    public void setObjectLevelService(ObjectLevelService objectLevelService) {
+        this.objectLevelService = objectLevelService;
+    }
+
+    /**
+     * Gets the attachmentService attribute.
+     *
+     * @return Returns the attachmentService.
+     */
+    public AttachmentService getAttachmentService() {
+        return attachmentService;
+    }
+
+    /**
+     * Sets the attachmentService attribute value.
+     *
+     * @param attachmentService The attachmentService to set.
+     */
+    public void setAttachmentService(AttachmentService attachmentService) {
+        this.attachmentService = attachmentService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    @Override
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     *
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * @return
+     */
+    public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
+        return contractsGrantsInvoiceDocumentDao;
+    }
+
+    /**
+     * @param contractsGrantsInvoiceDocumentDao
+     */
+    public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
+        this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
+    }
+
+    public BillDao getBillDao() {
+        return billDao;
+    }
+
+    public void setBillDao(BillDao billDao) {
+        this.billDao = billDao;
     }
 
     public ContractsGrantsBillingUtilityService getContractsGrantsBillingUtilityService() {

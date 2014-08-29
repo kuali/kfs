@@ -100,7 +100,7 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
 
         collectionActivityDocument = new CollectionActivityDocument();
         contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-        invoices = new ArrayList<ContractsGrantsInvoiceDocument>(contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(cgInvoice.getProposalNumber(), "ROCTestError.txt"));
+        invoices = new ArrayList<ContractsGrantsInvoiceDocument>(contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(cgInvoice.getProposalNumber()));
         collectionActivityDocument.setInvoices(invoices);
         collectionActivityDocument.setSelectedInvoiceDocumentNumber(cgInvoice.getDocumentNumber());
     }

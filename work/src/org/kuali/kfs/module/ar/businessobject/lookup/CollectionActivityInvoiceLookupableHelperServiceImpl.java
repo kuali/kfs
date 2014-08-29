@@ -64,7 +64,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         Long proposalNumber = new Long((String) fieldValues.get(ArPropertyConstants.PROPOSAL_NUMBER));
-        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber, "");
+        Collection<ContractsGrantsInvoiceDocument> cgInvoices = contractsGrantsInvoiceDocumentService.retrieveOpenAndFinalCGInvoicesByProposalNumber(proposalNumber);
 
         for (ContractsGrantsInvoiceDocument invoiceDocument : cgInvoices) {
             results.add(convert(invoiceDocument));

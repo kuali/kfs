@@ -35,7 +35,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
-import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -152,7 +152,7 @@ public class CustomerStatementAction extends KualiAction {
                 contents.add(data);
             }
 
-            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(contents);
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(contents);
             KfsWebUtils.saveMimeOutputStreamAsFile(response, KFSConstants.ReportGeneration.PDF_MIME_TYPE, baos, fileName.toString(), Boolean.parseBoolean(request.getParameter(KFSConstants.ReportGeneration.USE_JAVASCRIPT)));
 
             // update reported data for the detailed statement

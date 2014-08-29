@@ -25,6 +25,8 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.kfs.sys.KFSConstants;
+
 public class KfsWebUtils {
 
     /**
@@ -40,10 +42,10 @@ public class KfsWebUtils {
 
         // set response
         response.setContentType(contentType);
-        response.setHeader("Content-disposition", "attachment; filename=" + zipFileName);
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
+        response.setHeader(KFSConstants.HttpHeaderResponse.CONTENT_DIPOSITION, KFSConstants.HttpHeaderResponse.ATTACHMENT_CONTENT_TYPE + "; " + KFSConstants.HttpHeaderResponse.FILENAME + "=" + zipFileName);
+        response.setHeader(KFSConstants.HttpHeaderResponse.EXPIRES, KFSConstants.ZERO);
+        response.setHeader(KFSConstants.HttpHeaderResponse.CACHE_CONTROL, KFSConstants.HttpHeaderResponse.CACHE_CONTROL_REVALIDATE_PRE_POST_CHECK_ZERO);
+        response.setHeader(KFSConstants.HttpHeaderResponse.PRAGMA, KFSConstants.HttpHeaderResponse.PUBLIC);
 
         // write to zipoutput
         ZipOutputStream zout = new ZipOutputStream(response.getOutputStream());
@@ -89,18 +91,18 @@ public class KfsWebUtils {
             updateFileName =  fileName;
         }
 
-        String type = "attachment";
+        String type = KFSConstants.HttpHeaderResponse.ATTACHMENT_CONTENT_TYPE;
 
         if (useJavascript) {
-            type = "inline";
+            type = KFSConstants.HttpHeaderResponse.INLINE_CONTENT_TYPE;
         }
 
         // set response
         response.setContentType(contentType);
-        response.setHeader("Content-disposition", type + "; filename=\"" + updateFileName + "\"");
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
+        response.setHeader(KFSConstants.HttpHeaderResponse.CONTENT_DIPOSITION, type + "; " + KFSConstants.HttpHeaderResponse.FILENAME + "=\"" + updateFileName + "\"");
+        response.setHeader(KFSConstants.HttpHeaderResponse.EXPIRES, KFSConstants.ZERO);
+        response.setHeader(KFSConstants.HttpHeaderResponse.CACHE_CONTROL, KFSConstants.HttpHeaderResponse.CACHE_CONTROL_REVALIDATE_PRE_POST_CHECK_ZERO);
+        response.setHeader(KFSConstants.HttpHeaderResponse.PRAGMA, KFSConstants.HttpHeaderResponse.PUBLIC);
         response.setContentLength(byteArrayOutputStream.size());
 
         // write to output

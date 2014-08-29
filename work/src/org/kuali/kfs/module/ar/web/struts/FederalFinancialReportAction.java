@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
-import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -153,18 +153,16 @@ public class FederalFinancialReportAction extends KualiAction {
             File report = reportService.generateFederalFinancialForm(award, period, year, formType, agency);
 
             byte[] content = Files.readAllBytes(report.toPath());
-            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(content);
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(content);
 
             StringBuilder fileName = new StringBuilder();
             fileName.append(formType);
             fileName.append(KFSConstants.DASH);
             fileName.append(period);
-            if (ObjectUtils.isNotNull(proposalNumber)) {
-                fileName.append(KFSConstants.DASH);
+            fileName.append(KFSConstants.DASH);
+            if (StringUtils.equals(formType, ArConstants.FEDERAL_FORM_425)) {
                 fileName.append(proposalNumber);
-            }
-            else if (ObjectUtils.isNotNull(agencyNumber)) {
-                fileName.append(KFSConstants.DASH);
+            } else {
                 fileName.append(agencyNumber);
             }
             fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);

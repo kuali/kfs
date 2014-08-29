@@ -35,7 +35,7 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceDocumentErro
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
-import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -272,7 +272,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
-            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(report);
+            ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(report);
 
             StringBuilder fileName = new StringBuilder();
             fileName.append(contractsGrantsLOCReviewDocument.getLetterOfCreditFundCode());

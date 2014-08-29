@@ -38,7 +38,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
-import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -500,7 +500,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         }
 
         byte[] content = Files.readAllBytes(report.toPath());
-        ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(content);
+        ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(content);
 
         StringBuilder fileName = new StringBuilder();
         fileName.append(customerInvoiceDocument.getOrganizationInvoiceNumber());

@@ -37,7 +37,7 @@ import org.kuali.kfs.module.ar.document.validation.event.ContinueCustomerCreditM
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerCreditMemoDocumentEvent;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
-import org.kuali.kfs.module.ar.service.AccountsReceivableWebUtilityService;
+import org.kuali.kfs.module.ar.service.AccountsReceivablePdfHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.util.KfsWebUtils;
@@ -284,7 +284,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
         }
 
         byte[] content = Files.readAllBytes(report.toPath());
-        ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivableWebUtilityService.class).buildPdfOutputStream(content);
+        ByteArrayOutputStream baos = SpringContext.getBean(AccountsReceivablePdfHelperService.class).buildPdfOutputStream(content);
 
         StringBuilder fileName = new StringBuilder();
         fileName.append(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());

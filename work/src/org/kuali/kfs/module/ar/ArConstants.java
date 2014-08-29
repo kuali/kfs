@@ -456,7 +456,6 @@ public class ArConstants{
     public static final String SEMI_ANNUAL = "Sa";
     public static final String ANNUAL = "An";
     public static final String FINAL = "F";
-    public static final String ZERO = "0";
 
     public static class ArDocumentTypeCodes {
         public static final String COLLECTION_ACTIVTY = "COLA";

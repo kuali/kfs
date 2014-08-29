@@ -29,6 +29,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
@@ -109,14 +111,12 @@ public class FederalFinancialReportAction extends KualiAction {
             String period = ffrForm.getReportingPeriod();
             String year = ffrForm.getFiscalYear();
 
-            String methodToCallPrintInvoicePDF = "printInvoicePDF";
-            String methodToCallDocHandler = "start";
-            String printInvoicePDFUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, docId, period, year, agencyNumber, formType, methodToCallPrintInvoicePDF);
-            String displayInvoiceTabbedPageUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, "", "", "", "", "", methodToCallDocHandler);
+            String printInvoicePDFUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, docId, period, year, agencyNumber, formType, ArConstants.PRINT_INVOICE_PDF_METHOD);
+            String displayInvoiceTabbedPageUrl = getFederalFinancialReportService().getUrlForPrintInvoice(basePath, "", "", "", "", "", KFSConstants.START_METHOD);
 
-            request.setAttribute("printPDFUrl", printInvoicePDFUrl);
-            request.setAttribute("displayTabbedPageUrl", displayInvoiceTabbedPageUrl);
-            return mapping.findForward("arPrintPDF");
+            request.setAttribute(ArPropertyConstants.PRINT_PDF_URL, printInvoicePDFUrl);
+            request.setAttribute(ArPropertyConstants.DISPLAY_TABBED_PAGE_URL, displayInvoiceTabbedPageUrl);
+            return mapping.findForward(ArConstants.MAPPING_PRINT_PDF);
         }
         else {
             ffrForm.setError(message);

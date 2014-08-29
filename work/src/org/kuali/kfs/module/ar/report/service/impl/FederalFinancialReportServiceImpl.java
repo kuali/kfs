@@ -20,12 +20,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.ReportPDFHolder;
 import org.kuali.kfs.module.ar.report.service.FederalFinancialReportService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -71,32 +75,27 @@ public class FederalFinancialReportServiceImpl implements FederalFinancialReport
      */
     @Override
     public String getUrlForPrintInvoice(String basePath, String docId, String period, String year, String agencyNumber, String formType, String methodToCall) {
-        StringBuffer result = new StringBuffer(basePath);
-        result.append("/arFederalFinancialReport.do?methodToCall=");
-        result.append(methodToCall);
+        String baseUrl = basePath + "/" + ArConstants.UrlActions.FEDERAL_FINANCIAL_REPORT;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         if (StringUtils.isNotEmpty(formType)) {
-            result.append("&" + FEDERAL_FORM + "=");
-            result.append(formType);
+            parameters.put(FEDERAL_FORM, formType);
         }
         if (StringUtils.isNotEmpty(agencyNumber)) {
-            result.append("&" + KFSPropertyConstants.AGENCY_NUMBER + "=");
-            result.append(agencyNumber);
+            parameters.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
         }
         if (StringUtils.isNotEmpty(period)) {
-            result.append("&" + REPORTING_PERIOD + "=");
-            result.append(period);
+            parameters.put(REPORTING_PERIOD, period);
         }
         if (StringUtils.isNotEmpty(year)) {
-            result.append("&" + FISCAL_YEAR + "=");
-            result.append(year);
+            parameters.put(FISCAL_YEAR, year);
         }
         if (StringUtils.isNotEmpty(docId)) {
-            result.append("&docId=");
-            result.append(docId);
-            result.append("&command=displayDocSearchView");
+            parameters.put(KFSConstants.PARAMETER_DOC_ID, docId);
+            parameters.put(KFSConstants.PARAMETER_COMMAND, KFSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
         }
 
-        return result.toString();
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
     /**

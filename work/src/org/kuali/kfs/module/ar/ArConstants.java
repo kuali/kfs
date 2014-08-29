@@ -546,6 +546,7 @@ public class ArConstants{
         public static final String CUSTOMER_INVOICE_DOCUMENT = "arCustomerInvoiceDocument.do";
         public static final String CONTRACTS_GRANTS_LETTER_OF_CREDIT_REVIEW_DOCUMENT = "arContractsGrantsLetterOfCreditReviewDocument.do";
         public static final String CUSTOMER_STATEMENT = "arCustomerStatement.do";
+        public static final String FEDERAL_FINANCIAL_REPORT = "arFederalFinancialReport.do";
     }
 
     public static class ContractsAndGrantsCategorySections {

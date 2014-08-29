@@ -15,174 +15,17 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * Invoice Types under Contracts and Grants section.
+ * Defines Invoice Template used for generation of Contracts and Grants Invoice PDFs.
  */
 
-public class InvoiceTemplate extends PersistableBusinessObjectBase implements AccountsReceivableInvoiceTemplate, MutableInactivatable {
+public class InvoiceTemplate extends TemplateBase implements MutableInactivatable {
 
     private String invoiceTemplateCode;
     private String invoiceTemplateDescription;
-    private boolean active;
 
-    /* field added for Invoice Template Upload */
-
-    protected String billByChartOfAccountCode;
-    protected String billedByOrganizationCode;
-    protected Chart billByChartOfAccount;
-    protected Organization billedByOrganization;
-    private boolean accessRestricted;
-    private String filename;
-    private String date;
-
-    /**
-     * Gets the date attribute.
-     *
-     * @return Returns the date.
-     */
-    @Override
-    public String getDate() {
-        return date;
-    }
-
-    /**
-     * Sets the date attribute value.
-     *
-     * @param date The date to set.
-     */
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    /**
-     * Gets the accessRestricted attribute.
-     *
-     * @return Returns the accessRestricted.
-     */
-    @Override
-    public boolean isAccessRestricted() {
-        return accessRestricted;
-    }
-
-    /**
-     * Gets the billByChartOfAccountCode attribute.
-     *
-     * @return Returns the billByChartOfAccountCode.
-     */
-    public String getBillByChartOfAccountCode() {
-        return billByChartOfAccountCode;
-    }
-
-    /**
-     * Sets the billByChartOfAccountCode attribute value.
-     *
-     * @param billByChartOfAccountCode The billByChartOfAccountCode to set.
-     */
-    @Override
-    public void setBillByChartOfAccountCode(String billByChartOfAccountCode) {
-        this.billByChartOfAccountCode = billByChartOfAccountCode;
-    }
-
-    /**
-     * Gets the billedByOrganizationCode attribute.
-     *
-     * @return Returns the billedByOrganizationCode.
-     */
-    public String getBilledByOrganizationCode() {
-        return billedByOrganizationCode;
-    }
-
-    /**
-     * Sets the billedByOrganizationCode attribute value.
-     *
-     * @param billedByOrganizationCode The billedByOrganizationCode to set.
-     */
-    @Override
-    public void setBilledByOrganizationCode(String billedByOrganizationCode) {
-        this.billedByOrganizationCode = billedByOrganizationCode;
-    }
-
-    /**
-     * Gets the billByChartOfAccount attribute.
-     *
-     * @return Returns the billByChartOfAccount.
-     */
-    public Chart getBillByChartOfAccount() {
-        return billByChartOfAccount;
-    }
-
-    /**
-     * Sets the billByChartOfAccount attribute value.
-     *
-     * @param billByChartOfAccount The billByChartOfAccount to set.
-     */
-    @Override
-    public void setBillByChartOfAccount(Chart billByChartOfAccount) {
-        this.billByChartOfAccount = billByChartOfAccount;
-    }
-
-    /**
-     * Gets the billedByOrganization attribute.
-     *
-     * @return Returns the billedByOrganization.
-     */
-    public Organization getBilledByOrganization() {
-        return billedByOrganization;
-    }
-
-    /**
-     * Sets the billedByOrganization attribute value.
-     *
-     * @param billedByOrganization The billedByOrganization to set.
-     */
-    @Override
-    public void setBilledByOrganization(Organization billedByOrganization) {
-        this.billedByOrganization = billedByOrganization;
-    }
-
-    /**
-     * Sets the accessRestricted attribute value.
-     *
-     * @param accessRestricted The accessRestricted to set.
-     */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
-    }
-
-    /**
-     * Gets the filename attribute.
-     *
-     * @return Returns the filename.
-     */
-    @Override
-    public String getFilename() {
-        return filename;
-    }
-
-    /**
-     * Sets the filename attribute value.
-     *
-     * @param filename The filename to set.
-     */
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public InvoiceTemplate() {
-    }
-
-    @Override
     public String getInvoiceTemplateCode() {
         return invoiceTemplateCode;
     }
@@ -191,7 +34,6 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
         this.invoiceTemplateCode = invoiceTemplateCode;
     }
 
-    @Override
     public String getInvoiceTemplateDescription() {
         return invoiceTemplateDescription;
     }
@@ -200,23 +42,4 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
         this.invoiceTemplateDescription = invoiceTemplateDescription;
     }
 
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap toStringMap = new LinkedHashMap();
-        toStringMap.put("invoiceTemplateCode", this.invoiceTemplateCode);
-        toStringMap.put("filename", filename);
-        return toStringMap;
-    }
 }

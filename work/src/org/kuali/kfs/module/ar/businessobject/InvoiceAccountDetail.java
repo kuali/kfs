@@ -20,8 +20,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -33,7 +31,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceAccountDetail.class);
     private String documentNumber;
     private Long proposalNumber;
-    private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String contractControlAccountNumber;
@@ -43,34 +40,6 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     private KualiDecimal billedAmount = KualiDecimal.ZERO;
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
-
-
-    /**
-     * Default constructor.
-     */
-    public InvoiceAccountDetail() {
-        // to set fiscal year to current for now. To be updated when period 13 logic comes in.
-        universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-
-    }
-
-    /**
-     * Gets the universityFiscalYear attribute.
-     *
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     *
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
 
     /**
      * Gets the documentNumber attribute.

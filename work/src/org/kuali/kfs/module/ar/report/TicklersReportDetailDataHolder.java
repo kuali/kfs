@@ -70,7 +70,7 @@ public class TicklersReportDetailDataHolder {
         this.invoiceAmount = ((ObjectUtils.isNull(tr.getInvoiceAmount())) ? BigDecimal.ZERO : tr.getInvoiceAmount().bigDecimalValue());
         this.paymentAmount = ((ObjectUtils.isNull(tr.getPaymentAmount())) ? BigDecimal.ZERO : tr.getPaymentAmount().bigDecimalValue());
         this.balanceDue = ((ObjectUtils.isNull(tr.getBalanceDue())) ? BigDecimal.ZERO : tr.getBalanceDue().bigDecimalValue());
-        this.completed = ((!tr.isCompletedInd()) ? KFSConstants.ParameterValues.STRING_NO : KFSConstants.ParameterValues.STRING_YES);
+        this.completed = ((!tr.isCompleted()) ? KFSConstants.ParameterValues.STRING_NO : KFSConstants.ParameterValues.STRING_YES);
     }
 
     /**

@@ -97,7 +97,7 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
             errorMap.putError(ArPropertyConstants.EventFields.FOLLOW_UP_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_FOLLOW_UP_DATE_REQUIRED);
             isValid = false;
         }
-        if (ObjectUtils.isNotNull(event.isCompletedInd()) && event.isCompletedInd() && event.getCompletedDate() == null) {
+        if (ObjectUtils.isNotNull(event.isCompleted()) && event.isCompleted() && event.getCompletedDate() == null) {
             errorMap.putError(ArPropertyConstants.EventFields.COMPLETED_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
             isValid = false;
         }

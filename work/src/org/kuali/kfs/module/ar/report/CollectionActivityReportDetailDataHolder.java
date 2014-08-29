@@ -58,7 +58,7 @@ public class CollectionActivityReportDetailDataHolder {
         this.activityType = cr.getActivityType();
         this.activityComment = cr.getActivityComment();
         this.completedDate = cr.getCompletedDate();
-        this.activityComplete = (cr.isCompletedInd()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
+        this.activityComplete = (cr.isCompleted()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
         this.userPrincipalId = cr.getUserPrincipalId();
     }
 

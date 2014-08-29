@@ -38,7 +38,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
     private String activityCode;
     private Long proposalNumber;
     private String agencyNumber;
-    private boolean completedInd;
+    private boolean completed;
 
     private String invoiceNumber;
     private String accountNumber;
@@ -187,21 +187,21 @@ public class TicklersReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the completedInd attribute.
+     * Gets the completed attribute.
      *
-     * @return Returns the completedInd attribute.
+     * @return Returns the completed attribute.
      */
-    public boolean isCompletedInd() {
-        return completedInd;
+    public boolean isCompleted() {
+        return completed;
     }
 
     /**
-     * Sets the completedInd attribute.
+     * Sets the completed attribute.
      *
-     * @param completedInd The completedInd attribute to set.
+     * @param completed The completed attribute to set.
      */
-    public void setCompletedInd(boolean completedInd) {
-        this.completedInd = completedInd;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     /**

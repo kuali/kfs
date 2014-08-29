@@ -243,7 +243,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
         collectionActivityReport.setActivityComment(event.getActivityText());
         collectionActivityReport.setFollowupDate(event.getFollowupDate());
         collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getProposalNumber());
-        collectionActivityReport.setCompletedInd(event.isCompletedInd());
+        collectionActivityReport.setCompleted(event.isCompleted());
         collectionActivityReport.setCompletedDate(event.getCompletedDate());
 
         String userPrincId = event.getUserPrincipalId();

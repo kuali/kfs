@@ -37,7 +37,7 @@
         <ref bean="Event-activityText"/>
         <ref bean="Event-followupInd"/>
         <ref bean="Event-followupDate"/>
-        <ref bean="Event-completedInd"/>
+        <ref bean="Event-completed"/>
         <ref bean="Event-completedDate"/>
         <ref bean="Event-postedDate"/>
         <ref bean="Event-userPrincipalId"/>
@@ -157,10 +157,10 @@
     <property name="description" value="A free-form text field that identifies the next follow-up date."/>
   </bean>
 
-  <bean id="Event-completedInd" parent="Event-completedInd-parentBean"/>
+  <bean id="Event-completed" parent="Event-completed-parentBean"/>
 
-  <bean id="Event-completedInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="completedInd"/>
+  <bean id="Event-completed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="completed"/>
     <property name="label" value="Completed"/>
     <property name="shortLabel" value="Completed"/>
   </bean>
@@ -240,7 +240,7 @@
         <bean parent="FieldDefinition" p:attributeName="activityCode"/>
         <bean parent="FieldDefinition" p:attributeName="followupInd" p:defaultValue="Y"/>
         <bean parent="FieldDefinition" p:attributeName="followupDate"/>
-        <bean parent="FieldDefinition" p:attributeName="completedInd"/>
+        <bean parent="FieldDefinition" p:attributeName="completed"/>
         <bean parent="FieldDefinition" p:attributeName="completedDate"/>
       </list>
     </property>
@@ -251,7 +251,7 @@
         <bean parent="FieldDefinition" p:attributeName="activityText"/>
         <bean parent="FieldDefinition" p:attributeName="followupInd"/>
         <bean parent="FieldDefinition" p:attributeName="followupDate"/>
-        <bean parent="FieldDefinition" p:attributeName="completedInd"/>
+        <bean parent="FieldDefinition" p:attributeName="completed"/>
         <bean parent="FieldDefinition" p:attributeName="completedDate"/>
       </list>
     </property>

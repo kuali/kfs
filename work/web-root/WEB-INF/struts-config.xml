@@ -544,22 +544,6 @@
 				path="/jsp/module/ar/AccountsReceivableLetterTemplateUpload.jsp" />
 		</action>
 
-		<action path="/arContractsGrantsInvoiceDocument" name="ContractsGrantsInvoiceDocumentForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/ar/ContractsGrantsInvoiceDocument.jsp" />
-		</action>
-
-		<action path="/arFinalBilledIndicatorDocument" name="FinalBilledIndicatorDocumentForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.FinalBilledIndicatorDocumentAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic"
-				path="/jsp/module/ar/FinalBilledIndicatorDocument.jsp" />
-		</action>
-
 		<action path="/arFederalFinancialReport" name="FederalFinancialReportForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportAction">

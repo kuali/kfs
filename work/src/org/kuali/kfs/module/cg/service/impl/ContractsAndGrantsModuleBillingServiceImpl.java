@@ -25,11 +25,10 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -37,8 +36,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * the CG module to do Contracts & Grants Billing operations
  */
 public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndGrantsModuleBillingService {
+
     protected AwardService awardService;
     protected BusinessObjectService businessObjectService;
+    protected LookupService LookupService;
 
     /**
      * This method would return list of business object - in this case Awards for CG Invoice functionality in AR.
@@ -48,11 +49,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
      */
     @Override
     public List<? extends ContractsAndGrantsAward> lookupAwards(Map<String, String> fieldValues, boolean unbounded) {
-     // call awardLookupableHelperService to find the awards according to the search criteria
-        AwardLookupableHelperServiceImpl service = new AwardLookupableHelperServiceImpl();
-        service.setBusinessObjectClass(Award.class);
         // Alter the map, convert the key's as per Award's lookup screen, might need to add more in the future
-
         String value = fieldValues.remove("accountNumber");
         fieldValues.put("awardAccounts.account.accountNumber", value);
         value = fieldValues.remove("awardBillingFrequency");
@@ -86,7 +83,7 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
             fieldValues.put("awardEndingDate", date);
         }
 
-        return (List<Award>)service.callGetSearchResultsHelper(LookupUtils.forceUppercase(Award.class, fieldValues), unbounded);
+        return (List<Award>) LookupService.findCollectionBySearchHelper(Award.class, fieldValues, unbounded);
     }
 
     @Override
@@ -243,6 +240,14 @@ public class ContractsAndGrantsModuleBillingServiceImpl implements ContractsAndG
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public LookupService getLookupService() {
+        return LookupService;
+    }
+
+    public void setLookupService(LookupService lookupService) {
+        LookupService = lookupService;
     }
 
 }

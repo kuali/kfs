@@ -28,7 +28,6 @@ import org.kuali.kfs.module.cg.service.ContractsAndGrantsLookupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -43,18 +42,6 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     protected AccountsReceivableModuleBillingService accountsReceivableModuleBillingService;
     protected ContractsAndGrantsLookupService contractsAndGrantsLookupService;
-    protected PersonService personService;
-
-    /**
-     * This is a intermediate method to call the getSearchResultsHelper() as it is protected.
-     *
-     * @param fieldValues
-     * @param unbounded
-     * @return
-     */
-    public List<? extends BusinessObject> callGetSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
-        return getSearchResultsHelper(fieldValues, unbounded);
-    }
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -125,14 +112,6 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     public void setContractsAndGrantsLookupService(ContractsAndGrantsLookupService contractsAndGrantsLookupService) {
         this.contractsAndGrantsLookupService = contractsAndGrantsLookupService;
-    }
-
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
 }

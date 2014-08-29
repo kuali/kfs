@@ -135,6 +135,7 @@
 	<bean id="contractsAndGrantsModuleBillingService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleBillingServiceImpl" abstract="true" >
 		<property name="awardService" ref="awardService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupService" ref="lookupService" />
 	</bean>
 
 	<!-- DAOs -->
@@ -182,9 +183,6 @@
         </property>
         <property name="contractsAndGrantsLookupService">
             <ref bean="contractsAndGrantsLookupService" />
-        </property>
-        <property name="personService">
-            <ref bean="personService" />
         </property>
     </bean>
 

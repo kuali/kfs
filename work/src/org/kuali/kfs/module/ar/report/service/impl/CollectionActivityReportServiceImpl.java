@@ -18,12 +18,17 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleBillingService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
@@ -49,6 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class CollectionActivityReportServiceImpl implements CollectionActivityReportService {
     protected ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
     protected BusinessObjectService businessObjectService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
     protected PersonService personService;
@@ -140,6 +146,10 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 }
             }
 
+            Set<String> agencyNumbers = null;
+            if (!StringUtils.isBlank(agencyNumber)) {
+                agencyNumbers = this.getMatchingAgencyNumbers(agencyNumber);
+            }
 
             for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument document = iter.next();
@@ -147,7 +157,7 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
                 if (!canDocumentBeViewed(document, collectorPrincipalId)) {
                     iter.remove();
                 }
-                if (!StringUtils.isBlank(agencyNumber) && !matchesAgencyNumber(document, agencyNumber)) {
+                else if (!CollectionUtils.isEmpty(agencyNumbers) && !matchesAgencyNumber(document, agencyNumbers)) {
                     iter.remove();
                 }
             }
@@ -187,15 +197,40 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     }
 
     /**
+     * Assuming that the given agencyNumberLookup may have wildcard characters, attempts to look up all matching agency numbers
+     * @param agencyNumberLookup the agency number from the lookup to find agency numbers on actual awards for
+     * @return any matching agency numbers from matching awards
+     */
+    protected Set<String> getMatchingAgencyNumbers(String agencyNumberLookup) {
+        Set<String> matchingAgencyNumbers = new HashSet<>();
+
+        Map<String, String> agencyLookupFields = new HashMap<>();
+        agencyLookupFields.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumberLookup);
+        List<? extends ContractsAndGrantsAward> awards = getContractsAndGrantsModuleBillingService().lookupAwards(agencyLookupFields, true);
+        if (!CollectionUtils.isEmpty(awards)) {
+            for (ContractsAndGrantsAward award : awards) {
+                if (award instanceof ContractsAndGrantsBillingAward) {
+                    matchingAgencyNumbers.add(((ContractsAndGrantsBillingAward)award).getAgencyNumber());
+                }
+            }
+        }
+        if (matchingAgencyNumbers.isEmpty()) {
+            return null; // we'll assume that the return is null...
+        }
+
+        return matchingAgencyNumbers;
+    }
+
+    /**
      * Determines if the given document matches the passed in agency number
      * @param document the document to check
      * @param agencyNumber the agency number to verify against
      * @return true if the document matches the given agency number, false otherwise
      */
-    protected boolean matchesAgencyNumber(ContractsGrantsInvoiceDocument document, String agencyNumber) {
+    protected boolean matchesAgencyNumber(ContractsGrantsInvoiceDocument document, Set<String> agencyNumbers) {
         if (!ObjectUtils.isNull(document) && !ObjectUtils.isNull(document.getAward()) && !StringUtils.isBlank(document.getAward().getAgencyNumber())) {
             final String documentAgencyNumber = document.getAward().getAgencyNumber();
-            return StringUtils.equals(documentAgencyNumber, agencyNumber);
+            return agencyNumbers.contains(documentAgencyNumber);
         }
         return false;
     }
@@ -265,4 +300,13 @@ public class CollectionActivityReportServiceImpl implements CollectionActivityRe
     public void setFinancialSystemDocumentService(FinancialSystemDocumentService financialSystemDocumentService) {
         this.financialSystemDocumentService = financialSystemDocumentService;
     }
+
+    public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
+        return contractsAndGrantsModuleBillingService;
+    }
+
+    public void setContractsAndGrantsModuleBillingService(ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService) {
+        this.contractsAndGrantsModuleBillingService = contractsAndGrantsModuleBillingService;
+    }
+
 }

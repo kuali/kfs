@@ -2088,11 +2088,14 @@
 
 	<bean id="collectionActivityReportService" parent="collectionActivityReportService-parentBean" />
 	<bean id="collectionActivityReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportServiceImpl" abstract="true">
-		<property name="contractsGrantsInvoiceDocumentService">
-			<ref bean="contractsGrantsInvoiceDocumentService" />
-		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="contractsAndGrantsModuleBillingService">
+			<ref bean="contractsAndGrantsModuleBillingService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
 		</property>
 		<property name="financialSystemDocumentService">
 			<ref bean="financialSystemDocumentService" />

@@ -104,21 +104,11 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
         }
     }
 
-    @ConfigureContext(session = khuntley)
-    private void route() {
-        try {
-            AccountingDocumentTestUtils.testRouteDocument(document, documentService);
-            documentService.prepareWorkflowDocument(document);
-            documentService.superUserApproveDocument(document, "");
-            documentService.routeDocument(document, "routing test doc", new Vector());
-            workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), "", null);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-        catch (Exception ex) {
-
-            ex.printStackTrace();
-        }
+    private void route() throws Exception {
+        AccountingDocumentTestUtils.testRouteDocument(document, documentService);
+        documentService.prepareWorkflowDocument(document);
+        documentService.superUserApproveDocument(document, "");
+        documentService.routeDocument(document, "routing test doc", new Vector());
+        workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), "", null);
     }
 }

@@ -361,7 +361,7 @@ public class Event extends PersistableBusinessObjectBase {
                 invoiceDocument = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(this.invoiceNumber);
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("A WorkflowException was thrown when trying to open the details parent document.  This should never happen.", e);
+                throw new RuntimeException("A WorkflowException was thrown when trying to open the details parent document.", e);
             }
         }
         return invoiceDocument;

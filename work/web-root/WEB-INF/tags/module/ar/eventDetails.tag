@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type="text/javascript" src="scripts/module/ar/awardObjectInfo.js"></script>
+
 <%@ attribute name="eventAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for cash control detail fields."%>
 <%@ attribute name="readOnly" required="true" description="determines whether the cash control detail will be displayed readonly"%>

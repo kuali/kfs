@@ -50,7 +50,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
         ContractsGrantsInvoiceDocumentPresentationController presoController = (ContractsGrantsInvoiceDocumentPresentationController) docHelperService.getDocumentPresentationController(cgInvoiceDocument);
         // add Correct Button
         if (presoController.canErrorCorrect(cgInvoiceDocument)) {
-            addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
+            extraButtons.add(generateErrorCorrectionButton());
         }
         // add Prorate Button
         if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.CG_PRORATE_BILL_IND))

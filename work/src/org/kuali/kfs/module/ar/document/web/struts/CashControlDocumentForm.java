@@ -65,26 +65,10 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
         CashControlDocumentPresentationController cashControlDocumentPresentationController = (CashControlDocumentPresentationController) KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(getDocument());
 
         if (cashControlDocumentPresentationController.canErrorCorrect(cashControlDocument)) {
-            addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
+            extraButtons.add(generateErrorCorrectionButton());
         }
 
         return extraButtons;
-    }
-
-    /**
-     * @param property
-     * @param source
-     * @param altText
-     */
-    protected void addExtraButton(String property, String source, String altText) {
-
-        ExtraButton newButton = new ExtraButton();
-
-        newButton.setExtraButtonProperty(property);
-        newButton.setExtraButtonSource(source);
-        newButton.setExtraButtonAltText(altText);
-
-        extraButtons.add(newButton);
     }
 
     /**

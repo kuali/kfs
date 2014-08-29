@@ -39,7 +39,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -50,7 +49,6 @@ import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformatio
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategory;
@@ -76,9 +74,7 @@ import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
-import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -86,8 +82,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -117,22 +111,16 @@ import com.lowagie.text.DocumentException;
 public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDocumentServiceImpl implements ContractsGrantsInvoiceDocumentService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocumentServiceImpl.class);
 
-    protected AREmailService arEmailService;
-    protected AccountingPeriodService accountingPeriodService;
     protected AccountService accountService;
     protected AttachmentService attachmentService;
     protected ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     protected ContractsAndGrantsModuleBillingService contractsAndGrantsModuleBillingService;
-    protected ConfigurationService configurationService;
-    protected CustomerService customerService;
     protected FinancialSystemDocumentService financialSystemDocumentService;
-    protected FinancialSystemUserService financialSystemUserService;
     protected KualiModuleService kualiModuleService;
     protected BillDao billDao;
     protected NoteService noteService;
     protected ObjectCodeService objectCodeService;
     protected ObjectLevelService objectLevelService;
-    protected VerifyBillingFrequencyService verifyBillingFrequencyService;
 
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     protected static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
@@ -200,10 +188,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
-    }
-
-    public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
-        this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
 
     /**
@@ -574,11 +558,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#adjustObjectCodeAmountsIfChanged(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
+     * If any of the current expenditures for the cost categories on the Contracts Grants Invoice Document have changed,
+     * recalculate the Object Code amounts.
+     *
+     * @param contractsGrantsInvoiceDocument document containing cost categories to review
+     * @return true if expenditure value changed, false otherwise
      */
-    @Override
-    public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-
+    protected boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
         boolean isExpenditureValueChanged = false;
 
         // put the invoiceDetailAccountObjectCode into a map based on category
@@ -1297,10 +1283,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method get the milestones with the criteria defined and set value to isItBilled.
+     * This method get the milestones with the criteria defined and set value to isBilledIndicator.
+     *
+     * @param invoiceMilestones
+     * @param string
      */
-    @Override
-    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) {
+    protected void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) {
         if (invoiceMilestones == null) {
             throw new IllegalArgumentException("(List<InvoiceMilestone> invoiceMilestones cannot be null");
         }
@@ -1353,10 +1341,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * This method get the bills with the criteria defined and set value to isItBilled.
+     * This method get the bills with the criteria defined and set value to isBilledIndicator.
+     *
+     * @param invoiceBills
+     * @param value
      */
-    @Override
-    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) {
+    protected void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) {
         if (invoiceBills == null) {
             throw new IllegalArgumentException("(List<InvoiceBill> invoiceBills cannot be null");
         }
@@ -1468,45 +1458,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         return cumAmt;
-    }
-
-
-
-
-    /**
-     * Gets the accountingPeriodService attribute.
-     *
-     * @return Returns the accountingPeriodService.
-     */
-    public AccountingPeriodService getAccountingPeriodService() {
-        return accountingPeriodService;
-    }
-
-    /**
-     * Sets the accountingPeriodService attribute value.
-     *
-     * @param accountingPeriodService The accountingPeriodService to set.
-     */
-    public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
-        this.accountingPeriodService = accountingPeriodService;
-    }
-
-    /**
-     * Gets the verifyBillingFrequencyService attribute.
-     *
-     * @return Returns the verifyBillingFrequencyService.
-     */
-    public VerifyBillingFrequencyService getVerifyBillingFrequencyService() {
-        return verifyBillingFrequencyService;
-    }
-
-    /**
-     * Sets the verifyBillingFrequencyService attribute value.
-     *
-     * @param verifyBillingFrequencyService The verifyBillingFrequencyService to set.
-     */
-    public void setVerifyBillingFrequencyServuce(VerifyBillingFrequencyService verifyBillingFrequencyService) {
-        this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
 
     /**
@@ -2665,14 +2616,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return getContractsGrantsInvoiceDocumentDao().getMatchingInvoicesByCollectionAndDateRange(fieldValues, beginningInvoiceBillingDate, endingInvoiceBillingDate);
     }
 
-    public CustomerService getCustomerService() {
-        return customerService;
-    }
-
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
     public ContractsAndGrantsModuleBillingService getContractsAndGrantsModuleBillingService() {
         return contractsAndGrantsModuleBillingService;
     }
@@ -2691,27 +2634,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     public AccountService getAccountService() {
         return accountService;
-    }
-
-    /**
-     * Gets the configurationService attribute.
-     *
-     * @return Returns the configurationService
-     */
-
-    @Override
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    /**
-     * Sets the configurationService attribute.
-     *
-     * @param configurationService The configurationService to set.
-     */
-    @Override
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
     }
 
     @Override
@@ -2836,34 +2758,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             return StringUtils.equals(invoiceTemplate.getBillByChartOfAccountCode(), contractsGrantsInvoiceDocument.getBillByChartOfAccountCode()) && StringUtils.equals(invoiceTemplate.getBilledByOrganizationCode(),contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
         }
         return true;
-    }
-
-    /**
-     * Gets the arEmailService attribute.
-     *
-     * @return Returns the arEmailService.
-     */
-    public AREmailService getArEmailService() {
-        return arEmailService;
-    }
-
-    /**
-     * Sets the arEmailService attribute value.
-     *
-     * @param arEmailService The arEmailService to set.
-     */
-    public void setArEmailService(AREmailService arEmailService) {
-        this.arEmailService = arEmailService;
-    }
-
-    @Override
-    public FinancialSystemUserService getFinancialSystemUserService() {
-        return financialSystemUserService;
-    }
-
-    @Override
-    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
     }
 
     public FinancialSystemDocumentService getFinancialSystemDocumentService() {

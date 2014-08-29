@@ -88,15 +88,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal getPredeterminedBillingBilledToDateAmount(Long proposalNumber);
 
     /**
-     * If any of the current expenditures for the cost categories on the Contracts Grants Invoice Document have changed,
-     * recalculate the Object Code amounts.
-     *
-     * @param contractsGrantsInvoiceDocument document containing cost categories to review
-     * @return true if expenditure value changed, false otherwise
-     */
-    public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
-
-    /**
      * Returns the total amount billed to date for an Award.
      *
      * @param proposalNumber used to find the AwardAccountObjectCodeTotalBilled
@@ -128,24 +119,6 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      */
     public void updateSuspensionCategoriesOnDocument(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument);
-
-    /**
-     * This method get the milestones with the criteria defined and set value to isBilledIndicator.
-     *
-     * @param invoiceMilestones
-     * @param string
-     * @throws Exception
-     */
-    public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) throws Exception;
-
-    /**
-     * This method get the bills with the criteria defined and set value to isBilledIndicator.
-     *
-     * @param invoiceBills
-     * @param value
-     * @throws Exception
-     */
-    public void retrieveAndUpdateBills(List<InvoiceBill> invoiceBills, String value) throws Exception;
 
     /**
      * This method calculates and returns the total payments applied to date for an award.

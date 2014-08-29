@@ -5,7 +5,6 @@
 
 	<include file="01_structure/ar-module-structure-updates.xml"/>
 	<include file="01_structure/cg-module-structure-updates.xml"/>
-	<include file="01_structure/fp-module-structure-updates.xml"/>
 	<include file="01_structure/kc-module-structure-updates.xml"/>
 	
 </databaseChangeLog>

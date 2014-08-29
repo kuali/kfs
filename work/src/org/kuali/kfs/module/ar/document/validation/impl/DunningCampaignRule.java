@@ -43,8 +43,25 @@ public class DunningCampaignRule extends MaintenanceDocumentRuleBase {
 
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
-        
-        if ( collectionName.equalsIgnoreCase(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS) ) return validateDuplicatePastDue(document);
+        super.processAddCollectionLineBusinessRules(document, collectionName, bo);
+
+        if ( collectionName.equalsIgnoreCase(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS) ) {
+
+            DunningLetterDistribution newLine = (DunningLetterDistribution) document.getNewMaintainableObject().getNewCollectionLine(ArPropertyConstants.DunningCampaignFields.DUNNING_LETTER_DISTRIBUTIONS);
+            DunningCampaign dunningCampaign = (DunningCampaign) document.getNewMaintainableObject().getDataObject();
+            Set<String> daysPastDueSet = new HashSet<String>();
+            daysPastDueSet.add(newLine.getDaysPastDue());
+
+            //check if the new line is a duplicate
+            if (ObjectUtils.isNotNull(dunningCampaign) && CollectionUtils.isNotEmpty(dunningCampaign.getDunningLetterDistributions())) {
+                for (DunningLetterDistribution dld : dunningCampaign.getDunningLetterDistributions()) {
+                    if (!daysPastDueSet.add(dld.getDaysPastDue())) {
+                        putFieldError(ArPropertyConstants.DunningLetterDistributionFields.DAYS_PAST_DUE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_DAYS_PAST_DUE_DUPLICATE);
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }

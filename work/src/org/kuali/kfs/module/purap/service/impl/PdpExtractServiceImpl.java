@@ -810,8 +810,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentGroup.setPayeeId(paymentRequestDocument.getVendorHeaderGeneratedIdentifier() + "-" + paymentRequestDocument.getVendorDetailAssignedIdentifier());
         paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
 
-        if (paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
-            paymentGroup.setPayeeOwnerCd(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
+
+
+        if (paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode() != null) {
+                  paymentGroup.setPayeeOwnerCd(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode());
+
         }
 
 //        if (paymentRequestDocument.getVendorCustomerNumber() != null) {
@@ -872,8 +875,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentGroup.setPayeeId(creditMemoDocument.getVendorHeaderGeneratedIdentifier() + "-" + creditMemoDocument.getVendorDetailAssignedIdentifier());
         paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
 
-        if (creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
-            paymentGroup.setPayeeOwnerCd(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
+        if (creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode() != null) {
+             paymentGroup.setPayeeOwnerCd(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode());
         }
 
 //        if (creditMemoDocument.getVendorCustomerNumber() != null) {

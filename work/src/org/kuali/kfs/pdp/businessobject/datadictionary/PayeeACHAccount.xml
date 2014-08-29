@@ -94,7 +94,7 @@
     <property name="label" value="Bank Account Number"/>
     <property name="shortLabel" value="Bank Account Number"/>
     <property name="forceUppercase" value="true"/>
-    <property name="maxLength" value="40"/>
+    <property name="maxLength" value="17"/>
     <property name="validationPattern">
       <ref bean="AlphaNumericValidation" />
     </property>

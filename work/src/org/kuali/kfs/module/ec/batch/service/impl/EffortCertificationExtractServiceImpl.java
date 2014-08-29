@@ -394,7 +394,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         for (String key : ledgerBalanceMap.keySet()) {
             LaborLedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
 
-            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, false);
+            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
             if (totalAmount.isNonZero()) {
                 cosolidatedLedgerBalances.add(ledgerBalance);
             }
@@ -458,6 +458,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     protected List<String> getConsolidationKeys() {
         List<String> consolidationKeys = new ArrayList<String>();
 
+        consolidationKeys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         consolidationKeys.add(KFSPropertyConstants.EMPLID);
         consolidationKeys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         consolidationKeys.add(KFSPropertyConstants.ACCOUNT_NUMBER);

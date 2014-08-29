@@ -44,6 +44,7 @@ public class Agency implements ContractsAndGrantsBillingAgency, MutableInactivat
     private boolean active;
     private AccountsReceivableCustomer customer;
     private boolean stateAgencyIndicator;
+    private List<? extends ContractsAndGrantsAgencyAddress> agencyAddresses;
 
     /**
      * Gets the agencyTypeCode attribute.
@@ -331,21 +332,21 @@ public class Agency implements ContractsAndGrantsBillingAgency, MutableInactivat
         this.stateAgencyIndicator = stateAgencyIndicator;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
-     */
-    public void prepareForWorkflow() {
+    @Override
+    public List<? extends ContractsAndGrantsAgencyAddress> getAgencyAddresses() {
+        return agencyAddresses;
     }
+
+    public void setAgencyAddresses(List<? extends ContractsAndGrantsAgencyAddress> agencyAddresses) {
+        this.agencyAddresses = agencyAddresses;
+    }
+
+    public void prepareForWorkflow() {}
 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
     @Override
-    public void refresh() {
-    }
+    public void refresh() {}
 
-    @Override
-    public List<? extends ContractsAndGrantsAgencyAddress> getAgencyAddresses() {
-        return null;
-    }
 }

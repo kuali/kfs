@@ -2,30 +2,6 @@ package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-
-
-
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sponsorDTO", propOrder = {
-    "sponsorCode",
-    "acronym",
-    "sponsorName",
-    "sponsorTypeCode",
-    "customerTypeCode",
-    "customerNumber",
-    "sponsorTypeDescription",
-    "cageNumber",
-    "dodacNumber",
-    "dunAndBradstreetNumber",
-    "dunsPlusFourNumber",
-    "state",
-    "stateAgency",
-    "active",
-    "contactInformation"
-})
 public class SponsorDTO implements Serializable {
 
 	private static final long serialVersionUID = -1928119075816128754L;
@@ -43,6 +19,7 @@ public class SponsorDTO implements Serializable {
     private String dunsPlusFourNumber;
     private String state;
     private boolean stateAgency;
+    private String dunningCampaignId;
     private boolean active;
 
     private RolodexDTO contactInformation;
@@ -166,4 +143,12 @@ public class SponsorDTO implements Serializable {
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
 	}
+
+    public String getDunningCampaignId() {
+        return dunningCampaignId;
+    }
+
+    public void setDunningCampaignId(String dunningCampaignId) {
+        this.dunningCampaignId = dunningCampaignId;
+    }
 }

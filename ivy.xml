@@ -11,6 +11,7 @@
 		<conf name="rice-lib" description="rice dependency jars" />
 		<conf name="rice-sources" description="rice source jars" />
 		<conf name="rice-war" description="rice war" />
+		<conf name="kfs-help" description="kfs help" />
 	</configurations>
 	<dependencies>
 		
@@ -428,6 +429,11 @@
 			conf="kfs-lib->default" /> 
 		<dependency org="org.apache.velocity" name="velocity" rev="1.5"
 			transitive="false" conf="kfs-lib->default" />
+
+
+		<!-- KFS Help; put these in external -->
+		<dependency org="org.kuali.kfs" name="kfs-help" rev="5.0.0" transitive="false"
+			conf="kfs-help->default"/>
 
 
 		<exclude type="src" ext="jar" conf="runtime" />

@@ -64,6 +64,7 @@ import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.sys.util.GlobalVariablesUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -255,6 +256,7 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public void performFormat(Integer processId) throws FormatException {
         LOG.debug("performFormat() started");
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         // get the PaymentProcess for the given id
         @SuppressWarnings("rawtypes")
@@ -280,6 +282,8 @@ public class FormatServiceImpl implements FormatService {
             // process payment group data
             boolean groupProcessed = processPaymentGroup(paymentGroup, paymentProcess);
             if (!groupProcessed) {
+                LOG.info("Sending failure email to " + user.getEmailAddress());
+                sendFailureEmail(user.getEmailAddress(), processId);
                 throw new FormatException("Error encountered during format");
             }
 
@@ -293,6 +297,8 @@ public class FormatServiceImpl implements FormatService {
         // step 2 assign disbursement numbers and combine checks into one if possible
         boolean disbursementNumbersAssigned = assignDisbursementNumbersAndCombineChecks(paymentProcess, postFormatProcessSummary);
         if (!disbursementNumbersAssigned) {
+            LOG.info("Sending failure email to " + user.getEmailAddress());
+            sendFailureEmail(user.getEmailAddress(), processId);
             throw new FormatException("Error encountered during format");
         }
 
@@ -312,7 +318,6 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("performFormat() Start extract");
         extractChecks();
 
-        Person user = GlobalVariables.getUserSession().getPerson();
         LOG.info("Sending email to " + user.getEmailAddress());
         sendEmail(user.getEmailAddress(), processId);
 
@@ -392,10 +397,11 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * Verifies a valid bank is set on the payment group. A bank is valid if it is active and supports the given disbursement type. If the payment group already has an
-     * assigned bank it will be used unless it is not valid. If the payment group bank is not valid or was not given the bank specified on the customer profile to use
-     * for the given disbursement type is used. If this bank is inactive then its continuation bank is used. If not valid bank to use is found an error is added to the
-     * global message map.
+     * Verifies a valid bank is set on the payment group. A bank is valid if it is active and supports the given disbursement type.
+     * If the payment group already has an assigned bank it will be used unless it is not valid. If the payment group bank is not
+     * valid or was not given the bank specified on the customer profile to use for the given disbursement type is used. If this
+     * bank is inactive then its continuation bank is used. If not valid bank to use is found an error is added to the global
+     * message map.
      *
      * @param paymentGroup group to set bank on
      * @param disbursementType type of disbursement for given payment group
@@ -471,7 +477,7 @@ public class FormatServiceImpl implements FormatService {
                 LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
             }
 
-            //Use the customer's profile's campus code to check for disbursement ranges
+            // Use the customer's profile's campus code to check for disbursement ranges
             String campus = paymentGroup.getBatch().getCustomerProfile().getDefaultPhysicalCampusProcessingCode();
             List<DisbursementNumberRange> disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
 
@@ -540,6 +546,7 @@ public class FormatServiceImpl implements FormatService {
             else {
                 // if it isn't check or ach, we're in trouble
                 LOG.error("assignDisbursementNumbers() Payment group " + paymentGroup.getId() + " must be CHCK or ACH.  It is: " + paymentGroup.getDisbursementType());
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, "assignDisbursementNumbers() Payment group " + paymentGroup.getId() + " must be CHCK or ACH.  It is: " + paymentGroup.getDisbursementType());
                 throw new IllegalArgumentException("Payment group " + paymentGroup.getId() + " must be Check or ACH");
             }
 
@@ -794,6 +801,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * Gets the businessObjectService attribute.
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -849,7 +857,7 @@ public class FormatServiceImpl implements FormatService {
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null) {
+        if (personService == null) {
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
@@ -875,6 +883,29 @@ public class FormatServiceImpl implements FormatService {
         message.setToAddresses(new HashSet());
         message.addToAddress(toAddress);
         message.setMessage("The PDP format for Process ID " + processId + " is complete. Please access the PDP Format Summary lookup for the final disbursement numbers and amounts");
+        try {
+            SpringContext.getBean(MailService.class).sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+        catch (MessagingException me) {
+            throw new RuntimeException("Could not send mail", me);
+        }
+    }
+
+    protected void sendFailureEmail(String toAddress, int processId) {
+        MailMessage message = new MailMessage();
+        message.setFromAddress(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.PDP, KfsParameterConstants.BATCH_COMPONENT, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM));
+        message.setSubject("PDP Format Failed for Process ID " + processId);
+        message.setToAddresses(new HashSet());
+        message.addToAddress(toAddress);
+        StringBuffer msg = new StringBuffer("The PDP format for Process ID " + processId + " has failed. It returned following errors.\n\n");
+        List<String> errList = GlobalVariablesUtils.extractGlobalVariableErrors();
+        for (String err : errList) {
+            msg.append(err + "\n");
+        }
+        message.setMessage(msg.toString());
         try {
             SpringContext.getBean(MailService.class).sendMessage(message);
         }

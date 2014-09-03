@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,14 +26,14 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 public interface EncumbranceService {
     /**
      * Save an Encumbrance entry
-     * 
+     *
      * @param enc an encumbrance entry
      */
     public void save(Encumbrance enc);
 
     /**
      * Purge an entire fiscal year for a single chart.
-     * 
+     *
      * @param chartOfAccountsCode the chart of encumbrances to purge
      * @param year the year of encumbrances to purage
      */
@@ -50,7 +50,7 @@ public interface EncumbranceService {
     /**
      * group all encumbrances with/without the given document type code by fiscal year, chart, account, sub-account, object code,
      * sub object code, and balance type code, and summarize the encumbrance amount and the encumbrance close amount.
-     * 
+     *
      * @param documentTypeCode the given document type code
      * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
@@ -58,7 +58,7 @@ public interface EncumbranceService {
 
     /**
      * This method finds the open encumbrances according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param includeZeroEncumbrances should the query include encumbrances which have zeroed out?
      * @return a collection of open encumbrances
@@ -67,10 +67,23 @@ public interface EncumbranceService {
 
     /**
      * This method gets the number of the open encumbrances according to input fields and values
-     * 
+     *
      * @param fieldValues the input fields and values
      * @param includeZeroEncumbrances should the query include encumbrances which have zeroed out?
      * @return the number of the open encumbrances
      */
     public Integer getOpenEncumbranceRecordCount(Map fieldValues, boolean includeZeroEncumbrances);
+
+    /**
+     * Finds open encumbrances that have the keys given in the map summarized by balance type codes
+     * where the sum(ACCOUNT_LINE_ENCUMBRANCE_AMOUNT  - sum(ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT ) != 0
+     * and returns true if there are any results.
+     *
+     * @param fieldValues the input fields and values
+     * @param includeZeroEncumbrances
+     * @return true if there any open encumbrances when summarized by balance type
+     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#hasSummarizedOpenEncumbranceRecords(java.util.Map)
+     */
+    public boolean hasSummarizedOpenEncumbranceRecords(Map fieldValues, boolean includeZeroEncumbrances);
+
 }

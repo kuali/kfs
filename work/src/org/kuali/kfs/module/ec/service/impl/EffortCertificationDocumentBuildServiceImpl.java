@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService;
 import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,7 +77,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods, true);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
         PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
 
         LaborLedgerBalance headOfBalanceList = ledgerBalances.get(0);
@@ -103,7 +102,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
     /**
      * populate a document build object through the given information
-     * 
+     *
      * @param reportDefinition the given report definition
      * @param ledgerBalance the given ledger balance
      * @return a dument build object populated with the given information
@@ -123,7 +122,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
     /**
      * group the given ledger balances according to the combination of the values in the specified fields
-     * 
+     *
      * @param ledgerBalances the given ledger balances
      * @return the map holding ledger balance groups
      */
@@ -137,11 +136,11 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         return ledgerBalanceGroups;
     }
 
-    
+
 
     /**
      * update the given detail line if the given detail line is in the list; otherwise, add the given line into the list
-     * 
+     *
      * @param detailLineList the given list of detail lines
      * @param detailLine the given detail line
      */
@@ -170,7 +169,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
     /**
      * Sets the effortCertificationDetailBuildService attribute value.
-     * 
+     *
      * @param effortCertificationDetailBuildService The effortCertificationDetailBuildService to set.
      */
     public void setEffortCertificationDetailBuildService(EffortCertificationDetailBuildService effortCertificationDetailBuildService) {
@@ -179,7 +178,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

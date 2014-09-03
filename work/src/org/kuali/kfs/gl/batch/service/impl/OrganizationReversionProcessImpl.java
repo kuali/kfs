@@ -260,12 +260,10 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
             }
         }
 
-        if ((organizationReversion == null) || (!organizationReversion.getChartOfAccountsCode().equals(bal.getChartOfAccountsCode())) || (!organizationReversion.getOrganizationCode().equals(account.getOrganizationCode()))) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Organization Reversion Service: " + getOrganizationReversionService() + "; fiscal year: " + (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR) + "; account: " + account + "; account organization code: " + account.getOrganizationCode() + "; balance: " + bal + "; balance chart: " + bal.getChartOfAccountsCode());
-            }
-            organizationReversion = getOrganizationReversionService().getByPrimaryId((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), bal.getChartOfAccountsCode(), account.getOrganizationCode());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Organization Reversion Service: " + getOrganizationReversionService() + "; fiscal year: " + (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR) + "; account: " + account + "; account organization code: " + account.getOrganizationCode() + "; balance: " + bal + "; balance chart: " + bal.getChartOfAccountsCode());
         }
+        organizationReversion = getOrganizationReversionService().getByPrimaryId((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), bal.getChartOfAccountsCode(), account.getOrganizationCode());
 
         if (organizationReversion == null) {
             // we can't find an organization reversion for this balance? Throw exception

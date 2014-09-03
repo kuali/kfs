@@ -50,6 +50,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     private static Logger LOG = Logger.getLogger(AccountingLineRuleHelperServiceImpl.class);
     private DataDictionaryService dataDictionaryService;
     private FinancialSystemDocumentTypeService financialSystemDocumentTypeService;
+    protected AccountService accountService;
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getAccountLabel()
@@ -153,7 +154,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
         Account account = line.getAccount();
         if (AccountingLineOverride.needsExpiredAccountOverride(account) && !override.hasComponent(AccountingLineOverride.COMPONENT.EXPIRED_ACCOUNT)) {
-            Account continuation = getUnexpiredContinuationAccountOrNull(account);
+            Account continuation = accountService.getUnexpiredContinuationAccountOrNull(account);
             if (continuation == null) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, new String[] { account.getAccountNumber() });
             }
@@ -179,28 +180,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     }
 
     /**
-     * @param account
-     * @return an unexpired continuation account for the given account, or, if one cannot be found, null
+     * Method moved to AccountService, use method there instead. Same logic.
+     * @see org.kuali.kfs.coa.service.AccountService#getUnexpiredContinuationAccountOrNull(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Deprecated
     protected Account getUnexpiredContinuationAccountOrNull(Account account) {
-        int count = 0;
-        while (count++ < 10) { // prevents infinite loops
-            String continuationChartCode = account.getContinuationFinChrtOfAcctCd();
-            String continuationAccountNumber = account.getContinuationAccountNumber();
-            // todo: does AccountService already handle blank keys this way?
-            if (StringUtils.isBlank(continuationChartCode) || StringUtils.isBlank(continuationAccountNumber)) {
-                return null;
-            }
-            account = SpringContext.getBean(AccountService.class).getByPrimaryId(continuationChartCode, continuationAccountNumber);
-            if (ObjectUtils.isNull(account)) {
-                return null;
-            }
-            if (account.isActive() && !account.isExpired()) {
-                return account;
-            }
-        }
-        return null;
+        return accountService.getUnexpiredContinuationAccountOrNull(account);
     }
+
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary)
@@ -556,5 +543,21 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      */
     public void setFinancialSystemDocumentTypeService(FinancialSystemDocumentTypeService financialSystemDocumentTypeService) {
         this.financialSystemDocumentTypeService = financialSystemDocumentTypeService;
+    }
+
+    /**
+     * Gets the accountService attribute.
+     * @return Returns the accountService.
+     */
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    /**
+     * Sets the accountService attribute value.
+     * @param accountService The accountService to set.
+     */
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 }

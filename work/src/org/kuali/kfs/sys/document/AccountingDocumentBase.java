@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.sys.document;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -42,7 +42,6 @@ import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -394,7 +393,26 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public void toErrorCorrection() throws WorkflowException {
         super.toErrorCorrection();
         copyAccountingLines(true);
+        correctSalesTax();
     }
+
+    protected void correctSalesTax(){
+                 List<AccountingLine> lines = new ArrayList<AccountingLine>(getSourceAccountingLines());
+                 lines.addAll(getTargetAccountingLines());
+                 for (AccountingLine accountingLine : lines) {
+                     SalesTax tax = accountingLine.getSalesTax();
+                     if (ObjectUtils.isNotNull(tax)) {
+                         KualiDecimal tempAmount = tax.getFinancialDocumentGrossSalesAmount();
+                         if (ObjectUtils.isNotNull(tempAmount)) {
+                             tax.setFinancialDocumentGrossSalesAmount(tempAmount.negated());
+                         }
+                         tempAmount = tax.getFinancialDocumentTaxableSalesAmount();
+                         if (ObjectUtils.isNotNull(tempAmount)){
+                             tax.setFinancialDocumentTaxableSalesAmount(tempAmount.negated());
+                         }
+                     }
+                 }
+     }
 
     /**
      * Copies accounting lines but sets new document number and version If error correction, reverses line amount.
@@ -762,7 +780,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
                    isDocumentFinalOrProcessed = true;
                }
            }
-           
+
         }
 
         return isDocumentFinalOrProcessed;
